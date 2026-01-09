@@ -75,6 +75,9 @@ secrets/
 *.temp
 .cache/
 
+# Environment setup files with secrets
+VERCEL_ENV_SETUP.md
+
 # Documentation files - keep only essential
 # Ignore status/progress markdown files in root
 *_STATUS.md
@@ -119,3 +122,4 @@ VERCEL_*.md
 !LICENSE
 !docs/**/*.md
 !ARCHITECTURE.md
+VERCEL_ENV_SETUP.md
