@@ -23,7 +23,7 @@ export async function syncToWebApp(options: SyncOptions): Promise<void> {
   // Revalidate based on content type
   switch (type) {
     case 'content':
-      revalidateTag('content');
+      revalidateTag('content', 'default');
       if (resourceId) {
         revalidatePath(`/blog/${resourceId}`, 'page');
         revalidatePath(`/tr/blog/${resourceId}`, 'page');
@@ -33,7 +33,7 @@ export async function syncToWebApp(options: SyncOptions): Promise<void> {
       break;
 
     case 'listing':
-      revalidateTag('listings');
+      revalidateTag('listings', 'default');
       if (resourceId) {
         revalidatePath(`/ilan/${resourceId}`, 'page');
         revalidatePath(`/tr/ilan/${resourceId}`, 'page');
@@ -45,7 +45,7 @@ export async function syncToWebApp(options: SyncOptions): Promise<void> {
       break;
 
     case 'article':
-      revalidateTag('articles');
+      revalidateTag('articles', 'default');
       if (resourceId) {
         revalidatePath(`/makale/${resourceId}`, 'page');
         revalidatePath(`/tr/makale/${resourceId}`, 'page');
@@ -55,7 +55,7 @@ export async function syncToWebApp(options: SyncOptions): Promise<void> {
       break;
 
     case 'news':
-      revalidateTag('news');
+      revalidateTag('news', 'default');
       if (resourceId) {
         revalidatePath(`/haber/${resourceId}`, 'page');
         revalidatePath(`/tr/haber/${resourceId}`, 'page');
@@ -65,13 +65,13 @@ export async function syncToWebApp(options: SyncOptions): Promise<void> {
       break;
 
     case 'pharmacy':
-      revalidateTag('pharmacies');
+      revalidateTag('pharmacies', 'default');
       revalidatePath('/nobetci-eczane', 'page');
       revalidatePath('/tr/nobetci-eczane', 'page');
       break;
 
     case 'settings':
-      revalidateTag('settings');
+      revalidateTag('settings', 'default');
       // Revalidate all pages as settings may affect global behavior
       revalidatePath('/', 'layout');
       break;
