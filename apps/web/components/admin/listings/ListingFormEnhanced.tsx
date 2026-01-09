@@ -101,9 +101,6 @@ export function ListingFormEnhanced({
         }
       },
     } as FieldValidation,
-      min: 0,
-      max: 10,
-    },
     location_neighborhood: {
       required: true,
       minLength: 2,
