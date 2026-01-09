@@ -326,7 +326,6 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
             </div>
             <div>
               <RichTextEditor
-                label="İçerik"
                 value={editingPage.content}
                 onChange={(value) => setEditingPage({ ...editingPage, content: value })}
                 placeholder="Sayfa içeriğini buraya yazın..."

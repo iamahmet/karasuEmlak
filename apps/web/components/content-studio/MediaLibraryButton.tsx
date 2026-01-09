@@ -64,7 +64,13 @@ export function MediaLibraryButton({
           <DialogTitle>Media Library</DialogTitle>
         </DialogHeader>
         <MediaLibrary
-          onSelect={handleSelect}
+          onSelect={(media) => {
+            // MediaLibrary can return string or MediaItem
+            const mediaItem: MediaItem = typeof media === 'string' 
+              ? { id: '', url: media, name: '', type: 'image' }
+              : media;
+            handleSelect(mediaItem);
+          }}
           onClose={() => setOpen(false)}
         />
       </DialogContent>

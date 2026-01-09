@@ -57,7 +57,11 @@ export function EditUserModal({ userId, open, onClose, onSuccess, onRoleChange }
       password: (value) => {
         // Password is optional when editing, but if provided, must be valid
         if (!value || value.length === 0) return { valid: true };
-        return validatePassword(value, { minLength: 6 });
+        // Use inline validation since validatePassword only accepts 1 argument
+        if (value.length < 6) {
+          return { valid: false, error: "Şifre en az 6 karakter olmalıdır" };
+        }
+        return validatePassword(value);
       },
       name: (value) => ({ valid: true }), // Optional
       avatar_url: (value) => ({ valid: true }), // Optional

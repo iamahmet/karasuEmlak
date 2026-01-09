@@ -46,7 +46,11 @@ export function CreateUserModal({ open, onClose, onSuccess }: CreateUserModalPro
       email: (value) => validateEmail(value),
       password: (value) => {
         if (sendMagicLink) return { valid: true };
-        return validatePassword(value, { minLength: 6 });
+        // Use inline validation since validatePassword only accepts 1 argument
+        if (!value || value.length < 6) {
+          return { valid: false, error: "Şifre en az 6 karakter olmalıdır" };
+        }
+        return { valid: true };
       },
       name: (value) => ({ valid: true }), // Optional field
       role: (value) => ({ valid: true }), // Optional field
