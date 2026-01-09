@@ -155,7 +155,6 @@ export function PharmaciesManagement({ locale }: { locale: string }) {
       district: pharmacy.district,
       city: pharmacy.city,
       neighborhood: pharmacy.neighborhood,
-      phone: pharmacy.phone,
       is_on_duty: pharmacy.is_on_duty,
       published: pharmacy.published,
     });
