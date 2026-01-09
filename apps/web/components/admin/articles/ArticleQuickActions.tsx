@@ -196,7 +196,8 @@ export function ArticleQuickActions({
             </DialogTitle>
           </DialogHeader>
           <MediaLibrary
-            onSelect={(url) => {
+            onSelect={(media: string | { url: string }) => {
+              const url = typeof media === 'string' ? media : media.url;
               onFeaturedImageChange(url);
               setShowMediaLibrary(false);
             }}

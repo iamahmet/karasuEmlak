@@ -39,7 +39,8 @@ function ToolbarMediaLibraryButton({ onSelect }: { onSelect: (url: string) => vo
         </DialogHeader>
         <div className="flex-1 overflow-y-auto scrollbar-modern p-6">
           <MediaLibrary
-            onSelect={(url) => {
+            onSelect={(media) => {
+              const url = typeof media === 'string' ? media : media.url;
               onSelect(url);
               setIsOpen(false);
             }}

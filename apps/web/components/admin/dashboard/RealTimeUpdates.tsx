@@ -36,10 +36,10 @@ export function RealTimeUpdates() {
           const action = payload.eventType === "INSERT" ? "created" : payload.eventType === "UPDATE" ? "updated" : "deleted";
           setUpdates((prev) => [
             {
-              id: `article-${payload.new?.id || payload.old?.id}-${Date.now()}`,
+              id: `article-${(payload.new as any)?.id || (payload.old as any)?.id || 'unknown'}-${Date.now()}`,
               type: "article",
               action,
-              title: payload.new?.title || payload.old?.title || "Makale",
+              title: (payload.new as any)?.title || (payload.old as any)?.title || "Makale",
               timestamp: new Date(),
             },
             ...prev.slice(0, 9), // Keep last 10 updates
@@ -64,10 +64,10 @@ export function RealTimeUpdates() {
           const action = payload.eventType === "INSERT" ? "created" : payload.eventType === "UPDATE" ? "updated" : "deleted";
           setUpdates((prev) => [
             {
-              id: `listing-${payload.new?.id || payload.old?.id}-${Date.now()}`,
+              id: `listing-${(payload.new as any)?.id || (payload.old as any)?.id || 'unknown'}-${Date.now()}`,
               type: "listing",
               action,
-              title: payload.new?.title || payload.old?.title || "İlan",
+              title: (payload.new as any)?.title || (payload.old as any)?.title || "İlan",
               timestamp: new Date(),
             },
             ...prev.slice(0, 9),
