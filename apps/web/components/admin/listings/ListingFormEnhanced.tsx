@@ -8,7 +8,7 @@ import { Save, Loader2 } from "lucide-react";
 import { EnhancedFormField } from "@/components/forms/EnhancedFormField";
 import { AutoSaveIndicator } from "@/components/forms/AutoSaveIndicator";
 import { useAutoSave } from "@/hooks/useAutoSave";
-import { validateForm, commonValidations } from "@/lib/validation/form-validators";
+import { validateForm, commonValidations, FieldValidation } from "@/lib/validation/form-validators";
 import { toast } from "sonner";
 import { useRouter } from "@/i18n/routing";
 
