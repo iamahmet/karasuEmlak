@@ -1009,14 +1009,15 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
             {/* Media Library Button */}
             <div className="flex items-center justify-center pt-4 border-t">
               <MediaLibraryButton
-                onSelect={(url) => {
+                onSelect={(media) => {
                   if (listing.images.length >= 20) {
                     toast.error("Maksimum 20 fotoğraf yükleyebilirsiniz");
                     return;
                   }
+                  const imageUrl = typeof media === 'string' ? media : media.url;
                   setListing({
                     ...listing,
-                    images: [...listing.images, url],
+                    images: [...listing.images, imageUrl],
                   });
                   toast.success("Fotoğraf eklendi");
                 }}

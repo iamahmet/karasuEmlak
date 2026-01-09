@@ -3299,7 +3299,6 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
             <div className="flex-1 overflow-y-auto p-6">
               <ImageOptimizer
                 imageUrl={listing.images[editingImageIndex]}
-                imageId={`listing-${listing.id}-image-${editingImageIndex}`}
                 onOptimize={(optimizedUrl) => {
                   const newImages = [...listing.images];
                   newImages[editingImageIndex] = optimizedUrl;
