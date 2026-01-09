@@ -12,7 +12,7 @@ import {
 } from "@karasu/ui";
 import { MediaLibrary } from "./MediaLibrary";
 
-interface MediaItem {
+export interface MediaItem {
   id: string;
   url: string;
   name: string;

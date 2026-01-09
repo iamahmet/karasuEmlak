@@ -25,7 +25,7 @@ import {
   X
 } from "lucide-react";
 import { RichTextEditor } from "@/components/forms/RichTextEditor";
-import { ImageUpload } from "@/components/content-studio/ImageUpload";
+import { ImageUpload } from "@/components/admin/content-studio/ImageUpload";
 import { MediaLibraryButton } from "@/components/content-studio/MediaLibraryButton";
 import { toast } from "sonner";
 // Custom debounce hook
@@ -537,7 +537,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
                   Öne Çıkan Görsel
                 </CardTitle>
                 <MediaLibraryButton
-                  onSelect={(url) => updateArticle({ featured_image: url })}
+                  onSelect={(media) => updateArticle({ featured_image: media.url })}
                   className="h-8 px-3 text-xs"
                 />
               </div>

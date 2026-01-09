@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { cn } from "@karasu/lib";
 import { EnhancedFormField } from "@/components/forms/EnhancedFormField";
-import { ImageUpload } from "@/components/content-studio/ImageUpload";
+import { ImageUpload } from "@/components/admin/content-studio/ImageUpload";
 
 interface Article {
   id: string;
@@ -86,6 +86,7 @@ export function ArticleFormFields({
         </CardHeader>
         <CardContent className="space-y-4">
           <EnhancedFormField
+            name="title"
             label="Başlık"
             required
             value={article.title}
@@ -100,7 +101,12 @@ export function ArticleFormFields({
             validation={{
               minLength: 30,
               maxLength: 60,
-              message: "Başlık 30-60 karakter arasında olmalı",
+              customValidator: (value: string) => {
+                if (value && (value.length < 30 || value.length > 60)) {
+                  return "Başlık 30-60 karakter arasında olmalı";
+                }
+                return undefined;
+              },
             }}
             hint={`${titleLength} / 60 karakter`}
             className="text-lg font-semibold"

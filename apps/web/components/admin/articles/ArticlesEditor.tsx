@@ -603,8 +603,8 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                     placeholder="https://... veya medya kütüphanesinden seçin"
                   />
                   <MediaLibraryButton
-                    onSelect={(url) => {
-                      setEditingArticle({ ...editingArticle, featured_image: url });
+                    onSelect={(media) => {
+                      setEditingArticle({ ...editingArticle, featured_image: media.url });
                       toast.success("Görsel seçildi");
                     }}
                   />

@@ -54,7 +54,7 @@ import {
   Focus
 } from "lucide-react";
 import { RichTextEditor } from "@/components/forms/RichTextEditor";
-import { ImageUpload } from "@/components/content-studio/ImageUpload";
+import { ImageUpload } from "@/components/admin/content-studio/ImageUpload";
 import { MediaLibraryButton } from "@/components/content-studio/MediaLibraryButton";
 import { ContentHistory } from "@/components/content-studio/ContentHistory";
 import { MediaLibrary } from "@/components/content-studio/MediaLibrary";
@@ -62,8 +62,8 @@ import { AIContentAssistant } from "./AIContentAssistant";
 import { RelatedArticles } from "./RelatedArticles";
 import { ContentChecklist } from "./ContentChecklist";
 import { AIContentOptimizer } from "./AIContentOptimizer";
-import { OneClickSEOOptimizer } from "@/components/seo/OneClickSEOOptimizer";
-import { ContentScheduler } from "@/components/content-studio/ContentScheduler";
+import { OneClickSEOOptimizer } from "@/components/admin/seo/OneClickSEOOptimizer";
+import { ContentScheduler } from "@/components/admin/content-studio/ContentScheduler";
 import { ContentTemplates } from "./ContentTemplates";
 import { ArticleEditorHeader } from "./ArticleEditorHeader";
 import { ArticleEditorSidebar } from "./ArticleEditorSidebar";
@@ -821,7 +821,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
           )}
           <button
             type="button"
-            onClick={handleSave}
+            onClick={() => handleSave()}
             disabled={saving || !isDirty}
             className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-design-light to-design-dark rounded-lg hover:from-design-dark hover:to-design-light transition-all disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
           >
@@ -1156,7 +1156,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                         Medya Kütüphanesi
                       </Button>
                       <MediaLibraryButton
-                        onSelect={(url) => updateArticle({ featured_image: url })}
+                        onSelect={(media) => updateArticle({ featured_image: media.url })}
                         className="h-8 px-3 text-xs"
                       />
                     </div>

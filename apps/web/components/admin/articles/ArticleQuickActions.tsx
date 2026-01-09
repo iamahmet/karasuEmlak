@@ -20,7 +20,7 @@ import {
   Wand2,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@karasu/ui";
-import { ContentHistory } from "@/components/content-studio/ContentHistory";
+import { ContentHistory } from "@/components/admin/content-studio/ContentHistory";
 import { MediaLibrary } from "@/components/content-studio/MediaLibrary";
 import { Input } from "@karasu/ui";
 import { toast } from "sonner";
@@ -105,7 +105,7 @@ export function ArticleQuickActions({
             </DialogTitle>
           </DialogHeader>
           <ContentHistory 
-            contentItemId={articleId} 
+            contentItemId={articleId}
             locale={locale}
           />
         </DialogContent>
