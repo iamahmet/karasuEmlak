@@ -79,3 +79,21 @@ export async function revalidateStaticPages(): Promise<void> {
   revalidatePath('/', 'layout');
   revalidatePath('/tr', 'page');
 }
+
+/**
+ * Revalidate a specific static page
+ */
+export async function revalidateStaticPage(slug?: string, locale?: string): Promise<void> {
+  revalidateTag('static-pages');
+  if (slug) {
+    if (locale) {
+      revalidatePath(`/${locale}/${slug}`, 'page');
+    } else {
+      // Revalidate all locales if no locale specified
+      revalidatePath(`/${slug}`, 'page');
+      revalidatePath(`/tr/${slug}`, 'page');
+      revalidatePath(`/en/${slug}`, 'page');
+    }
+  }
+  revalidatePath('/', 'layout');
+}
