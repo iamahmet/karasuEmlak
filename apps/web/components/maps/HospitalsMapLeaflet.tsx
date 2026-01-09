@@ -140,7 +140,7 @@ export function HospitalsMapLeaflet({
             // @ts-ignore - Leaflet global
             if (typeof window !== 'undefined' && window.L) {
               const L = window.L;
-              const map = leafletContainer._leaflet_id ? L.Map.prototype.getContainer.call({ _container: leafletContainer }) : null;
+                          const map = (leafletContainer as any)._leaflet_id ? L.Map.prototype.getContainer.call({ _container: leafletContainer }) : null;
               if (map && typeof map.remove === 'function') {
                 map.remove();
               }
