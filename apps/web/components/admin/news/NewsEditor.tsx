@@ -19,7 +19,7 @@ import {
 import { toast } from "sonner";
 import { useRouter } from "@/i18n/routing";
 import Link from "next/link";
-import { ContentScheduler } from "@/components/content-studio/ContentScheduler";
+import { ContentScheduler } from "@/components/admin/content-studio/ContentScheduler";
 
 interface NewsArticle {
   id: string;
@@ -354,7 +354,7 @@ export function NewsEditor({ article: initialArticle, locale: _locale }: NewsEdi
       <ContentScheduler
         type="news"
         contentId={article.id}
-        currentSchedule={article.scheduled_publish_at}
+        currentSchedule={article.scheduled_publish_at || null}
         onScheduleChange={async () => {
           // Refresh article data
           const response = await fetch(`/api/news/${article.id}`);

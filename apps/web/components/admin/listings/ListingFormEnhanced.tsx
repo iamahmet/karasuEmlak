@@ -85,13 +85,22 @@ export function ListingFormEnhanced({
     area: commonValidations.area,
     rooms: {
       required: true,
-      number: true,
-      min: 0,
-      max: 20,
-    },
+      customValidator: (value: any) => {
+        const num = parseInt(value);
+        if (isNaN(num) || num < 0 || num > 20) {
+          return "Oda sayısı 0-20 arasında olmalı";
+        }
+      },
+    } as FieldValidation,
     bathrooms: {
       required: true,
-      number: true,
+      customValidator: (value: any) => {
+        const num = parseInt(value);
+        if (isNaN(num) || num < 0 || num > 10) {
+          return "Banyo sayısı 0-10 arasında olmalı";
+        }
+      },
+    } as FieldValidation,
       min: 0,
       max: 10,
     },

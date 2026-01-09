@@ -149,4 +149,14 @@ export const commonValidations = {
       }
     },
   } as FieldValidation,
+
+  area: {
+    required: true,
+    customValidator: (value: any) => {
+      const num = parseFloat(value);
+      if (isNaN(num) || num <= 0) {
+        return "Gecerli bir alan girin";
+      }
+    },
+  } as FieldValidation,
 };
