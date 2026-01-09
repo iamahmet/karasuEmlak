@@ -47,13 +47,8 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-export function generateStaticParams() {
-  // Only generate static params for non-auth routes
-  // Login/signup pages are dynamic
-  return routing.locales.map((locale) => ({ locale }));
-}
-
-export const dynamicParams = true;
+// Admin sayfaları dinamik - statik üretim yok
+export const dynamic = 'force-dynamic';
 
 export default async function LocaleLayout({
   children,
