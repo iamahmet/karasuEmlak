@@ -37,11 +37,20 @@ export async function revalidatePaths(paths: string[]): Promise<void> {
 /**
  * Revalidate article pages
  */
-export async function revalidateArticle(slug?: string): Promise<void> {
+export async function revalidateArticle(slug?: string, locale?: string): Promise<void> {
   revalidateTag('articles');
   if (slug) {
-    revalidatePath(`/makale/${slug}`, 'page');
-    revalidatePath(`/tr/makale/${slug}`, 'page');
+    if (locale) {
+      revalidatePath(`/${locale}/makale/${slug}`, 'page');
+    } else {
+      // Revalidate all locales if no locale specified
+      revalidatePath(`/makale/${slug}`, 'page');
+      revalidatePath(`/tr/makale/${slug}`, 'page');
+      revalidatePath(`/en/makale/${slug}`, 'page');
+      revalidatePath(`/et/makale/${slug}`, 'page');
+      revalidatePath(`/ru/makale/${slug}`, 'page');
+      revalidatePath(`/ar/makale/${slug}`, 'page');
+    }
   }
   revalidatePath('/makaleler', 'page');
   revalidatePath('/tr/makaleler', 'page');
