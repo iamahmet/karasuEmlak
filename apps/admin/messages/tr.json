@@ -1,0 +1,324 @@
+{
+  "admin": {
+    "dashboard": {
+      "title": "Yönetim Paneli",
+      "stats": {
+        "articles": "Haberler",
+        "categories": "Kategoriler",
+        "users": "Kullanıcılar"
+      },
+      "quickActions": "Hızlı İşlemler",
+      "recentActivity": "Son Aktiviteler"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "seo": "SEO Araçları",
+      "contentStudio": "İçerik Stüdyosu",
+      "seoControl": "SEO Kontrol",
+      "indexing": "İndeksleme",
+      "seoBooster": "SEO Booster",
+      "projectBot": "Project Bot",
+      "analytics": "Analitik",
+      "compliance": "Uyumluluk",
+      "integrations": "Entegrasyonlar",
+      "users": "Kullanıcılar",
+      "comments": "Yorumlar",
+      "media": "Medya",
+      "notifications": "Bildirimler",
+      "reports": "Raporlar",
+      "settings": "Ayarlar",
+      "logout": "Çıkış Yap",
+      "contentManagement": "İçerik Yönetimi",
+      "homepage": "Ana Sayfa",
+      "articles": "Blog Makaleleri",
+      "news": "Haberler",
+      "listings": "İlanlar",
+      "programmaticPages": "Programatik Sayfalar",
+      "navigation": "Menü Yönetimi",
+      "mediaLibrary": "Medya Kütüphanesi",
+      "aiImages": "AI Görseller",
+      "aiQa": "AI Soru-Cevap",
+      "userInteraction": "Kullanıcı & Etkileşim",
+      "analyticsReports": "Analitik & Raporlar",
+      "systemSettings": "Sistem & Ayarlar"
+    },
+    "header": {
+      "search": "Ara..."
+    },
+    "seo": {
+      "title": "SEO Araçları",
+      "contentStudio": "İçerik Stüdyosu",
+      "seoControl": "SEO Kontrol",
+      "indexing": "İndeksleme",
+      "booster": "SEO Booster"
+    }
+  },
+  "auth": {
+    "login": "Giriş Yap",
+    "email": "E-posta",
+    "sendMagicLink": "Magic Link Gönder",
+    "sending": "Gönderiliyor...",
+    "magicLinkSent": "Magic link e-posta adresinize gönderildi.",
+    "magicLinkInstructions": "E-posta adresinize gönderilen linke tıklayarak giriş yapabilirsiniz."
+  },
+  "common": {
+    "home": "Ana Sayfa",
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı"
+  },
+  "projectBot": {
+    "title": "Project Bot",
+    "description": "Code quality, security, SEO, performance, and i18n checks"
+  },
+  "contentStudio": {
+    "title": "Content Studio",
+    "description": "AI-powered content creation with workflows, templates, and quality gates",
+    "editTitle": "Edit Content"
+  },
+  "compliance": {
+    "consent": {
+      "title": "Consent Management",
+      "description": "Configure consent banner and preference center"
+    },
+    "logs": {
+      "title": "Consent Logs",
+      "description": "View consent history and audit trail"
+    },
+    "policies": {
+      "title": "Policy Management",
+      "description": "Manage KVKK/GDPR/Cookie/Privacy policies"
+    }
+  },
+  "users": {
+    "title": "Kullanıcı Yönetimi",
+    "description": "Kullanıcıları görüntüleyin, düzenleyin ve yönetin",
+    "tabs": {
+      "all": "Tümü",
+      "admin": "Admin",
+      "staff": "Staff",
+      "active": "Aktif",
+      "inactive": "Pasif"
+    },
+    "actions": {
+      "createUser": "Yeni Kullanıcı"
+    },
+    "success": {
+      "roleAdded": "Rol eklendi",
+      "roleRemoved": "Rol kaldırıldı",
+      "userDeleted": "Kullanıcı silindi"
+    },
+    "errors": {
+      "fetchFailed": "Kullanıcılar yüklenemedi",
+      "invalidResponse": "Geçersiz yanıt formatı",
+      "roleUpdateFailed": "Rol güncellenemedi",
+      "deleteFailed": "Kullanıcı silinemedi"
+    },
+    "confirmations": {
+      "deleteUser": "Bu kullanıcıyı silmek istediğinize emin misiniz?"
+    },
+    "detail": {
+      "title": "Kullanıcı Detayları",
+      "description": "Kullanıcı detaylarını görüntüleyin ve yönetin",
+      "loading": "Yükleniyor...",
+      "actions": {
+        "close": "Kapat"
+      },
+      "errors": {
+        "userNotFound": "Kullanıcı bulunamadı"
+      },
+      "roles": {
+        "title": "Roller",
+        "add": "Rol Ekle",
+        "cancel": "İptal",
+        "selectPlaceholder": "Rol seçin",
+        "addButton": "Ekle",
+        "admin": "Admin",
+        "staff": "Staff",
+        "editor": "Editor",
+        "viewer": "Viewer"
+      }
+    },
+    "create": {
+      "title": "Yeni Kullanıcı Oluştur",
+      "description": "Yeni bir kullanıcı hesabı oluşturun",
+      "fields": {
+        "email": "E-posta",
+        "name": "İsim",
+        "password": "Şifre",
+        "role": "Rol",
+        "magicLink": "Magic Link Gönder",
+        "magicLinkDescription": "Şifre yerine magic link gönder",
+        "passwordHint": "Minimum 8 karakter"
+      },
+      "placeholders": {
+        "email": "kullanici@example.com",
+        "name": "Kullanıcı Adı",
+        "role": "Rol seçin (opsiyonel)"
+      },
+      "roles": {
+        "none": "Rol yok",
+        "admin": "Admin",
+        "staff": "Staff",
+        "editor": "Editor",
+        "viewer": "Viewer"
+      },
+      "actions": {
+        "cancel": "İptal",
+        "create": "Oluştur",
+        "creating": "Oluşturuluyor..."
+      },
+      "success": {
+        "userCreated": "Kullanıcı başarıyla oluşturuldu",
+        "magicLinkSent": "Magic link kullanıcıya gönderildi"
+      },
+      "errors": {
+        "createFailed": "Kullanıcı oluşturulamadı"
+      }
+    },
+    "edit": {
+      "title": "Kullanıcı Düzenle",
+      "description": "Kullanıcı bilgilerini düzenleyin",
+      "loading": "Yükleniyor...",
+      "tabs": {
+        "profile": "Profil",
+        "account": "Hesap",
+        "roles": "Roller",
+        "security": "Güvenlik"
+      },
+      "fields": {
+        "name": "İsim",
+        "email": "E-posta",
+        "avatarUrl": "Avatar URL",
+        "roles": "Roller",
+        "newPassword": "Yeni Şifre",
+        "passwordHint": "Boş bırakılırsa şifre değiştirilmez"
+      },
+      "roles": {
+        "title": "Roller",
+        "add": "Rol Ekle",
+        "cancel": "İptal",
+        "selectPlaceholder": "Rol seçin",
+        "addButton": "Ekle",
+        "admin": "Admin",
+        "staff": "Staff",
+        "editor": "Editor",
+        "viewer": "Viewer"
+      },
+      "placeholders": {
+        "name": "Kullanıcı Adı",
+        "email": "kullanici@example.com",
+        "avatarUrl": "https://example.com/avatar.jpg"
+      },
+      "actions": {
+        "cancel": "İptal",
+        "save": "Kaydet",
+        "saving": "Kaydediliyor...",
+        "close": "Kapat"
+      },
+      "success": {
+        "userUpdated": "Kullanıcı başarıyla güncellendi"
+      },
+      "errors": {
+        "fetchFailed": "Kullanıcı bilgileri yüklenemedi",
+        "updateFailed": "Kullanıcı güncellenemedi",
+        "userNotFound": "Kullanıcı bulunamadı"
+      }
+    },
+    "table": {
+      "search": "Kullanıcı ara...",
+      "filters": {
+        "role": "Rol",
+        "status": "Durum",
+        "all": "Tümü",
+        "active": "Aktif",
+        "inactive": "Pasif",
+        "emailVerified": "Email Doğrulama",
+        "emailVerifiedAll": "Tümü",
+        "emailVerifiedYes": "Doğrulanmış",
+        "emailVerifiedNo": "Doğrulanmamış",
+        "dateRange": "Tarih Aralığı",
+        "dateRangeAll": "Tümü",
+        "dateRangeToday": "Bugün",
+        "dateRangeWeek": "Son 7 Gün",
+        "dateRangeMonth": "Son 30 Gün",
+        "dateRangeYear": "Son 1 Yıl",
+        "dateRangeCustom": "Özel Tarih",
+        "dateRangeStart": "Başlangıç",
+        "dateRangeEnd": "Bitiş"
+      },
+      "actions": {
+        "export": "Dışa Aktar",
+        "activate": "Aktifleştir",
+        "ban": "Yasakla",
+        "delete": "Sil",
+        "viewDetails": "Detayları Gör",
+        "edit": "Düzenle",
+        "makeAdmin": "Admin Yap",
+        "removeAdmin": "Admin Yetkisini Kaldır",
+        "makeStaff": "Staff Yap",
+        "removeStaff": "Staff Yetkisini Kaldır"
+      },
+      "columns": {
+        "user": "Kullanıcı",
+        "email": "E-posta",
+        "roles": "Roller",
+        "status": "Durum",
+        "lastSignIn": "Son Giriş",
+        "createdAt": "Kayıt Tarihi",
+        "actions": "İşlemler"
+      },
+      "empty": "Kullanıcı bulunamadı",
+      "stats": {
+        "showing": "Toplam {count} kullanıcı gösteriliyor",
+        "selected": "{count} kullanıcı seçili"
+      },
+      "success": {
+        "bulkAction": "{count} kullanıcı üzerinde işlem tamamlandı",
+        "exported": "Kullanıcılar başarıyla dışa aktarıldı (CSV)"
+      },
+      "errors": {
+        "noUsersSelected": "Lütfen en az bir kullanıcı seçin",
+        "exportFailed": "Dışa aktarma başarısız",
+        "actionFailed": "İşlem başarısız"
+      },
+      "confirmations": {
+        "bulkDelete": "{count} kullanıcıyı silmek istediğinize emin misiniz?",
+        "bulkBan": "{count} kullanıcıyı yasaklamak istediğinize emin misiniz?",
+        "bulkActivate": "{count} kullanıcıyı aktifleştirmek istediğinize emin misiniz?"
+      }
+    }
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "description": "Site ayarlarını yönetin"
+  },
+  "analytics": {
+    "dashboard": {
+      "title": "Analytics Dashboard",
+      "description": "View site metrics, content performance, and SEO data"
+    }
+  },
+  "integrations": {
+    "google": {
+      "title": "Google Integrations",
+      "description": "Connect Google Search Console and Google Analytics 4"
+    }
+  },
+  "comments": {
+    "title": "Yorum Yönetimi",
+    "description": "Yorumları görüntüleyin, onaylayın ve moderasyon yapın"
+  },
+  "media": {
+    "title": "Medya Kütüphanesi",
+    "description": "Görselleri ve videoları yönetin"
+  },
+  "notifications": {
+    "title": "Bildirim Merkezi",
+    "description": "Bildirimleri görüntüleyin ve ayarlarını yönetin"
+  },
+  "reports": {
+    "title": "Raporlar ve Dışa Aktarma",
+    "description": "Verileri raporlayın ve dışa aktarın"
+  }
+}

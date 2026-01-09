@@ -1,0 +1,235 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Lint
+        run: pnpm run lint
+      
+      - name: Typecheck
+        run: pnpm run typecheck
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Run unit tests
+        run: pnpm run test:web
+      
+      - name: Generate coverage report
+        run: pnpm run test:coverage --filter=web
+        continue-on-error: true
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./apps/web/coverage/coverage-final.json
+          flags: web
+          name: web-coverage
+          fail_ci_if_error: false
+        continue-on-error: true
+      
+      - name: Coverage threshold check
+        run: |
+          if [ -f "./apps/web/coverage/coverage-summary.json" ]; then
+            COVERAGE=$(node -p "require('./apps/web/coverage/coverage-summary.json').total.lines.pct")
+            echo "Current coverage: ${COVERAGE}%"
+            if (( $(echo "$COVERAGE < 50" | bc -l) )); then
+              echo "⚠️ Coverage is below 50% threshold"
+              exit 1
+            fi
+          fi
+        continue-on-error: true
+
+  test-e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+        working-directory: apps/web
+      
+      - name: Run E2E tests
+        run: pnpm run test:e2e --filter=web
+        continue-on-error: true
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [lint-and-typecheck, test]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Build web app
+        run: pnpm run build:web:fast
+        env:
+          SKIP_ENV_VALIDATION: true
+      
+      - name: Build admin panel
+        run: pnpm run build:admin
+        env:
+          SKIP_ENV_VALIDATION: true
+        continue-on-error: true
+      
+      - name: Analyze bundle size
+        run: |
+          if [ -d "./apps/web/.next" ]; then
+            echo "✅ Build successful"
+            du -sh ./apps/web/.next
+          fi
+        continue-on-error: true
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Run npm audit
+        run: pnpm audit --audit-level=moderate
+        continue-on-error: true
+      
+      - name: Check for known vulnerabilities
+        run: |
+          pnpm audit --json > audit-results.json || true
+          VULNS=$(node -p "require('./audit-results.json').metadata?.vulnerabilities?.total || 0")
+          if [ "$VULNS" -gt 0 ]; then
+            echo "⚠️ Found $VULNS vulnerabilities"
+            cat audit-results.json
+          else
+            echo "✅ No vulnerabilities found"
+          fi
+        continue-on-error: true
+      
+      - name: Dependabot check
+        uses: actions/dependency-review-action@v4
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+      
+      - name: Check for security policy
+        run: |
+          if [ ! -f ".github/SECURITY.md" ]; then
+            echo "⚠️ SECURITY.md file not found"
+          else
+            echo "✅ SECURITY.md found"
+          fi
+
+  performance:
+    name: Performance Audit
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Build web app
+        run: pnpm run build:web:fast
+        env:
+          SKIP_ENV_VALIDATION: true
+      
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: |
+            http://localhost:3000
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+        continue-on-error: true
+        if: false # Disabled by default, enable when needed

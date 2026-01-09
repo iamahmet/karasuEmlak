@@ -1,0 +1,525 @@
+{
+  "welcome": "Welcome",
+  "home": {
+    "title": "Karasu Real Estate",
+    "description": "Real estate consultancy in Karasu - Properties for sale and rent",
+    "forSale": "Properties for Sale",
+    "forRent": "Properties for Rent"
+  },
+  "nav": {
+    "home": "Home",
+    "forSale": "For Sale",
+    "forRent": "For Rent",
+    "karasu": "Karasu",
+    "kocaali": "Kocaali",
+    "guide": "Guide",
+    "news": "News",
+    "blog": "Blog",
+    "favorites": "My Favorites",
+    "contact": "Contact",
+    "services": "Services",
+    "about": "About Us",
+    "addListing": "Add Listing"
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "forSale": "Properties for Sale",
+    "forRent": "Properties for Rent",
+    "karasu": "Karasu",
+    "about": "About Us",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookie Policy",
+    "terms": "Terms of Use",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "newsletter": "Subscribe to our newsletter",
+    "newsletterDesc": "Stay updated with the latest properties and market news"
+  },
+  "listings": {
+    "title": "Listings",
+    "forSale": "For Sale",
+    "forRent": "For Rent",
+    "filter": "Filter",
+    "sort": "Sort",
+    "view": "View",
+    "price": "Price",
+    "rooms": "Rooms",
+    "bathrooms": "Bathrooms",
+    "area": "Area",
+    "location": "Location",
+    "propertyType": "Property Type",
+    "noResults": "No listings found",
+    "featured": "Featured",
+    "new": "New",
+    "details": "View Details",
+    "contact": "Contact Agent"
+  },
+  "addListing": {
+    "title": "Add Listing",
+    "subtitle": "Easily add your property listing and reach thousands of potential buyers",
+    "basicInfo": "Basic Information",
+    "locationInfo": "Location Information",
+    "priceFeatures": "Price and Features",
+    "imagesContact": "Images and Contact",
+    "listingTitle": "Listing Title",
+    "listingType": "Listing Type",
+    "propertyType": "Property Type",
+    "shortDescription": "Short Description",
+    "detailedDescription": "Detailed Description",
+    "neighborhood": "Neighborhood",
+    "fullAddress": "Full Address",
+    "price": "Price",
+    "currency": "Currency",
+    "rooms": "Rooms",
+    "bathrooms": "Bathrooms",
+    "squareMeters": "Square Meters",
+    "floor": "Floor",
+    "buildingAge": "Building Age",
+    "heating": "Heating",
+    "features": "Features",
+    "furnished": "Furnished",
+    "balcony": "Balcony",
+    "parking": "Parking",
+    "elevator": "Elevator",
+    "seaView": "Sea View",
+    "images": "Images",
+    "uploadImages": "Click to upload images",
+    "generateAI": "Generate Realistic Image with AI",
+    "name": "Full Name",
+    "phone": "Phone",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "previousStep": "Previous Step",
+    "nextStep": "Next Step",
+    "submit": "Submit Listing",
+    "submitting": "Submitting...",
+    "success": "Your listing has been submitted successfully!",
+    "successMessage": "Your listing will be published after review. Thank you.",
+    "error": "Error",
+    "required": "Please fill in all required fields"
+  },
+  "blog": {
+    "title": "Blog",
+    "readMore": "Read More",
+    "author": "Author",
+    "date": "Date",
+    "category": "Category",
+    "relatedArticles": "Related Articles",
+    "recentPosts": "Recent Posts"
+  },
+  "news": {
+    "title": "News",
+    "readMore": "Read More",
+    "author": "Author",
+    "date": "Date",
+    "source": "Source"
+  },
+  "karasu": {
+    "title": "Karasu",
+    "description": "One of the most beautiful districts of Sakarya",
+    "neighborhoods": "Neighborhoods",
+    "hospitals": "Hospitals",
+    "restaurants": "Restaurants",
+    "transportation": "Transportation",
+    "pharmacies": "Duty Pharmacies",
+    "attractions": "Places to Visit",
+    "phones": "Important Phone Numbers"
+  },
+  "kocaali": {
+    "title": "Kocaali",
+    "description": "A peaceful district of Sakarya on the Black Sea coast",
+    "neighborhoods": "Neighborhoods",
+    "hospitals": "Hospitals",
+    "restaurants": "Restaurants",
+    "transportation": "Transportation",
+    "pharmacies": "Duty Pharmacies",
+    "attractions": "Places to Visit"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch with us for any questions",
+    "name": "Your Name",
+    "email": "Your Email",
+    "phone": "Your Phone",
+    "subject": "Subject",
+    "message": "Your Message",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "success": "Your message has been sent successfully!",
+    "error": "An error occurred while sending your message",
+    "address": "Address",
+    "workingHours": "Working Hours",
+    "weekdays": "Weekdays",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "closed": "Closed"
+  },
+  "favorites": {
+    "title": "My Favorites",
+    "description": "View and compare your favorite listings",
+    "empty": "You haven't added any favorites yet",
+    "emptyDescription": "Browse listings and click the heart icon to add them to your favorites",
+    "browseListings": "Browse Listings"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "We are with you with professional real estate services",
+    "valuation": "Property Valuation",
+    "valuationDesc": "Find out the real market value of your property",
+    "consulting": "Consulting",
+    "consultingDesc": "Professional consulting in real estate buying and selling process",
+    "legal": "Legal Support",
+    "legalDesc": "Legal support and consulting in real estate transactions",
+    "insurance": "Insurance Consulting",
+    "insuranceDesc": "Professional consulting for property insurance"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "We have been providing professional real estate consultancy since 2014",
+    "team": "Our Team",
+    "career": "Career",
+    "references": "References",
+    "mission": "Our Mission",
+    "vision": "Our Vision",
+    "values": "Our Values"
+  },
+  "calculator": {
+    "mortgage": "Mortgage Calculator",
+    "investment": "Investment Calculator",
+    "propertyValue": "Property Value",
+    "downPayment": "Down Payment",
+    "interestRate": "Interest Rate",
+    "loanTerm": "Loan Term",
+    "monthlyPayment": "Monthly Payment",
+    "totalPayment": "Total Payment",
+    "totalInterest": "Total Interest",
+    "calculate": "Calculate",
+    "years": "Years",
+    "roi": "ROI",
+    "rentalYield": "Rental Yield",
+    "paybackPeriod": "Payback Period"
+  },
+  "common": {
+    "home": "Home",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "stats": {
+        "articles": "Articles",
+        "categories": "Categories",
+        "users": "Users"
+      },
+      "quickActions": "Quick Actions",
+      "recentActivity": "Recent Activity"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "seo": "SEO Tools",
+      "contentStudio": "Content Studio",
+      "seoControl": "SEO Control",
+      "indexing": "Indexing",
+      "seoBooster": "SEO Booster",
+      "projectBot": "Project Bot",
+      "analytics": "Analytics",
+      "compliance": "Compliance",
+      "integrations": "Integrations",
+      "users": "Users",
+      "comments": "Comments",
+      "media": "Media",
+      "notifications": "Notifications",
+      "reports": "Reports",
+      "settings": "Settings",
+      "logout": "Logout",
+      "contentManagement": "Content Management",
+      "homepage": "Homepage",
+      "articles": "Blog Articles",
+      "news": "News",
+      "listings": "Listings",
+      "programmaticPages": "Programmatic Pages",
+      "navigation": "Menu Management",
+      "mediaLibrary": "Media Library",
+      "aiImages": "AI Images",
+      "aiQa": "AI Q&A",
+      "userInteraction": "User & Interaction",
+      "analyticsReports": "Analytics & Reports",
+      "systemSettings": "System & Settings"
+    },
+    "header": {
+      "search": "Search..."
+    },
+    "seo": {
+      "title": "SEO Tools",
+      "contentStudio": "Content Studio",
+      "seoControl": "SEO Control",
+      "indexing": "Indexing",
+      "booster": "SEO Booster"
+    }
+  },
+  "auth": {
+    "login": "Sign In",
+    "email": "Email",
+    "sendMagicLink": "Send Magic Link",
+    "sending": "Sending...",
+    "magicLinkSent": "Magic link sent to your email address.",
+    "magicLinkInstructions": "Click the link sent to your email to sign in."
+  },
+  "projectBot": {
+    "title": "Project Bot",
+    "description": "Code quality, security, SEO, performance, and i18n checks"
+  },
+  "contentStudio": {
+    "title": "Content Studio",
+    "description": "AI-powered content creation with workflows, templates, and quality gates",
+    "editTitle": "Edit Content"
+  },
+  "compliance": {
+    "consent": {
+      "title": "Consent Management",
+      "description": "Configure consent banner and preference center"
+    },
+    "logs": {
+      "title": "Consent Logs",
+      "description": "View consent history and audit trail"
+    },
+    "policies": {
+      "title": "Policy Management",
+      "description": "Manage KVKK/GDPR/Cookie/Privacy policies"
+    }
+  },
+  "users": {
+    "title": "User Management",
+    "description": "View, edit and manage users",
+    "tabs": {
+      "all": "All",
+      "admin": "Admin",
+      "staff": "Staff",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "createUser": "New User"
+    },
+    "success": {
+      "roleAdded": "Role added",
+      "roleRemoved": "Role removed",
+      "userDeleted": "User deleted"
+    },
+    "errors": {
+      "fetchFailed": "Failed to load users",
+      "invalidResponse": "Invalid response format",
+      "roleUpdateFailed": "Failed to update role",
+      "deleteFailed": "Failed to delete user"
+    },
+    "confirmations": {
+      "deleteUser": "Are you sure you want to delete this user?"
+    },
+    "detail": {
+      "title": "User Details",
+      "description": "View and manage user details",
+      "loading": "Loading...",
+      "actions": {
+        "close": "Close"
+      },
+      "errors": {
+        "userNotFound": "User not found"
+      },
+      "roles": {
+        "title": "Roles",
+        "add": "Add Role",
+        "cancel": "Cancel",
+        "selectPlaceholder": "Select role",
+        "addButton": "Add",
+        "admin": "Admin",
+        "staff": "Staff",
+        "editor": "Editor",
+        "viewer": "Viewer"
+      }
+    },
+    "create": {
+      "title": "Create New User",
+      "description": "Create a new user account",
+      "fields": {
+        "email": "Email",
+        "name": "Name",
+        "password": "Password",
+        "role": "Role",
+        "magicLink": "Send Magic Link",
+        "magicLinkDescription": "Send magic link instead of password",
+        "passwordHint": "Minimum 8 characters"
+      },
+      "placeholders": {
+        "email": "user@example.com",
+        "name": "User Name",
+        "role": "Select role (optional)"
+      },
+      "roles": {
+        "none": "No role",
+        "admin": "Admin",
+        "staff": "Staff",
+        "editor": "Editor",
+        "viewer": "Viewer"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "create": "Create",
+        "creating": "Creating..."
+      },
+      "success": {
+        "userCreated": "User created successfully",
+        "magicLinkSent": "Magic link sent to user"
+      },
+      "errors": {
+        "createFailed": "Failed to create user"
+      }
+    },
+    "edit": {
+      "title": "Edit User",
+      "description": "Edit user information",
+      "loading": "Loading...",
+      "tabs": {
+        "profile": "Profile",
+        "account": "Account",
+        "roles": "Roles",
+        "security": "Security"
+      },
+      "fields": {
+        "name": "Name",
+        "email": "Email",
+        "avatarUrl": "Avatar URL",
+        "roles": "Roles",
+        "newPassword": "New Password",
+        "passwordHint": "Leave blank to keep current password"
+      },
+      "roles": {
+        "title": "Roles",
+        "add": "Add Role",
+        "cancel": "Cancel",
+        "selectPlaceholder": "Select role",
+        "addButton": "Add",
+        "admin": "Admin",
+        "staff": "Staff",
+        "editor": "Editor",
+        "viewer": "Viewer"
+      },
+      "placeholders": {
+        "name": "User Name",
+        "email": "user@example.com",
+        "avatarUrl": "https://example.com/avatar.jpg"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "save": "Save",
+        "saving": "Saving...",
+        "close": "Close"
+      },
+      "success": {
+        "userUpdated": "User updated successfully"
+      },
+      "errors": {
+        "fetchFailed": "Failed to load user information",
+        "updateFailed": "Failed to update user",
+        "userNotFound": "User not found"
+      }
+    },
+    "table": {
+      "search": "Search users...",
+      "filters": {
+        "role": "Role",
+        "status": "Status",
+        "all": "All",
+        "active": "Active",
+        "inactive": "Inactive",
+        "emailVerified": "Email Verification",
+        "emailVerifiedAll": "All",
+        "emailVerifiedYes": "Verified",
+        "emailVerifiedNo": "Unverified",
+        "dateRange": "Date Range",
+        "dateRangeAll": "All",
+        "dateRangeToday": "Today",
+        "dateRangeWeek": "Last 7 Days",
+        "dateRangeMonth": "Last 30 Days",
+        "dateRangeYear": "Last Year",
+        "dateRangeCustom": "Custom Date",
+        "dateRangeStart": "Start",
+        "dateRangeEnd": "End"
+      },
+      "actions": {
+        "export": "Export",
+        "activate": "Activate",
+        "ban": "Ban",
+        "delete": "Delete",
+        "viewDetails": "View Details",
+        "edit": "Edit",
+        "makeAdmin": "Make Admin",
+        "removeAdmin": "Remove Admin",
+        "makeStaff": "Make Staff",
+        "removeStaff": "Remove Staff"
+      },
+      "columns": {
+        "user": "User",
+        "email": "Email",
+        "roles": "Roles",
+        "status": "Status",
+        "lastSignIn": "Last Sign In",
+        "createdAt": "Created At",
+        "actions": "Actions"
+      },
+      "empty": "No users found",
+      "stats": {
+        "showing": "Showing {count} users",
+        "selected": "{count} users selected"
+      },
+      "success": {
+        "bulkAction": "Action completed on {count} users",
+        "exported": "Users exported successfully (CSV)"
+      },
+      "errors": {
+        "noUsersSelected": "Please select at least one user",
+        "exportFailed": "Export failed",
+        "actionFailed": "Action failed"
+      },
+      "confirmations": {
+        "bulkDelete": "Are you sure you want to delete {count} users?",
+        "bulkBan": "Are you sure you want to ban {count} users?",
+        "bulkActivate": "Are you sure you want to activate {count} users?"
+      }
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Manage site settings"
+  },
+  "analytics": {
+    "dashboard": {
+      "title": "Analytics Dashboard",
+      "description": "View site metrics, content performance, and SEO data"
+    }
+  },
+  "integrations": {
+    "google": {
+      "title": "Google Integrations",
+      "description": "Connect Google Search Console and Google Analytics 4"
+    }
+  },
+  "comments": {
+    "title": "Comments Management",
+    "description": "View, approve and moderate comments"
+  },
+  "media": {
+    "title": "Media Library",
+    "description": "Manage images and videos"
+  },
+  "notifications": {
+    "title": "Notifications Center",
+    "description": "View notifications and manage settings"
+  },
+  "reports": {
+    "title": "Reports & Export",
+    "description": "Generate reports and export data"
+  }
+}

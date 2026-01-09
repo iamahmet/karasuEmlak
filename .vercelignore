@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+.turbo/
+
+# Environment files
+.env*.local
+.env
+
+# Testing
+coverage/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Supabase
+.supabase/
+
+# Scripts (not needed in production)
+scripts/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Legacy/Archived
+eski-karasu-emlak/
+old-EkipAi/

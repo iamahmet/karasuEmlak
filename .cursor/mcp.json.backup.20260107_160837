@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "seo-research": {
+      "command": "python3.10",
+      "args": ["-m", "uv", "tool", "run", "seo-mcp"],
+      "env": {
+        "CAPSOLVER_API_KEY": "${CAPSOLVER_API_KEY}"
+      }
+    }
+  }
+}

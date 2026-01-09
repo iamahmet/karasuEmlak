@@ -1,0 +1,92 @@
+{
+  "name": "Karasu Emlak",
+  "short_name": "Karasu Emlak",
+  "description": "Karasu ve Sakarya bölgesinde satılık, kiralık emlak ilanları. Daire, villa, arsa ve yazlık ilanları.",
+  "start_url": "/?utm_source=pwa",
+  "display": "standalone",
+  "id": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#3B82F6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/icon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo-icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["real-estate", "business", "lifestyle"],
+  "lang": "tr",
+  "dir": "ltr",
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Satılık İlanlar",
+      "short_name": "Satılık",
+      "description": "Satılık emlak ilanlarını görüntüle",
+      "url": "/satilik",
+      "icons": [{ "src": "/logo-icon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Kiralık İlanlar",
+      "short_name": "Kiralık",
+      "description": "Kiralık emlak ilanlarını görüntüle",
+      "url": "/kiralik",
+      "icons": [{ "src": "/logo-icon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Favorilerim",
+      "short_name": "Favoriler",
+      "description": "Favori ilanlarınızı görüntüle",
+      "url": "/favorilerim",
+      "icons": [{ "src": "/logo-icon.svg", "sizes": "any" }]
+    }
+  ],
+  "share_target": {
+    "action": "/arama",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "prefer_related_applications": false,
+  "version": "2.0.0",
+  "version_name": "Karasu Emlak v2.0"
+}

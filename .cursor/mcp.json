@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "seo-research": {
+      "command": "python3.10",
+      "args": [
+        "-m",
+        "uv",
+        "tool",
+        "run",
+        "seo-mcp"
+      ],
+      "env": {
+        "CAPSOLVER_API_KEY": "${CAPSOLVER_API_KEY}"
+      }
+    },
+    "github": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN=${GITHUB_PERSONAL_ACCESS_TOKEN}",
+        "ghcr.io/github/github-mcp-server"
+      ]
+    }
+  }
+}

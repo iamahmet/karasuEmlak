@@ -1,0 +1,629 @@
+/* Apple Quality Fonts - SF Pro Display & Text */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Apple-quality typography */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base font size for better readability */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    html {
+      font-size: 17px; /* Slightly larger on desktop */
+    }
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+    font-variant-numeric: tabular-nums;
+    font-size: 1rem; /* 16px base */
+    line-height: 1.6; /* Improved readability - WCAG AA compliant */
+    letter-spacing: -0.011em;
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--background));
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    width: 100%;
+    position: relative;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-feature-settings: 'ss01', 'cv11';
+    letter-spacing: -0.022em;
+    font-weight: 600;
+    line-height: 1.2; /* Tighter for headings */
+    color: hsl(var(--foreground));
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive scaling */
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    margin-bottom: 1.25rem;
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  h4 {
+    font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+    line-height: 1.35;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.875rem;
+  }
+
+  p {
+    line-height: 1.7; /* Improved readability */
+    color: hsl(var(--foreground));
+    letter-spacing: -0.011em;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  /* Icon standardization - Apple quality */
+  svg {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  :root {
+    /* Base Colors - WCAG AA Compliant */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 9%; /* Improved contrast */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
+    
+    /* Primary Blue - Eski Site Renkleri */
+    --primary: 210 100% 50%; /* #006AFF - Bright Blue */
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 210 100% 40%; /* #0052CC */
+    --primary-light: 210 100% 60%; /* #1A8CFF */
+    --primary-subtle: 210 100% 97%; /* #E6F2FF */
+    
+    /* Secondary - Soft Gray Scale */
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%; /* Improved contrast */
+    
+    /* Accent - Secondary Green */
+    --accent: 150 100% 33%; /* #00A862 */
+    --accent-foreground: 0 0% 100%;
+    
+    /* Neutral colors - Improved contrast */
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%; /* WCAG AA compliant */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 88%; /* Slightly darker for better visibility */
+    --input: 0 0% 96%;
+    --ring: 210 100% 50%;
+    --radius: 0.5rem;
+    
+    /* Spacing Scale (8px base) - Consistent spacing */
+    --spacing-xs: 0.25rem; /* 4px */
+    --spacing-sm: 0.5rem; /* 8px */
+    --spacing-md: 1rem; /* 16px */
+    --spacing-lg: 1.5rem; /* 24px */
+    --spacing-xl: 2rem; /* 32px */
+    --spacing-2xl: 3rem; /* 48px */
+    --spacing-3xl: 4rem; /* 64px */
+
+    /* Reading width - Optimal for readability */
+    --reading-width: 65ch; /* Optimal line length */
+    --content-width: 1200px;
+  }
+
+  .dark {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
+    
+    --primary: 210 100% 60%;
+    --primary-foreground: 0 0% 4%;
+    --primary-dark: 210 100% 50%;
+    --primary-light: 210 100% 70%;
+    --primary-subtle: 210 100% 15%;
+    
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 98%;
+    
+    --accent: 150 100% 40%;
+    --accent-foreground: 0 0% 4%;
+    
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 65%;
+    --border: 0 0% 20%;
+    --input: 0 0% 12%;
+  }
+
+  /* Focus states - Enhanced for accessibility */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Links - Improved readability */
+  a {
+    color: hsl(var(--primary));
+    text-decoration: none;
+    text-underline-offset: 3px;
+    font-weight: 500;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+  }
+
+  a:hover {
+    color: hsl(var(--primary-dark));
+    text-decoration: underline;
+  }
+
+  a:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Button improvements */
+  button {
+    font-weight: 500;
+    letter-spacing: -0.011em;
+  }
+
+  /* Form elements - Better readability */
+  input, textarea, select {
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+  }
+
+  label {
+    font-weight: 500;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  /* Reading-optimized content container */
+  .reading-container {
+    max-width: var(--reading-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Content container - Wider for layouts */
+  .content-container {
+    max-width: var(--content-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Improved text contrast utilities */
+  .text-readable {
+    color: hsl(var(--foreground));
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+
+  .text-readable-lg {
+    color: hsl(var(--foreground));
+    line-height: 1.75;
+    font-size: 1.125rem;
+  }
+
+  /* Spacing utilities for consistency */
+  .section-spacing {
+    padding-top: var(--spacing-2xl);
+    padding-bottom: var(--spacing-2xl);
+  }
+
+  @media (min-width: 768px) {
+    .section-spacing {
+      padding-top: var(--spacing-3xl);
+      padding-bottom: var(--spacing-3xl);
+    }
+  }
+
+  /* Card improvements - Better spacing and shadows */
+  .card-enhanced {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    padding: var(--spacing-lg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .card-enhanced:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Button improvements - Better touch targets */
+  .btn-enhanced {
+    min-height: 44px; /* iOS touch target */
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+  }
+
+  @media (min-width: 768px) {
+    .btn-enhanced {
+      min-height: 40px;
+      padding: 0.625rem 1.25rem;
+    }
+  }
+
+  /* List improvements - Better spacing */
+  .list-enhanced {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .list-enhanced li {
+    padding: var(--spacing-sm) 0;
+    line-height: 1.6;
+  }
+
+  /* Editorial Blog Content - Premium Real Estate Quality */
+  .blog-content-editorial {
+    @apply text-gray-900 dark:text-gray-100;
+    font-size: 19px;
+    line-height: 1.8;
+    max-width: 100%;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #1f2937;
+  }
+
+  @media (max-width: 768px) {
+    .blog-content-editorial {
+      font-size: 17px;
+      line-height: 1.75;
+    }
+  }
+
+  .blog-content-editorial h1,
+  .blog-content-editorial h2,
+  .blog-content-editorial h3,
+  .blog-content-editorial h4 {
+    @apply font-bold text-gray-900 dark:text-gray-100;
+    scroll-margin-top: 100px;
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .blog-content-editorial h2 {
+    @apply text-2xl md:text-3xl;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .blog-content-editorial h3 {
+    @apply text-xl md:text-2xl;
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .blog-content-editorial h4 {
+    @apply text-lg md:text-xl;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .blog-content-editorial p {
+    @apply mb-6 leading-relaxed text-gray-700 dark:text-gray-300;
+    font-size: inherit;
+    line-height: 1.8;
+  }
+
+  .blog-content-editorial ul,
+  .blog-content-editorial ol {
+    @apply mb-6 ml-6 space-y-2;
+  }
+
+  .blog-content-editorial ul {
+    @apply list-disc;
+  }
+
+  .blog-content-editorial ol {
+    @apply list-decimal;
+  }
+
+  .blog-content-editorial li {
+    @apply mb-2 text-gray-700 dark:text-gray-300;
+    line-height: 1.85;
+  }
+
+  .blog-content-editorial a {
+    @apply text-primary hover:text-primary-dark underline underline-offset-2;
+    transition: color 0.2s ease;
+  }
+
+  .blog-content-editorial img {
+    @apply rounded-lg my-8 w-full h-auto;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .blog-content-editorial blockquote {
+    @apply border-l-4 border-primary pl-6 py-3 my-8 italic text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-r;
+    font-size: 1.125rem;
+    line-height: 1.75;
+  }
+
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Micro-interactions */
+  .micro-interaction {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .micro-interaction:hover {
+    transform: translateY(-1px);
+  }
+
+  .micro-interaction:active {
+    transform: translateY(0);
+  }
+
+  /* Fade-in animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slow-zoom {
+    0% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1.15);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes progress-grow {
+    from {
+      width: 0%;
+    }
+    to {
+      width: var(--progress, 0%);
+    }
+  }
+
+  .fade-in-on-scroll {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out forwards;
+  }
+
+  .animate-slow-zoom {
+    animation: slow-zoom 30s ease-in-out infinite alternate;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.5s ease-out forwards;
+  }
+
+  /* Blog Hero background pattern */
+  .blog-hero-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.03;
+  }
+
+  /* Print styles */
+  @media print {
+    .blog-content-editorial {
+      font-size: 12pt;
+      line-height: 1.6;
+      color: #000;
+    }
+
+    .blog-content-editorial h1,
+    .blog-content-editorial h2,
+    .blog-content-editorial h3 {
+      page-break-after: avoid;
+      color: #000;
+    }
+
+    .blog-content-editorial img {
+      max-width: 100%;
+      page-break-inside: avoid;
+    }
+  }
+
+  /* Dark mode support for blog content */
+  @media (prefers-color-scheme: dark) {
+    .blog-content-editorial {
+      color: #f3f4f6;
+    }
+
+    .blog-content-editorial h1,
+    .blog-content-editorial h2,
+    .blog-content-editorial h3,
+    .blog-content-editorial h4 {
+      color: #f9fafb;
+    }
+
+    .blog-content-editorial p,
+    .blog-content-editorial li {
+      color: #e5e7eb;
+    }
+  }
+}
+
+/* News Ticker Animations */
+@keyframes scroll-smooth {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  50% {
+    opacity: 0.9;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.03;
+  }
+  50% {
+    opacity: 0.06;
+  }
+}
+
+.animate-scroll-smooth {
+  animation: scroll-smooth 60s linear infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}

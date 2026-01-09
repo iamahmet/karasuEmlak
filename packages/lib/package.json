@@ -1,0 +1,52 @@
+{
+  "name": "@karasu/lib",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./i18n": "./i18n.ts",
+    "./utils": "./utils.ts",
+    "./supabase/service": "./supabase/service.ts",
+    "./supabase/client": "./supabase/client.ts",
+    "./cloudinary/client": "./cloudinary/client.ts",
+    "./audit": "./audit/index.ts",
+    "./errors/handler": "./errors/handler.ts",
+    "./content/publishing": "./content/publishing.ts",
+    "./content/quality-gate": "./content/quality-gate.ts",
+    "./openai": "./openai/index.ts",
+    "./openai/image-generation": "./openai/image-generation.ts",
+    "./openai/image-search": "./openai/image-search.ts",
+    "./openai/image-reference": "./openai/image-reference.ts",
+    "./seo/metadata": "./seo/metadata.ts",
+    "./email": "./email/index.ts",
+    "./email/client": "./email/client.ts",
+    "./email/notifications": "./email/notifications.ts",
+    "./email/notifications.server": "./email/notifications.server.ts",
+    "./supabase/queries/navigation": "./supabase/queries/navigation.ts",
+    "./supabase/queries/content": "./supabase/queries/content.ts",
+    "./integrations/google-oauth": "./integrations/google-oauth.ts",
+    "./project-bot": "./project-bot/index.ts",
+    "./design-system": "./design-system.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@karasu-emlak/config": "workspace:*",
+    "@supabase/ssr": "^0.5.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "cloudinary": "^2.8.0",
+    "clsx": "^2.1.1",
+    "openai": "^4.70.0",
+    "resend": "^6.6.0",
+    "tailwind-merge": "^2.5.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.4.0"
+  }
+}

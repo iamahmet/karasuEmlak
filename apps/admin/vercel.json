@@ -1,0 +1,19 @@
+{
+  "buildCommand": "cd ../.. && pnpm install && pnpm run build:admin",
+  "devCommand": "cd ../.. && pnpm run dev:admin",
+  "installCommand": "cd ../.. && pnpm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "rootDirectory": "apps/admin",
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/content/publish-scheduled",
+      "schedule": "*/5 * * * *"
+    }
+  ]
+}

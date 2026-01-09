@@ -1,0 +1,26 @@
+{
+  "common": {
+    "home": "الرئيسية",
+    "about": "من نحن",
+    "contact": "اتصل بنا",
+    "search": "بحث",
+    "readMore": "اقرأ المزيد",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "categories": "الفئات",
+    "about": "من نحن",
+    "contact": "اتصل بنا"
+  },
+  "article": {
+    "readTime": "{minutes} دقيقة قراءة",
+    "publishedAt": "نُشر",
+    "author": "الكاتب",
+    "related": "أخبار ذات صلة",
+    "share": "مشاركة"
+  }
+}
+

@@ -1,0 +1,6 @@
+# Karasuemlak.net Blog Articles
+# Add article URLs here, one per line
+# Format: https://karasuemlak.net/blog/article-slug
+
+# Example:
+# https://karasuemlak.net/blog/karasu-emlak-piyasasi-2024

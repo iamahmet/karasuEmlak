@@ -1,0 +1,276 @@
+{
+  "scannedAt": "2026-01-01T17:56:25.877Z",
+  "totalRoutes": 8,
+  "snapshots": [
+    {
+      "route": "/",
+      "name": "Homepage",
+      "prod": {
+        "url": "https://www.karasuemlak.net/",
+        "screenshot": "",
+        "metrics": {
+          "hero": false,
+          "cta": false,
+          "listingGrid": false,
+          "filters": false,
+          "h1": {
+            "present": false
+          },
+          "breadcrumbs": false,
+          "priceBlock": false,
+          "photoGallery": false,
+          "trustSignals": 0,
+          "conversionWidgets": 0
+        },
+        "status": 0,
+        "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"https://www.karasuemlak.net/\", waiting until \"networkidle\"\n"
+      },
+      "local": {
+        "url": "http://localhost:3000/",
+        "screenshot": "/Users/ahmetbulut/Desktop/karasuEmlakSon/scripts/parity/parity-artifacts/screenshots/Homepage-_-local.png",
+        "metrics": {
+          "hero": true,
+          "cta": true,
+          "listingGrid": true,
+          "filters": true,
+          "h1": {
+            "present": true,
+            "text": "Hayalinizdeki EviKarasu'da Bulun"
+          },
+          "breadcrumbs": false,
+          "priceBlock": false,
+          "photoGallery": false,
+          "trustSignals": 8,
+          "conversionWidgets": 5
+        },
+        "status": 200
+      },
+      "comparison": {
+        "missingLocally": false,
+        "regressions": [],
+        "improvements": [
+          "Hero section added",
+          "More conversion widgets",
+          "H1 heading added",
+          "More trust signals (8 vs 0)",
+          "More conversion widgets (5 vs 0)"
+        ]
+      }
+    },
+    {
+      "route": "/satilik",
+      "name": "Satılık Listings",
+      "prod": {
+        "url": "https://www.karasuemlak.net/satilik",
+        "screenshot": "/Users/ahmetbulut/Desktop/karasuEmlakSon/scripts/parity/parity-artifacts/screenshots/Satılık Listings-_satilik-prod.png",
+        "metrics": {
+          "hero": false,
+          "cta": true,
+          "listingGrid": true,
+          "filters": false,
+          "h1": {
+            "present": true,
+            "text": "Satılık Gayrimenkul İlanları"
+          },
+          "breadcrumbs": false,
+          "priceBlock": false,
+          "photoGallery": false,
+          "trustSignals": 14,
+          "conversionWidgets": 1
+        },
+        "status": 200
+      },
+      "local": {
+        "url": "http://localhost:3000/satilik",
+        "screenshot": "/Users/ahmetbulut/Desktop/karasuEmlakSon/scripts/parity/parity-artifacts/screenshots/Satılık Listings-_satilik-local.png",
+        "metrics": {
+          "hero": false,
+          "cta": true,
+          "listingGrid": true,
+          "filters": false,
+          "h1": {
+            "present": true,
+            "text": "Satılık İlanlar"
+          },
+          "breadcrumbs": false,
+          "priceBlock": false,
+          "photoGallery": false,
+          "trustSignals": 4,
+          "conversionWidgets": 2
+        },
+        "status": 200
+      },
+      "comparison": {
+        "missingLocally": false,
+        "regressions": [
+          "Fewer trust signals (4 vs 14)"
+        ],
+        "improvements": [
+          "More conversion widgets",
+          "More conversion widgets (2 vs 1)"
+        ]
+      }
+    },
+    {
+      "route": "/blog",
+      "name": "Blog Listing",
+      "prod": {
+        "url": "https://www.karasuemlak.net/blog",
+        "screenshot": "/Users/ahmetbulut/Desktop/karasuEmlakSon/scripts/parity/parity-artifacts/screenshots/Blog Listing-_blog-prod.png",
+        "metrics": {
+          "hero": false,
+          "cta": true,
+          "listingGrid": true,
+          "filters": false,
+          "h1": {
+            "present": true,
+            "text": "Emlak Blog"
+          },
+          "breadcrumbs": false,
+          "priceBlock": false,
+          "photoGallery": false,
+          "trustSignals": 2,
+          "conversionWidgets": 1
+        },
+        "status": 200
+      },
+      "local": {
+        "url": "http://localhost:3000/blog",
+        "screenshot": "/Users/ahmetbulut/Desktop/karasuEmlakSon/scripts/parity/parity-artifacts/screenshots/Blog Listing-_blog-local.png",
+        "metrics": {
+          "hero": false,
+          "cta": true,
+          "listingGrid": true,
+          "filters": false,
+          "h1": {
+            "present": true,
+            "text": "Blog"
+          },
+          "breadcrumbs": false,
+          "priceBlock": false,
+          "photoGallery": false,
+          "trustSignals": 2,
+          "conversionWidgets": 1
+        },
+        "status": 200
+      },
+      "comparison": {
+        "missingLocally": false,
+        "regressions": [],
+        "improvements": []
+      }
+    },
+    {
+      "route": "/arama",
+      "name": "Search",
+      "prod": {
+        "url": "https://www.karasuemlak.net/arama",
+        "screenshot": "/Users/ahmetbulut/Desktop/karasuEmlakSon/scripts/parity/parity-artifacts/screenshots/Search-_arama-prod.png",
+        "metrics": {
+          "hero": false,
+          "cta": true,
+          "listingGrid": true,
+          "filters": false,
+          "h1": {
+            "present": true,
+            "text": "Arama"
+          },
+          "breadcrumbs": false,
+          "priceBlock": false,
+          "photoGallery": false,
+          "trustSignals": 14,
+          "conversionWidgets": 1
+        },
+        "status": 200
+      },
+      "local": {
+        "url": "http://localhost:3000/arama",
+        "screenshot": "/Users/ahmetbulut/Desktop/karasuEmlakSon/scripts/parity/parity-artifacts/screenshots/Search-_arama-local.png",
+        "metrics": {
+          "hero": false,
+          "cta": true,
+          "listingGrid": true,
+          "filters": false,
+          "h1": {
+            "present": true,
+            "text": "Arama"
+          },
+          "breadcrumbs": false,
+          "priceBlock": false,
+          "photoGallery": false,
+          "trustSignals": 4,
+          "conversionWidgets": 2
+        },
+        "status": 200
+      },
+      "comparison": {
+        "missingLocally": false,
+        "regressions": [
+          "Fewer trust signals (4 vs 14)"
+        ],
+        "improvements": [
+          "More conversion widgets",
+          "More conversion widgets (2 vs 1)"
+        ]
+      }
+    },
+    {
+      "route": "/iletisim",
+      "name": "Contact",
+      "prod": {
+        "url": "https://www.karasuemlak.net/iletisim",
+        "screenshot": "/Users/ahmetbulut/Desktop/karasuEmlakSon/scripts/parity/parity-artifacts/screenshots/Contact-_iletisim-prod.png",
+        "metrics": {
+          "hero": false,
+          "cta": true,
+          "listingGrid": true,
+          "filters": false,
+          "h1": {
+            "present": true,
+            "text": "İletişim"
+          },
+          "breadcrumbs": false,
+          "priceBlock": false,
+          "photoGallery": false,
+          "trustSignals": 10,
+          "conversionWidgets": 5
+        },
+        "status": 200
+      },
+      "local": {
+        "url": "http://localhost:3000/iletisim",
+        "screenshot": "/Users/ahmetbulut/Desktop/karasuEmlakSon/scripts/parity/parity-artifacts/screenshots/Contact-_iletisim-local.png",
+        "metrics": {
+          "hero": false,
+          "cta": true,
+          "listingGrid": true,
+          "filters": false,
+          "h1": {
+            "present": true,
+            "text": "İletişim"
+          },
+          "breadcrumbs": false,
+          "priceBlock": false,
+          "photoGallery": false,
+          "trustSignals": 8,
+          "conversionWidgets": 4
+        },
+        "status": 200
+      },
+      "comparison": {
+        "missingLocally": false,
+        "regressions": [
+          "Fewer trust signals (8 vs 10)",
+          "Fewer conversion widgets (4 vs 5)"
+        ],
+        "improvements": []
+      }
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "missing": 0,
+    "regressions": 3,
+    "improvements": 3
+  }
+}

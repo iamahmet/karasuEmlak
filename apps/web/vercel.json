@@ -1,0 +1,26 @@
+{
+  "buildCommand": "cd ../.. && SKIP_ENV_VALIDATION=true turbo run build --filter=web",
+  "devCommand": "pnpm run dev",
+  "installCommand": "cd ../.. && pnpm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/check-new-listings",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/check-price-changes",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/check-saved-searches",
+      "schedule": "0 10 * * *"
+    }
+  ]
+}

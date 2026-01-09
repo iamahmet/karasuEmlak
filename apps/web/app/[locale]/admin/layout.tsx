@@ -1,0 +1,146 @@
+import { NextIntlClientProvider } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
+import { isRTL } from "@karasu/lib/i18n";
+import { AdminLayout } from "@/components/admin/layout/AdminLayout";
+import { Toaster } from "@/components/admin/providers/Toaster";
+import { ErrorBoundary } from "@/components/admin/errors/ErrorBoundary";
+import type { Metadata, Viewport } from "next";
+import "../../globals.css";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Admin Panel - Karasu Emlak",
+    template: "%s | Admin Panel - Karasu Emlak",
+  },
+  description: "Karasu Emlak Admin Panel - İçerik yönetimi, SEO araçları ve site yönetimi",
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/logo-icon.svg", type: "image/svg+xml", sizes: "any" },
+    ],
+    shortcut: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/logo-icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/logo-icon.svg", type: "image/svg+xml" },
+    ],
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
+export function generateStaticParams() {
+  // Only generate static params for non-auth routes
+  // Login/signup pages are dynamic
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export const dynamicParams = true;
+
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  // Wrap everything in try-catch to prevent 500 errors
+  try {
+    let locale: string;
+    try {
+      const paramsResult = await params;
+      locale = paramsResult.locale;
+    } catch (paramError: any) {
+      console.error('Error getting params:', paramError);
+      locale = 'tr'; // Default locale
+    }
+
+    if (!routing.locales.includes(locale as any)) {
+      locale = 'tr'; // Fallback to default
+    }
+
+    // Enable static rendering
+    try {
+      setRequestLocale(locale);
+    } catch (setLocaleError) {
+      console.error('Error setting request locale:', setLocaleError);
+    }
+
+    // Get messages with error handling - use direct import like main layout
+    let messages = {};
+    try {
+      const messagesModule = await import(`../../../messages/${locale}.json`);
+      messages = messagesModule.default || messagesModule;
+    } catch (error) {
+      console.error('Failed to load messages for locale:', locale, error);
+      // Fallback to Turkish
+      try {
+        const fallbackModule = await import(`../../../messages/tr.json`);
+        messages = fallbackModule.default || fallbackModule;
+      } catch (fallbackError) {
+        console.error('Failed to load fallback messages:', fallbackError);
+        messages = {}; // Empty messages as last resort
+      }
+    }
+    
+    const rtl = isRTL(locale as any);
+
+    return (
+      <html lang={locale} dir={rtl ? "rtl" : "ltr"} className="font-jakarta">
+        <body className="bg-[#E7E7E7] dark:bg-[#062F28] text-design-dark dark:text-white antialiased">
+          <NextIntlClientProvider messages={messages}>
+            <ErrorBoundary>
+              <AdminLayout>{children}</AdminLayout>
+              <Toaster />
+            </ErrorBoundary>
+          </NextIntlClientProvider>
+        </body>
+      </html>
+    );
+  } catch (error: any) {
+    // Log error only in development
+    if (process.env.NODE_ENV === "development") {
+      console.error("Critical error in Admin LocaleLayout:", error);
+    }
+    // Fallback to default locale with safe message loading
+    let messages = {};
+    try {
+      const fallbackModule = await import(`../../../messages/tr.json`);
+      messages = fallbackModule.default || fallbackModule;
+    } catch (msgError) {
+      console.error("Error loading fallback messages:", msgError);
+      messages = {}; // Empty messages as last resort
+    }
+    
+    return (
+      <html lang="tr" dir="ltr" className="font-jakarta">
+        <body className="bg-[#E7E7E7] dark:bg-[#062F28] text-design-dark dark:text-white antialiased">
+          <NextIntlClientProvider messages={messages}>
+            <ErrorBoundary>
+              <AdminLayout>{children}</AdminLayout>
+              <Toaster />
+            </ErrorBoundary>
+          </NextIntlClientProvider>
+        </body>
+      </html>
+    );
+  }
+}

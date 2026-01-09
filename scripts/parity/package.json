@@ -1,0 +1,19 @@
+{
+  "name": "parity-auditor",
+  "version": "1.0.0",
+  "description": "Production-Local URL parity auditor and auto-fix system",
+  "type": "module",
+  "scripts": {
+    "scan:prod": "tsx scan-prod.ts",
+    "scan:local": "tsx scan-local.ts",
+    "diff": "tsx diff.ts",
+    "fix": "tsx fix.ts",
+    "verify": "tsx verify.ts"
+  },
+  "dependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.7.0",
+    "xml2js": "^0.6.2",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}

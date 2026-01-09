@@ -1,0 +1,26 @@
+{
+  "common": {
+    "home": "Главная",
+    "about": "О нас",
+    "contact": "Контакты",
+    "search": "Поиск",
+    "readMore": "Читать далее",
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "success": "Успешно"
+  },
+  "nav": {
+    "home": "Главная",
+    "categories": "Категории",
+    "about": "О нас",
+    "contact": "Контакты"
+  },
+  "article": {
+    "readTime": "{minutes} мин чтения",
+    "publishedAt": "Опубликовано",
+    "author": "Автор",
+    "related": "Похожие новости",
+    "share": "Поделиться"
+  }
+}
+

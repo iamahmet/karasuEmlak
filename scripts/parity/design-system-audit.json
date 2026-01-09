@@ -1,0 +1,580 @@
+{
+  "generatedAt": "2026-01-01T17:51:24.145Z",
+  "tokens": {
+    "total": 52,
+    "byType": {
+      "color": 42,
+      "spacing": 7,
+      "typography": 0,
+      "border": 3,
+      "shadow": 0
+    },
+    "list": [
+      {
+        "type": "color",
+        "name": "--background",
+        "value": "0 0% 100%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--foreground",
+        "value": "0 0% 10%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--card",
+        "value": "0 0% 100%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--card-foreground",
+        "value": "0 0% 10%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--popover",
+        "value": "0 0% 100%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--popover-foreground",
+        "value": "0 0% 10%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--primary",
+        "value": "210 100% 50%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--primary-foreground",
+        "value": "0 0% 100%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--primary-dark",
+        "value": "210 100% 40%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--primary-light",
+        "value": "210 100% 60%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--primary-subtle",
+        "value": "210 100% 97%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--secondary",
+        "value": "0 0% 96%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--secondary-foreground",
+        "value": "0 0% 10%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--accent",
+        "value": "150 100% 33%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--accent-foreground",
+        "value": "0 0% 100%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--muted",
+        "value": "0 0% 96%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--muted-foreground",
+        "value": "0 0% 45%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--destructive",
+        "value": "0 84% 60%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--destructive-foreground",
+        "value": "0 0% 100%",
+        "usage": []
+      },
+      {
+        "type": "border",
+        "name": "--border",
+        "value": "0 0% 90%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--input",
+        "value": "0 0% 96%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--ring",
+        "value": "210 100% 50%",
+        "usage": []
+      },
+      {
+        "type": "border",
+        "name": "--radius",
+        "value": "0.5rem",
+        "usage": []
+      },
+      {
+        "type": "spacing",
+        "name": "--spacing-xs",
+        "value": "0.25rem",
+        "usage": []
+      },
+      {
+        "type": "spacing",
+        "name": "--spacing-sm",
+        "value": "0.5rem",
+        "usage": []
+      },
+      {
+        "type": "spacing",
+        "name": "--spacing-md",
+        "value": "1rem",
+        "usage": []
+      },
+      {
+        "type": "spacing",
+        "name": "--spacing-lg",
+        "value": "1.5rem",
+        "usage": []
+      },
+      {
+        "type": "spacing",
+        "name": "--spacing-xl",
+        "value": "2rem",
+        "usage": []
+      },
+      {
+        "type": "spacing",
+        "name": "--spacing-2xl",
+        "value": "3rem",
+        "usage": []
+      },
+      {
+        "type": "spacing",
+        "name": "--spacing-3xl",
+        "value": "4rem",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--background",
+        "value": "0 0% 4%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--foreground",
+        "value": "0 0% 98%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--card",
+        "value": "0 0% 6%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--card-foreground",
+        "value": "0 0% 98%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--popover",
+        "value": "0 0% 6%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--popover-foreground",
+        "value": "0 0% 98%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--primary",
+        "value": "210 100% 60%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--primary-foreground",
+        "value": "0 0% 4%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--primary-dark",
+        "value": "210 100% 50%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--primary-light",
+        "value": "210 100% 70%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--primary-subtle",
+        "value": "210 100% 15%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--secondary",
+        "value": "0 0% 12%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--secondary-foreground",
+        "value": "0 0% 98%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--accent",
+        "value": "150 100% 45%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--accent-foreground",
+        "value": "0 0% 4%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--muted",
+        "value": "0 0% 12%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--muted-foreground",
+        "value": "0 0% 65%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--destructive",
+        "value": "0 62% 50%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--destructive-foreground",
+        "value": "0 0% 98%",
+        "usage": []
+      },
+      {
+        "type": "border",
+        "name": "--border",
+        "value": "0 0% 15%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--input",
+        "value": "0 0% 12%",
+        "usage": []
+      },
+      {
+        "type": "color",
+        "name": "--ring",
+        "value": "210 100% 60%",
+        "usage": []
+      }
+    ]
+  },
+  "components": {
+    "total": 20,
+    "usingTokens": 11,
+    "withCustomStyles": 4,
+    "accessibility": {
+      "withLabels": 8,
+      "withAria": 3,
+      "keyboardNav": 0
+    },
+    "list": [
+      {
+        "name": "VirtualTour",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/virtual-tour/VirtualTour.tsx",
+        "usesTokens": true,
+        "customStyles": [
+          "style={{ aspectRatio: '16/9' }",
+          "style={{ aspectRatio: '16/9' }",
+          "style={{ aspectRatio: '16/9' }",
+          "style={{ aspectRatio: '16/9' }"
+        ],
+        "accessibility": {
+          "hasLabels": true,
+          "hasAria": true,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "pagination",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/ui/pagination.tsx",
+        "usesTokens": false,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": false,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "ModernCard",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/ui/ModernCard.tsx",
+        "usesTokens": true,
+        "customStyles": [
+          "style={{\n          backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',\n          backgroundSize: '32px 32px',\n        }",
+          "style={{ WebkitTextFillColor: 'transparent' }"
+        ],
+        "accessibility": {
+          "hasLabels": false,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "LoadingState",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/ui/LoadingState.tsx",
+        "usesTokens": true,
+        "customStyles": [
+          "style={{ animationDelay: `${i * 0.1}",
+          "style={{ animationDelay: `${i * 0.1 + 0.05}",
+          "style={{ animationDelay: `${i * 0.1 + 0.1}",
+          "style={{ animationDelay: `${i * 0.1}",
+          "style={{ animationDelay: `${i * 0.1}"
+        ],
+        "accessibility": {
+          "hasLabels": false,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "IconWrapper",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/ui/IconWrapper.tsx",
+        "usesTokens": false,
+        "customStyles": [
+          "style={{\n        strokeLinecap: 'round',\n        strokeLinejoin: 'round',\n      }"
+        ],
+        "accessibility": {
+          "hasLabels": false,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "EmptyState",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/ui/EmptyState.tsx",
+        "usesTokens": true,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": true,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "BackToTop",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/ui/BackToTop.tsx",
+        "usesTokens": false,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": true,
+          "hasAria": true,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "TrustBadges",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/trust/TrustBadges.tsx",
+        "usesTokens": false,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": false,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "TestimonialsWithSchema",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/testimonials/TestimonialsWithSchema.tsx",
+        "usesTokens": false,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": false,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "Testimonials",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/testimonials/Testimonials.tsx",
+        "usesTokens": true,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": false,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "ShareButtons",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/share/ShareButtons.tsx",
+        "usesTokens": false,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": true,
+          "hasAria": true,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "WeatherWidget",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/services/WeatherWidget.tsx",
+        "usesTokens": true,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": false,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "QuoteWidget",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/services/QuoteWidget.tsx",
+        "usesTokens": true,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": false,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "QRCodeGenerator",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/services/QRCodeGenerator.tsx",
+        "usesTokens": false,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": true,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "CurrencyConverter",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/services/CurrencyConverter.tsx",
+        "usesTokens": true,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": true,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "BusinessHoursWidget",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/services/BusinessHoursWidget.tsx",
+        "usesTokens": true,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": false,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "StructuredData",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/seo/StructuredData.tsx",
+        "usesTokens": false,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": false,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "HomeSearch",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/search/HomeSearch.tsx",
+        "usesTokens": false,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": false,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "AdvancedSearchPanel",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/search/AdvancedSearchPanel.tsx",
+        "usesTokens": true,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": true,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      },
+      {
+        "name": "AdvancedHomeSearch",
+        "file": "/Users/ahmetbulut/Desktop/karasuEmlakSon/apps/web/components/search/AdvancedHomeSearch.tsx",
+        "usesTokens": true,
+        "customStyles": [],
+        "accessibility": {
+          "hasLabels": true,
+          "hasAria": false,
+          "keyboardNav": false
+        }
+      }
+    ]
+  },
+  "recommendations": [
+    "9 components not using design tokens",
+    "2 components with excessive custom styles",
+    "12 components missing accessibility attributes"
+  ]
+}

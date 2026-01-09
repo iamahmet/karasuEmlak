@@ -1,0 +1,640 @@
+{
+  "summary": {
+    "total": 93,
+    "empty": 10,
+    "withData": 4,
+    "withoutData": 89
+  },
+  "emptyPages": [
+    {
+      "route": "/*/satilik",
+      "type": "static",
+      "issues": [],
+      "dataSource": "listings",
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kiralik",
+      "type": "static",
+      "issues": [],
+      "dataSource": "listings",
+      "dataCount": 0
+    },
+    {
+      "route": "/*/satilik/*",
+      "type": "static",
+      "issues": [],
+      "dataSource": "listings",
+      "dataCount": 0
+    },
+    {
+      "route": "/*/mahalle/*",
+      "type": "static",
+      "issues": [],
+      "dataSource": "neighborhoods",
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kiralik/*",
+      "type": "static",
+      "issues": [],
+      "dataSource": "listings",
+      "dataCount": 0
+    },
+    {
+      "route": "/*/haberler/karasu-emlak",
+      "type": "static",
+      "issues": [],
+      "dataSource": "news_articles",
+      "dataCount": 0
+    },
+    {
+      "route": "/*/haberler/*",
+      "type": "static",
+      "issues": [],
+      "dataSource": "news_articles",
+      "dataCount": 0
+    },
+    {
+      "route": "/*/blog/*",
+      "type": "static",
+      "issues": [],
+      "dataSource": "articles",
+      "dataCount": 0
+    },
+    {
+      "route": "/*/blog/kategori/*",
+      "type": "static",
+      "issues": [],
+      "dataSource": "articles",
+      "dataCount": 0
+    },
+    {
+      "route": "/*/blog/yazar/*",
+      "type": "static",
+      "issues": [],
+      "dataSource": "articles",
+      "dataCount": 0
+    }
+  ],
+  "allPages": [
+    {
+      "route": "/*",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/yorumlar",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/yatirim-hesaplayici",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/sss",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/satilik",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/sakarya-emlak-yatirim-rehberi",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehberler",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehber",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kvkk-basvuru",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kullanim-kosullari",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kocaali-yatirimlik-gayrimenkul",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kocaali-satilik-ev-fiyatlari",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kredi-hesaplayici",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kocaali-emlak-rehberi",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kocaali",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kocaali-satilik-ev",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karsilastir",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasuspor",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kiralik",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-yatirimlik-gayrimenkul",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-vs-kocaali-yatirim",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-yatirimlik-satilik-ev",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-vs-kocaali-yasam",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-satilik-evler",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-vs-kocaali-satilik-ev",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-satilik-ev-fiyatlari",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-satilik-ev",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-merkez-satilik-ev",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-mustakil-satilik-ev",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-mahalleler",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-emlak-ofisi",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-emlak-rehberi",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-denize-yakin-satilik-ev",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu-deprem",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/iletisim",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/ilan-ekle",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/hizmetler",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/haberler",
+      "type": "static",
+      "hasData": true,
+      "dataCount": 1
+    },
+    {
+      "route": "/*/hakkimizda",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/blog",
+      "type": "static",
+      "hasData": true,
+      "dataCount": 1
+    },
+    {
+      "route": "/*/cerez-politikasi",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/arama",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/favorilerim",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/yatirim/roi-hesaplayici",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/yatirim/piyasa-analizi",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/tip/*",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/satilik/*",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehberler/yatirim-yapma",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehberler/tapu-islemleri",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehberler/ev-nasil-satilir",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehberler/kredi-nasil-alinir",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehberler/ev-nasil-kiralanir",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehberler/emlak-vergisi",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehberler/ev-nasil-alinir",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehberler/ekspertiz-sureci",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehber/yatirim",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/mahalle/*",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/listings/new",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kocaali/restoranlar",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kocaali/onemli-telefonlar",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehber/kiralama",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kocaali/nobetci-eczaneler",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kocaali/mahalleler",
+      "type": "static",
+      "hasData": true,
+      "dataCount": 1
+    },
+    {
+      "route": "/*/kocaali/hastaneler",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/rehber/emlak-alim-satim",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kocaali/gezilecek-yerler",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kiralik/*",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/kocaali/ulasim",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu/onemli-telefonlar",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu/restoranlar",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu/ulasim",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu/mahalle-karsilastirma",
+      "type": "static",
+      "hasData": true,
+      "dataCount": 1
+    },
+    {
+      "route": "/*/karasu/hastaneler",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu/nobetci-eczaneler",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu/gezilecek-yerler",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/istatistikler/piyasa-raporlari",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/istatistikler/fiyat-trendleri",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/istatistikler/bolge-analizi",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/ilan/*",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/karasu/*",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/hizmetler/hukuki-destek",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/hizmetler/sigorta",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/hizmetler/danismanlik",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/hizmetler/emlak-degerleme",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/haberler/karasu-emlak",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/hakkimizda/referanslar",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/hakkimizda/kariyer",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/haberler/*",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/hakkimizda/ekibimiz",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/blog/*",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/blog/kategori/*",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    },
+    {
+      "route": "/*/blog/yazar/*",
+      "type": "static",
+      "hasData": 0,
+      "dataCount": 0
+    }
+  ]
+}

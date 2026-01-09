@@ -1,0 +1,3062 @@
+{
+  "scannedAt": "2026-01-01T17:41:00.297Z",
+  "baseUrl": "https://www.karasuemlak.net",
+  "stats": {
+    "total": 381,
+    "byType": {
+      "static": 41,
+      "blog": 237,
+      "listing": 103
+    }
+  },
+  "urls": [
+    {
+      "url": "https://www.karasuemlak.net/",
+      "normalized": "/",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 1,
+      "changefreq": "daily",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog",
+      "normalized": "/blog",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.85,
+      "changefreq": "daily",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-2025-emlak-trendleri",
+      "normalized": "/blog/karasu-2025-emlak-trendleri",
+      "lastmod": "2025-01-18T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-arsa-rehberi",
+      "normalized": "/blog/karasu-arsa-rehberi",
+      "lastmod": "2026-12-01T00:00:00.000Z",
+      "priority": 0.95,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-arsa-yatirimi-firsatlari-ve-stratejileri",
+      "normalized": "/blog/karasu-arsa-yatirimi-firsatlari-ve-stratejileri",
+      "lastmod": "2025-01-28T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-da-yatirim-yapmanin-avantajlari-ve-firsatlari",
+      "normalized": "/blog/karasu-da-yatirim-yapmanin-avantajlari-ve-firsatlari",
+      "lastmod": "2025-12-24T07:39:33.043Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-denize-sifir-evler-avantajlari-ve-fiyatlari",
+      "normalized": "/blog/karasu-denize-sifir-evler-avantajlari-ve-fiyatlari",
+      "lastmod": "2025-01-28T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-denize-yakin-bolgeler-analiz-0",
+      "normalized": "/blog/karasu-denize-yakin-bolgeler-analiz-0",
+      "lastmod": "2025-12-24T08:46:46.515Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-denize-yakin-bolgeler-gelecek-4",
+      "normalized": "/blog/karasu-denize-yakin-bolgeler-gelecek-4",
+      "lastmod": "2025-12-24T08:48:00.682Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-denize-yakin-bolgeler-karsilastirma-2",
+      "normalized": "/blog/karasu-denize-yakin-bolgeler-karsilastirma-2",
+      "lastmod": "2025-12-24T08:47:24.414Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-denize-yakin-bolgeler-rehber-1",
+      "normalized": "/blog/karasu-denize-yakin-bolgeler-rehber-1",
+      "lastmod": "2025-12-24T07:39:40.291Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-denize-yakin-bolgeler-tercih",
+      "normalized": "/blog/karasu-denize-yakin-bolgeler-tercih",
+      "lastmod": "2025-12-24T08:31:09.591Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-denize-yakin-bolgeler-uzman-gorusu-3",
+      "normalized": "/blog/karasu-denize-yakin-bolgeler-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:40.463Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-deprem-2025-ocak-haberi",
+      "normalized": "/blog/karasu-deprem-2025-ocak-haberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-deprem-afad-aciklama",
+      "normalized": "/blog/karasu-deprem-afad-aciklama",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-deprem-artci-depremler",
+      "normalized": "/blog/karasu-deprem-artci-depremler",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-deprem-emlak-piyasasi-etkileri",
+      "normalized": "/blog/karasu-deprem-emlak-piyasasi-etkileri",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-deprem-hazirlik-onlemleri",
+      "normalized": "/blog/karasu-deprem-hazirlik-onlemleri",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-deprem-sonrasi-emlak-guvenligi",
+      "normalized": "/blog/karasu-deprem-sonrasi-emlak-guvenligi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-deprem-sonrasi-yeniden-yapilanma",
+      "normalized": "/blog/karasu-deprem-sonrasi-yeniden-yapilanma",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-deprem-sosyal-medya-reaksiyonlari",
+      "normalized": "/blog/karasu-deprem-sosyal-medya-reaksiyonlari",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-deprem-uzman-gorusleri",
+      "normalized": "/blog/karasu-deprem-uzman-gorusleri",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-deprem-vatandas-reaksiyonlari",
+      "normalized": "/blog/karasu-deprem-vatandas-reaksiyonlari",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-deprem-yapilarin-durumu",
+      "normalized": "/blog/karasu-deprem-yapilarin-durumu",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-alim-satim-sureci-adim-adim",
+      "normalized": "/blog/karasu-emlak-alim-satim-sureci-adim-adim",
+      "lastmod": "2025-01-28T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-alim-satim-sureci-kapsamli-rehberi",
+      "normalized": "/blog/karasu-emlak-alim-satim-sureci-kapsamli-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-alirken-dikkat-analiz-0",
+      "normalized": "/blog/karasu-emlak-alirken-dikkat-analiz-0",
+      "lastmod": "2025-12-24T08:49:03.142Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-alirken-dikkat-edilecekler",
+      "normalized": "/blog/karasu-emlak-alirken-dikkat-edilecekler",
+      "lastmod": "2025-12-24T08:58:09.949Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-alirken-dikkat-gelecek-4",
+      "normalized": "/blog/karasu-emlak-alirken-dikkat-gelecek-4",
+      "lastmod": "2025-12-24T08:50:11.001Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-alirken-dikkat-karsilastirma-2",
+      "normalized": "/blog/karasu-emlak-alirken-dikkat-karsilastirma-2",
+      "lastmod": "2025-12-24T08:49:33.751Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-alirken-dikkat-rehber-1",
+      "normalized": "/blog/karasu-emlak-alirken-dikkat-rehber-1",
+      "lastmod": "2025-12-24T07:39:40.956Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-alirken-dikkat-uzman-gorusu-3",
+      "normalized": "/blog/karasu-emlak-alirken-dikkat-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:41.097Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-danismani-secme-rehberi",
+      "normalized": "/blog/karasu-emlak-danismani-secme-rehberi",
+      "lastmod": "2025-01-28T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-fiyatlari-neden-yukseliyor",
+      "normalized": "/blog/karasu-emlak-fiyatlari-neden-yukseliyor",
+      "lastmod": "2025-12-24T07:39:33.391Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-fiyatlari-neden-yukseliyor-altyap--1",
+      "normalized": "/blog/karasu-emlak-fiyatlari-neden-yukseliyor-altyap--1",
+      "lastmod": "2025-12-24T07:39:34.277Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-fiyatlari-neden-yukseliyor-analiz-0",
+      "normalized": "/blog/karasu-emlak-fiyatlari-neden-yukseliyor-analiz-0",
+      "lastmod": "2025-12-24T08:37:12.718Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-fiyatlari-neden-yukseliyor-gelecek-4",
+      "normalized": "/blog/karasu-emlak-fiyatlari-neden-yukseliyor-gelecek-4",
+      "lastmod": "2025-12-24T08:36:14.184Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-fiyatlari-neden-yukseliyor-karsilastirma-2",
+      "normalized": "/blog/karasu-emlak-fiyatlari-neden-yukseliyor-karsilastirma-2",
+      "lastmod": "2025-12-24T08:35:45.909Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-fiyatlari-neden-yukseliyor-karsilastirma-3",
+      "normalized": "/blog/karasu-emlak-fiyatlari-neden-yukseliyor-karsilastirma-3",
+      "lastmod": "2025-12-24T07:39:34.422Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-fiyatlari-neden-yukseliyor-rehber-1",
+      "normalized": "/blog/karasu-emlak-fiyatlari-neden-yukseliyor-rehber-1",
+      "lastmod": "2025-12-24T07:39:36.147Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-fiyatlari-neden-yukseliyor-sahil-2",
+      "normalized": "/blog/karasu-emlak-fiyatlari-neden-yukseliyor-sahil-2",
+      "lastmod": "2025-12-24T08:33:13.792Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-fiyatlari-neden-yukseliyor-ulasim-4",
+      "normalized": "/blog/karasu-emlak-fiyatlari-neden-yukseliyor-ulasim-4",
+      "lastmod": "2025-12-24T08:33:43.068Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-fiyatlari-neden-yukseliyor-uzman-gorusu-3",
+      "normalized": "/blog/karasu-emlak-fiyatlari-neden-yukseliyor-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:35.864Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-fiyatlari-neden-yukseliyor-yatirimci-5",
+      "normalized": "/blog/karasu-emlak-fiyatlari-neden-yukseliyor-yatirimci-5",
+      "lastmod": "2025-12-24T08:58:46.378Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-haberler-onem-analiz-0",
+      "normalized": "/blog/karasu-emlak-haberler-onem-analiz-0",
+      "lastmod": "2025-12-24T07:39:43.057Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-haberler-onem-gelecek-4",
+      "normalized": "/blog/karasu-emlak-haberler-onem-gelecek-4",
+      "lastmod": "2025-12-24T07:39:43.266Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-haberler-onem-karsilastirma-2",
+      "normalized": "/blog/karasu-emlak-haberler-onem-karsilastirma-2",
+      "lastmod": "2025-12-24T07:39:44.247Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-haberler-onem-rehber-1",
+      "normalized": "/blog/karasu-emlak-haberler-onem-rehber-1",
+      "lastmod": "2025-12-24T08:57:38.571Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-haberler-onem-uzman-gorusu-3",
+      "normalized": "/blog/karasu-emlak-haberler-onem-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:43.747Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-haberleri-neden-onemli",
+      "normalized": "/blog/karasu-emlak-haberleri-neden-onemli",
+      "lastmod": "2025-12-24T08:32:38.055Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-hukuku-yasal-cornerstone-rehberi",
+      "normalized": "/blog/karasu-emlak-hukuku-yasal-cornerstone-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-hukuku-yasal-surecler-rehberi",
+      "normalized": "/blog/karasu-emlak-hukuku-yasal-surecler-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-komisyon-oranlari-ve-masraflar-rehberi",
+      "normalized": "/blog/karasu-emlak-komisyon-oranlari-ve-masraflar-rehberi",
+      "lastmod": "2025-01-28T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-2025-guncel-trendler-ve-firsatlar",
+      "normalized": "/blog/karasu-emlak-piyasasi-2025-guncel-trendler-ve-firsatlar",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-2025-kapsamli-analiz-ve-tahminler",
+      "normalized": "/blog/karasu-emlak-piyasasi-2025-kapsamli-analiz-ve-tahminler",
+      "lastmod": "2025-01-28T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-2025-raporu",
+      "normalized": "/blog/karasu-emlak-piyasasi-2025-raporu",
+      "lastmod": "2025-01-20T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-cornerstone-rehberi",
+      "normalized": "/blog/karasu-emlak-piyasasi-cornerstone-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-faktorler-analiz-0",
+      "normalized": "/blog/karasu-emlak-piyasasi-faktorler-analiz-0",
+      "lastmod": "2025-12-24T08:44:25.538Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-faktorler-gelecek-4",
+      "normalized": "/blog/karasu-emlak-piyasasi-faktorler-gelecek-4",
+      "lastmod": "2025-12-24T08:45:39.017Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-faktorler-karsilastirma-2",
+      "normalized": "/blog/karasu-emlak-piyasasi-faktorler-karsilastirma-2",
+      "lastmod": "2025-12-24T08:44:58.104Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-faktorler-rehber-1",
+      "normalized": "/blog/karasu-emlak-piyasasi-faktorler-rehber-1",
+      "lastmod": "2025-12-24T07:39:39.219Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-faktorler-uzman-gorusu-3",
+      "normalized": "/blog/karasu-emlak-piyasasi-faktorler-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:39.513Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-faktorleri",
+      "normalized": "/blog/karasu-emlak-piyasasi-faktorleri",
+      "lastmod": "2025-12-24T08:30:41.749Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-gelecek",
+      "normalized": "/blog/karasu-emlak-piyasasi-gelecek",
+      "lastmod": "2025-12-24T07:39:34.138Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-gelecek-analiz-0",
+      "normalized": "/blog/karasu-emlak-piyasasi-gelecek-analiz-0",
+      "lastmod": "2025-12-24T08:56:01.527Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-gelecek-gelecek-4",
+      "normalized": "/blog/karasu-emlak-piyasasi-gelecek-gelecek-4",
+      "lastmod": "2025-12-24T08:57:02.191Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-gelecek-karsilastirma-2",
+      "normalized": "/blog/karasu-emlak-piyasasi-gelecek-karsilastirma-2",
+      "lastmod": "2025-12-24T08:56:31.771Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-gelecek-rehber-1",
+      "normalized": "/blog/karasu-emlak-piyasasi-gelecek-rehber-1",
+      "lastmod": "2025-12-24T07:39:42.782Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-gelecek-uzman-gorusu-3",
+      "normalized": "/blog/karasu-emlak-piyasasi-gelecek-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:42.921Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-kapsamli-analiz-ve-gelecek-projeksiyonlari",
+      "normalized": "/blog/karasu-emlak-piyasasi-kapsamli-analiz-ve-gelecek-projeksiyonlari",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-kapsamli-rehber",
+      "normalized": "/blog/karasu-emlak-piyasasi-kapsamli-rehber",
+      "lastmod": "2025-01-15T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-mevsimsel-analiz-0",
+      "normalized": "/blog/karasu-emlak-piyasasi-mevsimsel-analiz-0",
+      "lastmod": "2025-12-24T08:51:24.184Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-mevsimsel-gelecek-4",
+      "normalized": "/blog/karasu-emlak-piyasasi-mevsimsel-gelecek-4",
+      "lastmod": "2025-12-24T08:52:31.650Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-mevsimsel-karsilastirma-2",
+      "normalized": "/blog/karasu-emlak-piyasasi-mevsimsel-karsilastirma-2",
+      "lastmod": "2025-12-24T08:52:00.186Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-mevsimsel-mi",
+      "normalized": "/blog/karasu-emlak-piyasasi-mevsimsel-mi",
+      "lastmod": "2025-12-24T07:39:43.469Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-mevsimsel-rehber-1",
+      "normalized": "/blog/karasu-emlak-piyasasi-mevsimsel-rehber-1",
+      "lastmod": "2025-12-24T07:39:41.566Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-piyasasi-mevsimsel-uzman-gorusu-3",
+      "normalized": "/blog/karasu-emlak-piyasasi-mevsimsel-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:41.703Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-rehberi",
+      "normalized": "/blog/karasu-emlak-rehberi",
+      "lastmod": "2026-11-24T00:00:00.000Z",
+      "priority": 0.95,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-rehberi-2025-yatirim-ve-alim-satim-kilavuzu",
+      "normalized": "/blog/karasu-emlak-rehberi-2025-yatirim-ve-alim-satim-kilavuzu",
+      "lastmod": "2025-12-24T07:39:32.958Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-sektoru-2025-2026-analizi",
+      "normalized": "/blog/karasu-emlak-sektoru-2025-2026-analizi",
+      "lastmod": "2025-01-25T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-talebi-artis-analiz-0",
+      "normalized": "/blog/karasu-emlak-talebi-artis-analiz-0",
+      "lastmod": "2025-12-24T08:53:45.461Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-talebi-artis-gelecek-4",
+      "normalized": "/blog/karasu-emlak-talebi-artis-gelecek-4",
+      "lastmod": "2025-12-24T08:54:47.861Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-talebi-artis-karsilastirma-2",
+      "normalized": "/blog/karasu-emlak-talebi-artis-karsilastirma-2",
+      "lastmod": "2025-12-24T08:54:17.024Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-talebi-artis-nedenleri",
+      "normalized": "/blog/karasu-emlak-talebi-artis-nedenleri",
+      "lastmod": "2025-12-24T07:39:34.005Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-talebi-artis-rehber-1",
+      "normalized": "/blog/karasu-emlak-talebi-artis-rehber-1",
+      "lastmod": "2025-12-24T07:39:42.184Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-talebi-artis-uzman-gorusu-3",
+      "normalized": "/blog/karasu-emlak-talebi-artis-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:42.316Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-trendleri-2026",
+      "normalized": "/blog/karasu-emlak-trendleri-2026",
+      "lastmod": "2025-12-20T00:00:00.000Z",
+      "priority": 0.95,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-yatirim-getiri-cornerstone-rehberi",
+      "normalized": "/blog/karasu-emlak-yatirim-getiri-cornerstone-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-yatirimi-en-iyi-mahalleler-2025",
+      "normalized": "/blog/karasu-emlak-yatirimi-en-iyi-mahalleler-2025",
+      "lastmod": "2025-01-28T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-yatirimi-getiri-oranlari-ve-yatirim-stratejileri",
+      "normalized": "/blog/karasu-emlak-yatirimi-getiri-oranlari-ve-yatirim-stratejileri",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-emlak-yatirimi-riskler-firsatlar-ve-uzun-vadeli-stratejiler",
+      "normalized": "/blog/karasu-emlak-yatirimi-riskler-firsatlar-ve-uzun-vadeli-stratejiler",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-ev-fiyatlari-rehberi",
+      "normalized": "/blog/karasu-ev-fiyatlari-rehberi",
+      "lastmod": "2025-01-20T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-kahvalti-kulturu-ve-en-iyi-kahvalti-mekanlari",
+      "normalized": "/blog/karasu-kahvalti-kulturu-ve-en-iyi-kahvalti-mekanlari",
+      "lastmod": "2025-12-15T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-kira-getirisi-rehberi",
+      "normalized": "/blog/karasu-kira-getirisi-rehberi",
+      "lastmod": "2026-12-02T00:00:00.000Z",
+      "priority": 0.95,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-kiralik-ev-arayanlar-icin-kapsamli-rehber",
+      "normalized": "/blog/karasu-kiralik-ev-arayanlar-icin-kapsamli-rehber",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-kiralik-ev-bulma-ipuclari",
+      "normalized": "/blog/karasu-kiralik-ev-bulma-ipuclari",
+      "lastmod": "2025-01-28T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-kiralik-ev-piyasasi-detayli-analiz-ve-kira-trendleri",
+      "normalized": "/blog/karasu-kiralik-ev-piyasasi-detayli-analiz-ve-kira-trendleri",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-fiyatlari-etkenler",
+      "normalized": "/blog/karasu-konut-fiyatlari-etkenler",
+      "lastmod": "2025-12-24T07:39:34.555Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-fiyatlari-etkenler-analiz-0",
+      "normalized": "/blog/karasu-konut-fiyatlari-etkenler-analiz-0",
+      "lastmod": "2025-12-24T07:39:41.839Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-fiyatlari-etkenler-gelecek-4",
+      "normalized": "/blog/karasu-konut-fiyatlari-etkenler-gelecek-4",
+      "lastmod": "2025-12-24T07:39:42.048Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-fiyatlari-etkenler-karsilastirma-2",
+      "normalized": "/blog/karasu-konut-fiyatlari-etkenler-karsilastirma-2",
+      "lastmod": "2025-12-24T07:39:44.103Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-fiyatlari-etkenler-rehber-1",
+      "normalized": "/blog/karasu-konut-fiyatlari-etkenler-rehber-1",
+      "lastmod": "2025-12-24T08:53:10.240Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-fiyatlari-etkenler-uzman-gorusu-3",
+      "normalized": "/blog/karasu-konut-fiyatlari-etkenler-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:42.584Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-talebi-donemler-analiz-0",
+      "normalized": "/blog/karasu-konut-talebi-donemler-analiz-0",
+      "lastmod": "2025-12-24T08:42:14.319Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-talebi-donemler-gelecek-4",
+      "normalized": "/blog/karasu-konut-talebi-donemler-gelecek-4",
+      "lastmod": "2025-12-24T08:43:18.211Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-talebi-donemler-karsilastirma-2",
+      "normalized": "/blog/karasu-konut-talebi-donemler-karsilastirma-2",
+      "lastmod": "2025-12-24T08:42:47.721Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-talebi-donemler-rehber-1",
+      "normalized": "/blog/karasu-konut-talebi-donemler-rehber-1",
+      "lastmod": "2025-12-24T07:39:37.694Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-talebi-donemler-uzman-gorusu-3",
+      "normalized": "/blog/karasu-konut-talebi-donemler-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:38.032Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-talebi-donemleri",
+      "normalized": "/blog/karasu-konut-talebi-donemleri",
+      "lastmod": "2025-12-24T08:30:13.781Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-tipleri-analiz-0",
+      "normalized": "/blog/karasu-konut-tipleri-analiz-0",
+      "lastmod": "2025-12-24T07:39:39.738Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-tipleri-cesitlenme",
+      "normalized": "/blog/karasu-konut-tipleri-cesitlenme",
+      "lastmod": "2025-12-24T07:39:33.667Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-tipleri-gelecek-4",
+      "normalized": "/blog/karasu-konut-tipleri-gelecek-4",
+      "lastmod": "2025-12-24T07:39:40.072Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-tipleri-karsilastirma-2",
+      "normalized": "/blog/karasu-konut-tipleri-karsilastirma-2",
+      "lastmod": "2025-12-24T07:39:43.884Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-tipleri-rehber-1",
+      "normalized": "/blog/karasu-konut-tipleri-rehber-1",
+      "lastmod": "2025-12-24T08:46:14.451Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-konut-tipleri-uzman-gorusu-3",
+      "normalized": "/blog/karasu-konut-tipleri-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:40.747Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-mahalleleri-emlak-firsatlari-kapsamli-rehberi",
+      "normalized": "/blog/karasu-mahalleleri-emlak-firsatlari-kapsamli-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-mahalleleri-rehberi",
+      "normalized": "/blog/karasu-mahalleleri-rehberi",
+      "lastmod": "2026-11-26T00:00:00.000Z",
+      "priority": 0.95,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-mahalleleri-yasam-cornerstone-rehberi",
+      "normalized": "/blog/karasu-mahalleleri-yasam-cornerstone-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-onemli-mahalleler",
+      "normalized": "/blog/karasu-onemli-mahalleler",
+      "lastmod": "2025-12-24T07:39:33.113Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-onemli-mahalleler-analiz-0",
+      "normalized": "/blog/karasu-onemli-mahalleler-analiz-0",
+      "lastmod": "2025-12-24T08:37:47.078Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-onemli-mahalleler-gelecek-4",
+      "normalized": "/blog/karasu-onemli-mahalleler-gelecek-4",
+      "lastmod": "2025-12-24T08:38:55.262Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-onemli-mahalleler-karsilastirma-2",
+      "normalized": "/blog/karasu-onemli-mahalleler-karsilastirma-2",
+      "lastmod": "2025-12-24T08:38:25.498Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-onemli-mahalleler-rehber-1",
+      "normalized": "/blog/karasu-onemli-mahalleler-rehber-1",
+      "lastmod": "2025-12-24T07:39:36.358Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-onemli-mahalleler-uzman-gorusu-3",
+      "normalized": "/blog/karasu-onemli-mahalleler-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:36.509Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-sahil-duzenlemeleri-konut-talebi",
+      "normalized": "/blog/karasu-sahil-duzenlemeleri-konut-talebi",
+      "lastmod": "2025-12-24T07:39:33.934Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-sahil-duzenlemeleri-konut-talebi-analiz-0",
+      "normalized": "/blog/karasu-sahil-duzenlemeleri-konut-talebi-analiz-0",
+      "lastmod": "2025-12-24T07:39:37.292Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-sahil-duzenlemeleri-konut-talebi-gelecek-4",
+      "normalized": "/blog/karasu-sahil-duzenlemeleri-konut-talebi-gelecek-4",
+      "lastmod": "2025-12-24T07:39:37.521Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-sahil-duzenlemeleri-konut-talebi-karsilastirma-2",
+      "normalized": "/blog/karasu-sahil-duzenlemeleri-konut-talebi-karsilastirma-2",
+      "lastmod": "2025-12-24T07:39:44.456Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-sahil-duzenlemeleri-konut-talebi-rehber-1",
+      "normalized": "/blog/karasu-sahil-duzenlemeleri-konut-talebi-rehber-1",
+      "lastmod": "2025-12-24T08:41:38.366Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-sahil-duzenlemeleri-konut-talebi-uzman-gorusu-3",
+      "normalized": "/blog/karasu-sahil-duzenlemeleri-konut-talebi-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:38.685Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-satilik-daire-rehberi-2025",
+      "normalized": "/blog/karasu-satilik-daire-rehberi-2025",
+      "lastmod": "2025-01-15T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-satilik-ev-fiyatlari-2025-detayli-analiz",
+      "normalized": "/blog/karasu-satilik-ev-fiyatlari-2025-detayli-analiz",
+      "lastmod": "2025-01-28T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-satilik-ev-rehberi",
+      "normalized": "/blog/karasu-satilik-ev-rehberi",
+      "lastmod": "2026-11-18T00:00:00.000Z",
+      "priority": 0.95,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-satilik-ev-rehberi-fiyatlar-mahalleler-ve-secenekler",
+      "normalized": "/blog/karasu-satilik-ev-rehberi-fiyatlar-mahalleler-ve-secenekler",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-satilik-koy-evleri-rehberi",
+      "normalized": "/blog/karasu-satilik-koy-evleri-rehberi",
+      "lastmod": "2025-01-15T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-satilik-mustakil-ev-rehberi",
+      "normalized": "/blog/karasu-satilik-mustakil-ev-rehberi",
+      "lastmod": "2025-01-15T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-satilik-yazlik-rehberi-detayli",
+      "normalized": "/blog/karasu-satilik-yazlik-rehberi-detayli",
+      "lastmod": "2025-01-15T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-turistik-yerler-rehberi",
+      "normalized": "/blog/karasu-turistik-yerler-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-ulasim-projeleri-emlak-analiz-0",
+      "normalized": "/blog/karasu-ulasim-projeleri-emlak-analiz-0",
+      "lastmod": "2025-12-24T07:39:40.607Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-ulasim-projeleri-emlak-etkisi",
+      "normalized": "/blog/karasu-ulasim-projeleri-emlak-etkisi",
+      "lastmod": "2025-12-24T07:39:33.801Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-ulasim-projeleri-emlak-gelecek-4",
+      "normalized": "/blog/karasu-ulasim-projeleri-emlak-gelecek-4",
+      "lastmod": "2025-12-24T07:39:40.815Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-ulasim-projeleri-emlak-karsilastirma-2",
+      "normalized": "/blog/karasu-ulasim-projeleri-emlak-karsilastirma-2",
+      "lastmod": "2025-12-24T07:39:43.962Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-ulasim-projeleri-emlak-rehber-1",
+      "normalized": "/blog/karasu-ulasim-projeleri-emlak-rehber-1",
+      "lastmod": "2025-12-24T08:48:31.087Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-ulasim-projeleri-emlak-uzman-gorusu-3",
+      "normalized": "/blog/karasu-ulasim-projeleri-emlak-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:41.364Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-villa-rehberi",
+      "normalized": "/blog/karasu-villa-rehberi",
+      "lastmod": "2026-11-25T00:00:00.000Z",
+      "priority": 0.95,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yapi-guvenligi-rehberi",
+      "normalized": "/blog/karasu-yapi-guvenligi-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasam-deneyimi",
+      "normalized": "/blog/karasu-yasam-deneyimi",
+      "lastmod": "2025-12-24T07:39:33.531Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasam-deneyimi-analiz-0",
+      "normalized": "/blog/karasu-yasam-deneyimi-analiz-0",
+      "lastmod": "2025-12-24T07:39:38.343Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasam-deneyimi-gelecek-4",
+      "normalized": "/blog/karasu-yasam-deneyimi-gelecek-4",
+      "lastmod": "2025-12-24T07:39:38.865Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasam-deneyimi-karsilastirma-2",
+      "normalized": "/blog/karasu-yasam-deneyimi-karsilastirma-2",
+      "lastmod": "2025-12-24T07:39:43.817Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasam-deneyimi-rehber-1",
+      "normalized": "/blog/karasu-yasam-deneyimi-rehber-1",
+      "lastmod": "2025-12-24T08:43:51.329Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasam-deneyimi-uzman-gorusu-3",
+      "normalized": "/blog/karasu-yasam-deneyimi-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:39.985Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasam-rehberi-2025",
+      "normalized": "/blog/karasu-yasam-rehberi-2025",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasamak-isteyenler-mahalle-tercihleri",
+      "normalized": "/blog/karasu-yasamak-isteyenler-mahalle-tercihleri",
+      "lastmod": "2025-12-24T08:32:09.244Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasamak-isteyenler-mahalleler-analiz-0",
+      "normalized": "/blog/karasu-yasamak-isteyenler-mahalleler-analiz-0",
+      "lastmod": "2025-12-24T07:39:42.450Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasamak-isteyenler-mahalleler-gelecek-4",
+      "normalized": "/blog/karasu-yasamak-isteyenler-mahalleler-gelecek-4",
+      "lastmod": "2025-12-24T07:39:42.649Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasamak-isteyenler-mahalleler-karsilastirma-2",
+      "normalized": "/blog/karasu-yasamak-isteyenler-mahalleler-karsilastirma-2",
+      "lastmod": "2025-12-24T07:39:44.168Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasamak-isteyenler-mahalleler-rehber-1",
+      "normalized": "/blog/karasu-yasamak-isteyenler-mahalleler-rehber-1",
+      "lastmod": "2025-12-24T08:55:25.327Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yasamak-isteyenler-mahalleler-uzman-gorusu-3",
+      "normalized": "/blog/karasu-yasamak-isteyenler-mahalleler-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:43.195Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-rehberi",
+      "normalized": "/blog/karasu-yatirim-rehberi",
+      "lastmod": "2026-12-10T00:00:00.000Z",
+      "priority": 0.95,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-uygun-bolge-mi",
+      "normalized": "/blog/karasu-yatirim-uygun-bolge-mi",
+      "lastmod": "2025-12-24T07:39:33.252Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-uygun-bolge-mi-altyap--1",
+      "normalized": "/blog/karasu-yatirim-uygun-bolge-mi-altyap--1",
+      "lastmod": "2025-12-24T08:35:18.178Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-uygun-bolge-mi-analiz-0",
+      "normalized": "/blog/karasu-yatirim-uygun-bolge-mi-analiz-0",
+      "lastmod": "2025-12-24T07:39:35.998Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-uygun-bolge-mi-gelecek-4",
+      "normalized": "/blog/karasu-yatirim-uygun-bolge-mi-gelecek-4",
+      "lastmod": "2025-12-24T07:39:36.211Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-uygun-bolge-mi-karsilastirma-2",
+      "normalized": "/blog/karasu-yatirim-uygun-bolge-mi-karsilastirma-2",
+      "lastmod": "2025-12-24T07:39:43.605Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-uygun-bolge-mi-karsilastirma-3",
+      "normalized": "/blog/karasu-yatirim-uygun-bolge-mi-karsilastirma-3",
+      "lastmod": "2025-12-24T08:34:12.205Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-uygun-bolge-mi-rehber-1",
+      "normalized": "/blog/karasu-yatirim-uygun-bolge-mi-rehber-1",
+      "lastmod": "2025-12-24T08:36:43.528Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-uygun-bolge-mi-sahil-2",
+      "normalized": "/blog/karasu-yatirim-uygun-bolge-mi-sahil-2",
+      "lastmod": "2025-12-24T07:39:34.627Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-uygun-bolge-mi-ulasim-4",
+      "normalized": "/blog/karasu-yatirim-uygun-bolge-mi-ulasim-4",
+      "lastmod": "2025-12-24T07:39:34.773Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-uygun-bolge-mi-uzman-gorusu-3",
+      "normalized": "/blog/karasu-yatirim-uygun-bolge-mi-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:36.815Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-uygun-bolge-mi-yatirimci-5",
+      "normalized": "/blog/karasu-yatirim-uygun-bolge-mi-yatirimci-5",
+      "lastmod": "2025-12-24T08:34:41.499Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirim-yapmak-kapsamli-rehberi",
+      "normalized": "/blog/karasu-yatirim-yapmak-kapsamli-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirimcilar-bolgeler-analiz-0",
+      "normalized": "/blog/karasu-yatirimcilar-bolgeler-analiz-0",
+      "lastmod": "2025-12-24T07:39:41.231Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirimcilar-bolgeler-gelecek-4",
+      "normalized": "/blog/karasu-yatirimcilar-bolgeler-gelecek-4",
+      "lastmod": "2025-12-24T07:39:41.430Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirimcilar-bolgeler-karsilastirma-2",
+      "normalized": "/blog/karasu-yatirimcilar-bolgeler-karsilastirma-2",
+      "lastmod": "2025-12-24T07:39:44.034Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirimcilar-bolgeler-rehber-1",
+      "normalized": "/blog/karasu-yatirimcilar-bolgeler-rehber-1",
+      "lastmod": "2025-12-24T08:50:48.146Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirimcilar-bolgeler-uzman-gorusu-3",
+      "normalized": "/blog/karasu-yatirimcilar-bolgeler-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:41.975Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yatirimcilar-hangi-bolgeleri-izliyor",
+      "normalized": "/blog/karasu-yatirimcilar-hangi-bolgeleri-izliyor",
+      "lastmod": "2025-12-24T08:31:36.859Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yazlik-ev-yatirimi-kapsamli-rehberi",
+      "normalized": "/blog/karasu-yazlik-ev-yatirimi-kapsamli-rehberi",
+      "lastmod": "2025-01-28T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yazlik-fiyatlari-rehberi",
+      "normalized": "/blog/karasu-yazlik-fiyatlari-rehberi",
+      "lastmod": "2026-12-09T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yazlik-mi-surekli-yasam-mi",
+      "normalized": "/blog/karasu-yazlik-mi-surekli-yasam-mi",
+      "lastmod": "2025-12-24T08:29:45.055Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yazlik-mi-surekli-yasam-mi-analiz-0",
+      "normalized": "/blog/karasu-yazlik-mi-surekli-yasam-mi-analiz-0",
+      "lastmod": "2025-12-24T07:39:36.663Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yazlik-mi-surekli-yasam-mi-gelecek-4",
+      "normalized": "/blog/karasu-yazlik-mi-surekli-yasam-mi-gelecek-4",
+      "lastmod": "2025-12-24T07:39:36.881Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yazlik-mi-surekli-yasam-mi-karsilastirma-2",
+      "normalized": "/blog/karasu-yazlik-mi-surekli-yasam-mi-karsilastirma-2",
+      "lastmod": "2025-12-24T07:39:43.677Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yazlik-mi-surekli-yasam-mi-rehber-1",
+      "normalized": "/blog/karasu-yazlik-mi-surekli-yasam-mi-rehber-1",
+      "lastmod": "2025-12-24T08:39:26.458Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yazlik-mi-surekli-yasam-mi-uzman-gorusu-3",
+      "normalized": "/blog/karasu-yazlik-mi-surekli-yasam-mi-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:37.441Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yazlik-rehberi",
+      "normalized": "/blog/karasu-yazlik-rehberi",
+      "lastmod": "2026-11-18T00:00:00.000Z",
+      "priority": 0.95,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yeme-icme-rehberi-yerel-lezzetler-ve-oneriler",
+      "normalized": "/blog/karasu-yeme-icme-rehberi-yerel-lezzetler-ve-oneriler",
+      "lastmod": "2025-12-15T00:00:00.000Z",
+      "priority": 0.95,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yeni-projeler-emlak-etkisi",
+      "normalized": "/blog/karasu-yeni-projeler-emlak-etkisi",
+      "lastmod": "2025-12-24T08:29:16.973Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yeni-projeler-emlak-etkisi-analiz-0",
+      "normalized": "/blog/karasu-yeni-projeler-emlak-etkisi-analiz-0",
+      "lastmod": "2025-12-24T08:39:57.326Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yeni-projeler-emlak-etkisi-gelecek-4",
+      "normalized": "/blog/karasu-yeni-projeler-emlak-etkisi-gelecek-4",
+      "lastmod": "2025-12-24T08:41:05.414Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yeni-projeler-emlak-etkisi-karsilastirma-2",
+      "normalized": "/blog/karasu-yeni-projeler-emlak-etkisi-karsilastirma-2",
+      "lastmod": "2025-12-24T08:40:30.104Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yeni-projeler-emlak-etkisi-rehber-1",
+      "normalized": "/blog/karasu-yeni-projeler-emlak-etkisi-rehber-1",
+      "lastmod": "2025-12-24T07:39:37.016Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasu-yeni-projeler-emlak-etkisi-uzman-gorusu-3",
+      "normalized": "/blog/karasu-yeni-projeler-emlak-etkisi-uzman-gorusu-3",
+      "lastmod": "2025-12-24T07:39:37.153Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasuda-deniz-manzarali-restoranlar",
+      "normalized": "/blog/karasuda-deniz-manzarali-restoranlar",
+      "lastmod": "2025-12-15T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasuda-en-iyi-balik-restoranlari",
+      "normalized": "/blog/karasuda-en-iyi-balik-restoranlari",
+      "lastmod": "2025-12-15T00:00:00.000Z",
+      "priority": 0.95,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasuda-ev-almak-cornerstone-rehberi",
+      "normalized": "/blog/karasuda-ev-almak-cornerstone-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasuda-satilik-ev-almak-adim-adim-rehber-ve-dikkat-edilmesi-gerekenler",
+      "normalized": "/blog/karasuda-satilik-ev-almak-adim-adim-rehber-ve-dikkat-edilmesi-gerekenler",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/karasuspor-takim-otobusu-taslama-haberi",
+      "normalized": "/blog/karasuspor-takim-otobusu-taslama-haberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-emlak-fiyatlari",
+      "normalized": "/blog/kocaali-emlak-fiyatlari",
+      "lastmod": "2025-12-24T07:39:35.044Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-emlak-fiyatlari-altyapi-projeleri",
+      "normalized": "/blog/kocaali-emlak-fiyatlari-altyapi-projeleri",
+      "lastmod": "2025-12-24T07:39:44.315Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-emlak-fiyatlari-karasu-karsilastirmasi",
+      "normalized": "/blog/kocaali-emlak-fiyatlari-karasu-karsilastirmasi",
+      "lastmod": "2025-12-24T07:39:35.312Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-emlak-fiyatlari-yasam-kalitesi-etkisi",
+      "normalized": "/blog/kocaali-emlak-fiyatlari-yasam-kalitesi-etkisi",
+      "lastmod": "2025-12-24T07:39:35.245Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-emlak-fiyatlari-yatirim-potansiyeli",
+      "normalized": "/blog/kocaali-emlak-fiyatlari-yatirim-potansiyeli",
+      "lastmod": "2025-12-24T07:39:35.176Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-emlak-fiyatlari-yerel-piyasa-analizi",
+      "normalized": "/blog/kocaali-emlak-fiyatlari-yerel-piyasa-analizi",
+      "lastmod": "2025-12-24T07:39:35.588Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-emlak-piyasasi-2025-trendleri",
+      "normalized": "/blog/kocaali-emlak-piyasasi-2025-trendleri",
+      "lastmod": "2025-12-24T08:50:03.160Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-emlak-rehberi",
+      "normalized": "/blog/kocaali-emlak-rehberi",
+      "lastmod": "2025-12-24T07:39:34.910Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-emlak-satilik-kiralik-rehberi",
+      "normalized": "/blog/kocaali-emlak-satilik-kiralik-rehberi",
+      "lastmod": "2025-12-24T08:44:09.834Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-karasu-emlak-piyasasi-karsilastirma",
+      "normalized": "/blog/kocaali-karasu-emlak-piyasasi-karsilastirma",
+      "lastmod": "2025-12-24T08:51:55.430Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-kiralik-daire-merkez-sahil",
+      "normalized": "/blog/kocaali-kiralik-daire-merkez-sahil",
+      "lastmod": "2025-12-24T08:49:00.975Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-kiralik-ev-fiyatlari-aylik-kira",
+      "normalized": "/blog/kocaali-kiralik-ev-fiyatlari-aylik-kira",
+      "lastmod": "2025-12-24T08:48:28.216Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-kiralik-evler-daire-villa-yazlik",
+      "normalized": "/blog/kocaali-kiralik-evler-daire-villa-yazlik",
+      "lastmod": "2025-12-24T08:45:07.843Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-kiralik-villa-yazlik-surekli-yasam",
+      "normalized": "/blog/kocaali-kiralik-villa-yazlik-surekli-yasam",
+      "lastmod": "2025-12-24T08:49:32.424Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-kiralik-yazlik-tatil-yaz-sezonu",
+      "normalized": "/blog/kocaali-kiralik-yazlik-tatil-yaz-sezonu",
+      "lastmod": "2025-12-24T08:49:48.382Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-mahalleleri-emlak-fiyatlari-yasam",
+      "normalized": "/blog/kocaali-mahalleleri-emlak-fiyatlari-yasam",
+      "lastmod": "2025-12-24T08:50:35.844Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-onemli-mahalleler",
+      "normalized": "/blog/kocaali-onemli-mahalleler",
+      "lastmod": "2025-12-24T07:39:34.978Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-satilik-arsa-yatirim-insaat",
+      "normalized": "/blog/kocaali-satilik-arsa-yatirim-insaat",
+      "lastmod": "2025-12-24T08:47:47.063Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-satilik-daire-ilanlari-mahalleler",
+      "normalized": "/blog/kocaali-satilik-daire-ilanlari-mahalleler",
+      "lastmod": "2025-12-24T08:46:10.526Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-satilik-ev-fiyatlari-2025",
+      "normalized": "/blog/kocaali-satilik-ev-fiyatlari-2025",
+      "lastmod": "2025-12-24T08:45:42.101Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-satilik-evler-fiyatlar-mahalleler",
+      "normalized": "/blog/kocaali-satilik-evler-fiyatlar-mahalleler",
+      "lastmod": "2025-12-24T08:44:41.249Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-satilik-villa-denize-yakin",
+      "normalized": "/blog/kocaali-satilik-villa-denize-yakin",
+      "lastmod": "2025-12-24T08:46:43.886Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-satilik-yazlik-sahil-hatti",
+      "normalized": "/blog/kocaali-satilik-yazlik-sahil-hatti",
+      "lastmod": "2025-12-24T08:47:17.303Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-yasam-emlak-secenekleri-maliyetler",
+      "normalized": "/blog/kocaali-yasam-emlak-secenekleri-maliyetler",
+      "lastmod": "2025-12-24T08:52:27.373Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-yatirim-uygun-mi",
+      "normalized": "/blog/kocaali-yatirim-uygun-mi",
+      "lastmod": "2025-12-24T07:39:44.525Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-yatirim-uygun-mi-altyapi-projeleri",
+      "normalized": "/blog/kocaali-yatirim-uygun-mi-altyapi-projeleri",
+      "lastmod": "2025-12-24T07:39:44.591Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-yatirim-uygun-mi-karasu-karsilastirmasi",
+      "normalized": "/blog/kocaali-yatirim-uygun-mi-karasu-karsilastirmasi",
+      "lastmod": "2025-12-24T07:39:35.726Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-yatirim-uygun-mi-yasam-kalitesi-etkisi",
+      "normalized": "/blog/kocaali-yatirim-uygun-mi-yasam-kalitesi-etkisi",
+      "lastmod": "2025-12-24T07:39:43.333Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-yatirim-uygun-mi-yatirim-potansiyeli",
+      "normalized": "/blog/kocaali-yatirim-uygun-mi-yatirim-potansiyeli",
+      "lastmod": "2025-12-24T07:39:35.450Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-yatirim-uygun-mi-yerel-piyasa-analizi",
+      "normalized": "/blog/kocaali-yatirim-uygun-mi-yerel-piyasa-analizi",
+      "lastmod": "2025-12-24T07:39:35.381Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-yatirim-yapmak-emlak-firsatlari",
+      "normalized": "/blog/kocaali-yatirim-yapmak-emlak-firsatlari",
+      "lastmod": "2025-12-24T08:51:18.286Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-yazlik-mi-surekli-yasam-mi",
+      "normalized": "/blog/kocaali-yazlik-mi-surekli-yasam-mi",
+      "lastmod": "2025-12-24T07:39:44.387Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/kocaali-yeni-projeler-emlak-etkisi",
+      "normalized": "/blog/kocaali-yeni-projeler-emlak-etkisi",
+      "lastmod": "2025-12-24T07:39:35.518Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/sakarya-karasu-ekonomi-ve-yatirim-rehberi",
+      "normalized": "/blog/sakarya-karasu-ekonomi-ve-yatirim-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/sakarya-karasu-emlak-sektoru-ekonomik-dinamikler-ve-yatirim-potansiyeli",
+      "normalized": "/blog/sakarya-karasu-emlak-sektoru-ekonomik-dinamikler-ve-yatirim-potansiyeli",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/sakarya-karasu-tarihi-ve-kultur-rehberi",
+      "normalized": "/blog/sakarya-karasu-tarihi-ve-kultur-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/sakarya-karasu-ulasim-rehberi",
+      "normalized": "/blog/sakarya-karasu-ulasim-rehberi",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/sakarya-karasuda-yasam-denize-sifir-hayatin-avantajlari",
+      "normalized": "/blog/sakarya-karasuda-yasam-denize-sifir-hayatin-avantajlari",
+      "lastmod": "2025-01-27T00:00:00.000Z",
+      "priority": 0.85,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/sakarya-karasuya-gitmek-icin-10-neden",
+      "normalized": "/blog/sakarya-karasuya-gitmek-icin-10-neden",
+      "lastmod": "2025-12-15T00:00:00.000Z",
+      "priority": 0.95,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/blog/satilik-gayrimenkul-rehberi",
+      "normalized": "/blog/satilik-gayrimenkul-rehberi",
+      "lastmod": "2025-01-15T00:00:00.000Z",
+      "priority": 0.9,
+      "changefreq": "monthly",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.karasuemlak.net/cerez-politikasi",
+      "normalized": "/cerez-politikasi",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.5,
+      "changefreq": "yearly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/gizlilik-politikasi",
+      "normalized": "/gizlilik-politikasi",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.5,
+      "changefreq": "yearly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/haberler",
+      "normalized": "/haberler",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.85,
+      "changefreq": "daily",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/hakkimizda",
+      "normalized": "/hakkimizda",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.8,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/arsa/karasu-aziziye-satlk-arsa-1765845867382-0",
+      "normalized": "/ilan/arsa/karasu-aziziye-satlk-arsa-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/arsa/karasu-merkez-satlk-arsa-1765845867382-0",
+      "normalized": "/ilan/arsa/karasu-merkez-satlk-arsa-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/arsa/karasu-merkez-satlk-arsa-1765845867382-1",
+      "normalized": "/ilan/arsa/karasu-merkez-satlk-arsa-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/arsa/karasu-sahil-satlk-arsa-1765845867382-0",
+      "normalized": "/ilan/arsa/karasu-sahil-satlk-arsa-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/arsa/karasu-sahil-satlk-arsa-1765845867382-1",
+      "normalized": "/ilan/arsa/karasu-sahil-satlk-arsa-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/arsa/karasu-sahil-satlk-arsa-1765845867382-2",
+      "normalized": "/ilan/arsa/karasu-sahil-satlk-arsa-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/arsa/karasu-yal-satlk-arsa-1765845867382-0",
+      "normalized": "/ilan/arsa/karasu-yal-satlk-arsa-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/arsa/karasu-yal-satlk-arsa-1765845867382-1",
+      "normalized": "/ilan/arsa/karasu-yal-satlk-arsa-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-atatrk-satlk-11-daire-1765845867382-0",
+      "normalized": "/ilan/daire/karasu-atatrk-satlk-11-daire-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-atatrk-satlk-11-daire-1765845867382-1",
+      "normalized": "/ilan/daire/karasu-atatrk-satlk-11-daire-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-aziziye-kiralk-11-daire-1765845867382-0",
+      "normalized": "/ilan/daire/karasu-aziziye-kiralk-11-daire-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-aziziye-kiralk-21-daire-1765845867382-1",
+      "normalized": "/ilan/daire/karasu-aziziye-kiralk-21-daire-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-aziziye-satlk-21-daire-1765845867382-0",
+      "normalized": "/ilan/daire/karasu-aziziye-satlk-21-daire-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-aziziye-satlk-21-daire-1765845867382-1",
+      "normalized": "/ilan/daire/karasu-aziziye-satlk-21-daire-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-aziziye-satlk-21-daire-1765845867382-2",
+      "normalized": "/ilan/daire/karasu-aziziye-satlk-21-daire-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-cumhuriyet-satlk-21-daire-1765845867382-2",
+      "normalized": "/ilan/daire/karasu-cumhuriyet-satlk-21-daire-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-cumhuriyet-satlk-41-daire-1765845867382-0",
+      "normalized": "/ilan/daire/karasu-cumhuriyet-satlk-41-daire-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-cumhuriyet-satlk-41-daire-1765845867382-1",
+      "normalized": "/ilan/daire/karasu-cumhuriyet-satlk-41-daire-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-denize-sifir-satilik-3-1-daire",
+      "normalized": "/ilan/daire/karasu-denize-sifir-satilik-3-1-daire",
+      "lastmod": "2025-12-24T11:12:07.469Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-kiralik-2-1-daire",
+      "normalized": "/ilan/daire/karasu-merkez-kiralik-2-1-daire",
+      "lastmod": "2025-12-24T11:12:07.469Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-kiralk-11-daire-1765845867381-0",
+      "normalized": "/ilan/daire/karasu-merkez-kiralk-11-daire-1765845867381-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-kiralk-11-daire-1765845867381-1",
+      "normalized": "/ilan/daire/karasu-merkez-kiralk-11-daire-1765845867381-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-kiralk-11-daire-1765845867381-2",
+      "normalized": "/ilan/daire/karasu-merkez-kiralk-11-daire-1765845867381-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-kiralk-11-daire-1765845867381-4",
+      "normalized": "/ilan/daire/karasu-merkez-kiralk-11-daire-1765845867381-4",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-kiralk-21-daire-1765845867381-3",
+      "normalized": "/ilan/daire/karasu-merkez-kiralk-21-daire-1765845867381-3",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-kiralk-21-daire-1765845867381-5",
+      "normalized": "/ilan/daire/karasu-merkez-kiralk-21-daire-1765845867381-5",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-satlk-11-daire-1765845867380-1",
+      "normalized": "/ilan/daire/karasu-merkez-satlk-11-daire-1765845867380-1",
+      "lastmod": "2025-12-24T11:12:07.469Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-satlk-21-daire-1765845867381-3",
+      "normalized": "/ilan/daire/karasu-merkez-satlk-21-daire-1765845867381-3",
+      "lastmod": "2025-12-24T11:12:07.469Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-satlk-21-daire-1765845867381-4",
+      "normalized": "/ilan/daire/karasu-merkez-satlk-21-daire-1765845867381-4",
+      "lastmod": "2025-12-24T11:12:07.469Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-satlk-31-daire-1765845867380-0",
+      "normalized": "/ilan/daire/karasu-merkez-satlk-31-daire-1765845867380-0",
+      "lastmod": "2025-12-24T11:12:07.469Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-satlk-31-daire-1765845867381-7",
+      "normalized": "/ilan/daire/karasu-merkez-satlk-31-daire-1765845867381-7",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-satlk-41-daire-1765845867381-2",
+      "normalized": "/ilan/daire/karasu-merkez-satlk-41-daire-1765845867381-2",
+      "lastmod": "2025-12-24T11:12:07.469Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-satlk-41-daire-1765845867381-5",
+      "normalized": "/ilan/daire/karasu-merkez-satlk-41-daire-1765845867381-5",
+      "lastmod": "2025-12-24T11:12:07.469Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-satlk-41-daire-1765845867381-6",
+      "normalized": "/ilan/daire/karasu-merkez-satlk-41-daire-1765845867381-6",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-merkez-satlk-41-daire-1765845867381-8",
+      "normalized": "/ilan/daire/karasu-merkez-satlk-41-daire-1765845867381-8",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-kiralk-21-daire-1765845867382-0",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-kiralk-21-daire-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-kiralk-21-daire-1765845867382-1",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-kiralk-21-daire-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-kiralk-21-daire-1765845867382-2",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-kiralk-21-daire-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-kiralk-21-daire-1765845867382-3",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-kiralk-21-daire-1765845867382-3",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-kiralk-21-daire-1765845867382-4",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-kiralk-21-daire-1765845867382-4",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-satlk-21-daire-1765845867381-2",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-satlk-21-daire-1765845867381-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-satlk-21-daire-1765845867381-4",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-satlk-21-daire-1765845867381-4",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-satlk-31-daire-1765845867381-3",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-satlk-31-daire-1765845867381-3",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-satlk-31-daire-1765845867381-5",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-satlk-31-daire-1765845867381-5",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-satlk-31-daire-1765845867381-7",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-satlk-31-daire-1765845867381-7",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-satlk-41-daire-1765845867381-0",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-satlk-41-daire-1765845867381-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-satlk-41-daire-1765845867381-1",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-satlk-41-daire-1765845867381-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-sahil-denize-sfr-satlk-41-daire-1765845867381-6",
+      "normalized": "/ilan/daire/karasu-sahil-denize-sfr-satlk-41-daire-1765845867381-6",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-yal-denize-sfr-kiralk-21-daire-1765845867382-0",
+      "normalized": "/ilan/daire/karasu-yal-denize-sfr-kiralk-21-daire-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-yal-denize-sfr-kiralk-21-daire-1765845867382-2",
+      "normalized": "/ilan/daire/karasu-yal-denize-sfr-kiralk-21-daire-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-yal-denize-sfr-kiralk-31-daire-1765845867382-1",
+      "normalized": "/ilan/daire/karasu-yal-denize-sfr-kiralk-31-daire-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-yal-denize-sfr-satlk-31-daire-1765845867382-1",
+      "normalized": "/ilan/daire/karasu-yal-denize-sfr-satlk-31-daire-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-yal-denize-sfr-satlk-31-daire-1765845867382-3",
+      "normalized": "/ilan/daire/karasu-yal-denize-sfr-satlk-31-daire-1765845867382-3",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-yal-denize-sfr-satlk-41-daire-1765845867382-0",
+      "normalized": "/ilan/daire/karasu-yal-denize-sfr-satlk-41-daire-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-yal-denize-sfr-satlk-41-daire-1765845867382-2",
+      "normalized": "/ilan/daire/karasu-yal-denize-sfr-satlk-41-daire-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/daire/karasu-yal-denize-sfr-satlk-41-daire-1765845867382-4",
+      "normalized": "/ilan/daire/karasu-yal-denize-sfr-satlk-41-daire-1765845867382-4",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/dukkan/karasu-merkez-kiralk-dkkan-1765845867382-0",
+      "normalized": "/ilan/dukkan/karasu-merkez-kiralk-dkkan-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/dukkan/karasu-merkez-kiralk-dkkan-1765845867382-1",
+      "normalized": "/ilan/dukkan/karasu-merkez-kiralk-dkkan-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/dukkan/karasu-merkez-satlk-dkkan-1765845867382-0",
+      "normalized": "/ilan/dukkan/karasu-merkez-satlk-dkkan-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/dukkan/karasu-merkez-satlk-dkkan-1765845867382-1",
+      "normalized": "/ilan/dukkan/karasu-merkez-satlk-dkkan-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/isyeri/karasu-merkez-kiralk-iyeri-1765845867382-0",
+      "normalized": "/ilan/isyeri/karasu-merkez-kiralk-iyeri-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/isyeri/karasu-merkez-kiralk-iyeri-1765845867382-1",
+      "normalized": "/ilan/isyeri/karasu-merkez-kiralk-iyeri-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/isyeri/karasu-merkez-kiralk-iyeri-1765845867382-2",
+      "normalized": "/ilan/isyeri/karasu-merkez-kiralk-iyeri-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/isyeri/karasu-merkez-satlk-iyeri-1765845867382-0",
+      "normalized": "/ilan/isyeri/karasu-merkez-satlk-iyeri-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/isyeri/karasu-merkez-satlk-iyeri-1765845867382-1",
+      "normalized": "/ilan/isyeri/karasu-merkez-satlk-iyeri-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/isyeri/karasu-merkez-satlk-iyeri-1765845867382-2",
+      "normalized": "/ilan/isyeri/karasu-merkez-satlk-iyeri-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/isyeri/karasu-merkez-satlk-iyeri-1765845867382-3",
+      "normalized": "/ilan/isyeri/karasu-merkez-satlk-iyeri-1765845867382-3",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-merkez-satlk-41-villa-1765845867382-0",
+      "normalized": "/ilan/villa/karasu-merkez-satlk-41-villa-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-merkez-satlk-41-villa-1765845867382-1",
+      "normalized": "/ilan/villa/karasu-merkez-satlk-41-villa-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-sahil-denize-sfr-kiralk-31-villa-1765845867382-0",
+      "normalized": "/ilan/villa/karasu-sahil-denize-sfr-kiralk-31-villa-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-sahil-denize-sfr-kiralk-31-villa-1765845867382-1",
+      "normalized": "/ilan/villa/karasu-sahil-denize-sfr-kiralk-31-villa-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-sahil-denize-sfr-kiralk-31-villa-1765845867382-2",
+      "normalized": "/ilan/villa/karasu-sahil-denize-sfr-kiralk-31-villa-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-sahil-denize-sfr-satlk-31-villa-1765845867382-1",
+      "normalized": "/ilan/villa/karasu-sahil-denize-sfr-satlk-31-villa-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-sahil-denize-sfr-satlk-31-villa-1765845867382-4",
+      "normalized": "/ilan/villa/karasu-sahil-denize-sfr-satlk-31-villa-1765845867382-4",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-sahil-denize-sfr-satlk-41-villa-1765845867382-3",
+      "normalized": "/ilan/villa/karasu-sahil-denize-sfr-satlk-41-villa-1765845867382-3",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-sahil-denize-sfr-satlk-41-villa-1765845867382-6",
+      "normalized": "/ilan/villa/karasu-sahil-denize-sfr-satlk-41-villa-1765845867382-6",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-sahil-denize-sfr-satlk-41-villa-1765845867382-8",
+      "normalized": "/ilan/villa/karasu-sahil-denize-sfr-satlk-41-villa-1765845867382-8",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-sahil-denize-sfr-satlk-51-villa-1765845867382-0",
+      "normalized": "/ilan/villa/karasu-sahil-denize-sfr-satlk-51-villa-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-sahil-denize-sfr-satlk-51-villa-1765845867382-2",
+      "normalized": "/ilan/villa/karasu-sahil-denize-sfr-satlk-51-villa-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-sahil-denize-sfr-satlk-51-villa-1765845867382-5",
+      "normalized": "/ilan/villa/karasu-sahil-denize-sfr-satlk-51-villa-1765845867382-5",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-sahil-denize-sfr-satlk-51-villa-1765845867382-7",
+      "normalized": "/ilan/villa/karasu-sahil-denize-sfr-satlk-51-villa-1765845867382-7",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-yal-denize-sfr-satlk-41-villa-1765845867382-0",
+      "normalized": "/ilan/villa/karasu-yal-denize-sfr-satlk-41-villa-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-yal-denize-sfr-satlk-41-villa-1765845867382-4",
+      "normalized": "/ilan/villa/karasu-yal-denize-sfr-satlk-41-villa-1765845867382-4",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-yal-denize-sfr-satlk-51-villa-1765845867382-1",
+      "normalized": "/ilan/villa/karasu-yal-denize-sfr-satlk-51-villa-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-yal-denize-sfr-satlk-51-villa-1765845867382-2",
+      "normalized": "/ilan/villa/karasu-yal-denize-sfr-satlk-51-villa-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-yal-denize-sfr-satlk-51-villa-1765845867382-3",
+      "normalized": "/ilan/villa/karasu-yal-denize-sfr-satlk-51-villa-1765845867382-3",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-yal-denize-sfr-satlk-51-villa-1765845867382-5",
+      "normalized": "/ilan/villa/karasu-yal-denize-sfr-satlk-51-villa-1765845867382-5",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/villa/karasu-yazlik-satilik-villa",
+      "normalized": "/ilan/villa/karasu-yazlik-satilik-villa",
+      "lastmod": "2025-12-24T11:12:07.469Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-sahil-denize-sfr-kiralk-31-yazlk-1765845867382-0",
+      "normalized": "/ilan/yazlik/karasu-sahil-denize-sfr-kiralk-31-yazlk-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-sahil-denize-sfr-kiralk-31-yazlk-1765845867382-1",
+      "normalized": "/ilan/yazlik/karasu-sahil-denize-sfr-kiralk-31-yazlk-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-sahil-denize-sfr-kiralk-31-yazlk-1765845867382-2",
+      "normalized": "/ilan/yazlik/karasu-sahil-denize-sfr-kiralk-31-yazlk-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-sahil-denize-sfr-satlk-21-yazlk-1765845867382-0",
+      "normalized": "/ilan/yazlik/karasu-sahil-denize-sfr-satlk-21-yazlk-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-sahil-denize-sfr-satlk-21-yazlk-1765845867382-2",
+      "normalized": "/ilan/yazlik/karasu-sahil-denize-sfr-satlk-21-yazlk-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-sahil-denize-sfr-satlk-31-yazlk-1765845867382-1",
+      "normalized": "/ilan/yazlik/karasu-sahil-denize-sfr-satlk-31-yazlk-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-sahil-denize-sfr-satlk-31-yazlk-1765845867382-4",
+      "normalized": "/ilan/yazlik/karasu-sahil-denize-sfr-satlk-31-yazlk-1765845867382-4",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-sahil-denize-sfr-satlk-31-yazlk-1765845867382-5",
+      "normalized": "/ilan/yazlik/karasu-sahil-denize-sfr-satlk-31-yazlk-1765845867382-5",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-sahil-denize-sfr-satlk-31-yazlk-1765845867382-6",
+      "normalized": "/ilan/yazlik/karasu-sahil-denize-sfr-satlk-31-yazlk-1765845867382-6",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-sahil-denize-sfr-satlk-41-yazlk-1765845867382-3",
+      "normalized": "/ilan/yazlik/karasu-sahil-denize-sfr-satlk-41-yazlk-1765845867382-3",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-yal-denize-sfr-satlk-31-yazlk-1765845867382-0",
+      "normalized": "/ilan/yazlik/karasu-yal-denize-sfr-satlk-31-yazlk-1765845867382-0",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-yal-denize-sfr-satlk-31-yazlk-1765845867382-1",
+      "normalized": "/ilan/yazlik/karasu-yal-denize-sfr-satlk-31-yazlk-1765845867382-1",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-yal-denize-sfr-satlk-41-yazlk-1765845867382-2",
+      "normalized": "/ilan/yazlik/karasu-yal-denize-sfr-satlk-41-yazlk-1765845867382-2",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-yal-denize-sfr-satlk-41-yazlk-1765845867382-3",
+      "normalized": "/ilan/yazlik/karasu-yal-denize-sfr-satlk-41-yazlk-1765845867382-3",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/ilan/yazlik/karasu-yal-denize-sfr-satlk-41-yazlk-1765845867382-4",
+      "normalized": "/ilan/yazlik/karasu-yal-denize-sfr-satlk-41-yazlk-1765845867382-4",
+      "lastmod": "2025-12-24T11:12:07.470Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "listing"
+    },
+    {
+      "url": "https://www.karasuemlak.net/iletisim",
+      "normalized": "/iletisim",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.8,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu",
+      "normalized": "/karasu",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.9,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu-deprem",
+      "normalized": "/karasu-deprem",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.8,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu-emlak-ofisi",
+      "normalized": "/karasu-emlak-ofisi",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.9,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu-emlak-rehberi",
+      "normalized": "/karasu-emlak-rehberi",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.95,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu-satilik-evler",
+      "normalized": "/karasu-satilik-evler",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.85,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu-yatirimlik-gayrimenkul",
+      "normalized": "/karasu-yatirimlik-gayrimenkul",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.85,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/ataturk",
+      "normalized": "/karasu/ataturk",
+      "lastmod": "2025-12-24T11:12:10.464Z",
+      "priority": 0.8,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/aziziye",
+      "normalized": "/karasu/aziziye",
+      "lastmod": "2025-12-24T11:12:10.464Z",
+      "priority": 0.8,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/bota",
+      "normalized": "/karasu/bota",
+      "lastmod": "2025-12-24T11:12:10.464Z",
+      "priority": 0.8,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/camlik",
+      "normalized": "/karasu/camlik",
+      "lastmod": "2025-12-24T11:12:10.464Z",
+      "priority": 0.8,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/cumhuriyet",
+      "normalized": "/karasu/cumhuriyet",
+      "lastmod": "2025-12-24T11:12:10.464Z",
+      "priority": 0.8,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/gezilecek-yerler",
+      "normalized": "/karasu/gezilecek-yerler",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/hastaneler",
+      "normalized": "/karasu/hastaneler",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/kurtulus",
+      "normalized": "/karasu/kurtulus",
+      "lastmod": "2025-12-24T11:12:10.464Z",
+      "priority": 0.8,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/liman",
+      "normalized": "/karasu/liman",
+      "lastmod": "2025-12-24T11:12:10.464Z",
+      "priority": 0.8,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/mahalle-karsilastirma",
+      "normalized": "/karasu/mahalle-karsilastirma",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/mahalleler",
+      "normalized": "/karasu/mahalleler",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.8,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/merkez",
+      "normalized": "/karasu/merkez",
+      "lastmod": "2025-12-24T11:12:10.464Z",
+      "priority": 0.8,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/nobetci-eczaneler",
+      "normalized": "/karasu/nobetci-eczaneler",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.75,
+      "changefreq": "daily",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/onemli-telefonlar",
+      "normalized": "/karasu/onemli-telefonlar",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/restoranlar",
+      "normalized": "/karasu/restoranlar",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/sahil",
+      "normalized": "/karasu/sahil",
+      "lastmod": "2025-12-24T11:12:10.464Z",
+      "priority": 0.8,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/ulasim",
+      "normalized": "/karasu/ulasim",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasu/yali",
+      "normalized": "/karasu/yali",
+      "lastmod": "2025-12-24T11:12:10.464Z",
+      "priority": 0.8,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/karasuspor",
+      "normalized": "/karasuspor",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.75,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/kiralik",
+      "normalized": "/kiralik",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.9,
+      "changefreq": "daily",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/kocaali-emlak-rehberi",
+      "normalized": "/kocaali-emlak-rehberi",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.95,
+      "changefreq": "weekly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/kredi-hesaplayici",
+      "normalized": "/kredi-hesaplayici",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/kullanim-kosullari",
+      "normalized": "/kullanim-kosullari",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.5,
+      "changefreq": "yearly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/rehberler",
+      "normalized": "/rehberler",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.8,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/satilik",
+      "normalized": "/satilik",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.9,
+      "changefreq": "daily",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/sss",
+      "normalized": "/sss",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.75,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/yatirim-hesaplayici",
+      "normalized": "/yatirim-hesaplayici",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.7,
+      "changefreq": "monthly",
+      "type": "static"
+    },
+    {
+      "url": "https://www.karasuemlak.net/yorumlar",
+      "normalized": "/yorumlar",
+      "lastmod": "2025-12-24T11:12:10.462Z",
+      "priority": 0.75,
+      "changefreq": "weekly",
+      "type": "static"
+    }
+  ]
+}

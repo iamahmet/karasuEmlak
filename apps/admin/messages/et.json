@@ -1,0 +1,26 @@
+{
+  "common": {
+    "home": "Avaleht",
+    "about": "Meist",
+    "contact": "Kontakt",
+    "search": "Otsi",
+    "readMore": "Loe edasi",
+    "loading": "Laadimine...",
+    "error": "Viga",
+    "success": "Õnnestus"
+  },
+  "nav": {
+    "home": "Avaleht",
+    "categories": "Kategooriad",
+    "about": "Meist",
+    "contact": "Kontakt"
+  },
+  "article": {
+    "readTime": "{minutes} min lugemist",
+    "publishedAt": "Avaldatud",
+    "author": "Autor",
+    "related": "Seotud uudised",
+    "share": "Jaga"
+  }
+}
+

@@ -1,0 +1,10 @@
+{
+  "welcome": "Tere tulemast",
+  "home": {
+    "title": "Karasu Kinnisvara",
+    "description": "Kinnisvarakonsultatsioon - Müügis ja rendis kinnisvara",
+    "forSale": "Müügis kinnisvara",
+    "forRent": "Rendis kinnisvara"
+  }
+}
+

@@ -1,0 +1,139 @@
+/* Print Stylesheet for Listing Detail Pages */
+
+@media print {
+  /* Hide unnecessary elements */
+  header,
+  footer,
+  nav,
+  button:not([data-print-visible]),
+  [role="navigation"],
+  [data-sticky],
+  [data-conversion],
+  .sticky,
+  aside .mt-6:not(:first-child),
+  aside .mt-8 {
+    display: none !important;
+  }
+  
+  /* Show print-visible elements */
+  [data-print-visible] {
+    display: block !important;
+  }
+
+  /* Page setup */
+  @page {
+    margin: 2cm;
+    size: A4;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  /* Container adjustments */
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Grid to single column */
+  .grid {
+    display: block !important;
+  }
+
+  /* Force all grid columns to full width in print */
+  [class*="col-span"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Force all flex/grid children to full width */
+  .grid > *,
+  .flex > * {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Images */
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+
+  /* Headings */
+  h1 {
+    font-size: 20pt;
+    margin-bottom: 10pt;
+  }
+
+  h2 {
+    font-size: 16pt;
+    margin-top: 15pt;
+    margin-bottom: 8pt;
+    page-break-after: avoid;
+  }
+
+  h3 {
+    font-size: 14pt;
+    margin-top: 12pt;
+    margin-bottom: 6pt;
+  }
+
+  /* Avoid page breaks */
+  .avoid-break {
+    page-break-inside: avoid;
+  }
+
+  /* Contact info - make visible */
+  aside {
+    page-break-before: always;
+  }
+
+  /* Links - show URL */
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #666;
+  }
+
+  /* QR Code for property URL - could be added */
+  .print-qr {
+    display: block !important;
+  }
+
+  /* Borders and shadows */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  .border,
+  .border-2 {
+    border-width: 1pt !important;
+    border-color: #ddd !important;
+  }
+
+  /* Background colors - keep minimal */
+  .bg-blue-50,
+  .bg-green-50,
+  .bg-gray-50 {
+    background-color: #f9f9f9 !important;
+  }
+
+  /* Footer info */
+  .print-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 9pt;
+    color: #666;
+    border-top: 1pt solid #ddd;
+    padding-top: 5pt;
+  }
+}
+

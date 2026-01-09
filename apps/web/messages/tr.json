@@ -1,0 +1,525 @@
+{
+  "welcome": "Hoş geldiniz",
+  "home": {
+    "title": "Karasu Emlak",
+    "description": "Karasu emlak danışmanlığı - Satılık ve kiralık gayrimenkul ilanları",
+    "forSale": "Satılık İlanlar",
+    "forRent": "Kiralık İlanlar"
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "forSale": "Satılık",
+    "forRent": "Kiralık",
+    "karasu": "Karasu",
+    "kocaali": "Kocaali",
+    "guide": "Rehber",
+    "news": "Haberler",
+    "blog": "Blog",
+    "favorites": "Favorilerim",
+    "contact": "İletişim",
+    "services": "Hizmetler",
+    "about": "Hakkımızda",
+    "addListing": "İlan Ekle"
+  },
+  "footer": {
+    "quickLinks": "Hızlı Linkler",
+    "forSale": "Satılık İlanlar",
+    "forRent": "Kiralık İlanlar",
+    "karasu": "Karasu",
+    "about": "Hakkımızda",
+    "legal": "Yasal",
+    "privacy": "Gizlilik Politikası",
+    "cookies": "Çerez Politikası",
+    "terms": "Kullanım Koşulları",
+    "contact": "İletişim",
+    "rights": "Tüm hakları saklıdır.",
+    "newsletter": "Bültenimize abone olun",
+    "newsletterDesc": "En son emlak ilanları ve piyasa haberleriyle güncel kalın"
+  },
+  "listings": {
+    "title": "İlanlar",
+    "forSale": "Satılık",
+    "forRent": "Kiralık",
+    "filter": "Filtrele",
+    "sort": "Sırala",
+    "view": "Görünüm",
+    "price": "Fiyat",
+    "rooms": "Oda Sayısı",
+    "bathrooms": "Banyo",
+    "area": "Alan",
+    "location": "Konum",
+    "propertyType": "Emlak Tipi",
+    "noResults": "İlan bulunamadı",
+    "featured": "Öne Çıkan",
+    "new": "Yeni",
+    "details": "Detaylar",
+    "contact": "İletişime Geç"
+  },
+  "addListing": {
+    "title": "İlan Ekle",
+    "subtitle": "Emlak ilanınızı kolayca ekleyin ve binlerce potansiyel alıcıya ulaşın",
+    "basicInfo": "Temel Bilgiler",
+    "locationInfo": "Konum Bilgileri",
+    "priceFeatures": "Fiyat ve Özellikler",
+    "imagesContact": "Görseller ve İletişim",
+    "listingTitle": "İlan Başlığı",
+    "listingType": "İlan Tipi",
+    "propertyType": "Emlak Tipi",
+    "shortDescription": "Kısa Açıklama",
+    "detailedDescription": "Detaylı Açıklama",
+    "neighborhood": "Mahalle",
+    "fullAddress": "Tam Adres",
+    "price": "Fiyat",
+    "currency": "Para Birimi",
+    "rooms": "Oda Sayısı",
+    "bathrooms": "Banyo Sayısı",
+    "squareMeters": "Metrekare",
+    "floor": "Kat",
+    "buildingAge": "Bina Yaşı",
+    "heating": "Isıtma",
+    "features": "Özellikler",
+    "furnished": "Eşyalı",
+    "balcony": "Balkon",
+    "parking": "Otopark",
+    "elevator": "Asansör",
+    "seaView": "Deniz Manzaralı",
+    "images": "Görseller",
+    "uploadImages": "Görsel yüklemek için tıklayın",
+    "generateAI": "AI ile Gerçekçi Görsel Oluştur",
+    "name": "Ad Soyad",
+    "phone": "Telefon",
+    "email": "E-posta",
+    "whatsapp": "WhatsApp",
+    "previousStep": "Önceki Adım",
+    "nextStep": "Sonraki Adım",
+    "submit": "İlanı Gönder",
+    "submitting": "Gönderiliyor...",
+    "success": "İlanınız başarıyla gönderildi!",
+    "successMessage": "İlanınız incelendikten sonra yayınlanacaktır. Teşekkür ederiz.",
+    "error": "Hata",
+    "required": "Lütfen tüm zorunlu alanları doldurun"
+  },
+  "blog": {
+    "title": "Blog",
+    "readMore": "Devamını Oku",
+    "author": "Yazar",
+    "date": "Tarih",
+    "category": "Kategori",
+    "relatedArticles": "İlgili Yazılar",
+    "recentPosts": "Son Yazılar"
+  },
+  "news": {
+    "title": "Haberler",
+    "readMore": "Devamını Oku",
+    "author": "Yazar",
+    "date": "Tarih",
+    "source": "Kaynak"
+  },
+  "karasu": {
+    "title": "Karasu",
+    "description": "Sakarya'nın en güzel ilçelerinden biri",
+    "neighborhoods": "Mahalleler",
+    "hospitals": "Hastaneler",
+    "restaurants": "Restoranlar",
+    "transportation": "Ulaşım",
+    "pharmacies": "Nöbetçi Eczaneler",
+    "attractions": "Gezilecek Yerler",
+    "phones": "Önemli Telefonlar"
+  },
+  "kocaali": {
+    "title": "Kocaali",
+    "description": "Sakarya'nın Karadeniz kıyısındaki huzurlu ilçesi",
+    "neighborhoods": "Mahalleler",
+    "hospitals": "Hastaneler",
+    "restaurants": "Restoranlar",
+    "transportation": "Ulaşım",
+    "pharmacies": "Nöbetçi Eczaneler",
+    "attractions": "Gezilecek Yerler"
+  },
+  "contact": {
+    "title": "İletişim",
+    "subtitle": "Sorularınız için bizimle iletişime geçin",
+    "name": "Adınız",
+    "email": "E-posta Adresiniz",
+    "phone": "Telefon Numaranız",
+    "subject": "Konu",
+    "message": "Mesajınız",
+    "send": "Mesaj Gönder",
+    "sending": "Gönderiliyor...",
+    "success": "Mesajınız başarıyla gönderildi!",
+    "error": "Mesajınız gönderilirken bir hata oluştu",
+    "address": "Adres",
+    "workingHours": "Çalışma Saatleri",
+    "weekdays": "Hafta içi",
+    "saturday": "Cumartesi",
+    "sunday": "Pazar",
+    "closed": "Kapalı"
+  },
+  "favorites": {
+    "title": "Favorilerim",
+    "description": "Beğendiğiniz ilanları görüntüleyin ve karşılaştırın",
+    "empty": "Henüz favori eklemediniz",
+    "emptyDescription": "İlanları inceleyin ve kalp ikonuna tıklayarak favorilerinize ekleyin",
+    "browseListings": "İlanları İncele"
+  },
+  "services": {
+    "title": "Hizmetlerimiz",
+    "subtitle": "Profesyonel emlak hizmetleri ile yanınızdayız",
+    "valuation": "Emlak Değerleme",
+    "valuationDesc": "Gayrimenkulünüzün gerçek piyasa değerini öğrenin",
+    "consulting": "Danışmanlık",
+    "consultingDesc": "Emlak alım-satım sürecinde profesyonel danışmanlık",
+    "legal": "Hukuki Destek",
+    "legalDesc": "Emlak işlemlerinde hukuki destek ve danışmanlık",
+    "insurance": "Sigorta Danışmanlığı",
+    "insuranceDesc": "Gayrimenkul sigortası için profesyonel danışmanlık"
+  },
+  "about": {
+    "title": "Hakkımızda",
+    "subtitle": "2014 yılından beri profesyonel emlak danışmanlığı hizmeti sunuyoruz",
+    "team": "Ekibimiz",
+    "career": "Kariyer",
+    "references": "Referanslar",
+    "mission": "Misyonumuz",
+    "vision": "Vizyonumuz",
+    "values": "Değerlerimiz"
+  },
+  "calculator": {
+    "mortgage": "Kredi Hesaplayıcı",
+    "investment": "Yatırım Hesaplayıcı",
+    "propertyValue": "Gayrimenkul Değeri",
+    "downPayment": "Peşinat",
+    "interestRate": "Faiz Oranı",
+    "loanTerm": "Kredi Vadesi",
+    "monthlyPayment": "Aylık Ödeme",
+    "totalPayment": "Toplam Ödeme",
+    "totalInterest": "Toplam Faiz",
+    "calculate": "Hesapla",
+    "years": "Yıl",
+    "roi": "ROI",
+    "rentalYield": "Kira Getirisi",
+    "paybackPeriod": "Geri Ödeme Süresi"
+  },
+  "common": {
+    "home": "Ana Sayfa",
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı"
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Yönetim Paneli",
+      "stats": {
+        "articles": "Haberler",
+        "categories": "Kategoriler",
+        "users": "Kullanıcılar"
+      },
+      "quickActions": "Hızlı İşlemler",
+      "recentActivity": "Son Aktiviteler"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "seo": "SEO Araçları",
+      "contentStudio": "İçerik Stüdyosu",
+      "seoControl": "SEO Kontrol",
+      "indexing": "İndeksleme",
+      "seoBooster": "SEO Booster",
+      "projectBot": "Project Bot",
+      "analytics": "Analitik",
+      "compliance": "Uyumluluk",
+      "integrations": "Entegrasyonlar",
+      "users": "Kullanıcılar",
+      "comments": "Yorumlar",
+      "media": "Medya",
+      "notifications": "Bildirimler",
+      "reports": "Raporlar",
+      "settings": "Ayarlar",
+      "logout": "Çıkış Yap",
+      "contentManagement": "İçerik Yönetimi",
+      "homepage": "Ana Sayfa",
+      "articles": "Blog Makaleleri",
+      "news": "Haberler",
+      "listings": "İlanlar",
+      "programmaticPages": "Programatik Sayfalar",
+      "navigation": "Menü Yönetimi",
+      "mediaLibrary": "Medya Kütüphanesi",
+      "aiImages": "AI Görseller",
+      "aiQa": "AI Soru-Cevap",
+      "userInteraction": "Kullanıcı & Etkileşim",
+      "analyticsReports": "Analitik & Raporlar",
+      "systemSettings": "Sistem & Ayarlar"
+    },
+    "header": {
+      "search": "Ara..."
+    },
+    "seo": {
+      "title": "SEO Araçları",
+      "contentStudio": "İçerik Stüdyosu",
+      "seoControl": "SEO Kontrol",
+      "indexing": "İndeksleme",
+      "booster": "SEO Booster"
+    }
+  },
+  "auth": {
+    "login": "Giriş Yap",
+    "email": "E-posta",
+    "sendMagicLink": "Magic Link Gönder",
+    "sending": "Gönderiliyor...",
+    "magicLinkSent": "Magic link e-posta adresinize gönderildi.",
+    "magicLinkInstructions": "E-posta adresinize gönderilen linke tıklayarak giriş yapabilirsiniz."
+  },
+  "projectBot": {
+    "title": "Project Bot",
+    "description": "Code quality, security, SEO, performance, and i18n checks"
+  },
+  "contentStudio": {
+    "title": "Content Studio",
+    "description": "AI-powered content creation with workflows, templates, and quality gates",
+    "editTitle": "Edit Content"
+  },
+  "compliance": {
+    "consent": {
+      "title": "Consent Management",
+      "description": "Configure consent banner and preference center"
+    },
+    "logs": {
+      "title": "Consent Logs",
+      "description": "View consent history and audit trail"
+    },
+    "policies": {
+      "title": "Policy Management",
+      "description": "Manage KVKK/GDPR/Cookie/Privacy policies"
+    }
+  },
+  "users": {
+    "title": "Kullanıcı Yönetimi",
+    "description": "Kullanıcıları görüntüleyin, düzenleyin ve yönetin",
+    "tabs": {
+      "all": "Tümü",
+      "admin": "Admin",
+      "staff": "Staff",
+      "active": "Aktif",
+      "inactive": "Pasif"
+    },
+    "actions": {
+      "createUser": "Yeni Kullanıcı"
+    },
+    "success": {
+      "roleAdded": "Rol eklendi",
+      "roleRemoved": "Rol kaldırıldı",
+      "userDeleted": "Kullanıcı silindi"
+    },
+    "errors": {
+      "fetchFailed": "Kullanıcılar yüklenemedi",
+      "invalidResponse": "Geçersiz yanıt formatı",
+      "roleUpdateFailed": "Rol güncellenemedi",
+      "deleteFailed": "Kullanıcı silinemedi"
+    },
+    "confirmations": {
+      "deleteUser": "Bu kullanıcıyı silmek istediğinize emin misiniz?"
+    },
+    "detail": {
+      "title": "Kullanıcı Detayları",
+      "description": "Kullanıcı detaylarını görüntüleyin ve yönetin",
+      "loading": "Yükleniyor...",
+      "actions": {
+        "close": "Kapat"
+      },
+      "errors": {
+        "userNotFound": "Kullanıcı bulunamadı"
+      },
+      "roles": {
+        "title": "Roller",
+        "add": "Rol Ekle",
+        "cancel": "İptal",
+        "selectPlaceholder": "Rol seçin",
+        "addButton": "Ekle",
+        "admin": "Admin",
+        "staff": "Staff",
+        "editor": "Editor",
+        "viewer": "Viewer"
+      }
+    },
+    "create": {
+      "title": "Yeni Kullanıcı Oluştur",
+      "description": "Yeni bir kullanıcı hesabı oluşturun",
+      "fields": {
+        "email": "E-posta",
+        "name": "İsim",
+        "password": "Şifre",
+        "role": "Rol",
+        "magicLink": "Magic Link Gönder",
+        "magicLinkDescription": "Şifre yerine magic link gönder",
+        "passwordHint": "Minimum 8 karakter"
+      },
+      "placeholders": {
+        "email": "kullanici@example.com",
+        "name": "Kullanıcı Adı",
+        "role": "Rol seçin (opsiyonel)"
+      },
+      "roles": {
+        "none": "Rol yok",
+        "admin": "Admin",
+        "staff": "Staff",
+        "editor": "Editor",
+        "viewer": "Viewer"
+      },
+      "actions": {
+        "cancel": "İptal",
+        "create": "Oluştur",
+        "creating": "Oluşturuluyor..."
+      },
+      "success": {
+        "userCreated": "Kullanıcı başarıyla oluşturuldu",
+        "magicLinkSent": "Magic link kullanıcıya gönderildi"
+      },
+      "errors": {
+        "createFailed": "Kullanıcı oluşturulamadı"
+      }
+    },
+    "edit": {
+      "title": "Kullanıcı Düzenle",
+      "description": "Kullanıcı bilgilerini düzenleyin",
+      "loading": "Yükleniyor...",
+      "tabs": {
+        "profile": "Profil",
+        "account": "Hesap",
+        "roles": "Roller",
+        "security": "Güvenlik"
+      },
+      "fields": {
+        "name": "İsim",
+        "email": "E-posta",
+        "avatarUrl": "Avatar URL",
+        "roles": "Roller",
+        "newPassword": "Yeni Şifre",
+        "passwordHint": "Boş bırakılırsa şifre değiştirilmez"
+      },
+      "roles": {
+        "title": "Roller",
+        "add": "Rol Ekle",
+        "cancel": "İptal",
+        "selectPlaceholder": "Rol seçin",
+        "addButton": "Ekle",
+        "admin": "Admin",
+        "staff": "Staff",
+        "editor": "Editor",
+        "viewer": "Viewer"
+      },
+      "placeholders": {
+        "name": "Kullanıcı Adı",
+        "email": "kullanici@example.com",
+        "avatarUrl": "https://example.com/avatar.jpg"
+      },
+      "actions": {
+        "cancel": "İptal",
+        "save": "Kaydet",
+        "saving": "Kaydediliyor...",
+        "close": "Kapat"
+      },
+      "success": {
+        "userUpdated": "Kullanıcı başarıyla güncellendi"
+      },
+      "errors": {
+        "fetchFailed": "Kullanıcı bilgileri yüklenemedi",
+        "updateFailed": "Kullanıcı güncellenemedi",
+        "userNotFound": "Kullanıcı bulunamadı"
+      }
+    },
+    "table": {
+      "search": "Kullanıcı ara...",
+      "filters": {
+        "role": "Rol",
+        "status": "Durum",
+        "all": "Tümü",
+        "active": "Aktif",
+        "inactive": "Pasif",
+        "emailVerified": "Email Doğrulama",
+        "emailVerifiedAll": "Tümü",
+        "emailVerifiedYes": "Doğrulanmış",
+        "emailVerifiedNo": "Doğrulanmamış",
+        "dateRange": "Tarih Aralığı",
+        "dateRangeAll": "Tümü",
+        "dateRangeToday": "Bugün",
+        "dateRangeWeek": "Son 7 Gün",
+        "dateRangeMonth": "Son 30 Gün",
+        "dateRangeYear": "Son 1 Yıl",
+        "dateRangeCustom": "Özel Tarih",
+        "dateRangeStart": "Başlangıç",
+        "dateRangeEnd": "Bitiş"
+      },
+      "actions": {
+        "export": "Dışa Aktar",
+        "activate": "Aktifleştir",
+        "ban": "Yasakla",
+        "delete": "Sil",
+        "viewDetails": "Detayları Gör",
+        "edit": "Düzenle",
+        "makeAdmin": "Admin Yap",
+        "removeAdmin": "Admin Yetkisini Kaldır",
+        "makeStaff": "Staff Yap",
+        "removeStaff": "Staff Yetkisini Kaldır"
+      },
+      "columns": {
+        "user": "Kullanıcı",
+        "email": "E-posta",
+        "roles": "Roller",
+        "status": "Durum",
+        "lastSignIn": "Son Giriş",
+        "createdAt": "Kayıt Tarihi",
+        "actions": "İşlemler"
+      },
+      "empty": "Kullanıcı bulunamadı",
+      "stats": {
+        "showing": "Toplam {count} kullanıcı gösteriliyor",
+        "selected": "{count} kullanıcı seçili"
+      },
+      "success": {
+        "bulkAction": "{count} kullanıcı üzerinde işlem tamamlandı",
+        "exported": "Kullanıcılar başarıyla dışa aktarıldı (CSV)"
+      },
+      "errors": {
+        "noUsersSelected": "Lütfen en az bir kullanıcı seçin",
+        "exportFailed": "Dışa aktarma başarısız",
+        "actionFailed": "İşlem başarısız"
+      },
+      "confirmations": {
+        "bulkDelete": "{count} kullanıcıyı silmek istediğinize emin misiniz?",
+        "bulkBan": "{count} kullanıcıyı yasaklamak istediğinize emin misiniz?",
+        "bulkActivate": "{count} kullanıcıyı aktifleştirmek istediğinize emin misiniz?"
+      }
+    }
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "description": "Site ayarlarını yönetin"
+  },
+  "analytics": {
+    "dashboard": {
+      "title": "Analytics Dashboard",
+      "description": "View site metrics, content performance, and SEO data"
+    }
+  },
+  "integrations": {
+    "google": {
+      "title": "Google Integrations",
+      "description": "Connect Google Search Console and Google Analytics 4"
+    }
+  },
+  "comments": {
+    "title": "Yorum Yönetimi",
+    "description": "Yorumları görüntüleyin, onaylayın ve moderasyon yapın"
+  },
+  "media": {
+    "title": "Medya Kütüphanesi",
+    "description": "Görselleri ve videoları yönetin"
+  },
+  "notifications": {
+    "title": "Bildirim Merkezi",
+    "description": "Bildirimleri görüntüleyin ve ayarlarını yönetin"
+  },
+  "reports": {
+    "title": "Raporlar ve Dışa Aktarma",
+    "description": "Verileri raporlayın ve dışa aktarın"
+  }
+}

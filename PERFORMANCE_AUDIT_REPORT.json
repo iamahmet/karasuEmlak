@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-01-08T13:45:51.265Z",
+  "summary": {
+    "total": 1,
+    "errors": 0,
+    "warnings": 0,
+    "info": 1
+  },
+  "issues": [
+    {
+      "type": "info",
+      "category": "Code Splitting",
+      "message": "Consider code splitting for large components",
+      "suggestion": "Use dynamic imports for heavy components (maps, charts, etc.)"
+    }
+  ],
+  "recommendations": [
+    "Enable image optimization (AVIF, WebP)",
+    "Use dynamic imports for heavy components",
+    "Implement proper caching strategies",
+    "Optimize bundle size with tree-shaking",
+    "Use React Server Components where possible",
+    "Implement proper lazy loading",
+    "Optimize database queries",
+    "Use CDN for static assets"
+  ]
+}

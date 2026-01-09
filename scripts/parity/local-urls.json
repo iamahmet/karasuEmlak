@@ -1,0 +1,673 @@
+{
+  "scannedAt": "2026-01-06T12:35:25.787Z",
+  "baseUrl": "http://localhost:3000",
+  "stats": {
+    "total": 94,
+    "byType": {
+      "static": 94
+    },
+    "bySource": {
+      "route-file": 1,
+      "dynamic-pattern": 93
+    }
+  },
+  "urls": [
+    {
+      "url": "http://localhost:3000,",
+      "normalized": ",",
+      "type": "static",
+      "source": "route-file"
+    },
+    {
+      "url": "/../../../[locale]",
+      "normalized": "/../../../[locale]",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale"
+    },
+    {
+      "url": "/../../../[locale]/arama",
+      "normalized": "/../../../[locale]/arama",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/arama"
+    },
+    {
+      "url": "/../../../[locale]/blog",
+      "normalized": "/../../../[locale]/blog",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/blog"
+    },
+    {
+      "url": "/../../../[locale]/blog/[slug]",
+      "normalized": "/../../../[locale]/blog/[slug]",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/blog/:slug"
+    },
+    {
+      "url": "/../../../[locale]/blog/kategori/[category]",
+      "normalized": "/../../../[locale]/blog/kategori/[category]",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/blog/kategori/:category"
+    },
+    {
+      "url": "/../../../[locale]/blog/yazar/[author]",
+      "normalized": "/../../../[locale]/blog/yazar/[author]",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/blog/yazar/:author"
+    },
+    {
+      "url": "/../../../[locale]/cerez-politikasi",
+      "normalized": "/../../../[locale]/cerez-politikasi",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/cerez-politikasi"
+    },
+    {
+      "url": "/../../../[locale]/favorilerim",
+      "normalized": "/../../../[locale]/favorilerim",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/favorilerim"
+    },
+    {
+      "url": "/../../../[locale]/haberler",
+      "normalized": "/../../../[locale]/haberler",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/haberler"
+    },
+    {
+      "url": "/../../../[locale]/haberler/[slug]",
+      "normalized": "/../../../[locale]/haberler/[slug]",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/haberler/:slug"
+    },
+    {
+      "url": "/../../../[locale]/haberler/karasu-emlak",
+      "normalized": "/../../../[locale]/haberler/karasu-emlak",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/haberler/karasu-emlak"
+    },
+    {
+      "url": "/../../../[locale]/hakkimizda",
+      "normalized": "/../../../[locale]/hakkimizda",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/hakkimizda"
+    },
+    {
+      "url": "/../../../[locale]/hakkimizda/ekibimiz",
+      "normalized": "/../../../[locale]/hakkimizda/ekibimiz",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/hakkimizda/ekibimiz"
+    },
+    {
+      "url": "/../../../[locale]/hakkimizda/kariyer",
+      "normalized": "/../../../[locale]/hakkimizda/kariyer",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/hakkimizda/kariyer"
+    },
+    {
+      "url": "/../../../[locale]/hakkimizda/referanslar",
+      "normalized": "/../../../[locale]/hakkimizda/referanslar",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/hakkimizda/referanslar"
+    },
+    {
+      "url": "/../../../[locale]/hizmetler",
+      "normalized": "/../../../[locale]/hizmetler",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/hizmetler"
+    },
+    {
+      "url": "/../../../[locale]/hizmetler/danismanlik",
+      "normalized": "/../../../[locale]/hizmetler/danismanlik",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/hizmetler/danismanlik"
+    },
+    {
+      "url": "/../../../[locale]/hizmetler/emlak-degerleme",
+      "normalized": "/../../../[locale]/hizmetler/emlak-degerleme",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/hizmetler/emlak-degerleme"
+    },
+    {
+      "url": "/../../../[locale]/hizmetler/hukuki-destek",
+      "normalized": "/../../../[locale]/hizmetler/hukuki-destek",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/hizmetler/hukuki-destek"
+    },
+    {
+      "url": "/../../../[locale]/hizmetler/sigorta",
+      "normalized": "/../../../[locale]/hizmetler/sigorta",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/hizmetler/sigorta"
+    },
+    {
+      "url": "/../../../[locale]/ilan-ekle",
+      "normalized": "/../../../[locale]/ilan-ekle",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/ilan-ekle"
+    },
+    {
+      "url": "/../../../[locale]/ilan/[slug]",
+      "normalized": "/../../../[locale]/ilan/[slug]",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/ilan/:slug"
+    },
+    {
+      "url": "/../../../[locale]/iletisim",
+      "normalized": "/../../../[locale]/iletisim",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/iletisim"
+    },
+    {
+      "url": "/../../../[locale]/istatistikler/bolge-analizi",
+      "normalized": "/../../../[locale]/istatistikler/bolge-analizi",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/istatistikler/bolge-analizi"
+    },
+    {
+      "url": "/../../../[locale]/istatistikler/fiyat-trendleri",
+      "normalized": "/../../../[locale]/istatistikler/fiyat-trendleri",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/istatistikler/fiyat-trendleri"
+    },
+    {
+      "url": "/../../../[locale]/istatistikler/piyasa-raporlari",
+      "normalized": "/../../../[locale]/istatistikler/piyasa-raporlari",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/istatistikler/piyasa-raporlari"
+    },
+    {
+      "url": "/../../../[locale]/karasu",
+      "normalized": "/../../../[locale]/karasu",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu"
+    },
+    {
+      "url": "/../../../[locale]/karasu-denize-yakin-satilik-ev",
+      "normalized": "/../../../[locale]/karasu-denize-yakin-satilik-ev",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-denize-yakin-satilik-ev"
+    },
+    {
+      "url": "/../../../[locale]/karasu-deprem",
+      "normalized": "/../../../[locale]/karasu-deprem",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-deprem"
+    },
+    {
+      "url": "/../../../[locale]/karasu-emlak-ofisi",
+      "normalized": "/../../../[locale]/karasu-emlak-ofisi",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-emlak-ofisi"
+    },
+    {
+      "url": "/../../../[locale]/karasu-emlak-rehberi",
+      "normalized": "/../../../[locale]/karasu-emlak-rehberi",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-emlak-rehberi"
+    },
+    {
+      "url": "/../../../[locale]/karasu-mahalleler",
+      "normalized": "/../../../[locale]/karasu-mahalleler",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-mahalleler"
+    },
+    {
+      "url": "/../../../[locale]/karasu-merkez-satilik-ev",
+      "normalized": "/../../../[locale]/karasu-merkez-satilik-ev",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-merkez-satilik-ev"
+    },
+    {
+      "url": "/../../../[locale]/karasu-mustakil-satilik-ev",
+      "normalized": "/../../../[locale]/karasu-mustakil-satilik-ev",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-mustakil-satilik-ev"
+    },
+    {
+      "url": "/../../../[locale]/karasu-satilik-ev",
+      "normalized": "/../../../[locale]/karasu-satilik-ev",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-satilik-ev"
+    },
+    {
+      "url": "/../../../[locale]/karasu-satilik-ev-fiyatlari",
+      "normalized": "/../../../[locale]/karasu-satilik-ev-fiyatlari",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-satilik-ev-fiyatlari"
+    },
+    {
+      "url": "/../../../[locale]/karasu-satilik-evler",
+      "normalized": "/../../../[locale]/karasu-satilik-evler",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-satilik-evler"
+    },
+    {
+      "url": "/../../../[locale]/karasu-vs-kocaali-satilik-ev",
+      "normalized": "/../../../[locale]/karasu-vs-kocaali-satilik-ev",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-vs-kocaali-satilik-ev"
+    },
+    {
+      "url": "/../../../[locale]/karasu-vs-kocaali-yasam",
+      "normalized": "/../../../[locale]/karasu-vs-kocaali-yasam",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-vs-kocaali-yasam"
+    },
+    {
+      "url": "/../../../[locale]/karasu-vs-kocaali-yatirim",
+      "normalized": "/../../../[locale]/karasu-vs-kocaali-yatirim",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-vs-kocaali-yatirim"
+    },
+    {
+      "url": "/../../../[locale]/karasu-yatirimlik-gayrimenkul",
+      "normalized": "/../../../[locale]/karasu-yatirimlik-gayrimenkul",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-yatirimlik-gayrimenkul"
+    },
+    {
+      "url": "/../../../[locale]/karasu-yatirimlik-satilik-ev",
+      "normalized": "/../../../[locale]/karasu-yatirimlik-satilik-ev",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu-yatirimlik-satilik-ev"
+    },
+    {
+      "url": "/../../../[locale]/karasu/[mahalle]",
+      "normalized": "/../../../[locale]/karasu/[mahalle]",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu/:mahalle"
+    },
+    {
+      "url": "/../../../[locale]/karasu/gezilecek-yerler",
+      "normalized": "/../../../[locale]/karasu/gezilecek-yerler",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu/gezilecek-yerler"
+    },
+    {
+      "url": "/../../../[locale]/karasu/hastaneler",
+      "normalized": "/../../../[locale]/karasu/hastaneler",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu/hastaneler"
+    },
+    {
+      "url": "/../../../[locale]/karasu/mahalle-karsilastirma",
+      "normalized": "/../../../[locale]/karasu/mahalle-karsilastirma",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu/mahalle-karsilastirma"
+    },
+    {
+      "url": "/../../../[locale]/karasu/nobetci-eczaneler",
+      "normalized": "/../../../[locale]/karasu/nobetci-eczaneler",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu/nobetci-eczaneler"
+    },
+    {
+      "url": "/../../../[locale]/karasu/onemli-telefonlar",
+      "normalized": "/../../../[locale]/karasu/onemli-telefonlar",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu/onemli-telefonlar"
+    },
+    {
+      "url": "/../../../[locale]/karasu/restoranlar",
+      "normalized": "/../../../[locale]/karasu/restoranlar",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu/restoranlar"
+    },
+    {
+      "url": "/../../../[locale]/karasu/ulasim",
+      "normalized": "/../../../[locale]/karasu/ulasim",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasu/ulasim"
+    },
+    {
+      "url": "/../../../[locale]/karasuspor",
+      "normalized": "/../../../[locale]/karasuspor",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karasuspor"
+    },
+    {
+      "url": "/../../../[locale]/karsilastir",
+      "normalized": "/../../../[locale]/karsilastir",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/karsilastir"
+    },
+    {
+      "url": "/../../../[locale]/kiralik",
+      "normalized": "/../../../[locale]/kiralik",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kiralik"
+    },
+    {
+      "url": "/../../../[locale]/kiralik/[tip]",
+      "normalized": "/../../../[locale]/kiralik/[tip]",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kiralik/:tip"
+    },
+    {
+      "url": "/../../../[locale]/kocaali",
+      "normalized": "/../../../[locale]/kocaali",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kocaali"
+    },
+    {
+      "url": "/../../../[locale]/kocaali-emlak-rehberi",
+      "normalized": "/../../../[locale]/kocaali-emlak-rehberi",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kocaali-emlak-rehberi"
+    },
+    {
+      "url": "/../../../[locale]/kocaali-satilik-ev",
+      "normalized": "/../../../[locale]/kocaali-satilik-ev",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kocaali-satilik-ev"
+    },
+    {
+      "url": "/../../../[locale]/kocaali-satilik-ev-fiyatlari",
+      "normalized": "/../../../[locale]/kocaali-satilik-ev-fiyatlari",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kocaali-satilik-ev-fiyatlari"
+    },
+    {
+      "url": "/../../../[locale]/kocaali-yatirimlik-gayrimenkul",
+      "normalized": "/../../../[locale]/kocaali-yatirimlik-gayrimenkul",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kocaali-yatirimlik-gayrimenkul"
+    },
+    {
+      "url": "/../../../[locale]/kocaali/gezilecek-yerler",
+      "normalized": "/../../../[locale]/kocaali/gezilecek-yerler",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kocaali/gezilecek-yerler"
+    },
+    {
+      "url": "/../../../[locale]/kocaali/hastaneler",
+      "normalized": "/../../../[locale]/kocaali/hastaneler",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kocaali/hastaneler"
+    },
+    {
+      "url": "/../../../[locale]/kocaali/mahalleler",
+      "normalized": "/../../../[locale]/kocaali/mahalleler",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kocaali/mahalleler"
+    },
+    {
+      "url": "/../../../[locale]/kocaali/nobetci-eczaneler",
+      "normalized": "/../../../[locale]/kocaali/nobetci-eczaneler",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kocaali/nobetci-eczaneler"
+    },
+    {
+      "url": "/../../../[locale]/kocaali/onemli-telefonlar",
+      "normalized": "/../../../[locale]/kocaali/onemli-telefonlar",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kocaali/onemli-telefonlar"
+    },
+    {
+      "url": "/../../../[locale]/kocaali/restoranlar",
+      "normalized": "/../../../[locale]/kocaali/restoranlar",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kocaali/restoranlar"
+    },
+    {
+      "url": "/../../../[locale]/kocaali/ulasim",
+      "normalized": "/../../../[locale]/kocaali/ulasim",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kocaali/ulasim"
+    },
+    {
+      "url": "/../../../[locale]/kredi-hesaplayici",
+      "normalized": "/../../../[locale]/kredi-hesaplayici",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kredi-hesaplayici"
+    },
+    {
+      "url": "/../../../[locale]/kullanim-kosullari",
+      "normalized": "/../../../[locale]/kullanim-kosullari",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kullanim-kosullari"
+    },
+    {
+      "url": "/../../../[locale]/kvkk-basvuru",
+      "normalized": "/../../../[locale]/kvkk-basvuru",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/kvkk-basvuru"
+    },
+    {
+      "url": "/../../../[locale]/listings/new",
+      "normalized": "/../../../[locale]/listings/new",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/listings/new"
+    },
+    {
+      "url": "/../../../[locale]/mahalle/[slug]",
+      "normalized": "/../../../[locale]/mahalle/[slug]",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/mahalle/:slug"
+    },
+    {
+      "url": "/../../../[locale]/rehber",
+      "normalized": "/../../../[locale]/rehber",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehber"
+    },
+    {
+      "url": "/../../../[locale]/rehber/emlak-alim-satim",
+      "normalized": "/../../../[locale]/rehber/emlak-alim-satim",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehber/emlak-alim-satim"
+    },
+    {
+      "url": "/../../../[locale]/rehber/kiralama",
+      "normalized": "/../../../[locale]/rehber/kiralama",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehber/kiralama"
+    },
+    {
+      "url": "/../../../[locale]/rehber/yatirim",
+      "normalized": "/../../../[locale]/rehber/yatirim",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehber/yatirim"
+    },
+    {
+      "url": "/../../../[locale]/rehberler",
+      "normalized": "/../../../[locale]/rehberler",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehberler"
+    },
+    {
+      "url": "/../../../[locale]/rehberler/ekspertiz-sureci",
+      "normalized": "/../../../[locale]/rehberler/ekspertiz-sureci",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehberler/ekspertiz-sureci"
+    },
+    {
+      "url": "/../../../[locale]/rehberler/emlak-vergisi",
+      "normalized": "/../../../[locale]/rehberler/emlak-vergisi",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehberler/emlak-vergisi"
+    },
+    {
+      "url": "/../../../[locale]/rehberler/ev-nasil-alinir",
+      "normalized": "/../../../[locale]/rehberler/ev-nasil-alinir",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehberler/ev-nasil-alinir"
+    },
+    {
+      "url": "/../../../[locale]/rehberler/ev-nasil-kiralanir",
+      "normalized": "/../../../[locale]/rehberler/ev-nasil-kiralanir",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehberler/ev-nasil-kiralanir"
+    },
+    {
+      "url": "/../../../[locale]/rehberler/ev-nasil-satilir",
+      "normalized": "/../../../[locale]/rehberler/ev-nasil-satilir",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehberler/ev-nasil-satilir"
+    },
+    {
+      "url": "/../../../[locale]/rehberler/kredi-nasil-alinir",
+      "normalized": "/../../../[locale]/rehberler/kredi-nasil-alinir",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehberler/kredi-nasil-alinir"
+    },
+    {
+      "url": "/../../../[locale]/rehberler/tapu-islemleri",
+      "normalized": "/../../../[locale]/rehberler/tapu-islemleri",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehberler/tapu-islemleri"
+    },
+    {
+      "url": "/../../../[locale]/rehberler/yatirim-yapma",
+      "normalized": "/../../../[locale]/rehberler/yatirim-yapma",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/rehberler/yatirim-yapma"
+    },
+    {
+      "url": "/../../../[locale]/sakarya-emlak-yatirim-rehberi",
+      "normalized": "/../../../[locale]/sakarya-emlak-yatirim-rehberi",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/sakarya-emlak-yatirim-rehberi"
+    },
+    {
+      "url": "/../../../[locale]/satilik",
+      "normalized": "/../../../[locale]/satilik",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/satilik"
+    },
+    {
+      "url": "/../../../[locale]/satilik/[tip]",
+      "normalized": "/../../../[locale]/satilik/[tip]",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/satilik/:tip"
+    },
+    {
+      "url": "/../../../[locale]/sss",
+      "normalized": "/../../../[locale]/sss",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/sss"
+    },
+    {
+      "url": "/../../../[locale]/tip/[slug]",
+      "normalized": "/../../../[locale]/tip/[slug]",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/tip/:slug"
+    },
+    {
+      "url": "/../../../[locale]/yatirim-hesaplayici",
+      "normalized": "/../../../[locale]/yatirim-hesaplayici",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/yatirim-hesaplayici"
+    },
+    {
+      "url": "/../../../[locale]/yatirim/piyasa-analizi",
+      "normalized": "/../../../[locale]/yatirim/piyasa-analizi",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/yatirim/piyasa-analizi"
+    },
+    {
+      "url": "/../../../[locale]/yatirim/roi-hesaplayici",
+      "normalized": "/../../../[locale]/yatirim/roi-hesaplayici",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/yatirim/roi-hesaplayici"
+    },
+    {
+      "url": "/../../../[locale]/yorumlar",
+      "normalized": "/../../../[locale]/yorumlar",
+      "type": "static",
+      "source": "dynamic-pattern",
+      "pattern": "/../../../:locale/yorumlar"
+    }
+  ]
+}
