@@ -2001,7 +2001,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                         Medya Kütüphanesi
                       </Button>
                       <MediaLibraryButton
-                        onSelect={(url) => updateListing({ images: [...listing.images, url] })}
+                        onSelect={(media) => updateListing({ images: [...listing.images, typeof media === 'string' ? media : media.url] })}
                         className="h-8 px-3 text-xs"
                       />
                     </div>
@@ -3256,7 +3256,8 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
             </div>
             <div className="flex-1 overflow-y-auto p-6">
               <MediaLibrary
-                onSelect={(url) => {
+                onSelect={(media) => {
+                  const url = typeof media === 'string' ? media : media.url;
                   updateListing({ images: [...listing.images, url] });
                   setShowMediaLibrary(false);
                   toast.success("Fotoğraf eklendi", {
