@@ -36,8 +36,8 @@ export async function safeSupabaseQuery<T>(
       
       return {
         ...result,
-        data: safeData as T,
-      };
+        data: safeData as any,
+      } as PostgrestResponse<T>;
     }
     
     return result;

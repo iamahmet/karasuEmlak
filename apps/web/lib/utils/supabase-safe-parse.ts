@@ -49,7 +49,7 @@ export function safeProcessSupabaseResult<T extends Record<string, any>>(
     return null;
   }
 
-  const processed = { ...result };
+  const processed: Record<string, any> = { ...result };
 
   // Safely parse JSON fields
   for (const field of jsonFields) {
