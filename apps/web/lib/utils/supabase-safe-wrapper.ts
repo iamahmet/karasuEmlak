@@ -46,15 +46,15 @@ export async function safeSupabaseQuery<T>(
     return {
       data: fallback as any,
       error: {
-        message: error.message,
+        message: error.message || 'Unknown error',
         details: null,
         hint: null,
         code: 'QUERY_ERROR',
-      },
+      } as any,
       count: null,
       status: 500,
       statusText: 'Internal Server Error',
-    } as PostgrestResponse<T>;
+    } as unknown as PostgrestResponse<T>;
   }
 }
 
