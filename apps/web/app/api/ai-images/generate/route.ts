@@ -13,7 +13,7 @@ const generateSchema = z.object({
     title: z.string().optional(),
     propertyType: z.string().optional(),
     location: z.string().optional(),
-    features: z.record(z.any()).optional(),
+    features: z.record(z.string(), z.any()).optional(),
     status: z.enum(['satilik', 'kiralik']).optional(),
     category: z.string().optional(),
     name: z.string().optional(),
