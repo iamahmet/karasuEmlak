@@ -21,7 +21,7 @@ export async function revalidateWebApp(options: RevalidateOptions): Promise<void
     revalidatePath(options.path, 'page');
   }
   if (options.tag) {
-    revalidateTag(options.tag);
+    revalidateTag(options.tag as string);
   }
 }
 
