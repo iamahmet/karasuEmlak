@@ -94,8 +94,8 @@ export const teamMembers: TeamMember[] = [
 
 150+ başarılı satış işlemi gerçekleştiren Ayşe, özellikle ilk kez ev alan müşterilere yardımcı olmak konusunda deneyimlidir. Sabırlı, anlayışlı ve profesyonel yaklaşımı ile müşterilerinin güvenini kazanmıştır.`,
     email: 'ayse@karasuemlak.net',
-    phone: '+905466395462',
-    whatsapp: '+905466395462',
+    phone: '+905466395461',
+    whatsapp: '+905466395461',
     certifications: ['Emlak Danışmanı', 'Gayrimenkul Uzmanı'],
     achievements: ['150+ Başarılı Satış', '12+ Yıllık Deneyim', 'Müşteri Memnuniyeti Ödülü'],
     languages: ['Türkçe', 'İngilizce'],
@@ -128,8 +128,8 @@ export const teamMembers: TeamMember[] = [
 
 300+ başarılı kiralama işlemi gerçekleştiren Mehmet, müşterilerine sadece emlak bulmakla kalmayıp, aynı zamanda kira sözleşmeleri ve yasal süreçler konusunda da danışmanlık sağlamaktadır.`,
     email: 'mehmet@karasuemlak.net',
-    phone: '+905466395463',
-    whatsapp: '+905466395463',
+    phone: '+905466395461',
+    whatsapp: '+905466395461',
     certifications: ['Emlak Danışmanı', 'Kiralama Uzmanı'],
     achievements: ['300+ Başarılı Kiralama', '10+ Yıllık Deneyim', 'Yazlık Kiralama Uzmanı'],
     languages: ['Türkçe', 'İngilizce', 'Rusça'],
@@ -162,8 +162,8 @@ Gayrimenkul değerleme, piyasa analizi ve yatırım danışmanlığı konuların
 
 500+ değerleme raporu hazırlayan Fatma, hem alıcı hem de satıcı müşterilere piyasa değeri konusunda danışmanlık sağlamaktadır. Ayrıca yatırım yapmak isteyen müşterilere, yatırım potansiyeli ve getiri analizi konularında da rehberlik etmektedir.`,
     email: 'fatma@karasuemlak.net',
-    phone: '+905466395464',
-    whatsapp: '+905466395464',
+    phone: '+905466395461',
+    whatsapp: '+905466395461',
     certifications: ['Emlak Danışmanı', 'Gayrimenkul Uzmanı', 'Değerleme Uzmanı', 'Yatırım Danışmanı'],
     achievements: ['500+ Değerleme Raporu', '11+ Yıllık Deneyim', 'Piyasa Analizi Uzmanı'],
     languages: ['Türkçe', 'İngilizce'],
@@ -196,8 +196,8 @@ Gayrimenkul değerleme, piyasa analizi ve yatırım danışmanlığı konuların
 
 120+ başarılı satış işlemi gerçekleştiren Zeynep, özellikle yatırım yapmak isteyen müşterilere yardımcı olmak konusunda deneyimlidir. Detaylı piyasa analizi ve yatırım potansiyeli değerlendirmesi yapan Zeynep, müşterilerinin doğru kararlar vermesine yardımcı olmaktadır.`,
     email: 'zeynep@karasuemlak.net',
-    phone: '+905466395465',
-    whatsapp: '+905466395465',
+    phone: '+905466395461',
+    whatsapp: '+905466395461',
     certifications: ['Emlak Danışmanı', 'Gayrimenkul Uzmanı'],
     achievements: ['120+ Başarılı Satış', '9+ Yıllık Deneyim', 'Lüks Emlak Uzmanı'],
     languages: ['Türkçe', 'İngilizce', 'Almanca'],
@@ -230,8 +230,8 @@ Müşteri ilişkileri, işlem takibi ve yasal süreçler konularında uzmanlaşa
 
 400+ işlem takibi yapan Elif, müşterilerin sorularını hızlı bir şekilde yanıtlamakta ve işlem süreçlerini şeffaf bir şekilde yönetmektedir. Sabırlı, anlayışlı ve profesyonel yaklaşımı ile müşterilerin güvenini kazanmıştır.`,
     email: 'elif@karasuemlak.net',
-    phone: '+905466395466',
-    whatsapp: '+905466395466',
+    phone: '+905466395461',
+    whatsapp: '+905466395461',
     certifications: ['Emlak Danışmanı', 'Müşteri Hizmetleri Uzmanı'],
     achievements: ['400+ İşlem Takibi', '8+ Yıllık Deneyim', 'Müşteri Memnuniyeti Ödülü'],
     languages: ['Türkçe', 'İngilizce'],
@@ -264,8 +264,8 @@ Müşteri ilişkileri, işlem takibi ve yasal süreçler konularında uzmanlaşa
 
 250+ başarılı kiralama işlemi gerçekleştiren Seda, özellikle aileler ve öğrenciler için uygun konutlar bulmak konusunda deneyimlidir. Sabırlı ve anlayışlı yaklaşımı ile müşterilerinin ihtiyaçlarını anlamakta ve en uygun çözümü sunmaktadır.`,
     email: 'seda@karasuemlak.net',
-    phone: '+905466395467',
-    whatsapp: '+905466395467',
+    phone: '+905466395461',
+    whatsapp: '+905466395461',
     certifications: ['Emlak Danışmanı', 'Kiralama Uzmanı'],
     achievements: ['250+ Başarılı Kiralama', '7+ Yıllık Deneyim', 'Aile Konutları Uzmanı'],
     languages: ['Türkçe', 'İngilizce'],
@@ -298,8 +298,8 @@ Müşteri ilişkileri, işlem takibi ve yasal süreçler konularında uzmanlaşa
 
 180+ başarılı arsa ve ticari gayrimenkul satışı gerçekleştiren Mustafa, özellikle yatırım yapmak isteyen müşterilere yardımcı olmak konusunda deneyimlidir. Detaylı imar analizi ve yatırım potansiyeli değerlendirmesi yapan Mustafa, müşterilerinin doğru kararlar vermesine yardımcı olmaktadır.`,
     email: 'mustafa@karasuemlak.net',
-    phone: '+905466395468',
-    whatsapp: '+905466395468',
+    phone: '+905466395461',
+    whatsapp: '+905466395461',
     certifications: ['Emlak Danışmanı', 'Gayrimenkul Uzmanı', 'İmar Uzmanı'],
     achievements: ['180+ Başarılı Satış', '9+ Yıllık Deneyim', 'Arsa & Ticari Emlak Uzmanı'],
     languages: ['Türkçe', 'İngilizce'],
@@ -332,12 +332,12 @@ export function getTeamStats() {
     const years = parseInt(member.experience.replace(/\D/g, ''));
     return sum + years;
   }, 0);
-  
+
   const totalSales = teamMembers.reduce((sum, member) => {
     const sales = parseInt(member.stats.sales?.replace(/\D/g, '') || '0');
     return sum + sales;
   }, 0);
-  
+
   const totalRentals = teamMembers.reduce((sum, member) => {
     const rentals = parseInt(member.stats.rentals?.replace(/\D/g, '') || '0');
     return sum + rentals;

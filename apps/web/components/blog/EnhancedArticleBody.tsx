@@ -100,6 +100,42 @@ function generateInternalLinks(
       description: 'Karasu\'da satılık ev ilanları',
     });
 
+    // Karasu satılık daire link (high priority for "karasu satılık daire" keyword)
+    if (text.includes('daire')) {
+      if (text.includes('satılık') || text.includes('satilik')) {
+        links.push({
+          href: `${basePath}/karasu-satilik-daire`,
+          label: 'Karasu Satılık Daire',
+          description: 'Karasu\'da satılık daire ilanları ve rehber',
+        });
+      }
+      if (text.includes('kiralık') || text.includes('kiralik')) {
+        links.push({
+          href: `${basePath}/karasu-kiralik-daire`,
+          label: 'Karasu Kiralık Daire',
+          description: 'Karasu\'da kiralık daire ilanları ve rehber',
+        });
+      }
+    }
+
+    // Karasu satılık villa link
+    if (text.includes('villa')) {
+      links.push({
+        href: `${basePath}/karasu-satilik-villa`,
+        label: 'Karasu Satılık Villa',
+        description: 'Karasu\'da satılık villa ilanları ve rehber',
+      });
+    }
+
+    // Karasu satılık yazlık link
+    if (text.includes('yazlık') || text.includes('yazlik')) {
+      links.push({
+        href: `${basePath}/karasu-satilik-yazlik`,
+        label: 'Karasu Satılık Yazlık',
+        description: 'Karasu\'da satılık yazlık ilanları ve rehber',
+      });
+    }
+
     if (text.includes('merkez')) {
       links.push({
         href: `${basePath}/karasu-merkez-satilik-ev`,

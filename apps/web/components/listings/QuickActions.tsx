@@ -5,6 +5,7 @@ import { Button } from '@karasu/ui';
 import { cn } from '@karasu/lib';
 import { FavoriteButton } from '@/components/listings/FavoriteButton';
 import { EnhancedShareButtons } from '@/components/share/EnhancedShareButtons';
+import { napData } from '@karasu-emlak/config/nap';
 
 interface QuickActionsProps {
   propertyId: string;
@@ -15,13 +16,13 @@ interface QuickActionsProps {
   className?: string;
 }
 
-export function QuickActions({ 
-  propertyId, 
-  propertyTitle, 
+export function QuickActions({
+  propertyId,
+  propertyTitle,
   propertySlug,
   propertyImage,
   propertyDescription,
-  className 
+  className
 }: QuickActionsProps) {
 
   const handleDownload = () => {
@@ -37,7 +38,7 @@ export function QuickActions({
         className="flex-1 md:flex-none bg-[#006AFF] hover:bg-[#0052CC] text-white font-semibold"
         asChild
       >
-        <a href="tel:+905466395461">
+        <a href={`tel:${napData.contact.phone}`}>
           <Phone className="h-4 w-4 mr-2" />
           Hemen Ara
         </a>
@@ -49,15 +50,15 @@ export function QuickActions({
         className="flex-1 md:flex-none border-2 border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white font-semibold"
         asChild
       >
-        <a href="https://wa.me/905466395461" target="_blank" rel="noopener noreferrer">
+        <a href={`https://wa.me/${napData.contact.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer">
           <MessageCircle className="h-4 w-4 mr-2" />
           WhatsApp
         </a>
       </Button>
 
       {/* Secondary Actions */}
-      <FavoriteButton 
-        listingId={propertyId} 
+      <FavoriteButton
+        listingId={propertyId}
         listingTitle={propertyTitle}
         variant="detail"
       />

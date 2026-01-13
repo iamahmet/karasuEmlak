@@ -211,7 +211,7 @@ export function FAQContent({ basePath, faqs: initialFaqs = [], error }: FAQConte
           type="button"
           onClick={() => toggleExpanded(faq.id)}
           className="w-full text-left px-5 sm:px-6 py-4 sm:py-5 flex items-start justify-between gap-3 sm:gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl"
-          aria-expanded={isExpanded ? 'true' : 'false'}
+          aria-expanded={isExpanded}
           aria-controls={`faq-answer-${faq.id}`}
           id={`faq-question-${faq.id}`}
         >
@@ -303,21 +303,32 @@ export function FAQContent({ basePath, faqs: initialFaqs = [], error }: FAQConte
           </div>
         )}
 
+        {/* Empty State - No FAQs */}
+        {!error && faqs.length === 0 && (
+          <div className="mb-6 p-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl" role="alert">
+            <p className="text-sm text-blue-800 dark:text-blue-200">
+              <strong>Bilgi:</strong> Şu anda veritabanında soru bulunmamaktadır. Lütfen daha sonra tekrar kontrol edin veya iletişim sayfamızdan sorularınızı bize iletin.
+            </p>
+          </div>
+        )}
+
         {/* Hero Section - Premium Modern Design */}
         <header className="text-center mb-10 sm:mb-12 lg:mb-16">
           {/* Stats Badges - Like Reference Site */}
-          <div className="flex flex-wrap justify-center gap-3 mb-6">
-            <div className="inline-flex items-center gap-2 bg-gray-900 dark:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold">
-              <MessageCircleQuestion className="h-4 w-4" />
-              <span>{faqs.length}+ Soru ve Cevap</span>
+          {faqs.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-3 mb-6">
+              <div className="inline-flex items-center gap-2 bg-gray-900 dark:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold">
+                <MessageCircleQuestion className="h-4 w-4" />
+                <span>{faqs.length}+ Soru ve Cevap</span>
+              </div>
+              <div className="inline-flex items-center gap-2 bg-gray-900 dark:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold">
+                <span>{categories.length} Kategori</span>
+              </div>
+              <div className="inline-flex items-center gap-2 bg-gray-900 dark:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold">
+                <span>Güncel Bilgiler</span>
+              </div>
             </div>
-            <div className="inline-flex items-center gap-2 bg-gray-900 dark:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold">
-              <span>{categories.length} Kategori</span>
-            </div>
-            <div className="inline-flex items-center gap-2 bg-gray-900 dark:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold">
-              <span>Güncel Bilgiler</span>
-            </div>
-          </div>
+          )}
           
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
             Sık Sorulan Sorular
@@ -327,20 +338,22 @@ export function FAQContent({ basePath, faqs: initialFaqs = [], error }: FAQConte
           </p>
           
           {/* Additional Stats */}
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-sm">
-            <span className="inline-flex items-center gap-1.5 font-semibold text-gray-700 dark:text-gray-300">
-              <span className="w-2 h-2 bg-primary rounded-full"></span>
-              {faqs.length}+ Soru
-            </span>
-            <span className="inline-flex items-center gap-1.5 text-gray-600 dark:text-gray-400">
-              <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-              {new Date().getFullYear()} Güncel
-            </span>
-            <span className="inline-flex items-center gap-1.5 text-gray-600 dark:text-gray-400">
-              <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
-              Uzman Cevaplar
-            </span>
-          </div>
+          {faqs.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-sm">
+              <span className="inline-flex items-center gap-1.5 font-semibold text-gray-700 dark:text-gray-300">
+                <span className="w-2 h-2 bg-primary rounded-full"></span>
+                {faqs.length}+ Soru
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-gray-600 dark:text-gray-400">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                {new Date().getFullYear()} Güncel
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-gray-600 dark:text-gray-400">
+                <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
+                Uzman Cevaplar
+              </span>
+            </div>
+          )}
         </header>
 
         {/* Search Bar - Enhanced with Category Filter */}
@@ -726,7 +739,7 @@ export function FAQContent({ basePath, faqs: initialFaqs = [], error }: FAQConte
 
             {/* CTA Section - Enhanced */}
             <section className="mt-12 sm:mt-16 bg-gradient-to-br from-primary to-primary-dark dark:from-primary dark:to-primary-dark rounded-2xl p-6 sm:p-10 text-center text-white overflow-hidden relative">
-              <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.1]">
+              <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.1] pointer-events-none">
                 <div className="absolute inset-0" style={{
                   backgroundImage: 'radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)',
                   backgroundSize: '32px 32px',

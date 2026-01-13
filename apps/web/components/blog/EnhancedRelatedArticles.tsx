@@ -63,18 +63,21 @@ export function EnhancedRelatedArticles({
 
   return (
     <section className={cn('py-8 md:py-12', className)}>
-      <div className="flex items-center justify-between mb-6 md:mb-8">
+      <div className="flex items-center justify-between mb-8 md:mb-10">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-[#006AFF]/10 rounded-lg">
-            <Sparkles className="h-5 w-5 text-[#006AFF]" />
+          <div className="p-2.5 bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 rounded-xl border border-primary/20 dark:border-primary/30">
+            <Sparkles className="h-5 w-5 text-primary" />
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100">
-            {title}
-          </h2>
+          <div>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
+              {title}
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Size özel öneriler</p>
+          </div>
         </div>
         <Link
           href={`${basePath}/blog`}
-          className="text-sm font-medium text-[#006AFF] dark:text-blue-400 hover:text-[#0052CC] dark:hover:text-blue-300 flex items-center gap-1 transition-colors"
+          className="hidden md:flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary bg-primary/10 dark:bg-primary/20 rounded-xl hover:bg-primary/20 dark:hover:bg-primary/30 transition-all border border-primary/20 dark:border-primary/30"
         >
           Tümü
           <ArrowRight className="h-4 w-4" />
@@ -95,7 +98,7 @@ export function EnhancedRelatedArticles({
               className="group block h-full"
               prefetch={true}
             >
-              <article className="h-full bg-white dark:bg-gray-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-lg hover:border-[#006AFF]/40 dark:hover:border-blue-500/40 transition-all duration-200 hover:-translate-y-0.5 flex flex-col">
+              <article className="h-full bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-primary dark:hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 flex flex-col">
                 {/* Image */}
                 {article.featured_image && (
                   <div className="relative aspect-video overflow-hidden bg-slate-100 dark:bg-slate-800">
@@ -117,52 +120,52 @@ export function EnhancedRelatedArticles({
                       />
                     )}
                     {recent && (
-                      <div className="absolute top-3 right-3 px-2 py-1 bg-[#006AFF] text-white text-xs font-semibold rounded-full flex items-center gap-1">
-                        <TrendingUp className="h-3 w-3" />
-                        Yeni
+                      <div className="absolute top-4 right-4 px-3 py-1.5 bg-gradient-to-r from-primary to-blue-600 text-white text-xs font-bold rounded-lg flex items-center gap-1.5 shadow-lg border border-white/20">
+                        <TrendingUp className="h-3.5 w-3.5" />
+                        YENİ
                       </div>
                     )}
                   </div>
                 )}
 
                 {/* Content */}
-                <div className="p-5 flex-1 flex flex-col">
+                <div className="p-6 flex-1 flex flex-col">
                   {/* Category */}
                   {article.category && (
-                    <div className="mb-2">
-                      <span className="inline-block px-2 py-1 bg-[#006AFF]/10 text-[#006AFF] dark:text-blue-400 text-xs font-semibold rounded-full">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1.5 bg-primary/10 dark:bg-primary/20 text-primary text-xs font-bold rounded-lg border border-primary/20 dark:border-primary/30">
                         {article.category}
                       </span>
                     </div>
                   )}
 
                   {/* Title */}
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2 line-clamp-2 group-hover:text-[#006AFF] dark:group-hover:text-blue-400 transition-colors">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-primary dark:group-hover:text-primary transition-colors leading-tight">
                     {article.title}
                   </h3>
 
                   {/* Excerpt */}
                   {article.excerpt && (
-                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 line-clamp-2 flex-1">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-5 line-clamp-3 flex-1 leading-relaxed">
                       {article.excerpt}
                     </p>
                   )}
 
                   {/* Meta */}
-                  <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 pt-4 border-t border-slate-100 dark:border-slate-700">
-                    <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 pt-5 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center gap-4">
                       {publishedDate && (
-                        <div className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          <span>{publishedDate}</span>
+                        <div className="flex items-center gap-1.5">
+                          <Calendar className="h-3.5 w-3.5" />
+                          <span className="font-medium">{publishedDate}</span>
                         </div>
                       )}
-                      <div className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        <span>{readingTime} dk</span>
+                      <div className="flex items-center gap-1.5">
+                        <Clock className="h-3.5 w-3.5" />
+                        <span className="font-medium">{readingTime} dk</span>
                       </div>
                     </div>
-                    <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-[#006AFF] dark:group-hover:text-blue-400 transition-colors" />
+                    <ArrowRight className="h-5 w-5 text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary transition-all duration-300 group-hover:translate-x-1" />
                   </div>
                 </div>
               </article>

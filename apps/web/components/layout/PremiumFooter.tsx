@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
 import { siteConfig } from "@karasu-emlak/config";
-import { 
-  Facebook, 
-  Instagram, 
-  Twitter, 
-  Mail, 
-  Phone, 
+import {
+  Facebook,
+  Instagram,
+  Twitter,
+  Mail,
+  Phone,
   MessageCircle,
   Home,
   Key,
@@ -133,13 +133,13 @@ export function PremiumFooter() {
 
   const contactInfo = {
     phone: napData.contact?.phone || '+905466395461',
-    phoneFormatted: napData.contact?.phoneFormatted || '+90 (546) 639 54 61',
+    phoneFormatted: napData.contact?.phoneFormatted || '+90 546 639 54 61',
     whatsapp: napData.contact?.whatsapp || '+905466395461',
     email: napData.contact?.email || 'info@karasuemlak.net',
   };
 
   return (
-    <footer 
+    <footer
       className="relative border-t-2 border-slate-200 bg-gradient-to-br from-slate-50 via-white to-slate-50/50"
       role="contentinfo"
       aria-label="Site footer"
@@ -301,7 +301,7 @@ export function PremiumFooter() {
                 </div>
               </div>
               <p className="text-sm text-slate-600 leading-relaxed tracking-tight mb-4">
-                Karasu ve çevresinde 15 yıldır güvenilir emlak danışmanlığı hizmeti sunuyoruz. 
+                Karasu ve çevresinde 15 yıldır güvenilir emlak danışmanlığı hizmeti sunuyoruz.
                 Hayalinizdeki evi bulmak için buradayız.
               </p>
               {/* Address */}
@@ -353,7 +353,7 @@ export function PremiumFooter() {
                 </li>
               ))}
             </ul>
-            
+
             {/* Satılık Kategoriler */}
             <div className="mt-6 pt-6 border-t border-slate-200">
               <h5 className="text-[11px] font-bold mb-3 text-slate-900 uppercase tracking-wider">
@@ -403,7 +403,7 @@ export function PremiumFooter() {
                 </li>
               ))}
             </ul>
-            
+
             {/* Blog & Makaleler */}
             <div className="mt-6 pt-6 border-t border-slate-200">
               <h5 className="text-[11px] font-bold mb-3 text-slate-900 uppercase tracking-wider">
@@ -445,14 +445,14 @@ export function PremiumFooter() {
                   </Link>
                 </li>
               ))}
-              
+
               {/* Separator */}
               <li className="pt-3 border-t border-slate-200">
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                   Yasal
                 </span>
               </li>
-              
+
               {legalLinks.map((link) => (
                 <li key={link.href} className="mt-2.5">
                   <Link
@@ -542,43 +542,43 @@ export function PremiumFooter() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
             {/* Copyright */}
             <p className="text-xs text-slate-600 font-medium tracking-tight text-center md:text-left">
-              © {currentYear} <span className="font-bold text-slate-900">{siteConfig.name}</span>. 
+              © {currentYear} <span className="font-bold text-slate-900">{siteConfig.name}</span>.
               <span className="mx-1.5">•</span>
               Tüm hakları saklıdır.
             </p>
 
             {/* Quick Links */}
             <div className="flex flex-wrap items-center justify-center gap-3 text-xs">
-              <Link 
+              <Link
                 href="/gizlilik-politikasi"
                 className="text-slate-600 hover:text-[#006AFF] transition-colors duration-200"
               >
                 Gizlilik Politikası
               </Link>
               <span className="text-slate-300">•</span>
-              <Link 
+              <Link
                 href="/cerez-politikasi"
                 className="text-slate-600 hover:text-[#006AFF] transition-colors duration-200"
               >
                 Çerez Politikası
               </Link>
               <span className="text-slate-300">•</span>
-              <Link 
+              <Link
                 href="/kullanim-kosullari"
                 className="text-slate-600 hover:text-[#006AFF] transition-colors duration-200"
               >
                 Kullanım Koşulları
               </Link>
               <span className="text-slate-300">•</span>
-              <Link 
+              <Link
                 href="/kvkk-basvuru"
                 className="text-slate-600 hover:text-[#006AFF] transition-colors duration-200"
               >
                 KVKK Başvuru
               </Link>
               <span className="text-slate-300">•</span>
-              <Link 
-                href="/sitemap.xml" 
+              <Link
+                href="/sitemap.xml"
                 target="_blank"
                 className="text-slate-600 hover:text-[#006AFF] transition-colors duration-200 flex items-center gap-1"
               >

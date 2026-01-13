@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Phone, MessageCircle, Mail, Plus, Search, Calculator, TrendingUp, ArrowRight } from "lucide-react";
+import { napData } from "@karasu-emlak/config/nap";
 
 interface CTASectionProps {
   basePath?: string;
@@ -14,14 +15,14 @@ export function CTASection({ basePath = "" }: CTASectionProps) {
       title: "Telefon ile Ulaşın",
       description: "Hafta içi 09:00 - 18:00",
       action: "Hemen Ara",
-      href: "tel:+905466395461",
+      href: `tel:${napData.contact.phone}`,
     },
     {
       icon: MessageCircle,
       title: "WhatsApp Destek",
       description: "7/24 hızlı yanıt",
       action: "Mesaj Gönder",
-      href: "https://wa.me/905466395461",
+      href: `https://wa.me/${napData.contact.whatsapp.replace(/[^0-9]/g, '')}`,
       external: true,
     },
     {

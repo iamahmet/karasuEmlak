@@ -434,12 +434,26 @@ export default async function ForSalePage({
                     <span className="font-semibold text-slate-700">2+1, 3+1</span>
                   </div>
                 </div>
-                <Link href={`${basePath}/satilik?propertyType=daire`}>
-                  <Button variant="outline" size="sm" className="w-full gap-2 border-slate-300 hover:border-[#006AFF] hover:text-[#006AFF]">
-                    Daire Ara
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
+                <div className="space-y-2">
+                  <Link href={`${basePath}/satilik?propertyType=daire`}>
+                    <Button variant="outline" size="sm" className="w-full gap-2 border-slate-300 hover:border-[#006AFF] hover:text-[#006AFF]">
+                      Daire Ara
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <div className="flex gap-2">
+                    <Link href={`${basePath}/karasu-satilik-daire`} className="flex-1">
+                      <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#006AFF]">
+                        Karasu Satılık Daire →
+                      </Button>
+                    </Link>
+                    <Link href={`${basePath}/karasu-satilik-villa`} className="flex-1">
+                      <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#006AFF]">
+                        Karasu Satılık Villa →
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
               </div>
 
               {/* Villa */}
@@ -463,12 +477,19 @@ export default async function ForSalePage({
                     <span className="font-semibold text-slate-700">Bahçeli, Havuzlu</span>
                   </div>
                 </div>
-                <Link href={`${basePath}/satilik?propertyType=villa`}>
-                  <Button variant="outline" size="sm" className="w-full gap-2 border-slate-300 hover:border-[#00A862] hover:text-[#00A862]">
-                    Villa Ara
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
+                <div className="space-y-2">
+                  <Link href={`${basePath}/satilik?propertyType=villa`}>
+                    <Button variant="outline" size="sm" className="w-full gap-2 border-slate-300 hover:border-[#00A862] hover:text-[#00A862]">
+                      Villa Ara
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Link href={`${basePath}/karasu-satilik-villa`}>
+                    <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#00A862]">
+                      Karasu Satılık Villa Rehberi →
+                    </Button>
+                  </Link>
+                </div>
               </div>
 
               {/* Yazlık */}
@@ -492,12 +513,19 @@ export default async function ForSalePage({
                     <span className="font-semibold text-slate-700">Sahil Şeridi</span>
                   </div>
                 </div>
-                <Link href={`${basePath}/satilik?propertyType=yazlik`}>
-                  <Button variant="outline" size="sm" className="w-full gap-2 border-slate-300 hover:border-amber-500 hover:text-amber-700">
-                    Yazlık Ara
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
+                <div className="space-y-2">
+                  <Link href={`${basePath}/satilik?propertyType=yazlik`}>
+                    <Button variant="outline" size="sm" className="w-full gap-2 border-slate-300 hover:border-amber-500 hover:text-amber-700">
+                      Yazlık Ara
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Link href={`${basePath}/karasu-satilik-yazlik`}>
+                    <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-amber-700">
+                      Karasu Satılık Yazlık Rehberi →
+                    </Button>
+                  </Link>
+                </div>
               </div>
 
               {/* Arsa */}

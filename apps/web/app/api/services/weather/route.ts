@@ -13,6 +13,17 @@ export async function GET(request: NextRequest) {
     const country = searchParams.get('country') || 'TR';
     const type = searchParams.get('type') || 'current'; // 'current' or 'forecast'
 
+    // Check if API key is configured
+    if (!process.env.OPENWEATHER_API_KEY) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('OPENWEATHER_API_KEY not configured');
+      }
+      return NextResponse.json({
+        success: false,
+        error: 'Weather service not configured',
+      }, { status: 503 }); // Service Unavailable
+    }
+
     if (type === 'forecast') {
       const forecast = await getWeatherForecast(city, country);
       return NextResponse.json({
@@ -27,7 +38,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({
         success: false,
         error: 'Weather data not available',
-      }, { status: 404 });
+      }, { status: 503 }); // Service Unavailable instead of 404
     }
 
     return NextResponse.json({

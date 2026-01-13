@@ -491,22 +491,22 @@ export default async function BlogPage({
       <StructuredData data={breadcrumbSchema} />
       <StructuredData data={collectionSchema} />
       {faqSchema && <StructuredData data={faqSchema} />}
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white dark:bg-gray-900">
         {/* Hero Section */}
         <BlogPageHero basePath={basePath} />
 
         {/* Trust Signals Bar */}
-        <div className="border-b border-gray-200">
+        <div className="border-b border-gray-200 dark:border-gray-800">
           <TrustSignalsBarDynamic variant="compact" />
         </div>
 
-        <div className="container mx-auto px-4 py-6 md:py-8 lg:py-10 max-w-7xl">
+        <div className="container mx-auto px-4 py-8 md:py-10 lg:py-12 max-w-7xl">
           {/* Breadcrumbs */}
           <Breadcrumbs items={breadcrumbs} className="mb-5" />
 
           {/* Real Estate News Section - First Load */}
           {/* Always show this section on first load, even if empty initially */}
-          <section className="mb-6 bg-gradient-to-br from-blue-50/50 via-white to-primary/5 rounded-xl p-5 border border-primary/10 shadow-sm">
+          <section className="mb-8 bg-gradient-to-br from-blue-50/50 via-white to-primary/5 dark:from-gray-800/50 dark:via-gray-900 dark:to-primary/10 rounded-2xl p-6 md:p-8 border border-primary/10 dark:border-primary/20 shadow-lg">
             <div className="flex items-center gap-2.5 mb-4">
               <div className="p-1.5 bg-primary/10 rounded-lg">
                 <TrendingUp className="h-4 w-4 text-primary" />
@@ -518,7 +518,7 @@ export default async function BlogPage({
             </div>
             {realEstateNews.length > 0 ? (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                   {realEstateNews.slice(0, 6).map((news) => (
                     <NewsCard key={news.id} news={news} basePath={basePath} variant="compact" />
                   ))}
@@ -550,32 +550,38 @@ export default async function BlogPage({
           </section>
 
           {/* Header Section with Stats */}
-          <section className="mb-6">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
+          <section className="mb-8">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
               <div className="flex-1">
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 tracking-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
                   Karasu Emlak Blog
                 </h1>
-                <p className="text-base md:text-lg text-gray-600 max-w-3xl mb-5 leading-relaxed">
+                <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mb-6 leading-relaxed">
                   Karasu ve çevresinde emlak, yatırım, bölge rehberleri ve uzman görüşleri. Satılık ev fiyatları, mahalle analizleri, yatırım ipuçları ve daha fazlası.
                 </p>
                 
                 {/* Stats */}
-                <div className="flex flex-wrap items-center gap-4 mb-5">
-                  <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-4 py-2 rounded-lg">
-                    <FileText className="h-4 w-4 text-primary" />
-                    <span className="font-semibold text-gray-900">{total}</span>
+                <div className="flex flex-wrap items-center gap-3 mb-6">
+                  <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 px-5 py-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                    <div className="p-1.5 bg-primary/10 rounded-lg">
+                      <FileText className="h-4 w-4 text-primary" />
+                    </div>
+                    <span className="font-bold text-gray-900 dark:text-white text-base">{total}</span>
                     <span>Yazı</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-4 py-2 rounded-lg">
-                    <BookOpen className="h-4 w-4 text-primary" />
-                    <span className="font-semibold text-gray-900">{categories?.length || 0}</span>
+                  <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 px-5 py-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                    <div className="p-1.5 bg-primary/10 rounded-lg">
+                      <BookOpen className="h-4 w-4 text-primary" />
+                    </div>
+                    <span className="font-bold text-gray-900 dark:text-white text-base">{categories?.length || 0}</span>
                     <span>Kategori</span>
                   </div>
                   {totalViews > 0 && (
-                    <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-4 py-2 rounded-lg">
-                      <BarChart3 className="h-4 w-4 text-primary" />
-                      <span className="font-semibold text-gray-900">{totalViews.toLocaleString('tr-TR')}</span>
+                    <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 px-5 py-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                      <div className="p-1.5 bg-primary/10 rounded-lg">
+                        <BarChart3 className="h-4 w-4 text-primary" />
+                      </div>
+                      <span className="font-bold text-gray-900 dark:text-white text-base">{totalViews.toLocaleString('tr-TR')}</span>
                       <span>Görüntülenme</span>
                     </div>
                   )}
@@ -584,19 +590,19 @@ export default async function BlogPage({
                 {/* Quick Links */}
                 <div className="flex flex-wrap gap-3">
                   <Link href={`${basePath}/karasu-satilik-ev`}>
-                    <Button variant="outline" size="sm" className="border-2">
+                    <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5 transition-all">
                       <MapPin className="h-4 w-4 mr-2" />
                       Karasu Rehberi
                     </Button>
                   </Link>
                   <Link href={`${basePath}/satilik`}>
-                    <Button variant="outline" size="sm" className="border-2">
+                    <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5 transition-all">
                       <FileText className="h-4 w-4 mr-2" />
                       Satılık İlanlar
                     </Button>
                   </Link>
                   <Link href={`${basePath}/rehber/yatirim`}>
-                    <Button variant="outline" size="sm" className="border-2">
+                    <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5 transition-all">
                       <TrendingUp className="h-4 w-4 mr-2" />
                       Yatırım Rehberi
                     </Button>
@@ -606,18 +612,18 @@ export default async function BlogPage({
             </div>
 
             {/* Search Section */}
-            <div className="bg-gradient-to-br from-blue-50/80 to-gray-50/80 backdrop-blur-sm rounded-xl p-5 border border-gray-200/50 mb-5 shadow-sm">
-              <div className="max-w-2xl mx-auto">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="p-1.5 bg-primary/10 rounded-lg">
-                    <Search className="h-4 w-4 text-primary" />
+            <div className="bg-gradient-to-br from-blue-50/90 via-white to-primary/5 dark:from-gray-800/50 dark:via-gray-900 dark:to-primary/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-gray-200/50 dark:border-gray-700/50 mb-8 shadow-lg">
+              <div className="max-w-3xl mx-auto">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-xl">
+                    <Search className="h-5 w-5 text-primary" />
                   </div>
-                  <h2 className="text-lg font-bold text-gray-900">Blog Yazılarında Ara</h2>
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Blog Yazılarında Ara</h2>
                 </div>
                 <BlogSearch basePath={basePath} />
                 {searchQuery && (
-                  <div className="mt-3 text-sm text-gray-600">
-                    <span>"<strong>{searchQuery}</strong>" için {total} sonuç bulundu</span>
+                  <div className="mt-4 text-sm text-gray-600 dark:text-gray-400 bg-white/50 dark:bg-gray-800/50 rounded-lg px-4 py-2 inline-block">
+                    <span>"<strong className="text-gray-900 dark:text-white">{searchQuery}</strong>" için <strong className="text-primary">{total}</strong> sonuç bulundu</span>
                   </div>
                 )}
               </div>
@@ -648,19 +654,19 @@ export default async function BlogPage({
               <>
             {/* Featured Articles Section */}
             {featuredArticles.length > 0 && (
-              <section className="mb-8">
-                <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg">
-                      <TrendingUp className="h-5 w-5 text-primary" />
+              <section className="mb-12">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 rounded-xl border border-primary/20">
+                      <TrendingUp className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h2 className="text-xl md:text-2xl font-bold text-gray-900">Öne Çıkan Yazılar</h2>
-                      <p className="text-xs text-gray-600 mt-0.5">En popüler içerikler</p>
+                      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Öne Çıkan Yazılar</h2>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">En popüler içerikler</p>
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                   {featuredArticles.map((article) => (
                     <ArticleCard key={article.id} article={article} basePath={basePath} />
                   ))}
@@ -670,19 +676,19 @@ export default async function BlogPage({
 
             {/* Latest Articles Section */}
             {latestArticles.length > 0 && (
-              <section className="mb-8">
-                <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 bg-gray-100 rounded-lg">
-                      <Calendar className="h-5 w-5 text-gray-700" />
+              <section className="mb-12">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                      <Calendar className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                     </div>
                     <div>
-                      <h2 className="text-xl md:text-2xl font-bold text-gray-900">Son Yazılar</h2>
-                      <p className="text-xs text-gray-600 mt-0.5">En yeni blog içerikleri</p>
+                      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Son Yazılar</h2>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">En yeni blog içerikleri</p>
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                   {latestArticles.map((article) => (
                     <ArticleCard key={article.id} article={article} basePath={basePath} />
                   ))}

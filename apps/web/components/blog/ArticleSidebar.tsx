@@ -75,58 +75,66 @@ function ArticleSidebarComponent({
         {/* Table of Contents - Primary Widget */}
         <Suspense
           fallback={
-            <div className="h-64 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse border border-slate-200 dark:border-slate-700" />
+            <div className="h-64 rounded-2xl bg-gray-100 dark:bg-gray-800 animate-pulse border-2 border-gray-200 dark:border-gray-700" />
           }
         >
           <TableOfContents
             content={article.content}
             articleId={article.id}
             articleTitle={article.title}
-            className="bg-white dark:bg-gray-800 border border-slate-200 dark:border-slate-700 rounded-xl"
+            className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg"
           />
         </Suspense>
 
         {/* Article Information Card */}
-        <div className="p-5 bg-white dark:bg-gray-800 border border-slate-200 dark:border-slate-700 rounded-xl">
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
-            <FileText className="h-4 w-4 text-[#006AFF] dark:text-blue-400" />
+        <div className="p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm">
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-5 flex items-center gap-2.5">
+            <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-lg">
+              <FileText className="h-4 w-4 text-primary" />
+            </div>
             Makale Bilgileri
           </h3>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {/* Reading Time */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-                <Clock className="h-4 w-4" />
-                <span>Okuma Süresi</span>
+            <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-2.5 text-sm text-gray-600 dark:text-gray-400">
+                <div className="p-1.5 bg-primary/10 dark:bg-primary/20 rounded-lg">
+                  <Clock className="h-4 w-4 text-primary" />
+                </div>
+                <span className="font-medium">Okuma Süresi</span>
               </div>
-              <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{readingTime} dk</span>
+              <span className="text-sm font-bold text-gray-900 dark:text-white">{readingTime} dk</span>
             </div>
 
             {/* Word Count */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-                <Type className="h-4 w-4" />
-                <span>Kelime Sayısı</span>
+            <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-2.5 text-sm text-gray-600 dark:text-gray-400">
+                <div className="p-1.5 bg-primary/10 dark:bg-primary/20 rounded-lg">
+                  <Type className="h-4 w-4 text-primary" />
+                </div>
+                <span className="font-medium">Kelime Sayısı</span>
               </div>
-              <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{wordCount.toLocaleString('tr-TR')}</span>
+              <span className="text-sm font-bold text-gray-900 dark:text-white">{wordCount.toLocaleString('tr-TR')}</span>
             </div>
 
             {/* Publication Date */}
             {publishedDate && (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-                  <Calendar className="h-4 w-4" />
-                  <span>Yayın Tarihi</span>
+              <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center gap-2.5 text-sm text-gray-600 dark:text-gray-400">
+                  <div className="p-1.5 bg-primary/10 dark:bg-primary/20 rounded-lg">
+                    <Calendar className="h-4 w-4 text-primary" />
+                  </div>
+                  <span className="font-medium">Yayın Tarihi</span>
                 </div>
-                <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{publishedDate}</span>
+                <span className="text-sm font-bold text-gray-900 dark:text-white">{publishedDate}</span>
               </div>
             )}
 
             {/* Featured Article Badge */}
-            <div className="pt-3 border-t border-slate-200 dark:border-slate-700">
-              <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400">
-                <Star className="h-4 w-4 fill-amber-500 dark:fill-amber-400" />
-                <span className="font-medium">Öne Çıkan Makale</span>
+            <div className="pt-4 border-t-2 border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-2.5 p-3 bg-gradient-to-r from-amber-50 to-amber-100/50 dark:from-amber-900/20 dark:to-amber-900/10 rounded-xl border border-amber-200 dark:border-amber-800">
+                <Star className="h-5 w-5 fill-amber-500 dark:fill-amber-400 text-amber-500 dark:text-amber-400" />
+                <span className="text-sm font-bold text-amber-700 dark:text-amber-400">Öne Çıkan Makale</span>
               </div>
             </div>
           </div>
@@ -144,41 +152,45 @@ function ArticleSidebarComponent({
         </Suspense>
 
         {/* Reliability Card */}
-        <div className="p-5 bg-white dark:bg-gray-800 border border-slate-200 dark:border-slate-700 rounded-xl">
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
-            <Shield className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+        <div className="p-6 bg-gradient-to-br from-emerald-50/50 via-white to-emerald-50/30 dark:from-emerald-900/10 dark:via-gray-800 dark:to-emerald-900/10 border-2 border-emerald-200/50 dark:border-emerald-800/50 rounded-2xl shadow-sm">
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-5 flex items-center gap-2.5">
+            <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg border border-emerald-200 dark:border-emerald-800">
+              <Shield className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+            </div>
             Güvenilirlik
           </h3>
           <div className="space-y-3">
-            <div className="flex items-center gap-3 text-sm">
-              <CheckCircle className="h-4 w-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
-              <span className="text-slate-700 dark:text-slate-300">Doğrulanmış İçerik</span>
+            <div className="flex items-center gap-3 p-2.5 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Doğrulanmış İçerik</span>
             </div>
-            <div className="flex items-center gap-3 text-sm">
-              <Lock className="h-4 w-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
-              <span className="text-slate-700 dark:text-slate-300">Güvenli Platform</span>
+            <div className="flex items-center gap-3 p-2.5 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <Lock className="h-5 w-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Güvenli Platform</span>
             </div>
-            <div className="flex items-center gap-3 text-sm">
-              <Shield className="h-4 w-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
-              <span className="text-slate-700 dark:text-slate-300">15+ Yıl Deneyim</span>
+            <div className="flex items-center gap-3 p-2.5 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <Shield className="h-5 w-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">15+ Yıl Deneyim</span>
             </div>
           </div>
         </div>
 
         {/* Related Articles - Enhanced Cards */}
         {relatedArticles.length > 0 && (
-          <div className="p-5 bg-white dark:bg-gray-800 border border-slate-200 dark:border-slate-700 rounded-xl">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-[#006AFF] dark:text-blue-400" />
+          <div className="p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm">
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2.5">
+                <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-lg">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                </div>
                 İlgili Yazılar
               </h3>
               <Link
                 href={`${basePath}/blog`}
-                className="text-xs font-medium text-[#006AFF] dark:text-blue-400 hover:text-[#0052CC] dark:hover:text-blue-300 flex items-center gap-1"
+                className="text-xs font-bold text-primary hover:text-primary-dark dark:hover:text-primary-light flex items-center gap-1.5 px-2 py-1 rounded-lg hover:bg-primary/10 dark:hover:bg-primary/20 transition-all"
               >
                 Tümü
-                <ArrowRight className="h-3 w-3" />
+                <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
             <div className="space-y-3">
@@ -186,18 +198,18 @@ function ArticleSidebarComponent({
                 <Link
                   key={related.id}
                   href={`${basePath}/blog/${related.slug}`}
-                  className="group block p-3 bg-slate-50/50 dark:bg-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-600 rounded-lg transition-all duration-200"
+                  className="group block p-4 bg-white dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 border-2 border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary/50 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md"
                 >
                   <div className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 rounded-lg bg-slate-200/80 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold flex items-center justify-center group-hover:bg-[#006AFF] dark:group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 text-primary text-xs font-bold flex items-center justify-center group-hover:bg-primary group-hover:text-white dark:group-hover:bg-primary transition-all border border-primary/20 dark:border-primary/30 group-hover:border-primary">
                       {index + 1}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-slate-800 dark:text-slate-200 group-hover:text-[#006AFF] dark:group-hover:text-blue-400 leading-snug line-clamp-2 transition-colors">
+                      <p className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-primary leading-snug line-clamp-2 transition-colors mb-1">
                         {related.title}
                       </p>
                       {related.category && (
-                        <span className="inline-block mt-1.5 text-xs text-slate-500 dark:text-slate-400">
+                        <span className="inline-block px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 rounded-lg">
                           {related.category}
                         </span>
                       )}
@@ -211,25 +223,27 @@ function ArticleSidebarComponent({
 
         {/* Regional Links - CTA */}
         {regionalLinks.length > 0 && (
-          <div className="p-5 bg-gradient-to-br from-[#006AFF]/5 dark:from-blue-500/10 to-blue-50/50 dark:to-blue-900/20 border border-[#006AFF]/10 dark:border-blue-500/20 rounded-xl">
-            <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-[#006AFF] dark:text-blue-400" />
+          <div className="p-6 bg-gradient-to-br from-primary/10 via-primary/5 to-white dark:from-primary/20 dark:via-primary/10 dark:to-gray-900 border-2 border-primary/20 dark:border-primary/30 rounded-2xl shadow-sm">
+            <h3 className="text-base font-bold text-gray-900 dark:text-white mb-5 flex items-center gap-2.5">
+              <div className="p-2 bg-primary/20 dark:bg-primary/30 rounded-lg border border-primary/30 dark:border-primary/40">
+                <MapPin className="h-4 w-4 text-primary" />
+              </div>
               Bölgedeki İlanlar
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-3">
               {regionalLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="group flex items-center justify-between p-3 bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 rounded-lg hover:border-[#006AFF]/40 dark:hover:border-blue-400/40 hover:shadow-sm transition-all duration-200"
+                  className="group flex items-center justify-between p-4 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-primary dark:hover:border-primary/50 hover:shadow-md transition-all duration-300"
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-800 dark:text-slate-200 group-hover:text-[#006AFF] dark:group-hover:text-blue-400 transition-colors">
+                    <p className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-primary transition-colors mb-1">
                       {link.label}
                     </p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">{link.description}</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-1">{link.description}</p>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-slate-400 dark:text-slate-500 group-hover:text-[#006AFF] dark:group-hover:text-blue-400 transition-colors flex-shrink-0 ml-2" />
+                  <ArrowRight className="h-5 w-5 text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary transition-all duration-300 group-hover:translate-x-1 flex-shrink-0 ml-3" />
                 </Link>
               ))}
             </div>

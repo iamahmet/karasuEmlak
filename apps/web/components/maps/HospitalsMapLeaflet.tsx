@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { AlertCircle } from 'lucide-react';
 import type { LatLngExpression } from 'leaflet';
+import { SectionErrorBoundary } from '@/components/errors/SectionErrorBoundary';
 
 // Dynamic imports for Leaflet (SSR disabled)
 const MapContainer = dynamic(
@@ -103,9 +104,12 @@ export function HospitalsMapLeaflet({
   height = '500px'
 }: HospitalsMapProps) {
   const [mounted, setMounted] = useState(false);
+  const [shouldRenderMap, setShouldRenderMap] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const isInitializingRef = useRef(false);
+  const mapInitializedRef = useRef(false);
+  const mapKeyRef = useRef(`hospitals-map-${Math.random().toString(36).substring(2, 11)}`);
 
   useEffect(() => {
     if (!mounted) {
@@ -125,9 +129,24 @@ export function HospitalsMapLeaflet({
       }
     }
 
-    // Mark as initializing to prevent double mount
-    if (mounted && !isInitializingRef.current) {
-      isInitializingRef.current = true;
+    // Only allow map rendering if not already initialized (React Strict Mode protection)
+    // Use a more robust check that persists across re-renders
+    if (mounted && !mapInitializedRef.current) {
+      // Check if container exists and doesn't have a map yet
+      if (mapContainerRef.current && !mapContainerRef.current.querySelector('.leaflet-container')) {
+        // Use requestAnimationFrame to ensure DOM is ready and avoid double initialization
+        const rafId = requestAnimationFrame(() => {
+          // Double-check after RAF to ensure no race conditions
+          if (!mapInitializedRef.current && mapContainerRef.current && !mapContainerRef.current.querySelector('.leaflet-container')) {
+            mapInitializedRef.current = true;
+            setShouldRenderMap(true);
+          }
+        });
+        
+        return () => {
+          cancelAnimationFrame(rafId);
+        };
+      }
     }
 
     // Cleanup
@@ -140,7 +159,7 @@ export function HospitalsMapLeaflet({
             // @ts-ignore - Leaflet global
             if (typeof window !== 'undefined' && window.L) {
               const L = window.L;
-                          const map = (leafletContainer as any)._leaflet_id ? L.Map.prototype.getContainer.call({ _container: leafletContainer }) : null;
+              const map = (leafletContainer as any)._leaflet_id ? L.Map.prototype.getContainer.call({ _container: leafletContainer }) : null;
               if (map && typeof map.remove === 'function') {
                 map.remove();
               }
@@ -151,6 +170,7 @@ export function HospitalsMapLeaflet({
         }
       }
       isInitializingRef.current = false;
+      // Don't reset mapInitializedRef here - we want it to persist across Strict Mode re-renders
     };
   }, [mounted]);
 
@@ -210,22 +230,42 @@ export function HospitalsMapLeaflet({
   }
 
   return (
-    <div 
-      ref={mapContainerRef}
-      className={`rounded-lg overflow-hidden border border-gray-200 shadow-lg relative ${className}`}
-      style={{ height, minHeight: height }}
-    >
-      {mounted && !isInitializingRef.current && (
-        <MapContainer
-          key="hospitals-map-single-instance"
-          center={initialCenter}
-          zoom={initialZoom}
-          minZoom={11}
-          maxZoom={18}
-          style={{ height: '100%', width: '100%' }}
-          className="z-0"
-          scrollWheelZoom={true}
+    <SectionErrorBoundary
+      sectionName="Hastane Haritası"
+      fallback={
+        <div 
+          className={`rounded-lg overflow-hidden border border-gray-200 shadow-lg relative bg-gray-50 flex items-center justify-center ${className}`}
+          style={{ height, minHeight: height }}
         >
+          <div className="text-center p-8">
+            <AlertCircle className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+            <p className="text-gray-500 font-medium">Harita şu anda yüklenemiyor</p>
+          </div>
+        </div>
+      }
+    >
+      <div 
+        ref={mapContainerRef}
+        className={`rounded-lg overflow-hidden border border-gray-200 shadow-lg relative ${className}`}
+        style={{ height, minHeight: height }}
+      >
+        {shouldRenderMap && (() => {
+          // Final check before rendering - prevent double initialization
+          if (mapContainerRef.current?.querySelector('.leaflet-container')) {
+            return null;
+          }
+          try {
+            return (
+              <MapContainer
+                key={mapKeyRef.current}
+                center={initialCenter}
+                zoom={initialZoom}
+                minZoom={11}
+                maxZoom={18}
+                style={{ height: '100%', width: '100%' }}
+                className="z-0"
+                scrollWheelZoom={true}
+              >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -308,8 +348,22 @@ export function HospitalsMapLeaflet({
             </Marker>
           );
         })}
-        </MapContainer>
-      )}
-    </div>
+            </MapContainer>
+            );
+          } catch (error) {
+            // If MapContainer fails to initialize, return fallback
+            console.error('MapContainer initialization error:', error);
+            return (
+              <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                <div className="text-center p-8">
+                  <AlertCircle className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                  <p className="text-gray-500 font-medium">Harita yüklenemedi</p>
+                </div>
+              </div>
+            );
+          }
+        })()}
+      </div>
+    </SectionErrorBoundary>
   );
 }

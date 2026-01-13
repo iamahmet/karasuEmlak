@@ -3,6 +3,7 @@
 import { MapPin, Shield, CheckCircle2, Star, Share2, Heart, Phone } from 'lucide-react';
 import { cn } from '@karasu/lib';
 import { Button } from '@karasu/ui';
+import { napData } from '@karasu-emlak/config/nap';
 import ShareButtons from '@/components/share/ShareButtons';
 import { FavoriteButton } from '@/components/listings/FavoriteButton';
 import { PrintButton } from '@/components/listings/PrintButton';
@@ -57,14 +58,14 @@ export function ListingHero({
       <div className="relative h-[60vh] min-h-[500px] max-h-[700px] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
         {/* Background Image or Gradient */}
         {mainImage?.url || mainImage?.public_id ? (
-          <div 
+          <div
             className="absolute inset-0 bg-cover bg-center"
             style={{
-              backgroundImage: mainImage.url 
-                ? `url(${mainImage.url})` 
-                : mainImage.public_id 
-                ? `url(https://res.cloudinary.com/demo/image/fetch/w_1920,h_1080,c_fill,q_auto,f_auto/${mainImage.public_id})`
-                : undefined,
+              backgroundImage: mainImage.url
+                ? `url(${mainImage.url})`
+                : mainImage.public_id
+                  ? `url(https://res.cloudinary.com/demo/image/fetch/w_1920,h_1080,c_fill,q_auto,f_auto/${mainImage.public_id})`
+                  : undefined,
             }}
           >
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/40" />
@@ -88,8 +89,8 @@ export function ListingHero({
               <div className="flex items-center gap-2 flex-wrap">
                 <span className={cn(
                   "px-4 py-2 rounded-xl text-sm font-bold tracking-tight shadow-xl backdrop-blur-md border",
-                  status === 'satilik' 
-                    ? 'bg-[#006AFF]/95 text-white border-[#006AFF]/30' 
+                  status === 'satilik'
+                    ? 'bg-[#006AFF]/95 text-white border-[#006AFF]/30'
                     : 'bg-[#00A862]/95 text-white border-[#00A862]/30'
                 )}>
                   {status === 'satilik' ? 'Satılık' : 'Kiralık'}
@@ -175,7 +176,7 @@ export function ListingHero({
                   className="flex-1 bg-white/95 hover:bg-white text-slate-900 font-semibold rounded-xl"
                   asChild
                 >
-                  <a href="tel:+905466395461">
+                  <a href={`tel:${napData.contact.phone}`}>
                     <Phone className="h-4 w-4 mr-2" />
                     Ara
                   </a>
@@ -202,7 +203,7 @@ export function ListingHero({
         {/* Bottom Wave Decoration */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg className="w-full h-16 md:h-24" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
+            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" />
           </svg>
         </div>
       </div>

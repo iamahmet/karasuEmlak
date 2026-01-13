@@ -3,21 +3,22 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 import { Fragment } from 'react';
 import { siteConfig } from '@karasu-emlak/config';
+import { napData } from '@karasu-emlak/config/nap';
 import { routing } from '@/i18n/routing';
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
-import { 
-  Building2, 
-  Users, 
-  Award, 
-  Target, 
-  CheckCircle, 
-  Shield, 
-  TrendingUp, 
-  Home, 
-  MapPin, 
-  Phone, 
-  Mail, 
+import {
+  Building2,
+  Users,
+  Award,
+  Target,
+  CheckCircle,
+  Shield,
+  TrendingUp,
+  Home,
+  MapPin,
+  Phone,
+  Mail,
   Clock,
   Sparkles,
   Heart,
@@ -43,7 +44,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const canonicalPath = locale === routing.defaultLocale ? '/hakkimizda' : `/${locale}/hakkimizda`;
-  
+
   return {
     title: 'Hakkımızda | Karasu Emlak - 15+ Yıllık Deneyim, Güvenilir Emlak Danışmanlığı',
     description: 'Karasu Emlak olarak 2010\'dan beri Karasu ve çevresinde emlak hizmetleri sunuyoruz. 15+ yıllık deneyim, 500+ mutlu müşteri, %98 memnuniyet oranı. Satılık ve kiralık emlak, danışmanlık, değerleme hizmetleri. Güvenilir, profesyonel ve müşteri odaklı hizmet anlayışımızla yanınızdayız.',
@@ -80,9 +81,9 @@ export default async function AboutPage({
   // Fetch Q&A entries for FAQ section
   const qaEntries = await withTimeout(getQAEntries('karasu', 'high'), 2000, []);
   const faqs = (qaEntries || [])
-    .filter(qa => qa.question.toLowerCase().includes('emlak') || 
-                   qa.question.toLowerCase().includes('süreç') ||
-                   qa.question.toLowerCase().includes('komisyon'))
+    .filter(qa => qa.question.toLowerCase().includes('emlak') ||
+      qa.question.toLowerCase().includes('süreç') ||
+      qa.question.toLowerCase().includes('komisyon'))
     .slice(0, 5)
     .map(qa => ({
       question: qa.question,
@@ -94,7 +95,7 @@ export default async function AboutPage({
   return (
     <Fragment>
       {faqSchema && <StructuredData data={faqSchema} />}
-      
+
       <div className="min-h-screen bg-white">
         {/* Hero Section - Modern Premium */}
         <section className="relative bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 border-b border-slate-200/60 overflow-hidden">
@@ -158,17 +159,17 @@ export default async function AboutPage({
             <div className="max-w-4xl mx-auto">
               <div className="bg-gradient-to-br from-slate-50 to-blue-50/30 rounded-2xl p-8 md:p-10 border border-slate-200/60 mb-8">
                 <p className="text-base sm:text-lg text-slate-700 leading-relaxed mb-4">
-                  2010 yılında Karasu'da kurulan Karasu Emlak, bölgenin emlak piyasasına derinlemesine hakim bir ekiple başladı. 
-                  İlk günden itibaren müşteri memnuniyetini ön planda tutan, şeffaf ve güvenilir hizmet anlayışımızla 
+                  2010 yılında Karasu'da kurulan Karasu Emlak, bölgenin emlak piyasasına derinlemesine hakim bir ekiple başladı.
+                  İlk günden itibaren müşteri memnuniyetini ön planda tutan, şeffaf ve güvenilir hizmet anlayışımızla
                   Karasu ve çevresindeki emlak alım-satım, kiralama ve danışmanlık işlemlerinde öncü bir konuma geldik.
                 </p>
                 <p className="text-base sm:text-lg text-slate-700 leading-relaxed mb-4">
-                  Karasu'nun sahil şeridindeki konumu, İstanbul'a yakınlığı ve doğal güzellikleri, bölgeyi hem yazlık 
-                  hem de kalıcı yaşam için cazip kılıyor. Bu dinamikleri yakından takip eden ekibimiz, müşterilerimize 
+                  Karasu'nun sahil şeridindeki konumu, İstanbul'a yakınlığı ve doğal güzellikleri, bölgeyi hem yazlık
+                  hem de kalıcı yaşam için cazip kılıyor. Bu dinamikleri yakından takip eden ekibimiz, müşterilerimize
                   en güncel piyasa bilgilerini sunarak doğru kararlar vermelerine yardımcı oluyor.
                 </p>
                 <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
-                  Bugün, yüzlerce başarılı işlem, mutlu müşteri ve bölgedeki güçlü referans ağımızla, 
+                  Bugün, yüzlerce başarılı işlem, mutlu müşteri ve bölgedeki güçlü referans ağımızla,
                   Karasu emlak piyasasının güvenilir adresi olmaya devam ediyoruz.
                 </p>
               </div>
@@ -185,12 +186,12 @@ export default async function AboutPage({
                 </div>
                 <h2 className="text-3xl sm:text-4xl font-bold mb-5 text-slate-900">Misyonumuz</h2>
                 <p className="text-base sm:text-lg text-slate-700 leading-relaxed mb-4">
-                  Karasu ve çevresinde emlak alım-satım ve kiralama işlemlerinde müşterilerimize 
-                  güvenilir, şeffaf ve profesyonel hizmet sunmak. Her müşterimizin hayalindeki 
+                  Karasu ve çevresinde emlak alım-satım ve kiralama işlemlerinde müşterilerimize
+                  güvenilir, şeffaf ve profesyonel hizmet sunmak. Her müşterimizin hayalindeki
                   evi bulmasına yardımcı olmak ve emlak süreçlerinde rehberlik etmek temel misyonumuzdur.
                 </p>
                 <p className="text-base sm:text-lg text-slate-700 leading-relaxed mb-6">
-                  Müşteri memnuniyetini ön planda tutarak, dürüstlük ve şeffaflık ilkelerimizle 
+                  Müşteri memnuniyetini ön planda tutarak, dürüstlük ve şeffaflık ilkelerimizle
                   sektörde öncü bir konumda yer almayı hedefliyoruz.
                 </p>
                 <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
@@ -199,7 +200,7 @@ export default async function AboutPage({
                     Vizyonumuz
                   </h3>
                   <p className="text-sm text-slate-700 leading-relaxed">
-                    Karasu ve Sakarya bölgesinin en güvenilir, en profesyonel ve müşteri odaklı emlak danışmanlık firması olmak. 
+                    Karasu ve Sakarya bölgesinin en güvenilir, en profesyonel ve müşteri odaklı emlak danışmanlık firması olmak.
                     Bölgedeki emlak piyasasının gelişimine katkıda bulunmak ve müşterilerimize en iyi hizmeti sunmak.
                   </p>
                 </div>
@@ -216,7 +217,7 @@ export default async function AboutPage({
                     </div>
                   </div>
                   <p className="text-base text-slate-700 leading-relaxed mb-6">
-                    Bölgede uzun yıllardır faaliyet gösteren ekibimiz, emlak sektöründeki 
+                    Bölgede uzun yıllardır faaliyet gösteren ekibimiz, emlak sektöründeki
                     deneyim ve bilgi birikimini müşterilerimize aktarıyor.
                   </p>
                   <div className="grid grid-cols-2 gap-4 pt-6 border-t border-slate-200">
@@ -403,7 +404,7 @@ export default async function AboutPage({
                 </div>
                 <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-slate-900">Karasu'yu Yakından Tanıyoruz</h2>
                 <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-                  15+ yıllık deneyimimizle Karasu'nun her mahallesini, her sokağını biliyoruz. 
+                  15+ yıllık deneyimimizle Karasu'nun her mahallesini, her sokağını biliyoruz.
                   Bu yerel bilgi birikimi, müşterilerimize en doğru rehberliği sağlıyor.
                 </p>
               </div>
@@ -414,7 +415,7 @@ export default async function AboutPage({
                     Mahalle Bilgisi
                   </h3>
                   <p className="text-sm text-slate-600 leading-relaxed">
-                    Merkez, Liman, Kocaali ve diğer mahallelerin emlak piyasası, fiyat trendleri, 
+                    Merkez, Liman, Kocaali ve diğer mahallelerin emlak piyasası, fiyat trendleri,
                     altyapı durumu ve yaşam kalitesi hakkında detaylı bilgi sahibiyiz.
                   </p>
                 </div>
@@ -424,7 +425,7 @@ export default async function AboutPage({
                     Piyasa Analizi
                   </h3>
                   <p className="text-sm text-slate-600 leading-relaxed">
-                    Karasu emlak piyasasındaki güncel fiyat hareketleri, yatırım potansiyeli ve 
+                    Karasu emlak piyasasındaki güncel fiyat hareketleri, yatırım potansiyeli ve
                     gelecek trendleri konusunda sürekli güncel bilgiye sahibiz.
                   </p>
                 </div>
@@ -525,8 +526,8 @@ export default async function AboutPage({
                   </div>
                   <h3 className="font-bold mb-2 text-slate-900">Telefon</h3>
                   <p className="text-sm text-slate-600">
-                    <a href="tel:+905466395461" className="text-[#006AFF] hover:text-[#0052CC] font-semibold transition-colors">
-                      +90 (546) 639 54 61
+                    <a href={`tel:${napData.contact.phone}`} className="text-[#006AFF] hover:text-[#0052CC] font-semibold transition-colors">
+                      {napData.contact.phoneFormatted}
                     </a>
                   </p>
                 </div>
@@ -561,8 +562,8 @@ export default async function AboutPage({
             <div className="bg-gradient-to-br from-[#006AFF] to-blue-600 rounded-3xl p-8 md:p-12 text-white shadow-xl">
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">Bizimle İletişime Geçin</h2>
               <p className="text-lg text-blue-50 mb-8 max-w-2xl mx-auto leading-relaxed">
-                Emlak ihtiyaçlarınız için bize ulaşın. Size en iyi hizmeti sunmak için buradayız. 
-                Satılık veya kiralık emlak arayışınızda, yatırım danışmanlığı veya emlak değerleme 
+                Emlak ihtiyaçlarınız için bize ulaşın. Size en iyi hizmeti sunmak için buradayız.
+                Satılık veya kiralık emlak arayışınızda, yatırım danışmanlığı veya emlak değerleme
                 hizmetlerimiz için bizimle iletişime geçebilirsiniz.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -650,12 +651,12 @@ export default async function AboutPage({
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-slate-900">Ekibimiz ve Uzmanlığımız</h2>
               <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-6">
-                Deneyimli ve profesyonel ekibimiz ile Karasu emlak piyasasında güvenilir hizmet sunuyoruz. 
-                8 uzman emlak danışmanımız, satılık ve kiralık emlak danışmanlığından değerleme ve yatırım danışmanlığına 
+                Deneyimli ve profesyonel ekibimiz ile Karasu emlak piyasasında güvenilir hizmet sunuyoruz.
+                8 uzman emlak danışmanımız, satılık ve kiralık emlak danışmanlığından değerleme ve yatırım danışmanlığına
                 kadar geniş bir yelpazede hizmet vermektedir.
               </p>
               <p className="text-base text-slate-600 max-w-2xl mx-auto">
-                Her ekip üyemiz kendi uzmanlık alanında derinlemesine bilgi sahibidir ve Karasu'nun emlak piyasasını 
+                Her ekip üyemiz kendi uzmanlık alanında derinlemesine bilgi sahibidir ve Karasu'nun emlak piyasasını
                 yakından tanımaktadır. <Link href={`${basePath}/hakkimizda/ekibimiz`} className="text-[#006AFF] hover:text-[#0052CC] font-semibold underline">
                   Tüm ekibimizi görüntüleyin
                 </Link> ve size en uygun danışmanımızı bulun.

@@ -454,8 +454,8 @@ export default async function BlogDetailPage({
       {/* Main Article Layout - Premium Editorial */}
       <div className="min-h-screen bg-white dark:bg-gray-900">
         {/* Article Container - Centered, Max Width 1400px */}
-        <div className="container mx-auto px-4 md:px-6 py-8 md:py-10 lg:py-12 max-w-[1400px]">
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,900px)_380px] gap-8 lg:gap-12">
+        <div className="container mx-auto px-4 md:px-6 py-10 md:py-12 lg:py-16 max-w-[1400px]">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,900px)_380px] gap-10 lg:gap-16">
             {/* Main Content Column - Flexible Width for Optimal Reading */}
             <main className="min-w-0 w-full" id="main-content">
               {/* Hero Section */}
@@ -498,7 +498,7 @@ export default async function BlogDetailPage({
 
               {/* Article Navigation */}
               {adjacentArticles && (adjacentArticles.previous || adjacentArticles.next) && (
-                <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-700">
+                <div className="mt-16 pt-10 border-t-2 border-gray-200 dark:border-gray-700">
                   <Suspense fallback={null}>
                     <ArticleNavigation
                       previousArticle={adjacentArticles.previous}
@@ -531,7 +531,7 @@ export default async function BlogDetailPage({
 
           {/* Enhanced Related Articles Footer */}
           {relatedArticles && relatedArticles.length > 0 && (
-            <div className="mt-16 pt-12 border-t border-slate-200 dark:border-slate-700">
+            <div className="mt-20 pt-12 border-t-2 border-gray-200 dark:border-gray-700">
               <Suspense
                 fallback={
                   <div className="py-8">

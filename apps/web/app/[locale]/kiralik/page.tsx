@@ -367,9 +367,14 @@ export default async function ForRentPage({
                   Merkez mahallelerde 1+1, 2+1, 3+1 ve 4+1 kiralık daire seçenekleri. 
                   Modern binalarda, asansörlü, otoparklı ve eşyalı seçenekler mevcuttur.
                 </p>
-                <div className="text-sm text-slate-600 font-medium">
+                <div className="text-sm text-slate-600 font-medium mb-3">
                   <span className="text-slate-900 font-bold">₺2.500 - ₺8.000/ay</span> arası
                 </div>
+                <Link href={`${basePath}/karasu-kiralik-daire`}>
+                  <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#006AFF]">
+                    Karasu Kiralık Daire Rehberi →
+                  </Button>
+                </Link>
               </div>
               
               <div className="p-6 bg-gradient-to-br from-emerald-50/50 to-white rounded-2xl border border-emerald-200/40 hover:shadow-lg transition-all duration-300">
@@ -383,9 +388,14 @@ export default async function ForRentPage({
                   Denize sıfır veya yakın konumlarda lüks kiralık villa seçenekleri. 
                   Bahçeli, havuzlu ve geniş yaşam alanları sunan özel konutlar.
                 </p>
-                <div className="text-sm text-slate-600 font-medium">
+                <div className="text-sm text-slate-600 font-medium mb-3">
                   <span className="text-slate-900 font-bold">₺8.000 - ₺25.000/ay</span> arası
                 </div>
+                <Link href={`${basePath}/karasu-kiralik-ev`}>
+                  <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#00A862]">
+                    Karasu Kiralık Ev Rehberi →
+                  </Button>
+                </Link>
               </div>
 
               <div className="p-6 bg-gradient-to-br from-cyan-50/50 to-white rounded-2xl border border-cyan-200/40 hover:shadow-lg transition-all duration-300">
@@ -399,9 +409,14 @@ export default async function ForRentPage({
                   Yaz ayları için ideal kiralık yazlık evler. Doğa içinde, sakin ve huzurlu 
                   yaşam alanları. Kısa ve uzun dönem kiralama seçenekleri.
                 </p>
-                <div className="text-sm text-slate-600 font-medium">
+                <div className="text-sm text-slate-600 font-medium mb-3">
                   <span className="text-slate-900 font-bold">₺3.000 - ₺12.000/ay</span> arası
                 </div>
+                <Link href={`${basePath}/karasu-kiralik-ev`}>
+                  <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-cyan-600">
+                    Karasu Kiralık Ev Rehberi →
+                  </Button>
+                </Link>
               </div>
             </div>
           </ContentSection>

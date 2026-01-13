@@ -9,6 +9,7 @@ import { cn } from "@karasu/lib";
 import { ListingImage } from "@/components/images";
 import { demoListings } from "@/lib/demo-listings";
 import { getPropertyPlaceholder } from '@/lib/utils/placeholder-images';
+import { SectionErrorBoundary } from "@/components/errors/SectionErrorBoundary";
 
 // Lazy load map to avoid SSR issues
 const MapContainer = dynamic(
@@ -78,6 +79,7 @@ const mapDemoListings: Listing[] = demoListings.map(listing => ({
 
 export function InteractiveMap({ listings, basePath = "", height = "600px" }: InteractiveMapProps) {
   const [mounted, setMounted] = useState(false);
+  const [shouldRenderMap, setShouldRenderMap] = useState(false);
   const [filteredListings, setFilteredListings] = useState<Listing[]>([]);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
@@ -85,6 +87,8 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
   const isInitializingRef = useRef(false);
+  const mapInitializedRef = useRef(false);
+  const mapKeyRef = useRef(`interactive-map-${Math.random().toString(36).substring(2, 11)}`);
 
   // Use demo listings if no real listings
   const allListings = listings.length > 0 ? listings : mapDemoListings;
@@ -108,9 +112,24 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
       }
     }
 
-    // Mark as initializing to prevent double mount in Strict Mode
-    if (mounted && !isInitializingRef.current) {
-      isInitializingRef.current = true;
+    // Only allow map rendering if not already initialized (React Strict Mode protection)
+    // Use a more robust check that persists across re-renders
+    if (mounted && !mapInitializedRef.current) {
+      // Check if container exists and doesn't have a map yet
+      if (mapContainerRef.current && !mapContainerRef.current.querySelector('.leaflet-container')) {
+        // Use requestAnimationFrame to ensure DOM is ready and avoid double initialization
+        const rafId = requestAnimationFrame(() => {
+          // Double-check after RAF to ensure no race conditions
+          if (!mapInitializedRef.current && mapContainerRef.current && !mapContainerRef.current.querySelector('.leaflet-container')) {
+            mapInitializedRef.current = true;
+            setShouldRenderMap(true);
+          }
+        });
+        
+        return () => {
+          cancelAnimationFrame(rafId);
+        };
+      }
     }
 
     // Cleanup function to remove map instance on unmount
@@ -126,7 +145,7 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
               // @ts-ignore - Leaflet global
               if (typeof window !== 'undefined' && window.L) {
                 const L = window.L;
-                        const map = (leafletContainer as any)._leaflet_id ? L.Map.prototype.getContainer.call({ _container: leafletContainer }) : null;
+                const map = (leafletContainer as any)._leaflet_id ? L.Map.prototype.getContainer.call({ _container: leafletContainer }) : null;
                 if (map && typeof map.remove === 'function') {
                   map.remove();
                 }
@@ -139,6 +158,7 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
       }
       mapInstanceRef.current = null;
       isInitializingRef.current = false;
+      // Don't reset mapInitializedRef here - we want it to persist across Strict Mode re-renders
     };
   }, [mounted]);
 
@@ -258,21 +278,42 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Map - Takes 2 columns on desktop */}
             <div className="lg:col-span-2">
-              <div 
-                ref={mapContainerRef}
-                className="relative rounded-xl overflow-hidden border border-gray-200 shadow-lg" 
-                style={{ height }}
-              >
-                {mounted && !isInitializingRef.current && (
-                  <MapContainer
-                    key="interactive-map-single-instance"
-                    center={center}
-                    zoom={13}
-                    minZoom={11}
-                    maxZoom={18}
-                    style={{ height: '100%', width: '100%' }}
-                    className="z-10"
+              <SectionErrorBoundary
+                sectionName="İnteraktif Harita"
+                fallback={
+                  <div 
+                    className="relative rounded-xl overflow-hidden border border-gray-200 shadow-lg bg-gray-50 flex items-center justify-center" 
+                    style={{ height }}
                   >
+                    <div className="text-center p-8">
+                      <MapPin className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                      <p className="text-gray-500 font-medium">Harita şu anda yüklenemiyor</p>
+                      <p className="text-sm text-gray-400 mt-2">Sayfayı yenileyerek tekrar deneyebilirsiniz</p>
+                    </div>
+                  </div>
+                }
+              >
+                <div 
+                  ref={mapContainerRef}
+                  className="relative rounded-xl overflow-hidden border border-gray-200 shadow-lg" 
+                  style={{ height }}
+                >
+                  {shouldRenderMap && (() => {
+                    // Final check before rendering - prevent double initialization
+                    if (mapContainerRef.current?.querySelector('.leaflet-container')) {
+                      return null;
+                    }
+                    try {
+                      return (
+                        <MapContainer
+                          key={mapKeyRef.current}
+                          center={center}
+                          zoom={13}
+                          minZoom={11}
+                          maxZoom={18}
+                          style={{ height: '100%', width: '100%' }}
+                          className="z-10"
+                        >
                   <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -371,8 +412,21 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
                       </Marker>
                     );
                   })}
-                  </MapContainer>
-                )}
+                        </MapContainer>
+                      );
+                    } catch (error) {
+                      // If MapContainer fails to initialize, return fallback
+                      console.error('MapContainer initialization error:', error);
+                      return (
+                        <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                          <div className="text-center p-8">
+                            <MapPin className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                            <p className="text-gray-500 font-medium">Harita yüklenemedi</p>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })()}
 
                 {/* Legend */}
                 <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg p-3 border border-gray-200 z-[1000]">
@@ -390,7 +444,8 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
                     </div>
                   </div>
                 </div>
-              </div>
+                </div>
+              </SectionErrorBoundary>
 
               {/* Quick Stats Below Map */}
               <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">

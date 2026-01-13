@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { Suspense, memo } from 'react';
-import { ArrowRight, User, Building2 } from 'lucide-react';
+import { ArrowRight, User, Building2, MessageCircle } from 'lucide-react';
 import { ArticleContent } from './ArticleContent';
 import type { ContextualLink } from './contextual-links';
 
@@ -74,44 +74,47 @@ function getPrimaryCtas(links: ContextualLink[], basePath: string) {
   }));
 }
 
-// Author Bio Component - Inline
+// Author Bio Component - Enhanced
 function AuthorBioSection({ author, basePath }: { author: string; basePath: string }) {
   const authorInitial = author ? author.charAt(0).toUpperCase() : 'K';
 
   return (
-    <section className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-700">
-      <div className="flex flex-col sm:flex-row sm:items-start gap-5">
+    <section className="mt-12 pt-10 border-t-2 border-gray-200 dark:border-gray-700">
+      <div className="flex flex-col sm:flex-row sm:items-start gap-6 p-6 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-800/50 dark:via-gray-900 dark:to-gray-800/50 rounded-2xl border-2 border-gray-200 dark:border-gray-700 shadow-sm">
         {/* Author Avatar */}
         <div className="flex-shrink-0">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#006AFF] to-blue-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-[#006AFF]/20">
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center text-white text-2xl font-bold shadow-xl shadow-primary/30 border-2 border-white dark:border-gray-800">
             {authorInitial}
           </div>
         </div>
 
         {/* Author Info */}
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">{author || 'Karasu Emlak'}</h3>
-            <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-full">
+          <div className="flex items-center gap-3 mb-3">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">{author || 'Karasu Emlak'}</h3>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-lg border border-emerald-200 dark:border-emerald-800">
+              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
               Doğrulanmış
             </span>
           </div>
-          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
+          <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
             Karasu ve Kocaali bölgesinde 15 yılı aşkın deneyime sahip emlak uzmanı.
             Gayrimenkul yatırımı, bölge analizi ve emlak değerleme konularında uzman içerikler sunuyoruz.
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href={`${basePath}/blog/yazar/${(author || 'karasu-emlak').toLowerCase().replace(/\s+/g, '-')}`}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-[#006AFF] dark:text-blue-400 hover:text-[#0052CC] dark:hover:text-blue-300 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-primary bg-primary/10 dark:bg-primary/20 rounded-xl hover:bg-primary/20 dark:hover:bg-primary/30 transition-all border border-primary/20 dark:border-primary/30"
             >
               <User className="h-4 w-4" />
               Tüm yazıları
-              <ArrowRight className="h-3.5 w-3.5" />
+              <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href={`${basePath}/karasu-emlak-ofisi`}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-all border border-gray-200 dark:border-gray-700"
             >
               <Building2 className="h-4 w-4" />
               Hakkımızda
@@ -159,32 +162,32 @@ function ArticleBodyComponent({
       {/* Author Bio Section */}
       <AuthorBioSection author={article.author || 'Karasu Emlak'} basePath={basePath} />
 
-      {/* Related Listings CTA - Soft Approach */}
+      {/* Related Listings CTA - Modern */}
       {ctaLinks.length > 0 && (
-        <section className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-700">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl">
+        <section className="mt-12 pt-10 border-t-2 border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2.5 bg-gradient-to-br from-emerald-100 to-emerald-50 dark:from-emerald-900/30 dark:to-emerald-900/20 rounded-xl border border-emerald-200 dark:border-emerald-800">
               <Building2 className="h-5 w-5 text-emerald-700 dark:text-emerald-400" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">İlgili İlanlar</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Bu konuyla ilişkili fırsatlar</p>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">İlgili İlanlar</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Bu konuyla ilişkili fırsatlar</p>
             </div>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             {ctaLinks.map((cta) => (
               <Link
                 key={cta.href}
                 href={cta.href}
-                className="group flex items-center justify-between p-4 bg-gradient-to-r from-slate-50 dark:from-slate-800 to-white dark:to-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-emerald-300 dark:hover:border-emerald-500/40 hover:shadow-md transition-all duration-200"
+                className="group flex items-center justify-between p-5 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl hover:border-emerald-400 dark:hover:border-emerald-500/50 hover:shadow-xl transition-all duration-300"
               >
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-slate-800 dark:text-slate-200 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+                  <p className="font-bold text-lg text-gray-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors mb-2">
                     {cta.label}
                   </p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{cta.description}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{cta.description}</p>
                 </div>
-                <ArrowRight className="h-5 w-5 text-slate-400 dark:text-slate-500 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors flex-shrink-0 ml-3" />
+                <ArrowRight className="h-6 w-6 text-gray-400 dark:text-gray-500 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-all duration-300 group-hover:translate-x-1 flex-shrink-0 ml-4" />
               </Link>
             ))}
           </div>
@@ -199,9 +202,15 @@ function ArticleBodyComponent({
       </section>
 
       {/* Comments Section */}
-      <section id="yorumlar" className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-700">
-        <div className="flex items-center gap-3 mb-6">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">Yorumlar</h2>
+      <section id="yorumlar" className="mt-12 pt-10 border-t-2 border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="p-2.5 bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 rounded-xl border border-primary/20 dark:border-primary/30">
+            <MessageCircle className="h-5 w-5 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Yorumlar</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Düşüncelerinizi paylaşın</p>
+          </div>
         </div>
         <Suspense
           fallback={

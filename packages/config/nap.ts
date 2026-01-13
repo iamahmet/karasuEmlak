@@ -16,9 +16,9 @@ export const napData = {
   },
   contact: {
     phone: '+905466395461',
-    phoneFormatted: '+90 (546) 639 54 61',
+    phoneFormatted: '+90 546 639 54 61',
     whatsapp: '+905466395461',
-    whatsappFormatted: '+90 (546) 639 54 61',
+    whatsappFormatted: '+90 546 639 54 61',
     email: 'info@karasuemlak.net',
     website: 'https://www.karasuemlak.net',
   },

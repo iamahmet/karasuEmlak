@@ -34,6 +34,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     
     // Important content pages
     { path: '/karasu-satilik-ev', priority: 0.8, changeFrequency: 'weekly' },
+    { path: '/karasu-satilik-daire', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu satılık daire" keyword
+    { path: '/karasu-satilik-villa', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu satılık villa" keyword
+    { path: '/karasu-satilik-yazlik', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu satılık yazlık" keyword
+    { path: '/karasu-kiralik-daire', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu kiralık daire" keyword
+    { path: '/karasu-kiralik-ev', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu kiralık ev" keyword
     { path: '/karasu-satilik-ev-fiyatlari', priority: 0.8, changeFrequency: 'weekly' },
     { path: '/karasu-emlak-rehberi', priority: 0.8, changeFrequency: 'monthly' },
     { path: '/karasu-yatirimlik-gayrimenkul', priority: 0.8, changeFrequency: 'weekly' },

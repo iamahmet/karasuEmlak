@@ -10,6 +10,7 @@ import { ComparisonButton } from '@/components/comparison/ComparisonButton';
 import Link from 'next/link';
 import type { Listing } from '@/lib/supabase/queries';
 import { cn } from '@karasu/lib';
+import { napData } from '@karasu-emlak/config/nap';
 
 interface QuickViewModalProps {
   listing: Listing | null;
@@ -236,7 +237,7 @@ export function QuickViewModal({ listing, isOpen, onClose, basePath }: QuickView
                 size="lg"
                 className="gap-2"
                 onClick={() => {
-                  window.open(`https://wa.me/905466395461?text=Merhaba, ${listing.title} hakkında bilgi almak istiyorum.`, '_blank');
+                  window.open(`https://wa.me/${napData.contact.whatsapp.replace(/[^0-9]/g, '')}?text=Merhaba, ${listing.title} hakkında bilgi almak istiyorum.`, '_blank');
                 }}
               >
                 <MessageCircle className="h-5 w-5" />
@@ -247,7 +248,7 @@ export function QuickViewModal({ listing, isOpen, onClose, basePath }: QuickView
                 size="lg"
                 className="gap-2"
                 onClick={() => {
-                  window.location.href = `tel:+905466395461`;
+                  window.location.href = `tel:${napData.contact.phone}`;
                 }}
               >
                 <Phone className="h-5 w-5" />

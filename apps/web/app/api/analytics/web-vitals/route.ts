@@ -21,39 +21,74 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ success: true, warning: "Request body too large" });
       }
       
-      // Clean the text - remove any non-printable characters that might break JSON parsing
-      const cleanedText = text
-        .replace(/[\x00-\x1F\x7F-\x9F]/g, '') // Remove control characters
-        .trim();
+      // Try to find valid JSON in the text (handle cases where there might be extra data)
+      let cleanedText = text.trim();
+      
+      // Try to extract JSON if there's extra content
+      const jsonMatch = cleanedText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        cleanedText = jsonMatch[0];
+      }
+      
+      // Remove any trailing commas before closing braces/brackets
+      cleanedText = cleanedText.replace(/,(\s*[}\]])/g, '$1');
       
       // Try to parse JSON with better error handling
       try {
         body = JSON.parse(cleanedText);
       } catch (parseError: any) {
-        // Log first 200 chars for debugging
+        // Log error details for debugging
         const preview = cleanedText.substring(0, 200);
         const errorPosition = parseError.message?.match(/position (\d+)/)?.[1];
-        console.error("Web vitals JSON parse error:", {
-          message: parseError.message,
-          position: errorPosition,
-          preview: preview,
-          textLength: cleanedText.length,
-          originalLength: text.length
-        });
+        if (process.env.NODE_ENV === 'development') {
+          console.error("Web vitals JSON parse error:", {
+            message: parseError.message,
+            position: errorPosition,
+            preview: preview,
+            textLength: cleanedText.length,
+            originalLength: text.length
+          });
+        }
         // Return success to avoid breaking frontend - web vitals are non-critical
         return NextResponse.json({ success: true, warning: "Invalid JSON format" }, { status: 200 });
       }
     } catch (readError: any) {
-      console.error("Web vitals request read error:", readError.message);
+      if (process.env.NODE_ENV === 'development') {
+        console.error("Web vitals request read error:", readError.message);
+      }
       // Return success to avoid breaking frontend
       return NextResponse.json({ success: true, warning: "Failed to read request" }, { status: 200 });
     }
     
-    const { name, value, id, rating, delta, navigationType } = body;
+    // Handle both standard web vitals format and enhanced format
+    let name: string;
+    let value: number;
+    let id: string | undefined;
+    let rating: string | undefined;
+    let delta: number | undefined;
+    let navigationType: string | undefined;
+
+    // Check if it's enhanced format (has different structure)
+    if (body.metric || body.name) {
+      name = body.metric || body.name;
+      value = body.value;
+      id = body.id || body.metric_id;
+      rating = body.rating;
+      delta = body.delta;
+      navigationType = body.navigationType || body.navigation_type;
+    } else {
+      // Standard format
+      name = body.name;
+      value = body.value;
+      id = body.id;
+      rating = body.rating;
+      delta = body.delta;
+      navigationType = body.navigationType;
+    }
 
     // Validate required fields
-    if (!name || value === undefined) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    if (!name || value === undefined || isNaN(value)) {
+      return NextResponse.json({ success: true, warning: "Missing or invalid required fields" }, { status: 200 });
     }
 
     try {
@@ -83,7 +118,9 @@ export async function POST(request: NextRequest) {
 
       if (error) {
         // Log error but don't fail the request - web vitals are non-critical
-        console.error("Error storing web vitals:", error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error("Error storing web vitals:", error);
+        }
         // Still return success to avoid breaking the frontend
         return NextResponse.json({ success: true, warning: "Metrics not stored" });
       }
@@ -91,12 +128,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true });
     } catch (dbError: any) {
       // If database is unavailable, log but don't fail
-      console.error("Web vitals database error:", dbError);
+      if (process.env.NODE_ENV === 'development') {
+        console.error("Web vitals database error:", dbError);
+      }
       return NextResponse.json({ success: true, warning: "Database unavailable" });
     }
   } catch (error: any) {
     // Catch-all for any other errors
-    console.error("Web vitals API error:", error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Web vitals API error:", error);
+    }
     // Return success to avoid breaking the frontend
     return NextResponse.json({ success: true, warning: error.message || "Internal server error" });
   }
