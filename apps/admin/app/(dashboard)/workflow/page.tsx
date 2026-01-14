@@ -321,8 +321,16 @@ export default function WorkflowDashboardPage() {
       {showAssignModal && (
         <ReviewAssignmentModal
           open={showAssignModal}
-          onClose={() => setShowAssignModal(false)}
-          onSuccess={() => {
+          onOpenChange={(open) => {
+            setShowAssignModal(open);
+            if (!open) {
+              fetchWorkflowStats();
+              fetchRecentActivity();
+            }
+          }}
+          contentType="article"
+          contentId=""
+          onAssigned={() => {
             setShowAssignModal(false);
             fetchWorkflowStats();
             fetchRecentActivity();
