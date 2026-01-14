@@ -596,13 +596,17 @@ export default async function SatilikYazlikPage({
                   </div>
                 </div>
 
-                {/* Related Pages */}
+                {/* Related Pages - Enhanced Internal Linking */}
                 <div className="p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
                   <h3 className="text-lg font-bold text-gray-900 mb-4">İlgili Sayfalar</h3>
                   <div className="space-y-2">
                     <Link href={`${basePath}/karasu-satilik-yazlik`} className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
                       <div className="font-semibold text-gray-900">Karasu Satılık Yazlık</div>
                       <div className="text-sm text-gray-600">Karasu'ya özel rehber</div>
+                    </Link>
+                    <Link href={`${basePath}/satilik-daire`} className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div className="font-semibold text-gray-900">Satılık Daire</div>
+                      <div className="text-sm text-gray-600">Daire ilanları ve rehber</div>
                     </Link>
                     <Link href={`${basePath}/satilik-villa`} className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
                       <div className="font-semibold text-gray-900">Satılık Villa</div>
@@ -613,8 +617,12 @@ export default async function SatilikYazlikPage({
                       <div className="text-sm text-gray-600">Ev ilanları ve rehber</div>
                     </Link>
                     <Link href={`${basePath}/kiralik-daire`} className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="font-semibold text-gray-900">Kiralık Yazlık</div>
-                      <div className="text-sm text-gray-600">Kiralık yazlik ilanları</div>
+                      <div className="font-semibold text-gray-900">Kiralık Daire</div>
+                      <div className="text-sm text-gray-600">Kiralık daire ilanları</div>
+                    </Link>
+                    <Link href={`${basePath}/karasu`} className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div className="font-semibold text-gray-900">Karasu Rehberi</div>
+                      <div className="text-sm text-gray-600">Karasu hakkında bilgiler</div>
                     </Link>
                   </div>
                 </div>

@@ -608,13 +608,25 @@ export default async function KiralikDairePage({
                       <div className="font-semibold text-gray-900">Satılık Villa</div>
                       <div className="text-sm text-gray-600">Villa ilanları ve rehber</div>
                     </Link>
-                    <Link href={`${basePath}/satilik-ev`} className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="font-semibold text-gray-900">Satılık Ev</div>
-                      <div className="text-sm text-gray-600">Ev ilanları ve rehber</div>
+                    <Link href={`${basePath}/kiralik-ev`} className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div className="font-semibold text-gray-900">Kiralık Ev</div>
+                      <div className="text-sm text-gray-600">Kiralık ev ilanları</div>
                     </Link>
-                    <Link href={`${basePath}/kiralik-daire`} className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="font-semibold text-gray-900">Kiralık Daire</div>
-                      <div className="text-sm text-gray-600">Kiralık daire ilanları</div>
+                    <Link href={`${basePath}/kiralik-villa`} className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div className="font-semibold text-gray-900">Kiralık Villa</div>
+                      <div className="text-sm text-gray-600">Kiralık villa ilanları</div>
+                    </Link>
+                    <Link href={`${basePath}/satilik-daire`} className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div className="font-semibold text-gray-900">Satılık Daire</div>
+                      <div className="text-sm text-gray-600">Satılık daire ilanları</div>
+                    </Link>
+                    <Link href={`${basePath}/karasu`} className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div className="font-semibold text-gray-900">Karasu Rehberi</div>
+                      <div className="text-sm text-gray-600">Karasu hakkında bilgiler</div>
+                    </Link>
+                    <Link href={`${basePath}/karasu-emlak-rehberi`} className="block p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div className="font-semibold text-gray-900">Karasu Emlak Rehberi</div>
+                      <div className="text-sm text-gray-600">Kapsamlı emlak rehberi</div>
                     </Link>
                   </div>
                 </div>
