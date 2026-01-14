@@ -135,7 +135,8 @@ function addEnvVar(
 
   try {
     const teamFlag = teamSlug ? `--scope=${teamSlug}` : '';
-    const cmd = `cd ${dir} && echo "${value.replace(/"/g, '\\"')}" | vercel env add ${key} ${environment} ${teamFlag} --yes 2>&1`;
+    // Vercel CLI'de --yes flag'i yok, bu yüzden echo ile pipe yapıyoruz
+    const cmd = `cd ${dir} && echo "${value.replace(/"/g, '\\"').replace(/\$/g, '\\$')}" | vercel env add ${key} ${environment} ${teamFlag} 2>&1`;
     
     const output = execSync(cmd, {
       encoding: 'utf-8',
@@ -144,27 +145,13 @@ function addEnvVar(
     });
     
     if (output.includes('Already exists') || output.includes('already exists')) {
-      console.log(`  ⚠️  ${key} zaten var (${environment}), güncelleniyor...`);
-      // Güncelleme için remove ve add yap
-      try {
-        execSync(`cd ${dir} && vercel env rm ${key} ${environment} ${teamFlag} --yes 2>&1`, {
-          encoding: 'utf-8',
-          stdio: 'pipe',
-        });
-        execSync(`cd ${dir} && echo "${value.replace(/"/g, '\\"')}" | vercel env add ${key} ${environment} ${teamFlag} --yes 2>&1`, {
-          encoding: 'utf-8',
-          stdio: 'pipe',
-        });
-        console.log(`  ✅ ${key} güncellendi (${environment})`);
-      } catch {
-        console.log(`  ⚠️  ${key} güncellenemedi, mevcut değer korunuyor`);
-      }
+      console.log(`  ⚠️  ${key} zaten var (${environment}), mevcut değer korunuyor`);
       return true;
-    } else if (output.includes('Added') || output.includes('added')) {
+    } else if (output.includes('Added') || output.includes('added') || output.includes('Created')) {
       console.log(`  ✅ ${key} eklendi (${environment})`);
       return true;
     } else {
-      console.log(`  ℹ️  ${key} (${environment}): ${output.trim()}`);
+      console.log(`  ℹ️  ${key} (${environment}): ${output.trim().substring(0, 80)}`);
       return false;
     }
   } catch (error: any) {
