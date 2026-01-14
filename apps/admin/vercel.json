@@ -1,7 +1,6 @@
 {
-  "buildCommand": "cd ../.. && pnpm install && pnpm run build:admin",
+  "buildCommand": "cd ../.. && NODE_ENV=development pnpm install && pnpm run build:admin",
   "devCommand": "cd ../.. && pnpm run dev:admin",
-  "installCommand": "cd ../.. && pnpm install",
   "framework": "nextjs",
   "outputDirectory": ".next",
   "git": {
