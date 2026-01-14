@@ -34,6 +34,8 @@ import {
 import { ReadingProgress } from '@/components/blog/ReadingProgress';
 import { KeyboardShortcuts } from '@/components/blog/KeyboardShortcuts';
 import { ArticleAnalytics } from '@/components/blog/ArticleAnalytics';
+import { AIChecker } from '@/components/content/AIChecker';
+import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 
 // Dynamic imports for code splitting - below-the-fold content
 const ArticleNavigation = dynamic(
@@ -438,6 +440,13 @@ export default async function BlogDetailPage({
       {/* Keyboard Shortcuts */}
       <KeyboardShortcuts basePath={basePath} articleId={article.id} />
 
+      {/* AI Checker Badge */}
+      <AICheckerBadge
+        content={normalized.content}
+        title={article.title}
+        position="top-right"
+      />
+
       {/* Analytics */}
       <ArticleAnalytics
         event={{
@@ -474,6 +483,16 @@ export default async function BlogDetailPage({
                 readingTime={readingTime}
                 basePath={basePath}
               />
+
+              {/* AI Checker */}
+              <div id="ai-checker" className="mb-8">
+                <AIChecker
+                  content={normalized.content}
+                  title={article.title}
+                  contentType="blog"
+                  showDetails={true}
+                />
+              </div>
 
               {/* Article Body - Clean, No Nested Container */}
               <ArticleBody

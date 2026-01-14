@@ -18,6 +18,12 @@ import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import { generateSlug } from '@/lib/utils';
 import dynamicImport from 'next/dynamic';
+import { AIChecker } from '@/components/content/AIChecker';
+import { AICheckerBadge } from '@/components/content/AICheckerBadge';
+import { calculateReadingTime } from '@/lib/utils/reading-time';
+import { CornerstoneTableOfContents } from '@/components/content/CornerstoneTableOfContents';
+import { ReadingProgress } from '@/components/content/ReadingProgress';
+import { EnhancedShareButtons } from '@/components/share/EnhancedShareButtons';
 
 // Performance: Revalidate every hour for ISR
 export const revalidate = 3600; // 1 hour
@@ -267,6 +273,49 @@ export default async function KarasuSatilikYazlikPage({
       })
     : null;
 
+  // Generate HTML content for AI checker and TOC
+  const pageContent = `
+    <h2 id="genel-bakis">Karasu'da Satılık Yazlık Arayanlar İçin Genel Bakış</h2>
+    <p>Karasu, Sakarya'nın en gözde sahil ilçelerinden biri olup, satılık yazlık piyasasında çeşitli seçenekler sunmaktadır.</p>
+    
+    <h2 id="ozelliklerine-gore-secenekler">Özelliklerine Göre Karasu Satılık Yazlık Seçenekleri</h2>
+    <p>Karasu'da satılık yazlık seçenekleri özelliklerine göre çeşitlilik göstermektedir.</p>
+    
+    <h3 id="denize-yakin-yazliklar">Denize Yakın Yazlıklar</h3>
+    <p>Denize yakın konumlarda yazlık seçenekleri. Plaja yakınlık ve deniz manzarası avantajları.</p>
+    
+    <h3 id="bahceli-yazliklar">Bahçeli Yazlıklar</h3>
+    <p>Bahçeli yazlık seçenekleri. Özel bahçe kullanımı ve doğa içinde yaşam.</p>
+    
+    <h2 id="fiyat-analizi">Karasu Satılık Yazlık Fiyat Analizi ve Piyasa Trendleri</h2>
+    <p>Karasu'da satılık yazlık fiyatları birçok faktöre bağlı olarak değişmektedir.</p>
+    
+    <h2 id="mahalleler">Mahallelere Göre Karasu Satılık Yazlık Seçenekleri</h2>
+    <p>Karasu'nun her mahallesi kendine özgü karakteristiklere sahiptir.</p>
+    
+    <h2 id="dikkat-edilmesi-gerekenler">Karasu'da Satılık Yazlık Alırken Dikkat Edilmesi Gerekenler</h2>
+    <p>Karasu'da satılık yazlık alırken dikkat edilmesi gereken önemli noktalar vardır.</p>
+  `;
+
+  // Calculate reading time and word count
+  const readingTime = calculateReadingTime(pageContent);
+  const wordCount = pageContent.replace(/<[^>]*>/g, ' ').split(/\s+/).filter(w => w.length > 0).length;
+
+  // Generate headings for TOC
+  const tocHeadings = [
+    { id: 'genel-bakis', text: 'Karasu\'da Satılık Yazlık Arayanlar İçin Genel Bakış', level: 2 },
+    { id: 'ozelliklerine-gore-secenekler', text: 'Özelliklerine Göre Karasu Satılık Yazlık Seçenekleri', level: 2 },
+    { id: 'denize-yakin-yazliklar', text: 'Denize Yakın Yazlıklar', level: 3 },
+    { id: 'bahceli-yazliklar', text: 'Bahçeli Yazlıklar', level: 3 },
+    { id: 'fiyat-analizi', text: 'Karasu Satılık Yazlık Fiyat Analizi ve Piyasa Trendleri', level: 2 },
+    { id: 'mahalleler', text: 'Mahallelere Göre Karasu Satılık Yazlık Seçenekleri', level: 2 },
+    { id: 'dikkat-edilmesi-gerekenler', text: 'Karasu\'da Satılık Yazlık Alırken Dikkat Edilmesi Gerekenler', level: 2 },
+  ];
+
+  const shareUrl = `${siteConfig.url}${basePath}/karasu-satilik-yazlik`;
+  const shareTitle = 'Karasu Satılık Yazlık | Denize Yakın Yazlık Evler ve Fiyatlar 2025';
+  const shareDescription = 'Karasu\'da satılık yazlık ilanları. Denize yakın konumlarda uygun fiyatlı yazlık evler. Güncel fiyatlar, mahalle rehberi ve yatırım analizi.';
+
   return (
     <>
       <StructuredData data={articleSchema} />
@@ -275,6 +324,16 @@ export default async function KarasuSatilikYazlikPage({
       <StructuredData data={realEstateAgentSchema} />
       {itemListSchema && <StructuredData data={itemListSchema} />}
       
+      {/* Reading Progress Bar */}
+      <ReadingProgress position="top" showPercentage={false} />
+      
+      {/* AI Checker Badge */}
+      <AICheckerBadge
+        content={pageContent}
+        title="Karasu Satılık Yazlık"
+        position="top-right"
+      />
+
       <Breadcrumbs
         items={[
           { label: 'Ana Sayfa', href: `${basePath}/` },
@@ -305,6 +364,18 @@ export default async function KarasuSatilikYazlikPage({
                   Karasu'da satılık yazlık arayanlar için kapsamlı rehber. Denize yakın konumlarda uygun fiyatlı yazlık evler. 
                   Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki yazlığı bulun.
                 </p>
+                
+                {/* Share Buttons */}
+                <div className="mb-6 flex justify-center">
+                  <EnhancedShareButtons
+                    url={shareUrl}
+                    title={shareTitle}
+                    description={shareDescription}
+                    variant="compact"
+                    className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg"
+                  />
+                </div>
+                
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button asChild size="lg" className="bg-white text-gray-900 hover:bg-gray-100">
                     <Link href={`${basePath}/satilik?propertyType=yazlik`}>
@@ -356,6 +427,16 @@ export default async function KarasuSatilikYazlikPage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
+                {/* AI Checker */}
+                <div id="ai-checker">
+                  <AIChecker
+                    content={pageContent}
+                    title="Karasu Satılık Yazlık"
+                    contentType="article"
+                    showDetails={true}
+                  />
+                </div>
+
                 {/* AI Overviews Optimized: Quick Answer */}
                 <ScrollReveal direction="up" delay={0}>
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">
@@ -372,7 +453,7 @@ export default async function KarasuSatilikYazlikPage({
 
                 {/* Introduction */}
                 <ScrollReveal direction="up" delay={100}>
-                  <article>
+                  <article id="genel-bakis">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                       Karasu'da Satılık Yazlık Arayanlar İçin Genel Bakış
                     </h2>
@@ -396,7 +477,7 @@ export default async function KarasuSatilikYazlikPage({
 
                 {/* Yazlik Features Options */}
                 <ScrollReveal direction="up" delay={200}>
-                  <article>
+                  <article id="ozelliklerine-gore-secenekler">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                       Özelliklerine Göre Karasu Satılık Yazlık Seçenekleri
                     </h2>
@@ -407,7 +488,7 @@ export default async function KarasuSatilikYazlikPage({
                       </p>
 
                       <div className="grid md:grid-cols-2 gap-6 mt-6">
-                        <div className="border rounded-lg p-6 bg-gray-50">
+                        <div className="border rounded-lg p-6 bg-gray-50" id="denize-yakin-yazliklar">
                           <h3 className="text-xl font-semibold text-gray-900 mb-3">Denize Yakın Yazlıklar</h3>
                           <p className="text-gray-700 mb-3">
                             Denize yakın konumlarda yazlık seçenekleri. Plaja yakınlık ve deniz manzarası avantajları.
@@ -425,7 +506,7 @@ export default async function KarasuSatilikYazlikPage({
                           </Link>
                         </div>
 
-                        <div className="border rounded-lg p-6 bg-gray-50">
+                        <div className="border rounded-lg p-6 bg-gray-50" id="bahceli-yazliklar">
                           <h3 className="text-xl font-semibold text-gray-900 mb-3">Bahçeli Yazlıklar</h3>
                           <p className="text-gray-700 mb-3">
                             Bahçeli yazlık seçenekleri. Özel bahçe kullanımı ve doğa içinde yaşam.
@@ -485,7 +566,7 @@ export default async function KarasuSatilikYazlikPage({
 
                 {/* Price Analysis */}
                 <ScrollReveal direction="up" delay={400}>
-                  <article>
+                  <article id="fiyat-analizi">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                       Karasu Satılık Yazlık Fiyat Analizi ve Piyasa Trendleri
                     </h2>
@@ -560,7 +641,7 @@ export default async function KarasuSatilikYazlikPage({
 
                 {/* Neighborhoods */}
                 <ScrollReveal direction="up" delay={600}>
-                  <article>
+                  <article id="mahalleler">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                       Mahallelere Göre Karasu Satılık Yazlık Seçenekleri
                     </h2>
@@ -606,7 +687,7 @@ export default async function KarasuSatilikYazlikPage({
 
                 {/* Important Considerations */}
                 <ScrollReveal direction="up" delay={800}>
-                  <article>
+                  <article id="dikkat-edilmesi-gerekenler">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                       Karasu'da Satılık Yazlık Alırken Dikkat Edilmesi Gerekenler
                     </h2>
@@ -669,6 +750,47 @@ export default async function KarasuSatilikYazlikPage({
               {/* Sidebar */}
               <aside className="lg:col-span-1">
                 <div className="sticky top-20 space-y-6">
+                  {/* Table of Contents */}
+                  <CornerstoneTableOfContents className="mb-6" />
+
+                  {/* Share Buttons */}
+                  <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5 shadow-sm">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Paylaş</h3>
+                    <EnhancedShareButtons
+                      url={pageUrl}
+                      title={pageTitle}
+                      description="Karasu'da satılık yazlık ilanları. Denize yakın konumlarda uygun fiyatlı yazlık evler."
+                      variant="compact"
+                      className="flex-wrap gap-2"
+                    />
+                  </div>
+
+                  {/* Page Info Card */}
+                  <ScrollReveal direction="left" delay={100}>
+                    <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 border-2 border-gray-200 shadow-sm">
+                      <h3 className="text-base font-bold text-gray-900 mb-5 flex items-center gap-2.5">
+                        <FileText className="h-4 w-4 text-primary" />
+                        Sayfa Bilgileri
+                      </h3>
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between p-3 bg-white rounded-xl border border-gray-200">
+                          <div className="flex items-center gap-2.5 text-sm text-gray-600">
+                            <Eye className="h-4 w-4 text-primary" />
+                            <span className="font-medium">Okuma Süresi</span>
+                          </div>
+                          <span className="text-sm font-bold text-gray-900">{readingTime} dk</span>
+                        </div>
+                        <div className="flex items-center justify-between p-3 bg-white rounded-xl border border-gray-200">
+                          <div className="flex items-center gap-2.5 text-sm text-gray-600">
+                            <FileText className="h-4 w-4 text-primary" />
+                            <span className="font-medium">Kelime Sayısı</span>
+                          </div>
+                          <span className="text-sm font-bold text-gray-900">{wordCount.toLocaleString('tr-TR')}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </ScrollReveal>
+
                   <ScrollReveal direction="left" delay={100}>
                     <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
                       <h3 className="text-lg font-bold text-gray-900 mb-4">
@@ -771,7 +893,8 @@ export default async function KarasuSatilikYazlikPage({
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {karasuYazlikListings.slice(0, 6).map((listing, index) => (
                   <ScrollReveal key={listing.id} direction="up" delay={index * 50}>
-                    <ListingCard listing={listing} basePath={basePath} />
+                    {/* First 3 images get priority loading for LCP optimization */}
+                    <ListingCard listing={listing} basePath={basePath} priority={index < 3} />
                   </ScrollReveal>
                 ))}
               </div>

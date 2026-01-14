@@ -74,9 +74,13 @@ const nextConfig = {
       },
     ],
     formats: ['image/avif', 'image/webp'],
+    // Optimized sizes for mobile-first approach
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
+    // Enable image optimization
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
   // Experimental features for better performance
@@ -146,7 +150,7 @@ const nextConfig = {
   },
 
   // Webpack optimizations
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -154,20 +158,65 @@ const nextConfig = {
         net: false,
         tls: false,
       };
-    }
-    
-    // Fix for vendor chunks (OpenTelemetry, Supabase, etc.)
-    // Disable problematic vendor chunk splitting to avoid module resolution issues
-    if (isServer) {
-      config.optimization = {
-        ...config.optimization,
-        moduleIds: 'deterministic',
-        splitChunks: false, // Disable chunk splitting on server to avoid vendor-chunks issues
-      };
+      
+      // Client-side bundle optimization for mobile performance
+      if (!dev) {
+        config.optimization = {
+          ...config.optimization,
+          moduleIds: 'deterministic',
+          splitChunks: {
+            chunks: 'all',
+            cacheGroups: {
+              default: false,
+              vendors: false,
+              // Separate vendor chunks for better caching
+              framework: {
+                name: 'framework',
+                chunks: 'all',
+                test: /[\\/]node_modules[\\/](react|react-dom|scheduler|next)[\\/]/,
+                priority: 40,
+                enforce: true,
+              },
+              lib: {
+                test(module) {
+                  return module.size() > 160000 && /node_modules[/\\]/.test(module.identifier());
+                },
+                name(module) {
+                  const hash = require('crypto').createHash('sha1');
+                  hash.update(module.identifier());
+                  return hash.digest('hex').substring(0, 8);
+                },
+                priority: 30,
+                minChunks: 1,
+                reuseExistingChunk: true,
+              },
+              commons: {
+                name: 'commons',
+                minChunks: 2,
+                priority: 20,
+              },
+              shared: {
+                name(module, chunks) {
+                  return require('crypto')
+                    .createHash('sha1')
+                    .update(chunks.reduce((acc, chunk) => acc + chunk.name, ''))
+                    .digest('hex')
+                    .substring(0, 8);
+                },
+                priority: 10,
+                minChunks: 2,
+                reuseExistingChunk: true,
+              },
+            },
+          },
+        };
+      }
     } else {
+      // Server-side: Disable chunk splitting to avoid vendor-chunks issues
       config.optimization = {
         ...config.optimization,
         moduleIds: 'deterministic',
+        splitChunks: false,
       };
     }
     

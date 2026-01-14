@@ -15,9 +15,10 @@ interface ListingCardProps {
   listing: Listing;
   viewMode?: 'grid' | 'list';
   basePath: string;
+  priority?: boolean; // For LCP optimization - prioritize first few images
 }
 
-function ListingCardComponent({ listing, viewMode = 'grid', basePath }: ListingCardProps) {
+function ListingCardComponent({ listing, viewMode = 'grid', basePath, priority = false }: ListingCardProps) {
   const mainImage = listing.images?.[0];
   
   // Generate SEO-friendly alt text
@@ -60,6 +61,7 @@ function ListingCardComponent({ listing, viewMode = 'grid', basePath }: ListingC
                   alt={imageAlt}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   sizes="(max-width: 768px) 100vw, 256px"
+                  priority={priority}
                   fallback={getPropertyPlaceholder(listing.property_type, listing.status, listing.location_neighborhood, 800, 600)}
                 />
               )
@@ -152,6 +154,7 @@ function ListingCardComponent({ listing, viewMode = 'grid', basePath }: ListingC
               alt={imageAlt}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               sizes="(max-width: 768px) 100vw, 33vw"
+              priority={priority}
             />
           ) : (
             <div className="w-full h-full bg-muted flex items-center justify-center">

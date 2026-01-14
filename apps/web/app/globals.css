@@ -1,5 +1,5 @@
 /* Apple Quality Fonts - SF Pro Display & Text */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+/* Fonts are now loaded via <link> in layout.tsx for better performance (non-blocking) */
 
 @tailwind base;
 @tailwind components;

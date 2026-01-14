@@ -8,10 +8,20 @@ import { PremiumHeader } from "@/components/layout/PremiumHeader";
 import { PremiumFooter } from "@/components/layout/PremiumFooter";
 import { PremiumNewsTicker } from "@/components/layout/PremiumNewsTicker";
 import { StructuredData } from "@/components/seo/StructuredData";
-import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
-import { WebVitals } from "@/components/analytics/WebVitals";
-import { EnhancedAnalytics } from "@/components/analytics/EnhancedAnalytics";
-import { PerformanceMonitor } from "@/components/analytics/PerformanceMonitor";
+// Lazy load analytics components for better mobile performance
+import dynamic from 'next/dynamic';
+
+const GoogleAnalytics = dynamic(() => import("@/components/analytics/GoogleAnalytics").then(mod => ({ default: mod.GoogleAnalytics })), {
+  ssr: false,
+});
+
+const WebVitals = dynamic(() => import("@/components/analytics/WebVitals").then(mod => ({ default: mod.WebVitals })), {
+  ssr: false,
+});
+
+const PerformanceMonitor = dynamic(() => import("@/components/analytics/PerformanceMonitor").then(mod => ({ default: mod.PerformanceMonitor })), {
+  ssr: false,
+});
 import { ClientOnlyComponents } from "@/components/layout/ClientOnlyComponents";
 import { getCachedOrganizationSchema } from "@/lib/seo/structured-data-cache";
 import { generateRealEstateAgentLocalSchema } from "@/lib/seo/local-seo-schemas";
@@ -64,6 +74,11 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: siteConfig.name,
       description: siteConfig.description,
+    },
+    // Performance: Preconnect to critical domains
+    other: {
+      // DNS prefetch for faster connections
+      'dns-prefetch': 'https://fonts.googleapis.com https://fonts.gstatic.com https://res.cloudinary.com',
     },
     icons: {
       icon: [
@@ -120,6 +135,20 @@ export const viewport: Viewport = {
   userScalable: true,
   viewportFit: "cover",
 };
+
+// Resource hints for performance optimization
+export function generateResourceHints() {
+  return {
+    other: {
+      // Preconnect to Google Fonts (critical for font loading)
+      'dns-prefetch': 'https://fonts.googleapis.com https://fonts.gstatic.com https://res.cloudinary.com',
+      // Preconnect hints (faster connection establishment)
+      'preconnect-google-fonts': 'https://fonts.googleapis.com',
+      'preconnect-google-fonts-static': 'https://fonts.gstatic.com',
+      'preconnect-cloudinary': 'https://res.cloudinary.com',
+    },
+  };
+}
 
 export function generateStaticParams() {
   // Only generate params for active locales (currently only "tr")

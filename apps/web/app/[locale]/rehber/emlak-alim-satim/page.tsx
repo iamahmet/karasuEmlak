@@ -7,6 +7,14 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { FileText, CheckCircle, AlertCircle, Info } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
+import { GuideSidebar } from '@/components/guides/GuideSidebar';
+import { RelatedGuides } from '@/components/guides/RelatedGuides';
+import { calculateReadingTime } from '@/lib/utils/reading-time';
+import { StructuredData } from '@/components/seo/StructuredData';
+import { generateFAQSchema } from '@/lib/seo/structured-data';
+import { ScrollReveal } from '@/components/animations/ScrollReveal';
+import { AIChecker } from '@/components/content/AIChecker';
+import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 
 export async function generateMetadata({
   params,
@@ -139,17 +147,103 @@ export default async function EmlakAlimSatimPage({
     },
   ];
 
+  // Generate HTML content for TOC
+  const guideContent = `
+    <h2 id="alim-satim-sureci">Alım-Satım Süreci</h2>
+    <p>Emlak alım-satım sürecinde izlemeniz gereken adımlar ve dikkat edilmesi gereken noktalar.</p>
+    
+    <h3 id="hazirlik-asamasi">Hazırlık Aşaması</h3>
+    <p>Bütçe belirleme, kredi onayı ve ihtiyaç analizi.</p>
+    
+    <h3 id="ilan-arastirmasi">İlan Araştırması</h3>
+    <p>Güvenilir kaynaklardan ilan araştırması ve fiyat analizi.</p>
+    
+    <h3 id="goruntuleme-ve-degerlendirme">Görüntüleme ve Değerlendirme</h3>
+    <p>Emlak görüntüleme ve değerlendirme süreci.</p>
+    
+    <h3 id="hukuki-surecler">Hukuki Süreçler</h3>
+    <p>Tapu kontrolü, ipotek durumu ve yasal belgeler.</p>
+    
+    <h3 id="finansman">Finansman</h3>
+    <p>Kredi başvurusu ve ödeme planı.</p>
+    
+    <h3 id="tapu-devri">Tapu Devri</h3>
+    <p>Tapu devir işlemleri ve gerekli belgeler.</p>
+    
+    <h2 id="onemli-bilgiler">Önemli Bilgiler</h2>
+    <p>Dikkat edilmesi gerekenler, gerekli belgeler ve yardımcı kurumlar.</p>
+  `;
+
+  // Calculate reading time and word count
+  const readingTime = calculateReadingTime(guideContent);
+  const wordCount = guideContent.replace(/<[^>]*>/g, ' ').split(/\s+/).filter(w => w.length > 0).length;
+
+  // Related guides
+  const relatedGuides = [
+    {
+      id: 'yatirim',
+      title: 'Yatırım Rehberi',
+      href: `${basePath}/rehber/yatirim`,
+      description: 'Emlak yatırımı yaparken bilmeniz gerekenler',
+      category: 'Yatırım',
+    },
+    {
+      id: 'kiralama',
+      title: 'Kiralama Rehberi',
+      href: `${basePath}/rehber/kiralama`,
+      description: 'Ev kiralama sürecinde dikkat edilmesi gerekenler',
+      category: 'Kiralama',
+    },
+  ];
+
+  // FAQs for structured data
+  const faqs = [
+    {
+      question: 'Emlak alırken hangi belgeleri kontrol etmeliyim?',
+      answer: 'Tapu senedi, yapı ruhsatı, iskan belgesi, emlak vergisi belgesi ve ipotek durumu kontrol edilmelidir.',
+    },
+    {
+      question: 'Emlak satarken hangi masraflar çıkar?',
+      answer: 'Noter masrafları, tapu devir harçları, emlak vergisi ve komisyon ücretleri çıkabilir.',
+    },
+  ];
+
+  const faqSchema = generateFAQSchema(faqs);
+
   return (
-    <div className="container mx-auto px-4 py-12">
+    <>
+      {faqSchema && <StructuredData data={faqSchema} />}
+    <div className="min-h-screen bg-white">
+      {/* AI Checker Badge */}
+      <AICheckerBadge
+        content={guideContent}
+        title="Emlak Alım-Satım Rehberi"
+        position="top-right"
+      />
+
       <Breadcrumbs
         items={[
+          { label: 'Ana Sayfa', href: `${basePath}/` },
           { label: 'Rehber', href: `${basePath}/rehber` },
           { label: 'Emlak Alım-Satım Rehberi' },
         ]}
-        className="mb-8"
+        className="mb-8 container mx-auto px-4 pt-8"
       />
 
-      <div className="max-w-4xl mx-auto">
+      <div className="container mx-auto px-4 py-8 lg:py-12 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,900px)_380px] gap-10 lg:gap-16">
+          {/* Main Content */}
+          <main className="min-w-0 w-full">
+            {/* AI Checker */}
+            <div id="ai-checker" className="mb-8">
+              <AIChecker
+                content={guideContent}
+                title="Emlak Alım-Satım Rehberi"
+                contentType="guide"
+                showDetails={true}
+              />
+            </div>
+
         {/* Header */}
         <header className="mb-12">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 md:p-12 border border-blue-100 text-center">
@@ -178,78 +272,117 @@ export default async function EmlakAlimSatimPage({
         </header>
 
         {/* Steps */}
-        <section className="mb-12">
-          <h2 className="text-3xl font-bold mb-8 text-gray-900">Alım-Satım Süreci</h2>
-          <div className="space-y-6">
-            {steps.map((step, index) => (
-              <div key={index} className="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-primary hover:shadow-lg transition-all">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center flex-shrink-0">
-                    <span className="text-xl font-bold text-primary">{index + 1}</span>
+        <ScrollReveal direction="up" delay={0}>
+          <section className="mb-12" id="alim-satim-sureci">
+            <h2 className="text-3xl font-bold mb-8 text-gray-900">Alım-Satım Süreci</h2>
+            <div className="space-y-6">
+              {steps.map((step, index) => (
+                <ScrollReveal key={index} direction="up" delay={index * 100}>
+                  <div className="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-primary hover:shadow-lg transition-all">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center flex-shrink-0">
+                        <span className="text-xl font-bold text-primary">{index + 1}</span>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-xl font-semibold mb-4 text-gray-900">{step.title}</h3>
+                        <ul className="space-y-3">
+                          {step.items.map((item, itemIndex) => (
+                            <li key={itemIndex} className="flex items-start gap-3">
+                              <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                              <span className="text-gray-700 leading-relaxed">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold mb-4 text-gray-900">{step.title}</h3>
-                    <ul className="space-y-3">
-                      {step.items.map((item, itemIndex) => (
-                        <li key={itemIndex} className="flex items-start gap-3">
-                          <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-700 leading-relaxed">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+                </ScrollReveal>
+              ))}
+            </div>
+          </section>
+        </ScrollReveal>
 
         {/* Important Notes */}
-        <section className="mb-12">
-          <h2 className="text-3xl font-bold mb-8">Önemli Bilgiler</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {importantNotes.map((note, index) => {
-              const Icon = note.icon;
-              return (
-                <div key={index} className="border rounded-lg p-6">
-                  <Icon className="h-8 w-8 text-primary mb-4" />
-                  <h3 className="text-lg font-semibold mb-4">{note.title}</h3>
-                  <ul className="space-y-2">
-                    {note.items.map((item, itemIndex) => (
-                      <li key={itemIndex} className="text-sm text-muted-foreground">
-                        • {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-        </section>
+        <ScrollReveal direction="up" delay={0}>
+          <section className="mb-12" id="onemli-bilgiler">
+            <h2 className="text-3xl font-bold mb-8 text-gray-900">Önemli Bilgiler</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {importantNotes.map((note, index) => {
+                const Icon = note.icon;
+                return (
+                  <ScrollReveal key={index} direction="up" delay={index * 100}>
+                    <div className="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-primary hover:shadow-lg transition-all">
+                      <Icon className="h-8 w-8 text-primary mb-4" />
+                      <h3 className="text-lg font-semibold mb-4 text-gray-900">{note.title}</h3>
+                      <ul className="space-y-2">
+                        {note.items.map((item, itemIndex) => (
+                          <li key={itemIndex} className="text-sm text-gray-600 flex items-start gap-2">
+                            <span className="text-primary mt-1">•</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </ScrollReveal>
+                );
+              })}
+            </div>
+          </section>
+        </ScrollReveal>
 
         {/* CTA */}
-        <section className="text-center border-t pt-12">
-          <div className="bg-gradient-to-br from-primary to-primary-dark rounded-2xl p-8 md:p-12 text-white">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">Yardıma mı ihtiyacınız var?</h2>
-            <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-              Profesyonel ekibimiz emlak alım-satım sürecinizde size yardımcı olmaya hazır. Tüm sorularınız için bizimle iletişime geçebilirsiniz.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href={`${basePath}/iletisim`}>
-                <Button size="lg" className="bg-white text-primary hover:bg-gray-100">
-                  İletişime Geç
-                </Button>
-              </Link>
-              <Link href={`${basePath}/satilik`}>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                  Satılık İlanları Gör
-                </Button>
-              </Link>
+        <ScrollReveal direction="up" delay={0}>
+          <section className="text-center border-t pt-12">
+            <div className="bg-gradient-to-br from-primary to-primary-dark rounded-2xl p-8 md:p-12 text-white">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">Yardıma mı ihtiyacınız var?</h2>
+              <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
+                Profesyonel ekibimiz emlak alım-satım sürecinizde size yardımcı olmaya hazır. Tüm sorularınız için bizimle iletişime geçebilirsiniz.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href={`${basePath}/iletisim`}>
+                  <Button size="lg" className="bg-white text-primary hover:bg-gray-100">
+                    İletişime Geç
+                  </Button>
+                </Link>
+                <Link href={`${basePath}/satilik`}>
+                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+                    Satılık İlanları Gör
+                  </Button>
+                </Link>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </ScrollReveal>
+
+            {/* Related Guides Section */}
+            <RelatedGuides
+              guides={relatedGuides}
+              title="İlgili Rehberler"
+              basePath={basePath}
+              className="mt-16"
+            />
+          </main>
+
+          {/* Sidebar */}
+          <aside className="hidden lg:block">
+            <GuideSidebar
+              basePath={basePath}
+              guide={{
+                id: 'emlak-alim-satim-rehberi',
+                title: 'Emlak Alım-Satım Rehberi',
+                content: guideContent,
+                published_at: new Date().toISOString(),
+              }}
+              readingTime={readingTime}
+              wordCount={wordCount}
+              relatedGuides={relatedGuides}
+              showTOC={true}
+            />
+          </aside>
+        </div>
       </div>
     </div>
+    </>
   );
 }
 

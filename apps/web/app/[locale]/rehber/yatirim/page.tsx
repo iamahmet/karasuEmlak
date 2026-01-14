@@ -10,6 +10,11 @@ import { ScrollReveal } from '@/components/animations/ScrollReveal';
 import { TrendingUp, CheckCircle, AlertCircle, DollarSign, Target, BarChart3, MapPin, Clock, Shield, Percent, ArrowRight, Calculator, Briefcase, Info, Lightbulb, Building2, Home, PieChart } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
+import { GuideSidebar } from '@/components/guides/GuideSidebar';
+import { RelatedGuides } from '@/components/guides/RelatedGuides';
+import { calculateReadingTime } from '@/lib/utils/reading-time';
+import { AIChecker } from '@/components/content/AIChecker';
+import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 
 export async function generateMetadata({
   params,
@@ -277,10 +282,63 @@ export default async function YatirimPage({
 
   const faqSchema = generateFAQSchema(faqs);
 
+  // Generate HTML content for TOC
+  const guideContent = `
+    <h2 id="yatirim-sureci">Yatırım Süreci</h2>
+    <p>Emlak yatırımı yaparken izlemeniz gereken adımlar ve süreçler hakkında detaylı bilgiler.</p>
+    
+    <h3 id="hedef-belirleme">Hedef Belirleme</h3>
+    <p>Yatırım hedeflerinizi netleştirin ve stratejinizi belirleyin.</p>
+    
+    <h3 id="piyasa-arastirmasi">Piyasa Araştırması</h3>
+    <p>Piyasa koşullarını analiz edin ve fırsatları değerlendirin.</p>
+    
+    <h2 id="yatirim-stratejileri">Yatırım Stratejileri</h2>
+    <p>Farklı yatırım yaklaşımları ve stratejileri hakkında bilgiler.</p>
+    
+    <h2 id="getiri-ornekleri">Getiri Örnekleri</h2>
+    <p>Farklı emlak türleri için getiri hesaplamaları ve örnekler.</p>
+    
+    <h2 id="degerlendirme-faktorleri">Değerlendirme Faktörleri</h2>
+    <p>Yatırım kararı verirken dikkate alınması gereken faktörler.</p>
+    
+    <h2 id="yatirim-ipuclari">Yatırım İpuçları</h2>
+    <p>Uzman tavsiyeleri ve pratik ipuçları.</p>
+  `;
+
+  // Calculate reading time and word count
+  const readingTime = calculateReadingTime(guideContent);
+  const wordCount = guideContent.replace(/<[^>]*>/g, ' ').split(/\s+/).filter(w => w.length > 0).length;
+
+  // Related guides
+  const relatedGuides = [
+    {
+      id: 'emlak-alim-satim',
+      title: 'Emlak Alım-Satım Rehberi',
+      href: `${basePath}/rehber/emlak-alim-satim`,
+      description: 'Emlak alım-satım sürecinde bilmeniz gerekenler',
+      category: 'Alım-Satım',
+    },
+    {
+      id: 'kiralama',
+      title: 'Kiralama Rehberi',
+      href: `${basePath}/rehber/kiralama`,
+      description: 'Ev kiralama sürecinde dikkat edilmesi gerekenler',
+      category: 'Kiralama',
+    },
+  ];
+
   return (
     <>
       {faqSchema && <StructuredData data={faqSchema} />}
     <div className="min-h-screen bg-white">
+      {/* AI Checker Badge */}
+      <AICheckerBadge
+        content={guideContent}
+        title="Emlak Yatırım Rehberi"
+        position="top-right"
+      />
+
       <Breadcrumbs
         items={[
           { label: 'Ana Sayfa', href: `${basePath}/` },
@@ -291,6 +349,19 @@ export default async function YatirimPage({
       />
 
       <div className="container mx-auto px-4 py-8 lg:py-12 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,900px)_380px] gap-10 lg:gap-16">
+          {/* Main Content */}
+          <main className="min-w-0 w-full">
+            {/* AI Checker */}
+            <div id="ai-checker" className="mb-8">
+              <AIChecker
+                content={guideContent}
+                title="Emlak Yatırım Rehberi"
+                contentType="guide"
+                showDetails={true}
+              />
+            </div>
+
         {/* Header */}
         <ScrollReveal direction="up" delay={0}>
           <header className="mb-12">
@@ -638,6 +709,33 @@ export default async function YatirimPage({
             </div>
           </section>
         </ScrollReveal>
+
+            {/* Related Guides Section */}
+            <RelatedGuides
+              guides={relatedGuides}
+              title="İlgili Rehberler"
+              basePath={basePath}
+              className="mt-16"
+            />
+          </main>
+
+          {/* Sidebar */}
+          <aside className="hidden lg:block">
+            <GuideSidebar
+              basePath={basePath}
+              guide={{
+                id: 'yatirim-rehberi',
+                title: 'Emlak Yatırım Rehberi',
+                content: guideContent,
+                published_at: new Date().toISOString(),
+              }}
+              readingTime={readingTime}
+              wordCount={wordCount}
+              relatedGuides={relatedGuides}
+              showTOC={true}
+            />
+          </aside>
+        </div>
       </div>
     </div>
     </>
