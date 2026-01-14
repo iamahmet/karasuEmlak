@@ -28,9 +28,9 @@ export function createSuccessResponse<T>(
 
 export function createErrorResponse(
   requestId: string | null,
+  code: string,
   message: string,
   status: number = 500,
-  code?: string,
   details?: any
 ): NextResponse<ApiResponse> {
   return NextResponse.json(

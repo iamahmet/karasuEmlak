@@ -53,7 +53,8 @@ export async function POST(request: NextRequest) {
           skipped: 0,
           errors: 0,
           results: [],
-        })
+        }),
+        { status: 200 }
       );
     }
 
@@ -163,7 +164,8 @@ export async function POST(request: NextRequest) {
         skipped: skippedCount,
         errors: errorCount,
         results,
-      })
+      }),
+      { status: 200 }
     );
   } catch (error: any) {
     console.error('Batch improvement error:', error);

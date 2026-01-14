@@ -51,7 +51,8 @@ export async function POST(request: NextRequest) {
       createSuccessResponse(requestId, {
         analysis,
         improved: improvedContent,
-      })
+      }),
+      { status: 200 }
     );
   } catch (error: any) {
     console.error('Content analysis error:', error);
