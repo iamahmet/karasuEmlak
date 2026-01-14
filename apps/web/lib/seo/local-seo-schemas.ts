@@ -52,7 +52,7 @@ export function generateRealEstateAgentLocalSchema(params?: {
       latitude: 41.0969,
       longitude: 30.6934,
     },
-    telephone: '+905466395461',
+    telephone: '+905325933854',
     email: 'info@karasuemlak.net',
     ...(includeAreaServed && {
       areaServed: [

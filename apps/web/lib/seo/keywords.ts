@@ -150,7 +150,7 @@ export const schemaGenerators = {
     "url": "https://www.karasuemlak.net",
     "logo": "https://www.karasuemlak.net/logo.png",
     "image": "https://www.karasuemlak.net/og-image.jpg",
-    "telephone": "+905466395461",
+    "telephone": "+905325933854",
     "email": "info@karasuemlak.net",
     "address": {
       "@type": "PostalAddress",

@@ -107,14 +107,14 @@ export function HomepageFAQ() {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
-                href="tel:+905466395461"
+                href="tel:+905325933854"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#006AFF] hover:bg-[#0052CC] text-white rounded-xl font-semibold text-[15px] transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 <Phone className="h-5 w-5 stroke-[1.5]" />
                 Hemen Ara
               </a>
               <a
-                href="https://wa.me/905466395461"
+                href="https://wa.me/905325933854"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-xl font-semibold text-[15px] transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"

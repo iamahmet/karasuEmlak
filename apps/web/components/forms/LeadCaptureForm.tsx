@@ -227,7 +227,7 @@ export default function LeadCaptureForm({
               onBlur={handleBlur('phone')}
               error={touched.phone ? errors.phone : undefined}
               required
-              placeholder="0546 639 54 61"
+              placeholder="0532 593 38 54"
             />
           </div>
         )}

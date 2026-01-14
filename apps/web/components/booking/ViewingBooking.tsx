@@ -244,7 +244,7 @@ export default function ViewingBooking({
               value={formData.phone}
               onChange={handleChange}
               required
-              placeholder="0546 639 54 61"
+              placeholder="0532 593 38 54"
               className={errors.phone ? 'border-red-500' : ''}
             />
             {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}

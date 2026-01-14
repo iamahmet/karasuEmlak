@@ -71,7 +71,7 @@ export function AgentTeamSection() {
                         Hemen Ara
                       </a>
                       <a
-                        href={`https://wa.me/905466395461`}
+                        href={`https://wa.me/905325933854`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-xl font-semibold text-[15px] transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"

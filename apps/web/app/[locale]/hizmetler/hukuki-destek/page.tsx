@@ -484,7 +484,7 @@ export default async function HukukiDestekPage({
                   <Phone className="w-6 h-6 text-[#006AFF]" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Telefon</h3>
-                <a href="tel:+905466395461" className="text-[#006AFF] hover:text-[#0052CC] dark:hover:text-[#006AFF] font-medium">
+                <a href="tel:+905325933854" className="text-[#006AFF] hover:text-[#0052CC] dark:hover:text-[#006AFF] font-medium">
                   +90 546 639 54 61
                 </a>
               </div>

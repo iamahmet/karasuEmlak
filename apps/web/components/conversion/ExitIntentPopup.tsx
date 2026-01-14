@@ -95,7 +95,7 @@ export function ExitIntentPopup({
         {/* CTAs */}
         <div className="space-y-3">
           <a
-            href="tel:+905466395461"
+            href="tel:+905325933854"
             className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#006AFF] hover:bg-[#0052CC] text-white rounded-xl font-semibold transition-colors"
           >
             <Phone className="h-5 w-5" />
@@ -103,7 +103,7 @@ export function ExitIntentPopup({
           </a>
 
           <a
-            href="https://wa.me/905466395461"
+            href="https://wa.me/905325933854"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#25D366] hover:bg-[#20BD5C] text-white rounded-xl font-semibold transition-colors"

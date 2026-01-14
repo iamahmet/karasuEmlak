@@ -460,7 +460,7 @@ export default async function ListingDetailPage({
       <div className="hidden print:block mb-8">
         <div className="text-center border-b-2 border-gray-300 pb-4 mb-4">
           <h1 className="text-2xl font-bold mb-2">Karasu Emlak</h1>
-          <p className="text-sm text-gray-600">www.karasuemlak.net | <a href="tel:+905466395461" className="hover:text-[#006AFF] transition-colors">+90 546 639 54 61</a></p>
+          <p className="text-sm text-gray-600">www.karasuemlak.net | <a href="tel:+905325933854" className="hover:text-[#006AFF] transition-colors">+90 532 593 38 54</a></p>
         </div>
       </div>
 
@@ -520,6 +520,14 @@ export default async function ListingDetailPage({
                     status={listing.status}
                     neighborhood={listing.location_neighborhood}
                   />
+                </div>
+                
+                {/* Image Disclaimer Note */}
+                <div className="mt-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+                  <p className="text-sm text-amber-800 dark:text-amber-200 flex items-start gap-2">
+                    <span className="font-semibold">ℹ️ Not:</span>
+                    <span>Görseller temsili olabilir. Detaylı bilgi için bize ulaşabilirsiniz.</span>
+                  </p>
                 </div>
                 
                 {/* Hero Overlay - Premium Style */}
@@ -987,7 +995,7 @@ export default async function ListingDetailPage({
                     size="lg"
                     asChild
                   >
-                    <a href="tel:+905466395461">
+                    <a href="tel:+905325933854">
                       <Phone className="mr-2 h-5 w-5" strokeWidth={2.5} />
                       İletişime Geçin
                     </a>

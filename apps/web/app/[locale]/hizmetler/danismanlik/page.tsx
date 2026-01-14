@@ -457,7 +457,7 @@ export default async function DanismanlikPage({
                   <Phone className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Telefon</h3>
-                <a href="tel:+905466395461" className="text-primary hover:text-primary-dark dark:hover:text-primary-light font-medium">
+                <a href="tel:+905325933854" className="text-primary hover:text-primary-dark dark:hover:text-primary-light font-medium">
                   +90 546 639 54 61
                 </a>
               </div>

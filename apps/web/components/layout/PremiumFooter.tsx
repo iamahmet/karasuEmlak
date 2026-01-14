@@ -132,9 +132,9 @@ export function PremiumFooter() {
   ];
 
   const contactInfo = {
-    phone: napData.contact?.phone || '+905466395461',
+    phone: napData.contact?.phone || '+905325933854',
     phoneFormatted: napData.contact?.phoneFormatted || '+90 546 639 54 61',
-    whatsapp: napData.contact?.whatsapp || '+905466395461',
+    whatsapp: napData.contact?.whatsapp || '+905325933854',
     email: napData.contact?.email || 'info@karasuemlak.net',
   };
 

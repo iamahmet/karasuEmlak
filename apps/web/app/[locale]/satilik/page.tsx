@@ -238,7 +238,7 @@ export default async function ForSalePage({
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 py-4 sm:py-5 md:py-6">
               {/* Phone - Mobile: Full width, Desktop: Auto */}
               <a
-                href="tel:+905466395461"
+                href="tel:+905325933854"
                 className="group flex items-center justify-center sm:justify-start gap-3 px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 bg-white/80 hover:bg-white rounded-xl sm:rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md border border-slate-200/80 hover:border-[#006AFF]/30 hover:scale-[1.02] active:scale-[0.98] min-w-0 flex-1 sm:flex-none"
                 aria-label="Telefon ile ara"
               >
@@ -270,7 +270,7 @@ export default async function ForSalePage({
 
               {/* WhatsApp - Mobile: Full width, Desktop: Auto */}
               <a
-                href="https://wa.me/905466395461"
+                href="https://wa.me/905325933854"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center justify-center sm:justify-start gap-3 px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 bg-white/80 hover:bg-white rounded-xl sm:rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md border border-slate-200/80 hover:border-[#25D366]/30 hover:scale-[1.02] active:scale-[0.98] min-w-0 flex-1 sm:flex-none"
