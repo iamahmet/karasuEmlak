@@ -143,7 +143,7 @@ export async function PUT(request: NextRequest) {
         .eq("id", id)
         .single();
 
-      if (current?.position !== null) {
+      if (current && current.position !== null) {
         updateData.previous_position = current.position;
       }
       updateData.position = position;
