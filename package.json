@@ -32,6 +32,7 @@
     "scripts:add-demo-comments": "tsx scripts/add-demo-comments.ts",
     "scripts:apply-comments-migration": "tsx scripts/apply-comments-migration.ts",
     "scripts:reload-supabase-schema": "tsx scripts/reload-supabase-schema.ts",
+    "vercel:sync-env": "tsx scripts/sync-vercel-env.ts",
     "scripts:setup-navigation": "tsx scripts/setup-navigation-menu.ts",
     "scripts:setup-assets": "tsx scripts/setup-assets.ts",
     "scripts:convert-assets": "tsx scripts/convert-assets.ts",
