@@ -312,7 +312,7 @@ export function ContentChecklist({ article, className }: ContentChecklistProps) 
                         <strong>Öneri:</strong> İçeriği daha doğal ve özgün hale getirin. Generic ifadeleri kaldırın, cümle yapılarını çeşitlendirin.
                       </p>
                       <a
-                        href="/admin/content-quality"
+                        href="/content-quality"
                         className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold"
                       >
                         Detaylı AI Checker Raporu →

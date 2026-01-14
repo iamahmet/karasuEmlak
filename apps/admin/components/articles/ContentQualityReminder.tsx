@@ -90,7 +90,7 @@ export function ContentQualityReminder() {
           <div className="flex items-center gap-2 text-xs">
             <FileText className="h-4 w-4 text-blue-600" />
             <a
-              href="/admin/content-improvement"
+              href="/content-improvement"
               className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
             >
               AI İçerik İyileştirme Sistemi →

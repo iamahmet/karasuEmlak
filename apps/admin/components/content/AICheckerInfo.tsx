@@ -155,7 +155,7 @@ export function AICheckerInfo({ className }: AICheckerInfoProps) {
             <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
               <div className="flex flex-wrap gap-2">
                 <Link
-                  href="/admin/content-quality"
+                  href="/content-quality"
                   className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold"
                 >
                   <FileText className="h-4 w-4" />
