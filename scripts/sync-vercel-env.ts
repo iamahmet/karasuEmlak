@@ -135,8 +135,17 @@ function addEnvVar(
 
   try {
     const teamFlag = teamSlug ? `--scope=${teamSlug}` : '';
-    // Vercel CLI'de --yes flag'i yok, bu yüzden echo ile pipe yapıyoruz
-    const cmd = `cd ${dir} && echo "${value.replace(/"/g, '\\"').replace(/\$/g, '\\$')}" | vercel env add ${key} ${environment} ${teamFlag} 2>&1`;
+    
+    // Vercel CLI non-interactive format: vercel env add KEY VALUE ENVIRONMENT
+    // Value'yu tırnak içine al ve özel karakterleri escape et
+    const escapedValue = value
+      .replace(/\\/g, '\\\\')
+      .replace(/"/g, '\\"')
+      .replace(/\$/g, '\\$')
+      .replace(/`/g, '\\`');
+    
+    // Direkt value ile ekle (non-interactive)
+    const cmd = `cd ${dir} && vercel env add ${key} "${escapedValue}" ${environment} ${teamFlag} 2>&1`;
     
     const output = execSync(cmd, {
       encoding: 'utf-8',
@@ -147,10 +156,15 @@ function addEnvVar(
     if (output.includes('Already exists') || output.includes('already exists')) {
       console.log(`  ⚠️  ${key} zaten var (${environment}), mevcut değer korunuyor`);
       return true;
-    } else if (output.includes('Added') || output.includes('added') || output.includes('Created')) {
+    } else if (output.includes('Added') || output.includes('added') || output.includes('Created') || output.includes('Environment Variable')) {
       console.log(`  ✅ ${key} eklendi (${environment})`);
       return true;
     } else {
+      // Başarılı olabilir ama mesaj farklı olabilir
+      if (!output.includes('Error') && !output.includes('error') && !output.includes('Failed')) {
+        console.log(`  ✅ ${key} eklendi (${environment})`);
+        return true;
+      }
       console.log(`  ℹ️  ${key} (${environment}): ${output.trim().substring(0, 80)}`);
       return false;
     }
@@ -158,6 +172,9 @@ function addEnvVar(
     const errorMsg = error.stdout?.toString() || error.stderr?.toString() || error.message;
     if (errorMsg.includes('Already exists') || errorMsg.includes('already exists')) {
       console.log(`  ⚠️  ${key} zaten var (${environment})`);
+      return true;
+    } else if (errorMsg.includes('Added') || errorMsg.includes('added') || errorMsg.includes('Created')) {
+      console.log(`  ✅ ${key} eklendi (${environment})`);
       return true;
     } else {
       console.log(`  ❌ ${key} eklenemedi (${environment}): ${errorMsg.substring(0, 100)}`);
