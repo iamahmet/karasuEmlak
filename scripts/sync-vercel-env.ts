@@ -86,11 +86,23 @@ function linkVercelProject(dir: string, projectName?: string, teamSlug?: string)
       try {
         const linkData = JSON.parse(readFileSync(linkPath, 'utf-8'));
         if (linkData.projectId) {
-          console.log(`  ✅ Proje zaten link edilmiş: ${linkData.projectId}`);
-          return linkData.projectId;
+          // Mevcut link'i test et
+          try {
+            const testCmd = `cd ${dir} && vercel project ls --json 2>&1`;
+            execSync(testCmd, { encoding: 'utf-8', stdio: 'pipe', timeout: 5000 });
+            console.log(`  ✅ Proje zaten link edilmiş: ${linkData.projectId}`);
+            return linkData.projectId;
+          } catch {
+            // Link geçersiz, yeniden link et
+            console.log(`  ⚠️  Mevcut link geçersiz, yeniden link ediliyor...`);
+            // .vercel dizinini temizle
+            execSync(`rm -rf "${join(dir, '.vercel')}"`, { stdio: 'pipe' });
+          }
         }
       } catch {
         // Link dosyası bozuksa devam et
+        console.log(`  ⚠️  Link dosyası bozuk, yeniden link ediliyor...`);
+        execSync(`rm -rf "${join(dir, '.vercel')}"`, { stdio: 'pipe' });
       }
     }
 
