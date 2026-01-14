@@ -44,16 +44,16 @@ function AdminLayoutComponent({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <div className="flex h-screen overflow-hidden bg-gradient-to-br from-[#E7E7E7] via-white to-[#E7E7E7] dark:from-[#062F28] dark:via-[#062F28] dark:to-[#0a3d35] relative admin-layout-container">
-        {/* Background Pattern - Optimized with CSS */}
-        <div className="absolute inset-0 pointer-events-none admin-layout-background" />
-        <div className="absolute inset-0 bg-gradient-to-br from-design-light/5 via-transparent to-transparent dark:from-design-light/3 pointer-events-none" />
+      <div className="flex h-screen overflow-hidden bg-gradient-to-br from-[#E7E7E7]/50 via-white to-[#E7E7E7]/50 dark:from-[#062F28] dark:via-[#062F28] dark:to-[#0a3d35] relative admin-layout-container">
+        {/* Background Pattern - Subtle & Modern */}
+        <div className="absolute inset-0 pointer-events-none admin-layout-background opacity-30" />
+        <div className="absolute inset-0 bg-gradient-to-br from-design-light/3 via-transparent to-transparent dark:from-design-light/2 pointer-events-none" />
         
         <AdminSidebar 
           isMobileOpen={sidebarOpen}
           onMobileClose={closeSidebar}
         />
-        <div className="flex-1 flex flex-col overflow-hidden lg:ml-64 relative z-10">
+        <div className="flex-1 flex flex-col overflow-hidden lg:ml-[240px] relative z-10" style={{ marginLeft: 'var(--sidebar-width, 240px)' }}>
           <AdminHeaderEnhanced 
             onMenuToggle={toggleSidebar}
             isMobileMenuOpen={sidebarOpen}

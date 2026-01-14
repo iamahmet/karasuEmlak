@@ -184,11 +184,11 @@ export function QuickStats() {
 
   if (loading) {
     return (
-      <div className="admin-grid-3 gap-4">
+      <div className="admin-grid-3 gap-3">
         {[...Array(6)].map((_, i) => (
           <Card key={i} className="card-professional">
-            <CardContent className="p-5">
-              <div className="h-16 skeleton-professional rounded-lg" style={{ animationDelay: `${i * 0.1}s` }}></div>
+            <CardContent className="p-4">
+              <div className="h-14 skeleton-professional rounded-lg animate-pulse bg-muted" style={{ animationDelay: `${i * 0.1}s` }}></div>
             </CardContent>
           </Card>
         ))}
@@ -198,11 +198,11 @@ export function QuickStats() {
 
   if (stats.length === 0) {
     return (
-      <div className="admin-grid-3 gap-4">
+      <div className="admin-grid-3 gap-3">
         <Card className="card-professional">
-          <CardContent className="p-5 text-center py-12">
-            <FileText className="h-12 w-12 mx-auto mb-3 text-design-gray dark:text-gray-400 opacity-50" />
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+          <CardContent className="p-4 text-center py-8">
+            <FileText className="h-10 w-10 mx-auto mb-2 text-muted-foreground opacity-50" />
+            <p className="text-xs text-muted-foreground">
               İstatistikler yükleniyor...
             </p>
           </CardContent>
@@ -212,7 +212,7 @@ export function QuickStats() {
   }
 
   return (
-    <div className="admin-grid-3 gap-4">
+    <div className="admin-grid-3 gap-3">
       {stats.map((stat, index) => {
         const Icon = stat.icon;
         const isPositive = (stat.change || 0) > 0;
@@ -220,33 +220,33 @@ export function QuickStats() {
         return (
           <Card
             key={index}
-            className="card-professional hover-lift transition-all duration-200"
+            className="card-professional hover-lift transition-all duration-200 group"
           >
-            <CardContent className="p-5">
+            <CardContent className="p-4">
               <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mb-1.5">
                     {stat.label}
                   </p>
-                  <p className="text-2xl font-bold text-design-dark dark:text-white mb-2">
+                  <p className="text-xl md:text-2xl font-bold font-display text-design-dark dark:text-white mb-1.5 leading-tight">
                     {stat.value}
                   </p>
                   {stat.change !== undefined && (
                     <div className="flex items-center gap-1">
                       {isPositive ? (
-                        <TrendingUp className="h-3.5 w-3.5 text-green-600" />
+                        <TrendingUp className="h-3 w-3 text-green-600 dark:text-green-400" />
                       ) : (
-                        <TrendingDown className="h-3.5 w-3.5 text-red-600" />
+                        <TrendingDown className="h-3 w-3 text-red-600 dark:text-red-400" />
                       )}
                       <span
                         className={cn(
-                          "text-xs font-ui font-semibold",
-                          isPositive ? "text-green-600" : "text-red-600"
+                          "text-[10px] font-semibold",
+                          isPositive ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
                         )}
                       >
                         {Math.abs(stat.change)}%
                       </span>
-                      <span className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                      <span className="text-[10px] text-muted-foreground">
                         bu ay
                       </span>
                     </div>
@@ -254,11 +254,11 @@ export function QuickStats() {
                 </div>
                 <div
                   className={cn(
-                    "w-12 h-12 rounded-lg flex items-center justify-center",
+                    "w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-110",
                     stat.bgColor
                   )}
                 >
-                  <Icon className={cn("h-6 w-6", stat.color)} />
+                  <Icon className={cn("h-5 w-5", stat.color)} />
                 </div>
               </div>
             </CardContent>

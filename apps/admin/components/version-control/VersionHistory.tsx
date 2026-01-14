@@ -22,6 +22,7 @@ interface ContentVersion {
   version_number: number;
   data: Record<string, unknown>;
   created_by: string | null;
+  created_by_name?: string | null;
   change_note: string | null;
   is_current: boolean;
   created_at: string;
@@ -58,7 +59,27 @@ export function VersionHistory({
       if (!response.ok) throw new Error("Failed to fetch versions");
 
       const data = await response.json();
-      setVersions(data.versions || []);
+      // Fetch user info for each version
+      const versionsWithUsers = await Promise.all(
+        (data.versions || []).map(async (version: ContentVersion) => {
+          if (version.created_by) {
+            try {
+              const userResponse = await fetch(`/api/users/${version.created_by}`);
+              if (userResponse.ok) {
+                const userData = await userResponse.json();
+                return {
+                  ...version,
+                  created_by_name: userData.user?.email || userData.user?.name || null,
+                };
+              }
+            } catch (error) {
+              console.error("Error fetching user:", error);
+            }
+          }
+          return version;
+        })
+      );
+      setVersions(versionsWithUsers);
     } catch (error) {
       console.error("Error fetching versions:", error);
       toast.error("Versiyonlar yüklenemedi");
@@ -182,7 +203,7 @@ export function VersionHistory({
                     {version.created_by && (
                       <span className="flex items-center gap-1">
                         <User className="h-3 w-3" />
-                        Kullanıcı ID: {version.created_by.slice(0, 8)}...
+                        {version.created_by_name || `Kullanıcı: ${version.created_by.slice(0, 8)}...`}
                       </span>
                     )}
                   </div>

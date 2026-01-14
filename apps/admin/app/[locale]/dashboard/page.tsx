@@ -233,10 +233,10 @@ export default async function DashboardPage({
 
   return (
     <div className="admin-container responsive-padding space-section animate-fade-in max-w-[1920px] mx-auto">
-      {/* Header - Professional */}
+      {/* Header - Modern & Compact */}
       <div className="admin-page-header">
         <div className="relative">
-          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full opacity-50"></div>
+          <div className="absolute -left-3 top-0 bottom-0 w-0.5 bg-gradient-to-b from-design-light via-design-light/60 to-design-dark rounded-full opacity-40"></div>
           <h1 className="admin-page-title">
             {t("title")}
           </h1>
@@ -246,43 +246,39 @@ export default async function DashboardPage({
         </div>
       </div>
 
-      {/* Stats Grid - Professional */}
-      <div className="admin-grid-4 gap-4 md:gap-5">
+      {/* Stats Grid - Modern & Compact */}
+      <div className="admin-grid-4 gap-3">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           const progressWidth = Math.min(100, parseInt(stat.change.replace('+', '').replace('%', '')) * 5);
           return (
             <Card 
               key={stat.label} 
-              className="card-modern card-elevated bg-white dark:bg-[#0a3d35] hover-lift animate-slide-up group cursor-pointer relative overflow-hidden"
-              style={{ animationDelay: `${index * 0.05}s` }}
+              className="card-professional hover-subtle group cursor-pointer relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-design-light/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <CardHeader className="flex flex-row items-center justify-between pb-3 px-5 pt-5 relative z-10">
-                <CardTitle className="text-[10px] md:text-xs font-ui font-bold text-design-gray dark:text-gray-400 uppercase tracking-wider">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-design-light/8 to-transparent rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <CardHeader className="flex flex-row items-center justify-between pb-2 px-4 pt-4 relative z-10">
+                <CardTitle className="text-[9px] font-medium text-muted-foreground uppercase tracking-wider">
                   {stat.label}
                 </CardTitle>
-                <div className="relative p-2.5 rounded-xl bg-gradient-to-br from-design-light/20 via-design-light/10 to-design-light/5 group-hover:from-design-light/30 group-hover:via-design-light/20 group-hover:to-design-light/10 transition-all duration-300 micro-bounce shadow-sm group-hover:shadow-md">
-                  <Icon className="h-4 w-4 text-design-dark dark:text-design-light relative z-10 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3" />
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/30 to-transparent"></div>
+                <div className="relative p-2 rounded-lg bg-gradient-to-br from-design-light/15 to-design-light/5 group-hover:from-design-light/20 group-hover:to-design-light/10 transition-all duration-200 shadow-sm">
+                  <Icon className="h-3.5 w-3.5 text-design-dark dark:text-design-light transition-transform duration-200 group-hover:scale-110" />
                 </div>
               </CardHeader>
-              <CardContent className="px-5 pb-5 relative z-10">
-                <div className="flex items-baseline justify-between mb-4">
-                  <div className="text-3xl md:text-4xl font-display font-bold text-design-dark dark:text-white tracking-tight bg-gradient-to-br from-design-dark to-design-dark/80 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+              <CardContent className="px-4 pb-4 relative z-10">
+                <div className="flex items-baseline justify-between mb-3">
+                  <div className="text-xl md:text-2xl font-display font-bold text-design-dark dark:text-white tracking-tight">
                     {stat.value}
                   </div>
-                  <span className="text-[10px] md:text-xs font-bold bg-gradient-to-r from-design-light/20 to-design-light/10 text-design-dark dark:text-design-light px-2.5 py-1 rounded-lg font-ui shadow-sm border border-design-light/20">
+                  <span className="text-[9px] font-semibold bg-gradient-to-r from-design-light/15 to-design-light/10 text-design-dark dark:text-design-light px-2 py-0.5 rounded-md font-ui border border-design-light/20">
                     {stat.change}
                   </span>
                 </div>
-                <div className="relative h-1.5 bg-[#E7E7E7]/50 dark:bg-[#062F28]/50 rounded-full overflow-hidden">
+                <div className="relative h-1 bg-[#E7E7E7]/40 dark:bg-[#062F28]/40 rounded-full overflow-hidden">
                   <div 
-                    className="absolute inset-y-0 left-0 bg-gradient-to-r from-design-light via-design-light/90 to-design-dark rounded-full transition-all duration-1000 ease-out shadow-sm"
+                    className="absolute inset-y-0 left-0 bg-gradient-to-r from-design-light to-design-light/80 rounded-full transition-all duration-1000 ease-out"
                     style={{ width: `${progressWidth}%` }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
-                  </div>
+                  />
                 </div>
               </CardContent>
             </Card>
