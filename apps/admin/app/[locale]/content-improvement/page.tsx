@@ -203,7 +203,7 @@ export default function ContentImprovementPage() {
 
       {/* Batch Improvement */}
       <div className="mt-6">
-        <BatchImprovement />
+        <BatchImprovement articles={articles} />
       </div>
     </div>
   );

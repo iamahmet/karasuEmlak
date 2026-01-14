@@ -34,13 +34,15 @@ interface AdminAICheckerProps {
   articleId: string;
   title: string;
   content: string;
-  onImproved?: () => void;
+  contentType?: 'blog' | 'article' | 'guide' | 'news';
+  onImproved?: (improvedContent?: string) => void;
 }
 
 export function AdminAIChecker({
   articleId,
   title,
   content,
+  contentType = 'blog',
   onImproved,
 }: AdminAICheckerProps) {
   const [analyzing, setAnalyzing] = useState(false);
