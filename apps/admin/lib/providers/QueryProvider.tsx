@@ -5,11 +5,17 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 
 // Dynamically import devtools (client-side only, available in production for poi369 projects)
+// Using dynamic import with error handling for build compatibility
 const ReactQueryDevtools = dynamic(
   () =>
-    import("@tanstack/react-query-devtools").then((mod) => ({
-      default: mod.ReactQueryDevtools,
-    })),
+    import("@tanstack/react-query-devtools")
+      .then((mod) => ({
+        default: mod.ReactQueryDevtools,
+      }))
+      .catch(() => {
+        // Fallback if devtools can't be loaded
+        return { default: () => null };
+      }),
   { 
     ssr: false,
     // Only load in browser, not during SSR
