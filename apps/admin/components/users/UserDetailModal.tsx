@@ -166,7 +166,7 @@ export function UserDetailModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border-2 border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 shadow-2xl bg-white/98 dark:bg-[#0a3d35]/98 backdrop-blur-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-design-light to-green-600 flex items-center justify-center text-white font-bold text-lg">

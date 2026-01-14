@@ -18,6 +18,7 @@
     "test:supabase": "npx tsx scripts/test-supabase.ts"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@karasu-emlak/config": "workspace:*",
     "@karasu/lib": "workspace:*",
     "@karasu/ui": "workspace:*",

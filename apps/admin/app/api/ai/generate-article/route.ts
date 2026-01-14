@@ -115,10 +115,15 @@ Lütfen şu formatta JSON döndür:
 - Her alt başlık altında 2-3 paragraf
 - SEO uyumlu yapı
 
-ÖNEMLİ:
+ÖNEMLİ - İÇERİK KALİTE STANDARTLARI:
 - "Sonuç", "Özet", "Değerlendirme" gibi başlıklar KULLANMA
-- "Sonuç olarak", "Özetlemek gerekirse", "Kısaca" gibi ifadeler KULLANMA
+- "Sonuç olarak", "Özetlemek gerekirse", "Kısaca", "bu makalede", "bu yazıda" gibi generic ifadeler KULLANMA
 - Yazıyı doğal bir şekilde bitir, son paragrafı normal bir paragraf gibi yaz
+- Yerel referanslar ekle: "Karasu", "Kocaali", "Sakarya" gibi coğrafi terimler
+- Özgün ve doğal ifadeler kullan, AI detection'dan kaçın
+- Cümle yapılarını çeşitlendir (kısa + uzun karışımı)
+- Tekrar eden kelimelerden kaçın, eş anlamlılar kullan
+- Kurumsal kimliğe uygun profesyonel ton kullan
 - İnsan yazmış gibi görünmeli, yapay zeka yazmış gibi değil`;
 
     const completion = await openaiClient.chat.completions.create({

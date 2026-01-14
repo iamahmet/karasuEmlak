@@ -10,6 +10,7 @@ import { useAutoSave } from "@/hooks/useAutoSave";
 import { validateForm, commonValidations } from "@/lib/validation/form-validators";
 import { toast } from "sonner";
 import { useRouter } from "@/i18n/routing";
+import { ContentQualityReminder } from "@/components/articles/ContentQualityReminder";
 
 interface ArticleFormData {
   title: string;
@@ -156,6 +157,9 @@ export function ArticleFormEnhanced({
           />
         </div>
       )}
+
+      {/* Content Quality Reminder */}
+      <ContentQualityReminder />
 
       <Card className="card-professional">
         <CardHeader>

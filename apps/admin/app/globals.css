@@ -319,13 +319,15 @@
   .animate-stagger > *:nth-child(4) { animation-delay: 0.2s; }
   .animate-stagger > *:nth-child(5) { animation-delay: 0.25s; }
   
-  /* Modal/Overlay Fixes - Ensure proper z-index and pointer-events */
+  /* Enhanced Modal/Overlay Styles */
   .modal-backdrop {
     @apply fixed inset-0;
     z-index: var(--z-modal-backdrop);
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     pointer-events: auto;
+    animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   
   .modal-backdrop[aria-hidden="true"] {
@@ -336,6 +338,19 @@
     @apply relative;
     z-index: var(--z-modal);
     pointer-events: auto;
+    animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center;
+  }
+
+  @keyframes modalSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
   
   /* Enhanced Animations */

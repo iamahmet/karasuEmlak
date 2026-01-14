@@ -47,10 +47,14 @@ interface NavItem {
   children?: NavItem[];
 }
 
-export function AdminSidebar() {
+interface AdminSidebarProps {
+  isMobileOpen?: boolean;
+  onMobileClose?: () => void;
+}
+
+export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSidebarProps = {}) {
   const t = useTranslations("admin.nav");
   const pathname = usePathname();
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<string[]>(["contentManagement"]);
   const [poi369Expanded, setPoi369Expanded] = useState(false); // Collapsible Poi369 Studio
 
@@ -328,20 +332,7 @@ export function AdminSidebar() {
 
   return (
     <>
-      {/* Mobile menu button */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-          aria-label={isMobileOpen ? "Menüyü kapat" : "Menüyü aç"}
-          aria-expanded={isMobileOpen}
-          aria-controls="admin-sidebar"
-          className="bg-white dark:bg-[#062F28] border-[#E7E7E7] dark:border-[#0a3d35]"
-        >
-          <Menu className="h-6 w-6" />
-        </Button>
-      </div>
+      {/* Mobile menu button - Hidden, handled by header */}
 
       {/* Sidebar - Modern Glassmorphism */}
       <aside
@@ -431,8 +422,8 @@ export function AdminSidebar() {
       {/* Overlay for mobile */}
       {isMobileOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-30"
-          onClick={() => setIsMobileOpen(false)}
+          className="lg:hidden fixed inset-0 bg-black/50 z-30 backdrop-blur-sm transition-opacity duration-300"
+          onClick={onMobileClose}
         />
       )}
     </>

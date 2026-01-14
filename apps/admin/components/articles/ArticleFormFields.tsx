@@ -20,6 +20,7 @@ import {
 import { cn } from "@karasu/lib";
 import { EnhancedFormField } from "@/components/forms/EnhancedFormField";
 import { ImageUpload } from "@/components/content-studio/ImageUpload";
+import { ContentQualityReminder } from "@/components/articles/ContentQualityReminder";
 
 interface Article {
   id: string;
@@ -76,6 +77,9 @@ export function ArticleFormFields({
 
   return (
     <div className="space-y-6">
+      {/* Content Quality Reminder */}
+      <ContentQualityReminder />
+
       {/* Title & Slug Section */}
       <Card className="card-professional border-2 border-slate-200/80 dark:border-[#0a3d35]/80">
         <CardHeader className="pb-3">

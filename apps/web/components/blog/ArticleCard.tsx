@@ -109,16 +109,7 @@ export function ArticleCard({ article, basePath }: ArticleCardProps) {
                 <Clock className="h-3 w-3" />
                 {readingTime} dk
               </span>
-              {/* AI Check Badge - Show if potential AI content detected */}
-              {aiCheckResult && aiCheckResult.isAI && aiCheckResult.score < 70 && (
-                <span 
-                  className="inline-flex items-center gap-1 px-2 py-1 bg-orange-500/90 backdrop-blur-sm text-white rounded-lg text-[10px] font-medium"
-                  title="AI Checker ile kontrol edin"
-                >
-                  <Sparkles className="h-2.5 w-2.5" />
-                  AI Check
-                </span>
-              )}
+              {/* AI Check Badge - Admin Only (Hidden from public) */}
             </div>
           )}
         </div>

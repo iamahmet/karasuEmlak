@@ -175,12 +175,21 @@ Lütfen şu formatta JSON döndür:
 }
 
 İçerik şunları içermeli:
-- Giriş paragrafı
+- Giriş paragrafı (primary keyword ilk 100 kelimede)
 - En az 3-4 alt başlık (H2)
 - Her alt başlık altında 2-3 paragraf
-- Sonuç paragrafı
+- Sonuç paragrafı (CTA ile)
 - SEO uyumlu yapı
-- Yerel bilgiler (Karasu, Kocaali, mahalle adları)`;
+- Yerel bilgiler (Karasu, Kocaali, mahalle adları)
+
+ÖNEMLİ - İÇERİK KALİTE STANDARTLARI:
+- "Sonuç", "Özet", "Değerlendirme" gibi başlıklar KULLANMA
+- "Sonuç olarak", "Özetlemek gerekirse", "Kısaca", "bu makalede", "bu yazıda" gibi generic ifadeler KULLANMA
+- Özgün ve doğal ifadeler kullan, AI detection'dan kaçın
+- Cümle yapılarını çeşitlendir (kısa + uzun karışımı)
+- Tekrar eden kelimelerden kaçın, eş anlamlılar kullan
+- Kurumsal kimliğe uygun profesyonel ton kullan
+- Minimum 300 kelime (ideal: 800-2000 kelime)`;
 
   // Generate content
   const completion = await openai.chat.completions.create({

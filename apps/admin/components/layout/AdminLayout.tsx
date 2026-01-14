@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { AdminSidebar } from "./AdminSidebar";
-import { AdminHeader } from "./AdminHeader";
+import { AdminHeaderEnhanced } from "./AdminHeaderEnhanced";
 import { CommandPalette } from "../command-palette/CommandPalette";
 import { KeyboardShortcuts } from "../keyboard-shortcuts/KeyboardShortcuts";
 
@@ -12,6 +12,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   const isAuthPage = pathname?.includes("/login") || pathname?.includes("/signup");
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -40,10 +41,16 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(159,232,112,0.05)_1px,transparent_0)] bg-[length:40px_40px] dark:bg-[radial-gradient(circle_at_2px_2px,rgba(159,232,112,0.03)_1px,transparent_0)] pointer-events-none"></div>
         <div className="absolute inset-0 bg-gradient-to-br from-design-light/5 via-transparent to-transparent dark:from-design-light/3 pointer-events-none"></div>
         
-        <AdminSidebar />
+        <AdminSidebar 
+          isMobileOpen={mobileMenuOpen}
+          onMobileClose={() => setMobileMenuOpen(false)}
+        />
         <div className="flex-1 flex flex-col overflow-hidden lg:ml-64 relative z-10">
-          <AdminHeader />
-          <main role="main" className="flex-1 overflow-y-auto bg-transparent relative">{children}</main>
+          <AdminHeaderEnhanced 
+            onMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)}
+            isMobileMenuOpen={mobileMenuOpen}
+          />
+          <main role="main" className="flex-1 overflow-y-auto bg-transparent relative scrollbar-modern">{children}</main>
         </div>
       </div>
       <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />

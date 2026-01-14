@@ -440,12 +440,14 @@ export default async function BlogDetailPage({
       {/* Keyboard Shortcuts */}
       <KeyboardShortcuts basePath={basePath} articleId={article.id} />
 
-      {/* AI Checker Badge */}
-      <AICheckerBadge
-        content={normalized.content}
-        title={article.title}
-        position="top-right"
-      />
+      {/* AI Checker Badge - Admin Only (Hidden from public) */}
+      {process.env.NODE_ENV === 'development' && (
+        <AICheckerBadge
+          content={normalized.content}
+          title={article.title}
+          position="top-right"
+        />
+      )}
 
       {/* Analytics */}
       <ArticleAnalytics
@@ -484,15 +486,17 @@ export default async function BlogDetailPage({
                 basePath={basePath}
               />
 
-              {/* AI Checker */}
-              <div id="ai-checker" className="mb-8">
-                <AIChecker
-                  content={normalized.content}
-                  title={article.title}
-                  contentType="blog"
-                  showDetails={true}
-                />
-              </div>
+              {/* AI Checker - Admin Only (Hidden from public) */}
+              {process.env.NODE_ENV === 'development' && (
+                <div id="ai-checker" className="mb-8">
+                  <AIChecker
+                    content={normalized.content}
+                    title={article.title}
+                    contentType="blog"
+                    showDetails={true}
+                  />
+                </div>
+              )}
 
               {/* Article Body - Clean, No Nested Container */}
               <ArticleBody

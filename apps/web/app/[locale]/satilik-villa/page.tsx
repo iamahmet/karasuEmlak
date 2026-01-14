@@ -251,12 +251,7 @@ export default async function SatilikVillaPage({
       <StructuredData data={realEstateAgentSchema} />
       {itemListSchema && <StructuredData data={itemListSchema} />}
       
-      {/* AI Checker Badge */}
-      <AICheckerBadge
-        content={pageContentInfo.content}
-        title="Satılık Villa"
-        position="top-right"
-      />
+      {/* AI Checker Badge - Admin Only (Hidden from public) */}
 
       <Breadcrumbs
         items={[
@@ -339,15 +334,7 @@ export default async function SatilikVillaPage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
-                {/* AI Checker */}
-                <div id="ai-checker">
-                  <AIChecker
-                    content={pageContentInfo.content}
-                    title="Satılık Villa"
-                    contentType="article"
-                    showDetails={true}
-                  />
-                </div>
+                {/* AI Checker - Admin Only (Hidden from public) */}
                 {/* AI Overviews Optimized: Quick Answer */}
                 <ScrollReveal direction="up" delay={0}>
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">

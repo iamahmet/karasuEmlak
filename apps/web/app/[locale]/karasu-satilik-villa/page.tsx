@@ -297,11 +297,7 @@ export default async function KarasuSatilikVillaPage({
       />
       
       {/* AI Checker Badge */}
-      <AICheckerBadge
-        content={pageContentInfo.content}
-        title="Karasu Satılık Villa"
-        position="top-right"
-      />
+      {/* AI Checker Badge - Admin Only (Hidden from public) */}
 
 
       <main className="min-h-screen bg-white">
@@ -379,12 +375,7 @@ export default async function KarasuSatilikVillaPage({
               <div className="lg:col-span-2 space-y-12">
                 {/* AI Checker */}
                 <div id="ai-checker">
-                  <AIChecker
-                    content={pageContentInfo.content}
-                    title="Karasu Satılık Villa"
-                    contentType="article"
-                    showDetails={true}
-                  />
+                  {/* AI Checker - Admin Only (Hidden from public) */}
                 </div>
 
                 {/* AI Overviews Optimized: Quick Answer */}

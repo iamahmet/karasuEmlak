@@ -295,14 +295,7 @@ export default async function KiralikVillaPage({
         ]}
       />
       
-      {/* AI Checker Badge - Lazy loaded */}
-      <Suspense fallback={null}>
-        <AICheckerBadge
-          content={pageContentInfo.content}
-          title="Kiralık Villa"
-          position="top-right"
-        />
-      </Suspense>
+      {/* AI Checker Badge - Admin Only (Hidden from public) */}
 
 
       <main className="min-h-screen bg-white">
@@ -378,17 +371,7 @@ export default async function KiralikVillaPage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
-                {/* AI Checker - Lazy loaded */}
-                <div id="ai-checker">
-                  <Suspense fallback={<div className="h-32 bg-gray-50 rounded-lg animate-pulse" />}>
-                    <AIChecker
-                      content={pageContentInfo.content}
-                      title="Kiralık Villa"
-                      contentType="article"
-                      showDetails={true}
-                    />
-                  </Suspense>
-                </div>
+                {/* AI Checker - Admin Only (Hidden from public) */}
 
                 {/* AI Overviews Optimized: Quick Answer */}
                 <ScrollReveal direction="up" delay={0}>

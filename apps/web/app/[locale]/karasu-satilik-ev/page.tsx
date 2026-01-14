@@ -255,12 +255,7 @@ export default async function KarasuSatilikEvPage({
       {faqSchema && <StructuredData data={faqSchema} />}
       <StructuredData data={breadcrumbSchema} />
       
-      {/* AI Checker Badge */}
-      <AICheckerBadge
-        content={pageContentInfo.content}
-        title="Karasu Satılık Ev"
-        position="top-right"
-      />
+      {/* AI Checker Badge - Admin Only (Hidden from public) */}
 
       <Breadcrumbs
         items={[
@@ -342,15 +337,7 @@ export default async function KarasuSatilikEvPage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
-                {/* AI Checker */}
-                <div id="ai-checker">
-                  <AIChecker
-                    content={pageContentInfo.content}
-                    title="Karasu Satılık Ev"
-                    contentType="article"
-                    showDetails={true}
-                  />
-                </div>
+                {/* AI Checker - Admin Only (Hidden from public) */}
 
                 {/* AI Overviews Optimized: Quick Answer */}
                 <ScrollReveal direction="up" delay={0}>
