@@ -17,6 +17,9 @@ import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import dynamicImport from 'next/dynamic';
 import { optimizeMetaDescription } from '@/lib/seo/meta-description-optimizer';
+import { AIChecker } from '@/components/content/AIChecker';
+import { AICheckerBadge } from '@/components/content/AICheckerBadge';
+import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 
 // Performance: Revalidate every hour for ISR
 export const revalidate = 3600; // 1 hour
@@ -231,6 +234,15 @@ export default async function SatilikVillaPage({
       })
     : null;
 
+  // Generate page content for AI checker
+  const pageContentInfo = generatePageContentInfo('Satılık Villa', [
+    { id: 'genel-bakis', title: 'Satılık Villa Arayanlar İçin Genel Bakış', content: 'Türkiye\'de satılık villa ilanları ve seçenekleri hakkında kapsamlı bilgi.' },
+    { id: 'oda-sayisina-gore', title: 'Oda Sayısına Göre Satılık Villa Seçenekleri', content: '1+1, 2+1, 3+1 ve 4+1 oda seçenekleri.' },
+    { id: 'fiyat-analizi', title: 'Satılık Villa Fiyat Analizi', content: 'Fiyat trendleri ve piyasa analizi.' },
+    { id: 'mahalle-rehberi', title: 'Mahalle Rehberi', content: 'Popüler mahalleler ve özellikleri.' },
+    { id: 'yatirim-tavsiyeleri', title: 'Yatırım Tavsiyeleri', content: 'Yatırım amaçlı satılık villa önerileri.' },
+  ]);
+
   return (
     <>
       <StructuredData data={articleSchema} />
@@ -239,6 +251,13 @@ export default async function SatilikVillaPage({
       <StructuredData data={realEstateAgentSchema} />
       {itemListSchema && <StructuredData data={itemListSchema} />}
       
+      {/* AI Checker Badge */}
+      <AICheckerBadge
+        content={pageContentInfo.content}
+        title="Satılık Villa"
+        position="top-right"
+      />
+
       <Breadcrumbs
         items={[
           { label: 'Ana Sayfa', href: `${basePath}/` },
@@ -320,6 +339,15 @@ export default async function SatilikVillaPage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
+                {/* AI Checker */}
+                <div id="ai-checker">
+                  <AIChecker
+                    content={pageContentInfo.content}
+                    title="Satılık Villa"
+                    contentType="article"
+                    showDetails={true}
+                  />
+                </div>
                 {/* AI Overviews Optimized: Quick Answer */}
                 <ScrollReveal direction="up" delay={0}>
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">

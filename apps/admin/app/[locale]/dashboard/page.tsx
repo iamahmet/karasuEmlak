@@ -75,6 +75,11 @@ const QuickInsights = dynamic(
   { loading: () => <PageSkeleton /> }
 );
 
+const AICheckerInfo = dynamic(
+  () => import("@/components/content/AICheckerInfo").then((mod) => ({ default: mod.AICheckerInfo })),
+  { loading: () => <PageSkeleton /> }
+);
+
 const StatsChart = dynamic(
   () => import("@/components/dashboard/StatsChart").then((mod) => ({ default: mod.StatsChart })),
   { loading: () => <PageSkeleton /> }
@@ -282,6 +287,9 @@ export default async function DashboardPage({
 
       {/* Quick Actions - Enhanced Grid */}
       <QuickActions />
+
+      {/* AI Checker Info */}
+      <AICheckerInfo />
 
       {/* Quick Stats - Additional Metrics */}
       <QuickStats />

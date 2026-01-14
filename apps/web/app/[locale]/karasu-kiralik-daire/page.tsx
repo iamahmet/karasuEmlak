@@ -16,6 +16,9 @@ import { getHighPriorityQAEntries } from '@/lib/supabase/queries/qa';
 import { getAIQuestionsForPage } from '@/lib/supabase/queries/ai-questions';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
+import { AIChecker } from '@/components/content/AIChecker';
+import { AICheckerBadge } from '@/components/content/AICheckerBadge';
+import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 import { generateSlug } from '@/lib/utils';
 import dynamicImport from 'next/dynamic';
 
@@ -267,6 +270,15 @@ export default async function KarasuKiralikDairePage({
         description: `Karasu'da ${karasuKiralikDaireListings.length} adet kiralık daire ilanı. Denize yakın konumlarda geniş seçenek.`,
       })
     : null;
+  // Generate page content for AI checker
+  const pageContentInfo = generatePageContentInfo('Karasu Kiralık Daire', [
+    { id: 'genel-bakis', title: 'Karasu\'da Kiralık Daire Arayanlar İçin Genel Bakış', content: 'Karasu\'da kiralık daire ilanları ve seçenekleri hakkında kapsamlı bilgi. Denize yakın konumlarda, merkez mahallelerde ve gelişen bölgelerde kiralık daire seçenekleri bulunmaktadır. Hem sürekli oturum hem de yazlık kiralama amaçlı seçenekler mevcuttur. İstanbul\'a yakınlık, turizm potansiyeli ve doğal güzellikler, Karasu\'yu kiralık daire arayanlar için cazip bir bölge haline getirmektedir.' },
+    { id: 'oda-sayisina-gore', title: 'Oda Sayısına Göre Karasu Kiralık Daire Seçenekleri', content: '1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur. Tek kişi veya çiftler için 1+1, küçük aileler için 2+1, orta büyüklükte aileler için 3+1, büyük aileler için 4+1 daire seçenekleri bulunmaktadır. Her oda sayısı için farklı fiyat aralıklarında seçenekler mevcuttur.' },
+    { id: 'fiyat-analizi', title: 'Karasu Kiralık Daire Fiyat Analizi', content: 'Karasu\'da kiralık daire fiyatları konum, metrekare, oda sayısı, denize yakınlık ve özelliklere göre değişmektedir. Ortalama aylık kira fiyatları 1+1 daireler için 2.500 TL - 6.000 TL, 2+1 daireler için 4.000 TL - 9.000 TL, 3+1 daireler için 6.000 TL - 11.000 TL, 4+1 daireler için 8.000 TL - 15.000 TL arasında değişmektedir. Denize yakın konumlar ve merkez mahalleler daha yüksek kira fiyatlarına sahiptir.' },
+    { id: 'mahalleler', title: 'Mahallelere Göre Karasu Kiralık Daire Seçenekleri', content: 'Karasu\'nun farklı mahallelerinde kiralık daire seçenekleri mevcuttur. Merkez mahalleler, denize yakın mahalleler, gelişen bölgeler ve uygun fiyatlı bölgeler hakkında detaylı bilgi. Her mahallenin ulaşım, sosyal alanlar, okullar, sağlık kuruluşları ve güvenlik açısından değerlendirmesi.' },
+    { id: 'dikkat-edilmesi-gerekenler', title: 'Dikkat Edilmesi Gerekenler', content: 'Karasu\'da kiralık daire ararken dikkat edilmesi gerekenler: Kira sözleşmesi detayları, depozito miktarı, kira artış oranları, ev sahibi ile iletişim, evin durumu, çevre faktörleri, ulaşım kolaylığı ve sosyal alanlar. Kira sözleşmelerinde yasal haklar ve sorumluluklar hakkında bilgi sahibi olunmalıdır.' },
+  ]);
+
 
   return (
     <>
@@ -283,6 +295,14 @@ export default async function KarasuKiralikDairePage({
           { label: 'Karasu Kiralık Daire', href: `${basePath}/karasu-kiralik-daire` },
         ]}
       />
+      
+      {/* AI Checker Badge */}
+      <AICheckerBadge
+        content={pageContentInfo.content}
+        title="Karasu Kiralık Daire"
+        position="top-right"
+      />
+
 
       <main className="min-h-screen bg-white">
         {/* Hero Section */}
@@ -357,6 +377,16 @@ export default async function KarasuKiralikDairePage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
+                {/* AI Checker */}
+                <div id="ai-checker">
+                  <AIChecker
+                    content={pageContentInfo.content}
+                    title="Karasu Kiralık Daire"
+                    contentType="article"
+                    showDetails={true}
+                  />
+                </div>
+
                 {/* AI Overviews Optimized: Quick Answer */}
                 <ScrollReveal direction="up" delay={0}>
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">

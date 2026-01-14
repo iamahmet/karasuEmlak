@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-
-export const dynamic = 'force-dynamic';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Button } from '@karasu/ui';
@@ -18,18 +16,42 @@ import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import { generateSlug } from '@/lib/utils';
 import dynamicImport from 'next/dynamic';
-import { AIChecker } from '@/components/content/AIChecker';
-import { AICheckerBadge } from '@/components/content/AICheckerBadge';
+import { Suspense } from 'react';
 import { calculateReadingTime } from '@/lib/utils/reading-time';
-import { CornerstoneTableOfContents } from '@/components/content/CornerstoneTableOfContents';
-import { ReadingProgress } from '@/components/content/ReadingProgress';
-import { EnhancedShareButtons } from '@/components/share/EnhancedShareButtons';
 
-// Performance: Revalidate every hour for ISR
-export const revalidate = 3600; // 1 hour
+// Performance: ISR with cache tags for better performance
+export const revalidate = 3600; // 1 hour - regenerate every hour
+export const dynamicParams = true; // Allow dynamic params
 
+// Generate static params for all locales (ISR optimization)
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+// Lazy load animations (non-critical)
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
+});
+
+// Lazy load client-side components for better performance
+const AIChecker = dynamicImport(() => import('@/components/content/AIChecker').then(mod => ({ default: mod.AIChecker })), {
+  loading: () => <div className="h-32 bg-gray-50 rounded-lg animate-pulse" />,
+});
+
+const AICheckerBadge = dynamicImport(() => import('@/components/content/AICheckerBadge').then(mod => ({ default: mod.AICheckerBadge })), {
+  loading: () => null,
+});
+
+const CornerstoneTableOfContents = dynamicImport(() => import('@/components/content/CornerstoneTableOfContents').then(mod => ({ default: mod.CornerstoneTableOfContents })), {
+  loading: () => <div className="h-64 bg-gray-50 rounded-xl animate-pulse border border-gray-200" />,
+});
+
+const ReadingProgress = dynamicImport(() => import('@/components/content/ReadingProgress').then(mod => ({ default: mod.ReadingProgress })), {
+  loading: () => null,
+});
+
+const EnhancedShareButtons = dynamicImport(() => import('@/components/share/EnhancedShareButtons').then(mod => ({ default: mod.EnhancedShareButtons })), {
+  loading: () => <div className="h-10 bg-gray-100 rounded-lg animate-pulse" />,
 });
 
 export async function generateMetadata({
@@ -187,14 +209,16 @@ export default async function KarasuSatilikYazlikPage({
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
   
-  // Fetch data with timeout
-  const allListingsResult = await withTimeout(
-    getListings({ status: 'satilik', property_type: ['yazlik'] }, { field: 'created_at', order: 'desc' }, 1000, 0),
-    3000,
-    { listings: [], total: 0 }
-  );
-  const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
-  const statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
+  // Performance: Fetch data in parallel with timeout (faster than sequential)
+  const [allListingsResult, neighborhoodsResult, statsResult] = await Promise.all([
+    withTimeout(
+      getListings({ status: 'satilik', property_type: ['yazlik'] }, { field: 'created_at', order: 'desc' }, 1000, 0),
+      3000,
+      { listings: [], total: 0 }
+    ),
+    withTimeout(getNeighborhoods(), 3000, [] as string[]),
+    withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} }),
+  ]);
   
   const { listings: allListings = [] } = allListingsResult || {};
   const neighborhoods = neighborhoodsResult || [];
@@ -223,8 +247,9 @@ export default async function KarasuSatilikYazlikPage({
     ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
     : null;
 
-  // Fetch Q&As from database
-  const faqs = await getKarasuYazlikFAQs();
+  // Performance: Fetch Q&As with timeout (non-blocking)
+  const faqsResult = await withTimeout(getKarasuYazlikFAQs(), 2000, []);
+  const faqs = faqsResult || [];
 
   // Generate schemas
   const articleSchema = {
@@ -324,15 +349,19 @@ export default async function KarasuSatilikYazlikPage({
       <StructuredData data={realEstateAgentSchema} />
       {itemListSchema && <StructuredData data={itemListSchema} />}
       
-      {/* Reading Progress Bar */}
-      <ReadingProgress position="top" showPercentage={false} />
+      {/* Reading Progress Bar - Lazy loaded */}
+      <Suspense fallback={null}>
+        <ReadingProgress showTimeRemaining={true} estimatedReadingTime={readingTime} />
+      </Suspense>
       
-      {/* AI Checker Badge */}
-      <AICheckerBadge
-        content={pageContent}
-        title="Karasu Satılık Yazlık"
-        position="top-right"
-      />
+      {/* AI Checker Badge - Lazy loaded */}
+      <Suspense fallback={null}>
+        <AICheckerBadge
+          content={pageContent}
+          title="Karasu Satılık Yazlık"
+          position="top-right"
+        />
+      </Suspense>
 
       <Breadcrumbs
         items={[
@@ -365,15 +394,17 @@ export default async function KarasuSatilikYazlikPage({
                   Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki yazlığı bulun.
                 </p>
                 
-                {/* Share Buttons */}
+                {/* Share Buttons - Lazy loaded */}
                 <div className="mb-6 flex justify-center">
-                  <EnhancedShareButtons
-                    url={shareUrl}
-                    title={shareTitle}
-                    description={shareDescription}
-                    variant="compact"
-                    className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg"
-                  />
+                  <Suspense fallback={<div className="h-10 w-64 bg-white/10 rounded-lg animate-pulse" />}>
+                    <EnhancedShareButtons
+                      url={shareUrl}
+                      title={shareTitle}
+                      description={shareDescription}
+                      variant="compact"
+                      className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg"
+                    />
+                  </Suspense>
                 </div>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -427,14 +458,16 @@ export default async function KarasuSatilikYazlikPage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
-                {/* AI Checker */}
+                {/* AI Checker - Lazy loaded */}
                 <div id="ai-checker">
-                  <AIChecker
-                    content={pageContent}
-                    title="Karasu Satılık Yazlık"
-                    contentType="article"
-                    showDetails={true}
-                  />
+                  <Suspense fallback={<div className="h-32 bg-gray-50 rounded-lg animate-pulse" />}>
+                    <AIChecker
+                      content={pageContent}
+                      title="Karasu Satılık Yazlık"
+                      contentType="article"
+                      showDetails={true}
+                    />
+                  </Suspense>
                 </div>
 
                 {/* AI Overviews Optimized: Quick Answer */}
@@ -453,7 +486,7 @@ export default async function KarasuSatilikYazlikPage({
 
                 {/* Introduction */}
                 <ScrollReveal direction="up" delay={100}>
-                  <article id="genel-bakis">
+                  <article id="genel-bakis" className="scroll-mt-24">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                       Karasu'da Satılık Yazlık Arayanlar İçin Genel Bakış
                     </h2>
@@ -477,7 +510,7 @@ export default async function KarasuSatilikYazlikPage({
 
                 {/* Yazlik Features Options */}
                 <ScrollReveal direction="up" delay={200}>
-                  <article id="ozelliklerine-gore-secenekler">
+                  <article id="ozelliklerine-gore-secenekler" className="scroll-mt-24">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                       Özelliklerine Göre Karasu Satılık Yazlık Seçenekleri
                     </h2>
@@ -488,7 +521,7 @@ export default async function KarasuSatilikYazlikPage({
                       </p>
 
                       <div className="grid md:grid-cols-2 gap-6 mt-6">
-                        <div className="border rounded-lg p-6 bg-gray-50" id="denize-yakin-yazliklar">
+                        <div id="denize-yakin-yazliklar" className="scroll-mt-24 border rounded-lg p-6 bg-gray-50">
                           <h3 className="text-xl font-semibold text-gray-900 mb-3">Denize Yakın Yazlıklar</h3>
                           <p className="text-gray-700 mb-3">
                             Denize yakın konumlarda yazlık seçenekleri. Plaja yakınlık ve deniz manzarası avantajları.
@@ -506,7 +539,7 @@ export default async function KarasuSatilikYazlikPage({
                           </Link>
                         </div>
 
-                        <div className="border rounded-lg p-6 bg-gray-50" id="bahceli-yazliklar">
+                        <div id="bahceli-yazliklar" className="scroll-mt-24 border rounded-lg p-6 bg-gray-50">
                           <h3 className="text-xl font-semibold text-gray-900 mb-3">Bahçeli Yazlıklar</h3>
                           <p className="text-gray-700 mb-3">
                             Bahçeli yazlık seçenekleri. Özel bahçe kullanımı ve doğa içinde yaşam.
@@ -566,7 +599,7 @@ export default async function KarasuSatilikYazlikPage({
 
                 {/* Price Analysis */}
                 <ScrollReveal direction="up" delay={400}>
-                  <article id="fiyat-analizi">
+                  <article id="fiyat-analizi" className="scroll-mt-24">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                       Karasu Satılık Yazlık Fiyat Analizi ve Piyasa Trendleri
                     </h2>
@@ -641,7 +674,7 @@ export default async function KarasuSatilikYazlikPage({
 
                 {/* Neighborhoods */}
                 <ScrollReveal direction="up" delay={600}>
-                  <article id="mahalleler">
+                  <article id="mahalleler" className="scroll-mt-24">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                       Mahallelere Göre Karasu Satılık Yazlık Seçenekleri
                     </h2>
@@ -687,7 +720,7 @@ export default async function KarasuSatilikYazlikPage({
 
                 {/* Important Considerations */}
                 <ScrollReveal direction="up" delay={800}>
-                  <article id="dikkat-edilmesi-gerekenler">
+                  <article id="dikkat-edilmesi-gerekenler" className="scroll-mt-24">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                       Karasu'da Satılık Yazlık Alırken Dikkat Edilmesi Gerekenler
                     </h2>
@@ -750,19 +783,26 @@ export default async function KarasuSatilikYazlikPage({
               {/* Sidebar */}
               <aside className="lg:col-span-1">
                 <div className="sticky top-20 space-y-6">
-                  {/* Table of Contents */}
-                  <CornerstoneTableOfContents className="mb-6" />
+                  {/* Table of Contents - Lazy loaded */}
+                  <Suspense fallback={<div className="h-64 bg-gray-50 rounded-xl animate-pulse border border-gray-200 mb-6" />}>
+                    <CornerstoneTableOfContents
+                      headings={tocHeadings}
+                      className="mb-6"
+                    />
+                  </Suspense>
 
-                  {/* Share Buttons */}
+                  {/* Share Buttons - Lazy loaded */}
                   <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5 shadow-sm">
                     <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Paylaş</h3>
-                    <EnhancedShareButtons
-                      url={pageUrl}
-                      title={pageTitle}
-                      description="Karasu'da satılık yazlık ilanları. Denize yakın konumlarda uygun fiyatlı yazlık evler."
-                      variant="compact"
-                      className="flex-wrap gap-2"
-                    />
+                    <Suspense fallback={<div className="h-10 bg-gray-100 rounded-lg animate-pulse" />}>
+                      <EnhancedShareButtons
+                        url={shareUrl}
+                        title={shareTitle}
+                        description={shareDescription}
+                        variant="compact"
+                        className="flex-wrap gap-2"
+                      />
+                    </Suspense>
                   </div>
 
                   {/* Page Info Card */}

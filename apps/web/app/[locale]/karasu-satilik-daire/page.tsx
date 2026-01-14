@@ -16,6 +16,9 @@ import { getHighPriorityQAEntries } from '@/lib/supabase/queries/qa';
 import { getAIQuestionsForPage } from '@/lib/supabase/queries/ai-questions';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
+import { AIChecker } from '@/components/content/AIChecker';
+import { AICheckerBadge } from '@/components/content/AICheckerBadge';
+import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 import { generateSlug } from '@/lib/utils';
 import dynamicImport from 'next/dynamic';
 
@@ -267,6 +270,15 @@ export default async function KarasuSatilikDairePage({
         description: `Karasu'da ${karasuDaireListings.length} adet satılık daire ilanı. Denize sıfır konumlarda geniş seçenek.`,
       })
     : null;
+  // Generate page content for AI checker
+  const pageContentInfo = generatePageContentInfo('Karasu Satılık Daire', [
+    { id: 'genel-bakis', title: 'Karasu\'da Satılık Daire Arayanlar İçin Genel Bakış', content: 'Karasu\'da satılık daire ilanları ve seçenekleri hakkında kapsamlı bilgi. Denize yakın konumlarda, merkez mahallelerde ve gelişen bölgelerde satılık daire seçenekleri bulunmaktadır. Hem sürekli oturum hem de yatırım amaçlı seçenekler mevcuttur. İstanbul\'a yakınlık, turizm potansiyeli ve gelişen altyapı, Karasu\'yu satılık daire arayanlar için cazip bir bölge haline getirmektedir.' },
+    { id: 'oda-sayisina-gore', title: 'Oda Sayısına Göre Karasu Satılık Daire Seçenekleri', content: '1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur. Tek kişi veya çiftler için 1+1, küçük aileler için 2+1, orta büyüklükte aileler için 3+1, büyük aileler için 4+1 daire seçenekleri bulunmaktadır. Her oda sayısı için farklı fiyat aralıklarında seçenekler mevcuttur.' },
+    { id: 'fiyat-analizi', title: 'Karasu Satılık Daire Fiyat Analizi', content: 'Karasu\'da satılık daire fiyatları konum, metrekare, oda sayısı, denize yakınlık ve özelliklere göre değişmektedir. Ortalama fiyatlar 1+1 daireler için 500.000 TL - 1.200.000 TL, 2+1 daireler için 700.000 TL - 1.800.000 TL, 3+1 daireler için 1.000.000 TL - 2.500.000 TL, 4+1 daireler için 1.500.000 TL - 3.500.000 TL arasında değişmektedir. Denize yakın konumlar ve merkez mahalleler daha yüksek fiyatlara sahiptir.' },
+    { id: 'mahalleler', title: 'Mahallelere Göre Karasu Satılık Daire Seçenekleri', content: 'Karasu\'nun farklı mahallelerinde satılık daire seçenekleri mevcuttur. Merkez mahalleler, denize yakın mahalleler, gelişen bölgeler ve uygun fiyatlı bölgeler hakkında detaylı bilgi. Her mahallenin ulaşım, sosyal alanlar, okullar, sağlık kuruluşları ve güvenlik açısından değerlendirmesi. Gelecek projeleri ve altyapı durumu.' },
+    { id: 'dikkat-edilmesi-gerekenler', title: 'Dikkat Edilmesi Gerekenler', content: 'Karasu\'da satılık daire alırken dikkat edilmesi gerekenler: Tapu durumu, yapı ruhsatı, iskan belgesi, bina yaşı, kat sayısı, asansör, otopark, balkon, aidat ve giderler. Ayrıca konum, ulaşım, sosyal alanlar, okullar ve sağlık kuruluşları gibi çevre faktörleri de değerlendirilmelidir.' },
+  ]);
+
 
   return (
     <>
@@ -283,6 +295,14 @@ export default async function KarasuSatilikDairePage({
           { label: 'Karasu Satılık Daire', href: `${basePath}/karasu-satilik-daire` },
         ]}
       />
+      
+      {/* AI Checker Badge */}
+      <AICheckerBadge
+        content={pageContentInfo.content}
+        title="Karasu Satılık Daire"
+        position="top-right"
+      />
+
 
       <main className="min-h-screen bg-white">
         {/* Hero Section */}
@@ -357,6 +377,16 @@ export default async function KarasuSatilikDairePage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
+                {/* AI Checker */}
+                <div id="ai-checker">
+                  <AIChecker
+                    content={pageContentInfo.content}
+                    title="Karasu Satılık Daire"
+                    contentType="article"
+                    showDetails={true}
+                  />
+                </div>
+
                 {/* AI Overviews Optimized: Quick Answer */}
                 <ScrollReveal direction="up" delay={0}>
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">

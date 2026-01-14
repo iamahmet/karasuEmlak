@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-
-export const dynamic = 'force-dynamic';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Button } from '@karasu/ui';
@@ -15,13 +13,31 @@ import { getListings, getNeighborhoods, getListingStats } from '@/lib/supabase/q
 import { getHighPriorityQAEntries } from '@/lib/supabase/queries/qa';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
+import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 import dynamicImport from 'next/dynamic';
 import { optimizeMetaDescription } from '@/lib/seo/meta-description-optimizer';
+import { Suspense } from 'react';
 
-// Performance: Revalidate every hour for ISR
-export const revalidate = 3600; // 1 hour
+// Performance: ISR with cache tags for better performance
+export const revalidate = 3600; // 1 hour - regenerate every hour
+export const dynamicParams = true; // Allow dynamic params
 
+// Generate static params for all locales (ISR optimization)
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+// Lazy load animations (non-critical)
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
+  loading: () => null,
+});
+
+// Lazy load client-side components for better performance
+const AIChecker = dynamicImport(() => import('@/components/content/AIChecker').then(mod => ({ default: mod.AIChecker })), {
+  loading: () => <div className="h-32 bg-gray-50 rounded-lg animate-pulse" />,
+});
+
+const AICheckerBadge = dynamicImport(() => import('@/components/content/AICheckerBadge').then(mod => ({ default: mod.AICheckerBadge })), {
   loading: () => null,
 });
 
@@ -149,14 +165,16 @@ export default async function KiralikVillaPage({
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
   
-  // Fetch data with timeout
-  const allListingsResult = await withTimeout(
-    getListings({ status: 'kiralik', property_type: ['villa'] }, { field: 'created_at', order: 'desc' }, 1000, 0),
-    3000,
-    { listings: [], total: 0 }
-  );
-  const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
-  const statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
+  // Performance: Fetch data in parallel with timeout (faster than sequential)
+  const [allListingsResult, neighborhoodsResult, statsResult] = await Promise.all([
+    withTimeout(
+      getListings({ status: 'kiralik', property_type: ['villa'] }, { field: 'created_at', order: 'desc' }, 1000, 0),
+      3000,
+      { listings: [], total: 0 }
+    ),
+    withTimeout(getNeighborhoods(), 3000, [] as string[]),
+    withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} }),
+  ]);
   
   const { listings: allListings = [] } = allListingsResult || {};
   const neighborhoods = neighborhoodsResult || [];
@@ -181,8 +199,9 @@ export default async function KiralikVillaPage({
     ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
     : null;
 
-  // Fetch Q&As from database
-  const faqs = await getKiralikVillaFAQs();
+  // Performance: Fetch Q&As with timeout (non-blocking)
+  const faqsResult = await withTimeout(getKiralikVillaFAQs(), 2000, []);
+  const faqs = faqsResult || [];
 
   // Generate schemas
   const articleSchema = {
@@ -230,6 +249,35 @@ export default async function KiralikVillaPage({
         description: `Türkiye'de ${villaListings.length} adet satılık daire ilanı. Geniş seçenek.`,
       })
     : null;
+  // Generate page content for AI checker
+  const pageContentInfo = generatePageContentInfo('Kiralık Villa', [
+    { 
+      id: 'genel-bakis', 
+      title: 'Kiralık Villa Arayanlar İçin Genel Bakış', 
+      content: 'Türkiye\'de kiralık villa ilanları ve seçenekleri hakkında kapsamlı bilgi. Lüks yaşam arayanlar için geniş bahçeli, havuzlu ve özel konumlarda villa seçenekleri bulunmaktadır. Hem yaz tatilleri hem de sürekli oturum için ideal villa seçenekleri mevcuttur. Özellikle sahil bölgeleri, gelişen ilçeler ve prestijli mahalleler, villa yatırımcılarının ilgisini çeken bölgelerdir.' 
+    },
+    { 
+      id: 'oda-sayisina-gore', 
+      title: 'Oda Sayısına Göre Kiralık Villa Seçenekleri', 
+      content: '3+1, 4+1, 5+1 ve daha büyük oda seçenekleri mevcuttur. Büyük aileler için geniş yaşam alanları, çoklu banyo, geniş mutfak ve özel bahçe alanları sunan villa seçenekleri bulunmaktadır. Her villa, konum, metrekare, oda sayısı ve özelliklerine göre farklı fiyat aralıklarında sunulmaktadır.' 
+    },
+    { 
+      id: 'fiyat-analizi', 
+      title: 'Kiralık Villa Fiyat Analizi', 
+      content: 'Kiralık villa fiyatları konum, metrekare, oda sayısı, bahçe büyüklüğü, havuz varlığı ve özelliklere göre değişmektedir. Ortalama aylık kira fiyatları 3+1 villalar için 15.000 TL - 30.000 TL, 4+1 villalar için 20.000 TL - 40.000 TL, 5+1 ve üzeri villalar için 30.000 TL - 60.000 TL arasında değişmektedir. Sahil bölgeleri ve prestijli mahalleler daha yüksek fiyatlara sahiptir.' 
+    },
+    { 
+      id: 'mahalle-rehberi', 
+      title: 'Mahalle Rehberi', 
+      content: 'Popüler villa bölgeleri ve mahalleleri hakkında detaylı bilgi. Sahil bölgeleri, gelişen ilçeler, prestijli mahalleler ve uygun fiyatlı bölgeler. Her mahallenin ulaşım, sosyal alanlar, okullar, sağlık kuruluşları ve güvenlik açısından değerlendirmesi. Gelecek projeleri ve altyapı durumu.' 
+    },
+    { 
+      id: 'yatirim-tavsiyeleri', 
+      title: 'Yatırım Tavsiyeleri', 
+      content: 'Kiralık villa yatırımı yapmayı düşünenler için kira getirisi, bölgenin gelişim potansiyeli, turizm potansiyeli, gelecek projeleri ve piyasa trendleri hakkında tavsiyeler. Yatırım amaçlı villa alımında dikkat edilmesi gerekenler, getiri analizi ve risk değerlendirmesi. Kira sözleşmeleri ve yasal süreçler hakkında bilgi.' 
+    },
+  ]);
+
 
   return (
     <>
@@ -246,6 +294,16 @@ export default async function KiralikVillaPage({
           { label: 'Kiralık Villa', href: `${basePath}/kiralik-villa` },
         ]}
       />
+      
+      {/* AI Checker Badge - Lazy loaded */}
+      <Suspense fallback={null}>
+        <AICheckerBadge
+          content={pageContentInfo.content}
+          title="Kiralık Villa"
+          position="top-right"
+        />
+      </Suspense>
+
 
       <main className="min-h-screen bg-white">
         {/* Hero Section */}
@@ -320,6 +378,18 @@ export default async function KiralikVillaPage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
+                {/* AI Checker - Lazy loaded */}
+                <div id="ai-checker">
+                  <Suspense fallback={<div className="h-32 bg-gray-50 rounded-lg animate-pulse" />}>
+                    <AIChecker
+                      content={pageContentInfo.content}
+                      title="Kiralık Villa"
+                      contentType="article"
+                      showDetails={true}
+                    />
+                  </Suspense>
+                </div>
+
                 {/* AI Overviews Optimized: Quick Answer */}
                 <ScrollReveal direction="up" delay={0}>
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">

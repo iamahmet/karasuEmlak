@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-
-export const dynamic = 'force-dynamic';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Button } from '@karasu/ui';
@@ -14,13 +12,31 @@ import { getHighPriorityQAEntries } from '@/lib/supabase/queries/qa';
 import { getAIQuestionsForPage } from '@/lib/supabase/queries/ai-questions';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
+import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 import { generateSlug } from '@/lib/utils';
 import dynamicImport from 'next/dynamic';
+import { Suspense } from 'react';
 
-// Performance: Revalidate every hour for ISR
-export const revalidate = 3600; // 1 hour
+// Performance: ISR with cache tags for better performance
+export const revalidate = 3600; // 1 hour - regenerate every hour
+export const dynamicParams = true; // Allow dynamic params
 
+// Generate static params for all locales (ISR optimization)
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+// Lazy load animations (non-critical)
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
+  loading: () => null,
+});
+
+// Lazy load client-side components for better performance
+const AIChecker = dynamicImport(() => import('@/components/content/AIChecker').then(mod => ({ default: mod.AIChecker })), {
+  loading: () => <div className="h-32 bg-gray-50 rounded-lg animate-pulse" />,
+});
+
+const AICheckerBadge = dynamicImport(() => import('@/components/content/AICheckerBadge').then(mod => ({ default: mod.AICheckerBadge })), {
   loading: () => null,
 });
 
@@ -170,13 +186,15 @@ export default async function KarasuKiralikEvPage({
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
   
-  // Fetch data with timeout
-  const allListingsResult = await withTimeout(
-    getListings({ status: 'kiralik' }, { field: 'created_at', order: 'desc' }, 1000, 0),
-    3000,
-    { listings: [], total: 0 }
-  );
-  const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
+  // Performance: Fetch data in parallel with timeout (faster than sequential)
+  const [allListingsResult, neighborhoodsResult] = await Promise.all([
+    withTimeout(
+      getListings({ status: 'kiralik' }, { field: 'created_at', order: 'desc' }, 1000, 0),
+      3000,
+      { listings: [], total: 0 }
+    ),
+    withTimeout(getNeighborhoods(), 3000, [] as string[]),
+  ]);
   
   const { listings: allListings = [] } = allListingsResult || {};
   const neighborhoods = neighborhoodsResult || [];
@@ -203,8 +221,9 @@ export default async function KarasuKiralikEvPage({
     ? Math.round(rents.reduce((a, b) => a + b, 0) / rents.length)
     : null;
 
-  // Fetch Q&As from database
-  const faqs = await getKarasuKiralikEvFAQs();
+  // Performance: Fetch Q&As with timeout (non-blocking)
+  const faqsResult = await withTimeout(getKarasuKiralikEvFAQs(), 2000, []);
+  const faqs = faqsResult || [];
 
   // Generate schemas
   const articleSchema = {
@@ -237,6 +256,35 @@ export default async function KarasuKiralikEvPage({
     ],
     `${siteConfig.url}${basePath}/karasu-kiralik-ev`
   );
+  // Generate page content for AI checker
+  const pageContentInfo = generatePageContentInfo('Karasu Kiralık Ev', [
+    { 
+      id: 'genel-bakis', 
+      title: 'Karasu\'da Kiralık Ev Arayanlar İçin Genel Bakış', 
+      content: 'Karasu\'da kiralık ev ilanları ve seçenekleri hakkında kapsamlı bilgi. Denize yakın konumlarda, merkez mahallelerde ve gelişen bölgelerde kiralık ev seçenekleri bulunmaktadır. Hem sürekli oturum hem de yazlık kiralama amaçlı seçenekler mevcuttur. İstanbul\'a yakınlık, turizm potansiyeli ve doğal güzellikler, Karasu\'yu kiralık ev arayanlar için cazip bir bölge haline getirmektedir.' 
+    },
+    { 
+      id: 'emlak-tiplerine-gore', 
+      title: 'Emlak Tiplerine Göre Seçenekler', 
+      content: 'Karasu\'da ev, daire, villa ve yazlık seçenekleri mevcuttur. Her emlak tipi, konum, metrekare, oda sayısı ve özelliklerine göre farklı fiyat aralıklarında sunulmaktadır. Denize yakın konumlar, bahçeli evler ve lüks villalar daha yüksek kira fiyatlarına sahiptir.' 
+    },
+    { 
+      id: 'fiyat-analizi', 
+      title: 'Karasu Kiralık Ev Fiyat Analizi', 
+      content: 'Karasu\'da kiralık ev fiyatları konum, metrekare, oda sayısı, denize yakınlık ve özelliklere göre değişmektedir. Ortalama aylık kira fiyatları 3.000 TL ile 15.000 TL arasında değişmektedir. Denize yakın konumlar ve merkez mahalleler daha yüksek kira fiyatlarına sahiptir. Yaz sezonunda kira fiyatları artış gösterebilmektedir.' 
+    },
+    { 
+      id: 'mahalleler', 
+      title: 'Mahallelere Göre Karasu Kiralık Ev Seçenekleri', 
+      content: 'Karasu\'nun farklı mahallelerinde kiralık ev seçenekleri mevcuttur. Merkez mahalleler, denize yakın mahalleler, gelişen bölgeler ve uygun fiyatlı bölgeler hakkında detaylı bilgi. Her mahallenin ulaşım, sosyal alanlar, okullar, sağlık kuruluşları ve güvenlik açısından değerlendirmesi.' 
+    },
+    { 
+      id: 'dikkat-edilmesi-gerekenler', 
+      title: 'Dikkat Edilmesi Gerekenler', 
+      content: 'Karasu\'da kiralık ev ararken dikkat edilmesi gerekenler: Kira sözleşmesi detayları, depozito miktarı, kira artış oranları, ev sahibi ile iletişim, evin durumu, çevre faktörleri, ulaşım kolaylığı ve sosyal alanlar. Kira sözleşmelerinde yasal haklar ve sorumluluklar hakkında bilgi sahibi olunmalıdır.' 
+    },
+  ]);
+
 
   return (
     <>
@@ -251,6 +299,16 @@ export default async function KarasuKiralikEvPage({
           { label: 'Karasu Kiralık Ev', href: `${basePath}/karasu-kiralik-ev` },
         ]}
       />
+      
+      {/* AI Checker Badge - Lazy loaded */}
+      <Suspense fallback={null}>
+        <AICheckerBadge
+          content={pageContentInfo.content}
+          title="Karasu Kiralık Ev"
+          position="top-right"
+        />
+      </Suspense>
+
 
       <main className="min-h-screen bg-white">
         {/* Hero Section */}
@@ -325,6 +383,18 @@ export default async function KarasuKiralikEvPage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
+                {/* AI Checker - Lazy loaded */}
+                <div id="ai-checker">
+                  <Suspense fallback={<div className="h-32 bg-gray-50 rounded-lg animate-pulse" />}>
+                    <AIChecker
+                      content={pageContentInfo.content}
+                      title="Karasu Kiralık Ev"
+                      contentType="article"
+                      showDetails={true}
+                    />
+                  </Suspense>
+                </div>
+
                 {/* AI Overviews Optimized: Quick Answer */}
                 <ScrollReveal direction="up" delay={0}>
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">

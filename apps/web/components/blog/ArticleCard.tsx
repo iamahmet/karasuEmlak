@@ -9,8 +9,9 @@ import { getFreeImageForArticle } from '@/lib/images/free-image-fallback';
 import { calculateReadingTime } from '@/lib/utils/reading-time';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Calendar, User, Clock, ArrowRight, FileText } from 'lucide-react';
+import { Calendar, User, Clock, ArrowRight, FileText, Sparkles } from 'lucide-react';
 import { cn } from '@karasu/lib';
+import { useMemo } from 'react';
 
 interface ArticleCardProps {
   article: Article;
@@ -40,6 +41,22 @@ export function ArticleCard({ article, basePath }: ArticleCardProps) {
   const imageUrl = article.featured_image || freeImageUrl;
   const isCloudinary = isValidCloudinaryId(article.featured_image);
   const readingTime = calculateReadingTime(article.content || '');
+
+  // Quick AI check for badge (lightweight check)
+  const aiCheckResult = useMemo(() => {
+    if (!article.content || article.content.length < 100) return null;
+    
+    const content = article.content.replace(/<[^>]*>/g, ' ').toLowerCase();
+    const genericPhrases = [
+      'bu makalede', 'sonuç olarak', 'kısacası', 'özetlemek gerekirse',
+      'bu yazıda', 'bu bağlamda', 'bu noktada', 'bu açıdan',
+    ];
+    const genericCount = genericPhrases.filter(phrase => content.includes(phrase)).length;
+    const hasHighGeneric = genericCount >= 3;
+    
+    // Simple heuristic: if too many generic phrases, might be AI-like
+    return hasHighGeneric ? { score: Math.max(0, 100 - genericCount * 15), isAI: true } : null;
+  }, [article.content]);
 
   return (
     <Link href={`${basePath}/blog/${article.slug}`} prefetch={true}>
@@ -87,11 +104,21 @@ export function ArticleCard({ article, basePath }: ArticleCardProps) {
           
           {/* Reading Time Badge */}
           {readingTime > 0 && (
-            <div className="absolute top-4 right-4 z-10">
+            <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-sm text-white rounded-lg text-xs font-medium">
                 <Clock className="h-3 w-3" />
                 {readingTime} dk
               </span>
+              {/* AI Check Badge - Show if potential AI content detected */}
+              {aiCheckResult && aiCheckResult.isAI && aiCheckResult.score < 70 && (
+                <span 
+                  className="inline-flex items-center gap-1 px-2 py-1 bg-orange-500/90 backdrop-blur-sm text-white rounded-lg text-[10px] font-medium"
+                  title="AI Checker ile kontrol edin"
+                >
+                  <Sparkles className="h-2.5 w-2.5" />
+                  AI Check
+                </span>
+              )}
             </div>
           )}
         </div>

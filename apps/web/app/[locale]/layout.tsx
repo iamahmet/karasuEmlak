@@ -12,15 +12,12 @@ import { StructuredData } from "@/components/seo/StructuredData";
 import dynamic from 'next/dynamic';
 
 const GoogleAnalytics = dynamic(() => import("@/components/analytics/GoogleAnalytics").then(mod => ({ default: mod.GoogleAnalytics })), {
-  ssr: false,
 });
 
 const WebVitals = dynamic(() => import("@/components/analytics/WebVitals").then(mod => ({ default: mod.WebVitals })), {
-  ssr: false,
 });
 
 const PerformanceMonitor = dynamic(() => import("@/components/analytics/PerformanceMonitor").then(mod => ({ default: mod.PerformanceMonitor })), {
-  ssr: false,
 });
 import { ClientOnlyComponents } from "@/components/layout/ClientOnlyComponents";
 import { getCachedOrganizationSchema } from "@/lib/seo/structured-data-cache";
@@ -76,10 +73,6 @@ export async function generateMetadata({
       description: siteConfig.description,
     },
     // Performance: Preconnect to critical domains
-    other: {
-      // DNS prefetch for faster connections
-      'dns-prefetch': 'https://fonts.googleapis.com https://fonts.gstatic.com https://res.cloudinary.com',
-    },
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "any" },
@@ -115,6 +108,8 @@ export async function generateMetadata({
     },
     applicationName: siteConfig.name,
     other: {
+      // DNS prefetch for faster connections
+      'dns-prefetch': 'https://fonts.googleapis.com https://fonts.gstatic.com https://res.cloudinary.com',
       "mobile-web-app-capable": "yes",
       "apple-mobile-web-app-title": siteConfig.name,
     },

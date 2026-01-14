@@ -16,6 +16,9 @@ import { getHighPriorityQAEntries } from '@/lib/supabase/queries/qa';
 import { getAIQuestionsForPage } from '@/lib/supabase/queries/ai-questions';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
+import { AIChecker } from '@/components/content/AIChecker';
+import { AICheckerBadge } from '@/components/content/AICheckerBadge';
+import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 import { generateSlug } from '@/lib/utils';
 import dynamicImport from 'next/dynamic';
 
@@ -267,6 +270,15 @@ export default async function KarasuSatilikVillaPage({
         description: `Karasu'da ${karasuVillaListings.length} adet satılık villa ilanı. Denize sıfır konumlarda bahçeli, havuzlu lüks villalar.`,
       })
     : null;
+  // Generate page content for AI checker
+  const pageContentInfo = generatePageContentInfo('Karasu Satılık Villa', [
+    { id: 'genel-bakis', title: 'Karasu\'da Satılık Villa Arayanlar İçin Genel Bakış', content: 'Karasu\'da satılık villa ilanları ve seçenekleri hakkında kapsamlı bilgi. Denize yakın konumlarda, geniş bahçeli ve lüks villa seçenekleri bulunmaktadır. Hem sürekli oturum hem de yatırım amaçlı seçenekler mevcuttur. İstanbul\'a yakınlık, turizm potansiyeli ve doğal güzellikler, Karasu\'yu satılık villa arayanlar için cazip bir bölge haline getirmektedir.' },
+    { id: 'ozelliklerine-gore', title: 'Özelliklerine Göre Karasu Satılık Villa Seçenekleri', content: 'Denize sıfır, bahçeli, havuzlu, geniş balkonlu ve manzaralı villa seçenekleri mevcuttur. 3+1, 4+1, 5+1 ve daha büyük oda seçenekleri bulunmaktadır. Her villa, konum, metrekare, oda sayısı ve özelliklerine göre farklı fiyat aralıklarında sunulmaktadır.' },
+    { id: 'fiyat-analizi', title: 'Karasu Satılık Villa Fiyat Analizi', content: 'Karasu\'da satılık villa fiyatları konum, metrekare, oda sayısı, bahçe büyüklüğü, havuz varlığı ve özelliklere göre değişmektedir. Ortalama fiyatlar 3+1 villalar için 2.000.000 TL - 4.000.000 TL, 4+1 villalar için 3.000.000 TL - 6.000.000 TL, 5+1 ve üzeri villalar için 4.000.000 TL - 8.000.000 TL arasında değişmektedir. Denize yakın konumlar ve prestijli mahalleler daha yüksek fiyatlara sahiptir.' },
+    { id: 'mahalleler', title: 'Mahallelere Göre Karasu Satılık Villa Seçenekleri', content: 'Karasu\'nun farklı mahallelerinde satılık villa seçenekleri mevcuttur. Sahil bölgeleri, gelişen ilçeler, prestijli mahalleler ve uygun fiyatlı bölgeler. Her mahallenin ulaşım, sosyal alanlar, okullar, sağlık kuruluşları ve güvenlik açısından değerlendirmesi. Gelecek projeleri ve altyapı durumu.' },
+    { id: 'dikkat-edilmesi-gerekenler', title: 'Dikkat Edilmesi Gerekenler', content: 'Karasu\'da satılık villa alırken dikkat edilmesi gerekenler: Tapu durumu, yapı ruhsatı, iskan belgesi, imar durumu, bahçe büyüklüğü, havuz durumu, bina yaşı, kat sayısı, otopark ve güvenlik. Ayrıca konum, ulaşım, sosyal alanlar ve çevre faktörleri de değerlendirilmelidir.' },
+  ]);
+
 
   return (
     <>
@@ -283,6 +295,14 @@ export default async function KarasuSatilikVillaPage({
           { label: 'Karasu Satılık Villa', href: `${basePath}/karasu-satilik-villa` },
         ]}
       />
+      
+      {/* AI Checker Badge */}
+      <AICheckerBadge
+        content={pageContentInfo.content}
+        title="Karasu Satılık Villa"
+        position="top-right"
+      />
+
 
       <main className="min-h-screen bg-white">
         {/* Hero Section */}
@@ -357,6 +377,16 @@ export default async function KarasuSatilikVillaPage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
+                {/* AI Checker */}
+                <div id="ai-checker">
+                  <AIChecker
+                    content={pageContentInfo.content}
+                    title="Karasu Satılık Villa"
+                    contentType="article"
+                    showDetails={true}
+                  />
+                </div>
+
                 {/* AI Overviews Optimized: Quick Answer */}
                 <ScrollReveal direction="up" delay={0}>
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">

@@ -16,6 +16,9 @@ import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import { generateSlug } from '@/lib/utils';
 import dynamicImport from 'next/dynamic';
+import { AIChecker } from '@/components/content/AIChecker';
+import { AICheckerBadge } from '@/components/content/AICheckerBadge';
+import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 
 // Performance: Revalidate every hour for ISR
 export const revalidate = 3600; // 1 hour
@@ -206,6 +209,15 @@ export default async function KarasuSatilikEvPage({
   // Fetch Q&As from database
   const faqs = await getKarasuFAQs();
 
+  // Generate page content for AI checker
+  const pageContentInfo = generatePageContentInfo('Karasu Satılık Ev', [
+    { id: 'genel-bakis', title: 'Karasu\'da Satılık Ev Arayanlar İçin Genel Bakış', content: 'Karasu\'da satılık ev ilanları ve seçenekleri hakkında kapsamlı bilgi.' },
+    { id: 'emlak-tiplerine-gore', title: 'Emlak Tiplerine Göre Seçenekler', content: 'Daire, villa, yazlık ve müstakil ev seçenekleri.' },
+    { id: 'fiyat-analizi', title: 'Karasu Satılık Ev Fiyat Analizi', content: 'Fiyat trendleri ve piyasa analizi.' },
+    { id: 'mahalleler', title: 'Mahallelere Göre Karasu Satılık Ev Seçenekleri', content: 'Popüler mahalleler ve özellikleri.' },
+    { id: 'dikkat-edilmesi-gerekenler', title: 'Dikkat Edilmesi Gerekenler', content: 'Satılık ev alırken dikkat edilmesi gerekenler.' },
+  ]);
+
   // Generate schemas
   const articleSchema = {
     ...generateArticleSchema({
@@ -243,6 +255,13 @@ export default async function KarasuSatilikEvPage({
       {faqSchema && <StructuredData data={faqSchema} />}
       <StructuredData data={breadcrumbSchema} />
       
+      {/* AI Checker Badge */}
+      <AICheckerBadge
+        content={pageContentInfo.content}
+        title="Karasu Satılık Ev"
+        position="top-right"
+      />
+
       <Breadcrumbs
         items={[
           { label: 'Ana Sayfa', href: `${basePath}/` },
@@ -323,6 +342,16 @@ export default async function KarasuSatilikEvPage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
+                {/* AI Checker */}
+                <div id="ai-checker">
+                  <AIChecker
+                    content={pageContentInfo.content}
+                    title="Karasu Satılık Ev"
+                    contentType="article"
+                    showDetails={true}
+                  />
+                </div>
+
                 {/* AI Overviews Optimized: Quick Answer */}
                 <ScrollReveal direction="up" delay={0}>
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">

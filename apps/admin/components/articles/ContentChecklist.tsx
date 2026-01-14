@@ -17,6 +17,7 @@ import {
   Sparkles,
   AlertTriangle
 } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@karasu/lib";
 import { detectLowQualityContent } from "@/lib/utils/content-quality-checker";
 
@@ -288,9 +289,36 @@ export function ContentChecklist({ article, className }: ContentChecklistProps) 
                 <div>Etkileşim: {qualityScore.engagement}</div>
               </div>
               {qualityScore.aiProbability > 0.5 && (
-                <div className="flex items-center gap-2 text-xs text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20 p-2 rounded">
-                  <AlertTriangle className="h-3.5 w-3.5" />
-                  <span>AI olasılığı: {Math.round(qualityScore.aiProbability * 100)}%</span>
+                <div className="mt-4 p-4 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 border-2 border-orange-200 dark:border-orange-800 rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertTriangle className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                    <span className="text-sm font-bold text-orange-700 dark:text-orange-300">AI Detection Uyarısı</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-700 dark:text-gray-300">AI Olasılığı:</span>
+                      <span className="text-sm font-bold text-orange-700 dark:text-orange-300">
+                        {Math.round(qualityScore.aiProbability * 100)}%
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-700 dark:text-gray-300">İnsan Yazısı Skoru:</span>
+                      <span className="text-sm font-bold text-gray-900 dark:text-white">
+                        {Math.round((1 - qualityScore.aiProbability) * 100)}%
+                      </span>
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-orange-200 dark:border-orange-800">
+                      <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+                        <strong>Öneri:</strong> İçeriği daha doğal ve özgün hale getirin. Generic ifadeleri kaldırın, cümle yapılarını çeşitlendirin.
+                      </p>
+                      <a
+                        href="/admin/content-quality"
+                        className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+                      >
+                        Detaylı AI Checker Raporu →
+                      </a>
+                    </div>
+                  </div>
                 </div>
               )}
               {qualityScore.issues > 0 && (

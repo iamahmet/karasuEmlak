@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-
-export const dynamic = 'force-dynamic';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Button } from '@karasu/ui';
@@ -15,13 +13,31 @@ import { getListings, getNeighborhoods, getListingStats } from '@/lib/supabase/q
 import { getHighPriorityQAEntries } from '@/lib/supabase/queries/qa';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
+import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 import dynamicImport from 'next/dynamic';
 import { optimizeMetaDescription } from '@/lib/seo/meta-description-optimizer';
+import { Suspense } from 'react';
 
-// Performance: Revalidate every hour for ISR
-export const revalidate = 3600; // 1 hour
+// Performance: ISR with cache tags for better performance
+export const revalidate = 3600; // 1 hour - regenerate every hour
+export const dynamicParams = true; // Allow dynamic params
 
+// Generate static params for all locales (ISR optimization)
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+// Lazy load animations (non-critical)
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
+  loading: () => null,
+});
+
+// Lazy load client-side components for better performance
+const AIChecker = dynamicImport(() => import('@/components/content/AIChecker').then(mod => ({ default: mod.AIChecker })), {
+  loading: () => <div className="h-32 bg-gray-50 rounded-lg animate-pulse" />,
+});
+
+const AICheckerBadge = dynamicImport(() => import('@/components/content/AICheckerBadge').then(mod => ({ default: mod.AICheckerBadge })), {
   loading: () => null,
 });
 
@@ -149,14 +165,16 @@ export default async function SatilikYazlikPage({
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
   
-  // Fetch data with timeout
-  const allListingsResult = await withTimeout(
-    getListings({ status: 'satilik', property_type: ['yazlik'] }, { field: 'created_at', order: 'desc' }, 1000, 0),
-    3000,
-    { listings: [], total: 0 }
-  );
-  const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
-  const statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
+  // Performance: Fetch data in parallel with timeout (faster than sequential)
+  const [allListingsResult, neighborhoodsResult, statsResult] = await Promise.all([
+    withTimeout(
+      getListings({ status: 'satilik', property_type: ['yazlik'] }, { field: 'created_at', order: 'desc' }, 1000, 0),
+      3000,
+      { listings: [], total: 0 }
+    ),
+    withTimeout(getNeighborhoods(), 3000, [] as string[]),
+    withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} }),
+  ]);
   
   const { listings: allListings = [] } = allListingsResult || {};
   const neighborhoods = neighborhoodsResult || [];
@@ -181,8 +199,9 @@ export default async function SatilikYazlikPage({
     ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
     : null;
 
-  // Fetch Q&As from database
-  const faqs = await getSatilikYazlikFAQs();
+  // Performance: Fetch Q&As with timeout (non-blocking)
+  const faqsResult = await withTimeout(getSatilikYazlikFAQs(), 2000, []);
+  const faqs = faqsResult || [];
 
   // Generate schemas
   const articleSchema = {
@@ -230,6 +249,35 @@ export default async function SatilikYazlikPage({
         description: `Türkiye'de ${yazlikListings.length} adet satılık daire ilanı. Geniş seçenek.`,
       })
     : null;
+  // Generate page content for AI checker
+  const pageContentInfo = generatePageContentInfo('Satılık Yazlık', [
+    { 
+      id: 'genel-bakis', 
+      title: 'Satılık Yazlık Arayanlar İçin Genel Bakış', 
+      content: 'Türkiye\'de satılık yazlık ilanları ve seçenekleri hakkında kapsamlı bilgi. Denize yakın konumlarda, uygun fiyatlı ve lüks seçeneklerde yazlık evler bulunmaktadır. Hem yaz tatilleri hem de yatırım amaçlı seçenekler mevcuttur. İstanbul\'a yakınlık, turizm potansiyeli ve doğal güzellikler, yazlık yatırımları için cazip bölgeler oluşturmaktadır.' 
+    },
+    { 
+      id: 'ozelliklerine-gore', 
+      title: 'Özelliklerine Göre Satılık Yazlık Seçenekleri', 
+      content: 'Denize sıfır, bahçeli, havuzlu, geniş balkonlu ve manzaralı yazlık seçenekleri mevcuttur. 1+1, 2+1, 3+1 ve 4+1 oda seçenekleri bulunmaktadır. Her yazlık, konum, metrekare, oda sayısı ve özelliklerine göre farklı fiyat aralıklarında sunulmaktadır.' 
+    },
+    { 
+      id: 'fiyat-analizi', 
+      title: 'Satılık Yazlık Fiyat Analizi', 
+      content: 'Satılık yazlık fiyatları konum, metrekare, oda sayısı, denize yakınlık ve özelliklere göre değişmektedir. Ortalama fiyatlar 600.000 TL ile 1.800.000 TL arasında değişmektedir. Denize yakın konumlar daha yüksek fiyatlara sahiptir. Yatırım amaçlı yazlık alımında kira getirisi, turizm potansiyeli ve bölgenin gelişim projeleri dikkate alınmalıdır.' 
+    },
+    { 
+      id: 'mahalle-rehberi', 
+      title: 'Mahalle Rehberi', 
+      content: 'Popüler yazlık bölgeleri ve mahalleleri hakkında detaylı bilgi. Denize yakın mahalleler, merkez mahalleler, gelişen bölgeler ve uygun fiyatlı bölgeler. Her mahallenin ulaşım, sosyal alanlar, plaj erişimi ve turizm potansiyeli açısından değerlendirmesi.' 
+    },
+    { 
+      id: 'yatirim-tavsiyeleri', 
+      title: 'Yatırım Tavsiyeleri', 
+      content: 'Yazlık yatırımı yapmayı düşünenler için kira getirisi, turizm potansiyeli, bölgenin gelişim projeleri ve piyasa trendleri hakkında tavsiyeler. Yatırım amaçlı yazlık alımında dikkat edilmesi gerekenler, getiri analizi ve risk değerlendirmesi.' 
+    },
+  ]);
+
 
   return (
     <>
@@ -246,6 +294,16 @@ export default async function SatilikYazlikPage({
           { label: 'Satılık Yazlık', href: `${basePath}/satilik-yazlik` },
         ]}
       />
+      
+      {/* AI Checker Badge - Lazy loaded */}
+      <Suspense fallback={null}>
+        <AICheckerBadge
+          content={pageContentInfo.content}
+          title="Satılık Yazlık"
+          position="top-right"
+        />
+      </Suspense>
+
 
       <main className="min-h-screen bg-white">
         {/* Hero Section */}
@@ -320,6 +378,18 @@ export default async function SatilikYazlikPage({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-12">
+                {/* AI Checker - Lazy loaded */}
+                <div id="ai-checker">
+                  <Suspense fallback={<div className="h-32 bg-gray-50 rounded-lg animate-pulse" />}>
+                    <AIChecker
+                      content={pageContentInfo.content}
+                      title="Satılık Yazlık"
+                      contentType="article"
+                      showDetails={true}
+                    />
+                  </Suspense>
+                </div>
+
                 {/* AI Overviews Optimized: Quick Answer */}
                 <ScrollReveal direction="up" delay={0}>
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">

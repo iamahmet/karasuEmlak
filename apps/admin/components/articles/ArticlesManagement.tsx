@@ -21,6 +21,8 @@ import {
   ExternalLink,
   Calendar,
   TrendingUp,
+  Sparkles,
+  AlertTriangle,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "@/i18n/routing";
@@ -304,6 +306,14 @@ export function ArticlesManagement({ locale: _locale }: { locale: string }) {
                           Son Dakika
                         </Badge>
                       )}
+                      {/* AI Checker Badge - Show if content might be AI-like */}
+                      <Badge 
+                        className="bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400 text-[10px] px-2 py-0.5 cursor-help"
+                        title="AI Checker ile kontrol edin"
+                      >
+                        <Sparkles className="h-3 w-3 mr-1" />
+                        AI Check
+                      </Badge>
                     </div>
                     <div className="flex items-center gap-4 text-xs text-design-gray dark:text-gray-400">
                       <span className="truncate">/{article.slug}</span>
