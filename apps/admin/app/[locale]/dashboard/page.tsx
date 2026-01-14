@@ -80,6 +80,11 @@ const AICheckerInfo = dynamic(
   { loading: () => <PageSkeleton /> }
 );
 
+const PendingReviewsWidget = dynamic(
+  () => import("@/components/workflow/PendingReviewsWidget").then((mod) => ({ default: mod.PendingReviewsWidget })),
+  { loading: () => <PageSkeleton /> }
+);
+
 const StatsChart = dynamic(
   () => import("@/components/dashboard/StatsChart").then((mod) => ({ default: mod.StatsChart })),
   { loading: () => <PageSkeleton /> }
@@ -287,6 +292,9 @@ export default async function DashboardPage({
 
       {/* Quick Actions - Enhanced Grid */}
       <QuickActions />
+
+      {/* Pending Reviews Widget */}
+      <PendingReviewsWidget />
 
       {/* AI Checker Info */}
       <AICheckerInfo />

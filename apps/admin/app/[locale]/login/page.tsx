@@ -90,10 +90,11 @@ export default function LoginPage() {
 
     try {
       const redirectTo = searchParams.get("redirect") || "/tr/dashboard";
+      const callbackUrl = `${window.location.origin}/api/auth/callback?redirect=${encodeURIComponent(redirectTo)}`;
       const { error: otpError } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/tr/login?redirect=${encodeURIComponent(redirectTo)}`,
+          emailRedirectTo: callbackUrl,
         },
       });
 

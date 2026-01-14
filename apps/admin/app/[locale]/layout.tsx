@@ -6,6 +6,7 @@ import { isRTL } from "@karasu/lib/i18n";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Toaster } from "@/components/providers/Toaster";
 import { ErrorBoundary } from "@/components/errors/ErrorBoundary";
+import { QueryProvider } from "@/lib/providers/QueryProvider";
 import type { Metadata, Viewport } from "next";
 import "../globals.css";
 
@@ -96,10 +97,12 @@ export default async function LocaleLayout({
       <html lang={locale} dir={rtl ? "rtl" : "ltr"} className="font-jakarta">
         <body className="bg-[#E7E7E7] dark:bg-[#062F28] text-design-dark dark:text-white antialiased">
           <NextIntlClientProvider messages={messages}>
-            <ErrorBoundary>
-              <AdminLayout>{children}</AdminLayout>
-              <Toaster />
-            </ErrorBoundary>
+            <QueryProvider>
+              <ErrorBoundary>
+                <AdminLayout>{children}</AdminLayout>
+                <Toaster />
+              </ErrorBoundary>
+            </QueryProvider>
           </NextIntlClientProvider>
         </body>
       </html>
@@ -115,10 +118,12 @@ export default async function LocaleLayout({
       <html lang="tr" dir="ltr" className="font-jakarta">
         <body className="bg-[#E7E7E7] dark:bg-[#062F28] text-design-dark dark:text-white antialiased">
           <NextIntlClientProvider messages={messages}>
-            <ErrorBoundary>
-              <AdminLayout>{children}</AdminLayout>
-              <Toaster />
-            </ErrorBoundary>
+            <QueryProvider>
+              <ErrorBoundary>
+                <AdminLayout>{children}</AdminLayout>
+                <Toaster />
+              </ErrorBoundary>
+            </QueryProvider>
           </NextIntlClientProvider>
         </body>
       </html>

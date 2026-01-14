@@ -1,5 +1,6 @@
 {
-  "buildCommand": "cd ../.. && NODE_ENV=development pnpm install && pnpm run build:admin",
+  "installCommand": "cd ../.. && corepack enable && pnpm install",
+  "buildCommand": "cd ../.. && pnpm run build:admin",
   "devCommand": "cd ../.. && pnpm run dev:admin",
   "framework": "nextjs",
   "outputDirectory": ".next",

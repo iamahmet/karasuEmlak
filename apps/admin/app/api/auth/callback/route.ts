@@ -1,4 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -15,58 +16,45 @@ export async function GET(request: NextRequest) {
 
   if (code) {
     try {
-      const supabase = await createClient();
+      const cookieStore = await cookies();
+
+      const supabase = createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+          cookies: {
+            getAll() {
+              return cookieStore.getAll();
+            },
+            setAll(cookiesToSet: Array<{ name: string; value: string; options?: any }>) {
+              try {
+                cookiesToSet.forEach(({ name, value, options }) =>
+                  cookieStore.set(name, value, options)
+                );
+              } catch {
+                // Cookie setting might fail in some contexts
+              }
+            },
+          },
+        }
+      );
+
       const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
 
       if (exchangeError) {
+        console.error("Exchange error:", exchangeError);
         return NextResponse.redirect(
           new URL(`/tr/login?error=${encodeURIComponent(exchangeError.message)}`, requestUrl.origin)
         );
       }
 
       if (data.user) {
-        // In development, automatically assign admin role if user doesn't have one
-        if (process.env.NODE_ENV === "development") {
-          const { data: existingRoles } = await supabase
-            .from("user_roles")
-            .select("role_id")
-            .eq("user_id", data.user.id)
-            .limit(1);
-
-          if (!existingRoles || existingRoles.length === 0) {
-            // Get or create admin role
-            let { data: adminRole } = await supabase
-              .from("roles")
-              .select("id")
-              .eq("name", "admin")
-              .single();
-
-            if (!adminRole) {
-              const { data: newRole } = await supabase
-                .from("roles")
-                .insert({
-                  name: "admin",
-                  description: "Administrator role with full access",
-                  permissions: ["*"],
-                })
-                .select()
-                .single();
-              adminRole = newRole;
-            }
-
-            if (adminRole) {
-              await supabase.from("user_roles").insert({
-                user_id: data.user.id,
-                role_id: adminRole.id,
-              });
-            }
-          }
-        }
-
+        console.log("User authenticated:", data.user.email);
         // Successfully authenticated, redirect to dashboard
         return NextResponse.redirect(new URL(redirectTo, requestUrl.origin));
       }
     } catch (err: any) {
+      console.error("Callback error:", err);
       return NextResponse.redirect(
         new URL(`/tr/login?error=${encodeURIComponent(err.message)}`, requestUrl.origin)
       );
@@ -76,4 +64,3 @@ export async function GET(request: NextRequest) {
   // No code, redirect to login
   return NextResponse.redirect(new URL("/tr/login?error=no_code", requestUrl.origin));
 }
-
