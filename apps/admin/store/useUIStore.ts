@@ -111,7 +111,7 @@ export const useUIStore = create<UIState>()(
     }),
     {
       name: "admin-ui-storage",
-      storage: createJSONStorage(() => (typeof window !== "undefined" ? localStorage : undefined)),
+      storage: typeof window !== "undefined" ? createJSONStorage(() => localStorage) : undefined,
       partialize: (state) => ({
         sidebarOpen: state.sidebarOpen,
         theme: state.theme,

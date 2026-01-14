@@ -5,6 +5,7 @@
 
 import dynamic from "next/dynamic";
 import { ComponentType } from "react";
+import React from "react";
 
 /**
  * Create a dynamically imported component with loading state
@@ -16,8 +17,9 @@ export function createLazyComponent<T extends ComponentType<any>>(
     ssr?: boolean;
   }
 ) {
+  const LoadingComponent = options?.loading;
   return dynamic(importFn, {
-    loading: options?.loading ? () => <options.loading /> : undefined,
+    loading: LoadingComponent ? () => React.createElement(LoadingComponent) : undefined,
     ssr: options?.ssr ?? true,
   });
 }

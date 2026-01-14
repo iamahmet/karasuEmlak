@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import * as cheerio from "cheerio";
+import { load } from "cheerio";
+
+type CheerioAPI = ReturnType<typeof load>;
 
 interface AuditIssue {
   id: string;
@@ -48,7 +50,7 @@ export async function POST(request: NextRequest) {
 
     // 2. Fetch the page
     let html: string;
-    let $: cheerio.CheerioAPI;
+    let $: CheerioAPI;
     try {
       const response = await fetch(url, {
         headers: {
@@ -70,7 +72,7 @@ export async function POST(request: NextRequest) {
         score -= 30;
       } else {
         html = await response.text();
-        $ = cheerio.load(html);
+        $ = load(html);
 
         // 3. Meta Tags Check
         const metaIssues = checkMetaTags($);
@@ -185,7 +187,7 @@ function checkHTTPS(url: URL): AuditIssue {
   };
 }
 
-function checkMetaTags($: cheerio.CheerioAPI): AuditIssue[] {
+function checkMetaTags($: CheerioAPI): AuditIssue[] {
   const issues: AuditIssue[] = [];
 
   // Title check
@@ -277,7 +279,7 @@ function checkMetaTags($: cheerio.CheerioAPI): AuditIssue[] {
   return issues;
 }
 
-function checkHeadings($: cheerio.CheerioAPI): AuditIssue[] {
+function checkHeadings($: CheerioAPI): AuditIssue[] {
   const issues: AuditIssue[] = [];
 
   const h1Count = $("h1").length;
@@ -315,7 +317,7 @@ function checkHeadings($: cheerio.CheerioAPI): AuditIssue[] {
   return issues;
 }
 
-function checkImages($: cheerio.CheerioAPI): AuditIssue[] {
+function checkImages($: CheerioAPI): AuditIssue[] {
   const images = $("img");
   const totalImages = images.length;
   let missingAlt = 0;
@@ -361,7 +363,7 @@ function checkImages($: cheerio.CheerioAPI): AuditIssue[] {
   }];
 }
 
-function checkViewport($: cheerio.CheerioAPI): AuditIssue {
+function checkViewport($: CheerioAPI): AuditIssue {
   const viewport = $('meta[name="viewport"]').attr("content");
   if (!viewport) {
     return {
@@ -384,7 +386,7 @@ function checkViewport($: cheerio.CheerioAPI): AuditIssue {
   };
 }
 
-function checkCanonical($: cheerio.CheerioAPI, currentUrl: string): AuditIssue {
+function checkCanonical($: CheerioAPI, currentUrl: string): AuditIssue {
   const canonical = $('link[rel="canonical"]').attr("href");
   if (!canonical) {
     return {
@@ -407,7 +409,7 @@ function checkCanonical($: cheerio.CheerioAPI, currentUrl: string): AuditIssue {
   };
 }
 
-function checkSchema($: cheerio.CheerioAPI): AuditIssue {
+function checkSchema($: CheerioAPI): AuditIssue {
   const schemas = $('script[type="application/ld+json"]');
   if (schemas.length === 0) {
     return {
@@ -430,7 +432,7 @@ function checkSchema($: cheerio.CheerioAPI): AuditIssue {
   };
 }
 
-function checkLinks($: cheerio.CheerioAPI, baseUrl: URL): AuditIssue {
+function checkLinks($: CheerioAPI, baseUrl: URL): AuditIssue {
   const links = $("a[href]");
   let internalLinks = 0;
   let externalLinks = 0;

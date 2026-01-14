@@ -3,7 +3,7 @@
  * Helper functions for performance optimization
  */
 
-import React from "react";
+import React, { Suspense } from "react";
 
 /**
  * Lazy load component with loading fallback
@@ -15,9 +15,9 @@ export function lazyLoad<T extends React.ComponentType<any>>(
   const LazyComponent = React.lazy(importFn);
   
   return (props: React.ComponentPropsWithoutRef<T>) => (
-    <React.Suspense fallback={fallback || <div>Loading...</div>}>
-      <LazyComponent {...props} />
-    </React.Suspense>
+    <Suspense fallback={fallback || <div>Loading...</div>}>
+      <LazyComponent {...(props as any)} />
+    </Suspense>
   );
 }
 

@@ -70,7 +70,7 @@ export async function createAuditLog(
     }
 
     // Get IP address and user agent
-    const ipAddress = request?.ip || request?.headers.get("x-forwarded-for") || request?.headers.get("x-real-ip") || null;
+    const ipAddress = request?.headers.get("x-forwarded-for") || request?.headers.get("x-real-ip") || null;
     const userAgent = request?.headers.get("user-agent") || null;
 
     const { data: logEntry, error } = await supabase
@@ -115,7 +115,7 @@ export async function createAuditLogWithUser(
   try {
     const supabase = createServiceClient();
 
-    const ipAddress = request?.ip || request?.headers.get("x-forwarded-for") || request?.headers.get("x-real-ip") || null;
+    const ipAddress = request?.headers.get("x-forwarded-for") || request?.headers.get("x-real-ip") || null;
     const userAgent = request?.headers.get("user-agent") || null;
 
     const { data: logEntry, error } = await supabase

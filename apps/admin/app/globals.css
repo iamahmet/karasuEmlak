@@ -87,7 +87,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
   
   html {
@@ -98,14 +98,17 @@
   }
   
   body {
-    @apply bg-background text-foreground font-jakarta;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-jakarta, 'Plus Jakarta Sans', system-ui, sans-serif);
     font-feature-settings: "kern" 1;
     /* Performance optimizations */
     contain: layout style paint;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-space-grotesk font-semibold;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    @apply font-semibold;
     letter-spacing: -0.02em;
   }
   
@@ -224,11 +227,22 @@
   }
   
   .admin-page-title {
-    @apply text-2xl md:text-3xl font-display font-bold text-design-dark dark:text-white mb-2;
+    @apply text-2xl md:text-3xl font-bold mb-2;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    color: hsl(var(--design-dark-green));
+  }
+  
+  .dark .admin-page-title {
+    color: white;
   }
   
   .admin-page-description {
-    @apply text-sm md:text-base text-design-gray dark:text-gray-400;
+    @apply text-sm md:text-base;
+    color: hsl(var(--design-medium-gray));
+  }
+  
+  .dark .admin-page-description {
+    color: rgb(156 163 175);
   }
   
   /* Animation - Optimized */
@@ -307,7 +321,11 @@
   
   /* Focus Visible - Accessibility */
   .focus-visible-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-design-light focus-visible:ring-offset-2;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+  
+  .focus-visible-ring:focus-visible {
+    --tw-ring-color: hsl(var(--design-light-green));
   }
 }
 
