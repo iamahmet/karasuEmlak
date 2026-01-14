@@ -16,6 +16,7 @@ import { getHighPriorityQAEntries } from '@/lib/supabase/queries/qa';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import dynamicImport from 'next/dynamic';
+import { optimizeMetaDescription } from '@/lib/seo/meta-description-optimizer';
 
 // Performance: Revalidate every hour for ISR
 export const revalidate = 3600; // 1 hour
@@ -32,9 +33,15 @@ export async function generateMetadata({
   const { locale } = await params;
   const canonicalPath = locale === routing.defaultLocale ? '/satilik-yazlik' : `/${locale}/satilik-yazlik`;
   
+  const baseDescription = 'Türkiye\'de satılık yazlık ilanları. 1+1\'den 4+1\'e kadar seçenek. Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki yazlığı bulun.';
+  const optimizedDescription = optimizeMetaDescription(baseDescription, {
+    keywords: ['satılık yazlık', 'yazlık ilanları', 'emlak'],
+    includeCTA: true,
+  });
+
   return {
     title: 'Satılık Yazlık | En Güncel İlanlar ve Fiyatlar 2025 | Karasu Emlak',
-    description: 'Türkiye\'de satılık yazlik ilanları. 1+1\'den 4+1\'e kadar geniş seçenek. Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki yazlığı bulun.',
+    description: optimizedDescription,
     keywords: ["satılık yazlık","satılık yazlık ev","satılık yazlık ilanları","satılık yazlık fiyatları"],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,

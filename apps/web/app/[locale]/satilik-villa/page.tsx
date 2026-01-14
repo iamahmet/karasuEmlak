@@ -16,6 +16,7 @@ import { getHighPriorityQAEntries } from '@/lib/supabase/queries/qa';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import dynamicImport from 'next/dynamic';
+import { optimizeMetaDescription } from '@/lib/seo/meta-description-optimizer';
 
 // Performance: Revalidate every hour for ISR
 export const revalidate = 3600; // 1 hour
@@ -32,9 +33,15 @@ export async function generateMetadata({
   const { locale } = await params;
   const canonicalPath = locale === routing.defaultLocale ? '/satilik-villa' : `/${locale}/satilik-villa`;
   
+  const baseDescription = 'Türkiye\'de satılık villa ilanları. 1+1\'den 4+1\'e kadar seçenek. Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki villayı bulun.';
+  const optimizedDescription = optimizeMetaDescription(baseDescription, {
+    keywords: ['satılık villa', 'villa ilanları', 'emlak'],
+    includeCTA: true,
+  });
+
   return {
     title: 'Satılık Villa | En Güncel İlanlar ve Fiyatlar 2025 | Karasu Emlak',
-    description: 'Türkiye\'de satılık villa ilanları. 1+1\'den 4+1\'e kadar geniş seçenek. Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki villayı bulun.',
+    description: optimizedDescription,
     keywords: ["satılık villa","satılık villalar","satılık villa ilanları","satılık villa fiyatları"],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
@@ -48,7 +55,7 @@ export async function generateMetadata({
     },
     openGraph: {
       title: 'Satılık Villa | En Güncel İlanlar ve Fiyatlar 2025',
-      description: 'Türkiye\'de satılık villa ilanları. 1+1\'den 4+1\'e kadar geniş seçenek. Güncel fiyatlar ve mahalle rehberi.',
+      description: optimizeMetaDescription('Türkiye\'de satılık villa ilanları. 1+1\'den 4+1\'e kadar seçenek. Güncel fiyatlar ve mahalle rehberi.', { keywords: ['satılık villa'] }),
       url: `${siteConfig.url}${canonicalPath}`,
       type: 'article',
       images: [
@@ -65,7 +72,7 @@ export async function generateMetadata({
     twitter: {
       card: 'summary_large_image',
       title: 'Satılık Villa | En Güncel İlanlar',
-      description: 'Türkiye\'de satılık villa ilanları. Geniş seçenek. Güncel fiyatlar ve mahalle rehberi.',
+      description: optimizeMetaDescription('Türkiye\'de satılık villa ilanları. Güncel fiyatlar ve mahalle rehberi.', { keywords: ['satılık villa'] }),
     },
     robots: {
       index: true,

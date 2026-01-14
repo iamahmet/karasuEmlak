@@ -16,6 +16,7 @@ import { getHighPriorityQAEntries } from '@/lib/supabase/queries/qa';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import dynamicImport from 'next/dynamic';
+import { optimizeMetaDescription } from '@/lib/seo/meta-description-optimizer';
 
 // Performance: Revalidate every hour for ISR
 export const revalidate = 3600; // 1 hour
@@ -32,9 +33,15 @@ export async function generateMetadata({
   const { locale } = await params;
   const canonicalPath = locale === routing.defaultLocale ? '/kiralik-daire' : `/${locale}/kiralik-daire`;
   
+  const baseDescription = 'Türkiye\'de kiralık daire ilanları. 1+1\'den 4+1\'e kadar seçenek. Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki daireyi bulun.';
+  const optimizedDescription = optimizeMetaDescription(baseDescription, {
+    keywords: ['kiralık daire', 'kiralık daire ilanları', 'emlak'],
+    includeCTA: true,
+  });
+
   return {
     title: 'Kiralık Daire | En Güncel İlanlar ve Fiyatlar 2025 | Karasu Emlak',
-    description: 'Türkiye\'de satılık daire ilanları. 1+1\'den 4+1\'e kadar geniş seçenek. Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki arsayı bulun.',
+    description: optimizedDescription,
     keywords: ["kiralık daire","kiralık daireler","kiralık daire ilanları","kiralık daire fiyatları"],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,

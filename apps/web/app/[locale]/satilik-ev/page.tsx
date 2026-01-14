@@ -16,6 +16,7 @@ import { getHighPriorityQAEntries } from '@/lib/supabase/queries/qa';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import dynamicImport from 'next/dynamic';
+import { optimizeMetaDescription } from '@/lib/seo/meta-description-optimizer';
 
 // Performance: Revalidate every hour for ISR
 export const revalidate = 3600; // 1 hour
@@ -32,9 +33,15 @@ export async function generateMetadata({
   const { locale } = await params;
   const canonicalPath = locale === routing.defaultLocale ? '/satilik-ev' : `/${locale}/satilik-ev`;
   
+  const baseDescription = 'Türkiye\'de satılık ev ilanları. 1+1\'den 4+1\'e kadar seçenek. Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki evi bulun.';
+  const optimizedDescription = optimizeMetaDescription(baseDescription, {
+    keywords: ['satılık ev', 'ev ilanları', 'emlak'],
+    includeCTA: true,
+  });
+
   return {
     title: 'Satılık Ev | En Güncel İlanlar ve Fiyatlar 2025 | Karasu Emlak',
-    description: 'Türkiye\'de satılık ev ilanları. 1+1\'den 4+1\'e kadar geniş seçenek. Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki evi bulun.',
+    description: optimizedDescription,
     keywords: ["satılık ev","satılık evler","satılık konut","satılık müstakil ev"],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
