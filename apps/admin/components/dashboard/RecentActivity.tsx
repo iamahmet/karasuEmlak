@@ -250,10 +250,10 @@ export function RecentActivity() {
   if (loading) {
     return (
       <Card className="card-professional">
-        <CardContent className="p-6">
+        <CardContent className="p-5">
           <div className="space-y-3">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-16 skeleton-professional rounded-lg"></div>
+              <div key={i} className="h-16 rounded-lg animate-pulse" style={{ backgroundColor: 'hsl(var(--muted))' }}></div>
             ))}
           </div>
         </CardContent>
@@ -262,15 +262,16 @@ export function RecentActivity() {
   }
 
   return (
-    <Card className="card-professional">
-      <CardHeader className="pb-4 px-5 pt-5">
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+    <Card className="card-professional bg-white dark:bg-[#0a3d35] relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-design-light/5 to-transparent rounded-full blur-3xl"></div>
+      <CardHeader className="pb-4 px-5 pt-5 relative z-10">
+        <CardTitle className="text-base font-bold text-design-dark dark:text-white" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
           Son Aktiviteler
         </CardTitle>
       </CardHeader>
-      <CardContent className="px-5 pb-5">
+      <CardContent className="px-5 pb-5 relative z-10">
         {activities.length === 0 ? (
-          <div className="text-center py-12 text-design-gray dark:text-gray-400">
+          <div className="text-center py-12" style={{ color: 'hsl(var(--design-medium-gray))' }}>
             <Clock className="h-12 w-12 mx-auto mb-3 opacity-50" />
             <p>Henüz aktivite bulunmuyor</p>
           </div>
@@ -279,7 +280,7 @@ export function RecentActivity() {
             {activities.map((activity) => (
               <div
                 key={activity.id}
-                className="flex items-start gap-3 p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:shadow-md transition-all duration-200"
+                className="flex items-start gap-3 p-3 rounded-lg card-modern hover-lift transition-all duration-200"
               >
                 <div className="flex-shrink-0 mt-0.5">
                   {getActionIcon(activity.action, activity.entity_type)}
@@ -293,7 +294,7 @@ export function RecentActivity() {
                       {getEntityLabel(activity.entity_type)}
                     </Badge>
                   </div>
-                  <p className="text-xs text-design-gray dark:text-gray-400">
+                  <p className="text-xs" style={{ color: 'hsl(var(--design-medium-gray))' }}>
                     {activity.user?.name || activity.user?.email || "Sistem"} •{" "}
                     {new Date(activity.created_at).toLocaleDateString("tr-TR", {
                       day: "2-digit",

@@ -103,13 +103,13 @@ export function QuickActions() {
     <Card className="card-professional bg-white dark:bg-[#0a3d35] relative overflow-hidden">
       <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-design-light/5 to-transparent rounded-full blur-3xl"></div>
       <CardHeader className="pb-4 px-5 pt-5 relative z-10">
-        <CardTitle className="text-lg md:text-xl font-display font-bold text-design-dark dark:text-white flex items-center gap-3">
+        <CardTitle className="text-lg md:text-xl font-bold text-design-dark dark:text-white flex items-center gap-3" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
           <span className="w-1 h-6 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full shadow-lg"></span>
           Hızlı İşlemler
         </CardTitle>
       </CardHeader>
-      <CardContent className="px-5 pb-5 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+      <CardContent className="px-3 md:px-5 pb-3 md:pb-5 relative z-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-3">
           {actions.map((action, index) => {
             const Icon = action.icon;
             return (
@@ -117,21 +117,26 @@ export function QuickActions() {
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-full h-auto py-4 px-3 flex flex-col items-center gap-2 group hover:bg-gradient-to-r hover:from-design-dark hover:to-design-dark/90 hover:text-white dark:hover:from-design-light dark:hover:to-design-light/90 dark:hover:text-design-dark transition-all duration-300 hover:shadow-lg border border-[#E7E7E7]/50 dark:border-[#062F28]/50 rounded-xl font-ui hover-lift relative overflow-hidden",
+                    "w-full h-auto py-3 md:py-4 px-2 md:px-3 flex flex-col items-center gap-1.5 md:gap-2 group transition-all duration-300 hover:shadow-lg rounded-lg md:rounded-xl font-ui hover-lift relative overflow-hidden border",
                     action.color
                   )}
-                  style={{ animationDelay: `${index * 0.05}s` }}
+                  style={{ 
+                    animationDelay: `${index * 0.05}s`,
+                    borderColor: 'rgba(231, 231, 231, 0.5)'
+                  }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-design-light/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="relative p-2 rounded-lg bg-gradient-to-br from-design-light/20 to-design-light/10 group-hover:from-white/20 group-hover:to-white/10 group-hover:scale-110 transition-all duration-300 micro-bounce shadow-sm">
-                    <Icon className="h-5 w-5 text-design-dark dark:text-design-light group-hover:text-white dark:group-hover:text-design-dark transition-all duration-300 group-hover:rotate-6 relative z-10" />
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(to right, hsl(var(--design-light-green) / 0.1), transparent)' }}></div>
+                  <div className="relative p-1.5 md:p-2 rounded-lg group-hover:scale-110 transition-all duration-300 shadow-sm" style={{ 
+                    background: 'linear-gradient(to bottom right, hsl(var(--design-light-green) / 0.2), hsl(var(--design-light-green) / 0.1))'
+                  }}>
+                    <Icon className="h-4 w-4 md:h-5 md:w-5 text-design-dark dark:text-design-light group-hover:text-white dark:group-hover:text-design-dark transition-all duration-300 group-hover:rotate-6 relative z-10" />
                   </div>
                   <div className="relative z-10 text-center">
-                    <span className="font-semibold text-design-dark dark:text-white group-hover:text-white dark:group-hover:text-design-dark transition-colors text-xs leading-tight block">
+                    <span className="font-semibold text-design-dark dark:text-white group-hover:text-white dark:group-hover:text-design-dark transition-colors text-[10px] md:text-xs leading-tight block">
                       {action.label}
                     </span>
                     {action.description && (
-                      <span className="text-[10px] text-design-gray dark:text-gray-400 group-hover:text-white/80 dark:group-hover:text-design-dark/80 mt-0.5 block">
+                      <span className="text-[9px] md:text-[10px] mt-0.5 block hidden sm:block" style={{ color: 'hsl(var(--design-medium-gray))' }}>
                         {action.description}
                       </span>
                     )}

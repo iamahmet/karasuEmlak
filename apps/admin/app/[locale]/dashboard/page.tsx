@@ -246,8 +246,8 @@ export default async function DashboardPage({
         </div>
       </div>
 
-      {/* Stats Grid - Modern & Compact */}
-      <div className="admin-grid-4 gap-3">
+      {/* Primary Stats Grid - Modern & Compact */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4 md:mb-6">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           const progressWidth = Math.min(100, parseInt(stat.change.replace('+', '').replace('%', '')) * 5);
@@ -258,26 +258,33 @@ export default async function DashboardPage({
             >
               <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-design-light/8 to-transparent rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <CardHeader className="flex flex-row items-center justify-between pb-2 px-4 pt-4 relative z-10">
-                <CardTitle className="text-[9px] font-medium text-muted-foreground uppercase tracking-wider">
+                <CardTitle className="text-[9px] font-medium uppercase tracking-wider" style={{ color: 'hsl(var(--muted-foreground))' }}>
                   {stat.label}
                 </CardTitle>
-                <div className="relative p-2 rounded-lg bg-gradient-to-br from-design-light/15 to-design-light/5 group-hover:from-design-light/20 group-hover:to-design-light/10 transition-all duration-200 shadow-sm">
+                <div className="relative p-2 rounded-lg transition-all duration-200 shadow-sm" style={{ background: 'linear-gradient(to bottom right, hsl(var(--design-light-green) / 0.15), hsl(var(--design-light-green) / 0.05))' }}>
                   <Icon className="h-3.5 w-3.5 text-design-dark dark:text-design-light transition-transform duration-200 group-hover:scale-110" />
                 </div>
               </CardHeader>
               <CardContent className="px-4 pb-4 relative z-10">
                 <div className="flex items-baseline justify-between mb-3">
-                  <div className="text-xl md:text-2xl font-display font-bold text-design-dark dark:text-white tracking-tight">
+                  <div className="text-xl md:text-2xl font-bold text-design-dark dark:text-white tracking-tight" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
                     {stat.value}
                   </div>
-                  <span className="text-[9px] font-semibold bg-gradient-to-r from-design-light/15 to-design-light/10 text-design-dark dark:text-design-light px-2 py-0.5 rounded-md font-ui border border-design-light/20">
+                  <span className="text-[9px] font-semibold px-2 py-0.5 rounded-md font-ui border" style={{ 
+                    background: 'linear-gradient(to right, hsl(var(--design-light-green) / 0.15), hsl(var(--design-light-green) / 0.1))',
+                    color: 'hsl(var(--design-dark-green))',
+                    borderColor: 'hsl(var(--design-light-green) / 0.2)'
+                  }}>
                     {stat.change}
                   </span>
                 </div>
-                <div className="relative h-1 bg-[#E7E7E7]/40 dark:bg-[#062F28]/40 rounded-full overflow-hidden">
+                <div className="relative h-1 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(231, 231, 231, 0.4)' }}>
                   <div 
-                    className="absolute inset-y-0 left-0 bg-gradient-to-r from-design-light to-design-light/80 rounded-full transition-all duration-1000 ease-out"
-                    style={{ width: `${progressWidth}%` }}
+                    className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out"
+                    style={{ 
+                      width: `${progressWidth}%`,
+                      background: 'linear-gradient(to right, hsl(var(--design-light-green)), hsl(var(--design-light-green) / 0.8))'
+                    }}
                   />
                 </div>
               </CardContent>
@@ -287,68 +294,63 @@ export default async function DashboardPage({
       </div>
 
       {/* Quick Actions - Enhanced Grid */}
-      <QuickActions />
+      <div className="mb-6">
+        <QuickActions />
+      </div>
 
-      {/* Pending Reviews Widget */}
-      <PendingReviewsWidget />
+      {/* Workflow & AI Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 md:mb-6">
+        <PendingReviewsWidget />
+        <AICheckerInfo />
+      </div>
 
-      {/* AI Checker Info */}
-      <AICheckerInfo />
-
-      {/* Quick Stats - Additional Metrics */}
-      <QuickStats />
-
-      {/* Performance Metrics */}
-      <PerformanceMetrics />
-
-      {/* Real-time Stats */}
-      <RealTimeStats
-        initialStats={{
-          totalViews,
-          totalUsers,
-          totalArticles,
-          publishedArticles: publishedCount || 0,
-        }}
-      />
+      {/* Additional Stats - Compact Grid */}
+      <div className="mb-4 md:mb-6">
+        <QuickStats />
+      </div>
 
       {/* Main Content Grid - Professional */}
-      <div className="admin-grid-2 gap-6">
-        {/* Recent Activity from Audit Logs */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
         <RecentActivity />
-
-        {/* Top Content */}
         <TopContent locale={locale} />
       </div>
 
       {/* Secondary Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Trending Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
         <TrendingContent locale={locale} />
-
-        {/* Content Calendar */}
         <ContentCalendar />
       </div>
 
-      {/* Stats Charts - New */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Stats Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
         <StatsChart title="Son 7 Gün - Yeni İçerikler" type="articles" days={7} />
         <StatsChart title="Son 7 Gün - Görüntülenmeler" type="views" days={7} />
       </div>
 
-      {/* Real-time Updates */}
-      <RealTimeUpdates />
+      {/* Performance & System Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
+        <PerformanceMetrics />
+        <SystemHealth />
+      </div>
 
-      {/* Quick Insights */}
-      <QuickInsights />
+      {/* Real-time Updates & Insights */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
+        <RealTimeStats
+          initialStats={{
+            totalViews,
+            totalUsers,
+            totalArticles,
+            publishedArticles: publishedCount || 0,
+          }}
+        />
+        <QuickInsights />
+      </div>
 
-      {/* System Health */}
-      <SystemHealth />
-
-      {/* Activity Feed */}
-      <Card className="card-modern card-elevated bg-white dark:bg-[#0a3d35] relative overflow-hidden">
+      {/* Activity Feed - Full Width */}
+      <Card className="card-modern card-elevated bg-white dark:bg-[#0a3d35] relative overflow-hidden mb-6">
         <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-design-light/5 to-transparent rounded-full blur-3xl"></div>
         <CardHeader className="pb-4 px-5 pt-5 relative z-10">
-          <CardTitle className="text-lg md:text-xl font-display font-bold text-design-dark dark:text-white flex items-center gap-3">
+          <CardTitle className="text-lg md:text-xl font-bold text-design-dark dark:text-white flex items-center gap-3" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
             <span className="w-1 h-6 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full shadow-lg"></span>
             Canlı Aktivite Akışı
           </CardTitle>
@@ -358,16 +360,32 @@ export default async function DashboardPage({
         </CardContent>
       </Card>
 
-      {/* Additional Info - Enhanced Modern */}
-      <div className="grid grid-cols-3 gap-4 md:gap-5">
+      {/* Real-time Updates */}
+      <div className="mb-6">
+        <RealTimeUpdates />
+      </div>
+
+      {/* Summary Cards - Compact */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
         <Card className="card-modern card-elevated bg-white dark:bg-[#0a3d35] hover-lift relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-design-light/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <CardHeader className="pb-3 px-4 pt-4 relative z-10">
-            <CardTitle className="text-[10px] md:text-xs font-ui font-bold text-design-gray dark:text-gray-400 uppercase tracking-wider">Yayınlanan</CardTitle>
+            <CardTitle className="text-[10px] md:text-xs font-bold uppercase tracking-wider" style={{ color: 'hsl(var(--design-medium-gray))' }}>
+              Yayınlanan
+            </CardTitle>
           </CardHeader>
           <CardContent className="px-4 pb-4 relative z-10">
-            <div className="text-3xl md:text-4xl font-display font-bold bg-gradient-to-br from-design-dark to-design-dark/80 dark:from-design-light dark:to-design-light/80 bg-clip-text text-transparent mb-2">{publishedCount || 0}</div>
-            <p className="text-[10px] md:text-xs text-design-gray dark:text-gray-400 font-ui font-medium">
+            <div className="text-3xl md:text-4xl font-bold mb-2" style={{ 
+              fontFamily: "'Space Grotesk', system-ui, sans-serif",
+              background: 'linear-gradient(to bottom right, hsl(var(--design-dark-green)), hsl(var(--design-dark-green) / 0.8))',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent'
+            }}>
+              {publishedCount || 0}
+            </div>
+            <p className="text-[10px] md:text-xs font-medium" style={{ color: 'hsl(var(--design-medium-gray))' }}>
               {totalArticles} içerikten
             </p>
           </CardContent>
@@ -376,28 +394,50 @@ export default async function DashboardPage({
         <Card className="card-modern card-elevated bg-white dark:bg-[#0a3d35] hover-lift relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-design-light/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <CardHeader className="pb-3 px-4 pt-4 relative z-10">
-            <CardTitle className="text-[10px] md:text-xs font-ui font-bold text-design-gray dark:text-gray-400 uppercase tracking-wider">Taslak</CardTitle>
+            <CardTitle className="text-[10px] md:text-xs font-bold uppercase tracking-wider" style={{ color: 'hsl(var(--design-medium-gray))' }}>
+              Taslak
+            </CardTitle>
           </CardHeader>
           <CardContent className="px-4 pb-4 relative z-10">
-            <div className="text-3xl md:text-4xl font-display font-bold bg-gradient-to-br from-design-dark to-design-dark/80 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">
+            <div className="text-3xl md:text-4xl font-bold mb-2" style={{ 
+              fontFamily: "'Space Grotesk', system-ui, sans-serif",
+              background: 'linear-gradient(to bottom right, hsl(var(--design-dark-green)), hsl(var(--design-dark-green) / 0.8))',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent'
+            }}>
               {(totalArticles || 0) - (publishedCount || 0)}
             </div>
-            <p className="text-[10px] md:text-xs text-design-gray dark:text-gray-400 font-ui font-medium">Bekliyor</p>
+            <p className="text-[10px] md:text-xs font-medium" style={{ color: 'hsl(var(--design-medium-gray))' }}>
+              Bekliyor
+            </p>
           </CardContent>
         </Card>
 
         <Card className="card-modern card-elevated bg-white dark:bg-[#0a3d35] hover-lift relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-design-light/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <CardHeader className="pb-3 px-4 pt-4 relative z-10">
-            <CardTitle className="text-[10px] md:text-xs font-ui font-bold text-design-gray dark:text-gray-400 uppercase tracking-wider">Ortalama</CardTitle>
+            <CardTitle className="text-[10px] md:text-xs font-bold uppercase tracking-wider" style={{ color: 'hsl(var(--design-medium-gray))' }}>
+              Ortalama
+            </CardTitle>
           </CardHeader>
           <CardContent className="px-4 pb-4 relative z-10">
-            <div className="text-3xl md:text-4xl font-display font-bold bg-gradient-to-br from-design-dark to-design-dark/80 dark:from-design-light dark:to-design-light/80 bg-clip-text text-transparent mb-2">
+            <div className="text-3xl md:text-4xl font-bold mb-2" style={{ 
+              fontFamily: "'Space Grotesk', system-ui, sans-serif",
+              background: 'linear-gradient(to bottom right, hsl(var(--design-dark-green)), hsl(var(--design-dark-green) / 0.8))',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent'
+            }}>
               {totalArticles > 0
                 ? Math.round(totalViews / totalArticles).toLocaleString("tr-TR")
                 : 0}
             </div>
-            <p className="text-[10px] md:text-xs text-design-gray dark:text-gray-400 font-ui font-medium">Görüntülenme</p>
+            <p className="text-[10px] md:text-xs font-medium" style={{ color: 'hsl(var(--design-medium-gray))' }}>
+              Görüntülenme
+            </p>
           </CardContent>
         </Card>
       </div>

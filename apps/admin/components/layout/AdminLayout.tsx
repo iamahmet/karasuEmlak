@@ -53,7 +53,7 @@ function AdminLayoutComponent({ children }: { children: React.ReactNode }) {
           isMobileOpen={sidebarOpen}
           onMobileClose={closeSidebar}
         />
-        <div className="flex-1 flex flex-col overflow-hidden lg:ml-[240px] relative z-10" style={{ marginLeft: 'var(--sidebar-width, 240px)' }}>
+        <div className="flex-1 flex flex-col overflow-hidden lg:ml-[240px] relative z-10" style={{ marginLeft: 'clamp(0px, var(--sidebar-width, 240px), 240px)' }}>
           <AdminHeaderEnhanced 
             onMenuToggle={toggleSidebar}
             isMobileMenuOpen={sidebarOpen}

@@ -214,32 +214,32 @@
   
   /* Responsive Padding - Compact */
   .responsive-padding {
-    @apply px-4 md:px-5 lg:px-6;
+    @apply px-3 sm:px-4 md:px-5 lg:px-6;
   }
   
   /* Space Section - Compact */
   .space-section {
-    @apply space-y-4 md:space-y-5;
+    @apply space-y-3 sm:space-y-4 md:space-y-5;
   }
   
-  /* Admin Grid - Modern & Compact */
+  /* Admin Grid - Modern & Compact - Mobile First */
   .admin-grid-2 {
-    @apply grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4;
+    @apply grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4;
     contain: layout;
   }
   
   .admin-grid-3 {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4;
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4;
     contain: layout;
   }
   
   .admin-grid-4 {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4;
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4;
     contain: layout;
   }
   
   .admin-grid-5 {
-    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4;
+    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4;
     contain: layout;
   }
   
@@ -319,7 +319,7 @@
   
   /* Page Header - Modern & Compact */
   .admin-page-header {
-    @apply mb-5 md:mb-6;
+    @apply mb-4 sm:mb-5 md:mb-6;
     contain: layout;
   }
   
