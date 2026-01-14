@@ -4,7 +4,6 @@
   "installCommand": "cd ../.. && pnpm install",
   "framework": "nextjs",
   "outputDirectory": ".next",
-  "rootDirectory": "apps/admin",
   "git": {
     "deploymentEnabled": {
       "main": true
