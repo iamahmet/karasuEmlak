@@ -10,29 +10,38 @@ export function createClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  // Validate that required vars exist
-  // Only throw error at runtime, not during build (for static pages that don't use Supabase)
-  if (typeof window === 'undefined') {
-    // Server-side/build time: return a dummy client that will fail gracefully
-    // This allows static pages to build even if env vars are missing
-    if (!supabaseUrl || !supabaseAnonKey) {
-      // Return a client with placeholder values - it will fail at runtime if actually used
-      // This prevents build errors for pages that don't actually use Supabase
-      return createSupabaseBrowserClient(
-        supabaseUrl || 'https://placeholder.supabase.co',
-        supabaseAnonKey || 'placeholder-key'
+  // Check if environment variables are missing
+  const isMissingEnvVars = !supabaseUrl || !supabaseAnonKey;
+
+  if (isMissingEnvVars) {
+    // Log warning in console (helpful for debugging)
+    if (typeof window !== 'undefined') {
+      console.error(
+        '⚠️ Supabase environment variables are missing!\n' +
+        'Required: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY\n' +
+        'Please add them in Vercel Dashboard → Settings → Environment Variables'
       );
     }
-  }
 
-  // Client-side/runtime: always validate
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error(
-      'Supabase environment variables are missing. Please check your .env.local file.\n' +
-      'Required: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY'
+    // Return a client with placeholder values
+    // This prevents crashes but API calls will fail gracefully
+    // The UI should handle this case and show a user-friendly message
+    return createSupabaseBrowserClient(
+      supabaseUrl || 'https://placeholder.supabase.co',
+      supabaseAnonKey || 'placeholder-key'
     );
   }
 
   return createSupabaseBrowserClient(supabaseUrl, supabaseAnonKey);
+}
+
+/**
+ * Check if Supabase is properly configured
+ */
+export function isSupabaseConfigured(): boolean {
+  return !!(
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
 }
 

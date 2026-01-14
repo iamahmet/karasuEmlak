@@ -3,9 +3,9 @@
 import { useState, useMemo, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Button, Input, Label, Card, CardContent, CardHeader, CardTitle, CardDescription } from "@karasu/ui";
-import { createClient } from "@karasu/lib/supabase/client";
+import { createClient, isSupabaseConfigured } from "@karasu/lib/supabase/client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { LayoutDashboard, Mail, ArrowRight, Lock } from "lucide-react";
+import { LayoutDashboard, Mail, ArrowRight, Lock, AlertCircle, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -20,6 +20,9 @@ export default function LoginPage() {
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [authMethod, setAuthMethod] = useState<"magic" | "password">("magic");
 
+  // Check if Supabase is configured
+  const isConfigured = useMemo(() => isSupabaseConfigured(), []);
+
   // Use singleton client to prevent NavigatorLockAcquireTimeoutError
   const supabase = useMemo(() => {
     return createClient();
@@ -28,6 +31,12 @@ export default function LoginPage() {
   // Check if user is already logged in or handle callback
   useEffect(() => {
     async function checkAuth() {
+      // Skip auth check if Supabase is not configured
+      if (!isConfigured) {
+        setCheckingAuth(false);
+        return;
+      }
+
       try {
         // Check for callback code in URL (magic link)
         const code = searchParams.get("code");
@@ -65,10 +74,16 @@ export default function LoginPage() {
     }
 
     checkAuth();
-  }, [router, searchParams, supabase]);
+  }, [router, searchParams, supabase, isConfigured]);
 
   const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!isConfigured) {
+      setError("Supabase yapılandırması eksik. Lütfen environment variables'ları kontrol edin.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -94,6 +109,12 @@ export default function LoginPage() {
 
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!isConfigured) {
+      setError("Supabase yapılandırması eksik. Lütfen environment variables'ları kontrol edin.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -149,6 +170,49 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            {/* Environment Variables Warning */}
+            {!isConfigured && (
+              <div className="mb-4 p-4 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-yellow-900 dark:text-yellow-100 mb-1">
+                      Supabase Yapılandırması Eksik
+                    </p>
+                    <p className="text-sm text-yellow-800 dark:text-yellow-300 mb-3">
+                      Admin paneli çalışması için Supabase environment variables'ları eklenmelidir.
+                    </p>
+                    <div className="space-y-2 text-xs text-yellow-700 dark:text-yellow-400">
+                      <p className="font-medium">Gerekli Environment Variables:</p>
+                      <ul className="list-disc list-inside space-y-1 ml-2">
+                        <li><code className="bg-yellow-100 dark:bg-yellow-900/30 px-1.5 py-0.5 rounded">NEXT_PUBLIC_SUPABASE_URL</code></li>
+                        <li><code className="bg-yellow-100 dark:bg-yellow-900/30 px-1.5 py-0.5 rounded">NEXT_PUBLIC_SUPABASE_ANON_KEY</code></li>
+                      </ul>
+                      <p className="mt-2 pt-2 border-t border-yellow-200 dark:border-yellow-800">
+                        <strong>Nasıl eklenir:</strong>
+                      </p>
+                      <ol className="list-decimal list-inside space-y-1 ml-2">
+                        <li>Vercel Dashboard → Admin Projesi → Settings → Environment Variables</li>
+                        <li>Yukarıdaki environment variables'ları ekleyin</li>
+                        <li>Redeploy yapın</li>
+                      </ol>
+                      <div className="mt-3 pt-2 border-t border-yellow-200 dark:border-yellow-800">
+                        <a
+                          href="https://vercel.com/dashboard"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-yellow-700 dark:text-yellow-300 hover:text-yellow-900 dark:hover:text-yellow-100 font-medium"
+                        >
+                          Vercel Dashboard'a Git
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Auth Method Toggle */}
             <div className="flex gap-2 mb-4 p-1 bg-muted rounded-lg">
               <button
@@ -256,7 +320,7 @@ export default function LoginPage() {
                   </div>
                 )}
 
-                <Button type="submit" disabled={loading} className="w-full" size="lg">
+                <Button type="submit" disabled={loading || !isConfigured} className="w-full" size="lg">
                   {loading ? (
                     <>
                       <span className="animate-spin mr-2">⏳</span>
