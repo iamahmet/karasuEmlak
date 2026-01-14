@@ -265,7 +265,7 @@ export function RecentActivity() {
     <Card className="card-professional bg-white dark:bg-[#0a3d35] relative overflow-hidden">
       <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-design-light/5 to-transparent rounded-full blur-3xl"></div>
       <CardHeader className="pb-4 px-5 pt-5 relative z-10">
-        <CardTitle className="text-base font-bold text-design-dark dark:text-white" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+        <CardTitle className="text-base font-bold text-design-dark dark:text-white" style={{ fontFamily: "'Urbanist', system-ui, sans-serif" }}>
           Son Aktiviteler
         </CardTitle>
       </CardHeader>

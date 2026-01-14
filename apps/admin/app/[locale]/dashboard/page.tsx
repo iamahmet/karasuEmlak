@@ -267,7 +267,7 @@ export default async function DashboardPage({
               </CardHeader>
               <CardContent className="px-4 pb-4 relative z-10">
                 <div className="flex items-baseline justify-between mb-3">
-                  <div className="text-xl md:text-2xl font-bold text-design-dark dark:text-white tracking-tight" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+                  <div className="text-xl md:text-2xl font-bold text-design-dark dark:text-white tracking-tight" style={{ fontFamily: "'Urbanist', system-ui, sans-serif" }}>
                     {stat.value}
                   </div>
                   <span className="text-[9px] font-semibold px-2 py-0.5 rounded-md font-ui border" style={{ 
@@ -350,7 +350,7 @@ export default async function DashboardPage({
       <Card className="card-modern card-elevated bg-white dark:bg-[#0a3d35] relative overflow-hidden mb-6">
         <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-design-light/5 to-transparent rounded-full blur-3xl"></div>
         <CardHeader className="pb-4 px-5 pt-5 relative z-10">
-          <CardTitle className="text-lg md:text-xl font-bold text-design-dark dark:text-white flex items-center gap-3" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+          <CardTitle className="text-lg md:text-xl font-bold text-design-dark dark:text-white flex items-center gap-3" style={{ fontFamily: "'Urbanist', system-ui, sans-serif" }}>
             <span className="w-1 h-6 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full shadow-lg"></span>
             Canlı Aktivite Akışı
           </CardTitle>
@@ -376,7 +376,7 @@ export default async function DashboardPage({
           </CardHeader>
           <CardContent className="px-4 pb-4 relative z-10">
             <div className="text-3xl md:text-4xl font-bold mb-2" style={{ 
-              fontFamily: "'Space Grotesk', system-ui, sans-serif",
+              fontFamily: "'Urbanist', system-ui, sans-serif",
               background: 'linear-gradient(to bottom right, hsl(var(--design-dark-green)), hsl(var(--design-dark-green) / 0.8))',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
@@ -400,7 +400,7 @@ export default async function DashboardPage({
           </CardHeader>
           <CardContent className="px-4 pb-4 relative z-10">
             <div className="text-3xl md:text-4xl font-bold mb-2" style={{ 
-              fontFamily: "'Space Grotesk', system-ui, sans-serif",
+              fontFamily: "'Urbanist', system-ui, sans-serif",
               background: 'linear-gradient(to bottom right, hsl(var(--design-dark-green)), hsl(var(--design-dark-green) / 0.8))',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
@@ -424,7 +424,7 @@ export default async function DashboardPage({
           </CardHeader>
           <CardContent className="px-4 pb-4 relative z-10">
             <div className="text-3xl md:text-4xl font-bold mb-2" style={{ 
-              fontFamily: "'Space Grotesk', system-ui, sans-serif",
+              fontFamily: "'Urbanist', system-ui, sans-serif",
               background: 'linear-gradient(to bottom right, hsl(var(--design-dark-green)), hsl(var(--design-dark-green) / 0.8))',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',

@@ -1,42 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Urbanist:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
 
 @import "tailwindcss";
 
 @layer base {
   :root {
-    /* Design System Colors - Based on provided palette */
-    /* Dark Green Primary: #062F28 (RGB: 3, 64, 77) */
-    --primary: 175 96% 15%;
+    /* Corporate Identity Colors */
+    /* Primary: #0D9762 (RGB: 13, 151, 98) - Vibrant Green */
+    --primary: 155 84% 32%;
     --primary-foreground: 0 0% 100%;
     
-    /* Light Green Accent: #9FE870 (RGB: 159, 232, 112) */
-    --accent: 95 75% 67%;
-    --accent-foreground: 175 96% 15%;
+    /* Secondary: #154618 (RGB: 21, 70, 24) - Dark Forest Green */
+    --accent: 125 54% 18%;
+    --accent-foreground: 0 0% 100%;
     
-    /* Medium Gray: #7B7B7B (RGB: 142, 144, 167) */
+    /* Neutral Colors */
+    --neutral-black: 0 0% 0%;
+    --neutral-white: 0 0% 100%;
+    
+    /* Medium Gray: #7B7B7B */
     --muted: 0 0% 48%;
     --muted-foreground: 0 0% 48%;
     
-    /* Light Gray: #E7E7E7 (RGB: 231, 231, 241) */
+    /* Light Gray: #E7E7E7 */
     --background: 0 0% 91%;
-    --foreground: 175 96% 15%;
+    --foreground: 125 54% 18%;
     
     --card: 0 0% 100%;
-    --card-foreground: 175 96% 15%;
+    --card-foreground: 125 54% 18%;
     --popover: 0 0% 100%;
-    --popover-foreground: 175 96% 15%;
+    --popover-foreground: 125 54% 18%;
     --secondary: 0 0% 96%;
-    --secondary-foreground: 175 96% 15%;
+    --secondary-foreground: 125 54% 18%;
     --destructive: 0 85% 45%;
     --destructive-foreground: 0 0% 100%;
     --border: 0 0% 91%;
     --input: 0 0% 91%;
-    --ring: 175 96% 15%;
+    --ring: 155 84% 32%;
     --radius: 0.5rem;
     
-    /* Custom Design System Colors */
-    --design-dark-green: 175 96% 15%;
-    --design-light-green: 95 75% 67%;
+    /* Custom Design System Colors - Corporate Identity */
+    --design-primary: 155 84% 32%;        /* #0D9762 - Primary Green */
+    --design-secondary: 125 54% 18%;      /* #154618 - Dark Forest Green */
+    --design-dark-green: 125 54% 18%;     /* #154618 - Secondary */
+    --design-light-green: 155 84% 32%;    /* #0D9762 - Primary */
     --design-medium-gray: 0 0% 48%;
     --design-light-gray: 0 0% 91%;
     
@@ -89,15 +95,15 @@
   }
 
   .dark {
-    --background: 175 96% 8%;
+    --background: 125 54% 8%;
     --foreground: 0 0% 98%;
-    --card: 175 96% 10%;
+    --card: 125 54% 10%;
     --card-foreground: 0 0% 98%;
-    --popover: 175 96% 10%;
+    --popover: 125 54% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 95 75% 67%;
-    --primary-foreground: 175 96% 15%;
-    --secondary: 175 96% 12%;
+    --primary: 155 84% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 125 54% 12%;
     --secondary-foreground: 0 0% 98%;
     --muted: 175 96% 12%;
     --muted-foreground: 0 0% 65%;
@@ -126,16 +132,16 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-    font-family: var(--font-jakarta, 'Plus Jakarta Sans', system-ui, sans-serif);
+    font-family: 'Urbanist', system-ui, sans-serif;
     font-feature-settings: "kern" 1;
     /* Performance optimizations */
     contain: layout style paint;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: 'Urbanist', system-ui, sans-serif;
     @apply font-semibold;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
   }
   
   h1 {
@@ -182,10 +188,10 @@
 }
 
 @layer components {
-  /* Scrollbar - Modern & Optimized */
+  /* Scrollbar - Modern & Optimized - Corporate Colors */
   .scrollbar-modern {
     scrollbar-width: thin;
-    scrollbar-color: rgba(159, 232, 112, 0.3) transparent;
+    scrollbar-color: rgba(13, 151, 98, 0.3) transparent; /* #0D9762 */
   }
   
   .scrollbar-modern::-webkit-scrollbar {
@@ -198,12 +204,17 @@
   }
   
   .scrollbar-modern::-webkit-scrollbar-thumb {
-    background-color: rgba(159, 232, 112, 0.3);
+    background-color: rgba(13, 151, 98, 0.3); /* #0D9762 */
     border-radius: 4px;
   }
   
   .scrollbar-modern::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(159, 232, 112, 0.5);
+    background-color: rgba(13, 151, 98, 0.5); /* #0D9762 */
+  }
+  
+  /* Font Display Utility - Urbanist */
+  .font-display {
+    font-family: 'Urbanist', system-ui, sans-serif;
   }
   
   /* Admin Container - Optimized */
@@ -325,10 +336,10 @@
   
   .admin-page-title {
     @apply text-xl md:text-2xl font-bold mb-1.5;
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: 'Urbanist', system-ui, sans-serif;
     font-weight: 700;
-    letter-spacing: -0.025em;
-    color: hsl(var(--design-dark-green));
+    letter-spacing: -0.01em;
+    color: hsl(var(--design-secondary));
     line-height: 1.2;
   }
   
@@ -354,8 +365,8 @@
   
   .section-title {
     @apply text-lg md:text-xl font-semibold mb-1;
-    font-family: 'Space Grotesk', system-ui, sans-serif;
-    letter-spacing: -0.02em;
+    font-family: 'Urbanist', system-ui, sans-serif;
+    letter-spacing: -0.01em;
   }
   
   .section-description {
@@ -494,8 +505,8 @@
   
   .stat-value {
     @apply text-2xl font-bold;
-    font-family: 'Space Grotesk', system-ui, sans-serif;
-    letter-spacing: -0.02em;
+    font-family: 'Urbanist', system-ui, sans-serif;
+    letter-spacing: -0.01em;
   }
   
   .stat-label {
