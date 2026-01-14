@@ -442,14 +442,14 @@ export default async function ForSalePage({
                     </Button>
                   </Link>
                   <div className="flex gap-2">
+                    <Link href={`${basePath}/satilik-daire`} className="flex-1">
+                      <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#006AFF]">
+                        Satılık Daire Rehberi →
+                      </Button>
+                    </Link>
                     <Link href={`${basePath}/karasu-satilik-daire`} className="flex-1">
                       <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#006AFF]">
                         Karasu Satılık Daire →
-                      </Button>
-                    </Link>
-                    <Link href={`${basePath}/karasu-satilik-villa`} className="flex-1">
-                      <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#006AFF]">
-                        Karasu Satılık Villa →
                       </Button>
                     </Link>
                   </div>
@@ -484,11 +484,18 @@ export default async function ForSalePage({
                       <ArrowRight className="h-4 w-4" />
                     </Button>
                   </Link>
-                  <Link href={`${basePath}/karasu-satilik-villa`}>
-                    <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#00A862]">
-                      Karasu Satılık Villa Rehberi →
-                    </Button>
-                  </Link>
+              <div className="flex gap-2">
+                <Link href={`${basePath}/satilik-villa`} className="flex-1">
+                  <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#00A862]">
+                    Satılık Villa Rehberi →
+                  </Button>
+                </Link>
+                <Link href={`${basePath}/karasu-satilik-villa`} className="flex-1">
+                  <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#00A862]">
+                    Karasu Satılık Villa →
+                  </Button>
+                </Link>
+              </div>
                 </div>
               </div>
 
@@ -520,11 +527,18 @@ export default async function ForSalePage({
                       <ArrowRight className="h-4 w-4" />
                     </Button>
                   </Link>
-                  <Link href={`${basePath}/karasu-satilik-yazlik`}>
-                    <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-amber-700">
-                      Karasu Satılık Yazlık Rehberi →
-                    </Button>
-                  </Link>
+              <div className="flex gap-2">
+                <Link href={`${basePath}/satilik-yazlik`} className="flex-1">
+                  <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-amber-700">
+                    Satılık Yazlık Rehberi →
+                  </Button>
+                </Link>
+                <Link href={`${basePath}/karasu-satilik-yazlik`} className="flex-1">
+                  <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-amber-700">
+                    Karasu Satılık Yazlık →
+                  </Button>
+                </Link>
+              </div>
                 </div>
               </div>
 

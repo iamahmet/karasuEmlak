@@ -370,11 +370,18 @@ export default async function ForRentPage({
                 <div className="text-sm text-slate-600 font-medium mb-3">
                   <span className="text-slate-900 font-bold">₺2.500 - ₺8.000/ay</span> arası
                 </div>
-                <Link href={`${basePath}/karasu-kiralik-daire`}>
-                  <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#006AFF]">
-                    Karasu Kiralık Daire Rehberi →
-                  </Button>
-                </Link>
+            <div className="flex gap-2">
+              <Link href={`${basePath}/kiralik-daire`} className="flex-1">
+                <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#006AFF]">
+                  Kiralık Daire Rehberi →
+                </Button>
+              </Link>
+              <Link href={`${basePath}/karasu-kiralik-daire`} className="flex-1">
+                <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#006AFF]">
+                  Karasu Kiralık Daire →
+                </Button>
+              </Link>
+            </div>
               </div>
               
               <div className="p-6 bg-gradient-to-br from-emerald-50/50 to-white rounded-2xl border border-emerald-200/40 hover:shadow-lg transition-all duration-300">
@@ -391,11 +398,18 @@ export default async function ForRentPage({
                 <div className="text-sm text-slate-600 font-medium mb-3">
                   <span className="text-slate-900 font-bold">₺8.000 - ₺25.000/ay</span> arası
                 </div>
-                <Link href={`${basePath}/karasu-kiralik-ev`}>
-                  <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#00A862]">
-                    Karasu Kiralık Ev Rehberi →
-                  </Button>
-                </Link>
+            <div className="flex gap-2">
+              <Link href={`${basePath}/kiralik-ev`} className="flex-1">
+                <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#00A862]">
+                  Kiralık Ev Rehberi →
+                </Button>
+              </Link>
+              <Link href={`${basePath}/karasu-kiralik-ev`} className="flex-1">
+                <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-[#00A862]">
+                  Karasu Kiralık Ev →
+                </Button>
+              </Link>
+            </div>
               </div>
 
               <div className="p-6 bg-gradient-to-br from-cyan-50/50 to-white rounded-2xl border border-cyan-200/40 hover:shadow-lg transition-all duration-300">
@@ -412,11 +426,18 @@ export default async function ForRentPage({
                 <div className="text-sm text-slate-600 font-medium mb-3">
                   <span className="text-slate-900 font-bold">₺3.000 - ₺12.000/ay</span> arası
                 </div>
-                <Link href={`${basePath}/karasu-kiralik-ev`}>
-                  <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-cyan-600">
-                    Karasu Kiralık Ev Rehberi →
-                  </Button>
-                </Link>
+            <div className="flex gap-2">
+              <Link href={`${basePath}/kiralik-villa`} className="flex-1">
+                <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-cyan-600">
+                  Kiralık Villa Rehberi →
+                </Button>
+              </Link>
+              <Link href={`${basePath}/karasu-kiralik-ev`} className="flex-1">
+                <Button variant="ghost" size="sm" className="w-full text-xs text-slate-600 hover:text-cyan-600">
+                  Karasu Kiralık Ev →
+                </Button>
+              </Link>
+            </div>
               </div>
             </div>
           </ContentSection>

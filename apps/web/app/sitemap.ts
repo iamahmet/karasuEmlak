@@ -32,7 +32,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/kiralik', priority: 0.9, changeFrequency: 'daily' },
     { path: '/karasu', priority: 0.9, changeFrequency: 'weekly' },
     
-    // Important content pages
+    // General cornerstone pages (high priority for SEO)
+    { path: '/satilik-daire', priority: 0.9, changeFrequency: 'daily' }, // Cornerstone: "satılık daire" keyword
+    { path: '/satilik-villa', priority: 0.9, changeFrequency: 'daily' }, // Cornerstone: "satılık villa" keyword
+    { path: '/satilik-yazlik', priority: 0.9, changeFrequency: 'daily' }, // Cornerstone: "satılık yazlık" keyword
+    { path: '/satilik-ev', priority: 0.9, changeFrequency: 'daily' }, // Cornerstone: "satılık ev" keyword
+    { path: '/satilik-arsa', priority: 0.9, changeFrequency: 'daily' }, // Cornerstone: "satılık arsa" keyword
+    { path: '/kiralik-daire', priority: 0.9, changeFrequency: 'daily' }, // Cornerstone: "kiralık daire" keyword
+    { path: '/kiralik-ev', priority: 0.9, changeFrequency: 'daily' }, // Cornerstone: "kiralık ev" keyword
+    { path: '/kiralik-villa', priority: 0.9, changeFrequency: 'daily' }, // Cornerstone: "kiralık villa" keyword
+    
+    // Location-specific pages (Karasu)
     { path: '/karasu-satilik-ev', priority: 0.8, changeFrequency: 'weekly' },
     { path: '/karasu-satilik-daire', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu satılık daire" keyword
     { path: '/karasu-satilik-villa', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu satılık villa" keyword
