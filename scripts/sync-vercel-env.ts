@@ -9,7 +9,7 @@
  */
 
 import { execSync } from 'child_process';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
 interface EnvVar {
@@ -76,43 +76,97 @@ function readEnvFile(dir: string): Record<string, string> {
 }
 
 /**
- * Vercel proje ID'sini bul
+ * Vercel projesini otomatik link et
  */
-function getVercelProjectId(dir: string, projectName?: string): string | null {
+function linkVercelProject(dir: string, projectName?: string, teamSlug?: string): string | null {
   try {
-    // Vercel projesini bul
-    const cmd = `cd ${dir} && vercel project ls --json 2>/dev/null || echo "[]"`;
-    const output = execSync(cmd, { encoding: 'utf-8', stdio: 'pipe' });
-    const projects = JSON.parse(output);
+    // Önce mevcut link'i kontrol et
+    const linkPath = join(dir, '.vercel', 'project.json');
+    if (existsSync(linkPath)) {
+      try {
+        const linkData = JSON.parse(readFileSync(linkPath, 'utf-8'));
+        if (linkData.projectId) {
+          console.log(`  ✅ Proje zaten link edilmiş: ${linkData.projectId}`);
+          return linkData.projectId;
+        }
+      } catch {
+        // Link dosyası bozuksa devam et
+      }
+    }
+
+    console.log(`  🔗 Proje link ediliyor...`);
+    
+    // Vercel projelerini listele
+    const teamFlag = teamSlug ? `--scope=${teamSlug}` : '';
+    const listCmd = `vercel project ls ${teamFlag} --json 2>/dev/null || echo "[]"`;
+    const listOutput = execSync(listCmd, { encoding: 'utf-8', stdio: 'pipe' });
+    const projects = JSON.parse(listOutput);
+    
+    let selectedProject: any = null;
     
     if (Array.isArray(projects) && projects.length > 0) {
       // Eğer projectName belirtilmişse, onu bul
       if (projectName) {
-        const project = projects.find((p: any) => 
+        selectedProject = projects.find((p: any) => 
           p.name?.toLowerCase().includes(projectName.toLowerCase())
         );
-        if (project) return project.id;
       }
       
-      // İlk projeyi döndür
-      return projects[0].id;
+      // Bulunamazsa ilk projeyi kullan
+      if (!selectedProject) {
+        selectedProject = projects[0];
+      }
     }
     
-    // Alternatif: vercel link ile bağlı projeyi bul
-    try {
-      const linkOutput = execSync(`cd ${dir} && cat .vercel/project.json 2>/dev/null || echo "{}"`, {
-        encoding: 'utf-8',
-        stdio: 'pipe',
-      });
-      const linkData = JSON.parse(linkOutput);
-      if (linkData.projectId) return linkData.projectId;
-    } catch {
-      // .vercel/project.json yoksa devam et
+    // Proje bulunduysa link et
+    if (selectedProject) {
+      console.log(`  📦 Proje bulundu: ${selectedProject.name} (${selectedProject.id})`);
+      
+      // .vercel dizinini oluştur
+      const vercelDir = join(dir, '.vercel');
+      if (!existsSync(vercelDir)) {
+        execSync(`mkdir -p "${vercelDir}"`, { stdio: 'pipe' });
+      }
+      
+      // project.json dosyasını oluştur
+      const projectJson = {
+        projectId: selectedProject.id,
+        orgId: selectedProject.accountId || '',
+      };
+      
+      writeFileSync(join(vercelDir, 'project.json'), JSON.stringify(projectJson, null, 2));
+      console.log(`  ✅ Proje link edildi: ${selectedProject.id}`);
+      return selectedProject.id;
+    } else {
+      console.log(`  ⚠️  Proje bulunamadı, manuel link gerekebilir`);
+      console.log(`  💡 Çalıştırın: cd ${dir} && vercel link`);
+      return null;
+    }
+  } catch (error: any) {
+    console.warn(`  ⚠️  Otomatik link başarısız: ${error.message}`);
+    console.log(`  💡 Manuel link için: cd ${dir} && vercel link`);
+    return null;
+  }
+}
+
+/**
+ * Vercel proje ID'sini bul
+ */
+function getVercelProjectId(dir: string, projectName?: string): string | null {
+  try {
+    // Önce .vercel/project.json'dan oku
+    const linkPath = join(dir, '.vercel', 'project.json');
+    if (existsSync(linkPath)) {
+      try {
+        const linkData = JSON.parse(readFileSync(linkPath, 'utf-8'));
+        if (linkData.projectId) return linkData.projectId;
+      } catch {
+        // Link dosyası bozuksa devam et
+      }
     }
     
     return null;
   } catch (error) {
-    console.warn(`⚠️  Proje ID bulunamadı: ${error}`);
     return null;
   }
 }
@@ -267,7 +321,13 @@ function main() {
     console.log('⚠️  Web app için environment variables bulunamadı.');
     console.log('   Lütfen apps/web/.env.local dosyası oluşturun.\n');
   } else {
-    const webProjectId = getVercelProjectId(WEB_DIR, 'web');
+    // Önce proje ID'sini bul veya link et
+    let webProjectId = getVercelProjectId(WEB_DIR, 'web');
+    if (!webProjectId) {
+      console.log('🔗 Web app projesi link ediliyor...\n');
+      webProjectId = linkVercelProject(WEB_DIR, 'web', teamSlug);
+    }
+    
     if (!webProjectId) {
       console.log('⚠️  Web app Vercel projesi bulunamadı.');
       console.log('   Lütfen apps/web dizininde "vercel link" komutunu çalıştırın.\n');
@@ -311,7 +371,13 @@ function main() {
     console.log('   Web app\'ten kopyalanıyor...\n');
   }
   
-  const adminProjectId = getVercelProjectId(ADMIN_DIR, 'admin');
+  // Önce proje ID'sini bul veya link et
+  let adminProjectId = getVercelProjectId(ADMIN_DIR, 'admin');
+  if (!adminProjectId) {
+    console.log('🔗 Admin app projesi link ediliyor...\n');
+    adminProjectId = linkVercelProject(ADMIN_DIR, 'admin', teamSlug);
+  }
+  
   if (!adminProjectId) {
     console.log('⚠️  Admin app Vercel projesi bulunamadı.');
     console.log('   Lütfen Vercel Dashboard\'dan admin projesini oluşturun veya');
