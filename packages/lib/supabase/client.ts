@@ -11,6 +11,21 @@ export function createClient() {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   // Validate that required vars exist
+  // Only throw error at runtime, not during build (for static pages that don't use Supabase)
+  if (typeof window === 'undefined') {
+    // Server-side/build time: return a dummy client that will fail gracefully
+    // This allows static pages to build even if env vars are missing
+    if (!supabaseUrl || !supabaseAnonKey) {
+      // Return a client with placeholder values - it will fail at runtime if actually used
+      // This prevents build errors for pages that don't actually use Supabase
+      return createSupabaseBrowserClient(
+        supabaseUrl || 'https://placeholder.supabase.co',
+        supabaseAnonKey || 'placeholder-key'
+      );
+    }
+  }
+
+  // Client-side/runtime: always validate
   if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error(
       'Supabase environment variables are missing. Please check your .env.local file.\n' +
