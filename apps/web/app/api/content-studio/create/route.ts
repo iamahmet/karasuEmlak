@@ -214,7 +214,7 @@ Lütfen şu formatta JSON döndür:
     excerpt: parsed.excerpt || '',
   };
 
-  // Create slug from title (Turkish character handling)
+  // Create slug from title (Turkish character handling with smart truncation)
   let slug = generated.title
     .toLowerCase()
     .replace(/ğ/g, "g")
@@ -225,6 +225,18 @@ Lütfen şu formatta JSON döndür:
     .replace(/ç/g, "c")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+
+  // Truncate at word boundary if too long (max 100 chars)
+  const maxLength = 100;
+  if (slug.length > maxLength) {
+    const truncated = slug.substring(0, maxLength);
+    const lastHyphen = truncated.lastIndexOf('-');
+    if (lastHyphen > maxLength * 0.5) {
+      slug = truncated.substring(0, lastHyphen);
+    } else {
+      slug = truncated.replace(/-+$/, '');
+    }
+  }
 
   // Check if article with same slug exists
   const { data: existingArticle } = await supabase

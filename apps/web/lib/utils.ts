@@ -7,9 +7,10 @@ export function cn(...inputs: ClassValue[]) {
 
 /**
  * Generate URL-friendly slug from Turkish text
+ * Improved: Truncates at word boundaries to avoid cutting words in half
  */
 export function generateSlug(text: string, maxLength: number = 100): string {
-  return text
+  let slug = text
     .toLowerCase()
     .replace(/ğ/g, 'g')
     .replace(/ü/g, 'u')
@@ -24,9 +25,24 @@ export function generateSlug(text: string, maxLength: number = 100): string {
     .replace(/Ö/g, 'o')
     .replace(/Ç/g, 'c')
     .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .substring(0, maxLength)
-    .replace(/-+$/g, '');
+    .replace(/^-+|-+$/g, '');
+
+  // If slug is longer than maxLength, truncate at word boundary (before last hyphen)
+  if (slug.length > maxLength) {
+    const truncated = slug.substring(0, maxLength);
+    // Find the last hyphen before maxLength to avoid cutting words
+    const lastHyphen = truncated.lastIndexOf('-');
+    // If we found a hyphen and it's not too close to the start (at least 50% of maxLength), use it
+    if (lastHyphen > maxLength * 0.5) {
+      slug = truncated.substring(0, lastHyphen);
+    } else {
+      // Otherwise, just truncate and remove trailing hyphen if any
+      slug = truncated.replace(/-+$/, '');
+    }
+  }
+
+  // Final cleanup: remove any trailing hyphens
+  return slug.replace(/-+$/g, '');
 }
 
 /**

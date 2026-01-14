@@ -41,9 +41,10 @@ export function formatDate(date: Date | string): string {
 
 /**
  * Generate slug from string (with Turkish character support)
+ * Improved: Handles long strings by truncating at word boundaries
  */
-export function slugify(text: string): string {
-  return text
+export function slugify(text: string, maxLength: number = 100): string {
+  let slug = text
     .toString()
     .toLowerCase()
     .trim()
@@ -65,6 +66,22 @@ export function slugify(text: string): string {
     .replace(/[^a-z0-9\-]+/g, '-')
     .replace(/\-\-+/g, '-')
     .replace(/^-+|-+$/g, '');
+
+  // If slug is longer than maxLength, truncate at word boundary
+  if (slug.length > maxLength) {
+    const truncated = slug.substring(0, maxLength);
+    const lastHyphen = truncated.lastIndexOf('-');
+    // If we found a hyphen and it's not too close to the start, use it
+    if (lastHyphen > maxLength * 0.5) {
+      slug = truncated.substring(0, lastHyphen);
+    } else {
+      // Otherwise, just truncate and remove trailing hyphen
+      slug = truncated.replace(/-+$/, '');
+    }
+  }
+
+  // Final cleanup: remove any trailing hyphens
+  return slug.replace(/^-+|-+$/g, '');
 }
 
 /**

@@ -185,14 +185,44 @@ export const commonValidations = {
 
 /**
  * Generate slug from title
+ * Improved: Truncates at word boundaries to avoid cutting words
  */
-export function generateSlug(title: string): string {
-  return title
+export function generateSlug(title: string, maxLength: number = 100): string {
+  let slug = title
     .toLowerCase()
     .trim()
+    // Turkish character replacements
+    .replace(/ğ/g, 'g')
+    .replace(/ü/g, 'u')
+    .replace(/ş/g, 's')
+    .replace(/ı/g, 'i')
+    .replace(/ö/g, 'o')
+    .replace(/ç/g, 'c')
+    .replace(/Ğ/g, 'g')
+    .replace(/Ü/g, 'u')
+    .replace(/Ş/g, 's')
+    .replace(/İ/g, 'i')
+    .replace(/Ö/g, 'o')
+    .replace(/Ç/g, 'c')
     .replace(/[^\w\s-]/g, "") // Remove special characters
     .replace(/[\s_-]+/g, "-") // Replace spaces and underscores with hyphens
     .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
+
+  // If slug is longer than maxLength, truncate at word boundary
+  if (slug.length > maxLength) {
+    const truncated = slug.substring(0, maxLength);
+    const lastHyphen = truncated.lastIndexOf('-');
+    // If we found a hyphen and it's not too close to the start, use it
+    if (lastHyphen > maxLength * 0.5) {
+      slug = truncated.substring(0, lastHyphen);
+    } else {
+      // Otherwise, just truncate and remove trailing hyphen
+      slug = truncated.replace(/-+$/, '');
+    }
+  }
+
+  // Final cleanup
+  return slug.replace(/^-+|-+$/g, '');
 }
 
 /**
