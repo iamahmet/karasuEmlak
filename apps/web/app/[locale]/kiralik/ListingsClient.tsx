@@ -177,10 +177,23 @@ export function ListingsClient({
                       location_district: l.location_district || '',
                       coordinates_lat: String(l.coordinates_lat || '41.0965'),
                       coordinates_lng: String(l.coordinates_lng || '30.7860'),
+                      price_amount: l.price_amount?.toString() || '',
+                      status: l.status,
+                      property_type: l.property_type,
+                      images: l.images?.map(img => ({
+                        public_id: img.public_id || '',
+                        url: img.url,
+                        alt: img.alt,
+                      })),
+                      features: l.features,
                       price_amount: String(l.price_amount || ''),
                       status: l.status || 'kiralik',
                       property_type: l.property_type || '',
-                      images: l.images || [],
+                      images: l.images?.map(img => ({
+                        public_id: img.public_id || '',
+                        url: img.url,
+                        alt: img.alt,
+                      })) || [],
                       features: l.features || {},
                     }))}
                     basePath={basePath}
