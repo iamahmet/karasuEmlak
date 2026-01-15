@@ -387,6 +387,7 @@ export default async function BlogDetailPage({
     content: normalized.content,
     slug: article.slug,
     author: article.author,
+    author_data: (article as any).author_data || undefined,
     publishedAt: article.published_at,
     updatedAt: article.updated_at,
     imageUrl,
