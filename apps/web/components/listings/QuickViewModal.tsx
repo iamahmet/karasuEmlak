@@ -63,7 +63,7 @@ export function QuickViewModal({ listing, isOpen, onClose, basePath }: QuickView
             {mainImage ? (
               <>
                 <ListingImage
-                  publicId={mainImage.public_id}
+                  publicId={mainImage.public_id || mainImage.url}
                   alt={mainImage.alt || listing.title}
                   className="w-full h-full object-cover"
                   sizes="(max-width: 768px) 100vw, 800px"

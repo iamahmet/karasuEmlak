@@ -35,7 +35,7 @@ const mockListing: Listing = {
   price_amount: 500000,
   price_currency: 'TRY',
   features: {
-    size_m2: 100,
+    sizeM2: 100,
     rooms: 3,
     bathrooms: 2,
   },

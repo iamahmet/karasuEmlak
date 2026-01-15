@@ -390,7 +390,7 @@ export function EnhancedComparisonTable({ allListings, basePath = '' }: Enhanced
                     <div className="relative w-full h-40 mb-3 rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
                       {listing.images?.[0] ? (
                         <ThumbnailImage
-                          publicId={listing.images[0].public_id}
+                          publicId={listing.images[0].public_id || listing.images[0].url}
                           alt={listing.images[0].alt || generateComparisonImageAlt(listing.title, listing.location_neighborhood)}
                           className="w-full h-full object-cover"
                           sizes="280px"

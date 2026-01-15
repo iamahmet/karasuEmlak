@@ -267,11 +267,17 @@ export async function getListingBySlug(slug: string): Promise<Listing | null> {
     
     if (demoListing) {
       // Convert demo listing to Listing format
-      return {
+      const converted: any = {
         ...demoListing,
         features: safeParseFeatures(demoListing.features),
         images: safeParseImages(demoListing.images),
-      } as Listing;
+        location_city: (demoListing as any).location_city || 'Sakarya',
+        available: (demoListing as any).available ?? true,
+        published: (demoListing as any).published ?? true,
+        featured: (demoListing as any).featured ?? false,
+        price_currency: (demoListing as any).price_currency || 'TRY',
+      };
+      return converted as Listing;
     }
   } catch (demoError) {
     // Demo listings not available, continue

@@ -5,7 +5,7 @@ import { FormField } from '../FormField';
 describe('FormField', () => {
   it('renders label', () => {
     render(
-      <FormField label="Test Label">
+      <FormField label="Test Label" name="test">
         <input type="text" />
       </FormField>
     );
@@ -14,7 +14,7 @@ describe('FormField', () => {
 
   it('shows required asterisk when required', () => {
     render(
-      <FormField label="Test Label" required>
+      <FormField label="Test Label" name="test" required>
         <input type="text" />
       </FormField>
     );
@@ -23,7 +23,7 @@ describe('FormField', () => {
 
   it('displays error message', () => {
     render(
-      <FormField label="Test Label" error="Test error">
+      <FormField label="Test Label" name="test" error="Test error">
         <input type="text" />
       </FormField>
     );
@@ -32,7 +32,7 @@ describe('FormField', () => {
 
   it('displays hint text', () => {
     render(
-      <FormField label="Test Label" hint="Test hint">
+      <FormField label="Test Label" name="test" hint="Test hint">
         <input type="text" />
       </FormField>
     );

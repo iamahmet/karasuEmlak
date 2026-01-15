@@ -18,6 +18,12 @@
     font-size: 16px; /* Base font size for better readability */
     overflow-x: hidden; /* Prevent horizontal scroll */
     width: 100%;
+    /* Mobile optimizations */
+    -webkit-text-size-adjust: 100%; /* Prevent iOS text size adjustment */
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Smooth scrolling with momentum on iOS */
+    -webkit-overflow-scrolling: touch;
   }
 
   @media (min-width: 768px) {
@@ -38,6 +44,11 @@
     overflow-x: hidden; /* Prevent horizontal scroll */
     width: 100%;
     position: relative;
+    /* Mobile optimizations */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent pull-to-refresh on mobile (can be enabled per-page if needed) */
+    overscroll-behavior-y: contain;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -196,6 +207,30 @@
     border-radius: 2px;
   }
 
+  /* External link styling */
+  a.external-link {
+    position: relative;
+  }
+
+  a.external-link::after {
+    content: '↗';
+    display: inline-block;
+    margin-left: 0.25rem;
+    font-size: 0.75em;
+    opacity: 0.6;
+    vertical-align: baseline;
+  }
+
+  /* Improve link accessibility */
+  a[aria-label] {
+    /* Ensure screen readers can access the label */
+  }
+
+  /* Skip link styling */
+  a[href^="#"]:not([href="#"]) {
+    scroll-margin-top: 80px; /* Account for fixed header */
+  }
+
   /* Button improvements */
   button {
     font-weight: 500;
@@ -208,6 +243,31 @@
     line-height: 1.5;
     padding: 0.75rem 1rem;
     border-radius: var(--radius);
+    /* Mobile optimizations */
+    -webkit-appearance: none; /* Remove iOS default styling */
+    appearance: none;
+    touch-action: manipulation;
+  }
+
+  /* Mobile-specific form improvements */
+  @media (max-width: 767px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="search"],
+    textarea {
+      font-size: 16px !important; /* Prevents iOS zoom on focus */
+      padding: 0.875rem 1rem; /* Larger touch target */
+    }
+
+    select {
+      font-size: 16px !important;
+      padding: 0.875rem 2.5rem 0.875rem 1rem; /* Space for dropdown arrow */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 12px;
+    }
   }
 
   label {
@@ -281,17 +341,45 @@
 
   /* Button improvements - Better touch targets */
   .btn-enhanced {
-    min-height: 44px; /* iOS touch target */
+    min-height: 44px; /* iOS touch target - WCAG 2.5.5 */
+    min-width: 44px;
     padding: 0.75rem 1.5rem;
     font-weight: 500;
     border-radius: var(--radius);
     transition: all 0.2s ease;
+    touch-action: manipulation; /* Prevent double-tap zoom on buttons */
   }
 
   @media (min-width: 768px) {
     .btn-enhanced {
       min-height: 40px;
+      min-width: auto;
       padding: 0.625rem 1.25rem;
+    }
+  }
+
+  /* Mobile-optimized touch targets for all interactive elements */
+  @media (max-width: 767px) {
+    button,
+    a[role="button"],
+    input[type="button"],
+    input[type="submit"],
+    .clickable {
+      min-height: 44px;
+      min-width: 44px;
+      touch-action: manipulation;
+    }
+
+    /* Better spacing for mobile */
+    .mobile-spacing {
+      padding: 1rem;
+    }
+
+    /* Prevent text size adjustment on iOS */
+    input,
+    textarea,
+    select {
+      font-size: 16px !important; /* Prevents iOS zoom on focus */
     }
   }
 

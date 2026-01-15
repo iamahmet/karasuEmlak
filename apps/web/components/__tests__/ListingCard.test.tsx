@@ -32,8 +32,8 @@ const mockListing: Listing = {
   location_district: 'Karasu',
   location_neighborhood: 'Merkez',
   location_full_address: 'Test Address',
-  coordinates_lat: '40.7128',
-  coordinates_lng: '29.2345',
+  coordinates_lat: 40.7128,
+  coordinates_lng: 29.2345,
   price_amount: 500000,
   price_currency: 'TRY',
   features: {

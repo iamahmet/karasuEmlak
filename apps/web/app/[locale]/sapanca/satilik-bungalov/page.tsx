@@ -69,7 +69,8 @@ export default async function SapancaSatilikBungalovPage({
     (l.location_district?.toLowerCase().includes('sapanca') ||
      l.location_neighborhood?.toLowerCase().includes('sapanca')) &&
     (l.title?.toLowerCase().includes('bungalov') ||
-     l.description?.toLowerCase().includes('bungalov'))
+     l.description_short?.toLowerCase().includes('bungalov') ||
+     l.description_long?.toLowerCase().includes('bungalov'))
   );
 
   const articleSchema = generateArticleSchema({

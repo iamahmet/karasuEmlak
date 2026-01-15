@@ -305,12 +305,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     } else {
       // Fallback: get from listings
-      const { getNeighborhoods } = await import('../lib/supabase/queries/listings');
+      const { getNeighborhoods } = await import('../lib/supabase/queries');
       const neighborhoodsList = await getNeighborhoods();
 
       if (neighborhoodsList && neighborhoodsList.length > 0) {
         routing.locales.forEach((locale) => {
-          neighborhoodsList.forEach((neighborhood) => {
+          neighborhoodsList.forEach((neighborhood: string) => {
             const slug = generateSlug(neighborhood);
             const url = locale === routing.defaultLocale
               ? `${baseUrl}/mahalle/${slug}`

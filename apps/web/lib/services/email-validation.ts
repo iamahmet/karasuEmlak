@@ -71,3 +71,12 @@ export async function isDisposableEmail(email: string): Promise<boolean> {
   const result = await validateEmail(email);
   return result?.disposable || false;
 }
+
+/**
+ * Simple synchronous email validation (regex only)
+ * For async validation with API, use validateEmail()
+ */
+export function isEmailValid(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}

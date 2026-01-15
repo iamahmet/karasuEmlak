@@ -109,7 +109,7 @@ export function FavoritesClient({ allListings, basePath = '' }: FavoritesClientP
                 <div className="h-48 bg-muted relative">
                   {mainImage ? (
                     <ListingImage
-                      publicId={mainImage.public_id}
+                      publicId={mainImage.public_id || mainImage.url}
                       alt={mainImage.alt || listing.title}
                       className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

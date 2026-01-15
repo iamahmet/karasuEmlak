@@ -64,13 +64,20 @@ function processContent(html: string): string {
     heading.appendChild(anchor);
   });
 
-  // Add target="_blank" to external links
+  // Add target="_blank" and security attributes to external links
   const links = tempDiv.querySelectorAll('a');
   links.forEach((link) => {
     const href = link.getAttribute('href');
     if (href && href.startsWith('http') && !href.includes(siteConfig.url)) {
       link.setAttribute('target', '_blank');
       link.setAttribute('rel', 'noopener noreferrer');
+      // Add aria-label for accessibility
+      const linkText = link.textContent?.trim() || '';
+      if (linkText && !link.getAttribute('aria-label')) {
+        link.setAttribute('aria-label', `${linkText} (Yeni sekmede açılır)`);
+      }
+      // Add visual indicator class
+      link.classList.add('external-link');
     }
   });
 

@@ -86,7 +86,7 @@ export function ComparisonTable({ allListings, basePath = '' }: ComparisonTableP
                     <div className="relative w-full h-32 mb-2 rounded-lg overflow-hidden bg-muted">
                       {listing.images?.[0] ? (
                         <ThumbnailImage
-                          publicId={listing.images[0].public_id}
+                          publicId={listing.images[0].public_id || listing.images[0].url}
                           alt={listing.images[0].alt || listing.title}
                           className="w-full h-full object-cover"
                           sizes="200px"

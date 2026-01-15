@@ -1,30 +1,30 @@
 import { describe, it, expect } from 'vitest';
-import { sanitizeHtml, sanitizeText } from '../sanitize';
+import { sanitizeHTML, sanitizeText } from '../sanitize';
 
 describe('sanitize utilities', () => {
   describe('sanitizeHtml', () => {
     it('should remove script tags', () => {
       const html = '<p>Safe content</p><script>alert("xss")</script>';
-      const result = sanitizeHtml(html);
+      const result = sanitizeHTML(html);
       expect(result).not.toContain('<script>');
       expect(result).toContain('Safe content');
     });
 
     it('should remove event handlers', () => {
       const html = '<div onclick="alert(\'xss\')">Content</div>';
-      const result = sanitizeHtml(html);
+      const result = sanitizeHTML(html);
       expect(result).not.toContain('onclick');
     });
 
     it('should preserve safe HTML', () => {
       const html = '<p>Safe <strong>content</strong></p>';
-      const result = sanitizeHtml(html);
+      const result = sanitizeHTML(html);
       expect(result).toContain('Safe');
       expect(result).toContain('content');
     });
 
     it('should handle empty strings', () => {
-      expect(sanitizeHtml('')).toBe('');
+      expect(sanitizeHTML('')).toBe('');
     });
   });
 

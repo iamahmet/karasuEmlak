@@ -176,7 +176,7 @@ export default async function YazarlarPage({
 
                   {author.specialties && author.specialties.length > 0 && (
                     <div className="flex flex-wrap gap-2 justify-center mb-4">
-                      {author.specialties.slice(0, 3).map((specialty, index) => (
+                      {author.specialties.slice(0, 3).map((specialty: string, index: number) => (
                         <span
                           key={index}
                           className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded"

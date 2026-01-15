@@ -47,7 +47,7 @@ export default function RelatedListings({
               <div className="relative h-40 bg-muted">
                 {mainImage ? (
                   <ListingImage
-                    publicId={mainImage.public_id}
+                    publicId={mainImage.public_id || mainImage.url}
                     alt={mainImage.alt || listing.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"

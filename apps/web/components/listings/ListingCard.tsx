@@ -10,6 +10,7 @@ import { FavoriteButton } from '@/components/listings/FavoriteButton';
 import type { Listing } from '@/lib/supabase/queries';
 import { getPropertyPlaceholder } from '@/lib/utils/placeholder-images';
 import { generatePropertyImageAlt } from '@/lib/seo/image-alt-generator';
+import { trackInternalLink } from '@/lib/analytics/link-tracking';
 
 interface ListingCardProps {
   listing: Listing;
@@ -39,11 +40,20 @@ function ListingCardComponent({ listing, viewMode = 'grid', basePath, priority =
     price: listing.price_amount,
   }, listing.title);
 
+  const listingUrl = `${basePath}/ilan/${listing.slug}`;
+  const ariaLabel = `${listing.title} - ${listing.location_neighborhood}, ${listing.location_district}${listing.price_amount ? ` - ₺${new Intl.NumberFormat('tr-TR').format(Number(listing.price_amount))}` : ''}`;
+
+  const handleLinkClick = () => {
+    trackInternalLink(listingUrl, listing.title, 'Listings', undefined);
+  };
+
   if (viewMode === 'list') {
     return (
       <Link 
-        href={`${basePath}/ilan/${listing.slug}`}
-        aria-label={`${listing.title} - ${listing.location_neighborhood}, ${listing.location_district}${listing.price_amount ? ` - ₺${new Intl.NumberFormat('tr-TR').format(Number(listing.price_amount))}` : ''}`}
+        href={listingUrl}
+        aria-label={ariaLabel}
+        onClick={handleLinkClick}
+        prefetch={true}
       >
         <article className="group bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row" role="article">
           <div className="w-full md:w-64 h-48 md:h-auto bg-muted relative flex-shrink-0 overflow-hidden">
@@ -143,14 +153,16 @@ function ListingCardComponent({ listing, viewMode = 'grid', basePath, priority =
   // Grid view
   return (
     <Link 
-      href={`${basePath}/ilan/${listing.slug}`}
-      aria-label={`${listing.title} - ${listing.location_neighborhood}, ${listing.location_district}${listing.price_amount ? ` - ₺${new Intl.NumberFormat('tr-TR').format(Number(listing.price_amount))}` : ''}`}
+      href={listingUrl}
+      aria-label={ariaLabel}
+      onClick={handleLinkClick}
+      prefetch={true}
     >
       <article className="group border rounded-lg overflow-hidden hover:shadow-lg transition-shadow bg-white dark:bg-gray-900" role="article">
         <div className="h-48 bg-muted relative">
           {mainImage ? (
             <CardImage
-              publicId={mainImage.public_id}
+              publicId={mainImage.public_id || mainImage.url}
               alt={imageAlt}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               sizes="(max-width: 768px) 100vw, 33vw"

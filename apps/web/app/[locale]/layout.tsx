@@ -129,6 +129,8 @@ export const viewport: Viewport = {
   maximumScale: 5,
   userScalable: true,
   viewportFit: "cover",
+  // Mobile optimizations
+  interactiveWidget: "resizes-content", // Prevents virtual keyboard from resizing viewport
 };
 
 // Resource hints for performance optimization

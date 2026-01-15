@@ -66,7 +66,7 @@ export function ResponsiveImage({
             width: 20,
             height: 20,
             quality: 20,
-            blur: 100,
+            blur: true,
           });
           setImageSrc(blurUrl);
         }
@@ -144,7 +144,6 @@ export function ResponsiveImage({
           isLoading ? 'opacity-0' : 'opacity-100',
           `object-${objectFit}`
         )}
-        srcSet={generateSrcSet()}
         sizes={sizes}
         priority={priority}
         quality={quality}

@@ -823,16 +823,6 @@ export default async function ListingDetailPage({
                                 }, similar.title)}
                                 className="w-full h-full object-cover"
                                 loading="lazy"
-                                onError={(e) => {
-                                  const placeholder = getPropertyPlaceholder(
-                                    similar.property_type || 'daire',
-                                    similar.status || 'satilik',
-                                    similar.location_neighborhood,
-                                    400,
-                                    300
-                                  );
-                                  (e.target as HTMLImageElement).src = placeholder;
-                                }}
                               />
                             ) : similarImage?.public_id ? (
                               <CardImage

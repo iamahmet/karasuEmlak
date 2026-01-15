@@ -67,7 +67,9 @@ export async function generateMetadata({
     openGraph: {
       title: `${author.full_name} - ${author.title}`,
       description: author.bio || '',
-      images: author.avatar?.secure_url ? [author.avatar.secure_url] : [],
+      images: (author.avatar && typeof author.avatar === 'object' && 'secure_url' in author.avatar && author.avatar.secure_url) 
+        ? [author.avatar.secure_url as string] 
+        : [],
     },
   };
 }
@@ -151,7 +153,9 @@ export default async function AuthorDetailPage({
     name: author.full_name,
     jobTitle: author.title,
     url: `${siteConfig.url}${basePath}/yazarlar/${author.slug}`,
-    image: author.avatar?.secure_url,
+    image: (author.avatar && typeof author.avatar === 'object' && 'secure_url' in author.avatar) 
+      ? (author.avatar as { secure_url: string }).secure_url 
+      : undefined,
     description: author.bio,
     worksFor: {
       '@type': 'Organization',
@@ -169,8 +173,8 @@ export default async function AuthorDetailPage({
   const coverUrl = author.cover?.secure_url
     ? getOptimizedCloudinaryUrl(author.cover.secure_url, { width: 1200, height: 400 })
     : null;
-  const avatarUrl = author.avatar?.secure_url
-    ? getOptimizedCloudinaryUrl(author.avatar.secure_url, { width: 200, height: 200 })
+  const avatarUrl = (author.avatar && typeof author.avatar === 'object' && 'secure_url' in author.avatar && author.avatar.secure_url)
+    ? getOptimizedCloudinaryUrl((author.avatar as { secure_url: string }).secure_url, { width: 200, height: 200 })
     : null;
 
   return (
@@ -209,7 +213,9 @@ export default async function AuthorDetailPage({
                   <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white/20 flex-shrink-0">
                     <ResponsiveImage
                       src={avatarUrl}
-                      alt={author.avatar?.alt_text || author.full_name}
+                      alt={(author.avatar && typeof author.avatar === 'object' && 'alt_text' in author.avatar) 
+                        ? (author.avatar as { alt_text?: string }).alt_text || author.full_name
+                        : author.full_name}
                       width={128}
                       height={128}
                       className="w-full h-full object-cover"
@@ -305,7 +311,7 @@ export default async function AuthorDetailPage({
                     Uzmanlık Alanları
                   </h2>
                   <div className="flex flex-wrap gap-3">
-                    {author.specialties.map((specialty, index) => (
+                    {author.specialties.map((specialty: string, index: number) => (
                       <span
                         key={index}
                         className="px-4 py-2 bg-primary/10 dark:bg-primary/20 text-primary rounded-lg font-medium"

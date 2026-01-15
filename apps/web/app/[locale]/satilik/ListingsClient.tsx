@@ -380,7 +380,7 @@ export function ListingsClient({
                           <div className="w-full md:w-64 h-48 md:h-auto bg-slate-100 relative flex-shrink-0 overflow-hidden">
                             {mainImage ? (
                               <CardImage
-                                publicId={mainImage.public_id}
+                                publicId={mainImage.public_id || mainImage.url}
                                 alt={mainImage.alt || listing.title}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
                                 sizes="(max-width: 768px) 100vw, 256px"

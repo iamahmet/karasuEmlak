@@ -35,15 +35,13 @@ const mockArticle: Article = {
   content: 'Test content',
   author: 'Test Author',
   featured_image: 'karasu/test-image',
-  published: true,
+  published_at: new Date().toISOString(),
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
-  published_at: new Date().toISOString(),
+  status: 'published',
+  views: 0,
   category: 'emlak',
   tags: ['test', 'karasu'],
-  seo_title: 'Test SEO Title',
-  seo_description: 'Test SEO Description',
-  view_count: 0,
 };
 
 describe('ArticleCard', () => {
@@ -85,7 +83,7 @@ describe('ArticleCard', () => {
   });
 
   it('renders fallback image when featured_image is missing', async () => {
-    const articleWithoutImage = { ...mockArticle, featured_image: null };
+    const articleWithoutImage = { ...mockArticle, featured_image: undefined };
     render(<ArticleCard article={articleWithoutImage} basePath="" />);
     
     await waitFor(() => {
