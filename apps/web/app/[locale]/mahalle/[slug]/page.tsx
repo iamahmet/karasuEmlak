@@ -792,7 +792,11 @@ export default async function NeighborhoodPage({
                   features: l.features,
                   status: l.status,
                   property_type: l.property_type,
-                  images: l.images || [],
+                  images: l.images?.map(img => ({
+                    public_id: img.public_id || '',
+                    url: img.url,
+                    alt: img.alt,
+                  })) || [],
                   features: l.features,
                 }))}
                 basePath={basePath}
