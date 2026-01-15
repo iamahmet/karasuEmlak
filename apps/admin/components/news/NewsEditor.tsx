@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { useRouter } from "@/i18n/routing";
 import Link from "next/link";
 import { ContentScheduler } from "@/components/content-studio/ContentScheduler";
+import { TipTapEditor } from "@/components/editor/TipTapEditor";
 
 interface NewsArticle {
   id: string;
@@ -40,6 +41,9 @@ interface NewsArticle {
   source_domain: string | null;
   created_at: string;
   updated_at: string;
+  quality_score?: number | null;
+  quality_issues?: any[] | null;
+  deleted_at?: string | null;
 }
 
 interface NewsEditorProps {
@@ -47,7 +51,7 @@ interface NewsEditorProps {
   locale: string;
 }
 
-export function NewsEditor({ article: initialArticle, locale: _locale }: NewsEditorProps) {
+export function NewsEditor({ article: initialArticle, locale }: NewsEditorProps) {
   const router = useRouter();
   const [article, setArticle] = useState<NewsArticle>(initialArticle);
   const [saving, setSaving] = useState(false);
@@ -55,6 +59,8 @@ export function NewsEditor({ article: initialArticle, locale: _locale }: NewsEdi
   const handleSave = async () => {
     setSaving(true);
     try {
+      console.log(`[NewsEditor] Saving article: ${article.id}`);
+      
       const response = await fetch(`/api/news/${article.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -64,17 +70,21 @@ export function NewsEditor({ article: initialArticle, locale: _locale }: NewsEdi
       const data = await response.json();
 
       if (!response.ok || !data.success) {
+        console.error("[NewsEditor] Save failed:", data);
         throw new Error(data.error || "Haber kaydedilemedi");
       }
 
+      console.log("[NewsEditor] Save successful");
       toast.success("Haber başarıyla kaydedildi");
+      
       // Refresh article data
       const updatedResponse = await fetch(`/api/news/${article.id}`);
-          const updatedData = await updatedResponse.json();
-          if (updatedData.success && updatedData.article) {
-            setArticle(updatedData.article);
-          }
+      const updatedData = await updatedResponse.json();
+      if (updatedData.success && updatedData.article) {
+        setArticle(updatedData.article);
+      }
     } catch (error: any) {
+      console.error("[NewsEditor] Save error:", error);
       // Save failed, show error toast
       toast.error(error.message || "Haber kaydedilemedi");
     } finally {
@@ -101,7 +111,7 @@ export function NewsEditor({ article: initialArticle, locale: _locale }: NewsEdi
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => router.push("/haberler")}
+            onClick={() => router.push(`/${locale}/haberler`)}
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -231,19 +241,25 @@ export function NewsEditor({ article: initialArticle, locale: _locale }: NewsEdi
                 setArticle({ ...article, original_summary: e.target.value })
               }
               rows={5}
+              placeholder="Haber özetini buraya yazın..."
             />
           </div>
 
           <div>
             <Label htmlFor="emlak_analysis">Emlak Analizi</Label>
-            <Textarea
-              id="emlak_analysis"
-              value={article.emlak_analysis || ""}
-              onChange={(e) =>
-                setArticle({ ...article, emlak_analysis: e.target.value })
-              }
-              rows={8}
-            />
+            <div className="mt-2 border border-border rounded-lg overflow-hidden">
+              <TipTapEditor
+                content={article.emlak_analysis || ""}
+                onChange={(html) =>
+                  setArticle({ ...article, emlak_analysis: html })
+                }
+                placeholder="Emlak analizi içeriğini buraya yazın..."
+                className="min-h-[400px]"
+              />
+            </div>
+            <p className="text-xs text-muted-foreground mt-2">
+              HTML formatında zengin metin editörü. Başlıklar, listeler, linkler ve görseller ekleyebilirsiniz.
+            </p>
           </div>
         </CardContent>
       </Card>

@@ -217,7 +217,7 @@ export function ArticleQuickActions({
       )}
 
       {/* Article URL Actions */}
-      <div className="pt-2 border-t border-slate-200 dark:border-[#0a3d35]">
+      <div className="pt-2 border-t border-border">
         <div className="space-y-2">
           <Button
             variant="outline"

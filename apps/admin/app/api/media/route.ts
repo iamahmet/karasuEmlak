@@ -25,15 +25,61 @@ async function handleGet(request: NextRequest) {
   const supabase = createServiceClient();
   const serviceClient = supabase; // Use same client for both
 
-  // Fetch files from storage
+  // Fetch files from storage (recursively to get all subfolders)
   const bucket = "media";
-  let { data: storageFiles, error: storageError } = await supabase.storage
-    .from(bucket)
-    .list("", {
-      limit: 1000,
-      offset: 0,
-      sortBy: { column: "created_at", order: "desc" },
-    });
+  
+  // Recursively list all files in storage, including subfolders
+  async function listAllFiles(path: string = "", allFiles: any[] = []): Promise<any[]> {
+    try {
+      const { data: files, error } = await supabase.storage
+        .from(bucket)
+        .list(path, {
+          limit: 1000,
+          offset: 0,
+          sortBy: { column: "created_at", order: "desc" },
+        });
+      
+      if (error) {
+        console.warn(`[Media API] Error listing ${path}:`, error.message);
+        return allFiles;
+      }
+      
+      if (!files || files.length === 0) {
+        return allFiles;
+      }
+      
+      for (const file of files) {
+        // In Supabase Storage, folders are identified by having id === null
+        // and files have a valid id (UUID)
+        if (file.id === null && file.name) {
+          // It's a folder, recurse into it
+          const folderPath = path ? `${path}/${file.name}` : file.name;
+          await listAllFiles(folderPath, allFiles);
+        } else if (file.id) {
+          // It's a file (has valid id)
+          const fullPath = path ? `${path}/${file.name}` : file.name;
+          allFiles.push({
+            ...file,
+            fullPath: fullPath,
+          });
+        }
+      }
+    } catch (error: any) {
+      console.warn(`[Media API] Error in listAllFiles for ${path}:`, error.message);
+    }
+    
+    return allFiles;
+  }
+  
+  let storageFiles: any[] = [];
+  let storageError: any = null;
+  
+  try {
+    storageFiles = await listAllFiles();
+  } catch (error: any) {
+    storageError = error;
+    console.error("[Media API] Error listing storage files:", error);
+  }
 
   // Fetch AI-generated images from media_assets table
   let mediaAssetsQuery = serviceClient
@@ -54,7 +100,7 @@ async function handleGet(request: NextRequest) {
   const allFiles: any[] = [];
 
   // Add storage files
-  if (!storageError && storageFiles) {
+  if (!storageError && storageFiles && storageFiles.length > 0) {
     for (const file of storageFiles) {
       // Skip if it's not an image/video or doesn't match type filter
       if (type !== "all") {
@@ -71,12 +117,13 @@ async function handleGet(request: NextRequest) {
         continue;
       }
 
+      const filePath = (file as any).fullPath || file.name;
       const { data: urlData } = await supabase.storage
         .from(bucket)
-        .getPublicUrl(file.name);
+        .getPublicUrl(filePath);
 
       allFiles.push({
-        id: file.id || file.name,
+        id: file.id || filePath,
         name: file.name,
         size: file.metadata?.size || 0,
         mimeType: file.metadata?.mimetype || "",
@@ -89,8 +136,8 @@ async function handleGet(request: NextRequest) {
     }
   }
 
-  // Add media assets (AI-generated images from database)
-  if (!mediaAssetsError && mediaAssets) {
+  // Add media assets (from database - includes imported listing images)
+  if (!mediaAssetsError && mediaAssets && mediaAssets.length > 0) {
     for (const asset of mediaAssets) {
       // Filter by search query
       if (search) {
@@ -109,14 +156,23 @@ async function handleGet(request: NextRequest) {
         continue;
       }
 
+      // Use cloudinary_secure_url if available, otherwise cloudinary_url
+      // For Supabase Storage URLs, use cloudinary_url (which contains the Supabase URL)
+      const imageUrl = asset.cloudinary_secure_url || asset.cloudinary_url;
+      
+      if (!imageUrl) {
+        // Skip assets without URL
+        continue;
+      }
+      
       allFiles.push({
         id: asset.id,
-        name: asset.title || asset.cloudinary_public_id || `AI Image ${asset.id.slice(0, 8)}`,
+        name: asset.title || asset.cloudinary_public_id || `Image ${asset.id.slice(0, 8)}`,
         size: asset.bytes || 0,
         mimeType: asset.format ? `image/${asset.format}` : "image/jpeg",
         createdAt: asset.created_at,
         updatedAt: asset.updated_at,
-        url: asset.cloudinary_secure_url,
+        url: imageUrl,
         source: "media_assets",
         aiGenerated: asset.ai_generated || false,
         cloudinaryPublicId: asset.cloudinary_public_id,

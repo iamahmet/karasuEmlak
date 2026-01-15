@@ -214,7 +214,7 @@ export function SEOSuggestions({ locale = "tr" }: { locale?: string }) {
         {[...Array(5)].map((_, i) => (
           <Card key={i} className="card-modern animate-pulse">
             <CardContent className="p-5">
-              <div className="h-20 bg-[#E7E7E7] dark:bg-[#062F28] rounded"></div>
+              <div className="h-20 bg-muted rounded"></div>
             </CardContent>
           </Card>
         ))}

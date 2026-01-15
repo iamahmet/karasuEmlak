@@ -59,11 +59,11 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
   const [expandedMenus, setExpandedMenus] = useState<string[]>(["contentManagement"]);
   const [poi369Expanded, setPoi369Expanded] = useState(false); // Collapsible Poi369 Studio
 
-  // 🔑 EMLAKÇI PANELİ (PRIMARY, DEFAULT)
+  // 🔑 EMLAKÇI PANELİ (PRIMARY, DEFAULT - İLAN ODAKLI)
   const emlakciItems: NavItem[] = [
     {
       href: "/dashboard",
-      label: "Dashboard",
+      label: "İlan Dashboard",
       icon: LayoutDashboard,
     },
     {
@@ -146,8 +146,13 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
     },
   ];
 
-  // 🛠️ POI369 STUDIO (SECONDARY, ADVANCED TOOLS)
+  // 🛠️ POI369 STUDIO (SECONDARY, ADVANCED TOOLS - GELİŞTİRME ODAKLI)
   const poi369Items: NavItem[] = [
+    {
+      href: "/poi369",
+      label: "Developer Dashboard",
+      icon: LayoutDashboard,
+    },
     {
       label: "SEO Araçları",
       icon: Search,
@@ -287,7 +292,7 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
                 "w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-200 font-ui text-sm font-medium focus-professional group relative",
                 active
                   ? "bg-gradient-to-r from-design-light/15 via-design-light/10 to-transparent text-design-dark dark:text-design-light shadow-sm shadow-design-light/5 dark:shadow-design-light/5 border-l-2 border-design-light"
-                  : "text-design-gray dark:text-gray-400 hover:bg-[#E7E7E7]/40 dark:hover:bg-[#0a3d35]/40 hover:text-design-dark dark:hover:text-white",
+                  : "text-muted-foreground hover:bg-muted/40 hover:text-foreground",
                 level > 0 && "pl-6 ml-2",
                 "before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-design-light/5 before:to-transparent before:opacity-0 before:group-hover:opacity-100 before:transition-opacity before:duration-200"
               )}
@@ -317,7 +322,7 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
               "flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-200 font-ui text-sm font-medium relative group focus-professional",
               active
                 ? "bg-gradient-to-r from-design-light/15 via-design-light/10 to-transparent text-design-dark dark:text-design-light shadow-sm shadow-design-light/5 dark:shadow-design-light/5 border-l-2 border-design-light"
-                : "text-design-gray dark:text-gray-400 hover:bg-[#E7E7E7]/40 dark:hover:bg-[#0a3d35]/40 hover:text-design-dark dark:hover:text-white",
+                : "text-muted-foreground hover:bg-muted/40 hover:text-foreground",
               level > 0 && "pl-6 ml-2",
               "before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-design-light/5 before:to-transparent before:opacity-0 before:group-hover:opacity-100 before:transition-opacity before:duration-200"
             )}
@@ -346,15 +351,15 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
         role="navigation"
         aria-label="Ana navigasyon menüsü"
         className={cn(
-          "fixed top-0 left-0 z-40 h-screen w-[240px] bg-white/95 dark:bg-[#062F28]/95 backdrop-blur-xl border-r border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 shadow-lg shadow-black/5 dark:shadow-black/20 transition-all duration-300 ease-in-out lg:translate-x-0",
-          "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/40 before:via-white/20 before:to-transparent before:dark:from-[#062F28]/40 before:dark:via-[#062F28]/20 before:pointer-events-none",
+          "fixed top-0 left-0 z-40 h-screen w-[240px] bg-card/95 backdrop-blur-xl border-r border-border/60 shadow-lg shadow-black/5 dark:shadow-black/20 transition-all duration-300 ease-in-out lg:translate-x-0",
+          "before:absolute before:inset-0 before:bg-gradient-to-br before:from-card/40 before:via-card/20 before:to-transparent before:pointer-events-none",
           isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
         style={{ width: 'var(--sidebar-width, 240px)' }}
       >
         <div className="flex flex-col h-full">
           {/* Logo - Compact & Professional */}
-          <div className="relative px-4 py-4 border-b border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 bg-gradient-to-r from-white/60 to-transparent dark:from-[#062F28]/60">
+          <div className="relative px-4 py-4 border-b border-border/60 bg-gradient-to-r from-card/60 to-transparent">
             <Logo variant="full" size="sm" href="/dashboard" />
           </div>
 
@@ -376,38 +381,45 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
             {/* Divider */}
             <div className="border-t border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 my-3"></div>
 
-            {/* 🛠️ POI369 STUDIO SECTION */}
+            {/* 🛠️ POI369 STUDIO SECTION - GELİŞTİRME ODAKLI */}
             <div>
               <button
                 onClick={() => setPoi369Expanded(!poi369Expanded)}
-                className="w-full flex items-center justify-between px-2 mb-3 group"
+                className="w-full flex items-center justify-between px-2 mb-3 group hover:bg-orange-50 dark:hover:bg-orange-900/10 rounded-lg p-2 transition-colors"
                 aria-expanded={poi369Expanded}
               >
                 <div className="flex items-center gap-2">
-                  <Wrench className="h-3.5 w-3.5 text-orange-500 dark:text-orange-400" />
+                  <div className="p-1 rounded bg-orange-500/10 border border-orange-500/20">
+                    <Code className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400" />
+                  </div>
                   <h3 className="text-[10px] font-display font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider">
-                    Poi369 Studio
+                    POI369 Studio
                   </h3>
                 </div>
                 {poi369Expanded ? (
-                  <ChevronDown className="h-3 w-3 text-orange-500" />
+                  <ChevronDown className="h-3 w-3 text-orange-600 dark:text-orange-400" />
                 ) : (
-                  <ChevronRight className="h-3 w-3 text-orange-500" />
+                  <ChevronRight className="h-3 w-3 text-orange-600 dark:text-orange-400" />
                 )}
               </button>
               
-              {/* Warning microcopy */}
+              {/* Warning microcopy - Enhanced */}
               <div className="px-2 mb-3">
-                <div className="flex items-start gap-2 p-2 rounded-lg bg-orange-50 dark:bg-orange-900/10 border border-orange-200 dark:border-orange-900/20">
-                  <AlertTriangle className="h-3 w-3 text-orange-600 dark:text-orange-400 mt-0.5 flex-shrink-0" />
-                  <p className="text-[10px] text-orange-700 dark:text-orange-300 font-ui leading-tight">
-                    Gelişmiş araçlar – dikkatli kullanın
-                  </p>
+                <div className="flex items-start gap-2 p-2.5 rounded-lg bg-gradient-to-br from-orange-50 to-orange-100/50 dark:from-orange-900/20 dark:to-orange-900/10 border border-orange-200 dark:border-orange-900/30 shadow-sm">
+                  <AlertTriangle className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-[10px] font-semibold text-orange-800 dark:text-orange-300 font-ui leading-tight mb-0.5">
+                      Geliştirici Araçları
+                    </p>
+                    <p className="text-[9px] text-orange-700 dark:text-orange-400 font-ui leading-tight">
+                      SEO, AI, Analytics ve sistem yönetimi
+                    </p>
+                  </div>
                 </div>
               </div>
 
               {poi369Expanded && (
-                <div className="space-y-1 opacity-90">
+                <div className="space-y-1 opacity-95">
                   {poi369Items.map((item) => renderNavItem(item))}
                 </div>
               )}

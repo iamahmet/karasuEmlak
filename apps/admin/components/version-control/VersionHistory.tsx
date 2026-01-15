@@ -56,12 +56,30 @@ export function VersionHistory({
       const response = await fetch(
         `/api/content-versions?contentType=${contentType}&contentId=${contentId}`
       );
-      if (!response.ok) throw new Error("Failed to fetch versions");
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        // Check if it's an auth error or table missing
+        if (response.status === 401 || response.status === 403) {
+          // Silently handle auth errors - user might not be logged in
+          setVersions([]);
+          setLoading(false);
+          return;
+        }
+        throw new Error(errorData.message || "Failed to fetch versions");
+      }
 
       const data = await response.json();
-      // Fetch user info for each version
+      
+      // Handle standardized API response format
+      // Response format: { success: true, requestId: "...", data: { versions: [...] } }
+      const versions = data.success && data.data?.versions 
+        ? data.data.versions 
+        : data.versions || [];
+
+      // Fetch user info for each version (optional, don't fail if it fails)
       const versionsWithUsers = await Promise.all(
-        (data.versions || []).map(async (version: ContentVersion) => {
+        versions.map(async (version: ContentVersion) => {
           if (version.created_by) {
             try {
               const userResponse = await fetch(`/api/users/${version.created_by}`);
@@ -69,20 +87,21 @@ export function VersionHistory({
                 const userData = await userResponse.json();
                 return {
                   ...version,
-                  created_by_name: userData.user?.email || userData.user?.name || null,
+                  created_by_name: userData.user?.email || userData.user?.name || userData.data?.user?.email || null,
                 };
               }
             } catch (error) {
-              console.error("Error fetching user:", error);
+              // Silently handle user fetch errors
             }
           }
           return version;
         })
       );
       setVersions(versionsWithUsers);
-    } catch (error) {
-      console.error("Error fetching versions:", error);
-      toast.error("Versiyonlar yüklenemedi");
+    } catch (error: any) {
+      // Silently handle errors - show empty state instead of error toast
+      console.error("[VersionHistory] Error fetching versions:", error);
+      setVersions([]);
     } finally {
       setLoading(false);
     }

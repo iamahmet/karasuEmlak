@@ -378,8 +378,8 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
       {/* Preview Modal */}
       {showPreview && previewUrl && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-[#0a3d35] rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="flex items-center justify-between p-4 border-b border-[#E7E7E7] dark:border-[#062F28]">
+          <div className="bg-card rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-border">
               <h2 className="text-lg font-display font-bold text-design-dark dark:text-white">
                 Önizleme
               </h2>
@@ -407,7 +407,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
 
       {/* Main Editor */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-lg p-1 flex-wrap h-auto">
+        <TabsList className="bg-card border border-border rounded-lg p-1 flex-wrap h-auto">
           <TabsTrigger value="content" className="text-xs font-ui flex items-center gap-2">
             <FileText className="h-4 w-4" />
             İçerik
@@ -625,7 +625,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex items-center justify-between p-4 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+                <div className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
                   <div>
                     <Label htmlFor="is_published" className="text-sm font-ui font-semibold">
                       Yayınla
@@ -648,7 +648,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
                   />
                 </div>
 
-                <div className="flex items-center justify-between p-4 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+                <div className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
                   <div>
                     <Label htmlFor="is_featured" className="text-sm font-ui font-semibold">
                       Öne Çıkan
@@ -664,7 +664,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
                   />
                 </div>
 
-                <div className="flex items-center justify-between p-4 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+                <div className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
                   <div>
                     <Label htmlFor="is_breaking" className="text-sm font-ui font-semibold">
                       Son Dakika

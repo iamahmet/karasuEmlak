@@ -94,8 +94,44 @@ export default async function LocaleLayout({
     const rtl = isRTL(locale as any);
 
     return (
-      <html lang={locale} dir={rtl ? "rtl" : "ltr"} className="font-jakarta">
-        <body className="bg-[#E7E7E7] dark:bg-[#062F28] text-design-dark dark:text-white antialiased">
+      <html lang={locale} dir={rtl ? "rtl" : "ltr"} className="font-jakarta" suppressHydrationWarning>
+        <head>
+          {/* Theme initialization script - prevents FOUC - Must run before body renders */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                !(function() {
+                  try {
+                    const stored = localStorage.getItem('theme');
+                    const theme = stored || 'system';
+                    const root = document.documentElement;
+                    
+                    // Remove any existing theme classes
+                    root.classList.remove('light', 'dark');
+                    
+                    let finalTheme = theme;
+                    if (theme === 'system') {
+                      finalTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                    }
+                    
+                    // Apply theme class immediately
+                    root.classList.add(finalTheme);
+                    
+                    // Store in localStorage if not already stored
+                    if (!stored) {
+                      localStorage.setItem('theme', theme);
+                    }
+                  } catch (e) {
+                    // Fallback to light mode if anything fails
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.classList.add('light');
+                  }
+                })();
+              `,
+            }}
+          />
+        </head>
+        <body className="bg-background text-foreground antialiased">
           <NextIntlClientProvider messages={messages}>
             <QueryProvider>
               <ErrorBoundary>
@@ -115,8 +151,44 @@ export default async function LocaleLayout({
     // Fallback to default locale
     const messages = await getMessages({ locale: "tr" });
     return (
-      <html lang="tr" dir="ltr" className="font-jakarta">
-        <body className="bg-[#E7E7E7] dark:bg-[#062F28] text-design-dark dark:text-white antialiased">
+      <html lang="tr" dir="ltr" className="font-jakarta" suppressHydrationWarning>
+        <head>
+          {/* Theme initialization script - prevents FOUC - Must run before body renders */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                !(function() {
+                  try {
+                    const stored = localStorage.getItem('theme');
+                    const theme = stored || 'system';
+                    const root = document.documentElement;
+                    
+                    // Remove any existing theme classes
+                    root.classList.remove('light', 'dark');
+                    
+                    let finalTheme = theme;
+                    if (theme === 'system') {
+                      finalTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                    }
+                    
+                    // Apply theme class immediately
+                    root.classList.add(finalTheme);
+                    
+                    // Store in localStorage if not already stored
+                    if (!stored) {
+                      localStorage.setItem('theme', theme);
+                    }
+                  } catch (e) {
+                    // Fallback to light mode if anything fails
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.classList.add('light');
+                  }
+                })();
+              `,
+            }}
+          />
+        </head>
+        <body className="bg-background text-foreground antialiased">
           <NextIntlClientProvider messages={messages}>
             <QueryProvider>
               <ErrorBoundary>

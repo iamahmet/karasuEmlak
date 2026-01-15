@@ -40,14 +40,32 @@ export function NotificationCenter() {
           .limit(10);
 
         if (error) {
-          // Table doesn't exist - gracefully degrade
-          if (error.code === "PGRST116" || error.code === "42P01" || error.message?.includes("does not exist") || error.message?.includes("relation") || error.message?.includes("not found")) {
+          // Table doesn't exist - gracefully degrade silently
+          // Check all possible error codes and messages
+          const errorMessage = error.message?.toLowerCase() || "";
+          const errorCode = error.code || "";
+          
+          const isTableMissing = 
+            errorCode === "PGRST116" || 
+            errorCode === "42P01" || 
+            errorCode === "404" ||
+            errorMessage.includes("does not exist") || 
+            errorMessage.includes("relation") || 
+            errorMessage.includes("not found") ||
+            errorMessage.includes("permission denied") ||
+            errorMessage.includes("relation \"public.notifications\" does not exist") ||
+            errorMessage.includes("relation public.notifications does not exist");
+          
+          if (isTableMissing) {
+            // Silently handle - table doesn't exist or no permission
             setNotifications([]);
+            setLoading(false);
             return;
           }
-          // For other errors, also gracefully degrade
-          console.warn("Notifications fetch error:", error);
+          
+          // For other errors, also gracefully degrade silently
           setNotifications([]);
+          setLoading(false);
           return;
         }
 
@@ -55,7 +73,7 @@ export function NotificationCenter() {
           setNotifications(data as Notification[]);
         }
       } catch (error) {
-        // Notifications fetch failed, show empty state
+        // Notifications fetch failed, show empty state silently
         setNotifications([]);
       } finally {
         setLoading(false);
@@ -65,36 +83,51 @@ export function NotificationCenter() {
     fetchNotifications();
 
     // Set up real-time subscription (only if table exists)
-    const supabase = createClient();
-    let channel: ReturnType<typeof supabase.channel> | null = null;
+    // Note: We use a flag to track if subscription should be attempted
+    let channel: ReturnType<ReturnType<typeof createClient>['channel']> | null = null;
+    let shouldSubscribe = true;
     
-    try {
-      channel = supabase
-        .channel("notifications")
-        .on(
-          "postgres_changes",
-          {
-            event: "INSERT",
-            schema: "public",
-            table: "notifications",
-          },
-          (payload) => {
-            const newNotification = payload.new as Notification;
-            setNotifications((prev) => [newNotification, ...prev].slice(0, 10));
-          }
-        )
-        .subscribe();
-    } catch (error) {
-      // Table doesn't exist, skip real-time subscription
-      console.warn("Cannot subscribe to notifications (table may not exist)");
-    }
-
+    // Delay subscription to ensure fetchNotifications completes first
+    const subscriptionTimeout = setTimeout(() => {
+      if (shouldSubscribe && !loading) {
+        try {
+          const supabase = createClient();
+          channel = supabase
+            .channel("notifications")
+            .on(
+              "postgres_changes",
+              {
+                event: "INSERT",
+                schema: "public",
+                table: "notifications",
+              },
+              (payload) => {
+                const newNotification = payload.new as Notification;
+                setNotifications((prev) => [newNotification, ...prev].slice(0, 10));
+              }
+            )
+            .subscribe();
+        } catch (error) {
+          // Table doesn't exist, skip real-time subscription silently
+          // No logging to avoid console noise
+          shouldSubscribe = false;
+        }
+      }
+    }, 200);
+    
     return () => {
+      clearTimeout(subscriptionTimeout);
+      shouldSubscribe = false;
       if (channel) {
-        supabase.removeChannel(channel);
+        const supabase = createClient();
+        try {
+          supabase.removeChannel(channel);
+        } catch (error) {
+          // Silently handle cleanup errors
+        }
       }
     };
-  }, []);
+  }, [loading]);
 
   const unreadCount = notifications.filter((n) => !(n.is_read ?? n.read ?? false)).length;
 

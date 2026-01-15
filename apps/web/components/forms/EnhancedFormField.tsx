@@ -176,9 +176,13 @@ export function EnhancedFormField({
 
     if (type === "select") {
       return (
-        <Select value={value} onValueChange={handleChange} disabled={disabled}>
+        <Select 
+          value={value || ""} 
+          onValueChange={handleChange} 
+          disabled={disabled}
+        >
           <SelectTrigger id={name} className={baseClasses}>
-            <SelectValue placeholder={placeholder} />
+            <SelectValue placeholder={placeholder || "Seçiniz..."} />
           </SelectTrigger>
           <SelectContent>
             {options.map((option) => (

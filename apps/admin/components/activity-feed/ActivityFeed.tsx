@@ -121,7 +121,7 @@ export function ActivityFeed({ limit = 10, initialActivity = [] }: { limit?: num
       case "bot":
         return "bg-design-light/20 text-design-dark dark:text-design-light";
       default:
-        return "bg-[#E7E7E7] dark:bg-[#062F28] text-design-gray dark:text-gray-400";
+        return "bg-muted text-muted-foreground";
     }
   };
 
@@ -129,7 +129,7 @@ export function ActivityFeed({ limit = 10, initialActivity = [] }: { limit?: num
     return (
       <Card className="card-modern">
         <CardHeader className="pb-3 px-4 pt-4">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+          <CardTitle className="text-base font-display font-bold text-foreground">
             Recent Activity
           </CardTitle>
         </CardHeader>
@@ -137,7 +137,7 @@ export function ActivityFeed({ limit = 10, initialActivity = [] }: { limit?: num
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
               <div key={i} className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#E7E7E7] dark:bg-[#062F28] animate-pulse" />
+                <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
                 <div className="flex-1 space-y-2">
                   <div className="h-3 w-3/4 skeleton-professional rounded-lg" />
                   <div className="h-2 w-1/2 skeleton-professional rounded-lg" />

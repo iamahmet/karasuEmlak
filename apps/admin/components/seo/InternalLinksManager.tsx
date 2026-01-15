@@ -136,7 +136,7 @@ Return as JSON array:
                   "w-full text-left p-3 rounded-xl border transition-all hover-lift micro-bounce",
                   selectedArticle?.id === article.id
                     ? "border-design-light bg-gradient-to-r from-design-light/20 to-design-light/10 dark:from-design-light/10 dark:to-design-light/5"
-                    : "border-[#E7E7E7] dark:border-[#062F28] hover:border-design-light/40 bg-white dark:bg-[#0a3d35]"
+                    : "border-border hover:border-design-light/40 bg-card"
                 )}
               >
                 <p className="font-semibold text-sm font-ui text-design-dark dark:text-white line-clamp-2">
@@ -190,7 +190,7 @@ Return as JSON array:
                   {suggestions.map((suggestion, index) => (
                     <div
                       key={index}
-                      className="p-4 border border-[#E7E7E7] dark:border-[#062F28] rounded-xl hover:border-design-light/40 transition-all bg-white dark:bg-[#0a3d35] hover-lift"
+                      className="p-4 border border-border rounded-xl hover:border-design-light/40 transition-all bg-card hover-lift"
                     >
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">

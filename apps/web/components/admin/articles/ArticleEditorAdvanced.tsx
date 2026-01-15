@@ -1792,7 +1792,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
 
         {/* Sidebar Column */}
         {!distractionFree && (
-          <div className={`space-y-6 transition-all duration-300 relative ${
+          <aside className={`transition-all duration-300 ${
             sidebarCollapsed ? "w-20" : "lg:col-span-1"
           }`}>
             {/* Collapse Toggle */}
@@ -1840,34 +1840,37 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                 </div>
               </div>
             ) : (
-              <ArticleEditorSidebar
-                contentStats={contentStats}
-                seoScore={seoScore}
-                isPublished={article.is_published}
-                publishedAt={article.published_at}
-                createdAt={article.created_at}
-                updatedAt={article.updated_at}
-                views={article.views}
-                category={article.category}
-                author={article.author}
-                onViewArticle={() => {
-                  const baseUrl = typeof window !== "undefined" 
-                    ? window.location.origin.replace(":3001", ":3000")
-                    : "http://localhost:3000";
-                  const url = `${baseUrl}/${locale}/blog/${article.slug}`;
-                  window.open(url, "_blank");
-                }}
-                locale={locale}
-              articleId={article.id}
-                articleSlug={article.slug}
-                revisionHistory={revisionHistory}
-                tags={tags}
-                onTagsChange={setTags}
-                onFeaturedImageChange={(url) => updateArticle({ featured_image: url })}
-                onNavigateToSEO={() => setActiveTab("seo")}
-              />
-              )}
-            </div>
+              /* Expanded Sidebar - Full Cards */
+              <div className="sticky top-24 space-y-4 h-fit max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-modern pr-2">
+                <ArticleEditorSidebar
+                  contentStats={contentStats}
+                  seoScore={seoScore}
+                  isPublished={article.is_published}
+                  publishedAt={article.published_at}
+                  createdAt={article.created_at}
+                  updatedAt={article.updated_at}
+                  views={article.views}
+                  category={article.category}
+                  author={article.author}
+                  onViewArticle={() => {
+                    const baseUrl = typeof window !== "undefined" 
+                      ? window.location.origin.replace(":3001", ":3000")
+                      : "http://localhost:3000";
+                    const url = `${baseUrl}/${locale}/blog/${article.slug}`;
+                    window.open(url, "_blank");
+                  }}
+                  locale={locale}
+                  articleId={article.id}
+                  articleSlug={article.slug}
+                  revisionHistory={revisionHistory}
+                  tags={tags}
+                  onTagsChange={setTags}
+                  onFeaturedImageChange={(url) => updateArticle({ featured_image: url })}
+                  onNavigateToSEO={() => setActiveTab("seo")}
+                />
+              </div>
+            )}
+          </aside>
         )}
 
         {/* Live Preview Panel */}

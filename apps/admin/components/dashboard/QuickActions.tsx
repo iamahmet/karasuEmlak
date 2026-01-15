@@ -5,14 +5,8 @@ import { Button } from "@karasu/ui";
 import {
   Plus,
   Search,
-  Bot,
-  TrendingUp,
-  Settings,
-  Users,
-  MessageSquare,
   ImageIcon,
-  Bell,
-  FileDown,
+  Settings,
 } from "lucide-react";
 import { Link, usePathname } from "@/i18n/routing";
 import { cn } from "@karasu/lib";
@@ -28,88 +22,51 @@ interface QuickAction {
 export function QuickActions() {
   const actions: QuickAction[] = [
     {
-      label: "Yeni İçerik Oluştur",
+      label: "Yeni İlan Ekle",
       icon: Plus,
-      href: "/seo/content-studio?tab=create",
-      color: "bg-blue-500 hover:bg-blue-600",
-      description: "AI destekli içerik oluştur",
+      href: "/listings/new",
+      color: "from-green-500 to-green-600",
+      description: "Yeni emlak ilanı oluştur",
     },
     {
-      label: "SEO Analizi",
+      label: "İlanları Görüntüle",
       icon: Search,
-      href: "/seo",
-      color: "bg-green-500 hover:bg-green-600",
-      description: "SEO performansını kontrol et",
-    },
-    {
-      label: "Project Bot Çalıştır",
-      icon: Bot,
-      href: "/project-bot",
-      color: "bg-purple-500 hover:bg-purple-600",
-      description: "Kod kalitesi kontrolü",
-    },
-    {
-      label: "Analytics",
-      icon: TrendingUp,
-      href: "/analytics/dashboard",
-      color: "bg-orange-500 hover:bg-orange-600",
-      description: "Site analitikleri",
-    },
-    {
-      label: "Kullanıcı Yönetimi",
-      icon: Users,
-      href: "/users",
-      color: "bg-indigo-500 hover:bg-indigo-600",
-      description: "Kullanıcıları yönet",
-    },
-    {
-      label: "Yorumlar",
-      icon: MessageSquare,
-      href: "/comments",
-      color: "bg-pink-500 hover:bg-pink-600",
-      description: "Yorumları moderasyon et",
+      href: "/listings",
+      color: "from-blue-500 to-blue-600",
+      description: "Tüm ilanları listele",
     },
     {
       label: "Medya Kütüphanesi",
       icon: ImageIcon,
       href: "/media",
-      color: "bg-cyan-500 hover:bg-cyan-600",
+      color: "from-purple-500 to-purple-600",
       description: "Görselleri yönet",
     },
     {
-      label: "Bildirimler",
-      icon: Bell,
-      href: "/notifications",
-      color: "bg-yellow-500 hover:bg-yellow-600",
-      description: "Bildirimleri görüntüle",
-    },
-    {
-      label: "Raporlar",
-      icon: FileDown,
-      href: "/reports",
-      color: "bg-teal-500 hover:bg-teal-600",
-      description: "Raporları oluştur",
-    },
-    {
-      label: "Ayarlar",
+      label: "İlan Ayarları",
       icon: Settings,
       href: "/settings",
-      color: "bg-gray-500 hover:bg-gray-600",
-      description: "Site ayarlarını düzenle",
+      color: "from-gray-500 to-gray-600",
+      description: "İlan ayarlarını düzenle",
     },
   ];
 
   return (
-    <Card className="card-professional bg-white dark:bg-[#0a3d35] relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-design-light/5 to-transparent rounded-full blur-3xl"></div>
-      <CardHeader className="pb-4 px-5 pt-5 relative z-10">
-        <CardTitle className="text-lg md:text-xl font-bold text-design-dark dark:text-white flex items-center gap-3" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
-          <span className="w-1 h-6 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full shadow-lg"></span>
-          Hızlı İşlemler
-        </CardTitle>
+    <Card className="card-professional bg-gradient-to-br from-card to-card/80 relative overflow-hidden border-2 shadow-lg">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-green-500/5 via-blue-500/5 to-transparent rounded-full blur-3xl"></div>
+      <CardHeader className="pb-4 px-6 pt-6 relative z-10">
+        <div className="flex items-center gap-3">
+          <div className="w-1 h-8 bg-gradient-to-b from-green-500 via-green-400 to-blue-500 rounded-full shadow-lg"></div>
+          <CardTitle className="text-xl font-bold text-foreground font-['Urbanist']">
+            Hızlı İşlemler
+          </CardTitle>
+        </div>
+        <p className="text-sm text-muted-foreground mt-2 ml-4">
+          İlan yönetimi için hızlı erişim
+        </p>
       </CardHeader>
-      <CardContent className="px-3 md:px-5 pb-3 md:pb-5 relative z-10">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-3">
+      <CardContent className="px-6 pb-6 relative z-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {actions.map((action, index) => {
             const Icon = action.icon;
             return (
@@ -117,26 +74,29 @@ export function QuickActions() {
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-full h-auto py-3 md:py-4 px-2 md:px-3 flex flex-col items-center gap-1.5 md:gap-2 group transition-all duration-300 hover:shadow-lg rounded-lg md:rounded-xl font-ui hover-lift relative overflow-hidden border",
-                    action.color
+                    "w-full h-auto py-5 px-4 flex flex-col items-center gap-3 group transition-all duration-300 hover:shadow-xl rounded-xl font-ui relative overflow-hidden border-2 bg-gradient-to-br from-card to-card/50",
+                    "hover:scale-105 hover:-translate-y-1"
                   )}
                   style={{ 
-                    animationDelay: `${index * 0.05}s`,
-                    borderColor: 'rgba(231, 231, 231, 0.5)'
+                    animationDelay: `${index * 0.1}s`,
+                    borderColor: 'hsl(var(--border))'
                   }}
                 >
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(to right, hsl(var(--design-light-green) / 0.1), transparent)' }}></div>
-                  <div className="relative p-1.5 md:p-2 rounded-lg group-hover:scale-110 transition-all duration-300 shadow-sm" style={{ 
-                    background: 'linear-gradient(to bottom right, hsl(var(--design-light-green) / 0.2), hsl(var(--design-light-green) / 0.1))'
-                  }}>
-                    <Icon className="h-4 w-4 md:h-5 md:w-5 text-design-dark dark:text-design-light group-hover:text-white dark:group-hover:text-design-dark transition-all duration-300 group-hover:rotate-6 relative z-10" />
+                  {/* Gradient Background on Hover */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${action.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+                  
+                  {/* Icon Container */}
+                  <div className="relative p-3 rounded-xl group-hover:scale-110 transition-all duration-300 shadow-md bg-gradient-to-br from-muted/50 to-muted/30 group-hover:bg-white/20 border border-border/50">
+                    <Icon className="h-5 w-5 text-foreground group-hover:text-white transition-colors duration-300 relative z-10" />
                   </div>
+                  
+                  {/* Text Content */}
                   <div className="relative z-10 text-center">
-                    <span className="font-semibold text-design-dark dark:text-white group-hover:text-white dark:group-hover:text-design-dark transition-colors text-[10px] md:text-xs leading-tight block">
+                    <span className="font-bold text-sm text-foreground group-hover:text-white transition-colors duration-300 block mb-1">
                       {action.label}
                     </span>
                     {action.description && (
-                      <span className="text-[9px] md:text-[10px] mt-0.5 block hidden sm:block" style={{ color: 'hsl(var(--design-medium-gray))' }}>
+                      <span className="text-[11px] text-muted-foreground group-hover:text-white/80 transition-colors duration-300 block">
                         {action.description}
                       </span>
                     )}

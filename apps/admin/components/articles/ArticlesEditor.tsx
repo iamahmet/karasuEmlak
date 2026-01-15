@@ -299,7 +299,7 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
               {articles.map((article) => (
                 <div
                   key={article.id}
-                  className="flex items-center justify-between p-4 border border-[#E7E7E7] dark:border-[#062F28] rounded-lg hover:border-design-light transition-all cursor-pointer group"
+                  className="flex items-center justify-between p-4 border border-border rounded-lg hover:border-design-light transition-all cursor-pointer group"
                   onClick={(e) => {
                     const target = e.target as HTMLElement;
                     // Don't trigger if clicking on buttons or links
@@ -347,7 +347,7 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                     <Link
                       href={`/${locale}/articles/${article.id}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center justify-center h-9 rounded-xl px-3 text-xs border-2 border-[#E7E7E7] dark:border-[#0a3d35] bg-background/80 backdrop-blur-sm hover:bg-accent/50 hover:text-accent-foreground hover:border-design-light dark:hover:border-design-light hover:shadow-md hover:scale-105 transition-all duration-300 relative z-10"
+                      className="inline-flex items-center justify-center h-9 rounded-xl px-3 text-xs border-2 border-border bg-background/80 backdrop-blur-sm hover:bg-accent/50 hover:text-accent-foreground hover:border-design-light hover:shadow-md hover:scale-105 transition-all duration-300 relative z-10"
                       title="Düzenle"
                     >
                       <Edit2 className="h-4 w-4" />
@@ -364,7 +364,7 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                           const url = `${baseUrl}/${locale}/haber/${article.slug}`;
                           window.open(url, "_blank");
                         }}
-                        className="inline-flex items-center justify-center h-9 rounded-xl px-3 text-xs border-2 border-[#E7E7E7] dark:border-[#0a3d35] bg-background/80 backdrop-blur-sm hover:bg-accent/50 hover:text-accent-foreground hover:border-design-light dark:hover:border-design-light hover:shadow-md hover:scale-105 transition-all duration-300 relative z-10"
+                        className="inline-flex items-center justify-center h-9 rounded-xl px-3 text-xs border-2 border-border bg-background/80 backdrop-blur-sm hover:bg-accent/50 hover:text-accent-foreground hover:border-design-light hover:shadow-md hover:scale-105 transition-all duration-300 relative z-10"
                         title="Görüntüle"
                       >
                         <Eye className="h-4 w-4" />
@@ -411,7 +411,7 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                         e.stopPropagation();
                         handleEdit(article);
                       }}
-                      className="inline-flex items-center justify-center h-9 rounded-xl px-3 text-xs border-2 border-[#E7E7E7] dark:border-[#0a3d35] bg-background/80 backdrop-blur-sm hover:bg-accent/50 hover:text-accent-foreground hover:border-design-light dark:hover:border-design-light hover:shadow-md hover:scale-105 transition-all duration-300 relative z-10"
+                      className="inline-flex items-center justify-center h-9 rounded-xl px-3 text-xs border-2 border-border bg-background/80 backdrop-blur-sm hover:bg-accent/50 hover:text-accent-foreground hover:border-design-light hover:shadow-md hover:scale-105 transition-all duration-300 relative z-10"
                       title="Düzenle"
                       style={{ pointerEvents: 'auto' }}
                     >
@@ -439,11 +439,11 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
           } : undefined}
         >
           <Card 
-            className={`card-professional w-full ${showList ? "max-w-4xl max-h-[90vh] overflow-y-auto modal-content shadow-2xl" : ""} bg-white dark:bg-[#0a3d35]`}
+            className={`card-professional w-full ${showList ? "max-w-4xl max-h-[90vh] overflow-y-auto modal-content shadow-2xl" : ""} bg-card`}
             data-editor="article-editor"
             onClick={(e) => e.stopPropagation()}
           >
-            <CardHeader className="pb-4 px-5 pt-5 sticky top-0 bg-white dark:bg-[#0a3d35] z-10 border-b border-[#E7E7E7] dark:border-[#062F28]">
+            <CardHeader className="pb-4 px-5 pt-5 sticky top-0 bg-card z-10 border-b border-border">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
                   <Edit2 className="h-5 w-5 text-design-light" />
@@ -614,7 +614,7 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                     <img
                       src={editingArticle.featured_image}
                       alt="Featured"
-                      className="w-full max-w-md h-48 object-cover rounded-lg border border-[#E7E7E7] dark:border-[#062F28]"
+                      className="w-full max-w-md h-48 object-cover rounded-lg border border-border"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = "none";
                       }}

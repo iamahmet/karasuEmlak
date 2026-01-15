@@ -19,11 +19,13 @@ export function ThemeToggle() {
   useEffect(() => {
     setMounted(true);
     const stored = localStorage.getItem("theme") as Theme | null;
-    if (stored) {
+    if (stored && (stored === "light" || stored === "dark" || stored === "system")) {
       setTheme(stored);
     } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark ? "dark" : "light");
+      // If no stored theme, check current HTML class
+      const currentClass = document.documentElement.classList.contains("dark") ? "dark" : "light";
+      setTheme(currentClass);
+      localStorage.setItem("theme", currentClass);
     }
   }, []);
 

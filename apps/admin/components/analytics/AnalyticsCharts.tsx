@@ -214,7 +214,7 @@ export function AnalyticsCharts({ dailyMetrics, contentMetrics, period }: Analyt
               {contentMetrics.slice(0, 10).map((metric, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:shadow-md transition-all duration-200"
+                  className="flex items-center justify-between p-3 rounded-lg bg-card border border-border hover:shadow-md transition-all duration-200"
                 >
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-design-light to-green-600 flex items-center justify-center text-white font-bold text-xs">

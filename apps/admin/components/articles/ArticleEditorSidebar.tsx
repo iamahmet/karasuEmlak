@@ -123,7 +123,7 @@ export function ArticleEditorSidebar({
   return (
     <div className="space-y-4">
       {/* SEO Score Card */}
-      <Card className="card-professional border-2 border-slate-200/80 dark:border-[#0a3d35]/80">
+      <Card className="card-professional border-2 border-border/80">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
@@ -151,7 +151,7 @@ export function ArticleEditorSidebar({
           />
           
           {/* SEO Checklist */}
-          <div className="space-y-2 pt-2 border-t border-slate-200/50 dark:border-[#0a3d35]/50">
+          <div className="space-y-2 pt-2 border-t border-border/50">
             <div className="flex items-center justify-between text-xs">
               <span className="text-design-gray dark:text-gray-400">Başlık</span>
               {seoScore.title ? (
@@ -245,45 +245,45 @@ export function ArticleEditorSidebar({
         {expandedSections.has("stats") && (
           <CardContent className="space-y-3">
             <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 rounded-lg bg-slate-50 dark:bg-[#0a3d35]/50 border border-slate-200/50 dark:border-[#0a3d35]/50">
+              <div className="p-3 rounded-lg bg-muted/50 border border-border/50">
                 <div className="flex items-center gap-2 mb-1">
                   <FileText className="h-3.5 w-3.5 text-design-light" />
-                  <span className="text-[10px] text-design-gray dark:text-gray-400">Kelime</span>
+                  <span className="text-[10px] text-muted-foreground">Kelime</span>
                 </div>
-                <p className="text-lg font-bold text-design-dark dark:text-white">
+                <p className="text-lg font-bold text-foreground">
                   {contentStats.words.toLocaleString()}
                 </p>
               </div>
-              <div className="p-3 rounded-lg bg-slate-50 dark:bg-[#0a3d35]/50 border border-slate-200/50 dark:border-[#0a3d35]/50">
+              <div className="p-3 rounded-lg bg-muted/50 border border-border/50">
                 <div className="flex items-center gap-2 mb-1">
                   <Clock className="h-3.5 w-3.5 text-design-light" />
                   <span className="text-[10px] text-design-gray dark:text-gray-400">Okuma</span>
                 </div>
-                <p className="text-lg font-bold text-design-dark dark:text-white">
+                <p className="text-lg font-bold text-foreground">
                   {contentStats.readingTime} dk
                 </p>
               </div>
-              <div className="p-3 rounded-lg bg-slate-50 dark:bg-[#0a3d35]/50 border border-slate-200/50 dark:border-[#0a3d35]/50">
+              <div className="p-3 rounded-lg bg-muted/50 border border-border/50">
                 <div className="flex items-center gap-2 mb-1">
                   <FileText className="h-3.5 w-3.5 text-design-light" />
                   <span className="text-[10px] text-design-gray dark:text-gray-400">Paragraf</span>
                 </div>
-                <p className="text-lg font-bold text-design-dark dark:text-white">
+                <p className="text-lg font-bold text-foreground">
                   {contentStats.paragraphs}
                 </p>
               </div>
-              <div className="p-3 rounded-lg bg-slate-50 dark:bg-[#0a3d35]/50 border border-slate-200/50 dark:border-[#0a3d35]/50">
+              <div className="p-3 rounded-lg bg-muted/50 border border-border/50">
                 <div className="flex items-center gap-2 mb-1">
                   <FileText className="h-3.5 w-3.5 text-design-light" />
                   <span className="text-[10px] text-design-gray dark:text-gray-400">Başlık</span>
                 </div>
-                <p className="text-lg font-bold text-design-dark dark:text-white">
+                <p className="text-lg font-bold text-foreground">
                   {contentStats.headings}
                 </p>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-200/50 dark:border-[#0a3d35]/50">
-              <div className="p-2 rounded-lg bg-slate-50 dark:bg-[#0a3d35]/50">
+              <div className="p-2 rounded-lg bg-muted/50">
                 <div className="flex items-center gap-2">
                   <ImageIcon className="h-3 w-3 text-design-light" />
                   <span className="text-[10px] text-design-gray dark:text-gray-400">Görsel</span>
@@ -292,7 +292,7 @@ export function ArticleEditorSidebar({
                   {contentStats.images}
                 </p>
               </div>
-              <div className="p-2 rounded-lg bg-slate-50 dark:bg-[#0a3d35]/50">
+              <div className="p-2 rounded-lg bg-muted/50">
                 <div className="flex items-center gap-2">
                   <Link2 className="h-3 w-3 text-design-light" />
                   <span className="text-[10px] text-design-gray dark:text-gray-400">Link</span>

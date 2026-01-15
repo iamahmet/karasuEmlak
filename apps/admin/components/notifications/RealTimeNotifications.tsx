@@ -108,8 +108,30 @@ export function RealTimeNotifications({ userId }: RealTimeNotificationsProps) {
         .order("created_at", { ascending: false })
         .limit(50);
 
-      if (error && error.code !== "PGRST116") {
-        throw error;
+      // Silently handle missing table
+      if (error) {
+        const errorCode = error.code || "";
+        const errorMessage = error.message?.toLowerCase() || "";
+        if (
+          errorCode === "PGRST116" || 
+          errorCode === "42P01" || 
+          errorCode === "404" ||
+          errorMessage.includes("does not exist") || 
+          errorMessage.includes("relation") || 
+          errorMessage.includes("not found") ||
+          errorMessage.includes("permission denied")
+        ) {
+          // Table doesn't exist, silently return empty
+          setNotifications([]);
+          setUnreadCount(0);
+          setLoading(false);
+          return;
+        }
+        // For other errors, also silently handle
+        setNotifications([]);
+        setUnreadCount(0);
+        setLoading(false);
+        return;
       }
 
       const fetchedNotifications = (data || []) as Notification[];

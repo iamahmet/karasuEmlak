@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 import { PageSkeleton } from "@/components/loading/PageSkeleton";
-import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@karasu/lib/supabase/service";
 
-const ArticleEditorAdvanced = dynamic(
-  () => import("@/components/articles/ArticleEditorAdvanced").then((mod) => ({ default: mod.ArticleEditorAdvanced })),
+const NewsEditor = dynamic(
+  () => import("@/components/news/NewsEditor").then((mod) => ({ default: mod.NewsEditor })),
   {
     loading: () => <PageSkeleton />,
   }
@@ -20,68 +20,41 @@ export default async function EditArticlePage({ params }: PageProps) {
   // Development mode: Skip auth check
   // await requireStaff();
 
-  // Use service role in development to bypass RLS
-  let supabase;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  
-  if (process.env.NODE_ENV === "development" && serviceRoleKey && supabaseUrl) {
-    try {
-      const { createClient: createSupabaseClient } = await import("@supabase/supabase-js");
-      supabase = createSupabaseClient(supabaseUrl, serviceRoleKey);
-    } catch (error) {
-      console.error("Failed to create service role client:", error);
-      supabase = await createClient();
-    }
-  } else {
-    supabase = await createClient();
-  }
+  // Use service role client (admin API)
+  const supabase = createServiceClient();
 
-  // Fetch article (without category join to avoid PGRST200 error)
+  console.log(`[News Page] Loading news article: ${id} for locale: ${locale}`);
+
+  // Fetch news article (this route is for news, not articles)
   const { data: article, error } = await supabase
-    .from("articles")
+    .from("news_articles")
     .select("*")
     .eq("id", id)
+    .is("deleted_at", null) // Exclude deleted articles
     .single();
 
   if (error) {
-    console.error("Error fetching article:", error);
+    console.error("[News Page] Error fetching article:", JSON.stringify(error, null, 2));
     // Check if it's a "not found" error
-    if (error.code === "PGRST116" || error.message?.includes("No rows")) {
+    if (error.code === "PGRST116" || error.code === "42P01" || error.message?.includes("No rows") || error.message?.includes("not found")) {
+      console.warn(`[News Page] News article not found: ${id}`);
       notFound();
     }
     // For other errors, still show not found to avoid exposing internal errors
+    console.error("[News Page] Unexpected error, showing not found");
     notFound();
   }
 
   if (!article) {
+    console.warn(`[News Page] No article data returned for id: ${id}`);
     notFound();
   }
 
-  // Fetch category separately if category_id exists
-  let category = null;
-  if (article.category_id) {
-    const { data: categoryData } = await supabase
-      .from("categories")
-      .select("id, name, slug, description")
-      .eq("id", article.category_id)
-      .single();
-    category = categoryData;
-  }
-
-  // Fetch categories for dropdown
-  const { data: categories } = await supabase
-    .from("categories")
-    .select("id, name, slug")
-    .order("name", { ascending: true });
+  console.log(`[News Page] Successfully loaded news article: ${article.title}`);
 
   return (
     <div className="admin-container responsive-padding space-section animate-fade-in">
-      <ArticleEditorAdvanced
-        article={{ ...article, category: category ? { id: category.id, name: category.name, slug: category.slug, description: category.description } : undefined }}
-        categories={categories || []}
-        locale={locale}
-      />
+      <NewsEditor article={article} locale={locale} />
     </div>
   );
 }

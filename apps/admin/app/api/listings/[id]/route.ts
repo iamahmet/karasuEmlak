@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@karasu/lib/supabase/service";
+import { createContentVersion } from "@/lib/utils/version-control";
+import { requireStaff } from "@/lib/auth/server";
 
 /**
  * Single Listing API
@@ -51,6 +53,23 @@ export async function PUT(
     const body = await request.json();
     const supabase = createServiceClient();
 
+    // Get current user for version tracking
+    let userId: string | null = null;
+    try {
+      const user = await requireStaff();
+      userId = user.id;
+    } catch (error) {
+      // If auth fails, continue without version tracking
+      console.warn("[Listing API] Could not get user for version tracking");
+    }
+
+    // Get current listing data for version snapshot
+    const { data: currentListing } = await supabase
+      .from("listings")
+      .select("*")
+      .eq("id", id)
+      .single();
+
     const { data, error } = await supabase
       .from("listings")
       .update({
@@ -67,6 +86,31 @@ export async function PUT(
         { error: error.message },
         { status: 500 }
       );
+    }
+
+    // Create version snapshot if significant changes detected
+    if (currentListing && userId) {
+      const significantFields = ['title', 'description', 'price_amount', 'property_type'];
+      const hasSignificantChanges = significantFields.some(field => {
+        const oldValue = currentListing[field as keyof typeof currentListing];
+        const newValue = body[field];
+        return oldValue !== newValue;
+      });
+
+      if (hasSignificantChanges) {
+        try {
+          await createContentVersion({
+            contentType: "listing",
+            contentId: id,
+            data: data as Record<string, unknown>,
+            userId,
+            changeNote: body.changeNote || "İlan güncellendi",
+          });
+        } catch (versionError) {
+          // Don't fail the update if version creation fails
+          console.error("[Listing API] Error creating version:", versionError);
+        }
+      }
     }
 
     return NextResponse.json({

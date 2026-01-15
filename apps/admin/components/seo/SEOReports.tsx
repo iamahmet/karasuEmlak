@@ -182,7 +182,7 @@ export function SEOReports({ locale }: { locale: string }) {
               {reports.map((report) => (
                 <div
                   key={report.id}
-                  className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]"
+                  className="flex items-center justify-between p-3 rounded-lg bg-card border border-border"
                 >
                   <div>
                     <p className="font-semibold text-design-dark dark:text-white font-ui text-sm">

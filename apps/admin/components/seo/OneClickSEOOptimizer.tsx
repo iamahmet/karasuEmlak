@@ -169,7 +169,7 @@ export function OneClickSEOOptimizer({
   };
 
   return (
-    <Card className={cn("card-professional bg-white dark:bg-[#0a3d35] relative overflow-hidden", className)}>
+    <Card className={cn("card-professional bg-card relative overflow-hidden", className)}>
       <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-design-light/5 to-transparent rounded-full blur-3xl"></div>
       
       <CardHeader className="pb-4 px-5 pt-5 relative z-10">
@@ -251,7 +251,7 @@ export function OneClickSEOOptimizer({
             {/* Optimized Fields */}
             <div className="space-y-4">
               {/* Title */}
-              <div className="p-4 rounded-xl border border-slate-200/50 dark:border-[#0a3d35]/50 bg-white dark:bg-[#062F28]">
+              <div className="p-4 rounded-xl border border-border/50 bg-card">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <FileText className="h-4 w-4 text-design-light" />
@@ -290,7 +290,7 @@ export function OneClickSEOOptimizer({
               </div>
 
               {/* Meta Description */}
-              <div className="p-4 rounded-xl border border-slate-200/50 dark:border-[#0a3d35]/50 bg-white dark:bg-[#062F28]">
+              <div className="p-4 rounded-xl border border-border/50 bg-card">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <Search className="h-4 w-4 text-design-light" />
@@ -333,7 +333,7 @@ export function OneClickSEOOptimizer({
               </div>
 
               {/* SEO Keywords */}
-              <div className="p-4 rounded-xl border border-slate-200/50 dark:border-[#0a3d35]/50 bg-white dark:bg-[#062F28]">
+              <div className="p-4 rounded-xl border border-border/50 bg-card">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <Target className="h-4 w-4 text-design-light" />
@@ -367,7 +367,7 @@ export function OneClickSEOOptimizer({
 
               {/* Excerpt */}
               {result.excerpt && (
-                <div className="p-4 rounded-xl border border-slate-200/50 dark:border-[#0a3d35]/50 bg-white dark:bg-[#062F28]">
+                <div className="p-4 rounded-xl border border-border/50 bg-card">
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <FileText className="h-4 w-4 text-design-light" />
@@ -403,7 +403,7 @@ export function OneClickSEOOptimizer({
 
             {/* Content Improvements */}
             {result.content_improvements && (
-              <div className="p-4 rounded-xl border border-slate-200/50 dark:border-[#0a3d35]/50 bg-white dark:bg-[#062F28]">
+              <div className="p-4 rounded-xl border border-border/50 bg-card">
                 <h4 className="font-semibold text-sm text-design-dark dark:text-white mb-3 flex items-center gap-2">
                   <TrendingUp className="h-4 w-4 text-design-light" />
                   İçerik İyileştirme Önerileri

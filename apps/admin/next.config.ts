@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import path from "path";
 
 const withNextIntl = createNextIntlPlugin("./i18n.ts");
 
@@ -7,6 +8,12 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  // Optimize CSS loading
+  experimental: {
+    optimizeCss: true,
+    // Reduce CSS preload warnings
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-dialog', '@radix-ui/react-select'],
+  },
   images: {
     remotePatterns: [
       {
@@ -42,6 +49,16 @@ const nextConfig: NextConfig = {
         stream: false,
       };
     }
+    
+    // Ensure path aliases work in webpack
+    if (config.resolve.alias) {
+      config.resolve.alias['@'] = path.resolve(__dirname);
+    } else {
+      config.resolve.alias = {
+        '@': path.resolve(__dirname),
+      };
+    }
+    
     return config;
   },
   async headers() {

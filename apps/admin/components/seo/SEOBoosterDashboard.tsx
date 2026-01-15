@@ -61,7 +61,7 @@ export function SEOBoosterDashboard({ locale }: { locale: string }) {
     <Card className="card-professional border-2 border-design-light/10">
       <CardContent className="p-0">
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-          <div className="border-b border-[#E7E7E7] dark:border-[#062F28] bg-gradient-to-r from-design-light/5 via-transparent to-design-light/5 sticky top-0 z-10 bg-white dark:bg-[#062F28]">
+          <div className="border-b border-border bg-gradient-to-r from-design-light/5 via-transparent to-design-light/5 sticky top-0 z-10 bg-card">
             <TabsList className="w-full justify-start rounded-none bg-transparent p-0 h-auto overflow-x-auto scrollbar-modern">
               {tabs.map((tab) => (
                 <TabsTrigger

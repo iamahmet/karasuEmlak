@@ -99,6 +99,7 @@ import { ListingExportImport } from "./ListingExportImport";
 import { ListingScheduler } from "./ListingScheduler";
 import { BulkImageOperations } from "./BulkImageOperations";
 import { ListingComparison } from "./ListingComparison";
+import { VersionHistory } from "@/components/version-control/VersionHistory";
 import { toast } from "sonner";
 import { useRouter } from "@/i18n/routing";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@karasu/ui";
@@ -230,6 +231,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [improving, setImproving] = useState(false);
 
   // Available locales for translation
   const availableLocales = [
@@ -694,59 +696,59 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
   };
 
   return (
-    <div className={`space-y-6 ${isFullscreen ? "fixed inset-0 z-50 bg-white dark:bg-[#062F28] overflow-auto" : ""} ${distractionFree ? "distraction-free-mode" : ""}`}>
+    <div className={`space-y-6 ${isFullscreen ? "fixed inset-0 z-50 bg-background overflow-auto" : ""} ${distractionFree ? "distraction-free-mode" : ""}`}>
       {/* Enhanced Header */}
-      <div className="flex items-center justify-between sticky top-0 z-40 bg-white dark:bg-[#062F28] border-b border-[#E7E7E7] dark:border-[#0a3d35] px-6 py-4 -mx-6 -mt-6 mb-6 backdrop-blur-sm bg-white/95 dark:bg-[#062F28]/95">
+      <div className="flex items-center justify-between sticky top-0 z-40 bg-card border-b border-border px-6 py-4 -mx-6 -mt-6 mb-6 backdrop-blur-sm bg-card/95">
         <div className="flex items-center gap-4">
           <div>
-            <h1 className="text-2xl font-display font-bold text-design-dark dark:text-white mb-1">
+            <h1 className="text-xl font-semibold text-foreground mb-1">
               İlan Düzenle
             </h1>
-            <div className="flex items-center gap-4 text-xs text-design-gray dark:text-gray-400">
+            <div className="flex items-center gap-4 text-xs text-muted-foreground">
               {/* Auto-save Status Indicator */}
               <div className="flex items-center gap-2">
                 {autoSaveStatus === "saving" && (
-                  <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-                    <Loader2 className="h-3 w-3 text-blue-600 dark:text-blue-400 animate-spin" />
-                    <span className="text-blue-700 dark:text-blue-300 font-medium">Kaydediliyor...</span>
-                  </span>
+                  <Badge variant="secondary" className="gap-1.5">
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                    <span className="text-sm font-medium">Kaydediliyor...</span>
+                  </Badge>
                 )}
                 {autoSaveStatus === "saved" && showSuccessAnimation && (
-                  <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 animate-bounce-in">
-                    <CheckCircle2 className="h-3 w-3 text-green-600 dark:text-green-400" />
-                    <span className="text-green-700 dark:text-green-300 font-medium">Kaydedildi!</span>
-                  </span>
+                  <Badge variant="default" className="gap-1.5 bg-primary">
+                    <CheckCircle2 className="h-3 w-3" />
+                    <span className="text-sm font-medium">Kaydedildi!</span>
+                  </Badge>
                 )}
                 {autoSaveStatus === "error" && (
-                  <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-                    <AlertCircle className="h-3 w-3 text-red-600 dark:text-red-400" />
-                    <span className="text-red-700 dark:text-red-300 font-medium">Kayıt hatası</span>
-                  </span>
+                  <Badge variant="error" className="gap-1.5">
+                    <AlertCircle className="h-3 w-3" />
+                    <span className="text-sm font-medium">Kayıt hatası</span>
+                  </Badge>
                 )}
                 {lastSaved && autoSaveStatus === "idle" && (
-                  <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
-                    <CheckCircle2 className="h-3 w-3 text-green-600 dark:text-green-400" />
-                    <span className="text-green-700 dark:text-green-300 font-medium">Son kayıt: {lastSaved.toLocaleTimeString("tr-TR")}</span>
-                  </span>
+                  <Badge variant="outline" className="gap-1.5">
+                    <CheckCircle2 className="h-3 w-3" />
+                    <span className="text-sm font-medium">Son kayıt: {lastSaved.toLocaleTimeString("tr-TR")}</span>
+                  </Badge>
                 )}
                 {isDirty && autoSaveStatus === "idle" && (
-                  <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 animate-pulse-slow">
-                    <AlertCircle className="h-3 w-3 text-yellow-600 dark:text-yellow-400" />
-                    <span className="text-yellow-700 dark:text-yellow-300 font-medium">Kaydedilmemiş değişiklikler</span>
-                  </span>
+                  <Badge variant="secondary" className="gap-1.5">
+                    <AlertCircle className="h-3 w-3" />
+                    <span className="text-sm font-medium">Kaydedilmemiş değişiklikler</span>
+                  </Badge>
                 )}
               </div>
               {listing.views && listing.views > 0 && (
-                <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-                  <Eye className="h-3 w-3 text-blue-600 dark:text-blue-400" />
-                  <span className="text-blue-700 dark:text-blue-300 font-medium">{listing.views.toLocaleString()} görüntülenme</span>
-                </span>
+                <Badge variant="outline" className="gap-1.5">
+                  <Eye className="h-3 w-3" />
+                  <span className="text-sm font-medium">{listing.views.toLocaleString()} görüntülenme</span>
+                </Badge>
               )}
               {listingStats.pricePerM2 && (
-                <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800">
-                  <Ruler className="h-3 w-3 text-purple-600 dark:text-purple-400" />
-                  <span className="text-purple-700 dark:text-purple-300 font-medium">{formatCurrency(listingStats.pricePerM2)}/m²</span>
-                </span>
+                <Badge variant="outline" className="gap-1.5">
+                  <Ruler className="h-3 w-3" />
+                  <span className="text-sm font-medium">{formatCurrency(listingStats.pricePerM2)}/m²</span>
+                </Badge>
               )}
             </div>
           </div>
@@ -811,14 +813,14 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                 "p-2.5 rounded-xl transition-all duration-200 hover:scale-105",
                 translationMode 
                   ? "bg-gradient-to-br from-design-light to-design-dark text-white shadow-md" 
-                  : "bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-design-light/10"
+                  : "bg-card border border-border hover:border-design-light/50 hover:bg-design-light/5"
               )}
               title="Çeviri Modu"
             >
               <Languages className="h-4 w-4" />
             </button>
             {translationMode && (
-              <div className="absolute right-0 top-full mt-2 bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-lg shadow-lg z-50 min-w-[200px]">
+              <div className="absolute right-0 top-full mt-2 bg-card border border-border rounded-lg shadow-lg z-50 min-w-[200px]">
                 <div className="p-2">
                   <p className="text-xs font-semibold text-design-gray dark:text-gray-400 mb-2 px-2">Hedef Dil</p>
                   {availableLocales.filter(l => l.code !== locale).map((loc) => (
@@ -853,7 +855,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
               "p-2.5 rounded-xl transition-all duration-200 hover:scale-105",
               livePreview 
                 ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-md" 
-                : "bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                : "bg-card border border-border hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20"
             )}
             title="Canlı Önizleme"
           >
@@ -868,7 +870,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
               "p-2.5 rounded-xl transition-all duration-200 hover:scale-105",
               distractionFree
                 ? "bg-gradient-to-br from-purple-500 to-pink-600 text-white shadow-md"
-                : "bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:border-purple-300 dark:hover:border-purple-700 hover:bg-purple-50 dark:hover:bg-purple-900/20"
+                : "bg-card border border-border hover:border-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/20"
             )}
             title="Dikkat Dağıtmayan Mod"
           >
@@ -879,7 +881,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
           <button
             type="button"
             onClick={() => setIsFullscreen(!isFullscreen)}
-            className="p-2.5 rounded-xl bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:border-gray-400 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-900/20 transition-all duration-200 hover:scale-105"
+            className="p-2.5 rounded-xl bg-card border border-border hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900/20 transition-all duration-200 hover:scale-105"
             title="Tam Ekran"
           >
             {isFullscreen ? (
@@ -895,7 +897,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
               type="button"
               onClick={handleUndo}
               disabled={historyIndex === 0}
-              className="p-2 rounded-lg hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-2 rounded-lg hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               title="Geri Al (⌘Z)"
             >
               <Undo className="h-4 w-4" />
@@ -904,7 +906,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
               type="button"
               onClick={handleRedo}
               disabled={historyIndex === history.length - 1}
-              className="p-2 rounded-lg hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-2 rounded-lg hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               title="Yinele (⌘⇧Z)"
             >
               <Redo className="h-4 w-4" />
@@ -1055,23 +1057,23 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                 : "col-span-2"
         }`}>
           {/* Progress Indicator - Enhanced */}
-          <div className="mb-6 p-5 rounded-2xl bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20 border border-blue-200 dark:border-blue-800 shadow-sm">
+          <div className="mb-6 p-5 rounded-lg bg-card border border-border">
             <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30">
-                  <Target className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Target className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <span className="text-sm font-bold text-design-dark dark:text-white block">
+                  <span className="text-sm font-semibold text-foreground block">
                     Tamamlanma Durumu
                   </span>
-                  <span className="text-xs text-design-gray dark:text-gray-400">
+                  <span className="text-xs text-muted-foreground">
                     İlan hazırlık seviyesi
                   </span>
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-2xl font-bold text-design-dark dark:text-white block">
+                <span className="text-2xl font-bold text-foreground block">
                   {Math.round(
                     ((listing.title ? 1 : 0) +
                       (listing.property_type ? 1 : 0) +
@@ -1083,7 +1085,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       100
                   )}%
                 </span>
-                <span className="text-xs text-design-gray dark:text-gray-400">
+                <span className="text-xs text-muted-foreground">
                   {((listing.title ? 1 : 0) +
                     (listing.property_type ? 1 : 0) +
                     (listing.location_neighborhood ? 1 : 0) +
@@ -1093,9 +1095,9 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                 </span>
               </div>
             </div>
-            <div className="h-3 bg-white/60 dark:bg-gray-900/40 rounded-full overflow-hidden shadow-inner">
+            <div className="h-2.5 bg-muted rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-design-light via-design-light/90 to-design-dark transition-all duration-700 ease-out relative overflow-hidden"
+                className="h-full bg-primary transition-all duration-700 ease-out"
                 style={{
                   width: `${Math.round(
                     ((listing.title ? 1 : 0) +
@@ -1108,9 +1110,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       100
                   )}%`,
                 }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
-              </div>
+              />
             </div>
             <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
               {[
@@ -1126,28 +1126,28 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                   <div
                     key={idx}
                     className={cn(
-                      "p-3 rounded-xl border transition-all duration-200 hover:scale-105 cursor-default",
+                      "p-3 rounded-lg border transition-all cursor-default",
                       item.done
-                        ? "bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-green-300 dark:border-green-700 shadow-sm"
-                        : "bg-white/60 dark:bg-gray-900/40 border-gray-200 dark:border-gray-700"
+                        ? "bg-primary/10 border-primary/20"
+                        : "bg-muted/30 border-border"
                     )}
                   >
                     <div className="flex items-center gap-2 mb-1">
                       {item.done ? (
-                        <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
+                        <CheckCircle2 className="h-4 w-4 text-primary" />
                       ) : (
-                        <XCircle className="h-4 w-4 text-gray-400" />
+                        <XCircle className="h-4 w-4 text-muted-foreground" />
                       )}
                       <Icon className={cn(
                         "h-3.5 w-3.5",
-                        item.done ? "text-green-600 dark:text-green-400" : "text-gray-400"
+                        item.done ? "text-primary" : "text-muted-foreground"
                       )} />
                     </div>
                     <span className={cn(
-                      "text-xs font-semibold block",
+                      "text-xs font-medium block",
                       item.done
-                        ? "text-green-800 dark:text-green-200"
-                        : "text-gray-600 dark:text-gray-400"
+                        ? "text-foreground"
+                        : "text-muted-foreground"
                     )}>
                       {item.label}
                     </span>
@@ -1159,67 +1159,74 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
 
           {/* Content Tabs - Enhanced */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-900/40 dark:to-gray-900/20 border-2 border-gray-200 dark:border-gray-800 rounded-xl p-1.5 flex-wrap h-auto shadow-sm">
+            <TabsList className="bg-muted/50 border border-border rounded-lg p-1 flex-wrap h-auto">
               <TabsTrigger 
                 value="basic" 
-                className="text-xs font-semibold font-ui flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:scale-105"
+                className="text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-md transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted"
               >
                 <Home className="h-4 w-4" />
                 <span>Temel Bilgiler</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="location" 
-                className="text-xs font-semibold font-ui flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:scale-105"
+                className="text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-md transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted"
               >
                 <MapPin className="h-4 w-4" />
                 <span>Konum</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="details" 
-                className="text-xs font-semibold font-ui flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-teal-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:scale-105"
+                className="text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-md transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted"
               >
                 <Ruler className="h-4 w-4" />
                 <span>Detaylar</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="images" 
-                className="text-xs font-semibold font-ui flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-500 data-[state=active]:to-rose-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:scale-105 relative"
+                className="text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-md transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted relative"
               >
                 <ImageIcon className="h-4 w-4" />
                 <span>Fotoğraflar</span>
                 {listing.images.length > 0 && (
-                  <span className="ml-1 px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-white/20 text-white">
+                  <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-[10px] font-semibold">
                     {listing.images.length}
-                  </span>
+                  </Badge>
                 )}
               </TabsTrigger>
               <TabsTrigger 
                 value="description" 
-                className="text-xs font-semibold font-ui flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:scale-105"
+                className="text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-md transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted"
               >
                 <FileText className="h-4 w-4" />
                 <span>Açıklama</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="seo" 
-                className="text-xs font-semibold font-ui flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:scale-105 relative"
+                className="text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-md transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted relative"
               >
                 <Search className="h-4 w-4" />
                 <span>SEO</span>
                 {seoScore.score >= 80 && (
-                  <CheckCircle2 className="h-3 w-3 ml-1 text-white" />
+                  <CheckCircle2 className="h-3.5 w-3.5 ml-1 text-primary-foreground" />
                 )}
               </TabsTrigger>
               <TabsTrigger 
                 value="analytics" 
-                className="text-xs font-semibold font-ui flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:scale-105"
+                className="text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-md transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted"
               >
                 <BarChart3 className="h-4 w-4" />
                 <span>Analitikler</span>
               </TabsTrigger>
               <TabsTrigger 
+                value="history" 
+                className="text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-md transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted"
+              >
+                <History className="h-4 w-4" />
+                <span>Versiyonlar</span>
+              </TabsTrigger>
+              <TabsTrigger 
                 value="settings" 
-                className="text-xs font-semibold font-ui flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-gray-600 data-[state=active]:to-gray-700 data-[state=active]:text-white data-[state=active]:shadow-md hover:scale-105"
+                className="text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-md transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted"
               >
                 <Settings className="h-4 w-4" />
                 <span>Ayarlar</span>
@@ -1238,7 +1245,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="h-9 px-4 text-xs font-semibold border-2 hover:border-design-light hover:bg-design-light/5 transition-all duration-200 hover:scale-105 inline-flex items-center gap-2"
+                    className="h-9 px-4 text-xs font-medium border border-border hover:border-primary hover:bg-primary/5 transition-all inline-flex items-center gap-2"
                   >
                     <Sparkles className="h-3.5 w-3.5 mr-1.5" />
                     Şablon Kullan
@@ -1246,7 +1253,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                 </DialogTrigger>
                 <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
-                    <DialogTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+                    <DialogTitle className="text-lg font-semibold text-foreground">
                       İlan Şablonları
                     </DialogTitle>
                   </DialogHeader>
@@ -1285,7 +1292,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                             setShowTemplates(false);
                             toast.success(`${type.label} şablonu uygulandı`);
                           }}
-                          className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-design-light hover:bg-design-light/5 transition-all text-left group"
+                          className="p-4 rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-all text-left group"
                         >
                           <div className="flex items-start justify-between gap-2 mb-2">
                             <div className="flex items-center gap-2">
@@ -1293,7 +1300,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                                 <Icon className="h-4 w-4 text-design-light" />
                               </div>
                               <div>
-                                <h3 className="text-sm font-semibold text-design-dark dark:text-white">
+                                <h3 className="text-sm font-semibold text-foreground">
                                   {template.title}
                                 </h3>
                                 <Badge variant="outline" className="text-[10px] mt-0.5">
@@ -1303,7 +1310,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                             </div>
                             <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-design-light transition-colors" />
                           </div>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
+                          <p className="text-xs text-muted-foreground line-clamp-2">
                             {template.description}
                           </p>
                         </button>
@@ -1332,17 +1339,17 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
 
               <Card className="card-professional">
                 <CardHeader>
-                  <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+                  <CardTitle className="text-base font-semibold text-foreground">
                     İlan Bilgileri
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="title" className="text-sm font-ui font-bold text-design-dark dark:text-white flex items-center gap-2">
-                        <FileText className="h-4 w-4 text-design-light" />
+                      <Label htmlFor="title" className="text-sm font-medium text-foreground flex items-center gap-2">
+                        <FileText className="h-4 w-4 text-primary" />
                         İlan Başlığı
-                        <span className="text-red-500">*</span>
+                        <span className="text-destructive">*</span>
                       </Label>
                       <button
                         type="button"
@@ -1453,7 +1460,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="space-y-2">
-                      <Label htmlFor="slug" className="text-sm font-ui font-bold text-design-dark dark:text-white flex items-center gap-2">
+                      <Label htmlFor="slug" className="text-sm font-medium text-foreground flex items-center gap-2">
                         <Globe className="h-4 w-4 text-design-light" />
                         Slug (URL)
                         <span className="text-red-500">*</span>
@@ -1484,7 +1491,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="status" className="text-sm font-ui font-bold text-design-dark dark:text-white flex items-center gap-2">
+                      <Label htmlFor="status" className="text-sm font-medium text-foreground flex items-center gap-2">
                         <TrendingUp className="h-4 w-4 text-design-light" />
                         İlan Tipi
                         <span className="text-red-500">*</span>
@@ -1515,7 +1522,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="property_type" className="text-sm font-ui font-bold text-design-dark dark:text-white flex items-center gap-2">
+                    <Label htmlFor="property_type" className="text-sm font-medium text-foreground flex items-center gap-2">
                       <Building2 className="h-4 w-4 text-design-light" />
                       Emlak Tipi
                       <span className="text-red-500">*</span>
@@ -1572,12 +1579,12 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
             {/* Location Tab */}
             <TabsContent value="location" className="space-y-6">
               <Card className="card-professional animate-slide-in-up hover-lift border-2 border-transparent hover:border-design-light/20 transition-all duration-300">
-                <CardHeader className="pb-4 border-b border-[#E7E7E7] dark:border-[#062F28] bg-gradient-to-r from-green-50/50 to-transparent dark:from-green-900/20">
+                <CardHeader className="pb-4 border-b border-border bg-gradient-to-r from-green-50/50 to-transparent dark:from-green-900/20">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900/30">
                       <MapPin className="h-5 w-5 text-green-600 dark:text-green-400" />
                     </div>
-                    <CardTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+                    <CardTitle className="text-base font-semibold text-foreground">
                       Konum Bilgileri
                     </CardTitle>
                   </div>
@@ -1585,7 +1592,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                 <CardContent className="space-y-5 pt-6">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="location_neighborhood" className="text-sm font-ui font-bold text-design-dark dark:text-white flex items-center gap-2">
+                      <Label htmlFor="location_neighborhood" className="text-sm font-medium text-foreground flex items-center gap-2">
                         <MapPin className="h-4 w-4 text-design-light" />
                         Mahalle
                         <span className="text-red-500">*</span>
@@ -1684,7 +1691,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                     <div className="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/30">
                       <DollarSign className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <CardTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+                    <CardTitle className="text-base font-semibold text-foreground">
                       Fiyat ve Özellikler
                     </CardTitle>
                   </div>
@@ -1981,7 +1988,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                         <ImageIcon className="h-5 w-5 text-pink-600 dark:text-pink-400" />
                       </div>
                       <div>
-                        <CardTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+                        <CardTitle className="text-base font-semibold text-foreground">
                           Fotoğraflar
                         </CardTitle>
                         <p className="text-xs text-design-gray dark:text-gray-400 mt-0.5">
@@ -2183,13 +2190,13 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
             {/* Description Tab */}
             <TabsContent value="description" className="space-y-6">
               {/* AI Content Assistant */}
-              <Card className="card-professional animate-slide-in-up border-2 border-transparent hover:border-design-light/20 transition-all duration-300">
-                <CardHeader className="pb-4 border-b border-[#E7E7E7] dark:border-[#062F28] bg-gradient-to-r from-purple-50/50 to-transparent dark:from-purple-900/20">
+              <Card className="border border-border">
+                <CardHeader className="pb-4 border-b border-border">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-purple-100 dark:bg-purple-900/30">
-                      <Sparkles className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <Sparkles className="h-5 w-5 text-primary" />
                     </div>
-                    <CardTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+                    <CardTitle className="text-base font-semibold text-foreground">
                       AI İçerik Asistanı
                     </CardTitle>
                   </div>
@@ -2214,38 +2221,112 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                         updateListing({ description: generated });
                         toast.success("Açıklama oluşturuldu!");
                       }}
-                      className="p-4 rounded-xl border-2 border-purple-200 dark:border-purple-800 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 hover:border-purple-400 dark:hover:border-purple-600 hover:scale-105 transition-all duration-200 text-left group"
+                      className="p-4 rounded-lg border border-border bg-card hover:bg-muted/50 transition-all text-left group"
                     >
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="p-2 rounded-lg bg-purple-100 dark:bg-purple-900/30 group-hover:bg-purple-200 dark:group-hover:bg-purple-900/50 transition-colors">
-                          <Wand2 className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                        <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                          <Wand2 className="h-5 w-5 text-primary" />
                         </div>
                         <div>
-                          <h3 className="font-bold text-design-dark dark:text-white">Otomatik Oluştur</h3>
-                          <p className="text-xs text-design-gray dark:text-gray-400">AI ile açıklama oluştur</p>
+                          <h3 className="font-semibold text-foreground">Otomatik Oluştur</h3>
+                          <p className="text-xs text-muted-foreground">AI ile açıklama oluştur</p>
                         </div>
                       </div>
                     </button>
                     <button
                       type="button"
                       onClick={async () => {
-                        if (!listing.description) {
-                          toast.error("Önce bir açıklama yazın");
+                        if (!listing.description || listing.description.trim().length === 0) {
+                          toast.error("İyileştirmek için açıklama gerekli");
                           return;
                         }
-                        toast.loading("Açıklama iyileştiriliyor...");
-                        await new Promise(resolve => setTimeout(resolve, 1500));
-                        toast.success("Açıklama iyileştirildi!");
+
+                        setImproving(true);
+                        
+                        try {
+                          // Start improvement in background - don't wait for response
+                          fetch(`/api/listings/${listing.id}/improve`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ field: "description" }),
+                          })
+                            .then(async (response) => {
+                              if (!response.ok) {
+                                throw new Error("İyileştirme başarısız");
+                              }
+
+                              // Process stream in background (don't block UI)
+                              const reader = response.body?.getReader();
+                              const decoder = new TextDecoder();
+                              let buffer = '';
+
+                              if (!reader) {
+                                throw new Error("Stream okunamadı");
+                              }
+
+                              while (true) {
+                                const { done, value } = await reader.read();
+                                
+                                if (done) break;
+
+                                buffer += decoder.decode(value, { stream: true });
+                                const lines = buffer.split('\n');
+                                buffer = lines.pop() || '';
+
+                                for (const line of lines) {
+                                  if (line.startsWith('data: ')) {
+                                    try {
+                                      const data = JSON.parse(line.slice(6));
+                                      
+                                      if (data.type === 'complete') {
+                                        toast.success("İyileştirme tamamlandı! Kuyruk sayfasından kontrol edebilirsiniz.");
+                                        // Optionally navigate to queue page
+                                        // router.push(`/${locale}/ai-improvements`);
+                                      } else if (data.type === 'error') {
+                                        throw new Error(data.error || "İyileştirme başarısız");
+                                      }
+                                    } catch (e) {
+                                      console.error("[ListingEditor] Parse error:", e);
+                                    }
+                                  }
+                                }
+                              }
+                            })
+                            .catch((error: any) => {
+                              console.error("[ListingEditor] AI improve error:", error);
+                              toast.error(error.message || "İyileştirme başarısız");
+                            })
+                            .finally(() => {
+                              setImproving(false);
+                            });
+
+                          // Show immediate feedback
+                          toast.info("İyileştirme başlatıldı. Arka planda devam ediyor...");
+                          
+                        } catch (error: any) {
+                          console.error("[ListingEditor] AI improve error:", error);
+                          toast.error(error.message || "İyileştirme başlatılamadı");
+                          setImproving(false);
+                        }
                       }}
-                      className="p-4 rounded-xl border-2 border-blue-200 dark:border-blue-800 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 hover:border-blue-400 dark:hover:border-blue-600 hover:scale-105 transition-all duration-200 text-left group"
+                      disabled={improving || !listing.description}
+                      className="p-4 rounded-lg border border-border bg-card hover:bg-muted/50 transition-all text-left group disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30 group-hover:bg-blue-200 dark:group-hover:bg-blue-900/50 transition-colors">
-                          <Zap className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                        <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                          {improving ? (
+                            <Loader2 className="h-5 w-5 text-primary animate-spin" />
+                          ) : (
+                            <Zap className="h-5 w-5 text-primary" />
+                          )}
                         </div>
                         <div>
-                          <h3 className="font-bold text-design-dark dark:text-white">İyileştir</h3>
-                          <p className="text-xs text-design-gray dark:text-gray-400">Mevcut açıklamayı optimize et</p>
+                          <h3 className="font-semibold text-foreground">
+                            {improving ? "İyileştiriliyor..." : "AI ile İyileştir"}
+                          </h3>
+                          <p className="text-xs text-muted-foreground">
+                            {improving ? "Arka planda işleniyor..." : "Mevcut açıklamayı optimize et"}
+                          </p>
                         </div>
                       </div>
                     </button>
@@ -2260,15 +2341,15 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                         await new Promise(resolve => setTimeout(resolve, 1500));
                         toast.success("SEO optimizasyonu tamamlandı!");
                       }}
-                      className="p-4 rounded-xl border-2 border-green-200 dark:border-green-800 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 hover:border-green-400 dark:hover:border-green-600 hover:scale-105 transition-all duration-200 text-left group"
+                      className="p-4 rounded-lg border border-border bg-card hover:bg-muted/50 transition-all text-left group"
                     >
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900/30 group-hover:bg-green-200 dark:group-hover:bg-green-900/50 transition-colors">
-                          <Target className="h-5 w-5 text-green-600 dark:text-green-400" />
+                        <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                          <Target className="h-5 w-5 text-primary" />
                         </div>
                         <div>
-                          <h3 className="font-bold text-design-dark dark:text-white">SEO Optimize Et</h3>
-                          <p className="text-xs text-design-gray dark:text-gray-400">Arama motorları için optimize et</p>
+                          <h3 className="font-semibold text-foreground">SEO Optimize Et</h3>
+                          <p className="text-xs text-muted-foreground">Arama motorları için optimize et</p>
                         </div>
                       </div>
                     </button>
@@ -2276,34 +2357,34 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                 </CardContent>
               </Card>
 
-              <Card className="card-professional animate-slide-in-up border-2 border-transparent hover:border-design-light/20 transition-all duration-300">
-                <CardHeader className="pb-4 border-b border-[#E7E7E7] dark:border-[#062F28] bg-gradient-to-r from-indigo-50/50 to-transparent dark:from-indigo-900/20">
+              <Card className="border border-border">
+                <CardHeader className="pb-4 border-b border-border">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-indigo-100 dark:bg-indigo-900/30">
-                        <FileText className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <FileText className="h-5 w-5 text-primary" />
                       </div>
-                      <CardTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+                      <CardTitle className="text-base font-semibold text-foreground">
                         Açıklama
                       </CardTitle>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-800">
-                        <FileTextIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                        <span className="text-sm font-bold text-blue-900 dark:text-blue-100">{listingStats.words} kelime</span>
-                      </div>
-                      <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-800">
-                        <CodeIcon className="h-4 w-4 text-purple-600 dark:text-purple-400" />
-                        <span className="text-sm font-bold text-purple-900 dark:text-purple-100">{listingStats.characters} karakter</span>
-                      </div>
+                      <Badge variant="outline" className="gap-2">
+                        <FileTextIcon className="h-4 w-4" />
+                        <span className="text-sm font-medium">{listingStats.words} kelime</span>
+                      </Badge>
+                      <Badge variant="outline" className="gap-2">
+                        <CodeIcon className="h-4 w-4" />
+                        <span className="text-sm font-medium">{listingStats.characters} karakter</span>
+                      </Badge>
                       {listing.description.length > 200 && (
-                        <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800">
+                        <Badge variant="default" className="bg-primary">
                           <CheckCircle2 className="h-3 w-3 mr-1" />
                           Yeterli
                         </Badge>
                       )}
                       {listing.description.length < 200 && listing.description.length > 0 && (
-                        <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800">
+                        <Badge variant="secondary">
                           <AlertCircle className="h-3 w-3 mr-1" />
                           Kısa
                         </Badge>
@@ -2354,7 +2435,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                         onChange={(value) => updateListing({ description: value })}
                         placeholder="İlan açıklamasını buraya yazın... Detaylı ve çekici bir açıklama yazmak ilanınızın görüntülenme oranını artırır."
                         className={cn(
-                          "min-h-[500px] rounded-xl border-2 border-gray-200 dark:border-gray-800 focus-within:border-design-light transition-all duration-200",
+                          "min-h-[500px] rounded-lg border border-border focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all",
                           distractionFree ? "min-h-[600px]" : ""
                         )}
                       />
@@ -2400,7 +2481,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                         <Target className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                       </div>
                       <div>
-                        <CardTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+                        <CardTitle className="text-base font-semibold text-foreground">
                           SEO Skoru
                         </CardTitle>
                         <p className="text-xs text-design-gray dark:text-gray-400 mt-0.5">
@@ -2471,7 +2552,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                       <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30">
                         <Search className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                       </div>
-                      <CardTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+                      <CardTitle className="text-base font-semibold text-foreground">
                         Gelişmiş SEO Analizi
                       </CardTitle>
                     </div>
@@ -2801,6 +2882,25 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
               </div>
             </TabsContent>
 
+            {/* Version History Tab */}
+            <TabsContent value="history" className="space-y-4 mt-4">
+              <VersionHistory
+                contentType="listing"
+                contentId={listing.id}
+                onRestore={async () => {
+                  // Reload listing after restore
+                  const response = await fetch(`/api/listings/${listing.id}`);
+                  if (response.ok) {
+                    const data = await response.json();
+                    if (data.success && data.listing) {
+                      setListing(data.listing);
+                      toast.success("Versiyon geri yüklendi");
+                    }
+                  }
+                }}
+              />
+            </TabsContent>
+
             {/* Settings Tab */}
             <TabsContent value="settings" className="space-y-6">
               {/* Scheduler */}
@@ -2833,7 +2933,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="flex items-center justify-between p-4 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+                    <div className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
                       <div>
                         <Label htmlFor="published" className="text-sm font-ui font-semibold">
                           Yayınla
@@ -2849,7 +2949,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                       />
                     </div>
 
-                    <div className="flex items-center justify-between p-4 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+                    <div className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
                       <div>
                         <Label htmlFor="featured" className="text-sm font-ui font-semibold">
                           Öne Çıkan
@@ -2865,7 +2965,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                       />
                     </div>
 
-                    <div className="flex items-center justify-between p-4 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+                    <div className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
                       <div>
                         <Label htmlFor="available" className="text-sm font-ui font-semibold">
                           Müsait
@@ -2889,14 +2989,14 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
 
         {/* Sidebar Column */}
         {!distractionFree && (
-          <div className={`space-y-6 transition-all duration-300 relative ${
+          <aside className={`transition-all duration-300 ${
             sidebarCollapsed ? "w-20" : "lg:col-span-1"
           }`}>
             {/* Collapse Toggle */}
             <button
               type="button"
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="hidden lg:flex absolute -left-3 top-6 z-10 w-6 h-6 items-center justify-center rounded-full bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] shadow-md hover:shadow-lg transition-all"
+              className="hidden lg:flex absolute -left-3 top-6 z-10 w-6 h-6 items-center justify-center rounded-full bg-card border border-border shadow-md hover:shadow-lg transition-all"
               title={sidebarCollapsed ? "Sidebar'ı Aç" : "Sidebar'ı Kapat"}
             >
               {sidebarCollapsed ? (
@@ -2929,12 +3029,13 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                 </div>
               </div>
             ) : (
-              <>
+              /* Expanded Sidebar - Full Cards */
+              <div className="sticky top-24 space-y-4 h-fit max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-modern pr-2">
                 {/* Listing Info Card */}
-                <Card className="card-professional sticky top-24">
+                <Card className="card-professional">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white">
+                      <CardTitle className="text-sm font-semibold text-foreground">
                         İlan Bilgileri
                       </CardTitle>
                       <button
@@ -2950,16 +3051,16 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div>
-                      <Label className="text-xs font-ui font-semibold mb-2 block">
+                      <Label className="text-xs font-medium mb-2 block text-muted-foreground">
                         Durum
                       </Label>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         {listing.published ? (
                           <Badge className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
                             Yayında
                           </Badge>
                         ) : (
-                          <Badge className="bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400">
+                          <Badge variant="secondary">
                             Taslak
                           </Badge>
                         )}
@@ -2976,30 +3077,42 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                       </div>
                     </div>
 
-                    <div>
-                      <Label className="text-xs font-ui font-semibold mb-2 block">
+                    <div className="space-y-1">
+                      <Label className="text-xs font-medium block text-muted-foreground">
                         Oluşturulma
                       </Label>
-                      <p className="text-xs text-design-gray dark:text-gray-400">
-                        {new Date(listing.created_at).toLocaleString("tr-TR")}
+                      <p className="text-sm text-foreground font-medium">
+                        {new Date(listing.created_at).toLocaleString("tr-TR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit"
+                        })}
                       </p>
                     </div>
 
-                    <div>
-                      <Label className="text-xs font-ui font-semibold mb-2 block">
+                    <div className="space-y-1">
+                      <Label className="text-xs font-medium block text-muted-foreground">
                         Son Güncelleme
                       </Label>
-                      <p className="text-xs text-design-gray dark:text-gray-400">
-                        {new Date(listing.updated_at).toLocaleString("tr-TR")}
+                      <p className="text-sm text-foreground font-medium">
+                        {new Date(listing.updated_at).toLocaleString("tr-TR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit"
+                        })}
                       </p>
                     </div>
 
                     {listing.price_amount && (
-                      <div>
-                        <Label className="text-xs font-ui font-semibold mb-2 block">
+                      <div className="space-y-1 pt-2 border-t border-gray-200 dark:border-gray-800">
+                        <Label className="text-xs font-medium block text-muted-foreground">
                           Fiyat
                         </Label>
-                        <p className="text-lg font-bold text-design-dark dark:text-white">
+                        <p className="text-xl font-semibold text-foreground">
                           {formatCurrency(listing.price_amount)}
                         </p>
                       </div>
@@ -3008,30 +3121,17 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                 </Card>
 
                 {/* SEO Score Card */}
-                <Card className="card-professional sticky top-[400px]">
+                <Card className="card-professional">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+                    <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
                       <TrendingUp className="h-4 w-4" />
                       SEO Skoru
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="relative w-full h-32">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-center">
-                          <p className={`text-4xl font-bold ${
-                            seoScore.score >= 80 
-                              ? "text-green-600 dark:text-green-400"
-                              : seoScore.score >= 60
-                              ? "text-yellow-600 dark:text-yellow-400"
-                              : "text-red-600 dark:text-red-400"
-                          }`}>
-                            {seoScore.score}
-                          </p>
-                          <p className="text-xs text-design-gray dark:text-gray-400 mt-1">/ 100</p>
-                        </div>
-                      </div>
-                      <svg className="transform -rotate-90 w-full h-full">
+                    <div className="relative w-full h-32 flex items-center justify-center">
+                      {/* SVG Gauge - Behind text */}
+                      <svg className="absolute inset-0 transform -rotate-90 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
                         <circle
                           cx="50%"
                           cy="50%"
@@ -3049,6 +3149,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                           strokeWidth="8"
                           fill="none"
                           strokeDasharray={`${2 * Math.PI * 45 * (seoScore.score / 100)} ${2 * Math.PI * 45}`}
+                          strokeLinecap="round"
                           className={`transition-all duration-500 ${
                             seoScore.score >= 80 
                               ? "text-green-600 dark:text-green-400"
@@ -3058,43 +3159,56 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                           }`}
                         />
                       </svg>
+                      {/* Score Text - In front */}
+                      <div className="relative text-center z-10 pointer-events-none">
+                        <p className={`text-4xl font-bold leading-none ${
+                          seoScore.score >= 80 
+                            ? "text-green-600 dark:text-green-400"
+                            : seoScore.score >= 60
+                            ? "text-yellow-600 dark:text-yellow-400"
+                            : "text-red-600 dark:text-red-400"
+                        }`}>
+                          {seoScore.score}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">/ 100</p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
 
                 {/* Quick Stats */}
                 <Card className="card-professional">
-                  <CardHeader>
-                    <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm font-semibold text-foreground">
                       Hızlı İstatistikler
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-design-gray dark:text-gray-400">Fotoğraf</span>
-                      <span className="text-sm font-bold text-design-dark dark:text-white">{listingStats.images}</span>
+                    <div className="flex items-center justify-between py-1">
+                      <span className="text-xs font-medium text-muted-foreground">Fotoğraf</span>
+                      <span className="text-sm font-semibold text-foreground">{listingStats.images}</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-design-gray dark:text-gray-400">Kelime</span>
-                      <span className="text-sm font-bold text-design-dark dark:text-white">{listingStats.words}</span>
+                    <div className="flex items-center justify-between py-1">
+                      <span className="text-xs font-medium text-muted-foreground">Kelime</span>
+                      <span className="text-sm font-semibold text-foreground">{listingStats.words}</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-design-gray dark:text-gray-400">Karakter</span>
-                      <span className="text-sm font-bold text-design-dark dark:text-white">{listingStats.characters}</span>
+                    <div className="flex items-center justify-between py-1">
+                      <span className="text-xs font-medium text-muted-foreground">Karakter</span>
+                      <span className="text-sm font-semibold text-foreground">{listingStats.characters}</span>
                     </div>
                     {listingStats.pricePerM2 && (
-                      <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-800">
-                        <span className="text-xs text-design-gray dark:text-gray-400">m² Fiyatı</span>
-                        <span className="text-sm font-bold text-design-dark dark:text-white">
+                      <div className="flex items-center justify-between pt-2 mt-2 border-t border-border">
+                        <span className="text-xs font-medium text-muted-foreground">m² Fiyatı</span>
+                        <span className="text-sm font-semibold text-foreground">
                           {formatCurrency(listingStats.pricePerM2)}/m²
                         </span>
                       </div>
                     )}
                   </CardContent>
                 </Card>
-              </>
+              </div>
             )}
-          </div>
+          </aside>
         )}
 
         {/* Live Preview Panel */}

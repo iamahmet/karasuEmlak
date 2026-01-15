@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, Button, Input, Badge } from "@karasu/ui";
 import {
   Select,
@@ -23,10 +23,17 @@ import {
   TrendingUp,
   Sparkles,
   AlertTriangle,
+  Filter,
+  X,
+  RefreshCw,
+  Grid3x3,
+  List,
+  Copy,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "@/i18n/routing";
 import Link from "next/link";
+import { cn } from "@karasu/lib";
 
 interface Article {
   id: string;
@@ -56,6 +63,8 @@ export function ArticlesManagement({ locale: _locale }: { locale: string }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(true);
+  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
 
   useEffect(() => {
     fetchArticles();
@@ -158,17 +167,36 @@ export function ArticlesManagement({ locale: _locale }: { locale: string }) {
     }
   };
 
-  const filteredArticles = articles.filter((article) => {
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      return (
-        article.title.toLowerCase().includes(query) ||
-        article.slug.toLowerCase().includes(query) ||
-        (article.category_slug && article.category_slug.toLowerCase().includes(query))
-      );
-    }
-    return true;
-  });
+  // Calculate statistics
+  const stats = useMemo(() => {
+    const total = articles.length;
+    const published = articles.filter(a => a.status === "published" || a.published_at).length;
+    const drafts = articles.filter(a => a.status === "draft" || !a.published_at).length;
+    const featured = articles.filter(a => a.is_featured).length;
+    const totalViews = articles.reduce((sum, a) => sum + (a.views || 0), 0);
+    
+    return {
+      total,
+      published,
+      drafts,
+      featured,
+      totalViews,
+    };
+  }, [articles]);
+
+  const filteredArticles = useMemo(() => {
+    return articles.filter((article) => {
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        return (
+          article.title.toLowerCase().includes(query) ||
+          article.slug.toLowerCase().includes(query) ||
+          (article.category_slug && article.category_slug.toLowerCase().includes(query))
+        );
+      }
+      return true;
+    });
+  }, [articles, searchQuery]);
 
   const getWebUrl = (slug: string) => {
     if (typeof window === "undefined") return "";
@@ -177,153 +205,257 @@ export function ArticlesManagement({ locale: _locale }: { locale: string }) {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-display font-bold text-design-dark dark:text-white">
-            Makale Yönetimi
-          </h2>
-          <p className="text-sm text-design-gray dark:text-gray-400 mt-1">
-            Blog makalelerini görüntüleyin, düzenleyin ve yönetin
-          </p>
+    <div className="space-y-4">
+      {/* Compact Header */}
+      <div className="flex items-center justify-between pb-4 border-b border-border">
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
+            <FileText className="h-5 w-5" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-foreground">Makaleler</h1>
+            <p className="text-xs text-muted-foreground">{stats.total} makale</p>
+          </div>
         </div>
-        <Button
-          onClick={() => router.push("/articles/new", { locale: _locale })}
-          className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-lg hover:shadow-xl"
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          Yeni Makale
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={fetchArticles}
+            disabled={loading}
+            className="gap-2"
+          >
+            <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
+            Yenile
+          </Button>
+          <Button
+            onClick={() => router.push("/articles/new", { locale: _locale })}
+            size="sm"
+            className="gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Yeni Makale
+          </Button>
+        </div>
       </div>
 
-      {/* Filters */}
-      <Card className="card-professional">
-        <CardContent className="p-5">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-2 block">
-                Arama
-              </label>
-              <div className="flex gap-2">
-                <Input
-                  placeholder="Makale başlığı, slug veya kategori..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                  className="input-modern"
-                />
-                <Button onClick={handleSearch} size="icon" variant="outline">
-                  <Search className="h-4 w-4" />
-                </Button>
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium text-muted-foreground">Toplam</p>
+                <p className="text-2xl font-bold text-foreground mt-1">{stats.total}</p>
               </div>
+              <FileText className="h-5 w-5 text-primary opacity-50" />
             </div>
+          </CardContent>
+        </Card>
 
-            <div>
-              <label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-2 block">
-                Durum
-              </label>
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="input-modern">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Tümü</SelectItem>
-                  <SelectItem value="published">Yayınlanmış</SelectItem>
-                  <SelectItem value="draft">Taslak</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex items-end">
-              <div className="text-sm text-design-gray dark:text-gray-400">
-                <span className="font-semibold">{filteredArticles.length}</span> makale bulundu
+        <Card className="border-2 border-green-500/20 bg-gradient-to-br from-green-500/5 to-green-500/10">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium text-muted-foreground">Yayında</p>
+                <p className="text-2xl font-bold text-foreground mt-1">{stats.published}</p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">{stats.drafts} taslak</p>
               </div>
+              <Eye className="h-5 w-5 text-green-600 opacity-50" />
             </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 border-yellow-500/20 bg-gradient-to-br from-yellow-500/5 to-yellow-500/10">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium text-muted-foreground">Öne Çıkan</p>
+                <p className="text-2xl font-bold text-foreground mt-1">{stats.featured}</p>
+              </div>
+              <Sparkles className="h-5 w-5 text-yellow-600 opacity-50" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 border-blue-500/20 bg-gradient-to-br from-blue-500/5 to-blue-500/10">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium text-muted-foreground">Toplam Görüntülenme</p>
+                <p className="text-2xl font-bold text-foreground mt-1">
+                  {stats.totalViews.toLocaleString("tr-TR")}
+                </p>
+              </div>
+              <TrendingUp className="h-5 w-5 text-blue-600 opacity-50" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Compact Filters */}
+      <Card className={cn("transition-all", !showFilters && "border-dashed")}>
+        <CardHeader className="flex flex-row items-center justify-between py-3 px-4">
+          <div className="flex items-center gap-2">
+            <Filter className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-semibold">Filtreler</CardTitle>
           </div>
-        </CardContent>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setSearchQuery("");
+                setStatusFilter("all");
+                fetchArticles();
+              }}
+              className="h-7 px-2 text-xs"
+            >
+              <X className="h-3 w-3 mr-1" />
+              Temizle
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowFilters(!showFilters)}
+              className="h-7 px-2 text-xs"
+            >
+              {showFilters ? "Gizle" : "Göster"}
+            </Button>
+          </div>
+        </CardHeader>
+        {showFilters && (
+          <CardContent className="pt-0 px-4 pb-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Ara..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                    className="h-9 text-sm"
+                  />
+                  <Button onClick={handleSearch} size="icon" variant="outline" className="h-9 w-9">
+                    <Search className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+
+              <div>
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger className="h-9 text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tümü</SelectItem>
+                    <SelectItem value="published">Yayınlanmış</SelectItem>
+                    <SelectItem value="draft">Taslak</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex items-center justify-end text-xs text-muted-foreground">
+                <span className="font-semibold text-foreground">{filteredArticles.length}</span>
+                <span className="ml-1">makale</span>
+              </div>
+            </div>
+          </CardContent>
+        )}
       </Card>
 
       {/* Articles List */}
-      <Card className="card-professional">
-        <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <FileText className="h-5 w-5 text-design-light" />
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between py-3 px-4">
+          <CardTitle className="text-sm font-semibold flex items-center gap-2">
+            <FileText className="h-4 w-4" />
             Makaleler ({filteredArticles.length})
           </CardTitle>
+          <div className="flex items-center gap-1 border rounded-md p-0.5">
+            <Button
+              variant={viewMode === "list" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setViewMode("list")}
+              className="h-7 px-2"
+            >
+              <List className="h-3 w-3" />
+            </Button>
+            <Button
+              variant={viewMode === "grid" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setViewMode("grid")}
+              className="h-7 px-2"
+            >
+              <Grid3x3 className="h-3 w-3" />
+            </Button>
+          </div>
         </CardHeader>
-        <CardContent className="px-5 pb-5">
+        <CardContent className="px-4 pb-4">
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-design-light" />
+              <Loader2 className="h-6 w-6 animate-spin text-primary" />
             </div>
           ) : filteredArticles.length === 0 ? (
             <div className="text-center py-12">
-              <FileText className="h-12 w-12 text-design-gray dark:text-gray-400 mx-auto mb-4 opacity-50" />
-              <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+              <FileText className="h-10 w-10 text-muted-foreground mx-auto mb-3 opacity-50" />
+              <p className="text-sm text-muted-foreground">
                 {searchQuery ? "Arama kriterlerinize uygun makale bulunamadı" : "Henüz makale bulunmuyor"}
               </p>
               {!searchQuery && (
                 <Button
                   onClick={() => router.push("/articles/new", { locale: _locale })}
-                  className="mt-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white"
+                  size="sm"
+                  className="mt-4 gap-2"
                 >
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className="h-4 w-4" />
                   İlk Makaleyi Oluştur
                 </Button>
               )}
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {filteredArticles.map((article) => (
                 <div
                   key={article.id}
-                  className="flex items-center justify-between p-4 border border-[#E7E7E7] dark:border-[#062F28] rounded-lg hover:border-design-light transition-all group"
+                  className="flex items-center justify-between p-3 border border-border rounded-lg hover:border-primary/50 hover:bg-muted/30 transition-all group"
                 >
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 flex-wrap mb-2">
-                      <h3 className="text-sm font-display font-bold text-design-dark dark:text-white group-hover:text-design-light transition-colors truncate">
+                    <div className="flex items-center gap-2 flex-wrap mb-1.5">
+                      <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors truncate">
                         {article.title}
                       </h3>
                       {article.status === "published" ? (
-                        <Badge className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 text-[10px] px-2 py-0.5">
-                          <Eye className="h-3 w-3 mr-1" />
+                        <Badge variant="default" className="bg-green-600 text-[10px] px-1.5 py-0 h-5 gap-1">
+                          <Eye className="h-2.5 w-2.5" />
                           Yayında
                         </Badge>
                       ) : (
-                        <Badge variant="secondary" className="text-[10px] px-2 py-0.5">
-                          <EyeOff className="h-3 w-3 mr-1" />
+                        <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-5 gap-1">
+                          <EyeOff className="h-2.5 w-2.5" />
                           Taslak
                         </Badge>
                       )}
                       {article.is_featured && (
-                        <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400 text-[10px] px-2 py-0.5">
+                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-5">
+                          <Sparkles className="h-2.5 w-2.5 mr-0.5" />
                           Öne Çıkan
                         </Badge>
                       )}
                       {article.is_breaking && (
-                        <Badge className="bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 text-[10px] px-2 py-0.5">
+                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-5 text-red-600 border-red-600">
                           Son Dakika
                         </Badge>
                       )}
-                      {/* AI Checker Badge - Show if content might be AI-like */}
-                      <Badge 
-                        className="bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400 text-[10px] px-2 py-0.5 cursor-help"
-                        title="AI Checker ile kontrol edin"
-                      >
-                        <Sparkles className="h-3 w-3 mr-1" />
-                        AI Check
-                      </Badge>
                     </div>
-                    <div className="flex items-center gap-4 text-xs text-design-gray dark:text-gray-400">
-                      <span className="truncate">/{article.slug}</span>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
+                      <span className="truncate font-mono">/{article.slug}</span>
                       {article.category_slug && (
                         <span className="truncate">• {article.category_slug}</span>
                       )}
                       {article.views > 0 && (
                         <span className="flex items-center gap-1">
                           <TrendingUp className="h-3 w-3" />
-                          {article.views.toLocaleString("tr-TR")} görüntülenme
+                          {article.views.toLocaleString("tr-TR")}
                         </span>
                       )}
                       {article.reading_time && (
@@ -337,38 +469,44 @@ export function ArticlesManagement({ locale: _locale }: { locale: string }) {
                           {new Date(article.published_at).toLocaleDateString("tr-TR", {
                             day: "numeric",
                             month: "short",
-                            year: "numeric",
                           })}
                         </span>
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 ml-4">
+                  <div className="flex items-center gap-1 ml-3">
                     <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => router.push(`/articles/${article.id}`, { locale: _locale })}
-                      className="h-9"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => {
+                        navigator.clipboard.writeText(`/blog/${article.slug}`);
+                        toast.success("URL kopyalandı");
+                      }}
+                      className="h-8 w-8"
+                      title="URL'yi kopyala"
                     >
-                      <Edit2 className="h-4 w-4 mr-2" />
-                      Düzenle
+                      <Copy className="h-3.5 w-3.5" />
                     </Button>
                     <Button
-                      variant="outline"
-                      size="sm"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => router.push(`/articles/${article.id}`, { locale: _locale })}
+                      className="h-8 w-8"
+                      title="Düzenle"
+                    >
+                      <Edit2 className="h-3.5 w-3.5" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       onClick={() => handleTogglePublished(article)}
-                      className="h-9"
+                      className="h-8 w-8"
+                      title={article.status === "published" ? "Yayından Kaldır" : "Yayınla"}
                     >
                       {article.status === "published" ? (
-                        <>
-                          <EyeOff className="h-4 w-4 mr-2" />
-                          Yayından Kaldır
-                        </>
+                        <EyeOff className="h-3.5 w-3.5" />
                       ) : (
-                        <>
-                          <Eye className="h-4 w-4 mr-2" />
-                          Yayınla
-                        </>
+                        <Eye className="h-3.5 w-3.5" />
                       )}
                     </Button>
                     {article.status === "published" && (
@@ -377,23 +515,23 @@ export function ArticlesManagement({ locale: _locale }: { locale: string }) {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Button variant="outline" size="sm" className="h-9">
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          Görüntüle
+                        <Button variant="ghost" size="icon" className="h-8 w-8" title="Sitede Görüntüle">
+                          <ExternalLink className="h-3.5 w-3.5" />
                         </Button>
                       </Link>
                     )}
                     <Button
-                      variant="outline"
-                      size="sm"
+                      variant="ghost"
+                      size="icon"
                       onClick={() => handleDelete(article.id)}
                       disabled={deletingId === article.id}
-                      className="h-9 text-destructive hover:text-destructive"
+                      className="h-8 w-8 text-destructive hover:text-destructive"
+                      title="Sil"
                     >
                       {deletingId === article.id ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
                       ) : (
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-3.5 w-3.5" />
                       )}
                     </Button>
                   </div>

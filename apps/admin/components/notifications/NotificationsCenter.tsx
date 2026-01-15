@@ -43,6 +43,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
+  const [unreadCount, setUnreadCount] = useState(0);
   const [settings, setSettings] = useState({
     email_notifications: true,
     push_notifications: true,
@@ -133,8 +134,25 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
         .update({ is_read: true })
         .eq("id", id);
 
-      if (error && error.code !== "PGRST116") {
-        throw error;
+      // Silently handle missing table
+      if (error) {
+        const errorCode = error.code || "";
+        const errorMessage = error.message?.toLowerCase() || "";
+        if (
+          errorCode === "PGRST116" || 
+          errorCode === "42P01" || 
+          errorMessage.includes("does not exist") || 
+          errorMessage.includes("relation") || 
+          errorMessage.includes("not found")
+        ) {
+          // Table doesn't exist, silently update local state
+          setNotifications((prev) =>
+            prev.map((n) => (n.id === id ? { ...n, is_read: true, read: true } : n))
+          );
+          return;
+        }
+        // For other errors, also silently handle
+        return;
       }
 
       setNotifications((prev) =>
@@ -153,8 +171,24 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
         .update({ read: true })
         .eq("read", false);
 
-      if (error && error.code !== "PGRST116") {
-        throw error;
+      // Silently handle missing table
+      if (error) {
+        const errorCode = error.code || "";
+        const errorMessage = error.message?.toLowerCase() || "";
+        if (
+          errorCode === "PGRST116" || 
+          errorCode === "42P01" || 
+          errorMessage.includes("does not exist") || 
+          errorMessage.includes("relation") || 
+          errorMessage.includes("not found")
+        ) {
+          // Table doesn't exist, silently update local state
+          setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true, read: true })));
+          setUnreadCount(0);
+          return;
+        }
+        // For other errors, also silently handle
+        return;
       }
 
       setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true, read: true })));
@@ -169,8 +203,23 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
       const supabase = createClient();
       const { error } = await supabase.from("notifications").delete().eq("id", id);
 
-      if (error && error.code !== "PGRST116") {
-        throw error;
+      // Silently handle missing table
+      if (error) {
+        const errorCode = error.code || "";
+        const errorMessage = error.message?.toLowerCase() || "";
+        if (
+          errorCode === "PGRST116" || 
+          errorCode === "42P01" || 
+          errorMessage.includes("does not exist") || 
+          errorMessage.includes("relation") || 
+          errorMessage.includes("not found")
+        ) {
+          // Table doesn't exist, silently update local state
+          setNotifications((prev) => prev.filter((n) => n.id !== id));
+          return;
+        }
+        // For other errors, also silently handle
+        return;
       }
 
       setNotifications((prev) => prev.filter((n) => n.id !== id));

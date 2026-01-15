@@ -194,7 +194,7 @@ export function AIListingAssistant({ listing, onUpdate, className }: AIListingAs
           </Badge>
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 pb-6">
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-2">
           <Button
@@ -241,7 +241,7 @@ export function AIListingAssistant({ listing, onUpdate, className }: AIListingAs
 
         {/* Suggestions List */}
         {suggestions.length > 0 && (
-          <div className="space-y-3">
+          <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent">
             {suggestions.map((suggestion, idx) => (
               <div
                 key={idx}
@@ -257,18 +257,18 @@ export function AIListingAssistant({ listing, onUpdate, className }: AIListingAs
                 )}
               >
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-2">
-                    {suggestion.type === "title" && <FileText className="h-4 w-4 text-blue-600 dark:text-blue-400" />}
-                    {suggestion.type === "description" && <FileText className="h-4 w-4 text-green-600 dark:text-green-400" />}
-                    {suggestion.type === "price" && <DollarSign className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />}
-                    {suggestion.type === "features" && <Sparkles className="h-4 w-4 text-purple-600 dark:text-purple-400" />}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {suggestion.type === "title" && <FileText className="h-4 w-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />}
+                    {suggestion.type === "description" && <FileText className="h-4 w-4 text-green-600 dark:text-green-400 flex-shrink-0" />}
+                    {suggestion.type === "price" && <DollarSign className="h-4 w-4 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />}
+                    {suggestion.type === "features" && <Sparkles className="h-4 w-4 text-purple-600 dark:text-purple-400 flex-shrink-0" />}
                     <h4 className="text-sm font-semibold text-design-dark dark:text-white">
                       {suggestion.title}
                     </h4>
                     <Badge
                       variant="outline"
                       className={cn(
-                        "text-[10px]",
+                        "text-[10px] flex-shrink-0",
                         suggestion.confidence >= 0.9
                           ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300"
                           : suggestion.confidence >= 0.8
@@ -286,7 +286,7 @@ export function AIListingAssistant({ listing, onUpdate, className }: AIListingAs
                       size="sm"
                       onClick={() => applySuggestion(suggestion)}
                       disabled={optimizing === suggestion.type}
-                      className="h-7 px-2 text-xs"
+                      className="h-7 px-2 text-xs flex-shrink-0"
                     >
                       {optimizing === suggestion.type ? (
                         <Loader2 className="h-3 w-3 animate-spin" />
@@ -299,11 +299,11 @@ export function AIListingAssistant({ listing, onUpdate, className }: AIListingAs
                     </Button>
                   )}
                 </div>
-                <p className="text-xs text-design-gray dark:text-gray-400 mb-2 line-clamp-2">
+                <p className="text-xs text-design-gray dark:text-gray-400 mb-2 line-clamp-3 break-words">
                   {suggestion.suggestion}
                 </p>
                 {suggestion.reasoning && (
-                  <p className="text-[10px] text-design-gray dark:text-gray-500 italic">
+                  <p className="text-[10px] text-design-gray dark:text-gray-500 italic break-words">
                     💡 {suggestion.reasoning}
                   </p>
                 )}
@@ -314,12 +314,12 @@ export function AIListingAssistant({ listing, onUpdate, className }: AIListingAs
 
         {/* Empty State */}
         {suggestions.length === 0 && !loading && (
-          <div className="text-center py-8">
+          <div className="text-center py-6 px-4">
             <Sparkles className="h-12 w-12 mx-auto mb-3 text-gray-400" />
-            <p className="text-sm text-design-gray dark:text-gray-400 mb-2">
+            <p className="text-sm text-design-gray dark:text-gray-400 mb-2 leading-relaxed">
               AI önerileri almak için "Akıllı Öneriler" butonuna tıklayın
             </p>
-            <p className="text-xs text-design-gray dark:text-gray-500">
+            <p className="text-xs text-design-gray dark:text-gray-500 leading-relaxed">
               Başlık, açıklama, fiyat ve özellik önerileri alabilirsiniz
             </p>
           </div>

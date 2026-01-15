@@ -176,7 +176,7 @@ export function SEOPerformanceMetrics({ locale = "tr" }: { locale?: string }) {
         {[...Array(6)].map((_, i) => (
           <Card key={i} className="card-modern animate-pulse">
             <CardContent className="p-5">
-              <div className="h-16 bg-[#E7E7E7] dark:bg-[#062F28] rounded"></div>
+              <div className="h-16 bg-muted rounded"></div>
             </CardContent>
           </Card>
         ))}
@@ -241,7 +241,7 @@ export function SEOPerformanceMetrics({ locale = "tr" }: { locale?: string }) {
                         <span>Hedef: {metric.target}</span>
                         <span>{progress}%</span>
                       </div>
-                      <div className="relative h-2 bg-[#E7E7E7] dark:bg-[#062F28] rounded-full overflow-hidden">
+                      <div className="relative h-2 bg-muted rounded-full overflow-hidden">
                         <div
                           className={cn(
                             "absolute inset-y-0 left-0 rounded-full transition-all duration-1000",

@@ -211,10 +211,10 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
           </React.Fragment>
         ))}
       </CommandList>
-      <div className="border-t border-[#E7E7E7] dark:border-[#062F28] px-3 py-2">
-        <div className="flex items-center justify-between text-xs text-design-gray dark:text-gray-400">
+      <div className="border-t border-border px-3 py-2">
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-4">
-            <kbd className="px-2 py-1 bg-[#E7E7E7] dark:bg-[#062F28] rounded text-xs font-mono">
+            <kbd className="px-2 py-1 bg-muted rounded text-xs font-mono">
               ↑↓
             </kbd>
             <span>Navigate</span>

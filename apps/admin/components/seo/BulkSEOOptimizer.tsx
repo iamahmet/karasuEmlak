@@ -292,7 +292,7 @@ export function BulkSEOOptimizer({ locale }: { locale: string }) {
                     "p-4 rounded-xl border transition-all cursor-pointer",
                     selectedItem?.id === item.id
                       ? "border-design-light bg-design-light/5 dark:bg-design-light/10"
-                      : "border-slate-200/50 dark:border-[#0a3d35]/50 hover:border-design-light/50 dark:hover:border-design-light/50 bg-white dark:bg-[#062F28]"
+                      : "border-border/50 hover:border-design-light/50 bg-card"
                   )}
                   onClick={() => setSelectedItem(item)}
                 >

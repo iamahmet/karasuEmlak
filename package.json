@@ -96,6 +96,7 @@
     "listings:create": "tsx scripts/create-listings-fast.ts",
     "listings:check": "tsx scripts/create-listings-fast.ts 0",
     "listings:add-images": "tsx scripts/add-images-to-listings.ts",
+    "listings:import-images": "tsx scripts/import-listing-images.ts",
     "content:qa:generate": "tsx scripts/content/generate-qa-distribution.ts",
     "content:qa:sql": "tsx scripts/content/generate-qa-sql.ts",
     "parity:verify": "tsx scripts/parity/verify.ts",

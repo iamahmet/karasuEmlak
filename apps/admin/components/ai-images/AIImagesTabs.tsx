@@ -18,7 +18,7 @@ export function AIImagesTabs({ locale: _locale }: { locale: string }) {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-      <TabsList className="bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-lg p-1 flex-wrap h-auto">
+      <TabsList className="bg-card border border-border rounded-lg p-1 flex-wrap h-auto">
         <TabsTrigger value="dashboard" className="text-xs font-ui flex items-center gap-2">
           <BarChart3 className="h-4 w-4" />
           Dashboard

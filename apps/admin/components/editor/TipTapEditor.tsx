@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
@@ -36,7 +37,6 @@ import {
 } from "lucide-react";
 import { Button } from "@karasu/ui";
 import { cn } from "@karasu/lib";
-import { useState } from "react";
 import { MediaLibraryButton } from "@/components/content-studio/MediaLibraryButton";
 
 interface TipTapEditorProps {
@@ -56,6 +56,12 @@ export function TipTapEditor({
 }: TipTapEditorProps) {
   const [showLinkDialog, setShowLinkDialog] = useState(false);
   const [linkUrl, setLinkUrl] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Fix SSR hydration warning
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const editor = useEditor({
     extensions: [
@@ -63,6 +69,7 @@ export function TipTapEditor({
         heading: {
           levels: [1, 2, 3],
         },
+        codeBlock: false, // Disable default codeBlock to avoid duplicate
       }),
       Image.configure({
         inline: true,
@@ -92,6 +99,7 @@ export function TipTapEditor({
     ],
     content,
     editable,
+    immediatelyRender: false, // Fix SSR hydration warning
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
@@ -102,8 +110,21 @@ export function TipTapEditor({
     },
   });
 
-  if (!editor) {
-    return null;
+  // Update editor content when content prop changes
+  useEffect(() => {
+    if (editor && isMounted && content !== editor.getHTML()) {
+      editor.commands.setContent(content || "", false);
+    }
+  }, [content, editor, isMounted]);
+
+  if (!isMounted || !editor) {
+    return (
+      <div className="min-h-[300px] border border-border rounded-lg p-4 bg-muted/30 animate-pulse">
+        <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
+        <div className="h-4 bg-muted rounded w-full mb-2"></div>
+        <div className="h-4 bg-muted rounded w-5/6"></div>
+      </div>
+    );
   }
 
   const addImage = (url: string) => {

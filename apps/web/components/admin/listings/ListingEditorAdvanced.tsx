@@ -2889,7 +2889,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
 
         {/* Sidebar Column */}
         {!distractionFree && (
-          <div className={`space-y-6 transition-all duration-300 relative ${
+          <aside className={`transition-all duration-300 ${
             sidebarCollapsed ? "w-20" : "lg:col-span-1"
           }`}>
             {/* Collapse Toggle */}
@@ -2929,9 +2929,10 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                 </div>
               </div>
             ) : (
-              <>
+              /* Expanded Sidebar - Full Cards */
+              <div className="sticky top-24 space-y-4 h-fit max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-modern pr-2">
                 {/* Listing Info Card */}
-                <Card className="card-professional sticky top-24">
+                <Card className="card-professional">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white">
@@ -2950,10 +2951,10 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div>
-                      <Label className="text-xs font-ui font-semibold mb-2 block">
+                      <Label className="text-xs font-ui font-semibold mb-2 block text-design-gray dark:text-gray-400">
                         Durum
                       </Label>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         {listing.published ? (
                           <Badge className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
                             Yayında
@@ -2976,30 +2977,42 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                       </div>
                     </div>
 
-                    <div>
-                      <Label className="text-xs font-ui font-semibold mb-2 block">
+                    <div className="space-y-1">
+                      <Label className="text-xs font-ui font-semibold block text-design-gray dark:text-gray-400">
                         Oluşturulma
                       </Label>
-                      <p className="text-xs text-design-gray dark:text-gray-400">
-                        {new Date(listing.created_at).toLocaleString("tr-TR")}
+                      <p className="text-sm text-design-dark dark:text-white font-medium">
+                        {new Date(listing.created_at).toLocaleString("tr-TR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit"
+                        })}
                       </p>
                     </div>
 
-                    <div>
-                      <Label className="text-xs font-ui font-semibold mb-2 block">
+                    <div className="space-y-1">
+                      <Label className="text-xs font-ui font-semibold block text-design-gray dark:text-gray-400">
                         Son Güncelleme
                       </Label>
-                      <p className="text-xs text-design-gray dark:text-gray-400">
-                        {new Date(listing.updated_at).toLocaleString("tr-TR")}
+                      <p className="text-sm text-design-dark dark:text-white font-medium">
+                        {new Date(listing.updated_at).toLocaleString("tr-TR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit"
+                        })}
                       </p>
                     </div>
 
                     {listing.price_amount && (
-                      <div>
-                        <Label className="text-xs font-ui font-semibold mb-2 block">
+                      <div className="space-y-1 pt-2 border-t border-gray-200 dark:border-gray-800">
+                        <Label className="text-xs font-ui font-semibold block text-design-gray dark:text-gray-400">
                           Fiyat
                         </Label>
-                        <p className="text-lg font-bold text-design-dark dark:text-white">
+                        <p className="text-xl font-bold text-design-dark dark:text-white">
                           {formatCurrency(listing.price_amount)}
                         </p>
                       </div>
@@ -3008,7 +3021,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                 </Card>
 
                 {/* SEO Score Card */}
-                <Card className="card-professional sticky top-[400px]">
+                <Card className="card-professional">
                   <CardHeader className="pb-3">
                     <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
                       <TrendingUp className="h-4 w-4" />
@@ -3016,22 +3029,9 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="relative w-full h-32">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-center">
-                          <p className={`text-4xl font-bold ${
-                            seoScore.score >= 80 
-                              ? "text-green-600 dark:text-green-400"
-                              : seoScore.score >= 60
-                              ? "text-yellow-600 dark:text-yellow-400"
-                              : "text-red-600 dark:text-red-400"
-                          }`}>
-                            {seoScore.score}
-                          </p>
-                          <p className="text-xs text-design-gray dark:text-gray-400 mt-1">/ 100</p>
-                        </div>
-                      </div>
-                      <svg className="transform -rotate-90 w-full h-full">
+                    <div className="relative w-full h-32 flex items-center justify-center">
+                      {/* SVG Gauge - Behind text */}
+                      <svg className="absolute inset-0 transform -rotate-90 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
                         <circle
                           cx="50%"
                           cy="50%"
@@ -3049,6 +3049,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                           strokeWidth="8"
                           fill="none"
                           strokeDasharray={`${2 * Math.PI * 45 * (seoScore.score / 100)} ${2 * Math.PI * 45}`}
+                          strokeLinecap="round"
                           className={`transition-all duration-500 ${
                             seoScore.score >= 80 
                               ? "text-green-600 dark:text-green-400"
@@ -3058,33 +3059,46 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                           }`}
                         />
                       </svg>
+                      {/* Score Text - In front */}
+                      <div className="relative text-center z-10 pointer-events-none">
+                        <p className={`text-4xl font-bold leading-none ${
+                          seoScore.score >= 80 
+                            ? "text-green-600 dark:text-green-400"
+                            : seoScore.score >= 60
+                            ? "text-yellow-600 dark:text-yellow-400"
+                            : "text-red-600 dark:text-red-400"
+                        }`}>
+                          {seoScore.score}
+                        </p>
+                        <p className="text-xs text-design-gray dark:text-gray-400 mt-1">/ 100</p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
 
                 {/* Quick Stats */}
                 <Card className="card-professional">
-                  <CardHeader>
+                  <CardHeader className="pb-3">
                     <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white">
                       Hızlı İstatistikler
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-design-gray dark:text-gray-400">Fotoğraf</span>
+                    <div className="flex items-center justify-between py-1">
+                      <span className="text-xs font-medium text-design-gray dark:text-gray-400">Fotoğraf</span>
                       <span className="text-sm font-bold text-design-dark dark:text-white">{listingStats.images}</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-design-gray dark:text-gray-400">Kelime</span>
+                    <div className="flex items-center justify-between py-1">
+                      <span className="text-xs font-medium text-design-gray dark:text-gray-400">Kelime</span>
                       <span className="text-sm font-bold text-design-dark dark:text-white">{listingStats.words}</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-design-gray dark:text-gray-400">Karakter</span>
+                    <div className="flex items-center justify-between py-1">
+                      <span className="text-xs font-medium text-design-gray dark:text-gray-400">Karakter</span>
                       <span className="text-sm font-bold text-design-dark dark:text-white">{listingStats.characters}</span>
                     </div>
                     {listingStats.pricePerM2 && (
-                      <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-800">
-                        <span className="text-xs text-design-gray dark:text-gray-400">m² Fiyatı</span>
+                      <div className="flex items-center justify-between pt-2 mt-2 border-t border-gray-200 dark:border-gray-800">
+                        <span className="text-xs font-medium text-design-gray dark:text-gray-400">m² Fiyatı</span>
                         <span className="text-sm font-bold text-design-dark dark:text-white">
                           {formatCurrency(listingStats.pricePerM2)}/m²
                         </span>
@@ -3092,9 +3106,9 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     )}
                   </CardContent>
                 </Card>
-              </>
+              </div>
             )}
-          </div>
+          </aside>
         )}
 
         {/* Live Preview Panel */}

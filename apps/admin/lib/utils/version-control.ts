@@ -107,13 +107,30 @@ export async function getContentVersions(
       .order("version_number", { ascending: false });
 
     if (error) {
-      console.error("Failed to get content versions:", error);
+      // Check if table doesn't exist
+      const errorCode = error.code || "";
+      const errorMessage = error.message?.toLowerCase() || "";
+      
+      if (
+        errorCode === "PGRST116" || 
+        errorCode === "42P01" || 
+        errorMessage.includes("does not exist") || 
+        errorMessage.includes("relation") || 
+        errorMessage.includes("not found")
+      ) {
+        // Table doesn't exist, return empty array silently
+        return [];
+      }
+      
+      // For other errors, log and return empty
+      console.error("[Version Control] Failed to get content versions:", error);
       return [];
     }
 
     return (data || []) as ContentVersion[];
   } catch (error) {
-    console.error("Error getting content versions:", error);
+    // Silently handle all errors
+    console.error("[Version Control] Error getting content versions:", error);
     return [];
   }
 }

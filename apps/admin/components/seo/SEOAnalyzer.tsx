@@ -243,7 +243,7 @@ export function SEOAnalyzer({ locale }: { locale: string }) {
                 {analysis.issues.map((issue, index) => (
                   <div
                     key={index}
-                    className="p-5 rounded-xl border-2 border-[#E7E7E7] dark:border-[#062F28] hover:border-design-light/50 transition-all duration-200"
+                    className="p-5 rounded-xl border-2 border-border hover:border-design-light/50 transition-all duration-200"
                   >
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0 mt-0.5">

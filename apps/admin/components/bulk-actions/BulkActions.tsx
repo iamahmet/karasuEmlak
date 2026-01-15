@@ -57,15 +57,15 @@ export function BulkActions<T>({
   };
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-fixed bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-lg shadow-lg px-4 py-3 flex items-center gap-3 animate-slide-up" style={{ zIndex: 'var(--z-fixed)' }}>
+    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-fixed bg-card border border-border rounded-lg shadow-lg px-4 py-3 flex items-center gap-3 animate-slide-up" style={{ zIndex: 'var(--z-fixed)' }}>
       <div className="flex items-center gap-2">
         <CheckSquare className="h-4 w-4 text-design-light" />
-        <span className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+        <span className="text-sm font-semibold text-foreground font-ui">
           {selectedItems.length} selected
         </span>
       </div>
 
-      <div className="h-6 w-px bg-[#E7E7E7] dark:bg-[#062F28]" />
+      <div className="h-6 w-px bg-border" />
 
       <div className="flex items-center gap-2">
         {onBulkPublish && (
@@ -74,7 +74,7 @@ export function BulkActions<T>({
             size="sm"
             onClick={() => handleBulkAction(onBulkPublish, "Publish")}
             disabled={loading}
-            className="h-8 px-3 text-xs border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+            className="h-8 px-3 text-xs border border-border rounded-lg font-ui hover-scale"
           >
             Publish
           </Button>
@@ -86,7 +86,7 @@ export function BulkActions<T>({
             size="sm"
             onClick={() => handleBulkAction(onBulkUnpublish, "Unpublish")}
             disabled={loading}
-            className="h-8 px-3 text-xs border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+            className="h-8 px-3 text-xs border border-border rounded-lg font-ui hover-scale"
           >
             Unpublish
           </Button>
@@ -98,7 +98,7 @@ export function BulkActions<T>({
             size="sm"
             onClick={() => handleBulkAction(onBulkArchive, "Archive")}
             disabled={loading}
-            className="h-8 px-3 text-xs border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+            className="h-8 px-3 text-xs border border-border rounded-lg font-ui hover-scale"
           >
             <Archive className="h-3.5 w-3.5 mr-1.5" />
             Archive
@@ -123,7 +123,7 @@ export function BulkActions<T>({
             <Button
               variant="outline"
               size="sm"
-              className="h-8 w-8 p-0 border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+              className="h-8 w-8 p-0 border border-border rounded-lg font-ui hover-scale"
             >
               <MoreVertical className="h-3.5 w-3.5" />
             </Button>

@@ -129,6 +129,9 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
     featured: false,
     available: true,
   });
+  const [isGeneratingTitle, setIsGeneratingTitle] = useState(false);
+  const [isGeneratingDescription, setIsGeneratingDescription] = useState(false);
+  const [isOptimizingSEO, setIsOptimizingSEO] = useState(false);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -426,10 +429,64 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
             </div>
 
             <div>
-              <Label htmlFor="title" className="text-sm font-semibold flex items-center gap-2">
-                <Home className="h-4 w-4" />
-                İlan Başlığı <span className="text-red-500">*</span>
-              </Label>
+              <div className="flex items-center justify-between mb-2">
+                <Label htmlFor="title" className="text-sm font-semibold flex items-center gap-2">
+                  <Home className="h-4 w-4" />
+                  İlan Başlığı <span className="text-red-500">*</span>
+                </Label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={async () => {
+                    setIsGeneratingTitle(true);
+                    try {
+                      const response = await fetch("/api/listings/generate-title", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          property_type: listing.property_type,
+                          location_neighborhood: listing.location_neighborhood,
+                          room_count: listing.room_count,
+                          status: listing.status,
+                          area_sqm: listing.area_sqm,
+                        }),
+                      });
+                      
+                      if (response.ok) {
+                        const data = await response.json();
+                        const title = data.title || "";
+                        setListing({
+                          ...listing,
+                          title,
+                          slug: listing.slug || generateSlug(title),
+                        });
+                        toast.success("AI ile başlık oluşturuldu");
+                      } else {
+                        throw new Error("Başlık oluşturulamadı");
+                      }
+                    } catch (error: any) {
+                      toast.error(error.message || "Başlık oluşturulamadı");
+                    } finally {
+                      setIsGeneratingTitle(false);
+                    }
+                  }}
+                  disabled={isGeneratingTitle || !listing.property_type || !listing.location_neighborhood}
+                  className="gap-2"
+                >
+                  {isGeneratingTitle ? (
+                    <>
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                      Oluşturuluyor...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="h-3 w-3" />
+                      AI ile Oluştur
+                    </>
+                  )}
+                </Button>
+              </div>
               <Input
                 id="title"
                 value={listing.title}
@@ -451,11 +508,29 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                   {errors.title}
                 </p>
               )}
-              {listing.title && (
-                <p className="text-xs text-gray-500 mt-1">
+              <div className="flex items-center justify-between mt-1">
+                <p className="text-xs text-gray-500">
                   {listing.title.length} karakter
                 </p>
-              )}
+                {listing.title.length > 0 && listing.title.length < 30 && (
+                  <p className="text-xs text-amber-600 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    Başlık çok kısa (en az 30 karakter önerilir)
+                  </p>
+                )}
+                {listing.title.length >= 30 && listing.title.length <= 60 && (
+                  <p className="text-xs text-green-600 flex items-center gap-1">
+                    <CheckCircle className="h-3 w-3" />
+                    İdeal uzunluk
+                  </p>
+                )}
+                {listing.title.length > 60 && (
+                  <p className="text-xs text-amber-600 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    Başlık çok uzun (maksimum 60 karakter önerilir)
+                  </p>
+                )}
+              </div>
             </div>
 
             <div>
@@ -597,27 +672,43 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
               </div>
             </div>
 
-            <div>
-              <Label htmlFor="location_neighborhood" className="text-sm font-semibold flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
-                Mahalle <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="location_neighborhood"
-                value={listing.location_neighborhood}
-                onChange={(e) => {
-                  setListing({ ...listing, location_neighborhood: e.target.value });
-                  if (errors.location_neighborhood) setErrors(prev => ({ ...prev, location_neighborhood: "" }));
-                }}
-                className={cn("mt-2 h-12 text-base", errors.location_neighborhood && "border-red-500")}
-                placeholder="Örn: Merkez Mahallesi, Liman Mahallesi"
-              />
-              {errors.location_neighborhood && (
-                <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                  <AlertCircle className="h-3 w-3" />
-                  {errors.location_neighborhood}
-                </p>
-              )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="location_neighborhood" className="text-sm font-semibold flex items-center gap-2">
+                  <MapPin className="h-4 w-4" />
+                  Mahalle <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="location_neighborhood"
+                  value={listing.location_neighborhood}
+                  onChange={(e) => {
+                    setListing({ ...listing, location_neighborhood: e.target.value });
+                    if (errors.location_neighborhood) setErrors(prev => ({ ...prev, location_neighborhood: "" }));
+                  }}
+                  className={cn("mt-2 h-12 text-base", errors.location_neighborhood && "border-red-500")}
+                  placeholder="Örn: Merkez Mahallesi, Liman Mahallesi"
+                />
+                {errors.location_neighborhood && (
+                  <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {errors.location_neighborhood}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="location_district" className="text-sm font-semibold flex items-center gap-2">
+                  <MapPin className="h-4 w-4" />
+                  İlçe
+                </Label>
+                <Input
+                  id="location_district"
+                  value="Karasu"
+                  disabled
+                  className="mt-2 h-12 text-base bg-muted"
+                />
+                <p className="text-xs text-gray-500 mt-1">Varsayılan: Karasu</p>
+              </div>
             </div>
 
             <div>
@@ -636,6 +727,19 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
               <p className="text-xs text-gray-500 mt-1">
                 Detaylı adres bilgisi harita entegrasyonu için kullanılır
               </p>
+            </div>
+
+            {/* Map Integration Placeholder */}
+            <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-8 text-center bg-muted/30">
+              <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <h4 className="font-semibold text-foreground mb-2">Harita Entegrasyonu</h4>
+              <p className="text-sm text-muted-foreground mb-4">
+                Konum seçimi için harita entegrasyonu yakında eklenecek
+              </p>
+              <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                <Info className="h-4 w-4" />
+                <span>Koordinatlar otomatik olarak belirlenecek</span>
+              </div>
             </div>
           </div>
         );
@@ -1030,7 +1134,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
           <div className="space-y-6">
             <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-indigo-200 dark:border-indigo-800">
               <div className="flex items-start gap-3">
-                <FileText className="h-5 w-5 text-indigo-600 dark:text-indigo-400 mt-0.5 flex-shrink-0" />
+                <FileText className="h-5 w-5 text-indigo-600 dark:text-indigo-400 mt-0.5 shrink-0" />
                 <div>
                   <h3 className="font-semibold text-indigo-900 dark:text-indigo-100 mb-1">Açıklama Yazma İpuçları</h3>
                   <ul className="text-sm text-indigo-800 dark:text-indigo-200 space-y-1 list-disc list-inside">
@@ -1044,23 +1148,146 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
             </div>
 
             <div>
-              <Label htmlFor="description" className="text-sm font-semibold flex items-center gap-2 mb-2">
-                <FileText className="h-4 w-4" />
-                İlan Açıklaması
-              </Label>
+              <div className="flex items-center justify-between mb-2">
+                <Label htmlFor="description" className="text-sm font-semibold flex items-center gap-2">
+                  <FileText className="h-4 w-4" />
+                  İlan Açıklaması
+                </Label>
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={async () => {
+                      setIsGeneratingDescription(true);
+                      try {
+                        const response = await fetch("/api/listings/generate-description", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            property_type: listing.property_type,
+                            location_neighborhood: listing.location_neighborhood,
+                            room_count: listing.room_count,
+                            status: listing.status,
+                            area_sqm: listing.area_sqm,
+                            price_amount: listing.price_amount,
+                            floor: listing.floor,
+                            building_age: listing.building_age,
+                          }),
+                        });
+                        
+                        if (response.ok) {
+                          const data = await response.json();
+                          setListing({
+                            ...listing,
+                            description: data.description || "",
+                          });
+                          toast.success("AI ile açıklama oluşturuldu");
+                        } else {
+                          throw new Error("Açıklama oluşturulamadı");
+                        }
+                      } catch (error: any) {
+                        toast.error(error.message || "Açıklama oluşturulamadı");
+                      } finally {
+                        setIsGeneratingDescription(false);
+                      }
+                    }}
+                    disabled={isGeneratingDescription || !listing.property_type || !listing.location_neighborhood}
+                    className="gap-2"
+                  >
+                    {isGeneratingDescription ? (
+                      <>
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                        Oluşturuluyor...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-3 w-3" />
+                        AI ile Oluştur
+                      </>
+                    )}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={async () => {
+                      setIsOptimizingSEO(true);
+                      try {
+                        const response = await fetch("/api/listings/optimize-seo", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            title: listing.title,
+                            description: listing.description,
+                            property_type: listing.property_type,
+                            location_neighborhood: listing.location_neighborhood,
+                          }),
+                        });
+                        
+                        if (response.ok) {
+                          const data = await response.json();
+                          setListing({
+                            ...listing,
+                            title: data.optimizedTitle || listing.title,
+                            description: data.optimizedDescription || listing.description,
+                            slug: data.optimizedSlug || listing.slug,
+                          });
+                          toast.success("SEO optimizasyonu tamamlandı");
+                        } else {
+                          throw new Error("SEO optimizasyonu başarısız");
+                        }
+                      } catch (error: any) {
+                        toast.error(error.message || "SEO optimizasyonu başarısız");
+                      } finally {
+                        setIsOptimizingSEO(false);
+                      }
+                    }}
+                    disabled={isOptimizingSEO || !listing.title || !listing.description}
+                    className="gap-2"
+                  >
+                    {isOptimizingSEO ? (
+                      <>
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                        Optimize Ediliyor...
+                      </>
+                    ) : (
+                      <>
+                        <Zap className="h-3 w-3" />
+                        SEO Optimize Et
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
               <RichTextEditor
                 value={listing.description}
                 onChange={(value) => setListing({ ...listing, description: value })}
                 placeholder="İlan detaylarını buraya yazın... Örn: Denize sıfır konumda, ferah ve aydınlık 3+1 daire..."
+                className="min-h-[400px]"
               />
               {listing.description && (
-                <div className="mt-3 flex items-center gap-4 text-xs text-gray-500">
-                  <span>
-                    {listing.description.replace(/<[^>]*>/g, "").length} karakter
-                  </span>
-                  <span>
-                    {listing.description.replace(/<[^>]*>/g, "").split(/\s+/).filter(w => w.length > 0).length} kelime
-                  </span>
+                <div className="mt-3 flex items-center justify-between">
+                  <div className="flex items-center gap-4 text-xs text-gray-500">
+                    <span>
+                      {listing.description.replace(/<[^>]*>/g, "").length} karakter
+                    </span>
+                    <span>
+                      {listing.description.replace(/<[^>]*>/g, "").split(/\s+/).filter(w => w.length > 0).length} kelime
+                    </span>
+                  </div>
+                  {listing.description.replace(/<[^>]*>/g, "").length < 200 && (
+                    <p className="text-xs text-amber-600 flex items-center gap-1">
+                      <AlertCircle className="h-3 w-3" />
+                      Açıklama çok kısa (en az 200 karakter önerilir)
+                    </p>
+                  )}
+                  {listing.description.replace(/<[^>]*>/g, "").length >= 200 && listing.description.replace(/<[^>]*>/g, "").length <= 1000 && (
+                    <p className="text-xs text-green-600 flex items-center gap-1">
+                      <CheckCircle className="h-3 w-3" />
+                      İdeal uzunluk
+                    </p>
+                  )}
                 </div>
               )}
             </div>
@@ -1069,21 +1296,24 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
 
       case 6: // Önizleme & Yayın
         const previewPricePerM2 = calculatePricePerM2();
+        const previewUrl = listing.slug ? `/ilan/${listing.slug}` : "#";
         return (
           <div className="space-y-6">
             {/* Preview Card */}
-            <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-700">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold flex items-center gap-2">
-                  <Eye className="h-5 w-5" />
-                  İlan Önizlemesi
-                </h3>
-                <Badge variant={listing.published ? "default" : "outline"}>
-                  {listing.published ? "Yayında" : "Taslak"}
-                </Badge>
-              </div>
-
-              <div className="space-y-4">
+            <Card className="border-2 border-primary/20">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <Eye className="h-5 w-5" />
+                    İlan Önizlemesi
+                  </CardTitle>
+                  <Badge variant={listing.published ? "default" : "outline"}>
+                    {listing.published ? "Yayında" : "Taslak"}
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
                 {/* Image Preview */}
                 {listing.images.length > 0 ? (
                   <div className="relative aspect-video rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600">
@@ -1169,8 +1399,27 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                     </Badge>
                   )}
                 </div>
-              </div>
-            </div>
+                
+                {/* Preview Actions */}
+                <div className="flex items-center gap-2 pt-4 border-t">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.open(previewUrl, "_blank")}
+                    className="gap-2"
+                    disabled={!listing.slug}
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Sitede Önizle
+                  </Button>
+                  <div className="flex-1" />
+                  <div className="text-xs text-muted-foreground">
+                    {listing.images.length} fotoğraf
+                  </div>
+                </div>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Publish Settings */}
             <div className="space-y-4">
@@ -1379,9 +1628,9 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
       </div>
 
       {/* Content Card */}
-      <Card className="shadow-xl border-2">
+      <Card className="shadow-xl border-2 bg-card/50 backdrop-blur-sm">
         <CardContent className="p-8">
-          <div className="min-h-[400px]">
+          <div className="min-h-[500px]">
             {renderStepContent()}
           </div>
         </CardContent>

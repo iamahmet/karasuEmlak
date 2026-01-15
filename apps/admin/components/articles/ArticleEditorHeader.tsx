@@ -89,13 +89,13 @@ export function ArticleEditorHeader({
   };
 
   return (
-    <div className="sticky top-0 z-50 bg-white/95 dark:bg-[#062F28]/95 backdrop-blur-md border-b border-slate-200/80 dark:border-[#0a3d35]/80 shadow-sm -mx-6 -mt-6 mb-6">
+    <div className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/80 shadow-sm -mx-6 -mt-6 mb-6">
       <div className="px-6 py-4">
         {/* Top Row: Title and Actions */}
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-2xl font-display font-bold text-design-dark dark:text-white truncate">
+              <h1 className="text-2xl font-display font-bold text-foreground truncate">
                 {title || "Yeni Makale"}
               </h1>
               {isPublished && (
@@ -111,7 +111,7 @@ export function ArticleEditorHeader({
             </div>
             
             {/* Stats Row */}
-            <div className="flex items-center gap-4 text-xs text-design-gray dark:text-gray-400 flex-wrap">
+            <div className="flex items-center gap-4 text-xs text-muted-foreground flex-wrap">
               {lastSaved && (
                 <span className="flex items-center gap-1.5">
                   <CheckCircle2 className={cn(
@@ -156,7 +156,7 @@ export function ArticleEditorHeader({
                 "gap-2",
                 isDirty
                   ? "bg-design-light hover:bg-design-light/90 text-white"
-                  : "bg-slate-100 dark:bg-[#0a3d35] text-slate-600 dark:text-slate-400"
+                  : "bg-muted text-muted-foreground"
               )}
             >
               {saving ? (
@@ -255,7 +255,7 @@ export function ArticleEditorHeader({
                   URL'yi Kopyala
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="gap-2 text-xs text-design-gray dark:text-gray-400">
+                <DropdownMenuItem className="gap-2 text-xs text-muted-foreground">
                   <Settings className="h-4 w-4" />
                   Ayarlar
                 </DropdownMenuItem>
@@ -265,33 +265,33 @@ export function ArticleEditorHeader({
         </div>
 
         {/* Keyboard Shortcuts Hint */}
-        <div className="flex items-center gap-4 text-[10px] text-design-gray dark:text-gray-400 pt-2 border-t border-slate-100 dark:border-[#0a3d35]/50">
+        <div className="flex items-center gap-4 text-[10px] text-muted-foreground pt-2 border-t border-border/50">
           <span className="flex items-center gap-1">
-            <kbd className="px-1.5 py-0.5 bg-slate-100 dark:bg-[#0a3d35] rounded text-[10px] font-mono">
+            <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">
               Ctrl
             </kbd>
             <span>+</span>
-            <kbd className="px-1.5 py-0.5 bg-slate-100 dark:bg-[#0a3d35] rounded text-[10px] font-mono">
+            <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">
               S
             </kbd>
             <span className="ml-1">Kaydet</span>
           </span>
           <span className="flex items-center gap-1">
-            <kbd className="px-1.5 py-0.5 bg-slate-100 dark:bg-[#0a3d35] rounded text-[10px] font-mono">
+            <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">
               Ctrl
             </kbd>
             <span>+</span>
-            <kbd className="px-1.5 py-0.5 bg-slate-100 dark:bg-[#0a3d35] rounded text-[10px] font-mono">
+            <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">
               P
             </kbd>
             <span className="ml-1">Yayınla</span>
           </span>
           <span className="flex items-center gap-1">
-            <kbd className="px-1.5 py-0.5 bg-slate-100 dark:bg-[#0a3d35] rounded text-[10px] font-mono">
+            <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">
               Ctrl
             </kbd>
             <span>+</span>
-            <kbd className="px-1.5 py-0.5 bg-slate-100 dark:bg-[#0a3d35] rounded text-[10px] font-mono">
+            <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">
               K
             </kbd>
             <span className="ml-1">Önizle</span>

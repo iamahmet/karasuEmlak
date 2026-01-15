@@ -610,7 +610,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
   };
 
   return (
-    <div className={`space-y-6 ${isFullscreen ? "fixed inset-0 z-50 bg-white dark:bg-[#062F28] overflow-auto" : ""} ${distractionFree ? "distraction-free-mode" : ""}`}>
+    <div className={`space-y-6 ${isFullscreen ? "fixed inset-0 z-50 bg-background overflow-auto" : ""} ${distractionFree ? "distraction-free-mode" : ""}`}>
       {/* Professional Header */}
       <ArticleEditorHeader
         title={article.title || "Yeni Makale"}
@@ -634,7 +634,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
       />
 
       {/* Legacy Header (Hidden) - Keeping for reference */}
-      <div className="hidden flex items-center justify-between sticky top-0 z-40 bg-white dark:bg-[#062F28] border-b border-[#E7E7E7] dark:border-[#0a3d35] px-6 py-4 -mx-6 -mt-6 mb-6 backdrop-blur-sm bg-white/95 dark:bg-[#062F28]/95">
+      <div className="hidden flex items-center justify-between sticky top-0 z-40 bg-card border-b border-border px-6 py-4 -mx-6 -mt-6 mb-6 backdrop-blur-sm bg-card/95">
         <div className="flex items-center gap-4">
           <div>
             <h1 className="text-2xl font-display font-bold text-design-dark dark:text-white mb-1">
@@ -683,14 +683,14 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
               className={`p-2 rounded-lg transition-colors ${
                 translationMode 
                   ? "bg-design-light text-white" 
-                  : "hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35]"
+                  : "hover:bg-muted"
               }`}
               title="Çeviri Modu"
             >
               <Languages className="h-4 w-4" />
             </button>
             {translationMode && (
-              <div className="absolute right-0 top-full mt-2 bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-lg shadow-lg z-50 min-w-[200px]">
+              <div className="absolute right-0 top-full mt-2 bg-card border border-border rounded-lg shadow-lg z-50 min-w-[200px]">
                 <div className="p-2">
                   <p className="text-xs font-semibold text-design-gray dark:text-gray-400 mb-2 px-2">Hedef Dil</p>
                   {availableLocales.filter(l => l.code !== locale).map((loc) => (
@@ -900,7 +900,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
         }`}>
           {/* Content Tab */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-lg p-1 flex-wrap h-auto">
+            <TabsList className="bg-card border border-border rounded-lg p-1 flex-wrap h-auto">
               <TabsTrigger value="content" className="text-xs font-ui flex items-center gap-2">
                 <FileText className="h-4 w-4" />
                 İçerik
@@ -1626,7 +1626,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="flex items-center justify-between p-4 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+                    <div className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
                       <div>
                         <Label htmlFor="is_published" className="text-sm font-ui font-semibold">
                           Yayınla
@@ -1649,7 +1649,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                       />
                     </div>
 
-                    <div className="flex items-center justify-between p-4 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+                    <div className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
                       <div>
                         <Label htmlFor="is_featured" className="text-sm font-ui font-semibold">
                           Öne Çıkan
@@ -1665,7 +1665,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                       />
                     </div>
 
-                    <div className="flex items-center justify-between p-4 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+                    <div className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
                       <div>
                         <Label htmlFor="is_breaking" className="text-sm font-ui font-semibold">
                           Son Dakika
@@ -1792,14 +1792,14 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
 
         {/* Sidebar Column */}
         {!distractionFree && (
-          <div className={`space-y-6 transition-all duration-300 relative ${
+          <aside className={`transition-all duration-300 ${
             sidebarCollapsed ? "w-20" : "lg:col-span-1"
           }`}>
             {/* Collapse Toggle */}
             <button
               type="button"
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="hidden lg:flex absolute -left-3 top-6 z-10 w-6 h-6 items-center justify-center rounded-full bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] shadow-md hover:shadow-lg transition-all"
+              className="hidden lg:flex absolute -left-3 top-6 z-10 w-6 h-6 items-center justify-center rounded-full bg-card border border-border shadow-md hover:shadow-lg transition-all"
               title={sidebarCollapsed ? "Sidebar'ı Aç" : "Sidebar'ı Kapat"}
             >
               {sidebarCollapsed ? (
@@ -1816,7 +1816,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                   <button
                     type="button"
                     onClick={() => setSidebarCollapsed(false)}
-                    className="p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35] transition-colors"
+                    className="p-3 rounded-lg bg-card border border-border hover:bg-muted transition-colors"
                     title="Doküman Ayarları"
                   >
                     <Settings className="h-4 w-4" />
@@ -1824,7 +1824,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                   <button
                     type="button"
                     onClick={() => { setSidebarCollapsed(false); setActiveTab("seo"); }}
-                    className="p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35] transition-colors"
+                    className="p-3 rounded-lg bg-card border border-border hover:bg-muted transition-colors"
                     title="SEO Skoru"
                   >
                     <TrendingUp className="h-4 w-4" />
@@ -1832,7 +1832,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                   <button
                     type="button"
                     onClick={() => setShowHistory(true)}
-                    className="p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35] transition-colors"
+                    className="p-3 rounded-lg bg-card border border-border hover:bg-muted transition-colors"
                     title="Versiyon Geçmişi"
                   >
                     <History className="h-4 w-4" />
@@ -1840,44 +1840,47 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                 </div>
               </div>
             ) : (
-              <ArticleEditorSidebar
-                contentStats={contentStats}
-                seoScore={seoScore}
-                isPublished={article.is_published}
-                publishedAt={article.published_at}
-                createdAt={article.created_at}
-                updatedAt={article.updated_at}
-                views={article.views}
-                category={article.category}
-                author={article.author}
-                onViewArticle={() => {
-                  const baseUrl = typeof window !== "undefined" 
-                    ? window.location.origin.replace(":3001", ":3000")
-                    : "http://localhost:3000";
-                  const url = `${baseUrl}/${locale}/blog/${article.slug}`;
-                  window.open(url, "_blank");
-                }}
-                locale={locale}
-              articleId={article.id}
-                articleSlug={article.slug}
-                revisionHistory={revisionHistory}
-                tags={tags}
-                onTagsChange={setTags}
-                onFeaturedImageChange={(url) => updateArticle({ featured_image: url })}
-                onNavigateToSEO={() => setActiveTab("seo")}
-              />
-              )}
-            </div>
+              /* Expanded Sidebar - Full Cards */
+              <div className="sticky top-24 space-y-4 h-fit max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-modern pr-2">
+                <ArticleEditorSidebar
+                  contentStats={contentStats}
+                  seoScore={seoScore}
+                  isPublished={article.is_published}
+                  publishedAt={article.published_at}
+                  createdAt={article.created_at}
+                  updatedAt={article.updated_at}
+                  views={article.views}
+                  category={article.category}
+                  author={article.author}
+                  onViewArticle={() => {
+                    const baseUrl = typeof window !== "undefined" 
+                      ? window.location.origin.replace(":3001", ":3000")
+                      : "http://localhost:3000";
+                    const url = `${baseUrl}/${locale}/blog/${article.slug}`;
+                    window.open(url, "_blank");
+                  }}
+                  locale={locale}
+                  articleId={article.id}
+                  articleSlug={article.slug}
+                  revisionHistory={revisionHistory}
+                  tags={tags}
+                  onTagsChange={setTags}
+                  onFeaturedImageChange={(url) => updateArticle({ featured_image: url })}
+                  onNavigateToSEO={() => setActiveTab("seo")}
+                />
+              </div>
+            )}
+          </aside>
         )}
 
         {/* Live Preview Panel */}
         {livePreview && livePreviewUrl && (
           <div className={`space-y-4 transition-all duration-300 ${
             previewSide === "right" 
-              ? "col-span-1 border-l border-[#E7E7E7] dark:border-[#062F28] pl-6" 
-              : "col-span-full border-t border-[#E7E7E7] dark:border-[#062F28] pt-6"
+              ? "col-span-1 border-l border-border pl-6"
+              : "col-span-full border-t border-border pt-6"
           }`}>
-            <div className="flex items-center justify-between sticky top-24 bg-white dark:bg-[#062F28] pb-4 z-10">
+            <div className="flex items-center justify-between sticky top-24 bg-card pb-4 z-10">
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-display font-bold text-design-dark dark:text-white">
                   Canlı Önizleme
@@ -1910,7 +1913,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                 </button>
               </div>
             </div>
-            <div className={`rounded-lg border border-[#E7E7E7] dark:border-[#062F28] overflow-hidden bg-white ${
+            <div className={`rounded-lg border border-border overflow-hidden bg-card ${
               previewSide === "right" ? "h-[calc(100vh-200px)]" : "h-[600px]"
             }`}>
               <iframe

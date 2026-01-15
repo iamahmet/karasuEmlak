@@ -112,7 +112,7 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
 
   if (!mounted) {
     return (
-      <header className="sticky top-0 z-50 w-full border-b border-white/20 dark:border-[#0a3d35]/50 bg-white/80 dark:bg-[#062F28]/80 backdrop-blur-xl h-14" />
+      <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-card/80 backdrop-blur-xl h-14" />
     );
   }
 
@@ -120,7 +120,7 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
     <>
       <header 
         role="banner" 
-        className="sticky top-0 z-50 w-full border-b border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 bg-white/98 dark:bg-[#062F28]/98 backdrop-blur-xl supports-[backdrop-filter]:bg-white/95 dark:supports-[backdrop-filter]:bg-[#062F28]/95 shadow-sm shadow-black/5 dark:shadow-black/20 transition-all duration-200"
+        className="sticky top-0 z-50 w-full border-b border-border/60 bg-card/98 backdrop-blur-xl supports-[backdrop-filter]:bg-card/95 shadow-sm shadow-black/5 dark:shadow-black/20 transition-all duration-200"
         style={{ height: 'var(--header-height, 52px)' }}
       >
         {/* Subtle gradient overlay */}
@@ -132,7 +132,7 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
             variant="ghost"
             size="icon"
             onClick={onMenuToggle}
-            className="md:hidden h-8 w-8 rounded-md hover:bg-[#E7E7E7]/50 dark:hover:bg-[#0a3d35]/50 transition-all"
+            className="md:hidden h-8 w-8 rounded-md hover:bg-muted/50 transition-all"
             aria-label="Menü"
           >
             {isMobileMenuOpen ? (
@@ -172,9 +172,9 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
                 onClick={() => setSearchOpen(true)}
                 onFocus={() => setSearchOpen(true)}
                 aria-label="Site genelinde ara"
-                className="pl-8 pr-14 h-8 text-xs border border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 focus:border-design-light dark:focus:border-design-light focus:ring-1 focus:ring-design-light/20 bg-white/80 dark:bg-[#0a3d35]/80 backdrop-blur-sm text-design-dark dark:text-white transition-all duration-200 rounded-md font-ui placeholder:text-design-gray dark:placeholder:text-gray-400 cursor-pointer hover:border-design-light/40 hover:bg-white/90 dark:hover:bg-[#0a3d35]/90 relative z-10"
+                className="pl-8 pr-14 h-8 text-xs border border-border/60 focus:border-design-light focus:ring-1 focus:ring-design-light/20 bg-card/80 backdrop-blur-sm text-foreground transition-all duration-200 rounded-md font-ui placeholder:text-muted-foreground cursor-pointer hover:border-design-light/40 hover:bg-card/90 relative z-10"
               />
-              <kbd className="absolute right-2 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[9px] font-mono bg-gradient-to-br from-[#E7E7E7] to-[#E7E7E7]/80 dark:from-[#062F28] dark:to-[#062F28]/80 border border-[#E7E7E7]/50 dark:border-[#062F28]/50 rounded text-design-gray dark:text-gray-400 shadow-sm z-10 hidden sm:flex items-center gap-0.5">
+              <kbd className="absolute right-2 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[9px] font-mono bg-muted border border-border/50 rounded text-muted-foreground shadow-sm z-10 hidden sm:flex items-center gap-0.5">
                 <Command className="h-2.5 w-2.5" />
                 <span>K</span>
               </kbd>
@@ -191,7 +191,7 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="hidden lg:flex h-8 w-8 rounded-md hover:bg-[#E7E7E7]/50 dark:hover:bg-[#0a3d35]/50 transition-all"
+                  className="hidden lg:flex h-8 w-8 rounded-md hover:bg-muted/50 transition-all"
                   aria-label="Hızlı navigasyon"
                 >
                   <LayoutDashboard className="h-4 w-4 text-design-dark dark:text-white" />
@@ -199,7 +199,7 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
               </DropdownMenuTrigger>
               <DropdownMenuContent 
                 align="end" 
-                className="w-64 rounded-lg border border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 shadow-lg bg-white/98 dark:bg-[#0a3d35]/98 backdrop-blur-xl p-1.5"
+                className="w-64 rounded-lg border border-border/60 shadow-lg bg-card/98 backdrop-blur-xl p-1.5"
               >
                 <DropdownMenuLabel className="px-2.5 py-2 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
                   Hızlı Navigasyon
@@ -210,7 +210,7 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
                     <DropdownMenuItem
                       key={item.href}
                       onClick={() => router.push(item.href)}
-                      className="rounded-md hover:bg-[#E7E7E7]/50 dark:hover:bg-[#0a3d35]/50 transition-all cursor-pointer px-2.5 py-2 group"
+                      className="rounded-md hover:bg-muted/50 transition-all cursor-pointer px-2.5 py-2 group"
                     >
                       <div className="flex items-center gap-2.5 w-full">
                         <div className="flex-shrink-0 w-7 h-7 rounded-md bg-gradient-to-br from-design-light/15 to-design-light/5 dark:from-design-light/25 dark:to-design-light/15 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -247,21 +247,21 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
                   variant="ghost" 
                   size="icon" 
                   aria-label="Kullanıcı menüsü"
-                  className="h-8 w-8 rounded-md hover:bg-[#E7E7E7]/50 dark:hover:bg-[#0a3d35]/50 transition-all duration-200 relative group"
+                  className="h-8 w-8 rounded-md hover:bg-muted/50 transition-all duration-200 relative group"
                 >
-                  <div className="relative w-7 h-7 rounded-md bg-gradient-to-br from-design-dark via-design-dark/90 to-design-dark/80 dark:from-design-light dark:via-design-light/90 dark:to-design-light/80 flex items-center justify-center border border-[#E7E7E7]/40 dark:border-[#0a3d35]/40 shadow-sm group-hover:shadow-md transition-all duration-200">
+                  <div className="relative w-7 h-7 rounded-md bg-gradient-to-br from-design-dark via-design-dark/90 to-design-dark/80 dark:from-design-light dark:via-design-light/90 dark:to-design-light/80 flex items-center justify-center border border-border/40 shadow-sm group-hover:shadow-md transition-all duration-200">
                     <User className="h-3.5 w-3.5 text-white dark:text-design-dark" />
                   </div>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent 
                 align="end" 
-                className="w-64 rounded-lg border border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 shadow-lg bg-white/98 dark:bg-[#0a3d35]/98 backdrop-blur-xl p-1.5 animate-in fade-in-0 zoom-in-95 duration-200"
+                className="w-64 rounded-lg border border-border/60 shadow-lg bg-card/98 backdrop-blur-xl p-1.5 animate-in fade-in-0 zoom-in-95 duration-200"
               >
                 {/* User Info - Compact */}
-                <DropdownMenuLabel className="px-2.5 py-2.5 border-b border-[#E7E7E7]/60 dark:border-[#0a3d35]/60">
+                <DropdownMenuLabel className="px-2.5 py-2.5 border-b border-border/60">
                   <div className="flex items-center gap-2.5">
-                    <div className="relative w-8 h-8 rounded-md bg-gradient-to-br from-design-dark via-design-dark/90 to-design-dark/80 dark:from-design-light dark:via-design-light/90 dark:to-design-light/80 flex items-center justify-center shadow-sm border border-[#E7E7E7]/40 dark:border-[#0a3d35]/40">
+                      <div className="relative w-8 h-8 rounded-md bg-gradient-to-br from-design-dark via-design-dark/90 to-design-dark/80 dark:from-design-light dark:via-design-light/90 dark:to-design-light/80 flex items-center justify-center shadow-sm border border-border/40">
                       <User className="h-4 w-4 text-white dark:text-design-dark" />
                     </div>
                     <div className="min-w-0 flex-1">

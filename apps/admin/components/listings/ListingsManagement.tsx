@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, Button, Input, Badge, Checkbox } from "@karasu/ui";
 import {
   Select,
@@ -19,11 +19,32 @@ import {
   Search,
   Loader2,
   ExternalLink,
+  Grid3x3,
+  List,
+  Filter,
+  X,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  Star,
+  TrendingUp,
+  Calendar,
+  MapPin,
+  DollarSign,
+  Building2,
+  RefreshCw,
+  Download,
+  Upload,
+  MoreVertical,
+  Copy,
+  Archive,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "@/i18n/routing";
 import { LoadingState } from "../ui/LoadingState";
 import { EmptyState } from "../empty-states/EmptyState";
+import { cn } from "@karasu/lib";
+import { formatCurrency, formatNumber } from "@karasu/lib/utils";
 
 interface Listing {
   id: string;
@@ -41,6 +62,10 @@ interface Listing {
   updated_at: string;
 }
 
+type ViewMode = "table" | "grid";
+type SortField = "title" | "price" | "created_at" | "updated_at";
+type SortOrder = "asc" | "desc";
+
 export function ListingsManagement({ locale }: { locale: string }) {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
@@ -50,6 +75,10 @@ export function ListingsManagement({ locale }: { locale: string }) {
   const [publishedFilter, setPublishedFilter] = useState<string>("all");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [bulkLoading, setBulkLoading] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>("table");
+  const [sortField, setSortField] = useState<SortField>("created_at");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
+  const [showFilters, setShowFilters] = useState(true);
 
   useEffect(() => {
     fetchListings();
@@ -202,16 +231,96 @@ export function ListingsManagement({ locale }: { locale: string }) {
     }
   };
 
-  const filteredListings = listings.filter((listing) => {
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      return (
-        listing.title.toLowerCase().includes(query) ||
-        listing.location_neighborhood.toLowerCase().includes(query)
-      );
+  // Calculate statistics
+  const stats = useMemo(() => {
+    const total = listings.length;
+    const published = listings.filter(l => l.published).length;
+    const drafts = listings.filter(l => !l.published).length;
+    const featured = listings.filter(l => l.featured).length;
+    const satilik = listings.filter(l => l.status === "satilik").length;
+    const kiralik = listings.filter(l => l.status === "kiralik").length;
+    const totalValue = listings.reduce((sum, l) => sum + (l.price_amount || 0), 0);
+    
+    return {
+      total,
+      published,
+      drafts,
+      featured,
+      satilik,
+      kiralik,
+      totalValue,
+    };
+  }, [listings]);
+
+  // Filter and sort listings
+  const filteredListings = useMemo(() => {
+    let filtered = listings.filter((listing) => {
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        return (
+          listing.title.toLowerCase().includes(query) ||
+          listing.location_neighborhood.toLowerCase().includes(query) ||
+          listing.slug.toLowerCase().includes(query)
+        );
+      }
+      return true;
+    });
+
+    // Sort
+    filtered.sort((a, b) => {
+      let aValue: any;
+      let bValue: any;
+
+      switch (sortField) {
+        case "title":
+          aValue = a.title.toLowerCase();
+          bValue = b.title.toLowerCase();
+          break;
+        case "price":
+          aValue = a.price_amount || 0;
+          bValue = b.price_amount || 0;
+          break;
+        case "created_at":
+          aValue = new Date(a.created_at).getTime();
+          bValue = new Date(b.created_at).getTime();
+          break;
+        case "updated_at":
+          aValue = new Date(a.updated_at).getTime();
+          bValue = new Date(b.updated_at).getTime();
+          break;
+        default:
+          return 0;
+      }
+
+      if (sortOrder === "asc") {
+        return aValue > bValue ? 1 : -1;
+      } else {
+        return aValue < bValue ? 1 : -1;
+      }
+    });
+
+    return filtered;
+  }, [listings, searchQuery, sortField, sortOrder]);
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("desc");
     }
-    return true;
-  });
+  };
+
+  const SortIcon = ({ field }: { field: SortField }) => {
+    if (sortField !== field) {
+      return <ArrowUpDown className="h-4 w-4 text-muted-foreground" />;
+    }
+    return sortOrder === "asc" ? (
+      <ArrowUp className="h-4 w-4 text-primary" />
+    ) : (
+      <ArrowDown className="h-4 w-4 text-primary" />
+    );
+  };
 
   const propertyTypeLabels: Record<string, string> = {
     daire: "Daire",
@@ -225,13 +334,106 @@ export function ListingsManagement({ locale }: { locale: string }) {
 
   return (
     <div className="space-y-6">
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Toplam İlan</p>
+                <p className="text-3xl font-bold text-foreground mt-2">{stats.total}</p>
+              </div>
+              <div className="p-3 rounded-lg bg-primary/10">
+                <Home className="h-6 w-6 text-primary" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 border-green-500/20 bg-gradient-to-br from-green-500/5 to-green-500/10">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Yayında</p>
+                <p className="text-3xl font-bold text-foreground mt-2">{stats.published}</p>
+                <p className="text-xs text-muted-foreground mt-1">{stats.drafts} taslak</p>
+              </div>
+              <div className="p-3 rounded-lg bg-green-500/10">
+                <Eye className="h-6 w-6 text-green-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 border-yellow-500/20 bg-gradient-to-br from-yellow-500/5 to-yellow-500/10">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Öne Çıkan</p>
+                <p className="text-3xl font-bold text-foreground mt-2">{stats.featured}</p>
+              </div>
+              <div className="p-3 rounded-lg bg-yellow-500/10">
+                <Star className="h-6 w-6 text-yellow-600 fill-yellow-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 border-blue-500/20 bg-gradient-to-br from-blue-500/5 to-blue-500/10">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Toplam Değer</p>
+                <p className="text-2xl font-bold text-foreground mt-2">
+                  {formatCurrency(stats.totalValue)}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {stats.satilik} satılık, {stats.kiralik} kiralık
+                </p>
+              </div>
+              <div className="p-3 rounded-lg bg-blue-500/10">
+                <TrendingUp className="h-6 w-6 text-blue-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Filtreler</CardTitle>
+      <Card className={cn("transition-all duration-300", !showFilters && "border-dashed")}>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Filter className="h-5 w-5" />
+            <CardTitle>Filtreler ve Arama</CardTitle>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setSearchQuery("");
+                setStatusFilter("all");
+                setPropertyTypeFilter("all");
+                setPublishedFilter("all");
+                fetchListings();
+              }}
+              className="gap-2"
+            >
+              <X className="h-4 w-4" />
+              Temizle
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              {showFilters ? "Gizle" : "Göster"}
+            </Button>
+          </div>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {showFilters && (
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="text-sm font-medium mb-2 block">Arama</label>
               <div className="flex gap-2">
@@ -303,20 +505,58 @@ export function ListingsManagement({ locale }: { locale: string }) {
             </div>
           </div>
         </CardContent>
+        )}
       </Card>
 
-      {/* Listings Table */}
+      {/* Listings Table/Grid */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>
-            İlanlar ({filteredListings.length})
-          </CardTitle>
-          <Link href="/listings/new">
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              Yeni İlan
+          <div className="flex items-center gap-4">
+            <CardTitle>
+              İlanlar ({filteredListings.length})
+            </CardTitle>
+            {selectedIds.length > 0 && (
+              <Badge variant="secondary" className="gap-1">
+                {selectedIds.length} seçili
+              </Badge>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 border rounded-lg p-1">
+              <Button
+                variant={viewMode === "table" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setViewMode("table")}
+                className="h-8"
+              >
+                <List className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "grid" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setViewMode("grid")}
+                className="h-8"
+              >
+                <Grid3x3 className="h-4 w-4" />
+              </Button>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={fetchListings}
+              disabled={loading}
+              className="gap-2"
+            >
+              <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
+              Yenile
             </Button>
-          </Link>
+            <Link href="/listings/new">
+              <Button className="gap-2">
+                <Plus className="h-4 w-4" />
+                Yeni İlan
+              </Button>
+            </Link>
+          </div>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -332,19 +572,25 @@ export function ListingsManagement({ locale }: { locale: string }) {
             <div className="overflow-x-auto">
               {/* Bulk Actions Bar */}
               {selectedIds.length > 0 && (
-                <div className="mb-4 p-4 bg-muted rounded-lg flex items-center justify-between">
+                <div className="mb-4 p-4 bg-gradient-to-r from-primary/10 to-primary/5 border-2 border-primary/20 rounded-xl flex items-center justify-between shadow-lg">
                   <div className="flex items-center gap-4">
-                    <span className="text-sm font-medium">
-                      {selectedIds.length} ilan seçildi
-                    </span>
-                    <div className="flex gap-2">
+                    <Badge variant="default" className="gap-2">
+                      <span>{selectedIds.length}</span>
+                      <span>ilan seçildi</span>
+                    </Badge>
+                    <div className="flex gap-2 flex-wrap">
                       <Button
                         size="sm"
-                        variant="outline"
+                        variant="default"
                         onClick={() => handleBulkAction("publish")}
                         disabled={bulkLoading}
+                        className="gap-2"
                       >
-                        <Eye className="h-4 w-4 mr-2" />
+                        {bulkLoading ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
                         Yayınla
                       </Button>
                       <Button
@@ -352,8 +598,13 @@ export function ListingsManagement({ locale }: { locale: string }) {
                         variant="outline"
                         onClick={() => handleBulkAction("unpublish")}
                         disabled={bulkLoading}
+                        className="gap-2"
                       >
-                        <EyeOff className="h-4 w-4 mr-2" />
+                        {bulkLoading ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <EyeOff className="h-4 w-4" />
+                        )}
                         Yayından Kaldır
                       </Button>
                       <Button
@@ -361,7 +612,13 @@ export function ListingsManagement({ locale }: { locale: string }) {
                         variant="outline"
                         onClick={() => handleBulkAction("feature")}
                         disabled={bulkLoading}
+                        className="gap-2"
                       >
+                        {bulkLoading ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Star className="h-4 w-4" />
+                        )}
                         Öne Çıkar
                       </Button>
                       <Button
@@ -369,9 +626,13 @@ export function ListingsManagement({ locale }: { locale: string }) {
                         variant="outline"
                         onClick={() => handleBulkAction("delete")}
                         disabled={bulkLoading}
-                        className="text-destructive"
+                        className="gap-2 text-destructive hover:text-destructive hover:bg-destructive/10"
                       >
-                        <Trash2 className="h-4 w-4 mr-2" />
+                        {bulkLoading ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Trash2 className="h-4 w-4" />
+                        )}
                         Sil
                       </Button>
                     </div>
@@ -380,15 +641,17 @@ export function ListingsManagement({ locale }: { locale: string }) {
                     size="sm"
                     variant="ghost"
                     onClick={() => setSelectedIds([])}
+                    className="gap-2"
                   >
-                    Seçimi Temizle
+                    <X className="h-4 w-4" />
+                    Temizle
                   </Button>
                 </div>
               )}
 
               <table className="w-full">
                 <thead>
-                  <tr className="border-b">
+                  <tr className="border-b bg-muted/50">
                     <th className="text-left p-4 w-12">
                       <Checkbox
                         checked={
@@ -398,12 +661,37 @@ export function ListingsManagement({ locale }: { locale: string }) {
                         onCheckedChange={handleSelectAll}
                       />
                     </th>
-                    <th className="text-left p-4">Başlık</th>
+                    <th className="text-left p-4">
+                      <button
+                        onClick={() => handleSort("title")}
+                        className="flex items-center gap-2 hover:text-primary transition-colors"
+                      >
+                        Başlık
+                        <SortIcon field="title" />
+                      </button>
+                    </th>
                     <th className="text-left p-4">Durum</th>
                     <th className="text-left p-4">Tip</th>
                     <th className="text-left p-4">Mahalle</th>
-                    <th className="text-left p-4">Fiyat</th>
-                    <th className="text-left p-4">Durum</th>
+                    <th className="text-left p-4">
+                      <button
+                        onClick={() => handleSort("price")}
+                        className="flex items-center gap-2 hover:text-primary transition-colors"
+                      >
+                        Fiyat
+                        <SortIcon field="price" />
+                      </button>
+                    </th>
+                    <th className="text-left p-4">Yayın</th>
+                    <th className="text-left p-4">
+                      <button
+                        onClick={() => handleSort("updated_at")}
+                        className="flex items-center gap-2 hover:text-primary transition-colors"
+                      >
+                        Güncelleme
+                        <SortIcon field="updated_at" />
+                      </button>
+                    </th>
                     <th className="text-right p-4">İşlemler</th>
                   </tr>
                 </thead>
@@ -419,9 +707,20 @@ export function ListingsManagement({ locale }: { locale: string }) {
                         />
                       </td>
                       <td className="p-4">
-                        <div className="font-medium">{listing.title}</div>
-                        <div className="text-sm text-muted-foreground">
-                          {listing.slug}
+                        <div className="font-semibold text-foreground">{listing.title}</div>
+                        <div className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                          <span>/ilan/{listing.slug}</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-4 w-4"
+                            onClick={() => {
+                              navigator.clipboard.writeText(`/ilan/${listing.slug}`);
+                              toast.success("URL kopyalandı");
+                            }}
+                          >
+                            <Copy className="h-3 w-3" />
+                          </Button>
                         </div>
                       </td>
                       <td className="p-4">
@@ -466,7 +765,7 @@ export function ListingsManagement({ locale }: { locale: string }) {
                         </div>
                       </td>
                       <td className="p-4">
-                        <div className="flex items-center justify-end gap-2">
+                        <div className="flex items-center justify-end gap-1">
                           <Button
                             variant="ghost"
                             size="icon"
@@ -481,6 +780,7 @@ export function ListingsManagement({ locale }: { locale: string }) {
                                 ? "Yayından Kaldır"
                                 : "Yayınla"
                             }
+                            className="h-8 w-8"
                           >
                             {listing.published ? (
                               <EyeOff className="h-4 w-4" />
@@ -493,8 +793,23 @@ export function ListingsManagement({ locale }: { locale: string }) {
                               variant="ghost"
                               size="icon"
                               title="Düzenle"
+                              className="h-8 w-8"
                             >
                               <Edit2 className="h-4 w-4" />
+                            </Button>
+                          </Link>
+                          <Link
+                            href={`/ilan/${listing.slug}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              title="Sitede Görüntüle"
+                              className="h-8 w-8"
+                            >
+                              <ExternalLink className="h-4 w-4" />
                             </Button>
                           </Link>
                           <Button
@@ -502,18 +817,10 @@ export function ListingsManagement({ locale }: { locale: string }) {
                             size="icon"
                             onClick={() => handleDelete(listing.id)}
                             title="Sil"
+                            className="h-8 w-8 text-destructive hover:text-destructive"
                           >
-                            <Trash2 className="h-4 w-4 text-destructive" />
+                            <Trash2 className="h-4 w-4" />
                           </Button>
-                          <Link
-                            href={`http://localhost:3000/ilan/${listing.slug}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <Button variant="ghost" size="icon" title="Görüntüle">
-                              <ExternalLink className="h-4 w-4" />
-                            </Button>
-                          </Link>
                         </div>
                       </td>
                     </tr>

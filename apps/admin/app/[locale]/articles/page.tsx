@@ -23,20 +23,10 @@ export default async function ArticlesPage({
   const t = await getTranslations({ locale, namespace: "admin" });
 
   return (
-    <div className="admin-container responsive-padding space-section animate-fade-in">
-      <div className="admin-page-header">
-        <div className="relative">
-          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full opacity-50"></div>
-          <h1 className="admin-page-title">
-            Makale Yönetimi
-          </h1>
-          <p className="admin-page-description">
-            Blog makalelerini görüntüleyin, düzenleyin ve yönetin
-          </p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      <div className="admin-container responsive-padding py-6">
+        <ArticlesManagement locale={locale} />
       </div>
-
-      <ArticlesManagement locale={locale} />
     </div>
   );
 }

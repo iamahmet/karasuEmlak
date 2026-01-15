@@ -216,7 +216,7 @@ export function KeywordTracker({ locale }: { locale: string }) {
                             Zorluk
                           </p>
                           <div className="flex items-center gap-2">
-                            <div className="flex-1 h-2 bg-[#E7E7E7] dark:bg-[#062F28] rounded-full overflow-hidden">
+                            <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
                               <div
                                 className={cn(
                                   "h-full rounded-full",
