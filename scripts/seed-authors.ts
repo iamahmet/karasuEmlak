@@ -215,11 +215,13 @@ async function generateImage(prompt: string, folder: string, filename: string): 
       .select("id")
       .single();
 
-    if (mediaError) {
-      throw mediaError;
-    }
+      if (mediaError) {
+        console.error(`   ⚠️  Media kayıt hatası: ${mediaError.message}`);
+        // Continue without media_id if insert fails
+        return null;
+      }
 
-    return mediaData.id;
+      return mediaData.id;
   } catch (error: any) {
     console.error(`   ❌ Görsel üretim hatası: ${error.message}`);
     return null;
@@ -299,16 +301,21 @@ async function seedAuthors() {
         console.log(`🔄 Güncellendi: ${authorData.full_name} (${authorData.title})`);
         updated++;
       } else {
-        // Create new author
-        const { data, error } = await supabase
-          .from("authors")
-          .insert(authorPayload)
-          .select("id")
-          .single();
+      // Create new author (use service role, bypass RLS)
+      const { data, error } = await supabase
+        .from("authors")
+        .insert(authorPayload)
+        .select("id")
+        .single();
 
-        if (error) {
-          throw error;
+      if (error) {
+        // If table doesn't exist in cache, try direct SQL
+        if (error.code === 'PGRST205' || error.message?.includes('schema cache')) {
+          console.warn(`   ⚠️  PostgREST cache hatası, tablo var ama cache'de yok. Supabase dashboard'dan cache yenileyin.`);
+          console.warn(`   💡 Alternatif: Supabase SQL Editor'den direkt INSERT yapabilirsiniz.`);
         }
+        throw error;
+      }
 
         console.log(`✅ Oluşturuldu: ${authorData.full_name} (${authorData.title})`);
         console.log(`   📍 Slug: /yazarlar/${authorData.slug}`);
