@@ -5,7 +5,10 @@ import { Button, Card, Input, Badge } from '@karasu/ui';
 import { Edit, Trash2, Search, User, Mail, Linkedin, Instagram, X as XIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ResponsiveImage } from '@/components/images/ResponsiveImage';
+// Simple image component for admin panel
+function ResponsiveImage({ src, alt, width, height, className }: { src: string; alt: string; width: number; height: number; className?: string }) {
+  return <img src={src} alt={alt} width={width} height={height} className={className} />;
+}
 import { getOptimizedCloudinaryUrl } from '@/lib/utils/cloudinary';
 
 interface Author {

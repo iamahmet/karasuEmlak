@@ -81,6 +81,11 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
           icon: FileText,
         },
         {
+          href: "/yazarlar",
+          label: "Yazarlar",
+          icon: Users,
+        },
+        {
           href: "/haberler",
           label: "Haberler",
           icon: Newspaper,
