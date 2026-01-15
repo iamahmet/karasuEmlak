@@ -577,12 +577,7 @@ export default async function KarasuPage({
             </ScrollReveal>
             <ScrollReveal direction="up" delay={100}>
               <InteractiveMap 
-                listings={featuredListings.map(l => ({
-                  ...l,
-                  coordinates_lat: l.coordinates_lat?.toString() || '',
-                  coordinates_lng: l.coordinates_lng?.toString() || '',
-                  price_amount: l.price_amount?.toString() || '',
-                }))} 
+                listings={featuredListings} 
                 basePath={basePath}
                 height="600px"
               />
