@@ -113,7 +113,7 @@ export const ContentRenderer = memo(function ContentRenderer({
         `prose-${proseSize}`,
         'prose-slate',
         'dark:prose-invert',
-        'max-w-none',
+        'max-w-prose', // Better reading width
         // Headings
         'prose-headings:font-bold',
         'prose-headings:text-slate-900',
@@ -132,6 +132,33 @@ export const ContentRenderer = memo(function ContentRenderer({
         'md:prose-h3:text-2xl',
         'prose-h3:mt-10',
         'prose-h3:mb-5',
+        // Paragraphs - better spacing
+        'prose-p:leading-relaxed',
+        'prose-p:mb-6',
+        'prose-p:text-slate-700',
+        'dark:prose-p:text-slate-300',
+        // Lists
+        'prose-ul:my-6',
+        'prose-ol:my-6',
+        'prose-li:my-2',
+        'prose-li:leading-relaxed',
+        // Blockquotes
+        'prose-blockquote:border-l-4',
+        'prose-blockquote:border-primary',
+        'prose-blockquote:pl-6',
+        'prose-blockquote:italic',
+        'prose-blockquote:my-6',
+        // Tables
+        'prose-table:w-full',
+        'prose-table:border-collapse',
+        'prose-th:border',
+        'prose-th:border-gray-300',
+        'prose-th:bg-gray-50',
+        'prose-th:p-3',
+        'prose-th:text-left',
+        'prose-td:border',
+        'prose-td:border-gray-300',
+        'prose-td:p-3',
         // Paragraphs
         'prose-p:text-base',
         'prose-p:leading-relaxed',
