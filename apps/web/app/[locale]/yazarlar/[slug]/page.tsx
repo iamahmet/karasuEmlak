@@ -6,7 +6,7 @@ import { StructuredData } from '@/components/seo/StructuredData';
 import { createClient } from '@supabase/supabase-js';
 import { notFound } from 'next/navigation';
 import { ResponsiveImage } from '@/components/images/ResponsiveImage';
-import { getOptimizedCloudinaryUrl } from '@/lib/utils/cloudinary';
+import { getOptimizedCloudinaryUrl } from '@/lib/cloudinary/optimization';
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
 import { Mail, Linkedin, Instagram, ArrowLeft, Calendar, FileText } from 'lucide-react';

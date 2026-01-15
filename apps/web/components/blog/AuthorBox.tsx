@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ResponsiveImage } from '@/components/images/ResponsiveImage';
-import { getOptimizedCloudinaryUrl } from '@/lib/utils/cloudinary';
+import { getOptimizedCloudinaryUrl } from '@/lib/cloudinary/optimization';
 import { Mail, Linkedin, Instagram } from 'lucide-react';
 
 interface AuthorBoxProps {
