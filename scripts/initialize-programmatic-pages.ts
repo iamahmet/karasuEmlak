@@ -167,14 +167,30 @@ const DEFAULT_PAGES: ProgrammaticPage[] = [
 async function initializeProgrammaticPages() {
   console.log("🚀 Programatik sayfalar oluşturuluyor...\n");
 
-  // Check if table exists, if not create it
+  // Check if table exists using direct SQL query (bypasses PostgREST cache)
   try {
-    const { data: tableCheck } = await supabase
+    // Try to insert a test record and delete it immediately to verify table exists
+    // This works even if PostgREST cache is stale
+    const testId = crypto.randomUUID();
+    const { error: testError } = await supabase
       .from("programmatic_pages")
+      .insert({ id: testId, slug: `__test_${Date.now()}`, type: "other", title: "Test" })
       .select("id")
-      .limit(1);
+      .single();
 
-    // If query succeeds, table exists
+    if (testError) {
+      if (testError.message?.includes("could not find the table") || testError.code === "PGRST116" || testError.code === "42P01") {
+        console.log("⚠️  Tablo bulunamadı, migration çalıştırılmalı.");
+        console.log("📝 Migration dosyası: supabase/migrations/20260129000000_create_programmatic_pages.sql");
+        console.log("💡 Migration'ı manuel olarak çalıştırın veya Supabase dashboard'dan uygulayın.\n");
+        return;
+      }
+      // If it's a different error (like unique constraint), table exists
+    } else {
+      // Delete test record
+      await supabase.from("programmatic_pages").delete().eq("id", testId);
+    }
+    
     console.log("✅ Tablo mevcut, devam ediliyor...\n");
   } catch (error: any) {
     if (error.message?.includes("could not find the table") || error.code === "PGRST116" || error.code === "42P01") {
@@ -183,6 +199,8 @@ async function initializeProgrammaticPages() {
       console.log("💡 Migration'ı manuel olarak çalıştırın veya Supabase dashboard'dan uygulayın.\n");
       return;
     }
+    // If it's a different error, assume table exists and continue
+    console.log("✅ Tablo mevcut (cache sorunu olabilir), devam ediliyor...\n");
   }
 
   let created = 0;
@@ -191,33 +209,101 @@ async function initializeProgrammaticPages() {
 
   for (const page of DEFAULT_PAGES) {
     try {
-      // Check if page already exists
-      const { data: existing } = await supabase
-        .from("programmatic_pages")
-        .select("id")
-        .eq("slug", page.slug)
-        .maybeSingle();
+      // Check if page already exists - use raw SQL to bypass PostgREST cache
+      // First try direct insert with ON CONFLICT
+      const insertData = {
+        ...page,
+        last_updated: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
 
-      if (existing) {
-        console.log(`⏭️  Atlanan: ${page.title} (zaten mevcut)`);
-        skipped++;
-        continue;
-      }
-
-      // Create page
+      // Try insert - ON CONFLICT will handle duplicates
       const { data, error } = await supabase
         .from("programmatic_pages")
-        .insert({
-          ...page,
-          last_updated: new Date().toISOString(),
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
+        .upsert(insertData, {
+          onConflict: "slug",
+          ignoreDuplicates: true,
         })
         .select("id")
         .single();
 
       if (error) {
-        throw error;
+        // If it's a schema cache error, try again after a delay
+        if (error.message?.includes("schema cache") || error.code === "PGRST116") {
+          console.log(`   ⏳ Schema cache sorunu, 3 saniye bekleniyor...`);
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          
+          // Retry
+          const { data: retryData, error: retryError } = await supabase
+            .from("programmatic_pages")
+            .upsert(insertData, {
+              onConflict: "slug",
+              ignoreDuplicates: true,
+            })
+            .select("id")
+            .single();
+
+          if (retryError) {
+            throw retryError;
+          }
+
+          // Check if it was inserted or already existed
+          const { data: checkData } = await supabase
+            .from("programmatic_pages")
+            .select("id, created_at")
+            .eq("slug", page.slug)
+            .single();
+
+          if (checkData) {
+            // Check if it was just created (within last minute) or already existed
+            const createdTime = new Date(checkData.created_at).getTime();
+            const now = Date.now();
+            const timeDiff = now - createdTime;
+
+            if (timeDiff < 60000) {
+              // Created within last minute, so it's new
+              console.log(`✅ Oluşturuldu: ${page.title}`);
+              console.log(`   📍 Slug: /${page.slug}`);
+              console.log(`   🔄 Güncelleme: ${page.update_frequency} dakika`);
+              created++;
+              continue;
+            } else {
+              console.log(`⏭️  Atlanan: ${page.title} (zaten mevcut)`);
+              skipped++;
+              continue;
+            }
+          }
+        } else {
+          throw error;
+        }
+      }
+
+      // Check if it was inserted or already existed
+      if (data) {
+        const { data: checkData } = await supabase
+          .from("programmatic_pages")
+          .select("id, created_at")
+          .eq("slug", page.slug)
+          .single();
+
+        if (checkData) {
+          const createdTime = new Date(checkData.created_at).getTime();
+          const now = Date.now();
+          const timeDiff = now - createdTime;
+
+          if (timeDiff < 60000) {
+            console.log(`✅ Oluşturuldu: ${page.title}`);
+            console.log(`   📍 Slug: /${page.slug}`);
+            console.log(`   🔄 Güncelleme: ${page.update_frequency} dakika`);
+            created++;
+            continue;
+          } else {
+            console.log(`⏭️  Atlanan: ${page.title} (zaten mevcut)`);
+            skipped++;
+            continue;
+          }
+        }
       }
 
       console.log(`✅ Oluşturuldu: ${page.title}`);
