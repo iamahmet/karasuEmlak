@@ -74,8 +74,24 @@ function getPrimaryCtas(links: ContextualLink[], basePath: string) {
   }));
 }
 
-// Author Bio Component - Enhanced
-function AuthorBioSection({ author, basePath }: { author: string; basePath: string }) {
+// Author Bio Component - Enhanced (using new AuthorBox)
+import { AuthorBox } from './AuthorBox';
+
+function AuthorBioSection({ 
+  author, 
+  authorData, 
+  basePath 
+}: { 
+  author: string; 
+  authorData?: any;
+  basePath: string;
+}) {
+  // Use new author system if available
+  if (authorData) {
+    return <AuthorBox author={authorData} basePath={basePath} />;
+  }
+
+  // Fallback to legacy author display
   const authorInitial = author ? author.charAt(0).toUpperCase() : 'K';
 
   return (

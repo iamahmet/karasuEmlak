@@ -46,14 +46,25 @@ export async function getArticles(limit = 50, offset = 0): Promise<{ articles: A
 }
 
 /**
- * Get a single article by slug
+ * Get a single article by slug with author information
  */
-export async function getArticleBySlug(slug: string): Promise<Article | null> {
+export async function getArticleBySlug(slug: string): Promise<(Article & { author_data?: any }) | null> {
   const supabase = createServiceClient();
 
   const { data, error } = await supabase
     .from('articles')
-    .select('*')
+    .select(`
+      *,
+      primary_author:authors!articles_primary_author_id_fkey(
+        id,
+        slug,
+        full_name,
+        title,
+        bio,
+        avatar:media_assets!authors_avatar_media_id_fkey(secure_url, alt_text),
+        social_json
+      )
+    `)
     .eq('slug', slug)
     .eq('status', 'published')
     .single();
@@ -63,7 +74,26 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     return null;
   }
 
-  return data as Article;
+  const article = data as any;
+  
+  // Map author_data if exists
+  if (article.primary_author) {
+    article.author_data = {
+      id: article.primary_author.id,
+      slug: article.primary_author.slug,
+      full_name: article.primary_author.full_name,
+      title: article.primary_author.title,
+      bio: article.primary_author.bio,
+      avatar: article.primary_author.avatar,
+      social_json: article.primary_author.social_json,
+    };
+    // Keep legacy author field for backward compatibility
+    if (!article.author) {
+      article.author = article.primary_author.full_name;
+    }
+  }
+
+  return article as Article & { author_data?: any };
 }
 
 /**
