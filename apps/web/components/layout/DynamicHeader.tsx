@@ -105,13 +105,14 @@ export function DynamicHeader() {
 
   const fallbackLocationItems = [
     { title: t("karasu"), url: "/karasu" },
+    { title: t("kocaali"), url: "/kocaali" },
+    { title: "Sapanca", url: "/sapanca" },
     { title: "Gezilecek Yerler", url: "/karasu/gezilecek-yerler" },
     { title: "Hastaneler", url: "/karasu/hastaneler" },
     { title: "Nöbetçi Eczaneler", url: "/karasu/nobetci-eczaneler" },
     { title: "Restoranlar", url: "/karasu/restoranlar" },
     { title: "Ulaşım", url: "/karasu/ulasim" },
     { title: "Önemli Telefonlar", url: "/karasu/onemli-telefonlar" },
-    { title: t("kocaali"), url: "/kocaali" },
   ];
 
   const fallbackContentItems = [

@@ -3,19 +3,15 @@ import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { StructuredData } from '@/components/seo/StructuredData';
-import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
 import { ResponsiveImage } from '@/components/images/ResponsiveImage';
 import { getOptimizedCloudinaryUrl } from '@/lib/cloudinary/optimization';
 import { Button } from '@karasu/ui';
 import { ArrowRight, Mail, Linkedin, Instagram } from 'lucide-react';
+import { createClient } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // 1 hour
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 export async function generateMetadata({
   params,
@@ -36,22 +32,53 @@ export async function generateMetadata({
 }
 
 async function getAuthors() {
-  const { data, error } = await supabase
-    .from('authors')
-    .select(`
-      *,
-      avatar:media_assets!authors_avatar_media_id_fkey(secure_url, alt_text),
-      cover:media_assets!authors_cover_media_id_fkey(secure_url, alt_text)
-    `)
-    .eq('is_active', true)
-    .order('full_name', { ascending: true });
+  try {
+    // Log connected project (once per server start)
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+    const projectRef = supabaseUrl?.match(/https:\/\/([^.]+)\.supabase\.co/)?.[1] || 'unknown';
+    if (!(global as any).__authors_logged_project) {
+      console.log(`[getAuthors] Connected to Supabase project: ${projectRef}`);
+      (global as any).__authors_logged_project = true;
+    }
+    
+    const supabase = await createClient();
+    
+    // Simple, direct query - no fallbacks
+    const { data, error } = await supabase
+      .from('authors')
+      .select('id, slug, full_name, title, bio, location, is_active, created_at, updated_at, avatar_url, cover_url, specialties')
+      .eq('is_active', true)
+      .order('full_name', { ascending: true })
+      .limit(50);
 
-  if (error) {
-    console.error('Error fetching authors:', error);
+    if (error) {
+      console.error('[getAuthors] Query error:', error.message, error.code);
+      return [];
+    }
+
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      return [];
+    }
+
+    // Return clean data
+    return data.map((author: any) => ({
+      id: author.id,
+      full_name: author.full_name || 'Yazar',
+      slug: author.slug || 'unknown',
+      title: author.title || '',
+      bio: author.bio || '',
+      location: author.location || '',
+      is_active: author.is_active ?? true,
+      created_at: author.created_at,
+      updated_at: author.updated_at,
+      avatar_url: author.avatar_url || null,
+      cover_url: author.cover_url || null,
+      specialties: Array.isArray(author.specialties) ? author.specialties : [],
+    }));
+  } catch (error: any) {
+    console.error('[getAuthors] Fatal error:', error?.message);
     return [];
   }
-
-  return data || [];
 }
 
 export default async function YazarlarPage({
@@ -59,70 +86,30 @@ export default async function YazarlarPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+  let locale: string;
+  let basePath: string;
+  let authors: any[] = [];
+  
+  try {
+    const resolvedParams = await params;
+    locale = resolvedParams.locale;
+    basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+  } catch (error: any) {
+    console.error('[YazarlarPage] Error resolving params:', error);
+    locale = 'tr';
+    basePath = '/tr';
+  }
 
-  const authors = await getAuthors();
-
-  // Generate ItemList schema for authors
-  const itemListSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    name: 'Karasu Emlak Yazarları',
-    description: 'Karasu Emlak blog yazarları listesi',
-    itemListElement: authors.map((author, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'Person',
-        name: author.full_name,
-        jobTitle: author.title,
-        url: `${siteConfig.url}${basePath}/yazarlar/${author.slug}`,
-        image: author.avatar?.secure_url,
-        worksFor: {
-          '@type': 'Organization',
-          name: 'Karasu Emlak',
-          url: siteConfig.url,
-        },
-      },
-    })),
-  };
-
-  // Generate Person schemas for each author
-  const personSchemas = authors.map((author) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: author.full_name,
-    jobTitle: author.title,
-    url: `${siteConfig.url}${basePath}/yazarlar/${author.slug}`,
-    image: author.avatar?.secure_url,
-    description: author.bio,
-    worksFor: {
-      '@type': 'Organization',
-      name: 'Karasu Emlak',
-      url: siteConfig.url,
-    },
-    sameAs: [
-      author.social_json?.linkedin && `https://linkedin.com/in/${author.social_json.linkedin}`,
-      author.social_json?.instagram && `https://instagram.com/${author.social_json.instagram}`,
-      author.social_json?.x && `https://x.com/${author.social_json.x}`,
-    ].filter(Boolean),
-  }));
+  try {
+    authors = await getAuthors();
+    console.log('[YazarlarPage] Authors fetched:', authors.length);
+  } catch (error: any) {
+    console.error('[YazarlarPage] Error fetching authors:', error);
+    authors = [];
+  }
 
   return (
     <>
-      <StructuredData data={itemListSchema} />
-      {personSchemas.map((schema, index) => (
-        <StructuredData key={index} data={schema} />
-      ))}
-
-      <Breadcrumbs
-        items={[
-          { label: 'Ana Sayfa', href: `${basePath}/` },
-          { label: 'Yazarlar', href: `${basePath}/yazarlar` },
-        ]}
-      />
-
       <div className="container mx-auto px-4 py-8 lg:py-12 max-w-7xl">
         <div className="mb-12 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
@@ -133,10 +120,20 @@ export default async function YazarlarPage({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {authors.map((author) => {
-            const avatarUrl = author.avatar?.secure_url
-              ? getOptimizedCloudinaryUrl(author.avatar.secure_url, { width: 400, height: 400 })
+        {authors.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
+              Henüz yazar eklenmemiş.
+            </p>
+            <p className="text-gray-500 dark:text-gray-500 text-sm">
+              Yakında blog yazarlarımız burada görünecek.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {authors.map((author) => {
+            const avatarUrl = author.avatar_url 
+              ? getOptimizedCloudinaryUrl(author.avatar_url, { width: 400, height: 400 })
               : null;
 
             return (
@@ -150,7 +147,7 @@ export default async function YazarlarPage({
                     <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-4 border-gray-200 dark:border-gray-800 group-hover:border-primary transition-colors">
                       <ResponsiveImage
                         src={avatarUrl}
-                        alt={author.avatar?.alt_text || author.full_name}
+                        alt={author.full_name}
                         width={96}
                         height={96}
                         className="w-full h-full object-cover"
@@ -159,7 +156,7 @@ export default async function YazarlarPage({
                   ) : (
                     <div className="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-800 mb-4 flex items-center justify-center">
                       <span className="text-2xl font-bold text-gray-400">
-                        {author.full_name.charAt(0)}
+                        {author.full_name.charAt(0).toUpperCase()}
                       </span>
                     </div>
                   )}
@@ -174,7 +171,7 @@ export default async function YazarlarPage({
                     {author.bio}
                   </p>
 
-                  {author.specialties && author.specialties.length > 0 && (
+                  {Array.isArray(author.specialties) && author.specialties.length > 0 && (
                     <div className="flex flex-wrap gap-2 justify-center mb-4">
                       {author.specialties.slice(0, 3).map((specialty: string, index: number) => (
                         <span
@@ -195,7 +192,8 @@ export default async function YazarlarPage({
               </Link>
             );
           })}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );

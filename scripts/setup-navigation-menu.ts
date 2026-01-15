@@ -56,6 +56,7 @@ const menuStructure: MenuItem[] = [
     children: [
       { title: 'Karasu', url: '/karasu' },
       { title: 'Kocaali', url: '/kocaali' },
+      { title: 'Sapanca', url: '/sapanca' },
       { title: 'Gezilecek Yerler', url: '/karasu/gezilecek-yerler' },
       { title: 'Hastaneler', url: '/karasu/hastaneler' },
       { title: 'Nöbetçi Eczaneler', url: '/karasu/nobetci-eczaneler' },

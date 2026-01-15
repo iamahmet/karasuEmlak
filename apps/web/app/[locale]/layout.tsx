@@ -169,19 +169,36 @@ export default async function LocaleLayout({
       notFound();
     }
 
-    // Get messages - use direct import to avoid config issues
-    // next-intl config is handled by the plugin, but we load messages directly
+    // Get messages - use direct JSON import (simpler and more reliable)
     let messages = {};
     try {
       const messagesModule = await import(`../../messages/${locale}.json`);
-      messages = messagesModule.default || messagesModule;
-    } catch (error) {
-      console.error('Failed to load messages for locale:', locale, error);
-      // Fallback to Turkish
+      if (messagesModule && typeof messagesModule === 'object') {
+        messages = (messagesModule as any).default || messagesModule;
+      }
+      if (typeof messages !== 'object' || messages === null || Array.isArray(messages)) {
+        // Fallback to Turkish
+        const fallbackModule = await import(`../../messages/tr.json`);
+        if (fallbackModule && typeof fallbackModule === 'object') {
+          messages = (fallbackModule as any).default || fallbackModule;
+        }
+        if (typeof messages !== 'object' || messages === null || Array.isArray(messages)) {
+          messages = {};
+        }
+      }
+    } catch (error: any) {
+      console.error('[LocaleLayout] Failed to load messages:', error?.message);
+      // Final fallback to empty object
       try {
         const fallbackModule = await import(`../../messages/tr.json`);
-        messages = fallbackModule.default || fallbackModule;
-      } catch {
+        if (fallbackModule && typeof fallbackModule === 'object') {
+          messages = (fallbackModule as any).default || fallbackModule;
+        }
+        if (typeof messages !== 'object' || messages === null || Array.isArray(messages)) {
+          messages = {};
+        }
+      } catch (fallbackError: any) {
+        console.error('[LocaleLayout] Fallback import also failed:', fallbackError?.message);
         messages = {};
       }
     }
@@ -194,13 +211,13 @@ export default async function LocaleLayout({
     const nonce = await getNonce();
 
     // Generate comprehensive RealEstateAgent schema with ServiceArea
-    let realEstateAgentSchema;
+    let realEstateAgentSchema = null; // Temporarily disabled to debug JSON error
     try {
-      realEstateAgentSchema = generateRealEstateAgentLocalSchema({
-        includeRating: true,
-        includeServices: true,
-        includeAreaServed: true, // This also includes serviceArea
-      });
+      // realEstateAgentSchema = generateRealEstateAgentLocalSchema({
+      //   includeRating: true,
+      //   includeServices: true,
+      //   includeAreaServed: true, // This also includes serviceArea
+      // });
     } catch (error) {
       console.error('Error generating real estate agent schema:', error);
       realEstateAgentSchema = null;
@@ -240,21 +257,34 @@ export default async function LocaleLayout({
       </div>
     );
   } catch (error: any) {
-    console.error("Error in LocaleLayout:", error);
+    console.error("[LocaleLayout] Error in LocaleLayout:", error?.message);
+    console.error("[LocaleLayout] Error stack:", error?.stack);
     // Fallback to default locale
     let fallbackMessages = {};
     try {
       const fallbackModule = await import(`../../messages/tr.json`);
-      fallbackMessages = fallbackModule.default || fallbackModule;
-    } catch {
+      if (fallbackModule && typeof fallbackModule === 'object') {
+        fallbackMessages = (fallbackModule as any).default || fallbackModule;
+      }
+      if (typeof fallbackMessages !== 'object' || fallbackMessages === null) {
+        fallbackMessages = {};
+      }
+    } catch (fallbackError: any) {
+      console.error("[LocaleLayout] Fallback messages failed:", fallbackError?.message);
       fallbackMessages = {};
     }
     // Generate comprehensive RealEstateAgent schema with ServiceArea (fallback)
-    const fallbackRealEstateAgentSchema = generateRealEstateAgentLocalSchema({
-      includeRating: true,
-      includeServices: true,
-      includeAreaServed: true, // This also includes serviceArea
-    });
+    let fallbackRealEstateAgentSchema = null;
+    try {
+      fallbackRealEstateAgentSchema = generateRealEstateAgentLocalSchema({
+        includeRating: true,
+        includeServices: true,
+        includeAreaServed: true, // This also includes serviceArea
+      });
+    } catch (schemaError: any) {
+      console.error("[LocaleLayout] Schema generation failed:", schemaError?.message);
+      fallbackRealEstateAgentSchema = null;
+    }
     return (
       <div className="antialiased">
         {/* Structured Data - Rendered in body (Next.js handles head automatically) */}

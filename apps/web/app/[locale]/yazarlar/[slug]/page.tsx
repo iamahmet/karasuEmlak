@@ -3,13 +3,15 @@ import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { StructuredData } from '@/components/seo/StructuredData';
-import { createClient } from '@supabase/supabase-js';
 import { notFound } from 'next/navigation';
 import { ResponsiveImage } from '@/components/images/ResponsiveImage';
 import { getOptimizedCloudinaryUrl } from '@/lib/cloudinary/optimization';
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
 import { Mail, Linkedin, Instagram, ArrowLeft, Calendar, FileText } from 'lucide-react';
+import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@karasu/lib/supabase/service';
+
 // Date formatter
 function formatDate(dateString: string): string {
   return new Date(dateString).toLocaleDateString('tr-TR', {
@@ -22,11 +24,9 @@ function formatDate(dateString: string): string {
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // 1 hour
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
 export async function generateStaticParams() {
+  // Use service client in generateStaticParams (no request context available)
+  const supabase = createServiceClient();
   const { data: authors } = await supabase
     .from('authors')
     .select('slug')
@@ -40,15 +40,16 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const { locale } = await params as any;
+  const { slug, locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+  // Use service client in generateMetadata (no request context available)
+  const supabase = createServiceClient();
 
   const { data: author } = await supabase
     .from('authors')
-    .select('full_name, title, bio, avatar:media_assets!authors_avatar_media_id_fkey(secure_url)')
+    .select('full_name, title, bio, avatar_url')
     .eq('slug', slug)
     .eq('is_active', true)
     .single();
@@ -67,21 +68,16 @@ export async function generateMetadata({
     openGraph: {
       title: `${author.full_name} - ${author.title}`,
       description: author.bio || '',
-      images: (author.avatar && typeof author.avatar === 'object' && 'secure_url' in author.avatar && author.avatar.secure_url) 
-        ? [author.avatar.secure_url as string] 
-        : [],
+      images: author.avatar_url ? [author.avatar_url] : [],
     },
   };
 }
 
 async function getAuthor(slug: string) {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('authors')
-    .select(`
-      *,
-      avatar:media_assets!authors_avatar_media_id_fkey(secure_url, alt_text),
-      cover:media_assets!authors_cover_media_id_fkey(secure_url, alt_text)
-    `)
+    .select('id, slug, full_name, title, bio, location, avatar_url, cover_url, specialties, social_json, is_active, created_at, updated_at')
     .eq('slug', slug)
     .eq('is_active', true)
     .single();
@@ -94,36 +90,36 @@ async function getAuthor(slug: string) {
 }
 
 async function getAuthorArticles(authorId: string, limit: number = 20) {
-  const { data, error } = await supabase
-    .from('article_authors')
-    .select(`
-      article:articles!inner(
-        id,
-        slug,
-        title,
-        excerpt,
-        published_at,
-        views,
-        category
-      )
-    `)
-    .eq('author_id', authorId)
-    .eq('article.status', 'published')
-    .order('article.published_at', { ascending: false })
-    .limit(limit);
+  const supabase = await createClient();
+  
+  // Check if articles table exists
+  try {
+    const { data, error } = await supabase
+      .from('articles')
+      .select('id, slug, title, excerpt, published_at, views, category, content')
+      .eq('primary_author_id', authorId)
+      .eq('status', 'published')
+      .order('published_at', { ascending: false })
+      .limit(limit);
 
-  if (error) {
-    console.error('Error fetching author articles:', error);
+    if (error) {
+      // Table might not exist or column might be different
+      console.warn('[getAuthorArticles] Articles query failed:', error.message);
+      return [];
+    }
+
+    return data || [];
+  } catch (error: any) {
+    // Articles table doesn't exist
+    console.warn('[getAuthorArticles] Articles table not available:', error?.message);
     return [];
   }
-
-  return (data || []).map((item: any) => item.article).filter(Boolean);
 }
 
 export default async function AuthorDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string; locale?: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
   const { slug, locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
@@ -153,9 +149,7 @@ export default async function AuthorDetailPage({
     name: author.full_name,
     jobTitle: author.title,
     url: `${siteConfig.url}${basePath}/yazarlar/${author.slug}`,
-    image: (author.avatar && typeof author.avatar === 'object' && 'secure_url' in author.avatar) 
-      ? (author.avatar as { secure_url: string }).secure_url 
-      : undefined,
+    image: author.avatar_url || undefined,
     description: author.bio,
     worksFor: {
       '@type': 'Organization',
@@ -170,11 +164,11 @@ export default async function AuthorDetailPage({
     ].filter(Boolean),
   };
 
-  const coverUrl = author.cover?.secure_url
-    ? getOptimizedCloudinaryUrl(author.cover.secure_url, { width: 1200, height: 400 })
+  const coverUrl = author.cover_url
+    ? getOptimizedCloudinaryUrl(author.cover_url, { width: 1200, height: 400 })
     : null;
-  const avatarUrl = (author.avatar && typeof author.avatar === 'object' && 'secure_url' in author.avatar && author.avatar.secure_url)
-    ? getOptimizedCloudinaryUrl((author.avatar as { secure_url: string }).secure_url, { width: 200, height: 200 })
+  const avatarUrl = author.avatar_url
+    ? getOptimizedCloudinaryUrl(author.avatar_url, { width: 200, height: 200 })
     : null;
 
   return (
@@ -196,7 +190,7 @@ export default async function AuthorDetailPage({
             <div className="absolute inset-0 opacity-30">
               <ResponsiveImage
                 src={coverUrl}
-                alt={author.cover?.alt_text || `${author.full_name} cover`}
+                alt={`${author.full_name} cover`}
                 width={1200}
                 height={400}
                 className="w-full h-full object-cover"
@@ -213,9 +207,7 @@ export default async function AuthorDetailPage({
                   <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white/20 flex-shrink-0">
                     <ResponsiveImage
                       src={avatarUrl}
-                      alt={(author.avatar && typeof author.avatar === 'object' && 'alt_text' in author.avatar) 
-                        ? (author.avatar as { alt_text?: string }).alt_text || author.full_name
-                        : author.full_name}
+                      alt={author.full_name}
                       width={128}
                       height={128}
                       className="w-full h-full object-cover"

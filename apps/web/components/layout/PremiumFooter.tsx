@@ -93,13 +93,14 @@ export function PremiumFooter() {
 
   const locationLinks = [
     { href: "/karasu", label: "Karasu", description: "Karasu bölge rehberi" },
+    { href: "/kocaali", label: "Kocaali", description: "Kocaali bölge rehberi" },
+    { href: "/sapanca", label: "Sapanca", description: "Sapanca bölge rehberi" },
     { href: "/karasu/gezilecek-yerler", label: "Gezilecek Yerler" },
     { href: "/karasu/hastaneler", label: "Hastaneler" },
     { href: "/karasu/nobetci-eczaneler", label: "Nöbetçi Eczaneler" },
     { href: "/karasu/restoranlar", label: "Restoranlar" },
     { href: "/karasu/ulasim", label: "Ulaşım" },
     { href: "/karasu/onemli-telefonlar", label: "Önemli Telefonlar" },
-    { href: "/kocaali", label: "Kocaali", description: "Kocaali bölge rehberi" },
   ];
 
   const contentLinks = [

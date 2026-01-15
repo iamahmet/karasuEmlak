@@ -123,6 +123,7 @@ export function PremiumHeader() {
   const locationMenuItems: NavItem[] = [
     { title: "Karasu", url: "/karasu", description: "Karasu bölge rehberi" },
     { title: "Kocaali", url: "/kocaali", description: "Kocaali bölge rehberi" },
+    { title: "Sapanca", url: "/sapanca", description: "Sapanca bölge rehberi" },
     { title: "Gezilecek Yerler", url: "/karasu/gezilecek-yerler" },
     { title: "Hastaneler", url: "/karasu/hastaneler" },
     { title: "Nöbetçi Eczaneler", url: "/karasu/nobetci-eczaneler" },

@@ -26,18 +26,49 @@ export function safeParseJSON<T = any>(
   }
 
   try {
-    const parsed = JSON.parse(value);
+    // Check for common issues before parsing
+    const trimmed = value.trim();
+    if (trimmed.length === 0) {
+      return fallback;
+    }
+    
+    // Check if it looks like JSON
+    if (!trimmed.startsWith('{') && !trimmed.startsWith('[')) {
+      return fallback;
+    }
+    
+    // Try to find and fix common issues
+    let cleaned = value;
+    
+    // Remove BOM if present
+    if (cleaned.charCodeAt(0) === 0xFEFF) {
+      cleaned = cleaned.slice(1);
+    }
+    
+    // Remove trailing commas before closing braces/brackets
+    cleaned = cleaned.replace(/,(\s*[}\]])/g, '$1');
+    
+    // Remove control characters that might break parsing
+    cleaned = cleaned.replace(/[\x00-\x1F\x7F-\x9F]/g, '');
+    
+    const parsed = JSON.parse(cleaned);
     return parsed as T;
   } catch (error: any) {
     const errorMsg = error instanceof Error ? error.message : 'Unknown error';
     const position = errorMsg.match(/position (\d+)/)?.[1];
     const preview = value.substring(0, 200);
+    const aroundPosition = position 
+      ? value.substring(Math.max(0, parseInt(position) - 50), Math.min(value.length, parseInt(position) + 50))
+      : '';
     
-    console.warn(`[SafeJSON] Failed to parse JSON${context ? ` (${context})` : ''}:`, {
+    console.error(`[SafeJSON] Failed to parse JSON${context ? ` (${context})` : ''}:`, {
       error: errorMsg,
       position: position || 'unknown',
       preview: preview,
+      aroundPosition: aroundPosition,
       length: value.length,
+      firstChars: value.substring(0, 100),
+      lastChars: value.substring(Math.max(0, value.length - 100)),
     });
     
     return fallback;
@@ -57,12 +88,72 @@ export function safeStringifyJSON(
   }
 
   try {
-    return JSON.stringify(value);
+    // Clean circular references and functions
+    const cleaned = cleanForJSON(value);
+    return JSON.stringify(cleaned);
   } catch (error: any) {
     const errorMsg = error instanceof Error ? error.message : 'Unknown error';
     console.warn(`[SafeJSON] Failed to stringify JSON${context ? ` (${context})` : ''}:`, errorMsg);
     return fallback;
   }
+}
+
+/**
+ * Clean object for JSON stringification
+ * Removes circular references, functions, and undefined values
+ */
+function cleanForJSON(obj: any, seen = new WeakSet()): any {
+  if (obj === null || obj === undefined) {
+    return null;
+  }
+
+  // Handle primitives
+  if (typeof obj !== 'object') {
+    return obj;
+  }
+
+  // Handle arrays
+  if (Array.isArray(obj)) {
+    return obj.map(item => cleanForJSON(item, seen));
+  }
+
+  // Handle circular references
+  if (seen.has(obj)) {
+    return '[Circular]';
+  }
+  seen.add(obj);
+
+  // Handle Date objects
+  if (obj instanceof Date) {
+    return obj.toISOString();
+  }
+
+  // Handle objects
+  const cleaned: Record<string, any> = {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key];
+      
+      // Skip functions
+      if (typeof value === 'function') {
+        continue;
+      }
+      
+      // Skip undefined
+      if (value === undefined) {
+        continue;
+      }
+      
+      try {
+        cleaned[key] = cleanForJSON(value, seen);
+      } catch {
+        // Skip problematic values
+        continue;
+      }
+    }
+  }
+  
+  return cleaned;
 }
 
 /**

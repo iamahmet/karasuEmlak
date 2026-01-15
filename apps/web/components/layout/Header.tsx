@@ -45,13 +45,14 @@ export function Header() {
   // Bölgeler menüsü
   const locationItems = [
     { href: "/karasu", label: t("karasu") },
+    { href: "/kocaali", label: t("kocaali") },
+    { href: "/sapanca", label: "Sapanca" },
     { href: "/karasu/gezilecek-yerler", label: "Gezilecek Yerler" },
     { href: "/karasu/hastaneler", label: "Hastaneler" },
     { href: "/karasu/nobetci-eczaneler", label: "Nöbetçi Eczaneler" },
     { href: "/karasu/restoranlar", label: "Restoranlar" },
     { href: "/karasu/ulasim", label: "Ulaşım" },
     { href: "/karasu/onemli-telefonlar", label: "Önemli Telefonlar" },
-    { href: "/kocaali", label: t("kocaali") },
   ];
 
   // İçerik menüsü

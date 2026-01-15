@@ -7,7 +7,9 @@ import { Button } from '@karasu/ui';
 import { MapPin, Home, Building2, TrendingUp, Award, Waves, Mountain, BarChart3, Phone, ArrowRight, Shield, Clock, Users, Calendar, BookOpen, Landmark, Factory, GraduationCap, Heart, TreePine, Fish, Coffee, KeyRound } from 'lucide-react';
 import Link from 'next/link';
 import { getNeighborhoods, getListingStats, getFeaturedListings } from '@/lib/supabase/queries';
+import { getArticles } from '@/lib/supabase/queries/articles';
 import { CardImage } from '@/components/images';
+import { ExternalImage } from '@/components/images';
 import { generateSlug } from '@/lib/utils';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { StructuredData } from '@/components/seo/StructuredData';
@@ -135,6 +137,51 @@ export default async function SapancaPage({
     l.location_district?.toLowerCase().includes('sapanca') || 
     l.location_neighborhood?.toLowerCase().includes('sapanca')
   );
+
+  // Fetch Sapanca-related blog articles and cornerstone content
+  let sapancaArticles: any[] = [];
+  let sapancaCornerstone: any[] = [];
+  
+  try {
+    const allArticlesResult = await withTimeout(getArticles(50, 0), 3000, { articles: [], total: 0 });
+    const allArticles = (allArticlesResult?.articles || []);
+    
+    // Filter articles related to Sapanca (by title, content, or keywords)
+    const sapancaRelated = allArticles.filter(article => {
+      const titleLower = (article.title || '').toLowerCase();
+      const contentLower = (article.content || '').toLowerCase();
+      const excerptLower = (article.excerpt || '').toLowerCase();
+      const keywords = (article.keywords || []).join(' ').toLowerCase();
+      const categoryLower = (article.category || '').toLowerCase();
+      
+      return (
+        titleLower.includes('sapanca') ||
+        contentLower.includes('sapanca') ||
+        excerptLower.includes('sapanca') ||
+        keywords.includes('sapanca') ||
+        categoryLower.includes('sapanca')
+      );
+    });
+    
+    // Separate cornerstone (longer, comprehensive articles) from regular blog posts
+    sapancaCornerstone = sapancaRelated.filter(article => {
+      const wordCount = (article.content || '').split(/\s+/).length;
+      return wordCount > 2000 || (article.category || '').toLowerCase().includes('rehber') || 
+             (article.title || '').toLowerCase().includes('rehber');
+    });
+    
+    sapancaArticles = sapancaRelated.filter(article => {
+      const wordCount = (article.content || '').split(/\s+/).length;
+      return wordCount <= 2000 && !(article.category || '').toLowerCase().includes('rehber') &&
+             !(article.title || '').toLowerCase().includes('rehber');
+    });
+    
+    // Limit to 6 articles and 3 cornerstone
+    sapancaArticles = sapancaArticles.slice(0, 6);
+    sapancaCornerstone = sapancaCornerstone.slice(0, 3);
+  } catch (error) {
+    console.error('Error fetching Sapanca articles:', error);
+  }
 
   // Generate comprehensive local SEO schemas
   const placeSchema = generatePlaceSchema({
@@ -673,6 +720,168 @@ export default async function SapancaPage({
                   </Link>
                 </Button>
               </div>
+            </div>
+          </section>
+        )}
+
+        {/* Cornerstone Articles Section */}
+        {sapancaCornerstone.length > 0 && (
+          <section className="py-16 lg:py-20 bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+            <div className="container mx-auto px-4 max-w-7xl">
+              <ScrollReveal direction="up" delay={0}>
+                <div className="text-center mb-12">
+                  <div className="inline-block mb-4">
+                    <span className="px-4 py-2 rounded-lg text-xs font-semibold bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary-light border border-primary/20 dark:border-primary/30">
+                      Kapsamlı Rehberler
+                    </span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    Sapanca Hakkında Detaylı Rehberler
+                  </h2>
+                  <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Sapanca emlak, bungalov ve yatırım konularında kapsamlı rehberler ve analizler.
+                  </p>
+                </div>
+              </ScrollReveal>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {sapancaCornerstone.map((article, index) => (
+                  <ScrollReveal key={article.id || index} direction="up" delay={index * 50}>
+                    <Link href={`${basePath}/blog/${article.slug}`} className="group">
+                      <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-primary dark:hover:border-primary transition-all duration-300 hover:shadow-xl h-full flex flex-col">
+                        {article.featured_image && (
+                          <div className="relative w-full h-48 mb-4 rounded-lg overflow-hidden">
+                            {!article.featured_image.startsWith('http') ? (
+                              <CardImage
+                                publicId={article.featured_image}
+                                alt={article.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              />
+                            ) : (
+                              <ExternalImage
+                                src={article.featured_image}
+                                alt={article.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                fill
+                              />
+                            )}
+                          </div>
+                        )}
+                        <div className="flex-1 flex flex-col">
+                          <div className="mb-2">
+                            <span className="px-2 py-1 bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary-light text-xs font-semibold rounded">
+                              {article.category || 'Rehber'}
+                            </span>
+                          </div>
+                          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                            {article.title}
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3 flex-1">
+                            {article.excerpt || article.meta_description || ''}
+                          </p>
+                          <div className="flex items-center text-primary font-semibold text-sm mt-auto">
+                            Devamını Oku <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </ScrollReveal>
+                ))}
+              </div>
+
+              {sapancaCornerstone.length > 0 && (
+                <div className="text-center mt-8">
+                  <Button asChild variant="outline" size="lg">
+                    <Link href={`${basePath}/blog?q=sapanca`}>
+                      Tüm Sapanca Rehberlerini Görüntüle <ArrowRight className="w-4 h-4 ml-2" />
+                    </Link>
+                  </Button>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* Blog Articles Section */}
+        {sapancaArticles.length > 0 && (
+          <section className="py-16 lg:py-20 bg-white dark:bg-gray-900">
+            <div className="container mx-auto px-4 max-w-7xl">
+              <ScrollReveal direction="up" delay={0}>
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    Sapanca Blog Yazıları
+                  </h2>
+                  <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Sapanca emlak, bungalov, günlük kiralık ve yatırım konularında güncel blog yazıları.
+                  </p>
+                </div>
+              </ScrollReveal>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {sapancaArticles.map((article, index) => (
+                  <ScrollReveal key={article.id || index} direction="up" delay={index * 50}>
+                    <Link href={`${basePath}/blog/${article.slug}`} className="group">
+                      <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-800 hover:border-primary dark:hover:border-primary/50 transition-all duration-300 hover:shadow-lg h-full flex flex-col">
+                        {article.featured_image && (
+                          <div className="relative w-full h-40 mb-4 rounded-lg overflow-hidden">
+                            {!article.featured_image.startsWith('http') ? (
+                              <CardImage
+                                publicId={article.featured_image}
+                                alt={article.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              />
+                            ) : (
+                              <ExternalImage
+                                src={article.featured_image}
+                                alt={article.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                fill
+                              />
+                            )}
+                          </div>
+                        )}
+                        <div className="flex-1 flex flex-col">
+                          <div className="mb-2">
+                            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-medium rounded">
+                              {article.category || 'Blog'}
+                            </span>
+                          </div>
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                            {article.title}
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2 flex-1">
+                            {article.excerpt || article.meta_description || ''}
+                          </p>
+                          <div className="flex items-center justify-between mt-auto">
+                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                              {article.published_at ? new Date(article.published_at).toLocaleDateString('tr-TR', { 
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric' 
+                              }) : ''}
+                            </span>
+                            <div className="flex items-center text-primary font-medium text-sm">
+                              Oku <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </ScrollReveal>
+                ))}
+              </div>
+
+              {sapancaArticles.length > 0 && (
+                <div className="text-center mt-8">
+                  <Button asChild variant="outline" size="lg">
+                    <Link href={`${basePath}/blog?q=sapanca`}>
+                      Tüm Blog Yazılarını Görüntüle <ArrowRight className="w-4 h-4 ml-2" />
+                    </Link>
+                  </Button>
+                </div>
+              )}
             </div>
           </section>
         )}

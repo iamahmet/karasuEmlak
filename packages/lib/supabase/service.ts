@@ -40,6 +40,16 @@ export function createServiceClient() {
         autoRefreshToken: false,
         persistSession: false,
       },
+      // Remove explicit schema - let Supabase use default
+      // db: {
+      //   schema: 'public',
+      // },
+      global: {
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': serviceRoleKey,
+        },
+      },
     }
   );
 }
