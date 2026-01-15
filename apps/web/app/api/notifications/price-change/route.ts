@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     // Verify request authorization
     const authHeader = request.headers.get("authorization");
     const cronSecret = request.headers.get("x-cron-secret");
-    const expectedSecret = process.env.CRON_SECRET || "change-me-in-production";
+    const expectedSecret = (process.env.CRON_SECRET || "change-me-in-production").trim();
 
     // Allow cron secret or proper auth
     if (

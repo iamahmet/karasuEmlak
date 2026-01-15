@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     // Verify cron secret
     const authHeader = request.headers.get("authorization");
     const cronSecret = request.headers.get("x-cron-secret");
-    const expectedSecret = process.env.CRON_SECRET || "change-me-in-production";
+    const expectedSecret = (process.env.CRON_SECRET || "change-me-in-production").trim();
 
     // In production, require cron secret
     if (
