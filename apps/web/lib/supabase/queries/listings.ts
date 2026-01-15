@@ -564,8 +564,9 @@ export async function getPropertyTypes(): Promise<string[]> {
     const types = new Set<string>();
     if (data) {
       data.forEach((listing: any) => {
-        if (listing.property_type) {
-          types.add(listing.property_type);
+        const propertyType = listing.property_type;
+        if (propertyType && typeof propertyType === 'string') {
+          types.add(propertyType);
         }
       });
     }
