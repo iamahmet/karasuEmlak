@@ -351,7 +351,7 @@ export default async function ListingDetailPage({
   const listingSchema = generateRealEstateListingSchema({
     name: listing.title,
     description: listing.description_short || listing.description_long,
-    image: listing.images?.map(img => img.url || getOptimizedCloudinaryUrl(img.public_id, { width: 1200, height: 630, quality: 90, format: 'auto' })) || [],
+    image: listing.images?.map(img => img.url || (img.public_id ? getOptimizedCloudinaryUrl(img.public_id, { width: 1200, height: 630, quality: 90, format: 'auto' }) : '')) || [],
     address: {
       locality: listing.location_neighborhood,
       region: listing.location_district || 'Sakarya',
