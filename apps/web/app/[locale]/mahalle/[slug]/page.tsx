@@ -784,6 +784,14 @@ export default async function NeighborhoodPage({
                   price_amount: l.price_amount?.toString() || '',
                   status: l.status,
                   property_type: l.property_type,
+                  images: l.images?.map(img => ({
+                    public_id: img.public_id || '',
+                    url: img.url,
+                    alt: img.alt,
+                  })) || [],
+                  features: l.features,
+                  status: l.status,
+                  property_type: l.property_type,
                   images: l.images || [],
                   features: l.features,
                 }))}
