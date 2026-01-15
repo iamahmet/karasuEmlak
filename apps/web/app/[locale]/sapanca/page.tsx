@@ -214,7 +214,7 @@ export default async function SapancaPage({
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                   <Button asChild size="lg" className="bg-primary text-white hover:bg-primary-dark dark:bg-primary dark:hover:bg-primary-light">
                     <Link href={`${basePath}/sapanca/bungalov`}>
-                      <Cabin className="w-5 h-5 mr-2" />
+                      <Home className="w-5 h-5 mr-2" />
                       Bungalov
                     </Link>
                   </Button>
@@ -289,7 +289,7 @@ export default async function SapancaPage({
                 <Link href={`${basePath}/sapanca/bungalov`} className="group">
                   <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-2xl p-8 border-2 border-blue-200 dark:border-blue-800 hover:border-blue-400 dark:hover:border-blue-600 transition-all duration-300 hover:shadow-xl">
                     <div className="w-16 h-16 rounded-xl bg-blue-500 dark:bg-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                      <Cabin className="w-8 h-8 text-white" />
+                      <Home className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Bungalov</h3>
                     <p className="text-gray-700 dark:text-gray-300 mb-4">
@@ -357,7 +357,7 @@ export default async function SapancaPage({
                 <Link href={`${basePath}/sapanca/satilik-bungalov`} className="group">
                   <div className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-900/20 dark:to-teal-800/20 rounded-2xl p-8 border-2 border-teal-200 dark:border-teal-800 hover:border-teal-400 dark:hover:border-teal-600 transition-all duration-300 hover:shadow-xl">
                     <div className="w-16 h-16 rounded-xl bg-teal-500 dark:bg-teal-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                      <Cabin className="w-8 h-8 text-white" />
+                      <Home className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Satılık Bungalov</h3>
                     <p className="text-gray-700 dark:text-gray-300 mb-4">
