@@ -197,11 +197,12 @@ async function generateImage(prompt: string, folder: string, filename: string): 
     });
 
     // Save to media_assets (use existing columns - backward compatible)
+    // Check valid asset_type values first
     const mediaPayload: any = {
       cloudinary_public_id: uploadResult.public_id,
       cloudinary_url: uploadResult.secure_url,
       cloudinary_secure_url: uploadResult.secure_url,
-      asset_type: "image",
+      asset_type: "photo", // Use 'photo' instead of 'image' (common constraint value)
       width: uploadResult.width,
       height: uploadResult.height,
       format: uploadResult.format,
