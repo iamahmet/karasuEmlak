@@ -583,16 +583,40 @@ export default async function KocaaliPage({
               <ScrollReveal direction="up" delay={100}>
                 <InteractiveMap 
                 listings={kocaaliListings.length > 0 ? kocaaliListings.map(l => ({
-                  ...l,
+                  id: l.id,
+                  title: l.title,
+                  slug: l.slug,
+                  location_neighborhood: l.location_neighborhood,
+                  location_district: l.location_district,
                   coordinates_lat: l.coordinates_lat?.toString() || '',
                   coordinates_lng: l.coordinates_lng?.toString() || '',
                   price_amount: l.price_amount?.toString() || '',
+                  status: l.status,
+                  property_type: l.property_type,
+                  images: l.images?.map(img => ({
+                    public_id: img.public_id || '',
+                    url: img.url,
+                    alt: img.alt,
+                  })) || [],
+                  features: l.features,
                 })) : featuredListings.map(l => ({
-                    ...l,
-                    coordinates_lat: l.coordinates_lat?.toString() || '',
-                    coordinates_lng: l.coordinates_lng?.toString() || '',
-                    price_amount: l.price_amount?.toString() || '',
-                  }))} 
+                  id: l.id,
+                  title: l.title,
+                  slug: l.slug,
+                  location_neighborhood: l.location_neighborhood,
+                  location_district: l.location_district,
+                  coordinates_lat: l.coordinates_lat?.toString() || '',
+                  coordinates_lng: l.coordinates_lng?.toString() || '',
+                  price_amount: l.price_amount?.toString() || '',
+                  status: l.status,
+                  property_type: l.property_type,
+                  images: l.images?.map(img => ({
+                    public_id: img.public_id || '',
+                    url: img.url,
+                    alt: img.alt,
+                  })) || [],
+                  features: l.features,
+                }))} 
                   basePath={basePath}
                   height="600px"
                 />
