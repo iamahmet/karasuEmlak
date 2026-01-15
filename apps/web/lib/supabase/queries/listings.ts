@@ -534,3 +534,47 @@ export async function getListingStats(): Promise<{
     return { total: 0, satilik: 0, kiralik: 0, byType: {} };
   }
 }
+
+/**
+ * Get distinct property types from published listings
+ */
+export async function getPropertyTypes(): Promise<string[]> {
+  let supabase;
+  try {
+    supabase = createServiceClient();
+  } catch (error: any) {
+    console.error('Error creating service client for getPropertyTypes:', error.message);
+    return ['daire', 'villa', 'ev', 'yazlik', 'arsa', 'isyeri', 'dukkan'];
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('listings')
+      .select('property_type')
+      .eq('published', true)
+      .eq('available', true)
+      .is('deleted_at', null);
+
+    if (error) {
+      console.error('Error fetching property types:', error);
+      return ['daire', 'villa', 'ev', 'yazlik', 'arsa', 'isyeri', 'dukkan'];
+    }
+
+    // Get distinct property types
+    const types = new Set<string>();
+    if (data) {
+      data.forEach((listing: any) => {
+        if (listing.property_type) {
+          types.add(listing.property_type);
+        }
+      });
+    }
+
+    // Return sorted array, fallback to default types if empty
+    const result = Array.from(types).sort();
+    return result.length > 0 ? result : ['daire', 'villa', 'ev', 'yazlik', 'arsa', 'isyeri', 'dukkan'];
+  } catch (error: any) {
+    console.error('Error calculating property types:', error.message);
+    return ['daire', 'villa', 'ev', 'yazlik', 'arsa', 'isyeri', 'dukkan'];
+  }
+}

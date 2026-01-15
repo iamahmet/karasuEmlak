@@ -8,7 +8,7 @@ import { Card, CardContent } from '@karasu/ui';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@karasu/ui';
 import Link from 'next/link';
 import { TrendingUp, TrendingDown, Minus, Check, X } from 'lucide-react';
-import { getNeighborhoods } from '@/lib/supabase/queries/listings';
+import { getNeighborhoods } from '@/lib/supabase/queries';
 import { compareNeighborhoods, getNeighborhoodsByPrice, getNeighborhoodsByInvestmentPotential } from '@/lib/mahalle/comparison-data';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateFAQSchema } from '@/lib/seo/structured-data';
