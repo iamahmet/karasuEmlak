@@ -95,6 +95,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/kocaali-emlak-rehberi', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/kocaali/mahalleler', priority: 0.7, changeFrequency: 'weekly' },
     
+    // Sapanca pages
+    { path: '/sapanca', priority: 0.9, changeFrequency: 'weekly' },
+    { path: '/sapanca/bungalov', priority: 0.8, changeFrequency: 'weekly' },
+    { path: '/sapanca/gunluk-kiralik', priority: 0.8, changeFrequency: 'weekly' },
+    { path: '/sapanca/satilik-daire', priority: 0.9, changeFrequency: 'daily' },
+    { path: '/sapanca/satilik-yazlik', priority: 0.9, changeFrequency: 'daily' },
+    { path: '/sapanca/satilik-bungalov', priority: 0.9, changeFrequency: 'daily' },
+    { path: '/sapanca/gezilecek-yerler', priority: 0.7, changeFrequency: 'monthly' },
+    
     // Content pages
     { path: '/blog', priority: 0.8, changeFrequency: 'daily' },
     { path: '/haberler', priority: 0.8, changeFrequency: 'daily' },

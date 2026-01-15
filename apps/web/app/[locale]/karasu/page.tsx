@@ -1057,14 +1057,26 @@ export default async function KarasuPage({
                 </Link>
               </ScrollReveal>
 
-              <ScrollReveal direction="up" delay={150}>
+              <ScrollReveal direction="up" delay={50}>
                 <Link href={`${basePath}/kocaali`} className="group block bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow hover:border-primary dark:hover:border-primary/50">
                   <div className="w-12 h-12 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center mb-4 border border-primary/20 dark:border-primary/30">
-                    <MapPin className="w-6 h-6 text-primary" />
+                    <Waves className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors">Kocaali</h3>
                   <p className="text-gray-600 dark:text-gray-400 text-sm">
                     Komşu ilçe Kocaali hakkında bilgiler.
+                  </p>
+                </Link>
+              </ScrollReveal>
+
+              <ScrollReveal direction="up" delay={100}>
+                <Link href={`${basePath}/sapanca`} className="group block bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow hover:border-primary dark:hover:border-primary/50">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center mb-4 border border-primary/20 dark:border-primary/30">
+                    <Mountain className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors">Sapanca</h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    Sapanca Gölü çevresinde bungalov ve emlak seçenekleri.
                   </p>
                 </Link>
               </ScrollReveal>

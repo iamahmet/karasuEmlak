@@ -878,6 +878,58 @@ export default async function KocaaliPage({
           </div>
         </section>
 
+        {/* İç Link Modülleri - 3'lü Hub Ağı */}
+        <section className="py-16 lg:py-20 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-4 max-w-7xl">
+            <ScrollReveal direction="up" delay={0}>
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                  Diğer Bölgeler
+                </h2>
+                <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                  Sakarya'nın diğer emlak bölgelerini de inceleyin.
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <ScrollReveal direction="up" delay={0}>
+                <Link href={`${basePath}/karasu`} className="group block bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-primary dark:hover:border-primary transition-all duration-300 hover:shadow-xl">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
+                      <Waves className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Karasu</h3>
+                  </div>
+                  <p className="text-gray-700 dark:text-gray-300 mb-4">
+                    Karasu'da satılık ve kiralık emlak seçenekleri. Denize sıfır konumlar, yazlık evler.
+                  </p>
+                  <div className="flex items-center text-primary font-semibold">
+                    İncele <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
+              </ScrollReveal>
+
+              <ScrollReveal direction="up" delay={50}>
+                <Link href={`${basePath}/sapanca`} className="group block bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-primary dark:hover:border-primary transition-all duration-300 hover:shadow-xl">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
+                      <Mountain className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Sapanca</h3>
+                  </div>
+                  <p className="text-gray-700 dark:text-gray-300 mb-4">
+                    Sapanca Gölü çevresinde bungalov, satılık daire, yazlık ve günlük kiralık seçenekleri.
+                  </p>
+                  <div className="flex items-center text-primary font-semibold">
+                    İncele <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
+              </ScrollReveal>
+            </div>
+          </div>
+        </section>
+
         {/* FAQ Section - Modern Accordion */}
         <section className="py-16 bg-gray-50 dark:bg-gray-900/50">
           <div className="container mx-auto px-4 max-w-4xl">
