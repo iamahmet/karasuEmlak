@@ -252,6 +252,7 @@ export default async function HomePage({
     // If database is down, page still renders with empty data
     try {
       const listingsResult = await withTimeout(getFeaturedListings(10), 3000, []);
+      const recentListingsResult = await withTimeout(getRecentListings(10), 3000, []);
 
       // Separate satilik and kiralik listings
       satilikListings = (listingsResult || []).filter(l => l.status === 'satilik');
