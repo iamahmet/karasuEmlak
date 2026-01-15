@@ -81,8 +81,18 @@ const envSchema = z.object({
   RESEND_REPLY_TO: z.string().email().optional(),
 
   // Cron Jobs (Optional)
-  CRON_SECRET: z.string().optional(),
-  REVALIDATE_SECRET: z.string().optional(),
+  // CRON_SECRET: Must be trimmed and at least 16 chars if provided
+  // Vercel requires no leading/trailing whitespace in HTTP headers
+  CRON_SECRET: z.string()
+    .optional()
+    .transform((val) => val?.trim() || undefined)
+    .refine(
+      (val) => !val || val.length >= 16,
+      { message: "CRON_SECRET must be at least 16 characters if provided" }
+    ),
+  REVALIDATE_SECRET: z.string()
+    .optional()
+    .transform((val) => val?.trim() || undefined),
 });
 
 /**

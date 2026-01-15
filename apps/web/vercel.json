@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd ../.. && NODE_ENV=development pnpm install && SKIP_ENV_VALIDATION=true turbo run build --filter=web",
+  "buildCommand": "cd ../.. && NODE_ENV=development pnpm install && node scripts/check-env.js && SKIP_ENV_VALIDATION=true turbo run build --filter=web",
   "devCommand": "pnpm run dev",
   "framework": "nextjs",
   "outputDirectory": ".next",
