@@ -196,18 +196,30 @@ async function generateImage(prompt: string, folder: string, filename: string): 
       ).end(Buffer.from(imageBuffer));
     });
 
-    // Save to media_assets
+    // Save to media_assets (use existing columns if provider doesn't exist)
+    const mediaPayload: any = {
+      cloudinary_public_id: uploadResult.public_id,
+      cloudinary_url: uploadResult.secure_url,
+      cloudinary_secure_url: uploadResult.secure_url,
+      asset_type: "image",
+      width: uploadResult.width,
+      height: uploadResult.height,
+      format: uploadResult.format,
+      alt_text: `${filename} - ${folder}`,
+    };
+    
+    // Add new columns if they exist
+    try {
+      mediaPayload.provider = "cloudinary";
+      mediaPayload.public_id = uploadResult.public_id;
+      mediaPayload.secure_url = uploadResult.secure_url;
+    } catch (e) {
+      // Columns don't exist, use old columns
+    }
+
     const { data: mediaData, error: mediaError } = await supabase
       .from("media_assets")
-      .insert({
-        provider: "cloudinary",
-        public_id: uploadResult.public_id,
-        secure_url: uploadResult.secure_url,
-        width: uploadResult.width,
-        height: uploadResult.height,
-        format: uploadResult.format,
-        alt_text: `${filename} - ${folder}`,
-      })
+      .insert(mediaPayload)
       .select("id")
       .single();
 
