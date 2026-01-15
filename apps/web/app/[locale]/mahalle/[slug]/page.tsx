@@ -790,11 +790,6 @@ export default async function NeighborhoodPage({
                     alt: img.alt,
                   })) || [],
                   features: l.features,
-                    public_id: img.public_id || '',
-                    url: img.url,
-                    alt: img.alt,
-                  })) || [],
-                  features: l.features,
                 }))}
                 basePath={basePath}
                 height="600px"
