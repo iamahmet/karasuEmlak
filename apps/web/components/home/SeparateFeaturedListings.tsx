@@ -11,12 +11,14 @@ import { generatePropertyImageAlt } from '@/lib/seo/image-alt-generator';
 interface SeparateFeaturedListingsProps {
   satilikListings: Listing[];
   kiralikListings: Listing[];
+  recentListings?: Listing[];
   basePath?: string;
 }
 
 export function SeparateFeaturedListings({ 
   satilikListings, 
-  kiralikListings, 
+  kiralikListings,
+  recentListings = [],
   basePath = "" 
 }: SeparateFeaturedListingsProps) {
   const ListingCard = ({ listing }: { listing: Listing }) => {
@@ -228,6 +230,50 @@ export function SeparateFeaturedListings({
                 >
                   <Link href={`${basePath}/kiralik`}>
                     Tüm Kiralık İlanlar
+                    <ArrowRight className="h-5 w-5 ml-2 stroke-[1.5]" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Son Eklenen İlanlar */}
+      {recentListings.length > 0 && (
+        <section className="py-12 lg:py-16 bg-white">
+          <div className="container mx-auto px-4 lg:px-6">
+            <div className="max-w-7xl mx-auto">
+              {/* Header */}
+              <div className="mb-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-50 rounded-full mb-4">
+                  <span className="text-xs font-bold text-purple-600 uppercase tracking-wider">Yeni</span>
+                </div>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-extrabold mb-3 text-gray-900 leading-tight">
+                  Son Eklenen İlanlar
+                </h2>
+                <p className="text-base md:text-lg text-gray-600 max-w-3xl leading-relaxed">
+                  Karasu'da en yeni eklenen gayrimenkul ilanları. Güncel fırsatları kaçırmayın.
+                </p>
+              </div>
+
+              {/* Listings Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 mb-10">
+                {recentListings.slice(0, 6).map((listing) => (
+                  <ListingCard key={listing.id} listing={listing} />
+                ))}
+              </div>
+
+              {/* View All Button */}
+              <div className="text-center">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white px-6 py-3 text-[15px] font-semibold tracking-[-0.011em] rounded-lg transition-all duration-200"
+                  asChild
+                >
+                  <Link href={`${basePath}/satilik`}>
+                    Tüm İlanları Görüntüle
                     <ArrowRight className="h-5 w-5 ml-2 stroke-[1.5]" />
                   </Link>
                 </Button>

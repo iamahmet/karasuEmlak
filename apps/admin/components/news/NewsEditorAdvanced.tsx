@@ -504,16 +504,20 @@ export function NewsEditorAdvanced({ article: initialArticle, locale }: NewsEdit
           )}
 
           {article.published && (
-            <Link
-              href={`http://localhost:3000/haberler/${article.slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-9"
+              onClick={() => {
+                const webUrl = typeof window !== "undefined"
+                  ? window.location.origin.replace("admin.", "").replace(":3001", ":3000") + `/haberler/${article.slug}`
+                  : `/haberler/${article.slug}`;
+                window.open(webUrl, "_blank");
+              }}
             >
-              <Button variant="outline" size="sm" className="h-9">
-                <ExternalLink className="h-4 w-4 mr-2" />
-                Görüntüle
-              </Button>
-            </Link>
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Görüntüle
+            </Button>
           )}
 
           <Button

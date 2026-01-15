@@ -229,11 +229,20 @@ export function RecentListings() {
                     </Button>
                   </Link>
                   {listing.published && (
-                    <Link href={`/ilan/${listing.slug}`} target="_blank">
-                      <Button variant="outline" size="sm" className="h-9 w-9 p-0 hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all">
-                        <ExternalLink className="h-4 w-4" />
-                      </Button>
-                    </Link>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-9 w-9 p-0 hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all"
+                      onClick={() => {
+                        const webUrl = typeof window !== "undefined"
+                          ? window.location.origin.replace("admin.", "").replace(":3001", ":3000") + `/ilan/${listing.slug}`
+                          : `/ilan/${listing.slug}`;
+                        window.open(webUrl, "_blank");
+                      }}
+                      title="Görüntüle"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </Button>
                   )}
                 </div>
               </div>

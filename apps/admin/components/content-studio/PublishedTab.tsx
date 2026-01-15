@@ -139,7 +139,9 @@ export function PublishedTab({ locale }: { locale: string }) {
                       size="sm"
                       className="flex-1 hover-scale micro-bounce rounded-xl"
                       onClick={() => {
-                        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin.replace(":3001", ":3000");
+                        const baseUrl = typeof window !== "undefined"
+                          ? window.location.origin.replace("admin.", "").replace(":3001", ":3000")
+                          : process.env.NEXT_PUBLIC_SITE_URL || "https://www.karasuemlak.net";
                         window.open(`${baseUrl}/${locale}/haber/${item.slug}`, "_blank");
                       }}
                     >

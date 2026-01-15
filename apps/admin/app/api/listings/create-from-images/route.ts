@@ -421,7 +421,14 @@ async function createListingFromFolder(
       published: true,
       featured: false,
       available: true,
-      images: listingData.images || [],
+      images: Array.isArray(listingData.images) 
+        ? listingData.images.map((url: string, index: number) => ({
+            url: url,
+            public_id: url.split('/').pop()?.split('.')[0] || `listing-${Date.now()}-${index}`,
+            alt: listingData.title || folderName,
+            order: index,
+          }))
+        : [],
       features: listingData.features || {},
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),

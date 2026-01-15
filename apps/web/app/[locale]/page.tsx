@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { routing } from '@/i18n/routing';
 import { siteConfig } from '@karasu-emlak/config';
 import { Home, Building2, MapPin, Calendar, User, Square, Heart, Search, TrendingUp, FileText, Sun, ArrowRight } from 'lucide-react';
-import { getFeaturedListings, getListingStats, getNeighborhoods } from '@/lib/supabase/queries';
+import { getFeaturedListings, getRecentListings, getListingStats, getNeighborhoods } from '@/lib/supabase/queries';
 import { getNeighborhoodsWithImages, getNeighborhoodImageUrl } from '@/lib/supabase/queries/neighborhoods';
 import { getFeaturedArticles } from '@/lib/supabase/queries/articles';
 import { generateSlug } from '@/lib/utils';
@@ -237,6 +237,7 @@ export default async function HomePage({
     // Fetch real data from Supabase with timeout (3s max)
     // Homepage MUST render even if database is down
     let featuredListings: Awaited<ReturnType<typeof getFeaturedListings>> = [];
+    let recentListings: Awaited<ReturnType<typeof getRecentListings>> = [];
     let satilikListings: Awaited<ReturnType<typeof getFeaturedListings>> = [];
     let kiralikListings: Awaited<ReturnType<typeof getFeaturedListings>> = [];
     let stats: Awaited<ReturnType<typeof getListingStats>> = { total: 0, satilik: 0, kiralik: 0, byType: {} };
@@ -280,6 +281,7 @@ export default async function HomePage({
 
       // Assign results (null becomes empty array/object)
       featuredListings = listingsResult || [];
+      recentListings = recentListingsResult || [];
       stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
       neighborhoods = neighborhoodsResult || [];
       neighborhoodsWithImages = neighborhoodsImagesResult || [];
@@ -342,7 +344,8 @@ export default async function HomePage({
       <SectionErrorBoundary sectionName="Öne Çıkan Satılık ve Kiralık İlanlar">
         <SeparateFeaturedListings 
           satilikListings={satilikListings} 
-          kiralikListings={kiralikListings} 
+          kiralikListings={kiralikListings}
+          recentListings={recentListings}
           basePath={basePath} 
         />
       </SectionErrorBoundary>

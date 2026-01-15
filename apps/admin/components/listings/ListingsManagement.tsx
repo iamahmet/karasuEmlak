@@ -798,20 +798,20 @@ export function ListingsManagement({ locale }: { locale: string }) {
                               <Edit2 className="h-4 w-4" />
                             </Button>
                           </Link>
-                          <Link
-                            href={`/ilan/${listing.slug}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => {
+                              const webUrl = typeof window !== "undefined"
+                                ? window.location.origin.replace("admin.", "").replace(":3001", ":3000") + `/ilan/${listing.slug}`
+                                : `/ilan/${listing.slug}`;
+                              window.open(webUrl, "_blank");
+                            }}
+                            title="Sitede Görüntüle"
+                            className="h-8 w-8"
                           >
-                            <Button 
-                              variant="ghost" 
-                              size="icon" 
-                              title="Sitede Görüntüle"
-                              className="h-8 w-8"
-                            >
-                              <ExternalLink className="h-4 w-4" />
-                            </Button>
-                          </Link>
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
                           <Button
                             variant="ghost"
                             size="icon"

@@ -74,8 +74,44 @@ export function safeParseFeatures(features: any): Record<string, any> {
 
 /**
  * Parse listing images safely
+ * Handles both string arrays and object arrays
  */
-export function safeParseImages(images: any): Array<any> {
+export function safeParseImages(images: any): Array<{
+  public_id?: string;
+  url: string;
+  alt?: string;
+  order: number;
+}> {
   const parsed = safeParseJSON<Array<any>>(images, [], 'images');
-  return Array.isArray(parsed) ? parsed : [];
+  if (!Array.isArray(parsed)) {
+    return [];
+  }
+  
+  // If it's an array of strings, convert to objects
+  if (parsed.length > 0 && typeof parsed[0] === 'string') {
+    return parsed.map((url: string, index: number) => ({
+      url: url,
+      public_id: url.split('/').pop()?.split('.')[0] || `image-${index}`,
+      alt: '',
+      order: index,
+    }));
+  }
+  
+  // If it's already an array of objects, ensure they have the right format
+  return parsed.map((img: any, index: number) => {
+    if (typeof img === 'string') {
+      return {
+        url: img,
+        public_id: img.split('/').pop()?.split('.')[0] || `image-${index}`,
+        alt: '',
+        order: index,
+      };
+    }
+    return {
+      url: img.url || img,
+      public_id: img.public_id || img.url?.split('/').pop()?.split('.')[0] || `image-${index}`,
+      alt: img.alt || '',
+      order: img.order !== undefined ? img.order : index,
+    };
+  });
 }

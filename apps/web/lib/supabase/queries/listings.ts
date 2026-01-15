@@ -31,7 +31,7 @@ export interface Listing {
   description_short?: string;
   description_long?: string;
   images: Array<{
-    public_id: string;
+    public_id?: string;
     url: string;
     alt?: string;
     order: number;
@@ -199,7 +199,6 @@ export async function getListings(
         } as Listing;
       } catch (parseError: any) {
         console.warn(`[getListings] Error parsing listing ${listing.id}:`, parseError.message);
-        // Return listing with safe fallbacks
         return {
           ...listing,
           features: {},
@@ -208,20 +207,15 @@ export async function getListings(
       }
     });
   } catch (batchError: any) {
-    console.error('[getListings] Error processing listings batch:', batchError.message);
-    // Return empty array if batch processing fails
+    console.error('[getListings] Error processing listings:', batchError.message);
     return { listings: [], total: 0 };
   }
 
-  return {
-    listings,
-    total: count || 0,
-  };
+  return { listings, total: count || 0 };
 }
 
 /**
- * Get a single listing by slug
- * Supports both database listings and demo listings
+ * Get listing by slug
  */
 export async function getListingBySlug(slug: string): Promise<Listing | null> {
   let supabase;
@@ -274,41 +268,13 @@ export async function getListingBySlug(slug: string): Promise<Listing | null> {
     if (demoListing) {
       // Convert demo listing to Listing format
       return {
-        id: demoListing.id,
-        title: demoListing.title,
-        slug: demoListing.slug,
-        status: demoListing.status,
-        property_type: demoListing.property_type,
-        location_city: 'Sakarya',
-        location_district: demoListing.location_district,
-        location_neighborhood: demoListing.location_neighborhood,
-        location_full_address: demoListing.location_full_address,
-        coordinates_lat: parseFloat(demoListing.coordinates_lat),
-        coordinates_lng: parseFloat(demoListing.coordinates_lng),
-        price_amount: parseFloat(demoListing.price_amount),
-        price_currency: demoListing.price_currency,
-        features: demoListing.features,
-        description_short: demoListing.description_short,
-        description_long: demoListing.description_long,
-        images: demoListing.images.map(img => ({
-          public_id: img.public_id,
-          url: img.url,
-          alt: img.alt,
-          order: img.order,
-        })),
-        agent_name: demoListing.agent_name,
-        agent_phone: demoListing.agent_phone,
-        agent_whatsapp: demoListing.agent_whatsapp,
-        agent_email: demoListing.agent_email,
-        available: true,
-        published: true,
-        featured: false,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
+        ...demoListing,
+        features: safeParseFeatures(demoListing.features),
+        images: safeParseImages(demoListing.images),
+      } as Listing;
     }
-  } catch (importError) {
-    console.error('Error importing demo listings:', importError);
+  } catch (demoError) {
+    // Demo listings not available, continue
   }
 
   return null;
@@ -399,7 +365,60 @@ export async function getFeaturedListings(limit = 6): Promise<Listing[]> {
       }
     });
   } catch (batchError: any) {
-    console.error('[getFeaturedListings] Error processing listings batch:', batchError.message);
+    console.error('[getFeaturedListings] Error processing listings:', batchError.message);
+    return [];
+  }
+
+  return parsedListings;
+}
+
+/**
+ * Get recent listings (last added)
+ */
+export async function getRecentListings(limit = 6): Promise<Listing[]> {
+  let supabase;
+  try {
+    supabase = createServiceClient();
+  } catch (error: any) {
+    console.error('Error creating service client for getRecentListings:', error.message);
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from('listings')
+    .select('*')
+    .eq('published', true)
+    .eq('available', true)
+    .is('deleted_at', null)
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching recent listings:', error);
+    return [];
+  }
+
+  // Parse JSON fields safely
+  let parsedListings: Listing[] = [];
+  try {
+    parsedListings = (data || []).map((listing: any) => {
+      try {
+        return {
+          ...listing,
+          features: safeParseFeatures(listing.features),
+          images: safeParseImages(listing.images),
+        } as Listing;
+      } catch (parseError: any) {
+        console.warn(`[getRecentListings] Error parsing listing ${listing.id}:`, parseError.message);
+        return {
+          ...listing,
+          features: {},
+          images: [],
+        } as Listing;
+      }
+    });
+  } catch (batchError: any) {
+    console.error('[getRecentListings] Error processing listings:', batchError.message);
     return [];
   }
 
@@ -409,13 +428,9 @@ export async function getFeaturedListings(limit = 6): Promise<Listing[]> {
 /**
  * Get listings by neighborhood
  */
-/**
- * Get listings by neighborhood
- * Supports both database listings and demo listings
- */
 export async function getListingsByNeighborhood(
   neighborhood: string,
-  limit = 20
+  limit = 6
 ): Promise<Listing[]> {
   let supabase;
   try {
@@ -425,28 +440,25 @@ export async function getListingsByNeighborhood(
     return [];
   }
 
-  let data, error;
-  try {
-    const result = await supabase
-      .from('listings')
-      .select('*')
-      .eq('published', true)
-      .eq('available', true)
-      .eq('location_neighborhood', neighborhood)
-      .is('deleted_at', null)
-      .order('created_at', { ascending: false })
-      .limit(limit);
-    data = result.data;
-    error = result.error;
-  } catch (queryError: any) {
-    console.error('[getListingsByNeighborhood] Error executing query:', queryError.message);
+  const { data, error } = await supabase
+    .from('listings')
+    .select('*')
+    .eq('published', true)
+    .eq('available', true)
+    .eq('location_neighborhood', neighborhood)
+    .is('deleted_at', null)
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching listings by neighborhood:', error);
     return [];
   }
 
-  // Parse JSON fields safely with error handling
-  let listings: Listing[] = [];
+  // Parse JSON fields safely
+  let parsedListings: Listing[] = [];
   try {
-    listings = (data || []).map((listing: any) => {
+    parsedListings = (data || []).map((listing: any) => {
       try {
         return {
           ...listing,
@@ -463,64 +475,15 @@ export async function getListingsByNeighborhood(
       }
     });
   } catch (batchError: any) {
-    console.error('[getListingsByNeighborhood] Error processing listings batch:', batchError.message);
+    console.error('[getListingsByNeighborhood] Error processing listings:', batchError.message);
     return [];
   }
 
-  // Add demo listings from the same neighborhood
-  try {
-    const { demoListings } = await import('@/lib/demo-listings');
-    const demoListingsInNeighborhood = demoListings
-      .filter(l => l.location_neighborhood === neighborhood)
-      .slice(0, limit - listings.length)
-      .map(demoListing => ({
-        id: demoListing.id,
-        title: demoListing.title,
-        slug: demoListing.slug,
-        status: demoListing.status,
-        property_type: demoListing.property_type,
-        location_city: 'Sakarya',
-        location_district: demoListing.location_district,
-        location_neighborhood: demoListing.location_neighborhood,
-        location_full_address: demoListing.location_full_address,
-        coordinates_lat: parseFloat(demoListing.coordinates_lat),
-        coordinates_lng: parseFloat(demoListing.coordinates_lng),
-        price_amount: parseFloat(demoListing.price_amount),
-        price_currency: demoListing.price_currency,
-        features: demoListing.features,
-        description_short: demoListing.description_short,
-        description_long: demoListing.description_long,
-        images: demoListing.images.map(img => ({
-          public_id: img.public_id,
-          url: img.url,
-          alt: img.alt,
-          order: img.order,
-        })),
-        agent_name: demoListing.agent_name,
-        agent_phone: demoListing.agent_phone,
-        agent_whatsapp: demoListing.agent_whatsapp,
-        agent_email: demoListing.agent_email,
-        available: true,
-        published: true,
-        featured: false,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      }));
-
-    listings = [...listings, ...demoListingsInNeighborhood].slice(0, limit);
-  } catch (importError) {
-    console.error('Error importing demo listings:', importError);
-  }
-
-  if (error) {
-    console.error('Error fetching listings by neighborhood:', error);
-  }
-
-  return listings;
+  return parsedListings;
 }
 
 /**
- * Get listing statistics
+ * Get listing stats
  */
 export async function getListingStats(): Promise<{
   total: number;
@@ -536,174 +499,38 @@ export async function getListingStats(): Promise<{
     return { total: 0, satilik: 0, kiralik: 0, byType: {} };
   }
 
-  const { data, error } = await supabase
-    .from('listings')
-    .select('status, property_type')
-    .eq('published', true)
-    .eq('available', true)
-    .is('deleted_at', null);
-
-  if (error) {
-    console.error('Error fetching listing stats:', error);
-    return { total: 0, satilik: 0, kiralik: 0, byType: {} };
-  }
-
-  const stats = {
-    total: data?.length || 0,
-    satilik: data?.filter((l) => l.status === 'satilik').length || 0,
-    kiralik: data?.filter((l) => l.status === 'kiralik').length || 0,
-    byType: {} as Record<string, number>,
-  };
-
-  // Count by property type
-  data?.forEach((listing) => {
-    const type = listing.property_type;
-    stats.byType[type] = (stats.byType[type] || 0) + 1;
-  });
-
-  return stats;
-}
-
-/**
- * Get unique neighborhoods from neighborhoods table (preferred) or listings (fallback)
- */
-export async function getNeighborhoods(): Promise<string[]> {
-  let supabase;
   try {
-    supabase = createServiceClient();
-  } catch (error: any) {
-    console.error('Error creating service client for getNeighborhoods:', error.message);
-    return [];
-  }
-
-  // First, try to get from neighborhoods table (preferred)
-  const { data: neighborhoodsData, error: neighborhoodsError } = await supabase
-    .from('neighborhoods')
-    .select('name')
-    .eq('published', true)
-    .order('name', { ascending: true });
-
-  if (!neighborhoodsError && neighborhoodsData && neighborhoodsData.length > 0) {
-    return neighborhoodsData.map(n => n.name);
-  }
-
-  // Fallback: get from listings table
-  const { data, error } = await supabase
-    .from('listings')
-    .select('location_neighborhood')
-    .eq('published', true)
-    .eq('available', true)
-    .is('deleted_at', null);
-
-  if (error) {
-    console.error('Error fetching neighborhoods:', error);
-    return [];
-  }
-
-  const neighborhoods = new Set<string>();
-  data?.forEach((listing) => {
-    if (listing.location_neighborhood) {
-      neighborhoods.add(listing.location_neighborhood);
-    }
-  });
-
-  return Array.from(neighborhoods);
-}
-
-/**
- * Get unique property types from listings
- */
-export async function getPropertyTypes(): Promise<string[]> {
-  const supabase = createServiceClient();
-
-  const { data, error } = await supabase
-    .from('listings')
-    .select('property_type')
-    .eq('published', true)
-    .eq('available', true)
-    .is('deleted_at', null);
-
-  if (error) {
-    console.error('Error fetching property types:', error);
-    return [];
-  }
-
-  const types = new Set<string>();
-  data?.forEach((listing) => {
-    if (listing.property_type) {
-      types.add(listing.property_type);
-    }
-  });
-
-  return Array.from(types);
-}
-
-/**
- * Get similar listings based on property type, location, and price range
- */
-export async function getSimilarListings(
-  listing: Listing,
-  limit = 4
-): Promise<Listing[]> {
-  const supabase = createServiceClient();
-
-  // Build query for similar listings
-  let query = supabase
-    .from('listings')
-    .select('*')
-    .eq('published', true)
-    .eq('available', true)
-    .neq('id', listing.id)
-    .is('deleted_at', null);
-
-  // Same property type
-  query = query.eq('property_type', listing.property_type);
-
-  // Same status
-  query = query.eq('status', listing.status);
-
-  // Same neighborhood or district
-  query = query.or(`location_neighborhood.eq.${listing.location_neighborhood},location_district.eq.${listing.location_district}`);
-
-  // Similar price range (±30%)
-  if (listing.price_amount) {
-    const minPrice = listing.price_amount * 0.7;
-    const maxPrice = listing.price_amount * 1.3;
-    query = query.gte('price_amount', minPrice).lte('price_amount', maxPrice);
-  }
-
-  const { data, error } = await query
-    .order('created_at', { ascending: false })
-    .limit(limit);
-
-  if (error) {
-    console.error('Error fetching similar listings:', error);
-    return [];
-  }
-
-  // If not enough results, relax filters
-  if (!data || data.length < limit) {
-    const fallbackQuery = supabase
+    // Get all published listings
+    const { data, error } = await supabase
       .from('listings')
-      .select('*')
+      .select('status, property_type')
       .eq('published', true)
       .eq('available', true)
-      .neq('id', listing.id)
-      .eq('property_type', listing.property_type)
-      .eq('status', listing.status)
-      .is('deleted_at', null)
-      .order('created_at', { ascending: false })
-      .limit(limit);
+      .is('deleted_at', null);
 
-    const { data: fallbackData, error: fallbackError } = await fallbackQuery;
-
-    if (fallbackError) {
-      console.error('Error fetching fallback similar listings:', fallbackError);
-      return (data as Listing[]) || [];
+    if (error) {
+      console.error('Error fetching listing stats:', error);
+      return { total: 0, satilik: 0, kiralik: 0, byType: {} };
     }
 
-    return (fallbackData as Listing[]) || [];
-  }
+    const stats = {
+      total: data?.length || 0,
+      satilik: data?.filter((l: any) => l.status === 'satilik').length || 0,
+      kiralik: data?.filter((l: any) => l.status === 'kiralik').length || 0,
+      byType: {} as Record<string, number>,
+    };
 
-  return (data as Listing[]) || [];
+    // Count by property type
+    if (data) {
+      data.forEach((listing: any) => {
+        const type = listing.property_type || 'other';
+        stats.byType[type] = (stats.byType[type] || 0) + 1;
+      });
+    }
+
+    return stats;
+  } catch (error: any) {
+    console.error('Error calculating listing stats:', error.message);
+    return { total: 0, satilik: 0, kiralik: 0, byType: {} };
+  }
 }

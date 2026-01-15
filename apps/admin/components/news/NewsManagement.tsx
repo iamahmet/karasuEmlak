@@ -293,15 +293,19 @@ export function NewsManagement({ locale }: { locale: string }) {
                             <Trash2 className="h-4 w-4 text-destructive" />
                           </Button>
                           {article.published && (
-                            <Link
-                              href={`http://localhost:3000/haberler/${article.slug}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              title="Görüntüle"
+                              onClick={() => {
+                                const webUrl = typeof window !== "undefined"
+                                  ? window.location.origin.replace("admin.", "").replace(":3001", ":3000") + `/haberler/${article.slug}`
+                                  : `/haberler/${article.slug}`;
+                                window.open(webUrl, "_blank");
+                              }}
                             >
-                              <Button variant="ghost" size="icon" title="Görüntüle">
-                                <ExternalLink className="h-4 w-4" />
-                              </Button>
-                            </Link>
+                              <ExternalLink className="h-4 w-4" />
+                            </Button>
                           )}
                         </div>
                       </td>
