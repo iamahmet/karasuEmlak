@@ -10,7 +10,14 @@ import { getOptimizedCloudinaryUrl } from '@/lib/cloudinary/optimization';
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
 import { Mail, Linkedin, Instagram, ArrowLeft, Calendar, FileText } from 'lucide-react';
-import { formatDate } from '@/lib/utils/date';
+// Date formatter
+function formatDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString('tr-TR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // 1 hour

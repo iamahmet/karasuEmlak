@@ -5,11 +5,29 @@ import { Button, Card, Input, Badge } from '@karasu/ui';
 import { Edit, Trash2, Search, User, Mail, Linkedin, Instagram, X as XIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+
+// Cloudinary URL helper - use direct URL for admin panel
+function getOptimizedCloudinaryUrl(url: string, options?: { width?: number; height?: number }) {
+  if (!url) return null;
+  if (!url.includes('cloudinary.com')) return url;
+  
+  const parts = url.split('/');
+  const uploadIndex = parts.findIndex(p => p === 'upload');
+  if (uploadIndex === -1) return url;
+  
+  const transformations: string[] = [];
+  if (options?.width) transformations.push(`w_${options.width}`);
+  if (options?.height) transformations.push(`h_${options.height}`);
+  transformations.push('c_fill', 'f_auto', 'q_auto');
+  
+  parts.splice(uploadIndex + 1, 0, transformations.join(','));
+  return parts.join('/');
+}
+
 // Simple image component for admin panel
 function ResponsiveImage({ src, alt, width, height, className }: { src: string; alt: string; width: number; height: number; className?: string }) {
   return <img src={src} alt={alt} width={width} height={height} className={className} />;
 }
-import { getOptimizedCloudinaryUrl } from '@/lib/utils/cloudinary';
 
 interface Author {
   id: string;
