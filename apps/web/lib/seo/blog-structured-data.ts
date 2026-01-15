@@ -7,6 +7,20 @@ interface ArticleSchemaInput {
   content: string;
   slug: string;
   author?: string | null;
+  author_data?: {
+    id: string;
+    slug: string;
+    full_name: string;
+    title: string;
+    bio?: string;
+    avatar?: { secure_url: string } | null;
+    social_json?: {
+      email?: string;
+      linkedin?: string;
+      instagram?: string;
+      x?: string;
+    };
+  } | null;
   publishedAt?: string | null;
   updatedAt?: string | null;
   imageUrl?: string | null;
@@ -47,7 +61,37 @@ export function generateBlogArticleSchema(input: ArticleSchemaInput) {
   } = input;
 
   const articleUrl = `${siteConfig.url}/blog/${slug}`;
-  const authorName = author || 'Karasu Emlak';
+  const authorName = input.author_data?.full_name || author || 'Karasu Emlak';
+
+  // Build author schema - use author_data if available, otherwise fallback
+  let authorSchema: any = {
+    '@type': 'Person',
+    name: authorName,
+  };
+
+  if (input.author_data) {
+    authorSchema = {
+      '@type': 'Person',
+      name: input.author_data.full_name,
+      jobTitle: input.author_data.title,
+      url: `${siteConfig.url}/yazarlar/${input.author_data.slug}`,
+      image: input.author_data.avatar?.secure_url,
+      description: input.author_data.bio,
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Karasu Emlak',
+        url: siteConfig.url,
+      },
+      sameAs: [
+        input.author_data.social_json?.linkedin && `https://linkedin.com/in/${input.author_data.social_json.linkedin}`,
+        input.author_data.social_json?.instagram && `https://instagram.com/${input.author_data.social_json.instagram}`,
+        input.author_data.social_json?.x && `https://x.com/${input.author_data.social_json.x}`,
+        input.author_data.social_json?.email && `mailto:${input.author_data.social_json.email}`,
+      ].filter(Boolean),
+    };
+  } else {
+    authorSchema.url = `${siteConfig.url}/hakkimizda`;
+  }
 
   return {
     '@context': 'https://schema.org',
@@ -69,11 +113,7 @@ export function generateBlogArticleSchema(input: ArticleSchemaInput) {
       : undefined,
     datePublished: publishedAt || undefined,
     dateModified: updatedAt || publishedAt || undefined,
-    author: {
-      '@type': 'Person',
-      name: authorName,
-      url: `${siteConfig.url}/hakkimizda`,
-    },
+    author: authorSchema,
     publisher: {
       '@type': 'Organization',
       name: 'Karasu Emlak',
