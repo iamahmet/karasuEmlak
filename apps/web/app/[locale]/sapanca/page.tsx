@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Button } from '@karasu/ui';
-import { MapPin, Home, Building2, TrendingUp, Award, Waves, Mountain, BarChart3, Phone, ArrowRight, Shield, Clock, Users, Calendar, BookOpen, Landmark, Factory, GraduationCap, Heart, TreePine, Fish, Coffee, Cabin, KeyRound } from 'lucide-react';
+import { MapPin, Home, Building2, TrendingUp, Award, Waves, Mountain, BarChart3, Phone, ArrowRight, Shield, Clock, Users, Calendar, BookOpen, Landmark, Factory, GraduationCap, Heart, TreePine, Fish, Coffee, KeyRound } from 'lucide-react';
 import Link from 'next/link';
 import { getNeighborhoods, getListingStats, getFeaturedListings } from '@/lib/supabase/queries';
 import { CardImage } from '@/components/images';
