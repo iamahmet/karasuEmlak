@@ -196,7 +196,7 @@ async function generateImage(prompt: string, folder: string, filename: string): 
       ).end(Buffer.from(imageBuffer));
     });
 
-    // Save to media_assets (use existing columns if provider doesn't exist)
+    // Save to media_assets (use existing columns - backward compatible)
     const mediaPayload: any = {
       cloudinary_public_id: uploadResult.public_id,
       cloudinary_url: uploadResult.secure_url,
@@ -207,15 +207,6 @@ async function generateImage(prompt: string, folder: string, filename: string): 
       format: uploadResult.format,
       alt_text: `${filename} - ${folder}`,
     };
-    
-    // Add new columns if they exist
-    try {
-      mediaPayload.provider = "cloudinary";
-      mediaPayload.public_id = uploadResult.public_id;
-      mediaPayload.secure_url = uploadResult.secure_url;
-    } catch (e) {
-      // Columns don't exist, use old columns
-    }
 
     const { data: mediaData, error: mediaError } = await supabase
       .from("media_assets")
