@@ -202,7 +202,7 @@ async function generateImage(prompt: string, folder: string, filename: string): 
       cloudinary_public_id: uploadResult.public_id,
       cloudinary_url: uploadResult.secure_url,
       cloudinary_secure_url: uploadResult.secure_url,
-      asset_type: "photo", // Use 'photo' instead of 'image' (common constraint value)
+      asset_type: "blog_image", // Valid values: listing_image, blog_image, og_image, neighborhood_image, other
       width: uploadResult.width,
       height: uploadResult.height,
       format: uploadResult.format,
