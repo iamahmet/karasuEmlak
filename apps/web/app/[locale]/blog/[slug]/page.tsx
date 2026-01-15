@@ -511,7 +511,8 @@ export default async function BlogDetailPage({
                   tags: normalized.tags,
                   author: normalized.author,
                   published_at: article.published_at,
-                }}
+                  author_data: (article as any).author_data || undefined,
+                } as any}
                 basePath={basePath}
                 locale={locale}
                 faqs={faqs}
