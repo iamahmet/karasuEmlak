@@ -790,7 +790,6 @@ export default async function NeighborhoodPage({
                     alt: img.alt,
                   })) || [],
                   features: l.features,
-                  images: l.images?.map(img => ({
                     public_id: img.public_id || '',
                     url: img.url,
                     alt: img.alt,
