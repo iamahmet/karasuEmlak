@@ -607,12 +607,12 @@ export function ProgrammaticPagesManagement({ locale }: { locale: string }) {
                   : "Arama kriterlerinize uygun sayfa bulunamadı."
               }
               action={
-                pages.length === 0 ? (
-                  <Button onClick={() => setCreateDialogOpen(true)}>
-                    <Plus className="h-4 w-4 mr-2" />
-                    İlk Sayfayı Oluştur
-                  </Button>
-                ) : null
+                pages.length === 0
+                  ? {
+                      label: "İlk Sayfayı Oluştur",
+                      onClick: () => setCreateDialogOpen(true),
+                    }
+                  : undefined
               }
             />
           ) : (

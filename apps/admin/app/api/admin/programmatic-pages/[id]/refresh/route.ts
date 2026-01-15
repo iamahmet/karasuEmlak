@@ -73,4 +73,7 @@ async function handlePost(
   }
 }
 
-export const POST = withErrorHandling(handlePost);
+export const POST = withErrorHandling(async (request: NextRequest, context?: { params?: Promise<{ id: string }> }) => {
+  const params = context?.params || Promise.resolve({ id: '' });
+  return handlePost(request, { params });
+});

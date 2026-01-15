@@ -310,6 +310,9 @@ async function initializeProgrammaticPages() {
       console.log(`   📍 Slug: /${page.slug}`);
       console.log(`   🔄 Güncelleme: ${page.update_frequency} dakika`);
       created++;
+      
+      // Small delay to avoid overwhelming the database
+      await new Promise(resolve => setTimeout(resolve, 200));
     } catch (error: any) {
       console.error(`❌ Hata (${page.title}):`, error.message);
       errors++;
@@ -324,6 +327,19 @@ async function initializeProgrammaticPages() {
 
   if (created > 0) {
     console.log("✨ Programatik sayfalar başarıyla oluşturuldu!\n");
+    
+    // Auto-reload PostgREST cache after creating pages
+    console.log("🔄 PostgREST cache yenileniyor...\n");
+    try {
+      const { execSync } = await import("child_process");
+      execSync("tsx scripts/supabase/auto-reload-cache.ts", {
+        stdio: "inherit",
+        env: process.env,
+      });
+    } catch (error: any) {
+      console.warn("⚠️  Cache yenileme atlandı:", error.message);
+      console.warn("   Manuel olarak çalıştırabilirsiniz: pnpm supabase:reload-postgrest\n");
+    }
   }
 }
 

@@ -149,6 +149,17 @@ async function handleDelete(
   }
 }
 
-export const GET = withErrorHandling(handleGet);
-export const PUT = withErrorHandling(handlePut);
-export const DELETE = withErrorHandling(handleDelete);
+export const GET = withErrorHandling(async (request: NextRequest, context?: { params?: Promise<{ id: string }> }) => {
+  const params = context?.params || Promise.resolve({ id: '' });
+  return handleGet(request, { params });
+});
+
+export const PUT = withErrorHandling(async (request: NextRequest, context?: { params?: Promise<{ id: string }> }) => {
+  const params = context?.params || Promise.resolve({ id: '' });
+  return handlePut(request, { params });
+});
+
+export const DELETE = withErrorHandling(async (request: NextRequest, context?: { params?: Promise<{ id: string }> }) => {
+  const params = context?.params || Promise.resolve({ id: '' });
+  return handleDelete(request, { params });
+});
