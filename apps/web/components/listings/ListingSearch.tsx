@@ -7,6 +7,7 @@ import { Search, X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from '@/lib/hooks/useDebounce';
 import { trackSearch } from '@/lib/analytics/listings-events';
+import { MobileSearch } from '@/components/search/MobileSearch';
 
 interface ListingSearchProps {
   placeholder?: string;
@@ -42,6 +43,20 @@ export function ListingSearch({ placeholder = "Lokasyon, mahalle veya ilan no ar
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
+  // Use MobileSearch on mobile, regular search on desktop
+  if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    return (
+      <MobileSearch
+        placeholder={placeholder}
+        className={className}
+        basePath=""
+        onSearch={(query) => {
+          handleSearch(query);
+        }}
+      />
+    );
+  }
+
   return (
     <div className={`relative ${className}`}>
       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -50,14 +65,15 @@ export function ListingSearch({ placeholder = "Lokasyon, mahalle veya ilan no ar
         placeholder={placeholder}
         value={searchQuery}
         onChange={(e) => handleSearch(e.target.value)}
-        className="pl-10 pr-10"
+        className="pl-10 pr-10 min-h-[48px] text-base"
       />
       {searchQuery && (
         <Button
           variant="ghost"
           size="icon"
           onClick={clearSearch}
-          className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8"
+          className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 min-h-[44px] min-w-[44px] touch-manipulation"
+          style={{ touchAction: 'manipulation' }}
         >
           <X className="h-4 w-4" />
         </Button>

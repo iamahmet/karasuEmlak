@@ -66,3 +66,4 @@ GRANT SELECT ON public.authors TO anon, authenticated, service_role;
 
 -- Comments for PostgREST discovery
 COMMENT ON TABLE public.authors IS 'Blog yazarları profilleri';
+

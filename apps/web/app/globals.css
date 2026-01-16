@@ -249,6 +249,20 @@
     touch-action: manipulation;
   }
 
+  /* Haptic feedback visual fallback */
+  .haptic-feedback {
+    animation: haptic-pulse 0.1s ease-out;
+  }
+
+  @keyframes haptic-pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.98);
+    }
+  }
+
   /* Mobile-specific form improvements */
   @media (max-width: 767px) {
     input[type="text"],

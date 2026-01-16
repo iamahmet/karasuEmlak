@@ -34,12 +34,17 @@ export function ListingSort({ className }: ListingSortProps) {
   return (
     <div className={className}>
       <Select value={currentSort} onValueChange={handleSortChange}>
-        <SelectTrigger className="w-[200px]">
+        <SelectTrigger className="w-full sm:w-[200px] min-h-[48px] touch-manipulation" style={{ touchAction: 'manipulation' }}>
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
           {SORT_OPTIONS.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
+            <SelectItem 
+              key={option.value} 
+              value={option.value}
+              className="min-h-[44px] touch-manipulation"
+              style={{ touchAction: 'manipulation' }}
+            >
               {option.label}
             </SelectItem>
           ))}

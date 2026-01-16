@@ -142,13 +142,18 @@ export function AdvancedFilters({
             value={currentSort ? `${currentSort.field}-${currentSort.order}` : 'created_at-desc'}
             onValueChange={handleSortChange}
           >
-            <SelectTrigger className="w-full sm:w-[250px]">
+            <SelectTrigger className="w-full sm:w-[250px] min-h-[48px] touch-manipulation" style={{ touchAction: 'manipulation' }}>
               <ArrowUpDown className="h-4 w-4 mr-2" />
               <SelectValue placeholder="Sıralama seçin" />
             </SelectTrigger>
             <SelectContent>
               {SORT_OPTIONS.map((option) => (
-                <SelectItem key={`${option.field}-${option.order}`} value={`${option.field}-${option.order}`}>
+                <SelectItem 
+                  key={`${option.field}-${option.order}`} 
+                  value={`${option.field}-${option.order}`}
+                  className="min-h-[44px] touch-manipulation"
+                  style={{ touchAction: 'manipulation' }}
+                >
                   {option.label}
                 </SelectItem>
               ))}
@@ -168,9 +173,10 @@ export function AdvancedFilters({
                 size="sm"
                 onClick={() => handleQuickFilter(quickFilter)}
                 className={cn(
-                  "gap-2",
+                  "gap-2 min-h-[44px] touch-manipulation active:scale-95",
                   isActive && "bg-primary text-primary-foreground"
                 )}
+                style={{ touchAction: 'manipulation' }}
               >
                 <Icon className="h-4 w-4" />
                 {quickFilter.label}
@@ -186,7 +192,8 @@ export function AdvancedFilters({
           variant="ghost"
           size="sm"
           onClick={() => setShowAdvanced(!showAdvanced)}
-          className="gap-2"
+          className="gap-2 min-h-[44px] touch-manipulation active:scale-95"
+          style={{ touchAction: 'manipulation' }}
         >
           <Zap className="h-4 w-4" />
           {showAdvanced ? 'Gelişmiş Filtreleri Gizle' : 'Gelişmiş Filtreler'}
@@ -215,7 +222,8 @@ export function AdvancedFilters({
                       dateRange: option.value === 'all' ? undefined : option.value as any 
                     });
                   }}
-                  className="w-full"
+                  className="w-full min-h-[44px] touch-manipulation active:scale-95"
+                  style={{ touchAction: 'manipulation' }}
                 >
                   {option.label}
                 </Button>

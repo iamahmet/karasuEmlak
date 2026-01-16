@@ -29,6 +29,7 @@ import ContrastChecker from "@/components/accessibility/ContrastChecker";
 import { CriticalResourcesLoader } from "@/components/performance/CriticalResourcesLoader";
 import { getNonce } from "@/lib/security/nonce";
 import { Toaster } from "@/components/ui/Toaster";
+import { OfflineIndicator } from "@/components/mobile/OfflineIndicator";
 import type { Metadata, Viewport } from "next";
 import "../globals.css";
 
@@ -253,6 +254,8 @@ export default async function LocaleLayout({
           </div>
           {/* Toast Notifications */}
           <Toaster />
+          {/* Offline Indicator */}
+          <OfflineIndicator />
         </IntlProvider>
       </div>
     );
@@ -323,6 +326,8 @@ export default async function LocaleLayout({
           </div>
           {/* Toast Notifications */}
           <Toaster />
+          {/* Offline Indicator */}
+          <OfflineIndicator />
         </IntlProvider>
       </div>
     );

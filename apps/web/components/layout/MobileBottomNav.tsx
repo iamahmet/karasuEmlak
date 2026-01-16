@@ -3,133 +3,140 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Search, FileText, Phone, Menu, Filter } from 'lucide-react';
+import { Home, Search, Building2, Phone, MessageCircle } from 'lucide-react';
 import { cn } from '@karasu/lib';
-import { siteConfig } from '@karasu-emlak/config';
+import { hapticButtonPress } from '@/lib/mobile/haptics';
 
 interface NavItem {
   label: string;
-  href: string;
+  href?: string;
   icon: typeof Home;
   exact?: boolean;
+  action?: 'whatsapp' | 'call';
+  color?: string;
 }
 
 const navItems: NavItem[] = [
   { label: 'Ana Sayfa', href: '/', icon: Home, exact: true },
-  { label: 'Satılık', href: '/satilik', icon: Search },
+  { label: 'Satılık', href: '/satilik', icon: Building2 },
   { label: 'Kiralık', href: '/kiralik', icon: Search },
-  { label: 'Blog', href: '/blog', icon: FileText },
-  { label: 'İletişim', href: '/iletisim', icon: Phone },
+  { label: 'Ara', action: 'call', icon: Phone, color: 'blue' },
+  { label: 'WhatsApp', action: 'whatsapp', icon: MessageCircle, color: 'green' },
 ];
 
 interface MobileBottomNavProps {
-  onFilterClick?: () => void;
-  showFilterButton?: boolean;
+  className?: string;
 }
 
-export function MobileBottomNav({ onFilterClick, showFilterButton = false }: MobileBottomNavProps) {
+export function MobileBottomNav({ className }: MobileBottomNavProps) {
   const pathname = usePathname();
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Hide/show on scroll (hide when scrolling down, show when scrolling up)
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // Always show at top
-      if (currentScrollY < 100) {
-        setIsVisible(true);
-      } else {
-        // Hide when scrolling down, show when scrolling up
-        setIsVisible(currentScrollY < lastScrollY || currentScrollY < 200);
-      }
-      
-      setLastScrollY(currentScrollY);
-    };
+  // Check if we're on a listing detail page (has StickyMobileCTAs)
+  const isListingPage = pathname.includes('/ilan/') && !pathname.endsWith('/ilan');
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  // Don't show on listing detail pages (StickyMobileCTAs handles CTAs there)
+  if (isListingPage) return null;
 
   const isActive = (item: NavItem) => {
+    if (!item.href) return false;
     if (item.exact) {
-      return pathname === item.href || pathname === `/${pathname.split('/')[1]}`;
+      // Check if pathname is exactly "/" or starts with locale prefix only
+      const cleanPath = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/';
+      return cleanPath === item.href;
     }
-    return pathname.startsWith(item.href);
+    return pathname.includes(item.href);
+  };
+
+  const handleAction = (action: string) => {
+    hapticButtonPress();
+    if (action === 'call') {
+      window.location.href = 'tel:+905325933854';
+    } else if (action === 'whatsapp') {
+      window.open('https://wa.me/905325933854', '_blank');
+    }
   };
 
   return (
     <nav
       className={cn(
-        'fixed bottom-0 left-0 right-0 z-50 md:hidden',
-        'bg-white border-t border-slate-200/80 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]',
-        'safe-area-inset-bottom',
-        'transition-transform duration-300 ease-out',
-        isVisible ? 'translate-y-0' : 'translate-y-full'
+        'fixed bottom-0 left-0 right-0 z-50 md:hidden print:hidden',
+        'bg-white/95 backdrop-blur-lg border-t border-slate-200/60',
+        'shadow-[0_-2px_20px_rgba(0,0,0,0.08)]',
+        className
       )}
       style={{
         paddingBottom: 'env(safe-area-inset-bottom, 0)',
       }}
     >
-      <div className="flex items-center justify-around h-16 px-2">
-        {navItems.map((item) => {
+      <div className="flex items-stretch h-14">
+        {navItems.map((item, index) => {
           const Icon = item.icon;
           const active = isActive(item);
-          
+          const isAction = !!item.action;
+
+          // Action buttons (Call & WhatsApp)
+          if (isAction) {
+            return (
+              <button
+                key={item.label}
+                onClick={() => handleAction(item.action!)}
+                className={cn(
+                  'flex-1 flex flex-col items-center justify-center gap-0.5',
+                  'transition-all duration-150 active:scale-95 active:opacity-80',
+                  'min-h-[44px] min-w-[44px] touch-manipulation',
+                  item.color === 'green'
+                    ? 'bg-[#25D366] text-white'
+                    : 'bg-[#006AFF] text-white'
+                )}
+                aria-label={item.label}
+                style={{ touchAction: 'manipulation' }}
+              >
+                <Icon className="h-5 w-5" strokeWidth={2} />
+                <span className="text-[10px] font-semibold">{item.label}</span>
+              </button>
+            );
+          }
+
+          // Navigation links
           return (
             <Link
               key={item.href}
-              href={item.href}
+              href={item.href!}
               className={cn(
-                'flex flex-col items-center justify-center gap-1',
-                'min-w-[60px] px-2 py-2 rounded-xl',
-                'transition-all duration-200',
-                'active:scale-95',
+                'flex-1 flex flex-col items-center justify-center gap-0.5',
+                'transition-all duration-150 active:scale-95',
+                'min-h-[44px] min-w-[44px] touch-manipulation',
                 active
-                  ? 'text-[#006AFF] bg-[#006AFF]/10'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  ? 'text-[#006AFF]'
+                  : 'text-slate-500'
               )}
               aria-label={item.label}
+              style={{ touchAction: 'manipulation' }}
             >
-              <Icon
-                className={cn(
-                  'h-5 w-5 transition-all duration-200',
-                  active && 'scale-110'
+              <div className={cn(
+                'relative p-1 rounded-lg transition-colors',
+                active && 'bg-[#006AFF]/10'
+              )}>
+                <Icon
+                  className="h-5 w-5"
+                  strokeWidth={active ? 2.5 : 1.5}
+                />
+                {active && (
+                  <span className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#006AFF] rounded-full" />
                 )}
-                strokeWidth={active ? 2.5 : 2}
-              />
-              <span
-                className={cn(
-                  'text-[10px] font-semibold leading-tight tracking-tight',
-                  active ? 'text-[#006AFF]' : 'text-slate-600'
-                )}
-              >
+              </div>
+              <span className={cn(
+                'text-[10px] font-medium',
+                active ? 'text-[#006AFF] font-semibold' : 'text-slate-500'
+              )}>
                 {item.label}
               </span>
             </Link>
           );
         })}
-        
-        {/* Filter Button (only on listings pages) */}
-        {showFilterButton && onFilterClick && (
-          <button
-            onClick={onFilterClick}
-            className={cn(
-              'flex flex-col items-center justify-center gap-1',
-              'min-w-[60px] px-2 py-2 rounded-xl',
-              'text-slate-600 hover:text-slate-900 hover:bg-slate-50',
-              'transition-all duration-200 active:scale-95'
-            )}
-            aria-label="Filtreler"
-          >
-            <Filter className="h-5 w-5" strokeWidth={2} />
-            <span className="text-[10px] font-semibold leading-tight tracking-tight text-slate-600">
-              Filtre
-            </span>
-          </button>
-        )}
       </div>
     </nav>
   );
 }
+
+export default MobileBottomNav;

@@ -279,7 +279,8 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
         <Button
           variant="outline"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full"
+          className="w-full h-12 min-h-[48px] touch-manipulation active:scale-95"
+          style={{ touchAction: 'manipulation' }}
         >
           <SlidersHorizontal className="h-4 w-4 mr-2" />
           Filtrele
@@ -411,7 +412,7 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
           <Label className="text-sm font-semibold mb-4 block text-foreground">Oda Sayısı</Label>
           <div className="grid grid-cols-2 gap-2">
             {ROOM_OPTIONS.map((option) => (
-              <div key={option.value} className="flex items-center space-x-2">
+              <div key={option.value} className="flex items-center space-x-2 min-h-[44px]">
                 <Checkbox
                   id={`room-${option.value}`}
                   checked={filters.rooms?.includes(option.value) || false}
@@ -423,10 +424,13 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
                     updateFilters({ rooms: newRooms.length > 0 ? newRooms : undefined });
                     updateURL();
                   }}
+                  className="touch-manipulation"
+                  style={{ touchAction: 'manipulation' }}
                 />
                 <Label
                   htmlFor={`room-${option.value}`}
-                  className="text-sm cursor-pointer"
+                  className="text-sm cursor-pointer touch-manipulation flex-1 min-h-[44px] flex items-center"
+                  style={{ touchAction: 'manipulation' }}
                 >
                   {option.label}
                 </Label>
@@ -440,7 +444,7 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
           <Label className="text-sm font-semibold mb-4 block text-foreground">Emlak Tipi</Label>
           <div className="grid grid-cols-2 gap-2">
             {PROPERTY_TYPES.map((type) => (
-              <div key={type.value} className="flex items-center space-x-2">
+              <div key={type.value} className="flex items-center space-x-2 min-h-[44px]">
                 <Checkbox
                   id={`type-${type.value}`}
                   checked={filters.propertyType?.includes(type.value) || false}
@@ -453,10 +457,13 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
                     updateURL();
                     if (checked) trackFilterUsage('propertyType', type.label);
                   }}
+                  className="touch-manipulation"
+                  style={{ touchAction: 'manipulation' }}
                 />
                 <Label
                   htmlFor={`type-${type.value}`}
-                  className="text-sm cursor-pointer"
+                  className="text-sm cursor-pointer touch-manipulation flex-1 min-h-[44px] flex items-center"
+                  style={{ touchAction: 'manipulation' }}
                 >
                   {type.label}
                 </Label>
@@ -476,13 +483,13 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
                 updateURL();
               }}
             >
-              <SelectTrigger>
+              <SelectTrigger className="min-h-[48px] touch-manipulation" style={{ touchAction: 'manipulation' }}>
                 <SelectValue placeholder="Mahalle seçin" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Tümü</SelectItem>
+                <SelectItem value="all" className="min-h-[44px] touch-manipulation" style={{ touchAction: 'manipulation' }}>Tümü</SelectItem>
                 {neighborhoods.map((neighborhood) => (
-                  <SelectItem key={neighborhood} value={neighborhood}>
+                  <SelectItem key={neighborhood} value={neighborhood} className="min-h-[44px] touch-manipulation" style={{ touchAction: 'manipulation' }}>
                     {neighborhood}
                   </SelectItem>
                 ))}
@@ -502,7 +509,7 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
               { key: 'seaView', label: 'Deniz Manzarası' },
               { key: 'furnished', label: 'Eşyalı' },
             ].map((feature) => (
-              <div key={feature.key} className="flex items-center space-x-2">
+              <div key={feature.key} className="flex items-center space-x-2 min-h-[44px]">
                 <Checkbox
                   id={`feature-${feature.key}`}
                   checked={filters.features?.[feature.key as keyof typeof filters.features] || false}
@@ -515,10 +522,13 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
                     });
                     updateURL();
                   }}
+                  className="touch-manipulation"
+                  style={{ touchAction: 'manipulation' }}
                 />
                 <Label
                   htmlFor={`feature-${feature.key}`}
-                  className="text-sm cursor-pointer"
+                  className="text-sm cursor-pointer touch-manipulation flex-1 min-h-[44px] flex items-center"
+                  style={{ touchAction: 'manipulation' }}
                 >
                   {feature.label}
                 </Label>
@@ -614,7 +624,7 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
               { value: 'dogu', label: 'Doğu' },
               { value: 'bati', label: 'Batı' },
             ].map((orientation) => (
-              <div key={orientation.value} className="flex items-center space-x-2">
+              <div key={orientation.value} className="flex items-center space-x-2 min-h-[44px]">
                 <Checkbox
                   id={`orientation-${orientation.value}`}
                   checked={filters.orientation?.includes(orientation.value) || false}
@@ -626,10 +636,13 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
                     updateFilters({ orientation: updated.length > 0 ? updated : undefined });
                     updateURL();
                   }}
+                  className="touch-manipulation"
+                  style={{ touchAction: 'manipulation' }}
                 />
                 <Label
                   htmlFor={`orientation-${orientation.value}`}
-                  className="text-sm cursor-pointer"
+                  className="text-sm cursor-pointer touch-manipulation flex-1 min-h-[44px] flex items-center"
+                  style={{ touchAction: 'manipulation' }}
                 >
                   {orientation.label}
                 </Label>
@@ -648,7 +661,7 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
               { value: 'klima', label: 'Klima' },
               { value: 'soba', label: 'Soba' },
             ].map((heating) => (
-              <div key={heating.value} className="flex items-center space-x-2">
+              <div key={heating.value} className="flex items-center space-x-2 min-h-[44px]">
                 <Checkbox
                   id={`heating-${heating.value}`}
                   checked={filters.heatingType?.includes(heating.value) || false}
@@ -660,10 +673,13 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
                     updateFilters({ heatingType: updated.length > 0 ? updated : undefined });
                     updateURL();
                   }}
+                  className="touch-manipulation"
+                  style={{ touchAction: 'manipulation' }}
                 />
                 <Label
                   htmlFor={`heating-${heating.value}`}
-                  className="text-sm cursor-pointer"
+                  className="text-sm cursor-pointer touch-manipulation flex-1 min-h-[44px] flex items-center"
+                  style={{ touchAction: 'manipulation' }}
                 >
                   {heating.label}
                 </Label>
@@ -721,7 +737,12 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
                   }}
                 />
                 <div className="flex gap-2">
-                  <Button size="sm" onClick={handleSaveSearch} className="flex-1">
+                  <Button 
+                    size="sm" 
+                    onClick={handleSaveSearch} 
+                    className="flex-1 min-h-[44px] touch-manipulation active:scale-95"
+                    style={{ touchAction: 'manipulation' }}
+                  >
                     <Save className="h-4 w-4 mr-2" />
                     Kaydet
                   </Button>
@@ -732,6 +753,8 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
                       setShowSaveDialog(false);
                       setSaveName('');
                     }}
+                    className="min-h-[44px] touch-manipulation active:scale-95"
+                    style={{ touchAction: 'manipulation' }}
                   >
                     İptal
                   </Button>
@@ -741,7 +764,8 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
               <Button
                 variant="outline"
                 onClick={() => setShowSaveDialog(true)}
-                className="w-full"
+                className="w-full h-12 min-h-[48px] touch-manipulation active:scale-95"
+                style={{ touchAction: 'manipulation' }}
               >
                 <Save className="h-4 w-4 mr-2" />
                 Aramayı Kaydet
@@ -755,7 +779,8 @@ export function ListingFilters({ neighborhoods = [], onFiltersChange, className 
           <Button
             variant="outline"
             onClick={clearFilters}
-            className="w-full"
+            className="w-full h-12 min-h-[48px] touch-manipulation active:scale-95"
+            style={{ touchAction: 'manipulation' }}
           >
             <X className="h-4 w-4 mr-2" />
             Filtreleri Temizle
