@@ -487,16 +487,35 @@ export function ListingImageSlider({
           </button>
         </div>
 
+        {/* Mobile Swipe Indicator (Dots) - Only on small screens */}
+        {images.length > 1 && images.length <= 10 && (
+          <div className="flex md:hidden justify-center items-center gap-1.5 mt-3 py-2">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handleThumbnailClick(index)}
+                className={cn(
+                  "transition-all duration-300 rounded-full touch-manipulation",
+                  currentIndex === index
+                    ? "w-6 h-2 bg-[#006AFF]"
+                    : "w-2 h-2 bg-slate-300 active:bg-slate-400"
+                )}
+                aria-label={`Görsel ${index + 1}'e git`}
+              />
+            ))}
+          </div>
+        )}
+
         {/* Thumbnail Strip - Professional & Mobile Optimized */}
         {images.length > 1 && (
-          <div className="mt-3 sm:mt-4">
+          <div className="mt-2 sm:mt-4">
             <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-thin scrollbar-thumb-primary/30 scrollbar-track-slate-100 hover:scrollbar-thumb-primary/50 scrollbar-thumb-rounded-full snap-x snap-mandatory">
               {images.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => handleThumbnailClick(index)}
                   className={cn(
-                    "relative flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-lg sm:rounded-xl overflow-hidden border-2 sm:border-3 transition-all duration-300 group cursor-pointer snap-start touch-manipulation",
+                    "relative flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 rounded-lg sm:rounded-xl overflow-hidden border-2 sm:border-3 transition-all duration-300 group cursor-pointer snap-start touch-manipulation",
                     currentIndex === index
                       ? "border-primary shadow-lg scale-105 ring-2 sm:ring-4 ring-primary/30"
                       : "border-slate-200 active:border-primary/60 active:scale-105 active:shadow-md"

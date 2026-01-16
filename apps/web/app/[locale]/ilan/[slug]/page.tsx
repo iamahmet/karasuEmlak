@@ -576,49 +576,49 @@ export default async function ListingDetailPage({
             />
           </div>
 
-          {/* Key Features - Enterprise Premium Style - Mobile Optimized */}
+          {/* Key Features - Enterprise Premium Style - Mobile Compact */}
           {(listing.features?.sizeM2 || listing.features?.rooms || listing.features?.bathrooms || listing.features?.floor || listing.features?.buildingAge) && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8 md:mb-10 p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-md sm:shadow-lg">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-6 mb-4 sm:mb-6 md:mb-10 p-3 sm:p-5 md:p-8 lg:p-10 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-sm sm:shadow-lg">
               {listing.features.sizeM2 && (
-                <div className="flex flex-col items-start gap-2 sm:gap-3 group">
-                  <div className="flex items-center gap-1.5 sm:gap-2 text-slate-600 text-xs sm:text-sm font-semibold tracking-tight">m²</div>
-                  <div className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-active:text-[#006AFF] transition-colors">{listing.features.sizeM2}</div>
+                <div className="flex flex-col items-center sm:items-start gap-1 sm:gap-2 group p-2 sm:p-0">
+                  <div className="flex items-center gap-1 text-slate-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">m²</div>
+                  <div className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">{listing.features.sizeM2}</div>
                 </div>
               )}
               {listing.features.rooms && (
-                <div className="flex flex-col items-start gap-2 sm:gap-3 group">
-                  <div className="flex items-center gap-1.5 sm:gap-2 text-slate-600 text-xs sm:text-sm font-semibold tracking-tight">
-                    <Bed className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-500" strokeWidth={2.5} />
+                <div className="flex flex-col items-center sm:items-start gap-1 sm:gap-2 group p-2 sm:p-0">
+                  <div className="flex items-center gap-1 text-slate-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">
+                    <Bed className="h-3 w-3 sm:h-4 sm:w-4" strokeWidth={2} />
                     Oda
                   </div>
-                  <div className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-active:text-[#006AFF] transition-colors">{listing.features.rooms}</div>
+                  <div className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">{listing.features.rooms}</div>
                 </div>
               )}
               {listing.features.bathrooms && (
-                <div className="flex flex-col items-start gap-2 sm:gap-3 group">
-                  <div className="flex items-center gap-1.5 sm:gap-2 text-slate-600 text-xs sm:text-sm font-semibold tracking-tight">
-                    <Bath className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-500" strokeWidth={2.5} />
+                <div className="flex flex-col items-center sm:items-start gap-1 sm:gap-2 group p-2 sm:p-0">
+                  <div className="flex items-center gap-1 text-slate-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">
+                    <Bath className="h-3 w-3 sm:h-4 sm:w-4" strokeWidth={2} />
                     Banyo
                   </div>
-                  <div className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-active:text-[#006AFF] transition-colors">{listing.features.bathrooms}</div>
+                  <div className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">{listing.features.bathrooms}</div>
                 </div>
               )}
               {listing.features.floor && (
-                <div className="flex flex-col items-start gap-2 sm:gap-3 group">
-                  <div className="flex items-center gap-1.5 sm:gap-2 text-slate-600 text-xs sm:text-sm font-semibold tracking-tight">
-                    <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-500" strokeWidth={2.5} />
+                <div className="flex flex-col items-center sm:items-start gap-1 sm:gap-2 group p-2 sm:p-0">
+                  <div className="flex items-center gap-1 text-slate-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">
+                    <Building2 className="h-3 w-3 sm:h-4 sm:w-4" strokeWidth={2} />
                     Kat
                   </div>
-                  <div className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-active:text-[#006AFF] transition-colors">{listing.features.floor}</div>
+                  <div className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">{listing.features.floor}</div>
                 </div>
               )}
               {listing.features.buildingAge && (
-                <div className="flex flex-col items-start gap-2 sm:gap-3 group">
-                  <div className="flex items-center gap-1.5 sm:gap-2 text-slate-600 text-xs sm:text-sm font-semibold tracking-tight">
-                    <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-500" strokeWidth={2.5} />
+                <div className="flex flex-col items-center sm:items-start gap-1 sm:gap-2 group p-2 sm:p-0">
+                  <div className="flex items-center gap-1 text-slate-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">
+                    <Building2 className="h-3 w-3 sm:h-4 sm:w-4" strokeWidth={2} />
                     Yaş
                   </div>
-                  <div className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-active:text-[#006AFF] transition-colors">{listing.features.buildingAge}</div>
+                  <div className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">{listing.features.buildingAge}</div>
                 </div>
               )}
             </div>
@@ -651,50 +651,50 @@ export default async function ListingDetailPage({
               </div>
             )}
 
-            {/* Additional Features - Enterprise Premium - Mobile Optimized */}
-            <div className="mb-6 sm:mb-8 md:mb-10">
-              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-4 sm:mb-6 md:mb-8 text-slate-900 tracking-tight">Özellikler</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-5 p-4 sm:p-6 md:p-8 lg:p-10 bg-white border border-slate-200/80 rounded-xl sm:rounded-2xl shadow-md sm:shadow-lg">
+            {/* Additional Features - Compact Mobile Design */}
+            <div className="mb-4 sm:mb-6 md:mb-10">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-display font-bold mb-3 sm:mb-4 md:mb-6 text-slate-900 tracking-tight">Özellikler</h2>
+              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 p-3 sm:p-4 md:p-6 bg-white border border-slate-200/80 rounded-xl sm:rounded-2xl shadow-sm sm:shadow-md">
                 {listing.features.heating && (
-                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
-                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Isıtma</span>
-                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">{listing.features.heating}</span>
+                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                    <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium uppercase">Isıtma</span>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-900 truncate">{listing.features.heating}</span>
                   </div>
                 )}
                 {listing.features.furnished !== undefined && (
-                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
-                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Eşyalı</span>
-                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">{listing.features.furnished ? 'Evet' : 'Hayır'}</span>
+                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                    <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium uppercase">Eşyalı</span>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-900">{listing.features.furnished ? 'Evet' : 'Hayır'}</span>
                   </div>
                 )}
                 {listing.features.balcony && (
-                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
-                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Balkon</span>
-                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">Var</span>
+                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                    <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium uppercase">Balkon</span>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-900">Var</span>
                   </div>
                 )}
                 {listing.features.parking && (
-                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
-                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Otopark</span>
-                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">Var</span>
+                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                    <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium uppercase">Otopark</span>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-900">Var</span>
                   </div>
                 )}
                 {listing.features.elevator && (
-                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
-                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Asansör</span>
-                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">Var</span>
+                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                    <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium uppercase">Asansör</span>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-900">Var</span>
                   </div>
                 )}
                 {listing.features.seaView && (
-                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
-                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Deniz Manzarası</span>
-                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">Var</span>
+                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-blue-50 rounded-lg border border-blue-100">
+                    <span className="text-[9px] sm:text-[10px] text-blue-600 font-medium uppercase">Deniz</span>
+                    <span className="text-xs sm:text-sm font-semibold text-blue-700">Manzara</span>
                   </div>
                 )}
                 {listing.features.buildingAge && (
-                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
-                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Bina Yaşı</span>
-                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">{listing.features.buildingAge} yıl</span>
+                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                    <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium uppercase">Bina Yaşı</span>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-900">{listing.features.buildingAge} yıl</span>
                   </div>
                 )}
               </div>
@@ -1204,10 +1204,12 @@ export default async function ListingDetailPage({
         propertyType={listing.property_type}
       />
 
-      {/* Sticky Mobile CTAs */}
+      {/* Sticky Mobile CTAs - with price */}
       <StickyMobileCTAs
         propertyTitle={listing.title}
         propertyId={listing.id}
+        price={listing.price_amount}
+        status={listing.status as 'satilik' | 'kiralik'}
       />
 
       {/* Exit Intent Popup */}
