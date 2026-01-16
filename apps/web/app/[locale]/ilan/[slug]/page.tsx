@@ -481,13 +481,64 @@ export default async function ListingDetailPage({
         </div>
       </div>
 
+      {/* Mobile Image Gallery - Top of Page (Mobile Only) */}
+      {listing.images && listing.images.length > 0 && (
+        <div className="md:hidden">
+          <ListingImageSlider 
+            images={listing.images.map((img, index) => ({
+              public_id: img.public_id,
+              url: img.url,
+              alt: img.alt || generatePropertyImageAlt({
+                propertyType: listing.property_type as any,
+                status: listing.status,
+                location: {
+                  neighborhood: listing.location_neighborhood,
+                  district: listing.location_district,
+                  city: 'Karasu',
+                },
+                features: {
+                  rooms: listing.features?.rooms,
+                  sizeM2: listing.features?.sizeM2,
+                  seaView: listing.features?.seaView,
+                  furnished: listing.features?.furnished,
+                },
+                price: listing.price_amount,
+              }, index === 0 ? listing.title : `${listing.title} - Görsel ${index + 1}`),
+              order: img.order || 0,
+            }))} 
+            title={listing.title}
+            initialIndex={0}
+            propertyType={listing.property_type}
+            status={listing.status}
+            neighborhood={listing.location_neighborhood}
+            autoPlay={false}
+            heroOverlay={listing.price_amount ? {
+              title: listing.title,
+              location: {
+                neighborhood: listing.location_neighborhood,
+                district: listing.location_district,
+                city: listing.location_city,
+              },
+              price: listing.price_amount,
+              status: listing.status,
+              featured: listing.featured,
+              verified: listing.featured,
+              hasDocuments: true,
+              shareUrl: `${siteConfig.url}${basePath}/ilan/${listing.slug}`,
+              shareTitle: listing.title,
+              shareDescription: listing.description_short || '',
+            } : undefined}
+          />
+        </div>
+      )}
+
       {/* Main Content Container - Enterprise Layout */}
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 md:py-8 lg:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px] gap-4 sm:gap-6 lg:gap-8">
           {/* Main Content - Expanded for Related Listings */}
           <div className="min-w-0">
-            {/* Hero Section with Image Gallery - Enterprise Premium */}
-            <div className="mb-4 sm:mb-6 md:mb-8 relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl border border-slate-200/60">
+            {/* Hero Section with Image Gallery - Enterprise Premium (Desktop Only) */}
+            <div className="hidden md:block mb-4 sm:mb-6 md:mb-8 relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl border border-slate-200/60">
               {listing.images && listing.images.length > 0 ? (
                 <>
                   <ListingImageSlider 
