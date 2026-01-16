@@ -2,14 +2,22 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { withErrorHandling } from '@/lib/api/error-handler';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+function getSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw new Error('Supabase environment variables are not configured');
+  }
+
+  return createClient(supabaseUrl, supabaseServiceKey);
+}
 
 async function handleGet(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const isActive = searchParams.get('is_active');
+
+  const supabase = getSupabaseClient();
 
   let query = supabase
     .from('authors')
@@ -35,6 +43,8 @@ async function handleGet(request: NextRequest) {
 
 async function handlePost(request: NextRequest) {
   const body = await request.json();
+
+  const supabase = getSupabaseClient();
 
   const { data, error } = await supabase
     .from('authors')

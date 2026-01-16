@@ -285,6 +285,15 @@ export default async function LocaleLayout({
       console.error("[LocaleLayout] Schema generation failed:", schemaError?.message);
       fallbackRealEstateAgentSchema = null;
     }
+    // Get nonce from request headers (for CSP) - fallback scenario
+    let nonce: string | undefined;
+    try {
+      const nonceValue = await getNonce();
+      nonce = nonceValue ?? undefined;
+    } catch (nonceError: any) {
+      console.error("[LocaleLayout] Failed to get nonce:", nonceError?.message);
+      nonce = undefined;
+    }
     return (
       <div className="antialiased">
         {/* Structured Data - Rendered in body (Next.js handles head automatically) */}
