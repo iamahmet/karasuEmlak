@@ -33,6 +33,7 @@ Thumbs.db
 
 # Scripts (not needed in production)
 scripts/
+!scripts/check-env.js
 
 # Documentation
 docs/

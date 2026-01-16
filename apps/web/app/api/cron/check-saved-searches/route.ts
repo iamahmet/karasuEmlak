@@ -3,6 +3,7 @@ import { createServiceClient } from "@karasu/lib/supabase/service";
 import { sendSavedSearchMatchNotification } from "@karasu/lib/email";
 import { getListings } from "@/lib/supabase/queries/listings";
 import { sendPushNotificationToUser } from "@/lib/pwa/send-push-notification";
+import { verifyCronSecret } from "@/lib/cron/verify-cron-secret";
 
 /**
  * Cron Job: Check Saved Search Matches
@@ -18,17 +19,8 @@ import { sendPushNotificationToUser } from "@/lib/pwa/send-push-notification";
  */
 export async function GET(request: NextRequest) {
   try {
-    // Verify cron secret
-    const authHeader = request.headers.get("authorization");
-    const cronSecret = request.headers.get("x-cron-secret");
-    const expectedSecret = (process.env.CRON_SECRET || "change-me-in-production").trim();
-
-    // In production, require cron secret
-    if (
-      process.env.NODE_ENV === "production" &&
-      authHeader !== `Bearer ${expectedSecret}` &&
-      cronSecret !== expectedSecret
-    ) {
+    // Verify cron secret (Vercel sends Authorization: Bearer <CRON_SECRET>)
+    if (!verifyCronSecret(request)) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

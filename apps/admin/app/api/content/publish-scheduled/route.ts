@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@karasu/lib/supabase/service";
+import { verifyCronSecret } from "@/lib/cron/verify-cron-secret";
 
 /**
  * Publish Scheduled Content API
@@ -8,6 +9,10 @@ import { createServiceClient } from "@karasu/lib/supabase/service";
  */
 export async function POST(request: NextRequest) {
   try {
+    // Verify cron secret (Vercel sends Authorization: Bearer <CRON_SECRET>)
+    if (!verifyCronSecret(request)) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     const supabase = createServiceClient();
     const now = new Date().toISOString();
 

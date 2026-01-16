@@ -14,20 +14,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getOnDutyPharmacies } from '@/lib/services/pharmacy';
 import { createServiceClient } from '@/lib/supabase/clients';
+import { verifyCronSecret } from '@/lib/cron/verify-cron-secret';
 
 export async function GET(request: NextRequest) {
   try {
-    // Verify cron secret
-    const authHeader = request.headers.get('authorization');
-    const cronSecret = request.headers.get('x-cron-secret');
-    const expectedSecret = (process.env.CRON_SECRET || 'change-me-in-production').trim();
-
-    // In production, require cron secret
-    if (
-      process.env.NODE_ENV === 'production' &&
-      authHeader !== `Bearer ${expectedSecret}` &&
-      cronSecret !== expectedSecret
-    ) {
+    // Verify cron secret (Vercel sends Authorization: Bearer <CRON_SECRET>)
+    if (!verifyCronSecret(request)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
