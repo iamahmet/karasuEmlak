@@ -30,12 +30,34 @@ async function handleGet(
     .single();
 
   if (error) {
-    console.error("Error fetching article:", error);
+    console.error(`[${requestId}] Error fetching article:`, error);
+    
+    // Handle schema cache stale errors
+    if (
+      error.code === "PGRST205" ||
+      error.code === "PGRST202" ||
+      error.message?.toLowerCase().includes("schema cache") ||
+      error.message?.toLowerCase().includes("not found in the schema cache")
+    ) {
+      return createErrorResponse(
+        requestId,
+        "POSTGREST_SCHEMA_STALE",
+        "PostgREST schema cache is stale. Run: pnpm supabase:reload-postgrest",
+        {
+          code: error.code,
+          suggestion: "Run: pnpm supabase:reload-postgrest",
+        },
+        503
+      );
+    }
+    
+    // Handle not found errors
     if (error.code === "PGRST116" || error.message?.includes("No rows")) {
       return createErrorResponse(requestId, "NOT_FOUND", "Makale bulunamadı", undefined, 404);
     }
+    
     // Log other errors for debugging
-    console.error("Unexpected error fetching article:", error);
+    console.error(`[${requestId}] Unexpected error fetching article:`, error);
     throw error;
   }
 
@@ -217,7 +239,7 @@ async function handlePut(
       updateData.published_at = new Date().toISOString();
     }
 
-    // Update article with retry logic for 503 errors
+    // Update article with retry logic for 503/schema cache errors
     let updatedArticle;
     let error;
     let retryCount = 0;
@@ -244,24 +266,31 @@ async function handlePut(
         error.code === "PGRST205" ||
         error.code === "PGRST202" ||
         error.message?.toLowerCase().includes("schema cache") ||
-        error.message?.toLowerCase().includes("schema_cache");
+        error.message?.toLowerCase().includes("schema_cache") ||
+        error.message?.toLowerCase().includes("could not find the table") ||
+        error.message?.toLowerCase().includes("not found in the schema cache");
 
-      // If 503, connection error, or schema cache stale, retry with exponential backoff
-      if (
-        error.code === "PGRST301" || // Service unavailable
-        error.code === "PGRST205" || // Schema cache stale
-        error.code === "PGRST202" || // Schema cache stale (alternative)
-        isSchemaCacheStale ||
+      // Detect connection/service unavailable errors
+      const isServiceUnavailable = 
+        error.code === "PGRST301" ||
+        error.code === "PGRST301" ||
         error.message?.includes("503") ||
         error.message?.includes("Service Unavailable") ||
         error.message?.includes("connection") ||
-        error.message?.includes("timeout")
-      ) {
+        error.message?.includes("timeout") ||
+        error.message?.includes("ECONNREFUSED") ||
+        error.message?.includes("ETIMEDOUT");
+
+      // If schema cache stale or service unavailable, retry with exponential backoff
+      if (isSchemaCacheStale || isServiceUnavailable) {
         retryCount++;
         if (retryCount < maxRetries) {
           const delay = Math.min(1000 * Math.pow(2, retryCount - 1), 5000); // Exponential backoff, max 5s
-          const errorType = isSchemaCacheStale ? "schema cache stale" : "503/connection";
-          console.warn(`[${requestId}] Article update failed (${errorType}), retrying (${retryCount}/${maxRetries}) after ${delay}ms...`);
+          const errorType = isSchemaCacheStale ? "schema cache stale" : "service unavailable";
+          console.warn(`[${requestId}] Article update failed (${errorType}), retrying (${retryCount}/${maxRetries}) after ${delay}ms...`, {
+            code: error.code,
+            message: error.message,
+          });
           await new Promise(resolve => setTimeout(resolve, delay));
           continue;
         }
@@ -269,13 +298,18 @@ async function handlePut(
       
       // For schema cache stale errors after retries, return specific error
       if (isSchemaCacheStale) {
+        console.error(`[${requestId}] PostgREST schema cache stale after ${maxRetries} retries:`, {
+          code: error.code,
+          message: error.message,
+        });
         return createErrorResponse(
           requestId,
           "POSTGREST_SCHEMA_STALE",
           "PostgREST schema cache is stale. Run: pnpm supabase:reload-postgrest",
           {
             code: error.code,
-            suggestion: "Run: pnpm supabase:reload-postgrest",
+            message: error.message,
+            suggestion: "Run: pnpm supabase:reload-postgrest or click 'Reload Schema Cache' button",
             retries: retryCount,
           },
           503
@@ -283,6 +317,7 @@ async function handlePut(
       }
       
       // For other errors, throw immediately
+      console.error(`[${requestId}] Article update failed with non-retryable error:`, error);
       throw error;
     }
 
