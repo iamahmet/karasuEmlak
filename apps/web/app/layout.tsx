@@ -20,6 +20,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* Load fonts asynchronously (non-blocking) - display=swap ensures text is visible during font load */}
+        {/* Note: This script uses hash-based CSP (sha256-qQkJVfk6J5BW+yPPN0N8zNfBqw4NLyb8RtnR7gQ62yg=) */}
         <script
           dangerouslySetInnerHTML={{
             __html: `

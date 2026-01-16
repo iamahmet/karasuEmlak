@@ -304,7 +304,7 @@ export default async function LocaleLayout({
             {/* Analytics - Only loads if consent given */}
             {process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID && (
               <Suspense fallback={null}>
-                <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID} />
+                <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID} nonce={nonce || undefined} />
               </Suspense>
             )}
             {/* Web Vitals - Always active (performance monitoring) */}

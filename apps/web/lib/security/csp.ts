@@ -26,6 +26,8 @@ export function buildCSP(options: CSPOptions = {}): string {
   const scriptSources = [
     "'self'",
     ...(!isDev && nonce ? [`'nonce-${nonce}'`] : []),
+    // Hash for root layout font loader script (app/layout.tsx)
+    "'sha256-qQkJVfk6J5BW+yPPN0N8zNfBqw4NLyb8RtnR7gQ62yg='",
     // Required third-parties
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
