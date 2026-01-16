@@ -1,6 +1,6 @@
 {
   "installCommand": "cd ../.. && corepack enable && pnpm install",
-  "buildCommand": "cd ../.. && pnpm run build:admin",
+  "buildCommand": "cd ../.. && SKIP_ENV_VALIDATION=true turbo run build --filter=admin",
   "devCommand": "cd ../.. && pnpm run dev:admin",
   "framework": "nextjs",
   "outputDirectory": ".next",
