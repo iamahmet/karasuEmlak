@@ -46,6 +46,7 @@
     "scripts:create-balik-restoranlari-content-api": "tsx scripts/create-karasu-balik-restoranlari-content-via-api.ts",
     "scripts:create-balik-restoranlari-direct": "tsx scripts/create-karasu-balik-restoranlari-direct.ts",
     "scripts:generate-content-images": "tsx scripts/generate-images-from-content-suggestions.ts",
+    "scripts:batch-improve-all-content": "tsx scripts/content/batch-improve-all-content.ts",
     "scripts:populate-sample-data": "tsx scripts/populate-sample-data.ts",
     "scripts:seo-audit": "tsx scripts/seo-audit.ts",
     "scripts:performance-audit": "tsx scripts/performance/audit-performance.ts",
