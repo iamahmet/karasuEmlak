@@ -115,4 +115,14 @@ vercel project inspect [proje-adı]
 
 ---
 
+## Önemli API Anahtarları ve ID'ler
+
+| Servis | Env Variable | Değer |
+|--------|--------------|-------|
+| Google Analytics 4 | `NEXT_PUBLIC_GA4_MEASUREMENT_ID` | `G-EXFYWJWB5C` |
+
+**Not:** Bu değerler PROJECT_DOCUMENTATION.md'de de belgelenmiştir.
+
+---
+
 Son güncelleme: 2026-01-16
