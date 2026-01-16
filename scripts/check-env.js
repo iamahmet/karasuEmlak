@@ -5,7 +5,7 @@
  * Checks all environment variables for leading/trailing whitespace
  * Exits with non-zero code if any whitespace is found
  * 
- * Usage: node scripts/check-env.ts
+ * Usage: node scripts/check-env.js
  * 
  * This script should be run before builds to catch whitespace issues early
  */
