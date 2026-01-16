@@ -52,8 +52,10 @@ export function ResponsiveGrid({
         desktopCols !== tabletCols && (gridColsMap[desktopCols] ? `md:${gridColsMap[desktopCols]}` : ""),
         wideCols !== desktopCols && (gridColsMap[wideCols] ? `lg:${gridColsMap[wideCols]}` : ""),
         gapClasses[gap],
+        "touch-manipulation", // Optimize touch interactions
         className
       )}
+      style={{ touchAction: 'manipulation' }}
     >
       {children}
     </div>

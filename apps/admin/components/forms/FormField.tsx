@@ -90,8 +90,10 @@ export function TextField({
         disabled={disabled}
         className={cn(
           error && "border-red-500 focus:border-red-500 focus:ring-red-500",
+          "min-h-[44px] touch-manipulation",
           className
         )}
+        style={{ touchAction: 'manipulation' }}
         aria-invalid={!!error}
         aria-describedby={error ? `${name}-error` : hint ? `${name}-hint` : undefined}
       />
@@ -192,8 +194,10 @@ export function SelectField({
           id={name}
           className={cn(
             error && "border-red-500 focus:border-red-500 focus:ring-red-500",
+            "min-h-[44px] touch-manipulation",
             className
           )}
+          style={{ touchAction: 'manipulation' }}
           aria-invalid={!!error}
           aria-describedby={error ? `${name}-error` : hint ? `${name}-hint` : undefined}
         >

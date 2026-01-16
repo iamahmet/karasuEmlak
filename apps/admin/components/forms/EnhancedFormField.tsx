@@ -134,8 +134,9 @@ export function EnhancedFormField({
           onBlur={handleBlur}
           placeholder={placeholder}
           disabled={disabled}
-          className={baseClasses}
+          className={cn(baseClasses, "min-h-[44px] touch-manipulation")}
           rows={4}
+          style={{ touchAction: 'manipulation' }}
         />
       );
     }
@@ -147,7 +148,7 @@ export function EnhancedFormField({
           onValueChange={handleChange}
           disabled={disabled}
         >
-          <SelectTrigger id={name} className={baseClasses}>
+          <SelectTrigger id={name} className={cn(baseClasses, "min-h-[44px] touch-manipulation")} style={{ touchAction: 'manipulation' }}>
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>
@@ -171,7 +172,8 @@ export function EnhancedFormField({
         onBlur={handleBlur}
         placeholder={placeholder}
         disabled={disabled}
-        className={baseClasses}
+        className={cn(baseClasses, "min-h-[44px] touch-manipulation")}
+        style={{ touchAction: 'manipulation' }}
       />
     );
   };

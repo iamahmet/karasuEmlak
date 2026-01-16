@@ -503,6 +503,39 @@
   .table-compact td {
     @apply px-3 py-2;
   }
+
+  /* Mobile Table Optimizations */
+  @media (max-width: 768px) {
+    table {
+      font-size: 14px;
+    }
+    
+    th, td {
+      padding: 0.5rem 0.75rem;
+      min-width: 80px;
+    }
+    
+    /* Horizontal scroll for tables on mobile */
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+    
+    .table-wrapper::-webkit-scrollbar {
+      height: 8px;
+    }
+    
+    .table-wrapper::-webkit-scrollbar-track {
+      background: hsl(var(--muted));
+      border-radius: 4px;
+    }
+    
+    .table-wrapper::-webkit-scrollbar-thumb {
+      background: hsl(var(--muted-foreground));
+      border-radius: 4px;
+    }
+  }
   
   /* Stat Card - Compact */
   .stat-card {
