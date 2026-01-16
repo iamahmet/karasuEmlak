@@ -640,15 +640,15 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
             <h1 className="text-2xl font-display font-bold text-design-dark dark:text-white mb-1">
               Haber Düzenle
             </h1>
-            <div className="flex items-center gap-4 text-xs text-design-gray dark:text-gray-400">
+            <div className="flex items-center gap-4 text-xs text-foreground/70">
               {lastSaved && (
                 <span className="flex items-center gap-1">
-                  <CheckCircle2 className="h-3 w-3 text-green-500" />
+                  <CheckCircle2 className="h-3 w-3 text-foreground/50" />
                   Son kayıt: {lastSaved.toLocaleTimeString("tr-TR")}
                 </span>
               )}
               {isDirty && (
-                <span className="flex items-center gap-1 text-yellow-500">
+                <span className="flex items-center gap-1 text-foreground/80">
                   <AlertCircle className="h-3 w-3" />
                   Kaydedilmemiş değişiklikler
                 </span>
@@ -668,9 +668,9 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
         </div>
         <div className="flex items-center gap-2">
           {/* SEO Score Badge */}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-900/10 border border-blue-200 dark:border-blue-800">
-            <TrendingUp className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-            <span className="text-sm font-semibold text-blue-900 dark:text-blue-100">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted/30 border border-border">
+            <TrendingUp className="h-4 w-4 text-foreground/70" />
+            <span className="text-sm font-medium text-foreground">
               SEO: {seoScore.score}/100
             </span>
           </div>
@@ -804,7 +804,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
               <button
                 type="button"
                 onClick={handleGeneratePreview}
-                className="px-4 py-2 text-sm font-medium text-yellow-700 dark:text-yellow-300 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg hover:bg-yellow-200 dark:hover:bg-yellow-900/30 transition-colors inline-flex items-center gap-2"
+                className="px-4 py-2 text-sm font-medium text-foreground bg-muted rounded-lg hover:bg-muted/80 transition-colors inline-flex items-center gap-2 border border-border"
               >
                 <ExternalLink className="h-4 w-4" />
                 Önizle
@@ -812,7 +812,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
               <button
                 type="button"
                 onClick={handlePublish}
-                className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors inline-flex items-center gap-2"
+                className="px-4 py-2 text-sm font-medium text-background bg-foreground rounded-lg hover:bg-foreground/90 transition-colors inline-flex items-center gap-2"
               >
                 <Zap className="h-4 w-4" />
                 Yayınla
@@ -1088,11 +1088,11 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                   ) : (
                   <div className="relative">
                     {translationMode && targetLocale !== locale && (
-                      <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                      <div className="mb-4 p-3 bg-muted/30 border border-border rounded-lg">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <Globe className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                            <span className="text-sm font-semibold text-blue-900 dark:text-blue-100">
+                            <Globe className="h-4 w-4 text-foreground/70" />
+                            <span className="text-sm font-medium text-foreground">
                               Çeviri Modu: {availableLocales.find(l => l.code === targetLocale)?.name}
                             </span>
                           </div>
@@ -1109,13 +1109,13 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                                 toast.error("Çeviri başarısız");
                               }
                             }}
-                            className="px-3 py-1.5 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                            className="px-3 py-1.5 text-xs bg-foreground text-background rounded hover:bg-foreground/90 transition-colors"
                           >
                             <Languages className="h-3 w-3 mr-1 inline" />
                             Çevir
                           </button>
                         </div>
-                        <p className="text-xs text-blue-700 dark:text-blue-300 mt-2">
+                        <p className="text-xs text-foreground/70 mt-2">
                           İçerik {availableLocales.find(l => l.code === targetLocale)?.name} diline çevrilecek
                         </p>
                       </div>
@@ -1234,11 +1234,11 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
             {/* SEO Tab */}
             <TabsContent value="seo" className="space-y-6">
               {/* Advanced SEO Analysis */}
-              <Card className="card-professional border-blue-200 dark:border-blue-800">
+              <Card className="border border-border bg-card">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-                      <Search className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                    <CardTitle className="text-base font-medium text-foreground flex items-center gap-2">
+                      <Search className="h-5 w-5 text-foreground/70" />
                       Gelişmiş SEO Analizi
                     </CardTitle>
                     <Button
@@ -1311,26 +1311,20 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                 {seoAnalysis && (
                   <CardContent className="space-y-4">
                     {/* Readability Score */}
-                    <div className="p-4 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-800">
+                    <div className="p-3 rounded-lg bg-muted/30 border border-border">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-semibold text-blue-900 dark:text-blue-100">Okunabilirlik</span>
-                        <Badge className={`${
-                          seoAnalysis.readability.score >= 70 
-                            ? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
-                            : seoAnalysis.readability.score >= 50
-                            ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400"
-                            : "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
-                        }`}>
+                        <span className="text-sm font-medium text-foreground">Okunabilirlik</span>
+                        <Badge variant="outline" className="text-xs">
                           {seoAnalysis.readability.score}/100
                         </Badge>
                       </div>
-                      <p className="text-xs text-blue-800 dark:text-blue-200">
+                      <p className="text-xs text-foreground/70">
                         Seviye: {seoAnalysis.readability.level} ({contentStats.words} kelime)
                       </p>
                       {seoAnalysis.readability.suggestions.length > 0 && (
                         <ul className="mt-2 space-y-1">
                           {seoAnalysis.readability.suggestions.map((suggestion: string, idx: number) => (
-                            <li key={idx} className="text-xs text-blue-700 dark:text-blue-300 flex items-center gap-1">
+                            <li key={idx} className="text-xs text-foreground/70 flex items-center gap-1">
                               <Lightbulb className="h-3 w-3" />
                               {suggestion}
                             </li>
@@ -1340,65 +1334,65 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                     </div>
 
                     {/* Keyword Analysis */}
-                    <div className="p-4 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-800">
+                    <div className="p-3 rounded-lg bg-muted/30 border border-border">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-semibold text-purple-900 dark:text-purple-100">Anahtar Kelime</span>
+                        <span className="text-sm font-medium text-foreground">Anahtar Kelime</span>
                         <Badge variant="outline" className="text-xs">
                           {seoAnalysis.keywordDensity.primary}
                         </Badge>
                       </div>
-                      <p className="text-xs text-purple-800 dark:text-purple-200">
+                      <p className="text-xs text-foreground/70">
                         Yoğunluk: {seoAnalysis.keywordDensity.density}
                       </p>
                       {seoAnalysis.keywordDensity.suggestions.length > 0 && (
-                        <p className="text-xs text-purple-700 dark:text-purple-300 mt-1">
+                        <p className="text-xs text-foreground/70 mt-1">
                           {seoAnalysis.keywordDensity.suggestions[0]}
                         </p>
                       )}
                     </div>
 
                     {/* Technical SEO */}
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-800">
-                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Başlıklar</p>
-                        <p className="text-sm font-semibold">{seoAnalysis.technical.headings}</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="p-2.5 rounded border border-border bg-muted/30">
+                        <p className="text-xs text-foreground/70 mb-1">Başlıklar</p>
+                        <p className="text-sm font-semibold text-foreground">{seoAnalysis.technical.headings}</p>
                       </div>
-                      <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-800">
-                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Görseller</p>
-                        <p className="text-sm font-semibold">{seoAnalysis.technical.images}</p>
+                      <div className="p-2.5 rounded border border-border bg-muted/30">
+                        <p className="text-xs text-foreground/70 mb-1">Görseller</p>
+                        <p className="text-sm font-semibold text-foreground">{seoAnalysis.technical.images}</p>
                       </div>
-                      <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-800">
-                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Linkler</p>
-                        <p className="text-sm font-semibold">{seoAnalysis.technical.links}</p>
+                      <div className="p-2.5 rounded border border-border bg-muted/30">
+                        <p className="text-xs text-foreground/70 mb-1">Linkler</p>
+                        <p className="text-sm font-semibold text-foreground">{seoAnalysis.technical.links}</p>
                       </div>
-                      <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-800">
-                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Meta Açıklama</p>
-                        <p className="text-sm font-semibold">{seoAnalysis.technical.metaDescription}</p>
+                      <div className="p-2.5 rounded border border-border bg-muted/30">
+                        <p className="text-xs text-foreground/70 mb-1">Meta Açıklama</p>
+                        <p className="text-sm font-semibold text-foreground">{seoAnalysis.technical.metaDescription}</p>
                       </div>
                     </div>
 
                     {/* Competitor Comparison */}
-                    <div className="p-4 rounded-lg bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 border border-orange-200 dark:border-orange-800">
-                      <h4 className="text-sm font-semibold text-orange-900 dark:text-orange-100 mb-3 flex items-center gap-2">
-                        <TrendingUp className="h-4 w-4" />
+                    <div className="p-3 rounded-lg bg-muted/30 border border-border">
+                      <h4 className="text-sm font-medium text-foreground mb-2.5 flex items-center gap-2">
+                        <TrendingUp className="h-4 w-4 text-foreground/70" />
                         Rakip Karşılaştırması
                       </h4>
-                      <div className="space-y-2 text-xs">
+                      <div className="space-y-1.5 text-xs">
                         <div className="flex items-center justify-between">
-                          <span className="text-orange-800 dark:text-orange-200">Ortalama Başlık Uzunluğu</span>
-                          <span className="font-semibold text-orange-900 dark:text-orange-100">
+                          <span className="text-foreground/70">Ortalama Başlık Uzunluğu</span>
+                          <span className="font-medium text-foreground">
                             {article.title.length} / {seoAnalysis.competitors.avgTitleLength}
                           </span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-orange-800 dark:text-orange-200">Ortalama İçerik Uzunluğu</span>
-                          <span className="font-semibold text-orange-900 dark:text-orange-100">
+                          <span className="text-foreground/70">Ortalama İçerik Uzunluğu</span>
+                          <span className="font-medium text-foreground">
                             {contentStats.words} / {seoAnalysis.competitors.avgContentLength} kelime
                           </span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-orange-800 dark:text-orange-200">Ortalama Meta Uzunluğu</span>
-                          <span className="font-semibold text-orange-900 dark:text-orange-100">
+                          <span className="text-foreground/70">Ortalama Meta Uzunluğu</span>
+                          <span className="font-medium text-foreground">
                             {article.meta_description?.length || 0} / {seoAnalysis.competitors.avgMetaLength}
                           </span>
                         </div>
@@ -1473,100 +1467,76 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                 <CardContent className="space-y-4">
                   {/* SEO Checklist */}
                   <div className="grid grid-cols-2 gap-3">
-                    <div className={`p-3 rounded-lg border ${
-                      seoScore.title 
-                        ? "bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800"
-                        : "bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800"
-                    }`}>
+                    <div className="p-2.5 rounded border border-border bg-muted/30">
                       <div className="flex items-center gap-2">
                         {seoScore.title ? (
-                          <CheckCircle2 className="h-4 w-4 text-green-600" />
+                          <CheckCircle2 className="h-3.5 w-3.5 text-foreground/50" />
                         ) : (
-                          <AlertCircle className="h-4 w-4 text-gray-400" />
+                          <AlertCircle className="h-3.5 w-3.5 text-foreground/40" />
                         )}
-                        <span className="text-xs font-semibold">Başlık (30-60 karakter)</span>
+                        <span className="text-xs font-medium text-foreground">Başlık (30-60 karakter)</span>
                       </div>
                     </div>
-                    <div className={`p-3 rounded-lg border ${
-                      seoScore.metaDescription 
-                        ? "bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800"
-                        : "bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800"
-                    }`}>
+                    <div className="p-2.5 rounded border border-border bg-muted/30">
                       <div className="flex items-center gap-2">
                         {seoScore.metaDescription ? (
-                          <CheckCircle2 className="h-4 w-4 text-green-600" />
+                          <CheckCircle2 className="h-3.5 w-3.5 text-foreground/50" />
                         ) : (
-                          <AlertCircle className="h-4 w-4 text-gray-400" />
+                          <AlertCircle className="h-3.5 w-3.5 text-foreground/40" />
                         )}
-                        <span className="text-xs font-semibold">Meta Açıklama (120-160 karakter)</span>
+                        <span className="text-xs font-medium text-foreground">Meta Açıklama (120-160 karakter)</span>
                       </div>
                     </div>
-                    <div className={`p-3 rounded-lg border ${
-                      seoScore.keywords 
-                        ? "bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800"
-                        : "bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800"
-                    }`}>
+                    <div className="p-2.5 rounded border border-border bg-muted/30">
                       <div className="flex items-center gap-2">
                         {seoScore.keywords ? (
-                          <CheckCircle2 className="h-4 w-4 text-green-600" />
+                          <CheckCircle2 className="h-3.5 w-3.5 text-foreground/50" />
                         ) : (
-                          <AlertCircle className="h-4 w-4 text-gray-400" />
+                          <AlertCircle className="h-3.5 w-3.5 text-foreground/40" />
                         )}
-                        <span className="text-xs font-semibold">Anahtar Kelimeler (min 3)</span>
+                        <span className="text-xs font-medium text-foreground">Anahtar Kelimeler (min 3)</span>
                       </div>
                     </div>
-                    <div className={`p-3 rounded-lg border ${
-                      seoScore.images 
-                        ? "bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800"
-                        : "bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800"
-                    }`}>
+                    <div className="p-2.5 rounded border border-border bg-muted/30">
                       <div className="flex items-center gap-2">
                         {seoScore.images ? (
-                          <CheckCircle2 className="h-4 w-4 text-green-600" />
+                          <CheckCircle2 className="h-3.5 w-3.5 text-foreground/50" />
                         ) : (
-                          <AlertCircle className="h-4 w-4 text-gray-400" />
+                          <AlertCircle className="h-3.5 w-3.5 text-foreground/40" />
                         )}
-                        <span className="text-xs font-semibold">Öne Çıkan Görsel</span>
+                        <span className="text-xs font-medium text-foreground">Öne Çıkan Görsel</span>
                       </div>
                     </div>
-                    <div className={`p-3 rounded-lg border ${
-                      seoScore.headings 
-                        ? "bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800"
-                        : "bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800"
-                    }`}>
+                    <div className="p-2.5 rounded border border-border bg-muted/30">
                       <div className="flex items-center gap-2">
                         {seoScore.headings ? (
-                          <CheckCircle2 className="h-4 w-4 text-green-600" />
+                          <CheckCircle2 className="h-3.5 w-3.5 text-foreground/50" />
                         ) : (
-                          <AlertCircle className="h-4 w-4 text-gray-400" />
+                          <AlertCircle className="h-3.5 w-3.5 text-foreground/40" />
                         )}
-                        <span className="text-xs font-semibold">Başlıklar (min 2)</span>
+                        <span className="text-xs font-medium text-foreground">Başlıklar (min 2)</span>
                       </div>
                     </div>
-                    <div className={`p-3 rounded-lg border ${
-                      seoScore.links 
-                        ? "bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800"
-                        : "bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800"
-                    }`}>
+                    <div className="p-2.5 rounded border border-border bg-muted/30">
                       <div className="flex items-center gap-2">
                         {seoScore.links ? (
-                          <CheckCircle2 className="h-4 w-4 text-green-600" />
+                          <CheckCircle2 className="h-3.5 w-3.5 text-foreground/50" />
                         ) : (
-                          <AlertCircle className="h-4 w-4 text-gray-400" />
+                          <AlertCircle className="h-3.5 w-3.5 text-foreground/40" />
                         )}
-                        <span className="text-xs font-semibold">Linkler (min 2)</span>
+                        <span className="text-xs font-medium text-foreground">Linkler (min 2)</span>
                       </div>
                     </div>
                   </div>
 
                   {/* SEO Issues */}
                   {seoScore.issues.length > 0 && (
-                    <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-                      <h3 className="text-sm font-semibold text-yellow-900 dark:text-yellow-100 mb-2 flex items-center gap-2">
-                        <AlertCircle className="h-4 w-4" />
+                    <div className="p-3 bg-muted/30 border border-border rounded-lg">
+                      <h3 className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
+                        <AlertCircle className="h-4 w-4 text-foreground/70" />
                         İyileştirme Önerileri
                       </h3>
-                      <ul className="text-xs text-yellow-800 dark:text-yellow-200 space-y-1 list-disc list-inside">
+                      <ul className="text-xs text-foreground/70 space-y-1 list-disc list-inside">
                         {seoScore.issues.map((issue, idx) => (
                           <li key={idx}>{issue}</li>
                         ))}
@@ -1589,10 +1559,10 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                     <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
                       {article.meta_description?.length || 0} / 160 karakter
                       {article.meta_description && article.meta_description.length < 120 && (
-                        <span className="text-yellow-500 ml-2">⚠️ 120 karakterden kısa</span>
+                        <span className="text-foreground/70 ml-2">⚠️ 120 karakterden kısa</span>
                       )}
                       {article.meta_description && article.meta_description.length > 160 && (
-                        <span className="text-red-500 ml-2">⚠️ 160 karakterden uzun</span>
+                        <span className="text-foreground/70 ml-2">⚠️ 160 karakterden uzun</span>
                       )}
                     </p>
                   </div>
@@ -1719,69 +1689,69 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="p-4 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-900/10 border border-blue-200 dark:border-blue-800">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="p-3 rounded border border-border bg-muted/30">
                       <div className="flex items-center gap-2 mb-2">
-                        <Eye className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                        <span className="text-sm font-semibold text-blue-900 dark:text-blue-100">Görüntülenme</span>
+                        <Eye className="h-4 w-4 text-foreground/70" />
+                        <span className="text-sm font-medium text-foreground">Görüntülenme</span>
                       </div>
-                      <p className="text-2xl font-bold text-blue-900 dark:text-blue-100">
+                      <p className="text-xl font-semibold text-foreground">
                         {article.views.toLocaleString()}
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-lg bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-900/10 border border-green-200 dark:border-green-800">
+                    <div className="p-3 rounded border border-border bg-muted/30">
                       <div className="flex items-center gap-2 mb-2">
-                        <Clock className="h-5 w-5 text-green-600 dark:text-green-400" />
-                        <span className="text-sm font-semibold text-green-900 dark:text-green-100">Okuma Süresi</span>
+                        <Clock className="h-4 w-4 text-foreground/70" />
+                        <span className="text-sm font-medium text-foreground">Okuma Süresi</span>
                       </div>
-                      <p className="text-2xl font-bold text-green-900 dark:text-green-100">
+                      <p className="text-xl font-semibold text-foreground">
                         {contentStats.readingTime} dk
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-900/10 border border-purple-200 dark:border-purple-800">
+                    <div className="p-3 rounded border border-border bg-muted/30">
                       <div className="flex items-center gap-2 mb-2">
-                        <FileText className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                        <span className="text-sm font-semibold text-purple-900 dark:text-purple-100">Kelime</span>
+                        <FileText className="h-4 w-4 text-foreground/70" />
+                        <span className="text-sm font-medium text-foreground">Kelime</span>
                       </div>
-                      <p className="text-2xl font-bold text-purple-900 dark:text-purple-100">
+                      <p className="text-xl font-semibold text-foreground">
                         {contentStats.words.toLocaleString()}
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-lg bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-900/10 border border-orange-200 dark:border-orange-800">
+                    <div className="p-3 rounded border border-border bg-muted/30">
                       <div className="flex items-center gap-2 mb-2">
-                        <BarChart3 className="h-5 w-5 text-orange-600 dark:text-orange-400" />
-                        <span className="text-sm font-semibold text-orange-900 dark:text-orange-100">SEO Skoru</span>
+                        <BarChart3 className="h-4 w-4 text-foreground/70" />
+                        <span className="text-sm font-medium text-foreground">SEO Skoru</span>
                       </div>
-                      <p className="text-2xl font-bold text-orange-900 dark:text-orange-100">
+                      <p className="text-xl font-semibold text-foreground">
                         {seoScore.score}
                       </p>
                     </div>
                   </div>
 
                   {/* Detailed Stats */}
-                  <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <div className="p-3 bg-gray-50 dark:bg-gray-900/20 rounded-lg">
-                      <p className="text-xs text-design-gray dark:text-gray-400">Paragraf</p>
-                      <p className="text-lg font-bold text-design-dark dark:text-white">{contentStats.paragraphs}</p>
+                  <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-2">
+                    <div className="p-2.5 rounded border border-border bg-muted/30">
+                      <p className="text-xs text-foreground/70">Paragraf</p>
+                      <p className="text-base font-semibold text-foreground">{contentStats.paragraphs}</p>
                     </div>
-                    <div className="p-3 bg-gray-50 dark:bg-gray-900/20 rounded-lg">
-                      <p className="text-xs text-design-gray dark:text-gray-400">Başlık</p>
-                      <p className="text-lg font-bold text-design-dark dark:text-white">{contentStats.headings}</p>
+                    <div className="p-2.5 rounded border border-border bg-muted/30">
+                      <p className="text-xs text-foreground/70">Başlık</p>
+                      <p className="text-base font-semibold text-foreground">{contentStats.headings}</p>
                     </div>
-                    <div className="p-3 bg-gray-50 dark:bg-gray-900/20 rounded-lg">
-                      <p className="text-xs text-design-gray dark:text-gray-400">Görsel</p>
-                      <p className="text-lg font-bold text-design-dark dark:text-white">{contentStats.images}</p>
+                    <div className="p-2.5 rounded border border-border bg-muted/30">
+                      <p className="text-xs text-foreground/70">Görsel</p>
+                      <p className="text-base font-semibold text-foreground">{contentStats.images}</p>
                     </div>
-                    <div className="p-3 bg-gray-50 dark:bg-gray-900/20 rounded-lg">
-                      <p className="text-xs text-design-gray dark:text-gray-400">Link</p>
-                      <p className="text-lg font-bold text-design-dark dark:text-white">{contentStats.links}</p>
+                    <div className="p-2.5 rounded border border-border bg-muted/30">
+                      <p className="text-xs text-foreground/70">Link</p>
+                      <p className="text-base font-semibold text-foreground">{contentStats.links}</p>
                     </div>
-                    <div className="p-3 bg-gray-50 dark:bg-gray-900/20 rounded-lg">
-                      <p className="text-xs text-design-gray dark:text-gray-400">Karakter</p>
-                      <p className="text-lg font-bold text-design-dark dark:text-white">{contentStats.characters.toLocaleString()}</p>
+                    <div className="p-2.5 rounded border border-border bg-muted/30">
+                      <p className="text-xs text-foreground/70">Karakter</p>
+                      <p className="text-base font-semibold text-foreground">{contentStats.characters.toLocaleString()}</p>
                     </div>
                   </div>
                 </CardContent>

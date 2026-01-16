@@ -428,41 +428,66 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
             {/* Divider */}
             <div className="border-t border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 my-3"></div>
 
-            {/* 🛠️ POI369 STUDIO SECTION - GELİŞTİRME ODAKLI */}
+            {/* 🛠️ POI369 STUDIO SECTION - PREMIUM & ELEGANT */}
             <div>
               <button
                 onClick={() => {
                   hapticButtonPress();
                   setPoi369Expanded(!poi369Expanded);
                 }}
-                className="w-full flex items-center justify-between px-2 mb-3 group hover:bg-orange-50 dark:hover:bg-orange-900/10 rounded-lg p-2 transition-colors min-h-[44px] touch-manipulation active:scale-[0.98]"
+                className="w-full flex items-center justify-between px-2 mb-3 group relative overflow-hidden rounded-lg p-2.5 transition-all duration-300 min-h-[48px] touch-manipulation active:scale-[0.98]"
                 aria-expanded={poi369Expanded}
                 style={{ touchAction: 'manipulation' }}
               >
-                <div className="flex items-center gap-2">
-                  <div className="p-1 rounded bg-orange-500/10 border border-orange-500/20">
-                    <Code className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400" />
+                {/* Premium gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/8 via-purple-500/6 to-indigo-500/4 dark:from-indigo-500/12 dark:via-purple-500/8 dark:to-indigo-500/6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                
+                {/* Subtle border glow */}
+                <div className="absolute inset-0 rounded-lg border border-indigo-500/20 dark:border-indigo-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                <div className="flex items-center gap-2.5 relative z-10">
+                  {/* Premium icon container with gradient */}
+                  <div className="relative p-1.5 rounded-md bg-gradient-to-br from-indigo-500/15 via-purple-500/12 to-indigo-600/10 dark:from-indigo-400/20 dark:via-purple-400/15 dark:to-indigo-500/15 border border-indigo-500/25 dark:border-indigo-400/25 shadow-sm">
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-md"></div>
+                    <Code className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400 relative z-10" strokeWidth={2.5} />
                   </div>
-                  <h3 className="text-[10px] font-display font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider">
-                    POI369 Studio
-                  </h3>
+                  <div className="flex flex-col items-start">
+                    <h3 className="text-[10px] font-display font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 dark:from-indigo-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent uppercase tracking-[0.08em] leading-tight">
+                      POI369
+                    </h3>
+                    <span className="text-[8px] font-medium text-indigo-500/70 dark:text-indigo-400/70 tracking-wide">
+                      STUDIO
+                    </span>
+                  </div>
                 </div>
-                {poi369Expanded ? (
-                  <ChevronDown className="h-3 w-3 text-orange-600 dark:text-orange-400" />
-                ) : (
-                  <ChevronRight className="h-3 w-3 text-orange-600 dark:text-orange-400" />
-                )}
+                <div className="relative z-10">
+                  {poi369Expanded ? (
+                    <ChevronDown className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200" />
+                  ) : (
+                    <ChevronRight className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200" />
+                  )}
+                </div>
               </button>
               
-              {/* Warning microcopy - Enhanced */}
+              {/* Premium info card - Enhanced */}
               <div className="px-2 mb-3">
-                <div className="flex items-start gap-2 p-2.5 rounded-lg bg-gradient-to-br from-orange-50 to-orange-100/50 dark:from-orange-900/20 dark:to-orange-900/10 border border-orange-200 dark:border-orange-900/30 shadow-sm">
-                  <AlertTriangle className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="text-[10px] font-semibold text-orange-800 dark:text-orange-300 font-ui leading-tight mb-0.5">
+                <div className="relative flex items-start gap-2.5 p-3 rounded-lg bg-gradient-to-br from-indigo-50/80 via-purple-50/60 to-indigo-50/80 dark:from-indigo-950/40 dark:via-purple-950/30 dark:to-indigo-950/40 border border-indigo-200/40 dark:border-indigo-800/30 shadow-sm overflow-hidden group">
+                  {/* Subtle pattern overlay */}
+                  <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] bg-[radial-gradient(circle_at_1px_1px,_currentColor_1px,_transparent_0)] bg-[length:16px_16px]"></div>
+                  
+                  {/* Accent line */}
+                  <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-500 via-purple-500 to-indigo-500 dark:from-indigo-400 dark:via-purple-400 dark:to-indigo-400"></div>
+                  
+                  <div className="relative z-10 flex-shrink-0 mt-0.5">
+                    <div className="p-1 rounded-md bg-gradient-to-br from-indigo-500/15 to-purple-500/10 dark:from-indigo-400/20 dark:to-purple-400/15 border border-indigo-500/20 dark:border-indigo-400/20">
+                      <AlertTriangle className="h-3 w-3 text-indigo-600 dark:text-indigo-400" strokeWidth={2.5} />
+                    </div>
+                  </div>
+                  <div className="relative z-10 flex-1 min-w-0">
+                    <p className="text-[10px] font-semibold bg-gradient-to-r from-indigo-700 to-purple-700 dark:from-indigo-300 dark:to-purple-300 bg-clip-text text-transparent font-ui leading-tight mb-1">
                       Geliştirici Araçları
                     </p>
-                    <p className="text-[9px] text-orange-700 dark:text-orange-400 font-ui leading-tight">
+                    <p className="text-[9px] text-indigo-600/80 dark:text-indigo-400/80 font-ui leading-tight">
                       SEO, AI, Analytics ve sistem yönetimi
                     </p>
                   </div>

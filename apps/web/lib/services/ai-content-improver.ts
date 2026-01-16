@@ -322,30 +322,20 @@ async function improveWithOpenAI(
     apiKey: process.env.OPENAI_API_KEY,
   });
 
-  const cleanContent = content.replace(/<[^>]*>/g, ' ').trim();
-  const prompt = `Sen bir içerik editörüsün. Aşağıdaki Türkçe blog yazısını analiz sonuçlarına göre iyileştir.
+  // Convert ContentAnalysis to QualityAnalysis format for prompt
+  const qualityAnalysis = {
+    score: analysis.humanLikeScore,
+    issues: analysis.issues.map(issue => ({
+      message: typeof issue === 'string' ? issue : issue.message,
+      suggestion: typeof issue === 'string' ? '' : issue.suggestion || '',
+    })),
+    suggestions: analysis.suggestions,
+  };
 
-Yazı Başlığı: ${title}
-Orijinal İçerik: ${cleanContent.substring(0, 4000)}
-
-Tespit Edilen Sorunlar:
-${analysis.issues.map(i => `- ${i.message}: ${i.suggestion}`).join('\n')}
-
-İyileştirme Önerileri:
-${analysis.suggestions.join('\n')}
-
-Görevler:
-1. Generic ifadeleri kaldır ve daha özgün ifadeler kullan
-2. Tekrar eden kelimeleri eş anlamlılarıyla değiştir
-3. Cümle yapılarını çeşitlendir (kısa + uzun karışımı)
-4. Daha samimi ve doğal bir ton kullan
-5. İçeriği daha akıcı ve okunabilir hale getir
-
-ÖNEMLİ: 
-- İçeriğin anlamını ve bilgi değerini koru
-- HTML etiketlerini koru
-- Sadece iyileştirilmiş içeriği döndür, ek açıklama yapma
-- Türkçe karakterleri doğru kullan`;
+  // Import standardized prompt
+  const { CONTENT_IMPROVEMENT_PROMPT, CONTENT_IMPROVEMENT_SYSTEM_PROMPT } = await import('@/lib/admin/prompts/content-improvement');
+  
+  const prompt = CONTENT_IMPROVEMENT_PROMPT(content, title, qualityAnalysis);
 
   try {
     const response = await openai.chat.completions.create({
@@ -353,7 +343,7 @@ Görevler:
       messages: [
         {
           role: 'system',
-          content: 'Sen profesyonel bir içerik editörüsün. İçeriği daha doğal, akıcı ve okunabilir hale getirirsin.',
+          content: CONTENT_IMPROVEMENT_SYSTEM_PROMPT,
         },
         {
           role: 'user',
@@ -396,30 +386,20 @@ async function improveWithGemini(
 ): Promise<ImprovedContent> {
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
-  const cleanContent = content.replace(/<[^>]*>/g, ' ').trim();
-  const prompt = `Sen bir içerik editörüsün. Aşağıdaki Türkçe blog yazısını analiz sonuçlarına göre iyileştir.
+  // Convert ContentAnalysis to QualityAnalysis format for prompt
+  const qualityAnalysis = {
+    score: analysis.humanLikeScore,
+    issues: analysis.issues.map(issue => ({
+      message: typeof issue === 'string' ? issue : issue.message,
+      suggestion: typeof issue === 'string' ? '' : issue.suggestion || '',
+    })),
+    suggestions: analysis.suggestions,
+  };
 
-Yazı Başlığı: ${title}
-Orijinal İçerik: ${cleanContent.substring(0, 4000)}
-
-Tespit Edilen Sorunlar:
-${analysis.issues.map(i => `- ${i.message}: ${i.suggestion}`).join('\n')}
-
-İyileştirme Önerileri:
-${analysis.suggestions.join('\n')}
-
-Görevler:
-1. Generic ifadeleri kaldır ve daha özgün ifadeler kullan
-2. Tekrar eden kelimeleri eş anlamlılarıyla değiştir
-3. Cümle yapılarını çeşitlendir (kısa + uzun karışımı)
-4. Daha samimi ve doğal bir ton kullan
-5. İçeriği daha akıcı ve okunabilir hale getir
-
-ÖNEMLİ: 
-- İçeriğin anlamını ve bilgi değerini koru
-- HTML etiketlerini koru
-- Sadece iyileştirilmiş içeriği döndür, ek açıklama yapma
-- Türkçe karakterleri doğru kullan`;
+  // Import standardized prompt
+  const { CONTENT_IMPROVEMENT_PROMPT } = await import('@/lib/admin/prompts/content-improvement');
+  
+  const prompt = CONTENT_IMPROVEMENT_PROMPT(content, title, qualityAnalysis);
 
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });

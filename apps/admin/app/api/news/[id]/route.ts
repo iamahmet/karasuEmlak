@@ -162,6 +162,29 @@ export async function PUT(
 
     console.log(`[News API] Successfully updated news article: ${data.title}`);
 
+    // Automatically generate images from content suggestions (async, don't wait)
+    const contentFields = ['emlak_analysis', 'content'];
+    for (const field of contentFields) {
+      const contentText = data[field as keyof typeof data] as string;
+      if (contentText) {
+        const { extractImageSuggestions } = await import('@/lib/utils/extract-image-suggestions');
+        const suggestions = extractImageSuggestions(contentText);
+        
+        if (suggestions.length > 0) {
+          // Trigger image generation asynchronously (don't block response)
+          const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+          fetch(`${baseUrl}/api/news/${id}/generate-images`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ field }),
+          }).catch(err => {
+            console.error(`[News API] Auto image generation failed for ${field}:`, err);
+          });
+          break; // Only process first field with suggestions
+        }
+      }
+    }
+
     return NextResponse.json({
       success: true,
       article: data,

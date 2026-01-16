@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button, Card, Input, Badge } from '@karasu/ui';
 import { Edit, Trash2, Search, User, Mail, Linkedin, Instagram, X as XIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
 
 // Cloudinary URL helper - use direct URL for admin panel
 function getOptimizedCloudinaryUrl(url: string, options?: { width?: number; height?: number }) {
@@ -283,7 +283,7 @@ export function AuthorsManagement() {
                       size="sm"
                       asChild
                     >
-                      <Link href={`/yazarlar/${author.id}`}>
+                      <Link href={`/tr/yazarlar/${author.id}`}>
                         <Edit className="w-4 h-4" />
                       </Link>
                     </Button>

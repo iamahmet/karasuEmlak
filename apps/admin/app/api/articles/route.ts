@@ -181,6 +181,24 @@ async function handlePost(request: NextRequest) {
     article = created;
   }
 
+  // Automatically generate images from content suggestions (async, don't wait)
+  if (content && article.id) {
+    const { extractImageSuggestions } = await import('@/lib/utils/extract-image-suggestions');
+    const suggestions = extractImageSuggestions(content);
+    
+    if (suggestions.length > 0) {
+      // Trigger image generation asynchronously (don't block response)
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+      fetch(`${baseUrl}/api/articles/${article.id}/generate-images`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ field: 'content' }),
+      }).catch(err => {
+        console.error('[Articles API] Auto image generation failed:', err);
+      });
+    }
+  }
+
   return createSuccessResponse(requestId, { article });
 }
 

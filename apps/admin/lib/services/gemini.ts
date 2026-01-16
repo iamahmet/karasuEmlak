@@ -70,51 +70,19 @@ async function checkContentQualityWithOpenAI(
 ): Promise<QualityAnalysis> {
   try {
     const openai = getOpenAIClient();
-    const cleanContent = content.replace(/<[^>]*>/g, ' ').trim();
+    const { CONTENT_ANALYSIS_PROMPT, CONTENT_ANALYSIS_SYSTEM_PROMPT } = await import('@/lib/prompts/content-analysis');
     
-    const prompt = `Sen bir içerik kalite uzmanısın. Aşağıdaki Türkçe blog yazısını analiz et ve detaylı kalite raporu oluştur.
-
-Başlık: ${title}
-Kategori: ${context?.category || 'Genel'}
-Anahtar Kelimeler: ${context?.keywords?.join(', ') || 'Yok'}
-
-İçerik:
-${cleanContent.substring(0, 4000)}${cleanContent.length > 4000 ? '...' : ''}
-
-Analiz kriterleri:
-1. SEO uyumluluğu (anahtar kelime kullanımı, meta bilgiler, yapı) - 0-100 skor
-2. Okunabilirlik (cümle uzunluğu, kelime seçimi, akıcılık) - 0-100 skor
-3. İçerik kalitesi (bilgi değeri, derinlik, özgünlük) - 0-100 skor
-4. AI ile yazılmış olma olasılığı (generic ifadeler, tekrarlar, placeholder'lar) - true/false
-5. İnsan yazısı gibi görünme skoru (doğallık, kişisellik, özgünlük) - 0-100 skor
-6. Yapı ve format (başlıklar, paragraflar, listeler) - 0-100 skor
-
-JSON formatında döndür (sadece JSON, başka açıklama yapma):
-{
-  "score": 0-100,
-  "passed": true/false,
-  "issues": [
-    {
-      "type": "ai-pattern|seo|readability|structure|engagement|uniqueness",
-      "severity": "low|medium|high",
-      "message": "Sorun açıklaması",
-      "suggestion": "İyileştirme önerisi"
-    }
-  ],
-  "suggestions": ["Öneri 1", "Öneri 2"],
-  "aiGenerated": true/false,
-  "humanLikeScore": 0-100,
-  "seoScore": 0-100
-}`;
+    const cleanContent = content.replace(/<[^>]*>/g, ' ').trim();
+    const prompt = CONTENT_ANALYSIS_PROMPT(cleanContent, title, context);
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: 'gpt-4o-mini', // Cheapest OpenAI model
       messages: [
-        { role: 'system', content: 'Sen bir içerik kalite analiz uzmanısın. Sadece geçerli JSON formatında yanıt ver.' },
+        { role: 'system', content: CONTENT_ANALYSIS_SYSTEM_PROMPT },
         { role: 'user', content: prompt },
       ],
-      temperature: 0.3,
-      max_tokens: 2000,
+      temperature: 0.3, // Lower temperature for consistent analysis
+      max_tokens: 1500, // Reduced from 2000 for token savings
       response_format: { type: 'json_object' },
     });
 
@@ -146,43 +114,18 @@ async function improveContentWithOpenAI(
 ): Promise<ContentImprovement> {
   try {
     const openai = getOpenAIClient();
-    const cleanContent = content.replace(/<[^>]*>/g, ' ').trim();
+    const { CONTENT_IMPROVEMENT_PROMPT, CONTENT_IMPROVEMENT_SYSTEM_PROMPT } = await import('@/lib/prompts/content-improvement');
     
-    const prompt = `Sen bir içerik editörüsün. Aşağıdaki Türkçe blog yazısını analiz sonuçlarına göre iyileştir.
-
-Yazı Başlığı: ${title}
-Orijinal İçerik: ${cleanContent.substring(0, 4000)}
-
-Mevcut Kalite Skoru: ${qualityAnalysis.score}/100
-Tespit Edilen Sorunlar:
-${qualityAnalysis.issues.map(i => `- ${i.message}: ${i.suggestion}`).join('\n')}
-
-İyileştirme Önerileri:
-${qualityAnalysis.suggestions.join('\n')}
-
-Görevler:
-1. Generic ifadeleri kaldır ve daha özgün ifadeler kullan
-2. Tekrar eden kelimeleri eş anlamlılarıyla değiştir
-3. Cümle yapılarını çeşitlendir (kısa + uzun karışımı)
-4. Daha samimi ve doğal bir ton kullan
-5. İçeriği daha akıcı ve okunabilir hale getir
-6. SEO uyumluluğunu artır (anahtar kelimeleri doğal şekilde kullan)
-
-ÖNEMLİ: 
-- İçeriğin anlamını ve bilgi değerini koru
-- HTML etiketlerini koru (varsa)
-- Sadece iyileştirilmiş içeriği döndür, ek açıklama yapma
-- Türkçe karakterleri doğru kullan
-- Orijinal içeriğin uzunluğuna yakın tut`;
+    const prompt = CONTENT_IMPROVEMENT_PROMPT(content, title, qualityAnalysis);
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
-        { role: 'system', content: 'Sen bir içerik editörüsün. Sadece iyileştirilmiş içeriği döndür, ek açıklama yapma.' },
+        { role: 'system', content: CONTENT_IMPROVEMENT_SYSTEM_PROMPT },
         { role: 'user', content: prompt },
       ],
       temperature: 0.7,
-      max_tokens: 4000,
+      max_tokens: 3500, // Reduced from 4000 for token savings
     });
 
     const improved = completion.choices[0]?.message?.content?.trim() || content;
@@ -223,55 +166,26 @@ export async function checkContentQualityWithGemini(
 ): Promise<QualityAnalysis> {
   try {
     const genAI = getGeminiClient();
+    const { CONTENT_ANALYSIS_PROMPT } = await import('@/lib/prompts/content-analysis');
+    
+    // Clean content but keep structure for better analysis
     const cleanContent = content.replace(/<[^>]*>/g, ' ').trim();
     
-    const prompt = `Sen bir içerik kalite uzmanısın. Aşağıdaki Türkçe blog yazısını analiz et ve detaylı kalite raporu oluştur.
+    const prompt = CONTENT_ANALYSIS_PROMPT(cleanContent, title, context);
 
-Başlık: ${title}
-Kategori: ${context?.category || 'Genel'}
-Anahtar Kelimeler: ${context?.keywords?.join(', ') || 'Yok'}
-
-İçerik:
-${cleanContent.substring(0, 4000)}${cleanContent.length > 4000 ? '...' : ''}
-
-Analiz kriterleri:
-1. SEO uyumluluğu (anahtar kelime kullanımı, meta bilgiler, yapı) - 0-100 skor
-2. Okunabilirlik (cümle uzunluğu, kelime seçimi, akıcılık) - 0-100 skor
-3. İçerik kalitesi (bilgi değeri, derinlik, özgünlük) - 0-100 skor
-4. AI ile yazılmış olma olasılığı (generic ifadeler, tekrarlar, placeholder'lar) - true/false
-5. İnsan yazısı gibi görünme skoru (doğallık, kişisellik, özgünlük) - 0-100 skor
-6. Yapı ve format (başlıklar, paragraflar, listeler) - 0-100 skor
-
-JSON formatında döndür (sadece JSON, başka açıklama yapma):
-{
-  "score": 0-100,
-  "passed": true/false,
-  "issues": [
-    {
-      "type": "ai-pattern|seo|readability|structure|engagement|uniqueness",
-      "severity": "low|medium|high",
-      "message": "Sorun açıklaması",
-      "suggestion": "İyileştirme önerisi"
-    }
-  ],
-  "suggestions": ["Öneri 1", "Öneri 2"],
-  "aiGenerated": true/false,
-  "humanLikeScore": 0-100,
-  "seoScore": 0-100
-}`;
-
-    // Try different models with fallback
+    // Token optimization: Use cheaper models first, fallback to better ones
+    // Start with flash (cheapest), then pro (better quality)
     let model;
     let result;
-    const modelsToTry = ['gemini-1.5-pro', 'gemini-1.5-flash', 'gemini-pro'];
+    const modelsToTry = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
     
     for (const modelName of modelsToTry) {
       try {
         model = genAI.getGenerativeModel({ 
           model: modelName,
           generationConfig: {
-            temperature: 0.3,
-            maxOutputTokens: 2000,
+            temperature: 0.3, // Lower temperature for consistent analysis
+            maxOutputTokens: 1500, // Reduced from 2000 for token savings
             responseMimeType: 'application/json',
           },
         });
@@ -356,34 +270,9 @@ export async function improveContentWithGemini(
 ): Promise<ContentImprovement> {
   try {
     const genAI = getGeminiClient();
-    const cleanContent = content.replace(/<[^>]*>/g, ' ').trim();
+    const { CONTENT_IMPROVEMENT_PROMPT } = await import('@/lib/prompts/content-improvement');
     
-    const prompt = `Sen bir içerik editörüsün. Aşağıdaki Türkçe blog yazısını analiz sonuçlarına göre iyileştir.
-
-Yazı Başlığı: ${title}
-Orijinal İçerik: ${cleanContent.substring(0, 4000)}
-
-Mevcut Kalite Skoru: ${qualityAnalysis.score}/100
-Tespit Edilen Sorunlar:
-${qualityAnalysis.issues.map(i => `- ${i.message}: ${i.suggestion}`).join('\n')}
-
-İyileştirme Önerileri:
-${qualityAnalysis.suggestions.join('\n')}
-
-Görevler:
-1. Generic ifadeleri kaldır ve daha özgün ifadeler kullan
-2. Tekrar eden kelimeleri eş anlamlılarıyla değiştir
-3. Cümle yapılarını çeşitlendir (kısa + uzun karışımı)
-4. Daha samimi ve doğal bir ton kullan
-5. İçeriği daha akıcı ve okunabilir hale getir
-6. SEO uyumluluğunu artır (anahtar kelimeleri doğal şekilde kullan)
-
-ÖNEMLİ: 
-- İçeriğin anlamını ve bilgi değerini koru
-- HTML etiketlerini koru (varsa)
-- Sadece iyileştirilmiş içeriği döndür, ek açıklama yapma
-- Türkçe karakterleri doğru kullan
-- Orijinal içeriğin uzunluğuna yakın tut`;
+    const prompt = CONTENT_IMPROVEMENT_PROMPT(content, title, qualityAnalysis);
 
     // Try different models with fallback
     let model;
@@ -396,7 +285,7 @@ Görevler:
           model: modelName,
           generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 4000,
+            maxOutputTokens: 3500, // Reduced from 4000 for token savings
           },
         });
         result = await model.generateContent(prompt);

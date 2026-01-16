@@ -22,12 +22,14 @@ export function buildCSP(options: CSPOptions = {}): string {
   directives.push("default-src 'self'");
 
   // Script sources
-  // NOTE: In dev mode, don't use nonce because it makes 'unsafe-inline' ignored
+  // NOTE: In dev mode, don't use nonce/hash because it makes 'unsafe-inline' ignored
   const scriptSources = [
     "'self'",
+    // Nonce only in production (when nonce is provided)
     ...(!isDev && nonce ? [`'nonce-${nonce}'`] : []),
-    // Hash for root layout font loader script (app/layout.tsx)
-    "'sha256-qQkJVfk6J5BW+yPPN0N8zNfBqw4NLyb8RtnR7gQ62yg='",
+    // Hash for root layout font loader script (app/layout.tsx) - only in production
+    // In dev, we use 'unsafe-inline' instead
+    ...(!isDev ? ["'sha256-qQkJVfk6J5BW+yPPN0N8zNfBqw4NLyb8RtnR7gQ62yg='"] : []),
     // Required third-parties
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
@@ -45,6 +47,8 @@ export function buildCSP(options: CSPOptions = {}): string {
     ...(isDev ? ["'unsafe-eval'"] : []),
     // Next.js internal scripts (script.tsx) need unsafe-inline in dev
     // In production, Next.js scripts should use nonce (handled by Next.js)
+    // IMPORTANT: 'unsafe-inline' is ignored if hash or nonce is present
+    // So in dev mode, we don't add hash/nonce to allow 'unsafe-inline' to work
     ...(isDev ? ["'unsafe-inline'"] : []),
   ];
   directives.push(`script-src ${scriptSources.join(' ')}`);

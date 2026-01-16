@@ -140,16 +140,30 @@ export function withErrorHandling<T extends NextResponse, TContext = unknown>(
       if (error.code === "PGRST205" || error.code === "PGRST202") {
         code = "POSTGREST_SCHEMA_STALE";
         statusCode = 503; // Service Unavailable - indicates temporary issue
-        message = "PostgREST schema cache is stale. Run: pnpm supabase:reload-postgrest";
+        message = "PostgREST schema cache is stale. See: docs/POSTGREST_CACHE_RUNBOOK.md";
+        
+        // Log with actionable steps
+        console.error(`[${requestId}] ⚠️  PostgREST schema cache stale (${error.code})`);
+        console.error(`[${requestId}] 💡 Quick fix: POST /api/admin/reload-postgrest`);
+        console.error(`[${requestId}] 💡 Or run: pnpm supabase:reload-postgrest`);
       } else if (error.code === "PGRST116" || error.code === "42P01") {
         // Table doesn't exist (different from cache stale)
         code = "TABLE_NOT_FOUND";
         statusCode = 404;
-        message = "Requested database table does not exist";
+        message = "Requested database table does not exist. Run: pnpm db:verify to check schema";
+        
+        // Log with actionable steps
+        console.error(`[${requestId}] ❌ Table not found (${error.code})`);
+        console.error(`[${requestId}] 💡 Check: pnpm db:verify`);
+        console.error(`[${requestId}] 💡 Apply migrations: pnpm db:migrate`);
       } else if (error.message?.includes("schema cache") || error.message?.includes("schema_cache")) {
         code = "POSTGREST_SCHEMA_STALE";
         statusCode = 503;
-        message = "PostgREST schema cache is stale. Run: pnpm supabase:reload-postgrest";
+        message = "PostgREST schema cache is stale. See: docs/POSTGREST_CACHE_RUNBOOK.md";
+        
+        // Log with actionable steps
+        console.error(`[${requestId}] ⚠️  PostgREST schema cache stale (message match)`);
+        console.error(`[${requestId}] 💡 Quick fix: POST /api/admin/reload-postgrest`);
       } else if (error.message?.includes("permission denied") || error.message?.includes("unauthorized")) {
         code = "UNAUTHORIZED";
         statusCode = 401;

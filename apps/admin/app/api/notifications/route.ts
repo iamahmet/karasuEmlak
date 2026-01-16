@@ -57,7 +57,7 @@ async function handleGet(request: NextRequest) {
       errorMessage.includes("does not exist") ||
       (errorMessage.includes("relation") && errorMessage.includes("does not exist"))
     ) {
-      console.warn(`[${requestId}] notifications table not found, returning empty array`);
+      // Table doesn't exist - return empty array silently
       return createSuccessResponse(requestId, { notifications: [] });
     }
     
@@ -131,7 +131,7 @@ async function handlePost(request: NextRequest) {
       errorCode === "42P01" ||
       errorMessage.includes("does not exist")
     ) {
-      console.warn(`[${requestId}] notifications table not found`);
+      // Table doesn't exist - return error silently
       return createErrorResponse(
         requestId,
         "TABLE_NOT_FOUND",

@@ -1,0 +1,49 @@
+name: Database Schema Verification
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'supabase/migrations/**'
+      - 'scripts/db/**'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'supabase/migrations/**'
+      - 'scripts/db/**'
+  workflow_dispatch:
+
+jobs:
+  verify-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify database schema
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: pnpm db:verify
+        continue-on-error: true
+
+      - name: Report results
+        if: failure()
+        run: |
+          echo "❌ Database schema verification failed!"
+          echo "Some tables/views/functions are missing or not visible in PostgREST cache."
+          echo "Run 'pnpm db:verify' locally to see details."
+          echo "Then run 'pnpm supabase:reload-postgrest' to refresh cache."

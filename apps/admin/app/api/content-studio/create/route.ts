@@ -314,6 +314,24 @@ Lütfen şu formatta JSON döndür:
     metadata: { type, template, locale, topic },
   });
 
+  // Automatically generate images from content suggestions (async, don't wait)
+  if (generated.content && article.id) {
+    const { extractImageSuggestions } = await import('@/lib/utils/extract-image-suggestions');
+    const suggestions = extractImageSuggestions(generated.content);
+    
+    if (suggestions.length > 0) {
+      // Trigger image generation asynchronously (don't block response)
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+      fetch(`${baseUrl}/api/articles/${article.id}/generate-images`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ field: 'content' }),
+      }).catch(err => {
+        console.error('[Content Studio] Auto image generation failed:', err);
+      });
+    }
+  }
+
   return createSuccessResponse(requestId, {
     contentId: article.id,
     articleId: article.id, // For compatibility

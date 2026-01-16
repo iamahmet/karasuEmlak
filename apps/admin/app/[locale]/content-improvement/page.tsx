@@ -19,6 +19,7 @@ import { createClient } from '@karasu/lib/supabase/client';
 import dynamic from 'next/dynamic';
 import { AdminAIChecker } from '@/components/admin/content/AdminAIChecker';
 import { BatchImprovement } from '@/components/admin/content/BatchImprovement';
+import { ImprovementQueue } from '@/components/admin/content/ImprovementQueue';
 
 interface Article {
   id: string;
@@ -27,6 +28,8 @@ interface Article {
   content?: string;
   status: string;
   created_at: string;
+  category?: string;
+  tags?: string[];
 }
 
 export default function ContentImprovementPage() {
@@ -36,6 +39,7 @@ export default function ContentImprovementPage() {
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [queueRefreshKey, setQueueRefreshKey] = useState(0);
 
   useEffect(() => {
     fetchArticles();
@@ -51,11 +55,12 @@ export default function ContentImprovementPage() {
     setLoading(true);
     try {
       const supabase = createClient();
+      // Increased limit and removed status filter to show all articles including drafts
       const { data, error } = await supabase
         .from('articles')
-        .select('id, title, slug, status, created_at')
+        .select('id, title, slug, status, created_at, category, tags')
         .order('created_at', { ascending: false })
-        .limit(100);
+        .limit(500); // Increased from 100 to 500
 
       if (error) throw error;
       setArticles(data || []);
@@ -82,10 +87,16 @@ export default function ContentImprovementPage() {
     }
   }
 
-  const filteredArticles = articles.filter((article) =>
-    article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    article.slug.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredArticles = articles.filter((article) => {
+    if (!searchQuery) return true;
+    const query = searchQuery.toLowerCase();
+    return (
+      article.title.toLowerCase().includes(query) ||
+      article.slug.toLowerCase().includes(query) ||
+      (article.category && article.category.toLowerCase().includes(query)) ||
+      (article.tags && Array.isArray(article.tags) && article.tags.some((tag: string) => tag.toLowerCase().includes(query)))
+    );
+  });
 
   if (loading) {
     return (
@@ -121,17 +132,22 @@ export default function ContentImprovementPage() {
               <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
                 Makaleler
               </CardTitle>
-              <div className="mt-3">
+              <div className="mt-3 space-y-2">
                 <div className="relative">
                   <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-design-gray dark:text-gray-400" />
                   <Input
                     type="search"
-                    placeholder="Ara..."
+                    placeholder="Başlık, slug, kategori veya tag ara..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-9 input-professional"
                   />
                 </div>
+                {searchQuery && (
+                  <p className="text-xs text-design-gray dark:text-gray-400">
+                    {filteredArticles.length} makale bulundu
+                  </p>
+                )}
               </div>
             </CardHeader>
             <CardContent>
@@ -160,9 +176,24 @@ export default function ContentImprovementPage() {
                           <h3 className="text-sm font-display font-semibold text-design-dark dark:text-white truncate">
                             {article.title}
                           </h3>
-                          <p className="text-xs text-design-gray dark:text-gray-400 mt-1 truncate">
-                            /{article.slug}
-                          </p>
+                          <div className="flex items-center gap-2 mt-1 flex-wrap">
+                            <p className="text-xs text-design-gray dark:text-gray-400 truncate">
+                              /{article.slug}
+                            </p>
+                            {article.category && (
+                              <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4">
+                                {article.category}
+                              </Badge>
+                            )}
+                            {article.status && (
+                              <Badge 
+                                variant={article.status === 'published' ? 'default' : 'secondary'}
+                                className="text-[10px] px-1.5 py-0 h-4"
+                              >
+                                {article.status}
+                              </Badge>
+                            )}
+                          </div>
                         </div>
                         {selectedArticleId === article.id && (
                           <CheckCircle className="h-4 w-4 text-design-light flex-shrink-0" />
@@ -187,6 +218,9 @@ export default function ContentImprovementPage() {
                 fetchArticleDetails(selectedArticle.id);
                 fetchArticles();
               }}
+              onQueueUpdate={() => {
+                setQueueRefreshKey(prev => prev + 1);
+              }}
             />
           ) : (
             <Card className="card-professional">
@@ -199,6 +233,11 @@ export default function ContentImprovementPage() {
             </Card>
           )}
         </div>
+      </div>
+
+      {/* Improvement Queue */}
+      <div className="mt-6">
+        <ImprovementQueue key={queueRefreshKey} />
       </div>
 
       {/* Batch Improvement */}
