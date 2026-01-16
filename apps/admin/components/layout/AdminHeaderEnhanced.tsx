@@ -11,6 +11,7 @@ import {
 import { ThemeToggle } from "../theme/ThemeToggle";
 import { GlobalSearch } from "../search/GlobalSearch";
 import { NotificationCenter } from "../notifications/NotificationCenter";
+import { hapticButtonPress } from "@/lib/mobile/haptics";
 import {
   Input,
   Button,
@@ -131,9 +132,13 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
           <Button
             variant="ghost"
             size="icon"
-            onClick={onMenuToggle}
-            className="md:hidden h-8 w-8 rounded-md hover:bg-muted/50 transition-all"
+            onClick={() => {
+              hapticButtonPress();
+              onMenuToggle?.();
+            }}
+            className="md:hidden h-10 w-10 rounded-md hover:bg-muted/50 transition-all touch-manipulation active:scale-95"
             aria-label="Menü"
+            style={{ touchAction: 'manipulation', minHeight: '44px', minWidth: '44px' }}
           >
             {isMobileMenuOpen ? (
               <X className="h-4 w-4 text-design-dark dark:text-white" />

@@ -425,7 +425,12 @@ export function ListingsClient({
                     initialListings={listings}
                     initialTotal={total}
                     filters={listingFilters}
-                    sort={currentSort}
+                    sort={{ 
+                      field: (currentSort.field === 'price_amount' || currentSort.field === 'created_at' || currentSort.field === 'updated_at') 
+                        ? currentSort.field 
+                        : 'created_at',
+                      order: currentSort.order 
+                    }}
                     basePath={basePath}
                     limit={limit}
                     renderListing={(listing, index) => {

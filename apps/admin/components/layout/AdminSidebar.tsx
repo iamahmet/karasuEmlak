@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "../../i18n/routing";
 import {
@@ -39,6 +39,8 @@ import {
 import { cn } from "@karasu/lib";
 import { Button } from "@karasu/ui";
 import { Logo } from "@/components/branding/Logo";
+import { useSwipe } from "@/lib/mobile/swipe-gestures";
+import { hapticButtonPress } from "@/lib/mobile/haptics";
 
 interface NavItem {
   href?: string;
@@ -58,6 +60,31 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
   const pathname = usePathname();
   const [expandedMenus, setExpandedMenus] = useState<string[]>(["contentManagement"]);
   const [poi369Expanded, setPoi369Expanded] = useState(false); // Collapsible Poi369 Studio
+  const sidebarRef = useRef<HTMLElement>(null);
+
+  // Swipe gesture to close sidebar on mobile
+  const swipeHandlers = useSwipe({
+    onSwipeLeft: () => {
+      if (isMobileOpen && onMobileClose) {
+        hapticButtonPress();
+        onMobileClose();
+      }
+    },
+  }, { threshold: 50, preventDefault: false });
+
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    if (!isMobileOpen) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
+        onMobileClose?.();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMobileOpen, onMobileClose]);
 
   // 🔑 EMLAKÇI PANELİ (PRIMARY, DEFAULT - İLAN ODAKLI)
   const emlakciItems: NavItem[] = [
@@ -268,6 +295,7 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
   };
 
   const toggleMenu = (label: string) => {
+    hapticButtonPress();
     setExpandedMenus((prev) =>
       prev.includes(label)
         ? prev.filter((m) => m !== label)
@@ -295,12 +323,14 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
               aria-label={`${item.label} menüsünü ${isExpanded ? "kapat" : "aç"}`}
               className={cn(
                 "w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-200 font-ui text-sm font-medium focus-professional group relative",
+                "min-h-[44px] touch-manipulation active:scale-[0.98]",
                 active
                   ? "bg-gradient-to-r from-design-light/15 via-design-light/10 to-transparent text-design-dark dark:text-design-light shadow-sm shadow-design-light/5 dark:shadow-design-light/5 border-l-2 border-design-light"
                   : "text-muted-foreground hover:bg-muted/40 hover:text-foreground",
                 level > 0 && "pl-6 ml-2",
                 "before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-design-light/5 before:to-transparent before:opacity-0 before:group-hover:opacity-100 before:transition-opacity before:duration-200"
               )}
+              style={{ touchAction: 'manipulation' }}
             >
               <div className="flex items-center gap-2.5">
                 <item.icon className="h-4 w-4 flex-shrink-0" />
@@ -323,14 +353,20 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
             href={item.href}
             aria-current={active ? "page" : undefined}
             aria-label={item.label}
+            onClick={() => {
+              hapticButtonPress();
+              onMobileClose?.();
+            }}
             className={cn(
               "flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-200 font-ui text-sm font-medium relative group focus-professional",
+              "min-h-[44px] touch-manipulation active:scale-[0.98]",
               active
                 ? "bg-gradient-to-r from-design-light/15 via-design-light/10 to-transparent text-design-dark dark:text-design-light shadow-sm shadow-design-light/5 dark:shadow-design-light/5 border-l-2 border-design-light"
                 : "text-muted-foreground hover:bg-muted/40 hover:text-foreground",
               level > 0 && "pl-6 ml-2",
               "before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-design-light/5 before:to-transparent before:opacity-0 before:group-hover:opacity-100 before:transition-opacity before:duration-200"
             )}
+            style={{ touchAction: 'manipulation' }}
           >
             {level > 0 && (
               <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-design-light opacity-40"></div>
@@ -352,15 +388,21 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
 
       {/* Sidebar - Ultra Modern & Compact */}
       <aside
+        ref={sidebarRef}
         id="admin-sidebar"
         role="navigation"
         aria-label="Ana navigasyon menüsü"
         className={cn(
           "fixed top-0 left-0 z-40 h-screen w-[240px] bg-card/95 backdrop-blur-xl border-r border-border/60 shadow-lg shadow-black/5 dark:shadow-black/20 transition-all duration-300 ease-in-out lg:translate-x-0",
           "before:absolute before:inset-0 before:bg-gradient-to-br before:from-card/40 before:via-card/20 before:to-transparent before:pointer-events-none",
-          isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
+          "touch-manipulation" // Optimize touch interactions
         )}
-        style={{ width: 'var(--sidebar-width, 240px)' }}
+        style={{ 
+          width: 'var(--sidebar-width, 240px)',
+          paddingBottom: 'env(safe-area-inset-bottom, 0)',
+        }}
+        {...swipeHandlers}
       >
         <div className="flex flex-col h-full">
           {/* Logo - Compact & Professional */}
@@ -389,9 +431,13 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
             {/* 🛠️ POI369 STUDIO SECTION - GELİŞTİRME ODAKLI */}
             <div>
               <button
-                onClick={() => setPoi369Expanded(!poi369Expanded)}
-                className="w-full flex items-center justify-between px-2 mb-3 group hover:bg-orange-50 dark:hover:bg-orange-900/10 rounded-lg p-2 transition-colors"
+                onClick={() => {
+                  hapticButtonPress();
+                  setPoi369Expanded(!poi369Expanded);
+                }}
+                className="w-full flex items-center justify-between px-2 mb-3 group hover:bg-orange-50 dark:hover:bg-orange-900/10 rounded-lg p-2 transition-colors min-h-[44px] touch-manipulation active:scale-[0.98]"
                 aria-expanded={poi369Expanded}
+                style={{ touchAction: 'manipulation' }}
               >
                 <div className="flex items-center gap-2">
                   <div className="p-1 rounded bg-orange-500/10 border border-orange-500/20">

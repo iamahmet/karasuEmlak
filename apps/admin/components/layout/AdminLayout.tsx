@@ -5,10 +5,12 @@ import { AdminSidebar } from "./AdminSidebar";
 import { AdminHeaderEnhanced } from "./AdminHeaderEnhanced";
 import { CommandPalette } from "../command-palette/CommandPalette";
 import { KeyboardShortcuts } from "../keyboard-shortcuts/KeyboardShortcuts";
+import { PullToRefresh } from "../mobile/PullToRefresh";
 import { useIsAuthPage, useSidebar, useCommandPalette } from "@/lib/hooks/useLayout";
 import { useUIStore } from "@/store/useUIStore";
 import { LAYOUT_CONFIG } from "@/lib/constants/layout";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useRouter } from "@/i18n/routing";
 
 /**
  * Optimized Admin Layout Component
@@ -19,12 +21,17 @@ import { useHotkeys } from "react-hotkeys-hook";
  */
 function AdminLayoutComponent({ children }: { children: React.ReactNode }) {
   const isAuthPage = useIsAuthPage();
+  const router = useRouter();
   const { isOpen: sidebarOpen, toggle: toggleSidebar, close: closeSidebar } = useSidebar();
   const { isOpen: commandPaletteOpen, toggle: toggleCommandPalette, close: closeCommandPalette } = useCommandPalette();
   const { shortcutsOpen, setShortcutsOpen } = useUIStore((state) => ({
     shortcutsOpen: state.shortcutsOpen,
     setShortcutsOpen: state.setShortcutsOpen,
   }));
+
+  const handleRefresh = async () => {
+    router.refresh();
+  };
 
   // Keyboard shortcuts using react-hotkeys-hook
   useHotkeys("meta+k,ctrl+k", (e) => {
@@ -61,8 +68,13 @@ function AdminLayoutComponent({ children }: { children: React.ReactNode }) {
           <main 
             role="main" 
             className="flex-1 overflow-y-auto bg-transparent relative scrollbar-modern admin-main-content"
+            style={{
+              paddingBottom: 'env(safe-area-inset-bottom, 0)',
+            }}
           >
-            {children}
+            <PullToRefresh onRefresh={handleRefresh}>
+              {children}
+            </PullToRefresh>
           </main>
         </div>
       </div>

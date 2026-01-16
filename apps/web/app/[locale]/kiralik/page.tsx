@@ -588,7 +588,7 @@ export default async function ForRentPage({
       </div>
       
       {/* Mobile Bottom Navigation */}
-      <MobileBottomNav showFilterButton={true} />
+      <MobileBottomNav />
     </>
     );
   } catch (error) {

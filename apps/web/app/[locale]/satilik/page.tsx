@@ -925,7 +925,7 @@ export default async function ForSalePage({
       </div>
       
         {/* Mobile Bottom Navigation */}
-        <MobileBottomNav showFilterButton={true} />
+        <MobileBottomNav />
       </>
     );
   } catch (error) {
