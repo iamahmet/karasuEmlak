@@ -36,7 +36,7 @@ export function HeroOverlay({
   className,
 }: HeroOverlayProps) {
   return (
-    <div className={cn("absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 flex flex-col justify-end p-4 md:p-6", className)}>
+    <div className={cn("relative bg-gradient-to-t from-black/80 via-black/40 to-transparent rounded-b-2xl flex flex-col justify-end p-4 md:p-6", className)}>
       {/* Top Badges */}
       <div className="absolute top-4 left-4 right-4 flex items-start justify-between z-20">
         <div className="flex items-center gap-2 flex-wrap">

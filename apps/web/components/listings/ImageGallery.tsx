@@ -37,9 +37,15 @@ export function ImageGallery({
   const [isOpen, setIsOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null);
   
   // Get placeholder image URL
   const placeholderUrl = getPropertyPlaceholder(propertyType, status, neighborhood, 1200, 800);
+
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
 
   // Handle keyboard navigation
   useEffect(() => {
@@ -47,17 +53,83 @@ export function ImageGallery({
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
+        e.preventDefault();
         handlePrevious();
       } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
         handleNext();
       } else if (e.key === 'Escape') {
+        e.preventDefault();
         setIsOpen(false);
+      } else if (e.key === '+' || e.key === '=') {
+        e.preventDefault();
+        setIsZoomed(true);
+      } else if (e.key === '-') {
+        e.preventDefault();
+        setIsZoomed(false);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, currentIndex]);
+  }, [isOpen, currentIndex, images.length]);
+
+  // Handle touch/swipe gestures
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && images.length > 1) {
+      handleNext();
+    }
+    if (isRightSwipe && images.length > 1) {
+      handlePrevious();
+    }
+    
+    // Reset
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  // Handle mouse drag for desktop
+  const onMouseDown = (e: React.MouseEvent) => {
+    if (isZoomed) return; // Don't drag when zoomed
+    setDragStart({ x: e.clientX, y: e.clientY });
+  };
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!dragStart || isZoomed) return;
+    
+    const deltaX = e.clientX - dragStart.x;
+    const deltaY = e.clientY - dragStart.y;
+    
+    // Only handle horizontal drags
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+      if (deltaX > 0 && images.length > 1) {
+        handlePrevious();
+        setDragStart(null);
+      } else if (deltaX < 0 && images.length > 1) {
+        handleNext();
+        setDragStart(null);
+      }
+    }
+  };
+
+  const onMouseUp = () => {
+    setDragStart(null);
+  };
 
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -102,62 +174,244 @@ export function ImageGallery({
 
   return (
     <>
-      {/* Main Image Display */}
+      {/* Main Image Display with Gallery Layout */}
       <div className={cn("mb-4", className)}>
-        <div className={cn("relative h-full min-h-[400px] md:min-h-[500px] rounded-xl overflow-hidden group cursor-pointer", className && "h-full")}>
-          {mainImage.url ? (
-            <img
-              src={mainImage.url}
-              alt={mainImage.alt || `${title} - Ana görsel`}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              onClick={() => setIsOpen(true)}
-              loading="eager"
-              onError={(e) => {
-                // Fallback to placeholder on error
-                (e.target as HTMLImageElement).src = placeholderUrl;
-              }}
-            />
-          ) : mainImage.public_id ? (
-            <div onClick={() => setIsOpen(true)} className="w-full h-full cursor-pointer">
-              <GalleryImage
-                publicId={mainImage.public_id}
+        {/* Gallery Grid Layout - Show all images in grid if multiple, or single large if one */}
+        {images.length === 1 ? (
+          // Single image - still show as gallery format
+          <div className={cn("relative h-full min-h-[400px] md:min-h-[500px] rounded-xl overflow-hidden group cursor-pointer", className && "h-full")}>
+            {mainImage.url ? (
+              <img
+                src={mainImage.url}
                 alt={mainImage.alt || `${title} - Ana görsel`}
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                priority
-                sizes="(max-width: 1024px) 100vw, 66vw"
-                fallback={placeholderUrl}
+                onClick={() => setIsOpen(true)}
+                loading="eager"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = placeholderUrl;
+                }}
               />
-            </div>
-          ) : (
-            // No image at all, use placeholder
-            <img
-              src={placeholderUrl}
-              alt={`${title} - Placeholder görsel`}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              onClick={() => setIsOpen(true)}
-              loading="eager"
-            />
-          )}
-          
-          {/* Overlay on hover */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg text-sm font-medium">
-                Tüm görselleri görüntüle ({images.length})
+            ) : mainImage.public_id ? (
+              <div onClick={() => setIsOpen(true)} className="w-full h-full cursor-pointer">
+                <GalleryImage
+                  publicId={mainImage.public_id}
+                  alt={mainImage.alt || `${title} - Ana görsel`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 66vw"
+                  fallback={placeholderUrl}
+                />
+              </div>
+            ) : (
+              <img
+                src={placeholderUrl}
+                alt={`${title} - Placeholder görsel`}
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                onClick={() => setIsOpen(true)}
+                loading="eager"
+              />
+            )}
+            
+            {/* Overlay on hover */}
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg text-sm font-medium">
+                  Görseli büyüt
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Image counter badge */}
-          {images.length > 1 && (
-            <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1.5 rounded-lg text-sm font-medium backdrop-blur-sm">
-              {currentIndex + 1} / {images.length}
+        ) : images.length === 2 ? (
+          // Two images - side by side
+          <div className="grid grid-cols-2 gap-2">
+            {images.map((image, index) => (
+              <div
+                key={index}
+                onClick={() => {
+                  setCurrentIndex(index);
+                  setIsOpen(true);
+                }}
+                className={cn(
+                  "relative h-[400px] md:h-[500px] rounded-xl overflow-hidden group cursor-pointer",
+                  currentIndex === index && "ring-2 ring-primary ring-offset-2"
+                )}
+              >
+                {image.url ? (
+                  <img
+                    src={image.url}
+                    alt={image.alt || `${title} - Görsel ${index + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = placeholderUrl;
+                    }}
+                  />
+                ) : image.public_id ? (
+                  <GalleryImage
+                    publicId={image.public_id}
+                    alt={image.alt || `${title} - Görsel ${index + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    priority={index === 0}
+                    sizes="(max-width: 1024px) 50vw, 33vw"
+                    fallback={placeholderUrl}
+                  />
+                ) : (
+                  <img
+                    src={placeholderUrl}
+                    alt={`${title} - Placeholder görsel ${index + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading={index === 0 ? "eager" : "lazy"}
+                  />
+                )}
+                {currentIndex === index && (
+                  <div className="absolute inset-0 bg-primary/10" />
+                )}
+              </div>
+            ))}
+          </div>
+        ) : images.length === 3 ? (
+          // Three images - one large, two small
+          <div className="grid grid-cols-2 gap-2">
+            <div
+              onClick={() => {
+                setCurrentIndex(0);
+                setIsOpen(true);
+              }}
+              className={cn(
+                "relative row-span-2 h-[500px] md:h-[600px] rounded-xl overflow-hidden group cursor-pointer",
+                currentIndex === 0 && "ring-2 ring-primary ring-offset-2"
+              )}
+            >
+              {images[0].url ? (
+                <img
+                  src={images[0].url}
+                  alt={images[0].alt || `${title} - Ana görsel`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="eager"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = placeholderUrl;
+                  }}
+                />
+              ) : images[0].public_id ? (
+                <GalleryImage
+                  publicId={images[0].public_id}
+                  alt={images[0].alt || `${title} - Ana görsel`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  priority
+                  sizes="(max-width: 1024px) 50vw, 33vw"
+                  fallback={placeholderUrl}
+                />
+              ) : (
+                <img
+                  src={placeholderUrl}
+                  alt={`${title} - Placeholder görsel`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="eager"
+                />
+              )}
+              {currentIndex === 0 && (
+                <div className="absolute inset-0 bg-primary/10" />
+              )}
             </div>
-          )}
+            {images.slice(1, 3).map((image, idx) => {
+              const index = idx + 1;
+              return (
+                <div
+                  key={index}
+                  onClick={() => {
+                    setCurrentIndex(index);
+                    setIsOpen(true);
+                  }}
+                  className={cn(
+                    "relative h-[245px] md:h-[295px] rounded-xl overflow-hidden group cursor-pointer",
+                    currentIndex === index && "ring-2 ring-primary ring-offset-2"
+                  )}
+                >
+                  {image.url ? (
+                    <img
+                      src={image.url}
+                      alt={image.alt || `${title} - Görsel ${index + 1}`}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = placeholderUrl;
+                      }}
+                    />
+                  ) : image.public_id ? (
+                    <GalleryImage
+                      publicId={image.public_id}
+                      alt={image.alt || `${title} - Görsel ${index + 1}`}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 1024px) 50vw, 33vw"
+                      fallback={placeholderUrl}
+                    />
+                  ) : (
+                    <img
+                      src={placeholderUrl}
+                      alt={`${title} - Placeholder görsel ${index + 1}`}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  )}
+                  {currentIndex === index && (
+                    <div className="absolute inset-0 bg-primary/10" />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          // Four or more images - Masonry/Grid layout
+          <div className="space-y-2">
+            {/* Main large image */}
+            <div className={cn("relative h-[400px] md:h-[500px] rounded-xl overflow-hidden group cursor-pointer", className && "h-full")}>
+              {mainImage.url ? (
+                <img
+                  src={mainImage.url}
+                  alt={mainImage.alt || `${title} - Ana görsel`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  onClick={() => setIsOpen(true)}
+                  loading="eager"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = placeholderUrl;
+                  }}
+                />
+              ) : mainImage.public_id ? (
+                <div onClick={() => setIsOpen(true)} className="w-full h-full cursor-pointer">
+                  <GalleryImage
+                    publicId={mainImage.public_id}
+                    alt={mainImage.alt || `${title} - Ana görsel`}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 66vw"
+                    fallback={placeholderUrl}
+                  />
+                </div>
+              ) : (
+                <img
+                  src={placeholderUrl}
+                  alt={`${title} - Placeholder görsel`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  onClick={() => setIsOpen(true)}
+                  loading="eager"
+                />
+              )}
+              
+              {/* Overlay on hover */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg text-sm font-medium">
+                    Tüm görselleri görüntüle ({images.length})
+                  </div>
+                </div>
+              </div>
 
-          {/* Navigation arrows (desktop) */}
-          {images.length > 1 && (
-            <>
+              {/* Image counter badge */}
+              <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1.5 rounded-lg text-sm font-medium backdrop-blur-sm">
+                {currentIndex + 1} / {images.length}
+              </div>
+
+              {/* Navigation arrows */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -178,71 +432,74 @@ export function ImageGallery({
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
-            </>
-          )}
-        </div>
+            </div>
 
-        {/* Thumbnail Gallery */}
-        {images.length > 1 && (
-          <div className="grid grid-cols-4 gap-2 mt-4">
-            {images.slice(0, 8).map((image, index) => (
-              <button
-                key={index}
-                onClick={() => handleThumbnailClick(index)}
-                className={cn(
-                  "relative h-24 rounded-lg overflow-hidden border-2 transition-all duration-200",
-                  currentIndex === index
-                    ? "border-primary shadow-md scale-105"
-                    : "border-transparent hover:border-primary/50 hover:scale-105"
-                )}
-              >
-                {image.url ? (
-                  <img
-                    src={image.url}
-                    alt={image.alt || `${title} - Görsel ${index + 1}`}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = placeholderUrl;
-                    }}
-                  />
-                ) : image.public_id ? (
-                  <ThumbnailImage
-                    publicId={image.public_id}
-                    alt={image.alt || `${title} - Görsel ${index + 1}`}
-                    className="w-full h-full object-cover"
-                    sizes="(max-width: 1024px) 25vw, 16vw"
-                    fallback={placeholderUrl}
-                  />
-                ) : (
-                  <img
-                    src={placeholderUrl}
-                    alt={`${title} - Placeholder görsel ${index + 1}`}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                )}
-                {currentIndex === index && (
-                  <div className="absolute inset-0 bg-primary/20" />
-                )}
-              </button>
-            ))}
-            {images.length > 8 && (
-              <button
-                onClick={() => {
-                  setCurrentIndex(8);
-                  setIsOpen(true);
-                }}
-                className="relative h-24 rounded-lg overflow-hidden border-2 border-dashed border-gray-300 hover:border-primary transition-colors flex items-center justify-center bg-muted group"
-              >
-                <div className="text-center">
-                  <div className="text-lg font-semibold text-gray-600 group-hover:text-primary">
-                    +{images.length - 8}
+            {/* Thumbnail Gallery - Always show for 4+ images */}
+            <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
+              {images.slice(0, 8).map((image, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setCurrentIndex(index);
+                    if (images.length > 1) {
+                      setIsOpen(true);
+                    }
+                  }}
+                  className={cn(
+                    "relative h-20 md:h-24 rounded-lg overflow-hidden border-2 transition-all duration-200",
+                    currentIndex === index
+                      ? "border-primary shadow-md scale-105"
+                      : "border-transparent hover:border-primary/50 hover:scale-105"
+                  )}
+                >
+                  {image.url ? (
+                    <img
+                      src={image.url}
+                      alt={image.alt || `${title} - Görsel ${index + 1}`}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = placeholderUrl;
+                      }}
+                    />
+                  ) : image.public_id ? (
+                    <ThumbnailImage
+                      publicId={image.public_id}
+                      alt={image.alt || `${title} - Görsel ${index + 1}`}
+                      className="w-full h-full object-cover"
+                      sizes="(max-width: 1024px) 25vw, 12vw"
+                      fallback={placeholderUrl}
+                    />
+                  ) : (
+                    <img
+                      src={placeholderUrl}
+                      alt={`${title} - Placeholder görsel ${index + 1}`}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  )}
+                  {currentIndex === index && (
+                    <div className="absolute inset-0 bg-primary/20" />
+                  )}
+                </button>
+              ))}
+              {images.length > 8 && (
+                <button
+                  onClick={() => {
+                    setCurrentIndex(8);
+                    setIsOpen(true);
+                  }}
+                  className="relative h-20 md:h-24 rounded-lg overflow-hidden border-2 border-dashed border-gray-300 hover:border-primary transition-colors flex items-center justify-center bg-muted group"
+                >
+                  <div className="text-center">
+                    <div className="text-sm md:text-lg font-semibold text-gray-600 group-hover:text-primary">
+                      +{images.length - 8}
+                    </div>
+                    <div className="text-xs text-muted-foreground">Daha fazla</div>
                   </div>
-                  <div className="text-xs text-muted-foreground">Daha fazla</div>
-                </div>
-              </button>
-            )}
+                </button>
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -285,11 +542,21 @@ export function ImageGallery({
             </div>
 
             {/* Main Image */}
-            <div className="flex-1 flex items-center justify-center overflow-hidden relative">
+            <div 
+              className="flex-1 flex items-center justify-center overflow-hidden relative"
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+              onMouseDown={onMouseDown}
+              onMouseMove={onMouseMove}
+              onMouseUp={onMouseUp}
+              onMouseLeave={onMouseUp}
+            >
               <div
                 className={cn(
                   "relative transition-transform duration-300 max-w-full max-h-full",
-                  isZoomed ? "scale-150 cursor-zoom-out" : "scale-100 cursor-zoom-in"
+                  isZoomed ? "scale-150 cursor-zoom-out" : "scale-100 cursor-zoom-in",
+                  dragStart && !isZoomed && "cursor-grabbing"
                 )}
               >
                 {images[currentIndex].url ? (

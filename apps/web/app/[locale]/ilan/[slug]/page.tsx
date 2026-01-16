@@ -29,7 +29,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { ComparisonButton } from '@/components/comparison/ComparisonButton';
-import { ImageGallery } from '@/components/listings/ImageGallery';
+import { ListingImageSlider } from '@/components/listings/ListingImageSlider';
 import { FAQBlock } from '@/components/content/FAQBlock';
 import dynamic from 'next/dynamic';
 import './print.css';
@@ -482,16 +482,15 @@ export default async function ListingDetailPage({
       </div>
 
       {/* Main Content Container - Enterprise Layout */}
-      <div className="container mx-auto px-4 lg:px-6 py-6 md:py-8 lg:py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px] gap-6 lg:gap-8">
+      <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 md:py-8 lg:py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px] gap-4 sm:gap-6 lg:gap-8">
           {/* Main Content - Expanded for Related Listings */}
           <div className="min-w-0">
             {/* Hero Section with Image Gallery - Enterprise Premium */}
-          <div className="mb-6 md:mb-8 relative rounded-2xl overflow-hidden shadow-xl border border-slate-200/60">
-            {listing.images && listing.images.length > 0 ? (
-              <div className="relative h-[55vh] min-h-[500px] max-h-[700px] rounded-2xl overflow-hidden">
-                <div className="absolute inset-0">
-                  <ImageGallery 
+            <div className="mb-4 sm:mb-6 md:mb-8 relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl border border-slate-200/60">
+              {listing.images && listing.images.length > 0 ? (
+                <>
+                  <ListingImageSlider 
                     images={listing.images.map((img, index) => ({
                       public_id: img.public_id,
                       url: img.url,
@@ -515,42 +514,37 @@ export default async function ListingDetailPage({
                     }))} 
                     title={listing.title}
                     initialIndex={0}
-                    className="h-full"
                     propertyType={listing.property_type}
                     status={listing.status}
                     neighborhood={listing.location_neighborhood}
+                    autoPlay={false}
+                    heroOverlay={listing.price_amount ? {
+                      title: listing.title,
+                      location: {
+                        neighborhood: listing.location_neighborhood,
+                        district: listing.location_district,
+                        city: listing.location_city,
+                      },
+                      price: listing.price_amount,
+                      status: listing.status,
+                      featured: listing.featured,
+                      verified: listing.featured,
+                      hasDocuments: true,
+                      shareUrl: `${siteConfig.url}${basePath}/ilan/${listing.slug}`,
+                      shareTitle: listing.title,
+                      shareDescription: listing.description_short || '',
+                    } : undefined}
                   />
-                </div>
-                
-                {/* Image Disclaimer Note */}
-                <div className="mt-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
-                  <p className="text-sm text-amber-800 dark:text-amber-200 flex items-start gap-2">
-                    <span className="font-semibold">ℹ️ Not:</span>
-                    <span>Görseller temsili olabilir. Detaylı bilgi için bize ulaşabilirsiniz.</span>
-                  </p>
-                </div>
-                
-                {/* Hero Overlay - Premium Style */}
-                {listing.price_amount && (
-                  <HeroOverlay
-                    title={listing.title}
-                    location={{
-                      neighborhood: listing.location_neighborhood,
-                      district: listing.location_district,
-                      city: listing.location_city,
-                    }}
-                    price={listing.price_amount}
-                    status={listing.status}
-                    featured={listing.featured}
-                    verified={listing.featured}
-                    hasDocuments={true}
-                    shareUrl={`${siteConfig.url}${basePath}/ilan/${listing.slug}`}
-                    shareTitle={listing.title}
-                    shareDescription={listing.description_short || ''}
-                  />
-                )}
-              </div>
-            ) : (
+                  
+                  {/* Image Disclaimer Note */}
+                  <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+                    <p className="text-xs sm:text-sm text-amber-800 dark:text-amber-200 flex items-start gap-2">
+                      <span className="font-semibold flex-shrink-0">ℹ️ Not:</span>
+                      <span>Görseller temsili olabilir. Detaylı bilgi için bize ulaşabilirsiniz.</span>
+                    </p>
+                  </div>
+                </>
+              ) : (
               <div className="h-[500px] md:h-[600px] bg-muted rounded-xl flex items-center justify-center relative">
                 <p className="text-muted-foreground">Görsel bulunmuyor</p>
                 {listing.price_amount && (
@@ -574,75 +568,76 @@ export default async function ListingDetailPage({
             )}
           </div>
 
-          {/* Quick Actions - Enterprise Premium */}
-          <div className="mb-6 md:mb-8">
+          {/* Quick Actions - Enterprise Premium - Hidden on mobile (using StickyMobileCTAs) */}
+          <div className="mb-4 sm:mb-6 md:mb-8 hidden md:block">
             <QuickActions
               propertyId={listing.id}
               propertyTitle={listing.title}
             />
           </div>
 
-          {/* Key Features - Enterprise Premium Style */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 p-6 md:p-8 lg:p-10 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 rounded-2xl border border-slate-200/80 shadow-lg">
+          {/* Key Features - Enterprise Premium Style - Mobile Optimized */}
+          {(listing.features?.sizeM2 || listing.features?.rooms || listing.features?.bathrooms || listing.features?.floor || listing.features?.buildingAge) && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8 md:mb-10 p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-md sm:shadow-lg">
               {listing.features.sizeM2 && (
-                <div className="flex flex-col items-start gap-3 group">
-                  <div className="flex items-center gap-2 text-slate-600 text-sm font-semibold tracking-tight">m²</div>
-                  <div className="text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-hover:text-[#006AFF] transition-colors">{listing.features.sizeM2}</div>
+                <div className="flex flex-col items-start gap-2 sm:gap-3 group">
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-slate-600 text-xs sm:text-sm font-semibold tracking-tight">m²</div>
+                  <div className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-active:text-[#006AFF] transition-colors">{listing.features.sizeM2}</div>
                 </div>
               )}
               {listing.features.rooms && (
-                <div className="flex flex-col items-start gap-3 group">
-                  <div className="flex items-center gap-2 text-slate-600 text-sm font-semibold tracking-tight">
-                    <Bed className="h-4 w-4 text-slate-500" strokeWidth={2.5} />
+                <div className="flex flex-col items-start gap-2 sm:gap-3 group">
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-slate-600 text-xs sm:text-sm font-semibold tracking-tight">
+                    <Bed className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-500" strokeWidth={2.5} />
                     Oda
                   </div>
-                  <div className="text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-hover:text-[#006AFF] transition-colors">{listing.features.rooms}</div>
+                  <div className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-active:text-[#006AFF] transition-colors">{listing.features.rooms}</div>
                 </div>
               )}
               {listing.features.bathrooms && (
-                <div className="flex flex-col items-start gap-3 group">
-                  <div className="flex items-center gap-2 text-slate-600 text-sm font-semibold tracking-tight">
-                    <Bath className="h-4 w-4 text-slate-500" strokeWidth={2.5} />
+                <div className="flex flex-col items-start gap-2 sm:gap-3 group">
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-slate-600 text-xs sm:text-sm font-semibold tracking-tight">
+                    <Bath className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-500" strokeWidth={2.5} />
                     Banyo
                   </div>
-                  <div className="text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-hover:text-[#006AFF] transition-colors">{listing.features.bathrooms}</div>
+                  <div className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-active:text-[#006AFF] transition-colors">{listing.features.bathrooms}</div>
                 </div>
               )}
               {listing.features.floor && (
-                <div className="flex flex-col items-start gap-3 group">
-                  <div className="flex items-center gap-2 text-slate-600 text-sm font-semibold tracking-tight">
-                    <Building2 className="h-4 w-4 text-slate-500" strokeWidth={2.5} />
+                <div className="flex flex-col items-start gap-2 sm:gap-3 group">
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-slate-600 text-xs sm:text-sm font-semibold tracking-tight">
+                    <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-500" strokeWidth={2.5} />
                     Kat
                   </div>
-                  <div className="text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-hover:text-[#006AFF] transition-colors">{listing.features.floor}</div>
+                  <div className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-active:text-[#006AFF] transition-colors">{listing.features.floor}</div>
+                </div>
+              )}
+              {listing.features.buildingAge && (
+                <div className="flex flex-col items-start gap-2 sm:gap-3 group">
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-slate-600 text-xs sm:text-sm font-semibold tracking-tight">
+                    <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-500" strokeWidth={2.5} />
+                    Yaş
+                  </div>
+                  <div className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight group-active:text-[#006AFF] transition-colors">{listing.features.buildingAge}</div>
                 </div>
               )}
             </div>
+          )}
 
-            {/* Property Highlights */}
-            <div className="mb-6">
-              <PropertyHighlights
-                features={listing.features}
-                propertyType={listing.property_type}
-                status={listing.status}
-                neighborhood={listing.location_neighborhood}
-              />
-            </div>
+          {/* Property Highlights - Öne Çıkan Özellikler */}
+          <div className="mb-6 sm:mb-8 md:mb-10">
+            <PropertyHighlights
+              features={listing.features}
+              propertyType={listing.property_type}
+              status={listing.status}
+              neighborhood={listing.location_neighborhood}
+            />
+          </div>
 
-            {/* Property Highlights - Öne Çıkan Özellikler */}
-            <div className="mb-8 md:mb-10">
-              <PropertyHighlights
-                features={listing.features}
-                propertyType={listing.property_type}
-                status={listing.status}
-                neighborhood={listing.location_neighborhood}
-              />
-            </div>
-
-            {/* Description - Listing Style (Utilitarian, Not Blog) */}
+            {/* Description - Listing Style (Utilitarian, Not Blog) - Mobile Optimized */}
             {listing.description_long && (
-              <div className="mb-8 md:mb-10">
-                <h2 className="text-xl md:text-2xl font-semibold mb-4 md:mb-5 text-slate-900">Açıklama</h2>
+              <div className="mb-6 sm:mb-8 md:mb-10">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-3 sm:mb-4 md:mb-5 text-slate-900">Açıklama</h2>
                 <ContentRenderer
                   content={listing.description_long}
                   format="auto"
@@ -656,60 +651,60 @@ export default async function ListingDetailPage({
               </div>
             )}
 
-            {/* Additional Features - Enterprise Premium */}
-            <div className="mb-8 md:mb-10">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-6 md:mb-8 text-slate-900 tracking-tight">Özellikler</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 p-6 md:p-8 lg:p-10 bg-white border border-slate-200/80 rounded-2xl shadow-lg">
+            {/* Additional Features - Enterprise Premium - Mobile Optimized */}
+            <div className="mb-6 sm:mb-8 md:mb-10">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-4 sm:mb-6 md:mb-8 text-slate-900 tracking-tight">Özellikler</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-5 p-4 sm:p-6 md:p-8 lg:p-10 bg-white border border-slate-200/80 rounded-xl sm:rounded-2xl shadow-md sm:shadow-lg">
                 {listing.features.heating && (
-                  <div className="flex flex-col gap-2 p-3 bg-slate-50/50 rounded-xl border border-slate-200/60 hover:bg-slate-100/50 transition-colors">
-                    <span className="text-xs text-slate-600 font-semibold tracking-tight uppercase">Isıtma</span>
-                    <span className="text-base font-bold text-slate-900 tracking-tight">{listing.features.heating}</span>
+                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
+                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Isıtma</span>
+                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">{listing.features.heating}</span>
                   </div>
                 )}
                 {listing.features.furnished !== undefined && (
-                  <div className="flex flex-col gap-2 p-3 bg-slate-50/50 rounded-xl border border-slate-200/60 hover:bg-slate-100/50 transition-colors">
-                    <span className="text-xs text-slate-600 font-semibold tracking-tight uppercase">Eşyalı</span>
-                    <span className="text-base font-bold text-slate-900 tracking-tight">{listing.features.furnished ? 'Evet' : 'Hayır'}</span>
+                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
+                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Eşyalı</span>
+                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">{listing.features.furnished ? 'Evet' : 'Hayır'}</span>
                   </div>
                 )}
                 {listing.features.balcony && (
-                  <div className="flex flex-col gap-2 p-3 bg-slate-50/50 rounded-xl border border-slate-200/60 hover:bg-slate-100/50 transition-colors">
-                    <span className="text-xs text-slate-600 font-semibold tracking-tight uppercase">Balkon</span>
-                    <span className="text-base font-bold text-slate-900 tracking-tight">Var</span>
+                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
+                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Balkon</span>
+                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">Var</span>
                   </div>
                 )}
                 {listing.features.parking && (
-                  <div className="flex flex-col gap-2 p-3 bg-slate-50/50 rounded-xl border border-slate-200/60 hover:bg-slate-100/50 transition-colors">
-                    <span className="text-xs text-slate-600 font-semibold tracking-tight uppercase">Otopark</span>
-                    <span className="text-base font-bold text-slate-900 tracking-tight">Var</span>
+                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
+                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Otopark</span>
+                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">Var</span>
                   </div>
                 )}
                 {listing.features.elevator && (
-                  <div className="flex flex-col gap-2 p-3 bg-slate-50/50 rounded-xl border border-slate-200/60 hover:bg-slate-100/50 transition-colors">
-                    <span className="text-xs text-slate-600 font-semibold tracking-tight uppercase">Asansör</span>
-                    <span className="text-base font-bold text-slate-900 tracking-tight">Var</span>
+                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
+                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Asansör</span>
+                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">Var</span>
                   </div>
                 )}
                 {listing.features.seaView && (
-                  <div className="flex flex-col gap-2 p-3 bg-slate-50/50 rounded-xl border border-slate-200/60 hover:bg-slate-100/50 transition-colors">
-                    <span className="text-xs text-slate-600 font-semibold tracking-tight uppercase">Deniz Manzarası</span>
-                    <span className="text-base font-bold text-slate-900 tracking-tight">Var</span>
+                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
+                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Deniz Manzarası</span>
+                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">Var</span>
                   </div>
                 )}
                 {listing.features.buildingAge && (
-                  <div className="flex flex-col gap-2 p-3 bg-slate-50/50 rounded-xl border border-slate-200/60 hover:bg-slate-100/50 transition-colors">
-                    <span className="text-xs text-slate-600 font-semibold tracking-tight uppercase">Bina Yaşı</span>
-                    <span className="text-base font-bold text-slate-900 tracking-tight">{listing.features.buildingAge} yıl</span>
+                  <div className="flex flex-col gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-slate-50/50 rounded-lg sm:rounded-xl border border-slate-200/60 active:bg-slate-100/50 transition-colors touch-manipulation">
+                    <span className="text-[10px] sm:text-xs text-slate-600 font-semibold tracking-tight uppercase">Bina Yaşı</span>
+                    <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">{listing.features.buildingAge} yıl</span>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Map - Enterprise Premium */}
+            {/* Map - Enterprise Premium - Mobile Optimized */}
             {listing.coordinates_lat && listing.coordinates_lng ? (
-              <div className="mb-8 md:mb-10">
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-6 md:mb-8 text-slate-900 tracking-tight">Konum</h2>
-                <div className="border border-slate-200/80 rounded-2xl overflow-hidden shadow-xl">
+              <div className="mb-6 sm:mb-8 md:mb-10">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-4 sm:mb-6 md:mb-8 text-slate-900 tracking-tight">Konum</h2>
+                <div className="border border-slate-200/80 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl">
                   <GoogleMapsLoader nonce={nonce || undefined}>
                     <PropertyMap
                       latitude={listing.coordinates_lat}
@@ -722,9 +717,9 @@ export default async function ListingDetailPage({
               </div>
             ) : listing.location_neighborhood ? (
               // Fallback: Show neighborhood info if no coordinates
-              <div className="mb-8 md:mb-10">
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-6 md:mb-8 text-slate-900 tracking-tight">Konum</h2>
-                <div className="border border-slate-200/80 rounded-2xl p-8 bg-gradient-to-br from-slate-50 to-blue-50/30">
+              <div className="mb-6 sm:mb-8 md:mb-10">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-4 sm:mb-6 md:mb-8 text-slate-900 tracking-tight">Konum</h2>
+                <div className="border border-slate-200/80 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 bg-gradient-to-br from-slate-50 to-blue-50/30">
                   <div className="flex items-start gap-4">
                     <MapPin className="h-6 w-6 text-[#006AFF] flex-shrink-0 mt-1" />
                     <div>
@@ -793,11 +788,11 @@ export default async function ListingDetailPage({
               </div>
             )}
 
-            {/* Similar Listings - Zillow Style */}
+            {/* Similar Listings - Zillow Style - Mobile Optimized */}
             {similarListings && similarListings.length > 0 && (
-              <div className="mb-10">
-                <h2 className="text-3xl font-display font-extrabold mb-6 text-gray-900">Benzer İlanlar</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="mb-8 sm:mb-10">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-extrabold mb-4 sm:mb-6 text-gray-900">Benzer İlanlar</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                   {similarListings.map((similar) => {
                     const similarImage = similar.images?.[0];
                     return (
@@ -906,28 +901,28 @@ export default async function ListingDetailPage({
             )}
           </div>
 
-          {/* Sidebar - Enterprise Premium */}
-          <aside className="lg:col-span-1">
-            <div className="sticky top-24 space-y-5 md:space-y-6">
-              {/* Price Card - Enterprise Premium */}
+          {/* Sidebar - Enterprise Premium - Mobile: Top, Desktop: Sticky */}
+          <aside className="lg:col-span-1 order-first lg:order-last">
+            <div className="lg:sticky lg:top-24 space-y-4 sm:space-y-5 md:space-y-6">
+              {/* Price Card - Enterprise Premium - Mobile Optimized */}
               {listing.price_amount && (
-                <div className={`border-2 rounded-2xl p-6 md:p-8 lg:p-10 bg-gradient-to-br shadow-xl ${
+                <div className={`border-2 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-br shadow-lg sm:shadow-xl ${
                   listing.status === 'satilik' 
                     ? 'border-[#006AFF]/30 from-blue-50/90 to-indigo-50/70' 
                     : 'border-[#00A862]/30 from-emerald-50/90 to-green-50/70'
                 }`}>
                   <div className="text-center">
-                    <div className="text-xs md:text-sm text-slate-600 font-bold mb-3 tracking-tight uppercase">Fiyat</div>
-                    <div className={`text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-3 tracking-tight ${
+                    <div className="text-[10px] sm:text-xs md:text-sm text-slate-600 font-bold mb-2 sm:mb-3 tracking-tight uppercase">Fiyat</div>
+                    <div className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-2 sm:mb-3 tracking-tight ${
                       listing.status === 'satilik' ? 'text-[#006AFF]' : 'text-[#00A862]'
                     }`}>
                       ₺{new Intl.NumberFormat('tr-TR').format(listing.price_amount)}
                       {listing.status === 'kiralik' && (
-                        <span className="text-xl md:text-2xl text-slate-500 font-medium">/ay</span>
+                        <span className="text-lg sm:text-xl md:text-2xl text-slate-500 font-medium">/ay</span>
                       )}
                     </div>
                     {listing.status === 'satilik' && (
-                      <p className="text-xs md:text-sm text-slate-600 font-semibold tracking-tight">
+                      <p className="text-[10px] sm:text-xs md:text-sm text-slate-600 font-semibold tracking-tight">
                         Tahmini aylık ödeme: ₺{new Intl.NumberFormat('tr-TR').format(Math.round(listing.price_amount * 0.006))}/ay
                       </p>
                     )}
@@ -935,9 +930,9 @@ export default async function ListingDetailPage({
                 </div>
               )}
 
-              {/* Contact Card - Enterprise Premium */}
-              <div className="border border-slate-200/80 rounded-2xl p-6 md:p-8 lg:p-10 bg-white shadow-xl">
-                <h3 className="text-xl md:text-2xl font-display font-bold mb-6 md:mb-8 text-slate-900 tracking-tight">İletişim</h3>
+              {/* Contact Card - Enterprise Premium - Mobile Optimized */}
+              <div className="border border-slate-200/80 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 bg-white shadow-lg sm:shadow-xl">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-display font-bold mb-4 sm:mb-6 md:mb-8 text-slate-900 tracking-tight">İletişim</h3>
               
               {listing.agent_name && (
                 <div className="mb-4">
@@ -979,14 +974,14 @@ export default async function ListingDetailPage({
                 )}
               </div>
 
-                <div className="mt-6 md:mt-8 space-y-3">
+                <div className="mt-4 sm:mt-6 md:mt-8 space-y-2.5 sm:space-y-3">
                   <Button 
-                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 text-base md:text-lg shadow-xl hover:shadow-2xl transition-all rounded-xl" 
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 sm:py-4 text-sm sm:text-base md:text-lg shadow-xl hover:shadow-2xl transition-all rounded-lg sm:rounded-xl touch-manipulation" 
                     size="lg"
                     asChild
                   >
                     <a href="tel:+905325933854">
-                      <Phone className="mr-2 h-5 w-5" strokeWidth={2.5} />
+                      <Phone className="mr-2 h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5} />
                       İletişime Geçin
                     </a>
                   </Button>
@@ -1013,10 +1008,10 @@ export default async function ListingDetailPage({
               </div>
             </div>
 
-              {/* Property Info Card - Enterprise Premium */}
-              <div className="border border-slate-200/80 rounded-2xl p-5 md:p-6 lg:p-8 bg-white shadow-lg">
-                <h3 className="text-base md:text-lg font-display font-bold mb-5 md:mb-6 text-slate-900 tracking-tight">İlan Bilgileri</h3>
-              <div className="space-y-3 text-sm">
+              {/* Property Info Card - Enterprise Premium - Mobile Optimized */}
+              <div className="border border-slate-200/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 lg:p-8 bg-white shadow-md sm:shadow-lg">
+                <h3 className="text-base sm:text-lg md:text-lg font-display font-bold mb-4 sm:mb-5 md:mb-6 text-slate-900 tracking-tight">İlan Bilgileri</h3>
+              <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm">
                 <div className="flex justify-between items-center py-2 border-b border-slate-100">
                   <span className="text-slate-600 font-medium tracking-tight">İlan No:</span>
                   <span className="font-bold text-slate-900 tracking-tight">{listing.id.slice(0, 8)}</span>

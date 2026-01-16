@@ -275,13 +275,14 @@ const configWithSentry = process.env.NEXT_PUBLIC_SENTRY_DSN
     )
   : withNextIntl(nextConfig);
 
-// PWA configuration
-const pwaConfig = withPWA({
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development', // Disable PWA in development
-  sw: 'sw.js',
+// PWA configuration - Disable in development to avoid sw.js errors
+const pwaConfig = process.env.NODE_ENV === 'development'
+  ? (config) => config // Skip PWA entirely in development
+  : withPWA({
+      dest: 'public',
+      register: true,
+      skipWaiting: true,
+      sw: 'sw.js',
   // Custom service worker for push notifications
   importScripts: ['/sw-custom.js'],
   runtimeCaching: [
