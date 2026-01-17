@@ -43,6 +43,12 @@ const WeatherWidget = dynamicImport(() => import('@/components/services/WeatherW
   loading: () => <div className="h-48 bg-white rounded-lg animate-pulse" />,
 });
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({
+    locale,
+  }));
+}
+
 export async function generateMetadata({
   params,
 }: {
