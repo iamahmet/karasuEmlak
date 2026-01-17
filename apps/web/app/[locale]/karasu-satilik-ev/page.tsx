@@ -19,6 +19,8 @@ import dynamicImport from 'next/dynamic';
 import { AIChecker } from '@/components/content/AIChecker';
 import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
+import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticles';
+import { getRelatedContent } from '@/lib/content/related-content';
 
 // Performance: Revalidate every hour for ISR
 export const revalidate = 3600; // 1 hour
@@ -183,6 +185,24 @@ export default async function KarasuSatilikEvPage({
   
   const { listings: allListings = [] } = allListingsResult || {};
   const neighborhoods = neighborhoodsResult || [];
+
+  // Fetch related articles for SEO and engagement
+  const relatedArticles = await getRelatedContent({
+    keywords: [
+      'karasu',
+      'ev',
+      'satılık ev',
+      'müstakil',
+      'yatırım',
+      'karasu emlak',
+      'ev fiyatları',
+      'mahalle',
+    ],
+    location: 'Karasu',
+    category: 'Rehber',
+    tags: ['Karasu', 'Ev', 'Yatırım', 'Emlak'],
+    limit: 6,
+  });
   
   // Filter Karasu listings
   const karasuListings = allListings.filter(listing => 
@@ -844,6 +864,20 @@ export default async function KarasuSatilikEvPage({
             </div>
           </div>
         </section>
+
+        {/* Related Articles Section - SEO & Engagement */}
+        {relatedArticles.length > 0 && (
+          <section className="py-16 bg-gray-50 dark:bg-gray-900">
+            <div className="container mx-auto px-4">
+              <EnhancedRelatedArticles
+                articles={relatedArticles}
+                basePath={basePath}
+                title="Karasu Ev ve Yatırım Hakkında Makaleler"
+                limit={6}
+              />
+            </div>
+          </section>
+        )}
 
         {/* CTA Section */}
         <section className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">

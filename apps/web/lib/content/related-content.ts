@@ -123,7 +123,28 @@ export async function getRelatedContent(
     }
 
     // Tag match
-    const articleTags = (article.tags || []).map(t => t.toLowerCase());
+    let articleTags: string[] = [];
+    try {
+      if (Array.isArray(article.tags)) {
+        articleTags = article.tags.map(t => String(t).toLowerCase());
+      } else if (typeof article.tags === 'string') {
+        // Try to parse JSON string
+        try {
+          const parsed = JSON.parse(article.tags);
+          articleTags = Array.isArray(parsed) 
+            ? parsed.map(t => String(t).toLowerCase())
+            : [];
+        } catch {
+          // If not JSON, treat as comma-separated string
+          const tagsString = String(article.tags);
+          articleTags = tagsString.split(',').map(t => t.trim().toLowerCase());
+        }
+      }
+    } catch (error) {
+      console.error('[getRelatedContent] Error parsing article tags:', error);
+      articleTags = [];
+    }
+    
     tags.forEach(tag => {
       if (articleTags.includes(tag.toLowerCase())) {
         score += 5;

@@ -436,6 +436,33 @@ async function createArticle(article: ArticlePlan): Promise<void> {
     console.log(`   📂 Kategori: ${articleData.category}`);
     console.log(`   📊 SEO Skoru: ${articleData.seo_score}`);
     
+    // Create FAQ entries if available
+    if (generated.faq && generated.faq.length > 0) {
+      try {
+        for (const faqItem of generated.faq) {
+          await supabase.from('ai_questions').insert({
+            question: faqItem.question,
+            answer: faqItem.answer,
+            location_scope: 'karasu',
+            page_type: 'blog',
+            page_slug: slug,
+            priority: 'medium',
+            status: 'published',
+            generated_by_ai: true,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          }).then(() => {
+            console.log(`   ✅ FAQ eklendi: ${faqItem.question.substring(0, 50)}...`);
+          }).catch((faqError: any) => {
+            // FAQ is optional, continue
+            console.warn(`   ⚠️  FAQ ekleme hatası (devam ediliyor):`, faqError.message);
+          });
+        }
+      } catch (faqError) {
+        console.warn('   ⚠️  FAQ oluşturma hatası (devam ediliyor):', faqError);
+      }
+    }
+    
     // Log SEO event
     try {
       await supabase.from('seo_events').insert({
@@ -447,6 +474,7 @@ async function createArticle(article: ArticlePlan): Promise<void> {
           title: generated.title,
           word_count: generated.content.split(/\s+/).length,
           keywords: article.targetKeywords,
+          faq_count: generated.faq?.length || 0,
         },
         status: 'success',
       });

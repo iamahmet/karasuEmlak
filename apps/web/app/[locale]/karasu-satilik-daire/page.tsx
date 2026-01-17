@@ -32,6 +32,12 @@ const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollR
   loading: () => null,
 });
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({
+    locale,
+  }));
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -185,40 +191,66 @@ export default async function KarasuSatilikDairePage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+  try {
+    const { locale } = await params;
+    const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+    
+    // Fetch data with timeout - wrapped in try-catch to prevent crashes
+  let allListings: any[] = [];
+  let neighborhoods: string[] = [];
+  let stats = { total: 0, satilik: 0, kiralik: 0, byType: {} };
   
-  // Fetch data with timeout
-  const allListingsResult = await withTimeout(
-    getListings({ status: 'satilik', property_type: ['daire'] }, { field: 'created_at', order: 'desc' }, 1000, 0),
-    3000,
-    { listings: [], total: 0 }
-  );
-  const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
-  const statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
+  try {
+    const allListingsResult = await withTimeout(
+      getListings({ status: 'satilik', property_type: ['daire'] }, { field: 'created_at', order: 'desc' }, 1000, 0),
+      3000,
+      { listings: [], total: 0 }
+    );
+    allListings = allListingsResult?.listings || [];
+  } catch (error) {
+    console.error('[KarasuSatilikDairePage] Error fetching listings:', error);
+    allListings = [];
+  }
   
-  const { listings: allListings = [] } = allListingsResult || {};
-  const neighborhoods = neighborhoodsResult || [];
-  const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
+  try {
+    neighborhoods = await withTimeout(getNeighborhoods(), 3000, [] as string[]) || [];
+  } catch (error) {
+    console.error('[KarasuSatilikDairePage] Error fetching neighborhoods:', error);
+    neighborhoods = [];
+  }
+  
+  try {
+    stats = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} }) || { total: 0, satilik: 0, kiralik: 0, byType: {} };
+  } catch (error) {
+    console.error('[KarasuSatilikDairePage] Error fetching stats:', error);
+    stats = { total: 0, satilik: 0, kiralik: 0, byType: {} };
+  }
 
   // Fetch related articles for SEO and engagement
-  const relatedArticles = await getRelatedContent({
-    keywords: [
-      'karasu',
-      'daire',
-      'satılık daire',
-      'denize sıfır',
-      'merkez',
-      'yatırım',
-      'karasu emlak',
-      'daire fiyatları',
-      'mahalle',
-    ],
-    location: 'Karasu',
-    category: 'Rehber',
-    tags: ['Karasu', 'Daire', 'Yatırım', 'Emlak'],
-    limit: 6,
-  });
+  // Temporarily disabled to fix JSON parse error
+  const relatedArticles: any[] = [];
+  // try {
+  //   relatedArticles = await getRelatedContent({
+  //     keywords: [
+  //       'karasu',
+  //       'daire',
+  //       'satılık daire',
+  //       'denize sıfır',
+  //       'merkez',
+  //       'yatırım',
+  //       'karasu emlak',
+  //       'daire fiyatları',
+  //       'mahalle',
+  //     ],
+  //     location: 'Karasu',
+  //     category: 'Rehber',
+  //     tags: ['Karasu', 'Daire', 'Yatırım', 'Emlak'],
+  //     limit: 6,
+  //   });
+  // } catch (error) {
+  //   console.error('[KarasuSatilikDairePage] Error fetching related articles:', error);
+  //   relatedArticles = [];
+  // }
   
   // Filter Karasu daire listings
   const karasuDaireListings = allListings.filter(listing => 
@@ -244,7 +276,19 @@ export default async function KarasuSatilikDairePage({
     : null;
 
   // Fetch Q&As from database
-  const faqs = await getKarasuDaireFAQs();
+  let faqs: Array<{ question: string; answer: string }> = [];
+  try {
+    faqs = await getKarasuDaireFAQs();
+  } catch (error) {
+    console.error('[KarasuSatilikDairePage] Error fetching FAQs:', error);
+    // Use fallback FAQs
+    faqs = [
+      {
+        question: 'Karasu\'da satılık daire fiyatları nasıl?',
+        answer: 'Karasu\'da satılık daire fiyatları konum, metrekare, oda sayısı, bina yaşı ve özelliklere göre değişmektedir. Ortalama fiyat aralığı 800.000 TL ile 2.500.000 TL arasında değişmektedir.',
+      },
+    ];
+  }
 
   // Generate schemas
   const articleSchema = {
@@ -967,6 +1011,16 @@ export default async function KarasuSatilikDairePage({
                           <Link href={`${basePath}/karasu-denize-sifir-satilik-daire`} className="block text-sm text-primary hover:underline">
                             Denize Sıfır Satılık Daire
                           </Link>
+                          <Link href={`${basePath}/karasu-asansorlu-satilik-daire`} className="block text-sm text-primary hover:underline">
+                            Asansörlü Satılık Daire
+                          </Link>
+                        </div>
+                        {/* Fiyat aralığı bazlı sayfalar */}
+                        <div className="pt-2 mt-2 border-t border-gray-200">
+                          <div className="text-xs font-semibold text-gray-500 mb-2">Fiyat Aralığı:</div>
+                          <Link href={`${basePath}/karasu-ucuz-satilik-daire`} className="block text-sm text-primary hover:underline">
+                            Ucuz Satılık Daire (1M Altı)
+                          </Link>
                         </div>
                         <div className="pt-2 mt-2 border-t border-gray-200">
                           <Link href={`${basePath}/kredi-hesaplayici`} className="block text-sm text-primary hover:underline font-medium">
@@ -1104,4 +1158,33 @@ export default async function KarasuSatilikDairePage({
       </main>
     </>
   );
+  } catch (error: any) {
+    console.error('[KarasuSatilikDairePage] Fatal error:', error);
+    // Return minimal fallback page
+    const { locale } = await params;
+    const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+    
+    return (
+      <>
+        <Breadcrumbs
+          items={[
+            { label: 'Ana Sayfa', href: `${basePath}/` },
+            { label: 'Satılık İlanlar', href: `${basePath}/satilik` },
+            { label: 'Karasu Satılık Daire', href: `${basePath}/karasu-satilik-daire` },
+          ]}
+        />
+        <main className="min-h-screen bg-white py-20">
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">Karasu Satılık Daire</h1>
+            <p className="text-lg text-gray-600 mb-8">
+              Sayfa yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.
+            </p>
+            <Link href={`${basePath}/satilik?propertyType=daire`}>
+              <Button size="lg">Tüm Daire İlanlarını Görüntüle</Button>
+            </Link>
+          </div>
+        </main>
+      </>
+    );
+  }
 }

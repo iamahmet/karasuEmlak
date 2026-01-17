@@ -17,6 +17,8 @@ import { withTimeout } from '@/lib/utils/timeout';
 import { generateSlug } from '@/lib/utils';
 import dynamicImport from 'next/dynamic';
 import { Suspense } from 'react';
+import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticles';
+import { getRelatedContent } from '@/lib/content/related-content';
 import { calculateReadingTime } from '@/lib/utils/reading-time';
 
 // Performance: ISR with cache tags for better performance
@@ -223,6 +225,25 @@ export default async function KarasuSatilikYazlikPage({
   const { listings: allListings = [] } = allListingsResult || {};
   const neighborhoods = neighborhoodsResult || [];
   const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
+
+  // Fetch related articles for SEO and engagement
+  const relatedArticles = await getRelatedContent({
+    keywords: [
+      'karasu',
+      'yazlık',
+      'satılık yazlık',
+      'göl kenarı',
+      'tatil',
+      'yatırım',
+      'karasu emlak',
+      'yazlık ev',
+      'yaz sezonu',
+    ],
+    location: 'Karasu',
+    category: 'Rehber',
+    tags: ['Karasu', 'Yazlık', 'Yatırım', 'Tatil'],
+    limit: 6,
+  });
   
   // Filter Karasu yazlik listings
   const karasuYazlikListings = allListings.filter(listing => 
@@ -976,6 +997,20 @@ export default async function KarasuSatilikYazlikPage({
             </div>
           </div>
         </section>
+
+        {/* Related Articles Section - SEO & Engagement */}
+        {relatedArticles.length > 0 && (
+          <section className="py-16 bg-gray-50 dark:bg-gray-900">
+            <div className="container mx-auto px-4">
+              <EnhancedRelatedArticles
+                articles={relatedArticles}
+                basePath={basePath}
+                title="Karasu Yazlık ve Yatırım Hakkında Makaleler"
+                limit={6}
+              />
+            </div>
+          </section>
+        )}
 
         {/* CTA Section */}
         <section className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">

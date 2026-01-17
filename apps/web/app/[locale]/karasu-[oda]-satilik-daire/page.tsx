@@ -50,9 +50,16 @@ const roomLabels: Record<string, { label: string; description: string; priceRang
 };
 
 export async function generateStaticParams() {
-  return validRooms.map((oda) => ({
-    oda: oda.replace('+', '-'), // 1+1 -> 1-1 for URL
-  }));
+  const params: Array<{ locale: string; oda: string }> = [];
+  for (const locale of routing.locales) {
+    for (const oda of validRooms) {
+      params.push({
+        locale,
+        oda: oda.replace('+', '-'), // 1+1 -> 1-1 for URL
+      });
+    }
+  }
+  return params;
 }
 
 export async function generateMetadata({
@@ -61,6 +68,11 @@ export async function generateMetadata({
   params: Promise<{ locale: string; oda: string }>;
 }): Promise<Metadata> {
   const { locale, oda } = await params;
+  
+  if (!oda) {
+    notFound();
+  }
+  
   const roomKey = oda.replace('-', '+'); // 1-1 -> 1+1
   
   if (!validRooms.includes(roomKey)) {
@@ -136,6 +148,11 @@ export default async function KarasuOdaSatilikDairePage({
   params: Promise<{ locale: string; oda: string }>;
 }) {
   const { locale, oda } = await params;
+  
+  if (!oda) {
+    notFound();
+  }
+  
   const roomKey = oda.replace('-', '+'); // 1-1 -> 1+1
   
   if (!validRooms.includes(roomKey)) {
