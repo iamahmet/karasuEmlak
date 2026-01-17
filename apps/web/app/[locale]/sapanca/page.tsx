@@ -225,38 +225,55 @@ export default async function SapancaPage({
     console.error('Error fetching Sapanca articles:', error);
   }
 
-  // Generate comprehensive local SEO schemas
-  const placeSchema = generatePlaceSchema({
-    name: 'Sapanca',
-    description: 'Sapanca, Sakarya\'nın göl kasabası. Sapanca Gölü çevresinde bungalov, satılık daire, yazlık ve günlük kiralık seçenekleri ile hem yazlık hem de kalıcı yaşam için ideal bir bölge.',
-    address: {
-      addressLocality: 'Sapanca',
-      addressRegion: 'Sakarya',
-      addressCountry: 'TR',
-      postalCode: '54600',
-    },
-    geo: {
-      latitude: 40.6917,
-      longitude: 30.2675,
-    },
-    url: `${siteConfig.url}${basePath}/sapanca`,
-    containedIn: {
-      '@type': 'State',
-      name: 'Sakarya',
-    },
-  });
-
-  const faqSchema = generateFAQSchema(sapancaFAQs);
-  const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Ana Sayfa', url: `${siteConfig.url}${basePath}/` },
-    { name: 'Sapanca', url: `${siteConfig.url}${basePath}/sapanca` },
-  ]);
+  // Generate comprehensive local SEO schemas (with error handling)
+  let placeSchema: any = null;
+  let faqSchema: any = null;
+  let breadcrumbSchema: any = null;
+  
+  try {
+    placeSchema = generatePlaceSchema({
+      name: 'Sapanca',
+      description: 'Sapanca, Sakarya\'nın göl kasabası. Sapanca Gölü çevresinde bungalov, satılık daire, yazlık ve günlük kiralık seçenekleri ile hem yazlık hem de kalıcı yaşam için ideal bir bölge.',
+      address: {
+        addressLocality: 'Sapanca',
+        addressRegion: 'Sakarya',
+        addressCountry: 'TR',
+        postalCode: '54600',
+      },
+      geo: {
+        latitude: 40.6917,
+        longitude: 30.2675,
+      },
+      url: `${siteConfig.url}${basePath}/sapanca`,
+      containedIn: {
+        '@type': 'State',
+        name: 'Sakarya',
+      },
+    });
+  } catch (error) {
+    console.error('[SapancaPage] Error generating placeSchema:', error);
+  }
+  
+  try {
+    faqSchema = generateFAQSchema(sapancaFAQs);
+  } catch (error) {
+    console.error('[SapancaPage] Error generating faqSchema:', error);
+  }
+  
+  try {
+    breadcrumbSchema = generateBreadcrumbSchema([
+      { name: 'Ana Sayfa', url: `${siteConfig.url}${basePath}/` },
+      { name: 'Sapanca', url: `${siteConfig.url}${basePath}/sapanca` },
+    ]);
+  } catch (error) {
+    console.error('[SapancaPage] Error generating breadcrumbSchema:', error);
+  }
 
   return (
     <>
-      <StructuredData data={placeSchema} />
+      {placeSchema && <StructuredData data={placeSchema} />}
       {faqSchema && <StructuredData data={faqSchema} />}
-      <StructuredData data={breadcrumbSchema} />
+      {breadcrumbSchema && <StructuredData data={breadcrumbSchema} />}
       
       <Breadcrumbs
         items={[
