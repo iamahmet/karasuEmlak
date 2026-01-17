@@ -20,7 +20,7 @@ export function PropertyMap({ latitude, longitude, title, address, className }: 
   const [mapReady, setMapReady] = useState(false);
 
   useEffect(() => {
-    if (!mapRef.current || !window.google) {
+    if (typeof window === 'undefined' || !mapRef.current || !window.google) {
       setIsLoading(false);
       return;
     }
@@ -222,7 +222,8 @@ export function PropertyMap({ latitude, longitude, title, address, className }: 
     );
   };
 
-  if (!window.google) {
+  // Check if window is available (client-side only)
+  if (typeof window === 'undefined' || !window.google) {
     return (
       <div className={className || 'w-full h-[400px] md:h-[500px] rounded-lg overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center'}>
         <div className="text-center p-6">
