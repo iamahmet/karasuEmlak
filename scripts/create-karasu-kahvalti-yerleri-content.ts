@@ -20,7 +20,9 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const geminiApiKey = process.env.GEMINI_API_KEY;
 const openaiApiKey = process.env.OPENAI_API_KEY;
-const cloudinaryUrl = process.env.CLOUDINARY_URL;
+const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY;
+const cloudinaryApiSecret = process.env.CLOUDINARY_API_SECRET;
 
 if (!supabaseUrl || !supabaseServiceKey) {
   console.error("❌ SUPABASE_URL ve SUPABASE_SERVICE_ROLE_KEY gerekli!");
@@ -37,12 +39,15 @@ const genAI = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;
 const openai = openaiApiKey ? new OpenAI({ apiKey: openaiApiKey }) : null;
 
 // Configure Cloudinary
-if (cloudinaryUrl) {
+const hasCloudinary = cloudinaryCloudName && cloudinaryApiKey && cloudinaryApiSecret;
+if (hasCloudinary) {
   cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
+    cloud_name: cloudinaryCloudName,
+    api_key: cloudinaryApiKey,
+    api_secret: cloudinaryApiSecret,
   });
+} else {
+  console.warn("⚠️  Cloudinary config eksik - görsel oluşturma atlanacak");
 }
 
 interface ArticlePlan {
@@ -191,6 +196,7 @@ async function generateArticleContent(article: ArticlePlan): Promise<{
   excerpt: string;
   meta_description: string;
   keywords: string[];
+  faq?: Array<{ question: string; answer: string }>;
 }> {
   const wordCount = article.type === 'cornerstone' ? 2000 : 1000;
   
@@ -202,6 +208,11 @@ KARASU EMLAK İÇERİK BAĞLAMI:
 - Hedef Kitle: Emlak alıcıları, yatırımcılar, bölge hakkında bilgi arayanlar
 - Ton: Yerel uzman, güvenilir, bilgilendirici, doğal (AI gibi değil)
 `;
+
+  // Get related cornerstone articles for blog posts
+  const relatedCornerstones = article.type === 'blog' 
+    ? CORNERSTONE_ARTICLES.map(c => ({ title: c.title, slug: c.slug }))
+    : [];
 
   const prompt = `Sen Karasu'da 15 yıldır hizmet veren profesyonel bir emlak danışmanısın. Aşağıdaki konuda ${wordCount}+ kelimelik, kapsamlı, profesyonel ve bilgilendirici bir ${article.type === 'cornerstone' ? 'CORNERSTONE' : 'BLOG'} makale yaz.
 
@@ -219,7 +230,7 @@ GEREKSİNİMLER:
 5. SEO optimize (anahtar kelimeler doğal şekilde kullanılmalı)
 6. Anti-AI ton: "Sonuç olarak", "Özetlemek gerekirse", "Bu makalede" gibi ifadeler KULLANMA
 7. Doğal, konuşma tonu: "By the way", "Honestly", "Let's see" gibi geçişler kullan
-8. İç linkler için şu metinleri kullan: ${article.internalLinks.join(', ')}
+8. İç linkler için şu metinleri kullan: ${article.internalLinks.join(', ')}${relatedCornerstones.length > 0 ? `\n9. İlgili cornerstone makalelere doğal şekilde referans ver ve link ekle: ${relatedCornerstones.map(c => c.title).join(', ')}` : ''}
 
 İÇERİK YAPISI:
 - Giriş (200-300 kelime): Konuya giriş, Karasu bağlamı
@@ -234,7 +245,14 @@ JSON formatında döndür (sadece JSON, başka açıklama yapma):
   "excerpt": "150-200 kelimelik özet",
   "content": "tam içerik (HTML formatında, H2/H3 başlıklar dahil, <p>, <ul>, <li> kullan)",
   "meta_description": "150-160 karakter SEO açıklaması",
-  "keywords": ["anahtar", "kelime", "listesi"]
+  "keywords": ["anahtar", "kelime", "listesi"],
+  "faq": [
+    {"question": "Karasu'da kahvaltı yapılacak en iyi yerler nerede?", "answer": "Karasu'da kahvaltı için birçok seçenek bulunmaktadır..."},
+    {"question": "Karasu sahilinde kahvaltı yapılacak yerler var mı?", "answer": "Evet, Karasu sahil şeridinde deniz manzaralı kahvaltı mekanları bulunmaktadır..."},
+    {"question": "Karasu'da kahvaltı fiyatları ne kadar?", "answer": "Karasu'da kahvaltı fiyatları mekana göre değişmektedir..."},
+    {"question": "Karasu'da aile ile gidilebilecek kahvaltı yerleri hangileri?", "answer": "Karasu'da aileler için uygun birçok kahvaltı mekanı bulunmaktadır..."},
+    {"question": "Karasu'da kahvaltı yaparken emlak değerlerini nasıl değerlendirmeliyim?", "answer": "Karasu'da emlak alırken yakındaki kahvaltı mekanlarını da göz önünde bulundurmanız önemlidir..."}
+  ]
 }`;
 
   // Try Gemini first if available
@@ -286,6 +304,7 @@ JSON formatında döndür (sadece JSON, başka açıklama yapma):
         keywords: Array.isArray(parsed.keywords) ? parsed.keywords : 
                   typeof parsed.keywords === 'string' ? parsed.keywords.split(',').map((k: string) => k.trim()) :
                   article.targetKeywords,
+        faq: parsed.faq || [],
       };
     }
   }
@@ -329,6 +348,7 @@ JSON formatında döndür (sadece JSON, başka açıklama yapma):
     keywords: Array.isArray(parsed.keywords) ? parsed.keywords : 
               typeof parsed.keywords === 'string' ? parsed.keywords.split(',').map((k: string) => k.trim()) :
               article.targetKeywords,
+    faq: parsed.faq || [],
   };
 }
 
@@ -390,10 +410,16 @@ async function createArticle(article: ArticlePlan): Promise<void> {
       views: 0,
       seo_score: article.type === 'cornerstone' ? 85 : 75, // High score for cornerstone
       discover_eligible: article.type === 'cornerstone',
-      internal_links: article.internalLinks.map(link => ({
-        text: link,
-        url: `/${createSlug(link)}`
-      })),
+      internal_links: [
+        ...article.internalLinks.map(link => ({
+          text: link,
+          url: `/${createSlug(link)}`
+        })),
+        ...(article.type === 'blog' ? CORNERSTONE_ARTICLES.map(c => ({
+          text: c.title,
+          url: `/blog/${c.slug}`
+        })) : [])
+      ],
     };
     
     // Create
@@ -429,12 +455,16 @@ async function createArticle(article: ArticlePlan): Promise<void> {
     }
     
     // Generate and upload featured image
-    if (cloudinaryUrl && openai) {
+    if (hasCloudinary && openai) {
       try {
         await generateAndUploadImage(data.id, generated.title, slug);
       } catch (imageError: any) {
         console.warn('   ⚠️  Görsel oluşturma hatası (devam ediliyor):', imageError.message);
       }
+    } else if (!hasCloudinary) {
+      console.log('   ⏭️  Cloudinary config eksik - görsel atlandı');
+    } else if (!openai) {
+      console.log('   ⏭️  OpenAI API key eksik - görsel atlandı');
     }
     
     // Small delay to avoid rate limits
@@ -450,7 +480,7 @@ async function createArticle(article: ArticlePlan): Promise<void> {
  * Generate and upload featured image
  */
 async function generateAndUploadImage(articleId: string, title: string, slug: string) {
-  if (!openai || !cloudinaryUrl) {
+  if (!openai || !hasCloudinary) {
     return;
   }
 

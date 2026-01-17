@@ -29,7 +29,11 @@ export function buildCSP(options: CSPOptions = {}): string {
     ...(!isDev && nonce ? [`'nonce-${nonce}'`] : []),
     // Hash for root layout font loader script (app/layout.tsx) - only in production
     // In dev, we use 'unsafe-inline' instead
-    ...(!isDev ? ["'sha256-qQkJVfk6J5BW+yPPN0N8zNfBqw4NLyb8RtnR7gQ62yg='"] : []),
+    ...(!isDev ? [
+      "'sha256-qQkJVfk6J5BW+yPPN0N8zNfBqw4NLyb8RtnR7gQ62yg='",
+      // Hash for inline script in satilik page (Next.js hydration script)
+      "'sha256-SURB9hFJRD2BFib2KvfXjlVDfwAYHPeX+4bAJAa3PT0='",
+    ] : []),
     // Required third-parties
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',

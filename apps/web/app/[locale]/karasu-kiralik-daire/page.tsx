@@ -21,6 +21,8 @@ import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 import { generateSlug } from '@/lib/utils';
 import dynamicImport from 'next/dynamic';
+import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticles';
+import { getRelatedContent } from '@/lib/content/related-content';
 
 // Performance: Revalidate every hour for ISR
 export const revalidate = 3600; // 1 hour
@@ -197,6 +199,25 @@ export default async function KarasuKiralikDairePage({
   const { listings: allListings = [] } = allListingsResult || {};
   const neighborhoods = neighborhoodsResult || [];
   const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
+
+  // Fetch related articles for SEO and engagement
+  const relatedArticles = await getRelatedContent({
+    keywords: [
+      'karasu',
+      'daire',
+      'kiralık daire',
+      'denize yakın',
+      'merkez',
+      'aylık kira',
+      'karasu emlak',
+      'kiralık daire fiyatları',
+      'mahalle',
+    ],
+    location: 'Karasu',
+    category: 'Rehber',
+    tags: ['Karasu', 'Kiralık Daire', 'Emlak', 'Kira'],
+    limit: 6,
+  });
   
   // Filter Karasu kiralik daire listings
   const karasuKiralikDaireListings = allListings.filter(listing => 
@@ -852,6 +873,20 @@ export default async function KarasuKiralikDairePage({
             </div>
           </div>
         </section>
+
+        {/* Related Articles Section - SEO & Engagement */}
+        {relatedArticles.length > 0 && (
+          <section className="py-16 bg-gray-50 dark:bg-gray-900">
+            <div className="container mx-auto px-4">
+              <EnhancedRelatedArticles
+                articles={relatedArticles}
+                basePath={basePath}
+                title="Karasu Kiralık Daire ve Emlak Hakkında Makaleler"
+                limit={6}
+              />
+            </div>
+          </section>
+        )}
 
         {/* CTA Section */}
         <section className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">

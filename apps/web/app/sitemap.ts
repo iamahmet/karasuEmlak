@@ -52,6 +52,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/karasu-2-1-satilik-daire', priority: 0.85, changeFrequency: 'daily' }, // "karasu 2+1 satılık daire"
     { path: '/karasu-3-1-satilik-daire', priority: 0.85, changeFrequency: 'daily' }, // "karasu 3+1 satılık daire"
     { path: '/karasu-4-1-satilik-daire', priority: 0.85, changeFrequency: 'daily' }, // "karasu 4+1 satılık daire"
+    
+    // Özellik bazlı sayfalar
+    { path: '/karasu-denize-sifir-satilik-daire', priority: 0.85, changeFrequency: 'daily' }, // "karasu denize sıfır satılık daire"
     { path: '/karasu-satilik-villa', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu satılık villa" keyword
     { path: '/karasu-satilik-yazlik', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu satılık yazlık" keyword
     { path: '/karasu-kiralik-daire', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu kiralık daire" keyword

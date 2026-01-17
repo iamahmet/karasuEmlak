@@ -11,7 +11,7 @@ import { StructuredData } from '@/components/seo/StructuredData';
 import { generateArticleSchema, generateFAQSchema, generateBreadcrumbSchema } from '@/lib/seo/structured-data';
 import { generateRealEstateAgentLocalSchema } from '@/lib/seo/local-seo-schemas';
 import { generateItemListSchema } from '@/lib/seo/listings-schema';
-import { generateHowToSchema } from '@/lib/seo/ai-optimization';
+import { generateHowToSchema, generateVideoObjectSchema } from '@/lib/seo/ai-optimization';
 import { getListings, getNeighborhoods, getListingStats } from '@/lib/supabase/queries';
 import { getHighPriorityQAEntries } from '@/lib/supabase/queries/qa';
 import { getAIQuestionsForPage } from '@/lib/supabase/queries/ai-questions';
@@ -22,6 +22,8 @@ import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 import { generateSlug } from '@/lib/utils';
 import dynamicImport from 'next/dynamic';
+import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticles';
+import { getRelatedContent } from '@/lib/content/related-content';
 
 // Performance: Revalidate every hour for ISR
 export const revalidate = 3600; // 1 hour
@@ -198,6 +200,25 @@ export default async function KarasuSatilikDairePage({
   const { listings: allListings = [] } = allListingsResult || {};
   const neighborhoods = neighborhoodsResult || [];
   const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
+
+  // Fetch related articles for SEO and engagement
+  const relatedArticles = await getRelatedContent({
+    keywords: [
+      'karasu',
+      'daire',
+      'satılık daire',
+      'denize sıfır',
+      'merkez',
+      'yatırım',
+      'karasu emlak',
+      'daire fiyatları',
+      'mahalle',
+    ],
+    location: 'Karasu',
+    category: 'Rehber',
+    tags: ['Karasu', 'Daire', 'Yatırım', 'Emlak'],
+    limit: 6,
+  });
   
   // Filter Karasu daire listings
   const karasuDaireListings = allListings.filter(listing => 
@@ -306,6 +327,17 @@ export default async function KarasuSatilikDairePage({
       },
     ],
   });
+
+  // VideoObject schema for "Karasu'da Daire Alırken Dikkat Edilmesi Gerekenler" (placeholder - can be replaced with actual video)
+  const videoSchema = generateVideoObjectSchema({
+    name: "Karasu'da Satılık Daire Alırken Dikkat Edilmesi Gerekenler",
+    description: "Karasu'da satılık daire alırken dikkat edilmesi gereken önemli noktalar, fiyat analizi ve yatırım tavsiyeleri.",
+    thumbnailUrl: `${siteConfig.url}/og-image.jpg`,
+    uploadDate: new Date().toISOString(),
+    duration: 'PT5M',
+    contentUrl: `${siteConfig.url}${basePath}/karasu-satilik-daire#video-guide`,
+    embedUrl: `${siteConfig.url}${basePath}/karasu-satilik-daire#video-guide`,
+  });
   // Generate page content for AI checker
   const pageContentInfo = generatePageContentInfo('Karasu Satılık Daire', [
     { id: 'genel-bakis', title: 'Karasu\'da Satılık Daire Arayanlar İçin Genel Bakış', content: 'Karasu\'da satılık daire ilanları ve seçenekleri hakkında kapsamlı bilgi. Denize yakın konumlarda, merkez mahallelerde ve gelişen bölgelerde satılık daire seçenekleri bulunmaktadır. Hem sürekli oturum hem de yatırım amaçlı seçenekler mevcuttur. İstanbul\'a yakınlık, turizm potansiyeli ve gelişen altyapı, Karasu\'yu satılık daire arayanlar için cazip bir bölge haline getirmektedir.' },
@@ -324,6 +356,7 @@ export default async function KarasuSatilikDairePage({
       <StructuredData data={realEstateAgentSchema} />
       {itemListSchema && <StructuredData data={itemListSchema} />}
       <StructuredData data={howToSchema} />
+      <StructuredData data={videoSchema} />
       
       <Breadcrumbs
         items={[
@@ -928,6 +961,13 @@ export default async function KarasuSatilikDairePage({
                             );
                           })}
                         </div>
+                        {/* Özellik bazlı sayfalar */}
+                        <div className="pt-2 mt-2 border-t border-gray-200">
+                          <div className="text-xs font-semibold text-gray-500 mb-2">Özellik Bazlı:</div>
+                          <Link href={`${basePath}/karasu-denize-sifir-satilik-daire`} className="block text-sm text-primary hover:underline">
+                            Denize Sıfır Satılık Daire
+                          </Link>
+                        </div>
                         <div className="pt-2 mt-2 border-t border-gray-200">
                           <Link href={`${basePath}/kredi-hesaplayici`} className="block text-sm text-primary hover:underline font-medium">
                             Kredi Hesaplayıcı →
@@ -1018,6 +1058,20 @@ export default async function KarasuSatilikDairePage({
             </div>
           </div>
         </section>
+
+        {/* Related Articles Section - SEO & Engagement */}
+        {relatedArticles.length > 0 && (
+          <section className="py-16 bg-gray-50 dark:bg-gray-900">
+            <div className="container mx-auto px-4">
+              <EnhancedRelatedArticles
+                articles={relatedArticles}
+                basePath={basePath}
+                title="Karasu Daire ve Emlak Hakkında Makaleler"
+                limit={6}
+              />
+            </div>
+          </section>
+        )}
 
         {/* CTA Section */}
         <section className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
