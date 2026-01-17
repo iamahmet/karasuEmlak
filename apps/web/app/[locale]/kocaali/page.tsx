@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-// Static generation - no revalidation needed for location pages
+export const dynamic = 'force-dynamic';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Button } from '@karasu/ui';
