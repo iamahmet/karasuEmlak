@@ -127,16 +127,17 @@ export default async function SapancaPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
-  
-  // Fetch real data with timeout (3s max) - graceful degradation
-  const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
-  const statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
-  const featuredListingsResult = await withTimeout(getFeaturedListings(6), 3000, []);
-  const neighborhoods = neighborhoodsResult || [];
-  const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
-  const featuredListings = (featuredListingsResult || []) as Awaited<ReturnType<typeof getFeaturedListings>>;
+  try {
+    const { locale } = await params;
+    const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+    
+    // Fetch real data with timeout (3s max) - graceful degradation
+    const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
+    const statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
+    const featuredListingsResult = await withTimeout(getFeaturedListings(6), 3000, []);
+    const neighborhoods = neighborhoodsResult || [];
+    const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
+    const featuredListings = (featuredListingsResult || []) as Awaited<ReturnType<typeof getFeaturedListings>>;
 
   // Filter listings for Sapanca
   const sapancaListings = featuredListings.filter(l => 
@@ -981,4 +982,44 @@ export default async function SapancaPage({
       </main>
     </>
   );
+  } catch (error: any) {
+    console.error('[SapancaPage] Fatal error:', error);
+    const { locale } = await params;
+    const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+    
+    // Return minimal fallback UI
+    return (
+      <>
+        <Breadcrumbs
+          items={[
+            { label: 'Ana Sayfa', href: `${basePath}/` },
+            { label: 'Sapanca', href: `${basePath}/sapanca` },
+          ]}
+        />
+        <main className="min-h-screen bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-4 py-16">
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                Sapanca Emlak
+              </h1>
+              <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+                Sapanca'da bungalov, satılık daire, yazlık ve günlük kiralık seçenekleri.
+              </p>
+              <div className="flex gap-4 justify-center">
+                <Link href={`${basePath}/sapanca/bungalov`}>
+                  <Button>Bungalov</Button>
+                </Link>
+                <Link href={`${basePath}/sapanca/satilik-daire`}>
+                  <Button>Satılık Daire</Button>
+                </Link>
+                <Link href={`${basePath}/sapanca/gunluk-kiralik`}>
+                  <Button>Günlük Kiralık</Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
 }
