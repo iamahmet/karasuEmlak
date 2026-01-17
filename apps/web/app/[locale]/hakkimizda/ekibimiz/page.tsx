@@ -11,6 +11,11 @@ import { getAllTeamMembers, getTeamStats } from '@/lib/data/team';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateOrganizationSchema } from '@/lib/seo/structured-data';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

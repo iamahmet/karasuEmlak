@@ -6,6 +6,11 @@ import { routing } from '@/i18n/routing';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { SavedSearchesClient } from '@/components/searches/SavedSearchesClient';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

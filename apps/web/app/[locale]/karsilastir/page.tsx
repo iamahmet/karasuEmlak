@@ -9,6 +9,11 @@ import { EnhancedComparisonTable } from '@/components/comparison/EnhancedCompari
 import { ComparisonBar } from '@/components/comparison/ComparisonBar';
 import { getListings } from '@/lib/supabase/queries';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

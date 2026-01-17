@@ -14,6 +14,11 @@ import { Button } from '@karasu/ui';
 import Link from 'next/link';
 import InsuranceQuoteForm from '@/components/insurance/InsuranceQuoteForm';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

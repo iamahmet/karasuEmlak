@@ -159,6 +159,11 @@ import { ExternalLink } from 'lucide-react';
  * Schema.org: LocalBusiness, RealEstateAgent, FAQPage, WebSite
  */
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

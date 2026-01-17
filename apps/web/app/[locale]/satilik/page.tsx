@@ -24,6 +24,11 @@ import { Suspense } from 'react';
 import { ListingGridSkeleton } from '@/components/listings/ListingCardSkeleton';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

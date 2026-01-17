@@ -7,6 +7,11 @@ import { generateFAQSchema, generateBreadcrumbSchema, generateArticleSchema } fr
 import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticles';
 import { getRelatedContent } from '@/lib/content/related-content';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

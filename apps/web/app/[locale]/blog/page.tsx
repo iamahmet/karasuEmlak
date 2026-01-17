@@ -37,6 +37,11 @@ const TrustSignalsBarDynamic = dynamicImport(() => import('@/components/trust/Tr
   loading: () => <div className="h-16 bg-white animate-pulse" />,
 });
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

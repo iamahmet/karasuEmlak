@@ -7,6 +7,11 @@ import { AddListingForm } from '@/components/listings/AddListingForm';
 import { Home, FileText } from 'lucide-react';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

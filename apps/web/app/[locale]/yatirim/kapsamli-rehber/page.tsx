@@ -30,6 +30,11 @@ import { withTimeout } from '@/lib/utils/timeout';
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600;
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

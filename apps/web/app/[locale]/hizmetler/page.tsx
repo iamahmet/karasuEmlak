@@ -8,6 +8,11 @@ import { Button } from '@karasu/ui';
 import Link from 'next/link';
 import { Scale, Info, Shield, ArrowRight } from 'lucide-react';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

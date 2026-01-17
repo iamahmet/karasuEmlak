@@ -6,6 +6,11 @@ import { routing } from '@/i18n/routing';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { Award } from 'lucide-react';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

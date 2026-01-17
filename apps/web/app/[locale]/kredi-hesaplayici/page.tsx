@@ -11,6 +11,11 @@ import { Button } from '@karasu/ui';
 import Link from 'next/link';
 import { Calculator, CheckCircle, Info, DollarSign, FileText, Phone, Mail, Clock, Award, Target, Zap, Star, ChevronRight, Lightbulb, Users, Shield, ArrowRight, Percent, Calendar, TrendingUp, BarChart3, CreditCard, Building2 } from 'lucide-react';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

@@ -7,6 +7,11 @@ import type { Metadata } from 'next';
  * /rehberler redirects to /rehber for consistency
  * This maintains compatibility with production site URLs
  */
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

@@ -12,6 +12,11 @@ import { TrendingUp, Calculator, Info, Percent, DollarSign, Clock, AlertCircle, 
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

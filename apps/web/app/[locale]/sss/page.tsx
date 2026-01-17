@@ -12,6 +12,11 @@ import { getQAEntries } from '@/lib/db/qa';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { generateBreadcrumbSchema } from '@/lib/seo/structured-data';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

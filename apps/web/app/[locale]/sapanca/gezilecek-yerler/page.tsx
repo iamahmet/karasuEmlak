@@ -7,6 +7,11 @@ import { generateFAQSchema, generateBreadcrumbSchema, generateArticleSchema } fr
 import { Mountain, Waves, TreePine, Coffee, Camera, MapPin } from 'lucide-react';
 import Link from 'next/link';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

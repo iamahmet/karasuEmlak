@@ -12,6 +12,11 @@ import { generateFAQSchema } from '@/lib/seo/structured-data';
 import { ContentSection } from '@/components/content/ContentSection';
 import { FAQBlock } from '@/components/content/FAQBlock';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

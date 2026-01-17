@@ -16,6 +16,11 @@ import Link from 'next/link';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateFAQSchema } from '@/lib/seo/structured-data';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

@@ -16,6 +16,11 @@ import { calculateReadingTime } from '@/lib/utils/reading-time';
 import { AIChecker } from '@/components/content/AIChecker';
 import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

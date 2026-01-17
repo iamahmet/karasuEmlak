@@ -18,6 +18,11 @@ const CurrencyConverter = dynamicImport(() => import('@/components/services/Curr
   loading: () => null,
 });
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

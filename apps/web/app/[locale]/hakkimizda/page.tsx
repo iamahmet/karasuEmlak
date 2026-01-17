@@ -37,6 +37,11 @@ import { generateFAQSchema } from '@/lib/seo/structured-data';
 import { withTimeout } from '@/lib/utils/timeout';
 import { getAllTeamMembers, getTeamStats } from '@/lib/data/team';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

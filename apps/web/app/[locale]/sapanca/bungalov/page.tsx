@@ -7,6 +7,11 @@ import { generateFAQSchema, generateBreadcrumbSchema, generateArticleSchema } fr
 import { getListings } from '@/lib/supabase/queries';
 import { withTimeout } from '@/lib/utils/timeout';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

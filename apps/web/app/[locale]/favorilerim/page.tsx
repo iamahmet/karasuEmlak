@@ -7,6 +7,11 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { FavoritesClient } from '@/components/favorites/FavoritesClient';
 import { getListings } from '@/lib/supabase/queries';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

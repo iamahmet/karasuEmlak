@@ -8,6 +8,11 @@ import { FileSearch, CheckCircle, AlertCircle, Clock, DollarSign, Shield } from 
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {

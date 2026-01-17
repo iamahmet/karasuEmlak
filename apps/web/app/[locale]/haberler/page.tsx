@@ -19,6 +19,11 @@ import { getQAEntries } from '@/lib/supabase/queries/qa';
 import { generateFAQSchema } from '@/lib/seo/structured-data';
 import { StructuredData } from '@/components/seo/StructuredData';
 
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+
 export async function generateMetadata({
   params,
 }: {
