@@ -49,7 +49,11 @@
     /* Layout Variables - Modern & Compact */
     --sidebar-width: 240px;
     --sidebar-width-collapsed: 64px;
-    --header-height: 52px;
+    --header-height: 48px;
+    
+    /* Ensure sidebar doesn't overlap content */
+    --sidebar-z-index: 40;
+    --header-z-index: 50;
     
     /* Spacing System - Compact & Professional */
     --spacing-xs: 0.25rem;    /* 4px */

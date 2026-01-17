@@ -10,6 +10,8 @@ import { withTimeout } from '@/lib/utils/timeout';
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticles';
+import { getRelatedContent } from '@/lib/content/related-content';
 
 export async function generateMetadata({
   params,
@@ -57,6 +59,23 @@ export default async function SapancaSatilikBungalovPage({
 }) {
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+
+  // Fetch related articles for SEO and engagement
+  const relatedArticles = await getRelatedContent({
+    keywords: [
+      'sapanca',
+      'bungalov',
+      'satılık bungalov',
+      'göl kenarı',
+      'yatırım',
+      'sapanca gölü',
+      'bungalov fiyatları',
+    ],
+    location: 'Sapanca',
+    category: 'Rehber',
+    tags: ['Sapanca', 'Bungalov', 'Yatırım', 'Göl Kenarı'],
+    limit: 6,
+  });
 
   // Fetch bungalov listings
   const listingsResult = await withTimeout(
@@ -152,6 +171,18 @@ export default async function SapancaSatilikBungalovPage({
             ))}
           </div>
         </section>
+
+        {/* Related Articles Section - SEO & Engagement */}
+        {relatedArticles.length > 0 && (
+          <section className="mt-16">
+            <EnhancedRelatedArticles
+              articles={relatedArticles}
+              basePath={basePath}
+              title="Sapanca Bungalov ve Yatırım Hakkında Makaleler"
+              limit={6}
+            />
+          </section>
+        )}
       </div>
     </>
   );

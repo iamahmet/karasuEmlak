@@ -46,6 +46,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Location-specific pages (Karasu)
     { path: '/karasu-satilik-ev', priority: 0.8, changeFrequency: 'weekly' },
     { path: '/karasu-satilik-daire', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu satılık daire" keyword
+    
+    // Long-tail keyword pages: Oda sayısı bazlı
+    { path: '/karasu-1-1-satilik-daire', priority: 0.85, changeFrequency: 'daily' }, // "karasu 1+1 satılık daire"
+    { path: '/karasu-2-1-satilik-daire', priority: 0.85, changeFrequency: 'daily' }, // "karasu 2+1 satılık daire"
+    { path: '/karasu-3-1-satilik-daire', priority: 0.85, changeFrequency: 'daily' }, // "karasu 3+1 satılık daire"
+    { path: '/karasu-4-1-satilik-daire', priority: 0.85, changeFrequency: 'daily' }, // "karasu 4+1 satılık daire"
     { path: '/karasu-satilik-villa', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu satılık villa" keyword
     { path: '/karasu-satilik-yazlik', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu satılık yazlık" keyword
     { path: '/karasu-kiralik-daire', priority: 0.9, changeFrequency: 'daily' }, // High priority for "karasu kiralık daire" keyword
@@ -310,6 +316,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       routing.locales.forEach((locale) => {
         neighborhoods.forEach((neighborhood) => {
           const slug = neighborhood.slug || generateSlug(neighborhood.name || '');
+          
+          // Regular neighborhood page
           const url = locale === routing.defaultLocale
             ? `${baseUrl}/mahalle/${slug}`
             : `${baseUrl}/${locale}/mahalle/${slug}`;
@@ -328,6 +336,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             changeFrequency: getChangeFrequency('neighborhood'),
             priority: Math.max(0.8, neighborhoodPriority),
           });
+          
+          // Programmatic SEO: Karasu mahalle satılık daire pages (high priority for "karasu satılık daire" keyword)
+          // Filter for Karasu neighborhoods only
+          const isKarasuNeighborhood = !neighborhood.name?.toLowerCase().includes('kocaali');
+          if (isKarasuNeighborhood) {
+            const satilikDaireUrl = locale === routing.defaultLocale
+              ? `${baseUrl}/karasu/${slug}/satilik-daire`
+              : `${baseUrl}/${locale}/karasu/${slug}/satilik-daire`;
+            
+            sitemapEntries.push({
+              url: satilikDaireUrl,
+              lastModified,
+              changeFrequency: 'daily', // High frequency for "karasu satılık daire" keyword
+              priority: 0.85, // High priority for long-tail keywords
+            });
+          }
         });
       });
     } else {
@@ -349,6 +373,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
               changeFrequency: 'monthly',
               priority: 0.8,
             });
+            
+            // Programmatic SEO: Karasu mahalle satılık daire pages
+            const isKarasuNeighborhood = !neighborhood.toLowerCase().includes('kocaali');
+            if (isKarasuNeighborhood) {
+              const satilikDaireUrl = locale === routing.defaultLocale
+                ? `${baseUrl}/karasu/${slug}/satilik-daire`
+                : `${baseUrl}/${locale}/karasu/${slug}/satilik-daire`;
+              
+              sitemapEntries.push({
+                url: satilikDaireUrl,
+                lastModified: new Date(),
+                changeFrequency: 'daily',
+                priority: 0.85,
+              });
+            }
           });
         });
       }

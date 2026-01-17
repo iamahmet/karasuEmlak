@@ -474,9 +474,9 @@ export default async function ListingDetailPage({
         </div>
       </div>
 
-      {/* Breadcrumbs - Enterprise Premium */}
-      <div className="bg-white border-b border-slate-200/80 sticky top-0 z-40 backdrop-blur-sm bg-white/95">
-        <div className="container mx-auto px-4 lg:px-6 py-3 md:py-4">
+      {/* Breadcrumbs - Compact & Readable */}
+      <div className="bg-white border-b border-gray-100 sticky top-0 z-40 backdrop-blur-sm bg-white/98">
+        <div className="container mx-auto px-4 lg:px-6 py-2.5 md:py-3">
           <div className="flex items-center justify-between">
             <Breadcrumbs
               items={[
@@ -542,13 +542,13 @@ export default async function ListingDetailPage({
         </div>
       )}
 
-      {/* Main Content Container - Enterprise Layout */}
-      <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 md:py-8 lg:py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px] gap-4 sm:gap-6 lg:gap-8">
+      {/* Main Content Container - Compact & Modern */}
+      <div className="container mx-auto px-4 sm:px-5 lg:px-6 py-5 sm:py-6 md:py-7">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] xl:grid-cols-[1fr_420px] gap-5 sm:gap-6 lg:gap-7">
           {/* Main Content - Expanded for Related Listings */}
           <div className="min-w-0">
-            {/* Hero Section with Image Gallery - Enterprise Premium (Desktop Only) */}
-            <div className="hidden md:block mb-4 sm:mb-6 md:mb-8 relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl border border-slate-200/60">
+          {/* Hero Section with Image Gallery - Compact & Modern (Desktop Only) */}
+          <div className="hidden md:block mb-5 sm:mb-6 relative rounded-lg overflow-hidden shadow-md border border-gray-200/60">
               {listing.images && listing.images.length > 0 ? (
                 <>
                   <ListingImageSlider 
@@ -597,10 +597,10 @@ export default async function ListingDetailPage({
                     } : undefined}
                   />
                   
-                  {/* Image Disclaimer Note */}
-                  <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
-                    <p className="text-xs sm:text-sm text-amber-800 dark:text-amber-200 flex items-start gap-2">
-                      <span className="font-semibold flex-shrink-0">ℹ️ Not:</span>
+                  {/* Image Disclaimer Note - Compact */}
+                  <div className="mt-3 p-2.5 bg-amber-50/80 border border-amber-100 rounded-md">
+                    <p className="text-xs text-amber-700 flex items-start gap-1.5">
+                      <span className="font-medium flex-shrink-0">ℹ️</span>
                       <span>Görseller temsili olabilir. Detaylı bilgi için bize ulaşabilirsiniz.</span>
                     </p>
                   </div>
@@ -629,64 +629,64 @@ export default async function ListingDetailPage({
             )}
           </div>
 
-          {/* Quick Actions - Enterprise Premium - Hidden on mobile (using StickyMobileCTAs) */}
-          <div className="mb-4 sm:mb-6 md:mb-8 hidden md:block">
+          {/* Quick Actions - Compact - Hidden on mobile (using StickyMobileCTAs) */}
+          <div className="mb-5 hidden md:block">
             <QuickActions
               propertyId={listing.id}
               propertyTitle={listing.title}
             />
           </div>
 
-          {/* Key Features - Enterprise Premium Style - Mobile Compact */}
+          {/* Key Features - Compact & Readable */}
           {(listing.features?.sizeM2 || listing.features?.rooms || listing.features?.bathrooms || listing.features?.floor || listing.features?.buildingAge) && (
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-6 mb-4 sm:mb-6 md:mb-10 p-3 sm:p-5 md:p-8 lg:p-10 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 rounded-xl sm:rounded-2xl border border-slate-200/80 shadow-sm sm:shadow-lg">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6 p-4 sm:p-5 bg-gray-50/50 rounded-lg border border-gray-200/60">
               {listing.features.sizeM2 && (
-                <div className="flex flex-col items-center sm:items-start gap-1 sm:gap-2 group p-2 sm:p-0">
-                  <div className="flex items-center gap-1 text-slate-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">m²</div>
-                  <div className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">{listing.features.sizeM2}</div>
+                <div className="flex flex-col items-center sm:items-start gap-1 group">
+                  <div className="flex items-center gap-1 text-gray-600 text-[11px] sm:text-xs font-medium uppercase tracking-wide">m²</div>
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">{listing.features.sizeM2}</div>
                 </div>
               )}
               {listing.features.rooms && (
-                <div className="flex flex-col items-center sm:items-start gap-1 sm:gap-2 group p-2 sm:p-0">
-                  <div className="flex items-center gap-1 text-slate-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">
-                    <Bed className="h-3 w-3 sm:h-4 sm:w-4" strokeWidth={2} />
+                <div className="flex flex-col items-center sm:items-start gap-1 group">
+                  <div className="flex items-center gap-1 text-gray-600 text-[11px] sm:text-xs font-medium uppercase tracking-wide">
+                    <Bed className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-500" strokeWidth={2} />
                     Oda
                   </div>
-                  <div className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">{listing.features.rooms}</div>
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">{listing.features.rooms}</div>
                 </div>
               )}
               {listing.features.bathrooms && (
-                <div className="flex flex-col items-center sm:items-start gap-1 sm:gap-2 group p-2 sm:p-0">
-                  <div className="flex items-center gap-1 text-slate-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">
-                    <Bath className="h-3 w-3 sm:h-4 sm:w-4" strokeWidth={2} />
+                <div className="flex flex-col items-center sm:items-start gap-1 group">
+                  <div className="flex items-center gap-1 text-gray-600 text-[11px] sm:text-xs font-medium uppercase tracking-wide">
+                    <Bath className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-500" strokeWidth={2} />
                     Banyo
                   </div>
-                  <div className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">{listing.features.bathrooms}</div>
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">{listing.features.bathrooms}</div>
                 </div>
               )}
               {listing.features.floor && (
-                <div className="flex flex-col items-center sm:items-start gap-1 sm:gap-2 group p-2 sm:p-0">
-                  <div className="flex items-center gap-1 text-slate-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">
-                    <Building2 className="h-3 w-3 sm:h-4 sm:w-4" strokeWidth={2} />
+                <div className="flex flex-col items-center sm:items-start gap-1 group">
+                  <div className="flex items-center gap-1 text-gray-600 text-[11px] sm:text-xs font-medium uppercase tracking-wide">
+                    <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-500" strokeWidth={2} />
                     Kat
                   </div>
-                  <div className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">{listing.features.floor}</div>
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">{listing.features.floor}</div>
                 </div>
               )}
               {listing.features.buildingAge && (
-                <div className="flex flex-col items-center sm:items-start gap-1 sm:gap-2 group p-2 sm:p-0">
-                  <div className="flex items-center gap-1 text-slate-500 text-[10px] sm:text-xs font-semibold uppercase tracking-wider">
-                    <Building2 className="h-3 w-3 sm:h-4 sm:w-4" strokeWidth={2} />
+                <div className="flex flex-col items-center sm:items-start gap-1 group">
+                  <div className="flex items-center gap-1 text-gray-600 text-[11px] sm:text-xs font-medium uppercase tracking-wide">
+                    <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-500" strokeWidth={2} />
                     Yaş
                   </div>
-                  <div className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">{listing.features.buildingAge}</div>
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">{listing.features.buildingAge}</div>
                 </div>
               )}
             </div>
           )}
 
           {/* Property Highlights - Öne Çıkan Özellikler */}
-          <div className="mb-6 sm:mb-8 md:mb-10">
+          <div className="mb-5 sm:mb-6">
             <PropertyHighlights
               features={listing.features}
               propertyType={listing.property_type}
@@ -695,77 +695,77 @@ export default async function ListingDetailPage({
             />
           </div>
 
-            {/* Description - Listing Style (Utilitarian, Not Blog) - Mobile Optimized */}
+            {/* Description - Compact & Readable */}
             {listing.description_long && (
-              <div className="mb-6 sm:mb-8 md:mb-10">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-3 sm:mb-4 md:mb-5 text-slate-900">Açıklama</h2>
+              <div className="mb-5 sm:mb-6">
+                <h2 className="text-lg sm:text-xl font-semibold mb-3 text-gray-900">Açıklama</h2>
                 <ContentRenderer
                   content={listing.description_long}
                   format="auto"
                   sanitize={true}
                   prose={false}
-                  className="text-[15px] md:text-[16px] text-slate-700 leading-relaxed space-y-3 md:space-y-4
-                    [&_p]:mb-3 [&_p]:md:mb-4 [&_p]:leading-relaxed
-                    [&_strong]:font-semibold [&_strong]:text-slate-900
-                    [&_a]:text-[#006AFF] [&_a]:font-medium [&_a]:hover:underline"
+                  className="text-[15px] md:text-base text-gray-700 leading-relaxed space-y-2.5
+                    [&_p]:mb-2.5 [&_p]:leading-relaxed
+                    [&_strong]:font-semibold [&_strong]:text-gray-900
+                    [&_a]:text-blue-600 [&_a]:font-medium [&_a]:hover:text-blue-700 [&_a]:hover:underline"
                 />
               </div>
             )}
 
-            {/* Additional Features - Compact Mobile Design */}
-            <div className="mb-4 sm:mb-6 md:mb-10">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-display font-bold mb-3 sm:mb-4 md:mb-6 text-slate-900 tracking-tight">Özellikler</h2>
-              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 p-3 sm:p-4 md:p-6 bg-white border border-slate-200/80 rounded-xl sm:rounded-2xl shadow-sm sm:shadow-md">
+            {/* Additional Features - Compact & Readable */}
+            <div className="mb-5 sm:mb-6">
+              <h2 className="text-lg sm:text-xl font-semibold mb-3 text-gray-900">Özellikler</h2>
+              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 gap-2.5 sm:gap-3 p-3.5 sm:p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
                 {listing.features.heating && (
-                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                    <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium uppercase">Isıtma</span>
-                    <span className="text-xs sm:text-sm font-semibold text-slate-900 truncate">{listing.features.heating}</span>
+                  <div className="flex flex-col gap-0.5 p-2 bg-gray-50 rounded-md border border-gray-100">
+                    <span className="text-[10px] text-gray-600 font-medium uppercase">Isıtma</span>
+                    <span className="text-xs font-semibold text-gray-900 truncate">{listing.features.heating}</span>
                   </div>
                 )}
                 {listing.features.furnished !== undefined && (
-                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                    <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium uppercase">Eşyalı</span>
-                    <span className="text-xs sm:text-sm font-semibold text-slate-900">{listing.features.furnished ? 'Evet' : 'Hayır'}</span>
+                  <div className="flex flex-col gap-0.5 p-2 bg-gray-50 rounded-md border border-gray-100">
+                    <span className="text-[10px] text-gray-600 font-medium uppercase">Eşyalı</span>
+                    <span className="text-xs font-semibold text-gray-900">{listing.features.furnished ? 'Evet' : 'Hayır'}</span>
                   </div>
                 )}
                 {listing.features.balcony && (
-                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                    <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium uppercase">Balkon</span>
-                    <span className="text-xs sm:text-sm font-semibold text-slate-900">Var</span>
+                  <div className="flex flex-col gap-0.5 p-2 bg-gray-50 rounded-md border border-gray-100">
+                    <span className="text-[10px] text-gray-600 font-medium uppercase">Balkon</span>
+                    <span className="text-xs font-semibold text-gray-900">Var</span>
                   </div>
                 )}
                 {listing.features.parking && (
-                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                    <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium uppercase">Otopark</span>
-                    <span className="text-xs sm:text-sm font-semibold text-slate-900">Var</span>
+                  <div className="flex flex-col gap-0.5 p-2 bg-gray-50 rounded-md border border-gray-100">
+                    <span className="text-[10px] text-gray-600 font-medium uppercase">Otopark</span>
+                    <span className="text-xs font-semibold text-gray-900">Var</span>
                   </div>
                 )}
                 {listing.features.elevator && (
-                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                    <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium uppercase">Asansör</span>
-                    <span className="text-xs sm:text-sm font-semibold text-slate-900">Var</span>
+                  <div className="flex flex-col gap-0.5 p-2 bg-gray-50 rounded-md border border-gray-100">
+                    <span className="text-[10px] text-gray-600 font-medium uppercase">Asansör</span>
+                    <span className="text-xs font-semibold text-gray-900">Var</span>
                   </div>
                 )}
                 {listing.features.seaView && (
-                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-blue-50 rounded-lg border border-blue-100">
-                    <span className="text-[9px] sm:text-[10px] text-blue-600 font-medium uppercase">Deniz</span>
-                    <span className="text-xs sm:text-sm font-semibold text-blue-700">Manzara</span>
+                  <div className="flex flex-col gap-0.5 p-2 bg-blue-50 rounded-md border border-blue-100">
+                    <span className="text-[10px] text-blue-600 font-medium uppercase">Deniz</span>
+                    <span className="text-xs font-semibold text-blue-700">Manzara</span>
                   </div>
                 )}
                 {listing.features.buildingAge && (
-                  <div className="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-2.5 bg-slate-50 rounded-lg border border-slate-100">
-                    <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium uppercase">Bina Yaşı</span>
-                    <span className="text-xs sm:text-sm font-semibold text-slate-900">{listing.features.buildingAge} yıl</span>
+                  <div className="flex flex-col gap-0.5 p-2 bg-gray-50 rounded-md border border-gray-100">
+                    <span className="text-[10px] text-gray-600 font-medium uppercase">Bina Yaşı</span>
+                    <span className="text-xs font-semibold text-gray-900">{listing.features.buildingAge} yıl</span>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Map - Enterprise Premium - Mobile Optimized */}
+            {/* Map - Compact & Readable */}
             {listing.coordinates_lat && listing.coordinates_lng ? (
-              <div className="mb-6 sm:mb-8 md:mb-10">
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-4 sm:mb-6 md:mb-8 text-slate-900 tracking-tight">Konum</h2>
-                <div className="border border-slate-200/80 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl">
+              <div className="mb-5 sm:mb-6">
+                <h2 className="text-lg sm:text-xl font-semibold mb-3 text-gray-900">Konum</h2>
+                <div className="border border-gray-200 rounded-lg overflow-hidden shadow-sm">
                   <GoogleMapsLoader nonce={nonce || undefined}>
                     <PropertyMap
                       latitude={listing.coordinates_lat}
@@ -778,26 +778,26 @@ export default async function ListingDetailPage({
               </div>
             ) : listing.location_neighborhood ? (
               // Fallback: Show neighborhood info if no coordinates
-              <div className="mb-6 sm:mb-8 md:mb-10">
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-4 sm:mb-6 md:mb-8 text-slate-900 tracking-tight">Konum</h2>
-                <div className="border border-slate-200/80 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 bg-gradient-to-br from-slate-50 to-blue-50/30">
-                  <div className="flex items-start gap-4">
-                    <MapPin className="h-6 w-6 text-[#006AFF] flex-shrink-0 mt-1" />
+              <div className="mb-5 sm:mb-6">
+                <h2 className="text-lg sm:text-xl font-semibold mb-3 text-gray-900">Konum</h2>
+                <div className="border border-gray-200 rounded-lg p-4 bg-gray-50/50">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="text-lg font-semibold text-slate-900 mb-2">{listing.location_neighborhood}</h3>
+                      <h3 className="text-base font-semibold text-gray-900 mb-1">{listing.location_neighborhood}</h3>
                       {listing.location_district && (
-                        <p className="text-slate-600 mb-1">{listing.location_district}, Sakarya</p>
+                        <p className="text-gray-600 mb-1 text-sm">{listing.location_district}, Sakarya</p>
                       )}
                       {listing.location_full_address && (
-                        <p className="text-sm text-slate-500">{listing.location_full_address}</p>
+                        <p className="text-xs text-gray-500">{listing.location_full_address}</p>
                       )}
                       <Link
                         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${listing.location_neighborhood}, ${listing.location_district || 'Karasu'}, Sakarya`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 mt-4 text-[#006AFF] hover:text-[#0052CC] font-medium text-sm"
+                        className="inline-flex items-center gap-1.5 mt-3 text-blue-600 hover:text-blue-700 font-medium text-sm"
                       >
-                        <MapPin className="h-4 w-4" />
+                        <MapPin className="h-3.5 w-3.5" />
                         Google Maps'te Aç
                       </Link>
                     </div>
@@ -840,7 +840,7 @@ export default async function ListingDetailPage({
 
             {/* FAQ Section - SEO Optimized */}
             {listingFAQs && listingFAQs.length > 0 && (
-              <div className="mb-10">
+              <div className="mb-6">
                 <FAQBlock
                   faqs={listingFAQs}
                   title="Sık Sorulan Sorular"
@@ -849,17 +849,17 @@ export default async function ListingDetailPage({
               </div>
             )}
 
-            {/* Similar Listings - Zillow Style - Mobile Optimized */}
+            {/* Similar Listings - Compact & Readable */}
             {similarListings && similarListings.length > 0 && (
-              <div className="mb-8 sm:mb-10">
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-extrabold mb-4 sm:mb-6 text-gray-900">Benzer İlanlar</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+              <div className="mb-6 sm:mb-7">
+                <h2 className="text-lg sm:text-xl font-semibold mb-4 text-gray-900">Benzer İlanlar</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
                   {similarListings.map((similar) => {
                     const similarImage = similar.images?.[0];
                     return (
                       <Link key={similar.id} href={`${basePath}/ilan/${similar.slug}`}>
-                        <div className="border-2 border-gray-200 rounded-xl overflow-hidden hover:shadow-xl hover:border-[#006AFF] transition-all cursor-pointer">
-                          <div className="h-48 bg-gray-100 relative overflow-hidden">
+                        <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md hover:border-blue-300 transition-all cursor-pointer bg-white">
+                          <div className="h-44 bg-gray-100 relative overflow-hidden">
                             {similarImage?.url ? (
                               // eslint-disable-next-line @next/next/no-img-element
                               <img
@@ -928,15 +928,15 @@ export default async function ListingDetailPage({
                                 loading="lazy"
                               />
                             )}
-                            <div className={`absolute top-2 left-2 px-2 py-1 rounded text-[10px] font-bold text-white ${
-                              similar.status === 'satilik' ? 'bg-[#006AFF]' : 'bg-[#00A862]'
+                            <div className={`absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-semibold text-white ${
+                              similar.status === 'satilik' ? 'bg-blue-600' : 'bg-green-600'
                             }`}>
                               {similar.status === 'satilik' ? 'Sat' : 'Kir'}
                             </div>
                           </div>
-                          <div className="p-5">
-                            <h3 className="font-bold mb-2 line-clamp-2 text-gray-900 text-base leading-snug">{similar.title}</h3>
-                            <p className="text-sm text-gray-600 mb-3 font-medium flex items-center gap-1">
+                          <div className="p-4">
+                            <h3 className="font-semibold mb-1.5 line-clamp-2 text-gray-900 text-sm leading-snug">{similar.title}</h3>
+                            <p className="text-xs text-gray-600 mb-2 font-medium flex items-center gap-1">
                               <MapPin className="h-3 w-3" />
                               {similar.location_neighborhood}
                             </p>
@@ -947,9 +947,9 @@ export default async function ListingDetailPage({
                               </p>
                             )}
                             {similar.price_amount && (
-                              <p className="text-xl font-extrabold text-[#006AFF]">
+                              <p className="text-lg font-bold text-blue-600">
                                 ₺{new Intl.NumberFormat('tr-TR').format(Number(similar.price_amount))}
-                                {similar.status === 'kiralik' && <span className="text-sm text-gray-500 font-medium">/ay</span>}
+                                {similar.status === 'kiralik' && <span className="text-xs text-gray-500 font-medium">/ay</span>}
                               </p>
                             )}
                           </div>
@@ -962,28 +962,28 @@ export default async function ListingDetailPage({
             )}
           </div>
 
-          {/* Sidebar - Enterprise Premium - Mobile: Top, Desktop: Sticky */}
+          {/* Sidebar - Compact & Readable - Mobile: Top, Desktop: Sticky */}
           <aside className="lg:col-span-1 order-first lg:order-last">
-            <div className="lg:sticky lg:top-24 space-y-4 sm:space-y-5 md:space-y-6">
-              {/* Price Card - Enterprise Premium - Mobile Optimized */}
+            <div className="lg:sticky lg:top-20 space-y-4 sm:space-y-4">
+              {/* Price Card - Compact & Readable */}
               {listing.price_amount && (
-                <div className={`border-2 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-br shadow-lg sm:shadow-xl ${
+                <div className={`border rounded-lg p-4 sm:p-5 bg-gradient-to-br shadow-sm ${
                   listing.status === 'satilik' 
-                    ? 'border-[#006AFF]/30 from-blue-50/90 to-indigo-50/70' 
-                    : 'border-[#00A862]/30 from-emerald-50/90 to-green-50/70'
+                    ? 'border-blue-200/60 from-blue-50/80 to-blue-50/50' 
+                    : 'border-green-200/60 from-green-50/80 to-green-50/50'
                 }`}>
                   <div className="text-center">
-                    <div className="text-[10px] sm:text-xs md:text-sm text-slate-600 font-bold mb-2 sm:mb-3 tracking-tight uppercase">Fiyat</div>
-                    <div className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-2 sm:mb-3 tracking-tight ${
-                      listing.status === 'satilik' ? 'text-[#006AFF]' : 'text-[#00A862]'
+                    <div className="text-xs text-gray-600 font-semibold mb-2 uppercase tracking-wide">Fiyat</div>
+                    <div className={`text-2xl sm:text-3xl md:text-4xl font-bold mb-2 tracking-tight ${
+                      listing.status === 'satilik' ? 'text-blue-600' : 'text-green-600'
                     }`}>
                       ₺{new Intl.NumberFormat('tr-TR').format(listing.price_amount)}
                       {listing.status === 'kiralik' && (
-                        <span className="text-lg sm:text-xl md:text-2xl text-slate-500 font-medium">/ay</span>
+                        <span className="text-base sm:text-lg text-gray-500 font-medium">/ay</span>
                       )}
                     </div>
                     {listing.status === 'satilik' && (
-                      <p className="text-[10px] sm:text-xs md:text-sm text-slate-600 font-semibold tracking-tight">
+                      <p className="text-xs text-gray-600 font-medium">
                         Tahmini aylık ödeme: ₺{new Intl.NumberFormat('tr-TR').format(Math.round(listing.price_amount * 0.006))}/ay
                       </p>
                     )}
@@ -991,23 +991,23 @@ export default async function ListingDetailPage({
                 </div>
               )}
 
-              {/* Contact Card - Enterprise Premium - Mobile Optimized */}
-              <div className="border border-slate-200/80 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 bg-white shadow-lg sm:shadow-xl">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-display font-bold mb-4 sm:mb-6 md:mb-8 text-slate-900 tracking-tight">İletişim</h3>
+              {/* Contact Card - Compact & Readable */}
+              <div className="border border-gray-200 rounded-lg p-4 sm:p-5 bg-white shadow-sm">
+                <h3 className="text-base sm:text-lg font-semibold mb-3.5 text-gray-900">İletişim</h3>
               
               {listing.agent_name && (
-                <div className="mb-4">
-                  <p className="font-medium">{listing.agent_name}</p>
+                <div className="mb-3">
+                  <p className="font-medium text-gray-900 text-sm">{listing.agent_name}</p>
                 </div>
               )}
 
-              <div className="space-y-3">
+              <div className="space-y-2 mb-4">
                 {listing.agent_phone && (
                   <a 
                     href={`tel:${listing.agent_phone}`}
-                    className="flex items-center gap-2 text-primary hover:underline"
+                    className="flex items-center gap-2 text-gray-700 hover:text-gray-900 text-sm transition-colors"
                   >
-                    <Phone className="h-4 w-4" />
+                    <Phone className="h-4 w-4 text-gray-500" />
                     <span>{listing.agent_phone}</span>
                   </a>
                 )}
@@ -1017,9 +1017,9 @@ export default async function ListingDetailPage({
                     href={`https://wa.me/${listing.agent_whatsapp.replace(/[^0-9]/g, '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-green-600 hover:underline"
+                    className="flex items-center gap-2 text-green-600 hover:text-green-700 text-sm transition-colors"
                   >
-                    <Phone className="h-4 w-4" />
+                    <MessageCircle className="h-4 w-4" />
                     <span>WhatsApp</span>
                   </a>
                 )}
@@ -1027,29 +1027,29 @@ export default async function ListingDetailPage({
                 {listing.agent_email && (
                   <a 
                     href={`mailto:${listing.agent_email}`}
-                    className="flex items-center gap-2 text-primary hover:underline"
+                    className="flex items-center gap-2 text-gray-700 hover:text-gray-900 text-sm transition-colors"
                   >
-                    <Mail className="h-4 w-4" />
-                    <span>{listing.agent_email}</span>
+                    <Mail className="h-4 w-4 text-gray-500" />
+                    <span className="truncate">{listing.agent_email}</span>
                   </a>
                 )}
               </div>
 
-                <div className="mt-4 sm:mt-6 md:mt-8 space-y-2.5 sm:space-y-3">
+                <div className="space-y-2">
                   <Button 
-                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 sm:py-4 text-sm sm:text-base md:text-lg shadow-xl hover:shadow-2xl transition-all rounded-lg sm:rounded-xl touch-manipulation" 
-                    size="lg"
+                    className="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-2.5 text-sm shadow-sm hover:shadow-md transition-all rounded-lg touch-manipulation" 
+                    size="default"
                     asChild
                   >
                     <a href="tel:+905325933854">
-                      <Phone className="mr-2 h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5} />
+                      <Phone className="mr-2 h-4 w-4" strokeWidth={2} />
                       İletişime Geçin
                     </a>
                   </Button>
                 {listing.agent_phone && (
                   <a 
                     href={`tel:${listing.agent_phone}`}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors border border-gray-200 rounded-lg hover:bg-gray-50"
                   >
                     <Phone className="h-4 w-4" />
                     <span>{listing.agent_phone}</span>
@@ -1060,7 +1060,7 @@ export default async function ListingDetailPage({
                     href={`https://wa.me/${listing.agent_whatsapp.replace(/[^0-9]/g, '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-[#25D366] hover:bg-[#20BD5C] text-white rounded-lg font-semibold transition-colors shadow-sm hover:shadow-md"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-[#25D366] hover:bg-[#20BD5C] text-white rounded-lg font-semibold transition-colors shadow-sm hover:shadow-md text-sm"
                   >
                     <MessageCircle className="h-4 w-4" />
                     WhatsApp ile Yaz
@@ -1069,30 +1069,30 @@ export default async function ListingDetailPage({
               </div>
             </div>
 
-              {/* Property Info Card - Enterprise Premium - Mobile Optimized */}
-              <div className="border border-slate-200/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 lg:p-8 bg-white shadow-md sm:shadow-lg">
-                <h3 className="text-base sm:text-lg md:text-lg font-display font-bold mb-4 sm:mb-5 md:mb-6 text-slate-900 tracking-tight">İlan Bilgileri</h3>
-              <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm">
-                <div className="flex justify-between items-center py-2 border-b border-slate-100">
-                  <span className="text-slate-600 font-medium tracking-tight">İlan No:</span>
-                  <span className="font-bold text-slate-900 tracking-tight">{listing.id.slice(0, 8)}</span>
+              {/* Property Info Card - Compact & Readable */}
+              <div className="border border-gray-200 rounded-lg p-4 sm:p-5 bg-white shadow-sm">
+                <h3 className="text-base sm:text-lg font-semibold mb-3.5 text-gray-900">İlan Bilgileri</h3>
+              <div className="space-y-2 text-xs sm:text-sm">
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-600 font-medium">İlan No:</span>
+                  <span className="font-semibold text-gray-900">{listing.id.slice(0, 8)}</span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-slate-100">
-                  <span className="text-slate-600 font-medium tracking-tight">İlan Tarihi:</span>
-                  <span className="font-bold text-slate-900 tracking-tight">
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-600 font-medium">İlan Tarihi:</span>
+                  <span className="font-semibold text-gray-900">
                     {new Date(listing.created_at).toLocaleDateString('tr-TR')}
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-slate-100">
-                  <span className="text-slate-600 font-medium tracking-tight">Güncelleme:</span>
-                  <span className="font-bold text-slate-900 tracking-tight">
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-600 font-medium">Güncelleme:</span>
+                  <span className="font-semibold text-gray-900">
                     {new Date(listing.updated_at).toLocaleDateString('tr-TR')}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2">
-                  <span className="text-slate-600 font-medium tracking-tight">Durum:</span>
-                  <span className={`font-bold tracking-tight ${
-                    listing.available ? 'text-[#00A862]' : 'text-slate-500'
+                  <span className="text-gray-600 font-medium">Durum:</span>
+                  <span className={`font-semibold ${
+                    listing.available ? 'text-green-600' : 'text-gray-500'
                   }`}>
                     {listing.available ? 'Müsait' : 'Kiralandı/Satıldı'}
                   </span>

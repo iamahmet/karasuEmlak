@@ -125,3 +125,59 @@ export function generateProductSchema(listing: Listing, baseUrl: string) {
     ],
   };
 }
+
+/**
+ * Generate ImageObject Schema for SEO
+ * Helps search engines understand images better
+ */
+export function generateImageObjectSchema({
+  url,
+  alt,
+  caption,
+  width = 1200,
+  height = 630,
+}: {
+  url: string;
+  alt?: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ImageObject',
+    url,
+    ...(alt && { caption: alt }),
+    ...(caption && { caption }),
+    width,
+    height,
+    encodingFormat: 'image/jpeg',
+    contentUrl: url,
+  };
+}
+
+/**
+ * Generate ImageObject Schema for listing images
+ */
+export function generateListingImageSchema(
+  listing: Listing,
+  imageIndex: number = 0,
+  baseUrl: string
+) {
+  const image = listing.images?.[imageIndex];
+  if (!image) return null;
+
+  const imageUrl = image.url || (image.public_id 
+    ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${image.public_id}.jpg`
+    : `${siteConfig.url}/og-image.jpg`);
+
+  const alt = image.alt || `${listing.title} - ${listing.location_neighborhood || 'Karasu'} - Görsel ${imageIndex + 1}`;
+
+  return generateImageObjectSchema({
+    url: imageUrl,
+    alt,
+    caption: alt,
+    width: 1200,
+    height: 630,
+  });
+}

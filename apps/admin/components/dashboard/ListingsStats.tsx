@@ -194,7 +194,7 @@ export function ListingsStats() {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
       {statsCards.map((stat, index) => {
         const Icon = stat.icon;
         const progressWidth = getProgressWidth(stat);
@@ -209,43 +209,39 @@ export function ListingsStats() {
         return (
           <Card
             key={stat.label}
-            className="group relative overflow-hidden border-2 transition-all duration-300 hover:shadow-xl hover:scale-[1.02] cursor-pointer bg-gradient-to-br from-card to-card/50"
-            style={{ borderColor: 'hsl(var(--border))' }}
+            className="group relative overflow-hidden border transition-all duration-200 hover:shadow-md hover:border-primary/20 cursor-pointer bg-card"
           >
-            {/* Gradient Background */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${colorScheme.bg} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+            {/* Gradient Background on Hover */}
+            <div className={`absolute inset-0 bg-gradient-to-br ${colorScheme.bg} opacity-0 group-hover:opacity-100 transition-opacity duration-200`}></div>
             
-            {/* Decorative Elements */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-design-light/5 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            
-            <CardHeader className="flex flex-row items-center justify-between pb-3 px-5 pt-5 relative z-10">
-              <CardTitle className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground group-hover:text-foreground transition-colors">
+            <CardHeader className="flex flex-row items-center justify-between pb-2 px-4 pt-4 relative z-10">
+              <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground group-hover:text-foreground transition-colors">
                 {stat.label}
               </CardTitle>
-              <div className={`relative p-2.5 rounded-xl transition-all duration-300 shadow-md bg-gradient-to-br ${colorScheme.bg} border ${colorScheme.border} group-hover:scale-110 group-hover:shadow-lg`}>
-                <Icon className={`h-4 w-4 ${colorScheme.icon} transition-transform duration-300 group-hover:rotate-12`} />
+              <div className={`relative p-2 rounded-lg transition-all duration-200 bg-gradient-to-br ${colorScheme.bg} border ${colorScheme.border} group-hover:scale-105`}>
+                <Icon className={`h-4 w-4 ${colorScheme.icon} transition-transform duration-200`} />
               </div>
             </CardHeader>
             
-            <CardContent className="px-5 pb-5 relative z-10">
-              <div className="flex items-baseline justify-between mb-3">
-                <div className="text-2xl md:text-3xl font-bold text-foreground tracking-tight font-['Urbanist'] group-hover:scale-105 transition-transform duration-300">
+            <CardContent className="px-4 pb-4 relative z-10">
+              <div className="flex items-baseline justify-between mb-2">
+                <div className="text-xl md:text-2xl font-bold text-foreground tracking-tight group-hover:scale-105 transition-transform duration-200">
                   {stat.value}
                 </div>
                 {stat.change && (
-                  <span className={`text-[10px] font-bold px-2.5 py-1 rounded-lg border ${colorScheme.border} bg-gradient-to-r ${colorScheme.bg} ${colorScheme.icon} shadow-sm`}>
+                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-md border ${colorScheme.border} bg-gradient-to-r ${colorScheme.bg} ${colorScheme.icon}`}>
                     {stat.change}
                   </span>
                 )}
               </div>
               
               {stat.subtitle && (
-                <p className="text-[11px] text-muted-foreground mb-3 font-medium">{stat.subtitle}</p>
+                <p className="text-xs text-muted-foreground mb-2">{stat.subtitle}</p>
               )}
               
-              <div className="relative h-1.5 rounded-full overflow-hidden bg-muted/50 backdrop-blur-sm">
+              <div className="relative h-1 rounded-full overflow-hidden bg-muted/50">
                 <div
-                  className={`absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out bg-gradient-to-r ${colorScheme.progress} shadow-sm`}
+                  className={`absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out bg-gradient-to-r ${colorScheme.progress}`}
                   style={{ width: `${Math.min(100, progressWidth)}%` }}
                 />
               </div>

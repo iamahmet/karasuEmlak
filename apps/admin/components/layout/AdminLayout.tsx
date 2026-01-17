@@ -2,6 +2,8 @@
 
 import React, { memo } from "react";
 import { AdminSidebar } from "./AdminSidebar";
+import { ImprovedCompactSidebar } from "./ImprovedCompactSidebar";
+import { CompactHeader } from "./CompactHeader";
 import { AdminHeaderEnhanced } from "./AdminHeaderEnhanced";
 import { CommandPalette } from "../command-palette/CommandPalette";
 import { KeyboardShortcuts } from "../keyboard-shortcuts/KeyboardShortcuts";
@@ -56,15 +58,31 @@ function AdminLayoutComponent({ children }: { children: React.ReactNode }) {
         <div className="absolute inset-0 pointer-events-none admin-layout-background opacity-30" />
         <div className="absolute inset-0 bg-gradient-to-br from-design-light/3 via-transparent to-transparent dark:from-design-light/2 pointer-events-none" />
         
-        <AdminSidebar 
-          isMobileOpen={sidebarOpen}
-          onMobileClose={closeSidebar}
-        />
-        <div className="flex-1 flex flex-col overflow-hidden lg:ml-[240px] relative z-10" style={{ marginLeft: 'clamp(0px, var(--sidebar-width, 240px), 240px)' }}>
-          <AdminHeaderEnhanced 
-            onMenuToggle={toggleSidebar}
-            isMobileMenuOpen={sidebarOpen}
+        {/* Use ImprovedCompactSidebar for desktop, AdminSidebar for mobile */}
+        <div className="hidden lg:block">
+          <ImprovedCompactSidebar />
+        </div>
+        <div className="lg:hidden">
+          <AdminSidebar 
+            isMobileOpen={sidebarOpen}
+            onMobileClose={closeSidebar}
           />
+        </div>
+        <div 
+          className="flex-1 flex flex-col overflow-hidden relative z-10 transition-all duration-200"
+          style={{ 
+            marginLeft: 'var(--sidebar-width, 64px)',
+          }}
+        >
+          <div className="hidden lg:block">
+            <CompactHeader onMenuToggle={toggleSidebar} />
+          </div>
+          <div className="lg:hidden">
+            <AdminHeaderEnhanced 
+              onMenuToggle={toggleSidebar}
+              isMobileMenuOpen={sidebarOpen}
+            />
+          </div>
           <main 
             role="main" 
             className="flex-1 overflow-y-auto bg-transparent relative scrollbar-modern admin-main-content"

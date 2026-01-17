@@ -4,6 +4,8 @@ import { routing } from '@/i18n/routing';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateFAQSchema, generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo/structured-data';
+import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticles';
+import { getRelatedContent } from '@/lib/content/related-content';
 
 export async function generateMetadata({
   params,
@@ -51,6 +53,24 @@ export default async function SapancaGunlukKiralikPage({
 }) {
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+
+  // Fetch related articles for SEO and engagement
+  const relatedArticles = await getRelatedContent({
+    keywords: [
+      'sapanca',
+      'günlük kiralık',
+      'bungalov',
+      'yazlık',
+      'hafta sonu',
+      'tatil',
+      'kiralık ev',
+      'sapanca gölü',
+    ],
+    location: 'Sapanca',
+    category: 'Rehber',
+    tags: ['Sapanca', 'Günlük Kiralık', 'Tatil', 'Bungalov'],
+    limit: 6,
+  });
 
   const articleSchema = generateArticleSchema({
     headline: 'Sapanca Günlük Kiralık | Bungalov ve Yazlık Günlük Kiralık Seçenekleri',
@@ -116,6 +136,18 @@ export default async function SapancaGunlukKiralikPage({
             ))}
           </div>
         </section>
+
+        {/* Related Articles Section - SEO & Engagement */}
+        {relatedArticles.length > 0 && (
+          <section className="mt-16">
+            <EnhancedRelatedArticles
+              articles={relatedArticles}
+              basePath={basePath}
+              title="Sapanca ve Günlük Kiralık Hakkında Makaleler"
+              limit={6}
+            />
+          </section>
+        )}
       </div>
     </>
   );

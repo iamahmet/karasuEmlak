@@ -27,6 +27,16 @@ const QuickActions = dynamic(
   { loading: () => <PageSkeleton /> }
 );
 
+const EnhancedAnalytics = dynamic(
+  () => import("@/components/dashboard/EnhancedAnalytics").then((mod) => ({ default: mod.EnhancedAnalytics })),
+  { loading: () => <PageSkeleton /> }
+);
+
+const ActivityFeed = dynamic(
+  () => import("@/components/dashboard/ActivityFeed").then((mod) => ({ default: mod.ActivityFeed })),
+  { loading: () => <PageSkeleton /> }
+);
+
 export default async function DashboardPage({
   params,
 }: {
@@ -69,8 +79,14 @@ export default async function DashboardPage({
           <QuickActions />
         </div>
 
-        {/* Recent Listings - Son İlanlar */}
+        {/* Enhanced Analytics - Trend Grafikleri */}
         <div className="mb-8">
+          <EnhancedAnalytics />
+        </div>
+
+        {/* Activity Feed & Recent Listings - Side by Side */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <ActivityFeed />
           <RecentListings />
         </div>
       </div>

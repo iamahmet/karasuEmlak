@@ -1,292 +1,320 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import { useRouter, usePathname } from "@/i18n/routing";
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@karasu/ui";
-import {
-  FileText,
-  Search,
-  Bot,
-  BarChart3,
-  Shield,
-  Settings,
-  User,
-  Clock,
-  Tag,
-} from "lucide-react";
-import { createClient } from "@karasu/lib/supabase/client";
-
-interface GlobalSearchProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
+import { useState, useEffect, useCallback } from "react";
+import { Dialog, DialogContent } from "@karasu/ui";
+import { Input } from "@karasu/ui";
+import { Search, Home, FileText, Newspaper, Settings, Users, Image, TrendingUp, Command } from "lucide-react";
+import { useRouter } from "@/i18n/routing";
+import { cn } from "@karasu/lib";
 
 interface SearchResult {
   id: string;
-  type: "article" | "category" | "user" | "page";
   title: string;
-  description?: string;
-  url: string;
-  icon: any;
-  metadata?: Record<string, any>;
+  description: string;
+  href: string;
+  category: string;
+  icon: React.ComponentType<{ className?: string }>;
+  shortcut?: string;
 }
 
-export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const locale = pathname?.split("/")[1] || "tr";
+interface SearchCategory {
+  id: string;
+  label: string;
+  results: SearchResult[];
+}
+
+interface GlobalSearchProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
+export function GlobalSearch({ open: controlledOpen, onOpenChange }: GlobalSearchProps = {}) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
+  const setOpen = onOpenChange || setInternalOpen;
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<SearchResult[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const router = useRouter();
 
+  // Search results based on query
+  const searchResults: SearchCategory[] = [
+    {
+      id: "pages",
+      label: "Sayfalar",
+      results: [
+        {
+          id: "dashboard",
+          title: "Dashboard",
+          description: "Ana kontrol paneli",
+          href: "/dashboard",
+          category: "Sayfalar",
+          icon: TrendingUp,
+          shortcut: "D",
+        },
+        {
+          id: "listings",
+          title: "İlanlar",
+          description: "İlan yönetimi",
+          href: "/listings",
+          category: "Sayfalar",
+          icon: Home,
+          shortcut: "L",
+        },
+        {
+          id: "articles",
+          title: "Blog Yazıları",
+          description: "Blog içerik yönetimi",
+          href: "/articles",
+          category: "Sayfalar",
+          icon: FileText,
+          shortcut: "A",
+        },
+        {
+          id: "news",
+          title: "Haberler",
+          description: "Haber yönetimi",
+          href: "/news",
+          category: "Sayfalar",
+          icon: Newspaper,
+          shortcut: "N",
+        },
+        {
+          id: "users",
+          title: "Kullanıcılar",
+          description: "Kullanıcı yönetimi",
+          href: "/users",
+          category: "Sayfalar",
+          icon: Users,
+          shortcut: "U",
+        },
+        {
+          id: "media",
+          title: "Medya Kütüphanesi",
+          description: "Görsel ve dosya yönetimi",
+          href: "/media",
+          category: "Sayfalar",
+          icon: Image,
+          shortcut: "M",
+        },
+        {
+          id: "settings",
+          title: "Ayarlar",
+          description: "Sistem ayarları",
+          href: "/settings",
+          category: "Sayfalar",
+          icon: Settings,
+          shortcut: "S",
+        },
+      ],
+    },
+    {
+      id: "actions",
+      label: "Hızlı İşlemler",
+      results: [
+        {
+          id: "new-listing",
+          title: "Yeni İlan Ekle",
+          description: "Yeni emlak ilanı oluştur",
+          href: "/listings/new",
+          category: "İşlemler",
+          icon: Home,
+        },
+        {
+          id: "new-article",
+          title: "Yeni Blog Yazısı",
+          description: "Yeni blog yazısı oluştur",
+          href: "/articles/new",
+          category: "İşlemler",
+          icon: FileText,
+        },
+        {
+          id: "new-news",
+          title: "Yeni Haber",
+          description: "Yeni haber oluştur",
+          href: "/news/new",
+          category: "İşlemler",
+          icon: Newspaper,
+        },
+      ],
+    },
+  ];
+
+  // Filter results based on query
+  const filteredResults = searchResults.map((category) => ({
+    ...category,
+    results: category.results.filter(
+      (result) =>
+        result.title.toLowerCase().includes(query.toLowerCase()) ||
+        result.description.toLowerCase().includes(query.toLowerCase()) ||
+        result.category.toLowerCase().includes(query.toLowerCase())
+    ),
+  })).filter((category) => category.results.length > 0);
+
+  const allResults = filteredResults.flatMap((cat) => cat.results);
+
+  // Keyboard shortcuts
   useEffect(() => {
-    const stored = localStorage.getItem("admin-recent-searches");
-    if (stored) {
-      setRecentSearches(JSON.parse(stored));
-    }
-  }, []);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Cmd+K or Ctrl+K to open
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setOpen(true);
+      }
 
-  useEffect(() => {
-    if (!query || query.length < 2) {
-      setResults([]);
-      return;
-    }
+      // Escape to close
+      if (e.key === "Escape" && open) {
+        setOpen(false);
+        setQuery("");
+        setSelectedIndex(0);
+      }
 
-    const search = async () => {
-      setLoading(true);
-      try {
-        const supabase = createClient();
-        const searchResults: SearchResult[] = [];
-
-        // Search articles
-        const { data: articles } = await supabase
-          .from("articles")
-          .select("id, title, slug, excerpt, created_at, status")
-          .or(`title.ilike.%${query}%,excerpt.ilike.%${query}%`)
-          .limit(5);
-
-        if (articles) {
-          articles.forEach((article) => {
-            searchResults.push({
-              id: article.id,
-              type: "article",
-              title: article.title,
-              description: article.excerpt || `Created ${new Date(article.created_at).toLocaleDateString()}`,
-              url: `/${locale}/seo/content-studio/${article.id}`,
-              icon: FileText,
-              metadata: {
-                published: article.status === 'published',
-                slug: article.slug,
-              },
-            });
-          });
+      // Arrow keys navigation
+      if (open) {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          setSelectedIndex((prev) => (prev < allResults.length - 1 ? prev + 1 : 0));
         }
-
-        // Search categories
-        const { data: categories } = await supabase
-          .from("categories")
-          .select("id, name, slug, description")
-          .ilike("name", `%${query}%`)
-          .limit(3);
-
-        if (categories) {
-          categories.forEach((category) => {
-            searchResults.push({
-              id: category.id,
-              type: "category",
-              title: category.name,
-              description: category.description || `Category: ${category.slug}`,
-              url: `/${locale}/categories/${category.slug}`,
-              icon: Tag,
-              metadata: {
-                slug: category.slug,
-              },
-            });
-          });
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          setSelectedIndex((prev) => (prev > 0 ? prev - 1 : allResults.length - 1));
         }
-
-        // Search users (profiles)
-        const { data: profiles } = await supabase
-          .from("profiles")
-          .select("id, name, email, created_at")
-          .or(`name.ilike.%${query}%,email.ilike.%${query}%`)
-          .limit(3);
-
-        if (profiles) {
-          profiles.forEach((profile) => {
-            searchResults.push({
-              id: profile.id,
-              type: "user",
-              title: profile.name || profile.email,
-              description: profile.email,
-              url: `/${locale}/users/${profile.id}`,
-              icon: User,
-              metadata: {
-                email: profile.email,
-              },
-            });
-          });
+        if (e.key === "Enter" && allResults[selectedIndex]) {
+          e.preventDefault();
+          handleSelect(allResults[selectedIndex]);
         }
-
-        setResults(searchResults);
-      } catch (error) {
-        console.error("Search error:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
-    const debounceTimer = setTimeout(search, 300);
-    return () => clearTimeout(debounceTimer);
-  }, [query, locale]);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open, selectedIndex, allResults]);
 
-  const handleSelect = (result: SearchResult) => {
-    // Save to recent searches
-    const updated = [query, ...recentSearches.filter((s) => s !== query)].slice(0, 5);
-    setRecentSearches(updated);
-    localStorage.setItem("admin-recent-searches", JSON.stringify(updated));
-
-    router.push(result.url);
-    onOpenChange(false);
+  const handleSelect = useCallback((result: SearchResult) => {
+    router.push(result.href);
+    setOpen(false);
     setQuery("");
-  };
-
-  const groupedResults = useMemo(() => {
-    const groups: Record<string, SearchResult[]> = {};
-    results.forEach((result) => {
-      if (!groups[result.type]) {
-        groups[result.type] = [];
-      }
-      groups[result.type].push(result);
-    });
-    return groups;
-  }, [results]);
-
-  const typeLabels: Record<string, string> = {
-    article: "Articles",
-    category: "Categories",
-    user: "Users",
-    page: "Pages",
-  };
+    setSelectedIndex(0);
+  }, [router]);
 
   return (
-    <CommandDialog open={open} onOpenChange={onOpenChange}>
-      <CommandInput
-        placeholder="Search articles, categories, users..."
-        value={query}
-        onValueChange={setQuery}
-        className="h-12 text-sm font-ui"
-      />
-      <CommandList>
-        {loading && (
-          <div className="py-6 text-center text-sm text-design-gray dark:text-gray-400 font-ui">
-            Searching...
+    <>
+      {/* Search Trigger Button */}
+      <button
+        onClick={() => setOpen(true)}
+        className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-background hover:bg-muted transition-colors text-sm text-muted-foreground hover:text-foreground"
+      >
+        <Search className="h-4 w-4" />
+        <span className="hidden lg:inline">Ara...</span>
+        <kbd className="hidden lg:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+          <span className="text-xs">⌘</span>K
+        </kbd>
+      </button>
+
+      {/* Search Dialog */}
+      <Dialog open={open} onOpenChange={(newOpen) => {
+        if (onOpenChange) {
+          onOpenChange(newOpen);
+        } else {
+          setInternalOpen(newOpen);
+        }
+      }}>
+        <DialogContent className="max-w-2xl p-0 gap-0">
+          <div className="flex items-center border-b border-border px-4">
+            <Search className="h-5 w-5 text-muted-foreground mr-3" />
+            <Input
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setSelectedIndex(0);
+              }}
+              placeholder="Sayfalar, işlemler veya komutlar ara..."
+              className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 h-14 text-base"
+              autoFocus
+            />
+            <kbd className="hidden md:inline-flex h-6 select-none items-center gap-1 rounded border bg-muted px-2 font-mono text-xs font-medium text-muted-foreground">
+              ESC
+            </kbd>
           </div>
-        )}
-        {!loading && query.length < 2 && (
-          <div className="py-6 px-4">
-            <div className="text-xs text-design-gray dark:text-gray-400 mb-2 font-ui uppercase tracking-wider">
-              Recent Searches
-            </div>
-            {recentSearches.length > 0 ? (
-              <div className="space-y-1">
-                {recentSearches.map((search, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 cursor-pointer"
-                    onClick={() => setQuery(search)}
-                  >
-                    <Clock className="h-3 w-3 text-design-gray dark:text-gray-400" />
-                    <span className="text-sm font-ui text-design-gray dark:text-gray-400">{search}</span>
-                  </div>
-                ))}
+
+          <div className="max-h-[400px] overflow-y-auto p-2">
+            {allResults.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <Search className="h-12 w-12 text-muted-foreground mb-4 opacity-50" />
+                <p className="text-sm font-medium text-foreground mb-1">Sonuç bulunamadı</p>
+                <p className="text-xs text-muted-foreground">
+                  "{query}" için arama sonucu yok
+                </p>
               </div>
             ) : (
-              <div className="text-sm text-design-gray dark:text-gray-400 font-ui">
-                No recent searches
-              </div>
-            )}
-          </div>
-        )}
-        {!loading && query.length >= 2 && results.length === 0 && (
-          <CommandEmpty>No results found for "{query}"</CommandEmpty>
-        )}
-        {!loading && results.length > 0 && (
-          <>
-            {Object.entries(groupedResults).map(([type, items]) => {
-              const Icon = items[0]?.icon || Search;
-              return (
-                <CommandGroup key={type} heading={typeLabels[type] || type}>
-                  {items.map((result) => {
-                    const ResultIcon = result.icon;
-                    return (
-                      <CommandItem
-                        key={result.id}
-                        onSelect={() => handleSelect(result)}
-                        className="flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-design-light/10 dark:hover:bg-design-light/5 rounded-lg transition-colors"
-                      >
-                        <ResultIcon className="h-4 w-4 text-design-gray dark:text-gray-400" />
-                        <div className="flex-1 min-w-0">
-                          <div className="text-sm font-medium text-design-dark dark:text-white font-ui truncate">
-                            {result.title}
+              filteredResults.map((category) => (
+                <div key={category.id} className="mb-4">
+                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                    {category.label}
+                  </div>
+                  <div className="space-y-1">
+                    {category.results.map((result, index) => {
+                      const globalIndex = allResults.indexOf(result);
+                      const isSelected = globalIndex === selectedIndex;
+                      const Icon = result.icon;
+
+                      return (
+                        <button
+                          key={result.id}
+                          onClick={() => handleSelect(result)}
+                          className={cn(
+                            "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-left",
+                            isSelected
+                              ? "bg-primary/10 text-primary border border-primary/20"
+                              : "hover:bg-muted text-foreground"
+                          )}
+                        >
+                          <div className={cn(
+                            "p-2 rounded-lg",
+                            isSelected ? "bg-primary/20" : "bg-muted"
+                          )}>
+                            <Icon className={cn(
+                              "h-4 w-4",
+                              isSelected ? "text-primary" : "text-muted-foreground"
+                            )} />
                           </div>
-                          {result.description && (
-                            <div className="text-xs text-design-gray dark:text-gray-400 font-ui truncate">
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium text-sm">{result.title}</div>
+                            <div className="text-xs text-muted-foreground truncate">
                               {result.description}
                             </div>
+                          </div>
+                          {result.shortcut && (
+                            <kbd className="hidden md:inline-flex h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                              {result.shortcut}
+                            </kbd>
                           )}
-                        </div>
-                        {result.metadata?.published !== undefined && (
-                          <span
-                            className={`text-[10px] px-2 py-0.5 rounded font-ui font-semibold ${
-                              result.metadata.published
-                                ? "bg-design-light/20 text-design-dark dark:text-design-light"
-                                : "bg-[#E7E7E7] dark:bg-[#062F28] text-design-gray dark:text-gray-400"
-                            }`}
-                          >
-                            {result.metadata.published ? "Published" : "Draft"}
-                          </span>
-                        )}
-                      </CommandItem>
-                    );
-                  })}
-                </CommandGroup>
-              );
-            })}
-          </>
-        )}
-      </CommandList>
-      <div className="border-t border-[#E7E7E7] dark:border-[#062F28] px-3 py-2">
-        <div className="flex items-center justify-between text-xs text-design-gray dark:text-gray-400">
-          <div className="flex items-center gap-4">
-            <kbd className="px-2 py-1 bg-[#E7E7E7] dark:bg-[#062F28] rounded text-xs font-mono">
-              ↑↓
-            </kbd>
-            <span>Navigate</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
-          <div className="flex items-center gap-4">
-            <kbd className="px-2 py-1 bg-[#E7E7E7] dark:bg-[#062F28] rounded text-xs font-mono">
-              Enter
-            </kbd>
-            <span>Select</span>
+
+          {/* Footer */}
+          <div className="border-t border-border px-4 py-2 flex items-center justify-between text-xs text-muted-foreground">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-1">
+                <kbd className="h-5 px-1.5 rounded border bg-muted font-mono">↑↓</kbd>
+                <span>Navigate</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <kbd className="h-5 px-1.5 rounded border bg-muted font-mono">↵</kbd>
+                <span>Select</span>
+              </div>
+            </div>
+            <div className="text-muted-foreground">
+              {allResults.length} sonuç
+            </div>
           </div>
-          <div className="flex items-center gap-4">
-            <kbd className="px-2 py-1 bg-[#E7E7E7] dark:bg-[#062F28] rounded text-xs font-mono">
-              Esc
-            </kbd>
-            <span>Close</span>
-          </div>
-        </div>
-      </div>
-    </CommandDialog>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
-
