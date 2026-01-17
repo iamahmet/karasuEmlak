@@ -43,56 +43,61 @@ const WeatherWidget = dynamicImport(() => import('@/components/services/WeatherW
   loading: () => <div className="h-48 bg-white rounded-lg animate-pulse" />,
 });
 
-export async function generateStaticParams() {
-  return routing.locales.map((locale) => ({
-    locale,
-  }));
-}
+// generateStaticParams removed - using force-dynamic instead
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const canonicalPath = locale === routing.defaultLocale ? '/sapanca' : `/${locale}/sapanca`;
-  
-  return {
-    title: 'Sapanca Bungalov & Emlak | Satılık Daire, Yazlık, Günlük Kiralık | Sapanca, Sakarya',
-    description: 'Sapanca\'da bungalov, satılık daire, yazlık ve günlük kiralık seçenekleri. Sapanca Gölü çevresinde emlak fiyatları, yatırım fırsatları ve bölge rehberi.',
-    keywords: [
-      'sapanca bungalov',
-      'sapanca satılık daire',
-      'sapanca satılık yazlık',
-      'sapanca satılık bungalov',
-      'sapanca günlük kiralık',
-      'sapanca emlak',
-      'sapanca gölü',
-      'sakarya sapanca emlak',
-      'sapanca yatırım',
-      'sapanca emlak fiyatları',
-      'sapanca kiralık bungalov',
-      'sapanca tatil',
-      'sapanca gezilecek yerler',
-      'sapanca emlak danışmanlığı',
-    ],
-    alternates: {
-      canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
-        'tr': '/sapanca',
-        'en': '/en/sapanca',
-        'et': '/et/sapanca',
-        'ru': '/ru/sapanca',
-        'ar': '/ar/sapanca',
+  try {
+    const { locale } = await params;
+    const canonicalPath = locale === routing.defaultLocale ? '/sapanca' : `/${locale}/sapanca`;
+    
+    return {
+      title: 'Sapanca Bungalov & Emlak | Satılık Daire, Yazlık, Günlük Kiralık | Sapanca, Sakarya',
+      description: 'Sapanca\'da bungalov, satılık daire, yazlık ve günlük kiralık seçenekleri. Sapanca Gölü çevresinde emlak fiyatları, yatırım fırsatları ve bölge rehberi.',
+      keywords: [
+        'sapanca bungalov',
+        'sapanca satılık daire',
+        'sapanca satılık yazlık',
+        'sapanca satılık bungalov',
+        'sapanca günlük kiralık',
+        'sapanca emlak',
+        'sapanca gölü',
+        'sakarya sapanca emlak',
+        'sapanca yatırım',
+        'sapanca emlak fiyatları',
+        'sapanca kiralık bungalov',
+        'sapanca tatil',
+        'sapanca gezilecek yerler',
+        'sapanca emlak danışmanlığı',
+      ],
+      alternates: {
+        canonical: `${siteConfig.url}${canonicalPath}`,
+        languages: {
+          'tr': '/sapanca',
+          'en': '/en/sapanca',
+          'et': '/et/sapanca',
+          'ru': '/ru/sapanca',
+          'ar': '/ar/sapanca',
+        },
       },
-    },
-    openGraph: {
+      openGraph: {
+        title: 'Sapanca Bungalov & Emlak | Satılık Daire, Yazlık, Günlük Kiralık',
+        description: 'Sapanca\'da bungalov, satılık daire, yazlık ve günlük kiralık seçenekleri. Sapanca Gölü çevresinde emlak fırsatları.',
+        url: `${siteConfig.url}${canonicalPath}`,
+        type: 'website',
+      },
+    };
+  } catch (error) {
+    console.error('[SapancaPage] Error generating metadata:', error);
+    // Return fallback metadata
+    return {
       title: 'Sapanca Bungalov & Emlak | Satılık Daire, Yazlık, Günlük Kiralık',
-      description: 'Sapanca\'da bungalov, satılık daire, yazlık ve günlük kiralık seçenekleri. Sapanca Gölü çevresinde emlak fırsatları.',
-      url: `${siteConfig.url}${canonicalPath}`,
-      type: 'website',
-    },
-  };
+      description: 'Sapanca\'da bungalov, satılık daire, yazlık ve günlük kiralık seçenekleri.',
+    };
+  }
 }
 
 const sapancaFAQs = [
@@ -285,14 +290,14 @@ export default async function SapancaPage({
       {/* AI Overviews: Kısa Cevap Block - Modern Design */}
       <section className="py-8 bg-white dark:bg-gray-900 border-l-4 border-primary dark:border-primary-light rounded-r-lg mb-8">
         <div className="container mx-auto px-4 max-w-4xl">
-          <ScrollReveal direction="up" delay={0}>
+          <div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Kısa Cevap</h3>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
               <strong>Sapanca</strong>, Sakarya'nın göl kasabası olarak bungalov, satılık daire, yazlık ve günlük kiralık seçenekleri ile dikkat çeker. 
               Sapanca Gölü çevresinde doğal güzellikler, yürüyüş yolları ve aktivite alanları bulunmaktadır. İstanbul'a yakınlığı, 
               turizm potansiyeli ve yatırım fırsatları ile hem sürekli oturum hem de yatırım amaçlı tercih edilmektedir.
             </p>
-          </ScrollReveal>
+          </div>
         </div>
       </section>
 
