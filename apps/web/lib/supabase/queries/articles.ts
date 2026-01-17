@@ -51,45 +51,52 @@ export async function getArticles(limit = 50, offset = 0): Promise<{ articles: A
 export async function getArticleBySlug(slug: string): Promise<(Article & { author_data?: any }) | null> {
   const supabase = createServiceClient();
 
+  // First, get the article without foreign key join (to avoid PGRST200 errors)
   const { data, error } = await supabase
     .from('articles')
-    .select(`
-      *,
-      primary_author:authors!articles_primary_author_id_fkey(
-        id,
-        slug,
-        full_name,
-        title,
-        bio,
-        avatar:media_assets!authors_avatar_media_id_fkey(secure_url, alt_text),
-        social_json
-      )
-    `)
+    .select('*')
     .eq('slug', slug)
     .eq('status', 'published')
     .single();
 
   if (error) {
-    console.error('Error fetching article:', error);
+    // Only log non-404 errors (PGRST116 is "not found")
+    if (error.code !== 'PGRST116') {
+      console.error('Error fetching article:', error);
+    }
     return null;
   }
 
   const article = data as any;
   
-  // Map author_data if exists
-  if (article.primary_author) {
-    article.author_data = {
-      id: article.primary_author.id,
-      slug: article.primary_author.slug,
-      full_name: article.primary_author.full_name,
-      title: article.primary_author.title,
-      bio: article.primary_author.bio,
-      avatar: article.primary_author.avatar,
-      social_json: article.primary_author.social_json,
-    };
-    // Keep legacy author field for backward compatibility
-    if (!article.author) {
-      article.author = article.primary_author.full_name;
+  // Try to fetch author separately if primary_author_id exists
+  if (article.primary_author_id) {
+    try {
+      const { data: authorData } = await supabase
+        .from('authors')
+        .select('id, slug, full_name, title, bio, social_json')
+        .eq('id', article.primary_author_id)
+        .single();
+      
+      if (authorData) {
+        article.author_data = {
+          id: authorData.id,
+          slug: authorData.slug,
+          full_name: authorData.full_name,
+          title: authorData.title,
+          bio: authorData.bio,
+          social_json: authorData.social_json,
+        };
+        // Keep legacy author field for backward compatibility
+        if (!article.author) {
+          article.author = authorData.full_name;
+        }
+      }
+    } catch (authorError) {
+      // Silently fail - author data is optional
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Could not fetch author data:', authorError);
+      }
     }
   }
 

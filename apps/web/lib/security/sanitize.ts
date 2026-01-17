@@ -17,10 +17,13 @@ if (typeof window === 'undefined') {
     const { default: DOMPurify } = require('dompurify');
     const dom = new JSDOM('<!DOCTYPE html>');
     DOMPurifyServer = DOMPurify(dom.window as any);
-  } catch (error) {
-    // JSDOM not available - this should not happen in production
-    // But if it does, we'll return HTML as-is to avoid hydration mismatch
-    console.warn('JSDOM not available for server-side sanitization:', error);
+  } catch (error: any) {
+    // JSDOM not available during build - this is expected in some Next.js build contexts
+    // Silently fail - sanitization will happen on client side if needed
+    // Only log in development for debugging
+    if (process.env.NODE_ENV === 'development' && process.env.VERBOSE_SANITIZE === 'true') {
+      console.warn('JSDOM not available for server-side sanitization:', error?.message || error);
+    }
   }
 }
 
