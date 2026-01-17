@@ -4,7 +4,6 @@ import { memo, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { ArticleInsights } from './ArticleInsights';
 import {
   ArrowRight,
   MapPin,
@@ -139,17 +138,6 @@ function ArticleSidebarComponent({
             </div>
           </div>
         </div>
-
-        {/* Article Insights - Content Quality (Client-side only) */}
-        <Suspense fallback={null}>
-          <ArticleInsights
-            content={article.content}
-            title={article.title}
-            readingTime={readingTime}
-            wordCount={wordCount}
-            keywords={[]}
-          />
-        </Suspense>
 
         {/* Reliability Card */}
         <div className="p-6 bg-gradient-to-br from-emerald-50/50 via-white to-emerald-50/30 dark:from-emerald-900/10 dark:via-gray-800 dark:to-emerald-900/10 border-2 border-emerald-200/50 dark:border-emerald-800/50 rounded-2xl shadow-sm">

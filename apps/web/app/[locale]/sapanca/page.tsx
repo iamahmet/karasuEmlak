@@ -127,10 +127,11 @@ export default async function SapancaPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
+  // Resolve params first (outside try-catch to avoid re-awaiting in catch)
+  const { locale } = await params;
+  const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+  
   try {
-    const { locale } = await params;
-    const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
-    
     // Fetch real data with timeout (3s max) - graceful degradation
     const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
     const statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
@@ -139,26 +140,60 @@ export default async function SapancaPage({
     const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
     const featuredListings = (featuredListingsResult || []) as Awaited<ReturnType<typeof getFeaturedListings>>;
 
-  // Filter listings for Sapanca
-  const sapancaListings = featuredListings.filter(l => 
-    l.location_district?.toLowerCase().includes('sapanca') || 
-    l.location_neighborhood?.toLowerCase().includes('sapanca')
-  );
+    // Filter listings for Sapanca
+    const sapancaListings = featuredListings.filter(l => 
+      l.location_district?.toLowerCase().includes('sapanca') || 
+      l.location_neighborhood?.toLowerCase().includes('sapanca')
+    );
 
-  // Fetch Sapanca-related blog articles and cornerstone content
-  let sapancaArticles: any[] = [];
-  let sapancaCornerstone: any[] = [];
-  
-  try {
-    const allArticlesResult = await withTimeout(getArticles(50, 0), 3000, { articles: [], total: 0 });
-    const allArticles = (allArticlesResult?.articles || []);
+    // Fetch Sapanca-related blog articles and cornerstone content
+    let sapancaArticles: any[] = [];
+    let sapancaCornerstone: any[] = [];
+    
+    try {
+      const allArticlesResult = await withTimeout(getArticles(50, 0), 3000, { articles: [], total: 0 });
+      // Safely process articles to handle malformed JSON
+      const allArticles = (allArticlesResult?.articles || []).map((article: any) => {
+        // Safely handle keywords field (can be array, string, or malformed JSON)
+        if (article.keywords && typeof article.keywords === 'string') {
+          try {
+            const parsed = JSON.parse(article.keywords);
+            article.keywords = Array.isArray(parsed) ? parsed : [];
+          } catch {
+            // If not valid JSON, try comma-separated
+            article.keywords = article.keywords.split(',').map((k: string) => k.trim()).filter(Boolean);
+          }
+        }
+        // Ensure keywords is always an array
+        if (!Array.isArray(article.keywords)) {
+          article.keywords = [];
+        }
+        return article;
+      });
     
     // Filter articles related to Sapanca (by title, content, or keywords)
     const sapancaRelated = allArticles.filter(article => {
       const titleLower = (article.title || '').toLowerCase();
       const contentLower = (article.content || '').toLowerCase();
       const excerptLower = (article.excerpt || '').toLowerCase();
-      const keywords = (article.keywords || []).join(' ').toLowerCase();
+      
+      // Safely handle keywords (can be array, string, or JSON string)
+      let keywords = '';
+      try {
+        if (Array.isArray(article.keywords)) {
+          keywords = article.keywords.join(' ').toLowerCase();
+        } else if (typeof article.keywords === 'string') {
+          try {
+            const parsed = JSON.parse(article.keywords);
+            keywords = Array.isArray(parsed) ? parsed.join(' ').toLowerCase() : article.keywords.toLowerCase();
+          } catch {
+            keywords = article.keywords.toLowerCase();
+          }
+        }
+      } catch {
+        keywords = '';
+      }
+      
       const categoryLower = (article.category || '').toLowerCase();
       
       return (
@@ -984,10 +1019,8 @@ export default async function SapancaPage({
   );
   } catch (error: any) {
     console.error('[SapancaPage] Fatal error:', error);
-    const { locale } = await params;
-    const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
     
-    // Return minimal fallback UI
+    // Return minimal fallback UI (locale and basePath already resolved above)
     return (
       <>
         <Breadcrumbs
