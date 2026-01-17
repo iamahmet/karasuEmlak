@@ -23,18 +23,265 @@
 import { createClient } from "@supabase/supabase-js";
 import * as dotenv from "dotenv";
 import { resolve } from "path";
-// Import Gemini functions - use dynamic import to handle path resolution
-let checkContentQualityWithGemini: any;
-let improveContentWithGemini: any;
+// Import Gemini functions directly - inline implementation to avoid path alias issues
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from 'openai';
 
-async function loadGeminiFunctions() {
+interface QualityAnalysis {
+  score: number;
+  passed: boolean;
+  issues: Array<{
+    type: string;
+    severity: 'low' | 'medium' | 'high';
+    message: string;
+    suggestion: string;
+  }>;
+  suggestions: string[];
+  aiGenerated: boolean;
+  humanLikeScore: number;
+  seoScore: number;
+}
+
+interface ContentImprovement {
+  improved: string;
+  score: {
+    before: number;
+    after: number;
+    improvement: number;
+  };
+  changes: Array<{
+    type: 'replaced' | 'added' | 'removed';
+    improved: string;
+    reason: string;
+  }>;
+}
+
+/**
+ * Check content quality using Gemini
+ */
+async function checkContentQualityWithGemini(
+  content: string,
+  title: string
+): Promise<QualityAnalysis> {
   try {
-    const geminiModule = await import("../../apps/admin/lib/services/gemini");
-    checkContentQualityWithGemini = geminiModule.checkContentQualityWithGemini;
-    improveContentWithGemini = geminiModule.improveContentWithGemini;
-  } catch (error) {
-    console.error("Error loading Gemini functions:", error);
-    throw new Error("Failed to load Gemini functions. Make sure you're running from project root.");
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error('GEMINI_API_KEY is not set');
+    }
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+    const prompt = `Analyze this Turkish real estate content for quality. Return JSON:
+{
+  "score": 0-100,
+  "passed": true/false,
+  "issues": [{"type": "...", "severity": "low|medium|high", "message": "...", "suggestion": "..."}],
+  "suggestions": ["..."],
+  "aiGenerated": true/false,
+  "humanLikeScore": 0-100,
+  "seoScore": 0-100
+}
+
+Title: ${title}
+Content: ${content.substring(0, 3000)}${content.length > 3000 ? '...' : ''}`;
+
+    const result = await model.generateContent(prompt);
+    const response = result.response;
+    const text = response.text();
+    
+    // Extract JSON from response
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      throw new Error('No JSON found in response');
+    }
+
+    const parsed = JSON.parse(jsonMatch[0]);
+    return {
+      score: Math.max(0, Math.min(100, parsed.score || 0)),
+      passed: parsed.passed !== false && (parsed.score || 0) >= 70,
+      issues: Array.isArray(parsed.issues) ? parsed.issues : [],
+      suggestions: Array.isArray(parsed.suggestions) ? parsed.suggestions : [],
+      aiGenerated: parsed.aiGenerated === true,
+      humanLikeScore: Math.max(0, Math.min(100, parsed.humanLikeScore || 0)),
+      seoScore: Math.max(0, Math.min(100, parsed.seoScore || 0)),
+    };
+  } catch (error: any) {
+    console.error('[Gemini] Error checking content quality:', error.message);
+    // Fallback to OpenAI
+    return checkContentQualityWithOpenAI(content, title);
+  }
+}
+
+/**
+ * Check content quality using OpenAI (fallback)
+ */
+async function checkContentQualityWithOpenAI(
+  content: string,
+  title: string
+): Promise<QualityAnalysis> {
+  try {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error('OPENAI_API_KEY is not set');
+    }
+
+    const openai = new OpenAI({ apiKey });
+
+    const prompt = `Analyze this Turkish real estate content for quality. Return JSON:
+{
+  "score": 0-100,
+  "passed": true/false,
+  "issues": [{"type": "...", "severity": "low|medium|high", "message": "...", "suggestion": "..."}],
+  "suggestions": ["..."],
+  "aiGenerated": true/false,
+  "humanLikeScore": 0-100,
+  "seoScore": 0-100
+}
+
+Title: ${title}
+Content: ${content.substring(0, 3000)}${content.length > 3000 ? '...' : ''}`;
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: 'You are a content quality analyzer. Return only valid JSON.' },
+        { role: 'user', content: prompt },
+      ],
+      temperature: 0.3,
+      max_tokens: 1500,
+      response_format: { type: 'json_object' },
+    });
+
+    const responseText = completion.choices[0]?.message?.content || '{}';
+    const parsed = JSON.parse(responseText);
+
+    return {
+      score: Math.max(0, Math.min(100, parsed.score || 0)),
+      passed: parsed.passed !== false && (parsed.score || 0) >= 70,
+      issues: Array.isArray(parsed.issues) ? parsed.issues : [],
+      suggestions: Array.isArray(parsed.suggestions) ? parsed.suggestions : [],
+      aiGenerated: parsed.aiGenerated === true,
+      humanLikeScore: Math.max(0, Math.min(100, parsed.humanLikeScore || 0)),
+      seoScore: Math.max(0, Math.min(100, parsed.seoScore || 0)),
+    };
+  } catch (error: any) {
+    console.error('[OpenAI] Error checking content quality:', error.message);
+    throw error;
+  }
+}
+
+/**
+ * Improve content using Gemini
+ */
+async function improveContentWithGemini(
+  content: string,
+  title: string,
+  qualityAnalysis: QualityAnalysis
+): Promise<ContentImprovement> {
+  try {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error('GEMINI_API_KEY is not set');
+    }
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+    const prompt = `Improve this Turkish real estate content. Make it more natural, readable, and human-like.
+
+Title: ${title}
+Current Score: ${qualityAnalysis.score}/100
+Issues: ${qualityAnalysis.issues.map(i => i.message).join(', ')}
+Suggestions: ${qualityAnalysis.suggestions.join(', ')}
+
+Original Content:
+${content}
+
+Return ONLY the improved content. No explanations, no JSON, just the improved text. Keep HTML tags if present.`;
+
+    const result = await model.generateContent(prompt);
+    const improved = result.response.text().trim();
+
+    const estimatedNewScore = Math.min(100, qualityAnalysis.score + 20);
+
+    return {
+      improved,
+      score: {
+        before: qualityAnalysis.score,
+        after: estimatedNewScore,
+        improvement: estimatedNewScore - qualityAnalysis.score,
+      },
+      changes: qualityAnalysis.issues.map(issue => ({
+        type: 'replaced' as const,
+        improved: issue.suggestion,
+        reason: issue.message,
+      })),
+    };
+  } catch (error: any) {
+    console.error('[Gemini] Error improving content:', error.message);
+    // Fallback to OpenAI
+    return improveContentWithOpenAI(content, title, qualityAnalysis);
+  }
+}
+
+/**
+ * Improve content using OpenAI (fallback)
+ */
+async function improveContentWithOpenAI(
+  content: string,
+  title: string,
+  qualityAnalysis: QualityAnalysis
+): Promise<ContentImprovement> {
+  try {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error('OPENAI_API_KEY is not set');
+    }
+
+    const openai = new OpenAI({ apiKey });
+
+    const prompt = `Improve this Turkish real estate content. Make it more natural, readable, and human-like.
+
+Title: ${title}
+Current Score: ${qualityAnalysis.score}/100
+Issues: ${qualityAnalysis.issues.map(i => i.message).join(', ')}
+Suggestions: ${qualityAnalysis.suggestions.join(', ')}
+
+Original Content:
+${content}
+
+Return ONLY the improved content. No explanations, no JSON, just the improved text. Keep HTML tags if present.`;
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: 'You are a content editor. Return only the improved content, no explanations.' },
+        { role: 'user', content: prompt },
+      ],
+      temperature: 0.7,
+      max_tokens: 3500,
+    });
+
+    const improved = completion.choices[0]?.message?.content?.trim() || content;
+    const estimatedNewScore = Math.min(100, qualityAnalysis.score + 20);
+
+    return {
+      improved,
+      score: {
+        before: qualityAnalysis.score,
+        after: estimatedNewScore,
+        improvement: estimatedNewScore - qualityAnalysis.score,
+      },
+      changes: qualityAnalysis.issues.map(issue => ({
+        type: 'replaced' as const,
+        improved: issue.suggestion,
+        reason: issue.message,
+      })),
+    };
+  } catch (error: any) {
+    console.error('[OpenAI] Error improving content:', error.message);
+    throw error;
   }
 }
 
@@ -81,14 +328,14 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 // Parse command line arguments
 const args = process.argv.slice(2);
 const isDryRun = args.includes("--dry-run");
-const limitArg = args.find(arg => arg.startsWith("--limit="));
-const limit = limitArg ? parseInt(limitArg.split("=")[1]) : undefined;
-const typeArg = args.find(arg => arg.startsWith("--type="));
-const typeFilter = typeArg ? typeArg.split("=")[1] : undefined;
-const minScoreArg = args.find(arg => arg.startsWith("--min-score="));
-const minScore = minScoreArg ? parseInt(minScoreArg.split("=")[1]) : 70;
-const delayArg = args.find(arg => arg.startsWith("--delay="));
-const delay = delayArg ? parseInt(delayArg.split("=")[1]) : 2000;
+const limitArg = args.find(arg => arg.startsWith("--limit=")) || args.find((arg, i) => args[i-1] === "--limit");
+const limit = limitArg ? parseInt(limitArg.includes("=") ? limitArg.split("=")[1] : limitArg) : (args.includes("--limit") ? parseInt(args[args.indexOf("--limit") + 1]) || undefined : undefined);
+const typeArg = args.find(arg => arg.startsWith("--type=")) || args.find((arg, i) => args[i-1] === "--type");
+const typeFilter = typeArg ? (typeArg.includes("=") ? typeArg.split("=")[1] : typeArg) : (args.includes("--type") ? args[args.indexOf("--type") + 1] : undefined);
+const minScoreArg = args.find(arg => arg.startsWith("--min-score=")) || args.find((arg, i) => args[i-1] === "--min-score");
+const minScore = minScoreArg ? parseInt(minScoreArg.includes("=") ? minScoreArg.split("=")[1] : minScoreArg) : (args.includes("--min-score") ? parseInt(args[args.indexOf("--min-score") + 1]) || 70 : 70);
+const delayArg = args.find(arg => arg.startsWith("--delay=")) || args.find((arg, i) => args[i-1] === "--delay");
+const delay = delayArg ? parseInt(delayArg.includes("=") ? delayArg.split("=")[1] : delayArg) : (args.includes("--delay") ? parseInt(args[args.indexOf("--delay") + 1]) || 2000 : 2000);
 
 interface ContentItem {
   id: string;
@@ -312,8 +559,6 @@ async function improveContentItem(
  * Main function
  */
 async function main() {
-  // Load Gemini functions
-  await loadGeminiFunctions();
   console.log("🚀 Batch Content Improvement Script");
   console.log("=" .repeat(60));
   console.log(`Mode: ${isDryRun ? "🔍 DRY RUN (no changes will be saved)" : "💾 LIVE (changes will be saved)"}`);
