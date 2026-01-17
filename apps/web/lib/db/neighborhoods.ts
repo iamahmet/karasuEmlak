@@ -37,15 +37,16 @@ export interface NeighborhoodFilters {
 }
 
 /**
- * Get neighborhoods (anon server client - published only)
- * Used in server components, so uses createAnonServerClient()
+ * Get neighborhoods (service client - published only, static-safe)
+ * Uses service client to avoid cookies dependency for static generation
+ * Still filters to published only for public access
  */
 export async function getNeighborhoods(
   filters?: NeighborhoodFilters,
   limit = 100,
   offset = 0
 ): Promise<{ neighborhoods: Neighborhood[]; total: number }> {
-  const supabase = await createAnonServerClient();
+  const supabase = createServiceClient();
   return getNeighborhoodsWithClient(supabase, filters, limit, offset, true);
 }
 
