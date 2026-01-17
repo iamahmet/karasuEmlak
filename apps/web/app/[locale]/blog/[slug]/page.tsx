@@ -29,6 +29,7 @@ import {
   generateWebPageSchema,
   generateRelatedArticlesSchema,
 } from '@/lib/seo/blog-structured-data';
+import { getLastModified, generateLastModifiedMeta } from '@/lib/seo/content-freshness';
 
 // Critical components - Static imports for above-the-fold content
 import { ReadingProgress } from '@/components/blog/ReadingProgress';
@@ -136,11 +137,20 @@ export async function generateMetadata({
   
   const author = article.author || 'Karasu Emlak';
 
+  // Get lastModified date for content freshness
+  const lastModified = await getLastModified(
+    'article',
+    slug,
+    article.updated_at || article.published_at
+  );
+  const lastModifiedMeta = generateLastModifiedMeta(lastModified);
+
   return {
     title: article.title, // Template will add site name automatically
     description,
     keywords,
     authors: [{ name: author }],
+    ...lastModifiedMeta,
     alternates: {
       canonical: articleUrl,
       languages: {

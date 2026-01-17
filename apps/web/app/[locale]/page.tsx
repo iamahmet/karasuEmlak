@@ -117,6 +117,14 @@ const SeparateFeaturedListings = dynamicImport(() => import('@/components/home/S
   loading: () => <div className="h-96 bg-white animate-pulse" />,
 });
 
+const RecentListingsSection = dynamicImport(() => import('@/components/home/RecentListingsSection').then(mod => ({ default: mod.RecentListingsSection })), {
+  loading: () => <div className="h-96 bg-white animate-pulse" />,
+});
+
+const HomepageInternalLinks = dynamicImport(() => import('@/components/seo/HomepageInternalLinks').then(mod => ({ default: mod.HomepageInternalLinks })), {
+  loading: () => <div className="h-64 bg-gray-50 animate-pulse" />,
+});
+
 // Removed: NeighborhoodsGuideSection (consolidated into NeighborhoodsSection)
 const CurrentPricesSection = dynamicImport(() => import('@/components/home/CurrentPricesSection').then(mod => ({ default: mod.CurrentPricesSection })), {
   loading: () => <div className="h-96 bg-white animate-pulse" />,
@@ -332,6 +340,14 @@ export default async function HomePage({
       {/* Premium Hero Section */}
       <PremiumHeroSection basePath={basePath} />
 
+      {/* Son Eklenen İlanlar - Hero Section'ın Hemen Altında */}
+      <SectionErrorBoundary sectionName="Son Eklenen İlanlar">
+        <RecentListingsSection 
+          recentListings={recentListings}
+          basePath={basePath} 
+        />
+      </SectionErrorBoundary>
+
       {/* Compact Stats Section */}
       <CompactStatsSection />
 
@@ -346,7 +362,6 @@ export default async function HomePage({
         <SeparateFeaturedListings 
           satilikListings={satilikListings} 
           kiralikListings={kiralikListings}
-          recentListings={recentListings}
           basePath={basePath} 
         />
       </SectionErrorBoundary>
@@ -734,6 +749,11 @@ export default async function HomePage({
       {/* SEO Content Section - Rich Text Content */}
       <SectionErrorBoundary sectionName="SEO İçerik">
         <SEOContentSection basePath={basePath} />
+      </SectionErrorBoundary>
+
+      {/* SEO-Optimized Internal Links - Topic Clusters */}
+      <SectionErrorBoundary sectionName="Internal Links">
+        <HomepageInternalLinks basePath={basePath} />
       </SectionErrorBoundary>
     </div>
     );

@@ -22,6 +22,7 @@ const PerformanceMonitor = dynamic(() => import("@/components/analytics/Performa
 import { ClientOnlyComponents } from "@/components/layout/ClientOnlyComponents";
 import { getCachedOrganizationSchema } from "@/lib/seo/structured-data-cache";
 import { generateRealEstateAgentLocalSchema } from "@/lib/seo/local-seo-schemas";
+import { generateGoogleBusinessProfileSchema } from "@/lib/seo/local-seo-google-business";
 import { SkipToContent } from "@/components/accessibility/SkipToContent";
 import SkipLinks from "@/components/accessibility/SkipLinks";
 import Announcer from "@/components/accessibility/Announcer";
@@ -212,22 +213,29 @@ export default async function LocaleLayout({
     const nonce = await getNonce();
 
     // Generate comprehensive RealEstateAgent schema with ServiceArea
-    let realEstateAgentSchema = null; // Temporarily disabled to debug JSON error
+    let realEstateAgentSchema = null;
+    let googleBusinessSchema = null;
+    
     try {
-      // realEstateAgentSchema = generateRealEstateAgentLocalSchema({
-      //   includeRating: true,
-      //   includeServices: true,
-      //   includeAreaServed: true, // This also includes serviceArea
-      // });
+      realEstateAgentSchema = generateRealEstateAgentLocalSchema({
+        includeRating: true,
+        includeServices: true,
+        includeAreaServed: true,
+      });
+      
+      // Generate Google Business Profile schema for Local SEO
+      googleBusinessSchema = generateGoogleBusinessProfileSchema();
     } catch (error) {
-      console.error('Error generating real estate agent schema:', error);
+      console.error('Error generating SEO schemas:', error);
       realEstateAgentSchema = null;
+      googleBusinessSchema = null;
     }
 
     return (
       <div className="antialiased overflow-x-hidden w-full">
         {/* Structured Data - Rendered in body (Next.js handles head automatically) */}
         {realEstateAgentSchema && <StructuredData data={realEstateAgentSchema} />}
+        {googleBusinessSchema && <StructuredData data={googleBusinessSchema} />}
         <IntlProvider locale={locale} messages={messages}>
           <CriticalResourcesLoader />
           <SkipToContent />

@@ -94,6 +94,18 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
+    // Core Web Vitals optimizations
+    optimizeCss: true,
+    // Font optimization
+    fontLoaders: [
+      { loader: '@next/font/google', options: { subsets: ['latin'] } },
+    ],
+  },
+  
+  // Core Web Vitals: LCP optimization
+  // Preload critical resources
+  async rewrites() {
+    return [];
   },
   
   // Headers for performance

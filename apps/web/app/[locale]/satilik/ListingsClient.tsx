@@ -25,6 +25,7 @@ import { PullToRefresh } from '@/components/mobile/PullToRefresh';
 import { hapticButtonPress, hapticSuccess } from '@/lib/mobile/haptics';
 import { InfiniteScrollListings } from '@/components/listings/InfiniteScrollListings';
 import { SwipeableListingCard } from '@/components/listings/SwipeableListingCard';
+import { formatLocation, formatNeighborhoodName } from '@/lib/utils/format-neighborhood';
 
 // Lazy load map component
 const InteractiveMap = dynamic(() => import('@/components/map/InteractiveMap').then(mod => ({ default: mod.InteractiveMap })), {
@@ -161,7 +162,7 @@ export function ListingsClient({
           </div>
           <p className="text-[15px] text-slate-600 mb-4 flex items-center gap-2 font-medium tracking-[-0.011em]">
             <MapPin className="h-4 w-4 flex-shrink-0 text-slate-400" strokeWidth={2} />
-            {listing.location_neighborhood}, {listing.location_district}
+            {formatLocation(listing.location_neighborhood, listing.location_district)}
           </p>
           {listing.features.sizeM2 && (
             <div className="flex items-center gap-5 text-[13px] text-slate-600 mb-6 pb-5 border-b border-slate-100">
@@ -191,7 +192,7 @@ export function ListingsClient({
         <Link 
           href={`${basePath}/ilan/${listing.slug}`}
           className="absolute inset-0 z-10 touch-manipulation"
-          aria-label={`${listing.title} - ${listing.location_neighborhood}, ${listing.location_district}`}
+          aria-label={`${listing.title} - ${formatLocation(listing.location_neighborhood, listing.location_district)}`}
           onClick={() => trackListingClick(listing.id, listing.title, 'card')}
           prefetch={true}
           style={{ touchAction: 'manipulation' }}
@@ -449,7 +450,7 @@ export function ListingsClient({
                               try {
                                 await navigator.share({
                                   title: listing.title,
-                                  text: `${listing.title} - ${listing.location_neighborhood}`,
+                                  text: `${listing.title} - ${formatNeighborhoodName(listing.location_neighborhood)}`,
                                   url: `${basePath}/ilan/${listing.slug}`,
                                 });
                                 hapticSuccess();
@@ -488,7 +489,7 @@ export function ListingsClient({
                                 try {
                                   await navigator.share({
                                     title: listing.title,
-                                    text: `${listing.title} - ${listing.location_neighborhood}`,
+                                    text: `${listing.title} - ${formatNeighborhoodName(listing.location_neighborhood)}`,
                                     url: `${basePath}/ilan/${listing.slug}`,
                                   });
                                   hapticSuccess();
@@ -591,7 +592,7 @@ export function ListingsClient({
                             </div>
                             <p className="text-[15px] text-slate-600 mb-4 flex items-center gap-2 font-medium tracking-[-0.011em]">
                               <MapPin className="h-4 w-4 flex-shrink-0 text-slate-400" strokeWidth={2} />
-                              {listing.location_neighborhood}, {listing.location_district}
+                              {formatLocation(listing.location_neighborhood, listing.location_district)}
                             </p>
                             {listing.features.sizeM2 && (
                               <div className="flex items-center gap-5 text-[13px] text-slate-600 mb-6 pb-5 border-b border-slate-100">

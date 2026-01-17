@@ -11,6 +11,7 @@ import type { Listing } from '@/lib/supabase/queries';
 import { getPropertyPlaceholder } from '@/lib/utils/placeholder-images';
 import { generatePropertyImageAlt } from '@/lib/seo/image-alt-generator';
 import { trackInternalLink } from '@/lib/analytics/link-tracking';
+import { formatNeighborhoodName, formatLocation } from '@/lib/utils/format-neighborhood';
 
 interface ListingCardProps {
   listing: Listing;
@@ -41,7 +42,8 @@ function ListingCardComponent({ listing, viewMode = 'grid', basePath, priority =
   }, listing.title);
 
   const listingUrl = `${basePath}/ilan/${listing.slug}`;
-  const ariaLabel = `${listing.title} - ${listing.location_neighborhood}, ${listing.location_district}${listing.price_amount ? ` - ₺${new Intl.NumberFormat('tr-TR').format(Number(listing.price_amount))}` : ''}`;
+  const formattedLocation = formatLocation(listing.location_neighborhood, listing.location_district);
+  const ariaLabel = `${listing.title} - ${formattedLocation}${listing.price_amount ? ` - ₺${new Intl.NumberFormat('tr-TR').format(Number(listing.price_amount))}` : ''}`;
 
   const handleLinkClick = () => {
     trackInternalLink(listingUrl, listing.title, 'Listings', undefined);
@@ -102,7 +104,7 @@ function ListingCardComponent({ listing, viewMode = 'grid', basePath, priority =
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 flex items-center gap-1.5 font-medium">
               <MapPin className="h-4 w-4 text-gray-400 flex-shrink-0" aria-hidden="true" />
-              <span>{listing.location_neighborhood}, {listing.location_district}</span>
+              <span>{formatLocation(listing.location_neighborhood, listing.location_district)}</span>
             </p>
             {listing.features && (listing.features as any).sizeM2 && (
               <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -203,7 +205,7 @@ function ListingCardComponent({ listing, viewMode = 'grid', basePath, priority =
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 flex items-center gap-1.5 font-medium">
             <MapPin className="h-4 w-4 text-gray-400" aria-hidden="true" />
-            <span>{listing.location_neighborhood}, {listing.location_district}</span>
+            <span>{formatLocation(listing.location_neighborhood, listing.location_district)}</span>
           </p>
           {listing.features && (listing.features as any).sizeM2 && (
             <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-4 pb-3 border-b border-gray-100 dark:border-gray-800">

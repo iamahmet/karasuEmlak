@@ -11,6 +11,7 @@ import Link from 'next/link';
 import type { Listing } from '@/lib/supabase/queries';
 import { cn } from '@karasu/lib';
 import { napData } from '@karasu-emlak/config/nap';
+import { formatLocation } from '@/lib/utils/format-neighborhood';
 
 interface QuickViewModalProps {
   listing: Listing | null;
@@ -140,7 +141,7 @@ export function QuickViewModal({ listing, isOpen, onClose, basePath }: QuickView
               </h2>
               <p className="text-slate-600 flex items-center gap-2 text-base">
                 <MapPin className="h-5 w-5 text-slate-400 flex-shrink-0" />
-                <span>{listing.location_neighborhood}, {listing.location_district}</span>
+                <span>{formatLocation(listing.location_neighborhood, listing.location_district)}</span>
               </p>
             </div>
 

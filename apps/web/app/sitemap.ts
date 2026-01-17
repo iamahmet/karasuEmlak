@@ -3,6 +3,7 @@ import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { createServiceClient } from '@karasu/lib/supabase/service';
 import { generateSlug } from '@/lib/utils';
+import { calculatePriority, getChangeFrequency, sortSitemapEntries } from '@/lib/seo/sitemap-optimizer';
 
 /**
  * Professional Sitemap Generator
@@ -108,12 +109,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/blog', priority: 0.8, changeFrequency: 'daily' },
     { path: '/haberler', priority: 0.8, changeFrequency: 'daily' },
     { path: '/haberler/karasu-emlak', priority: 0.7, changeFrequency: 'weekly' },
+    { path: '/yorumlar', priority: 0.7, changeFrequency: 'weekly' },
+    { path: '/istatistikler/fiyat-analizi-dashboard', priority: 0.8, changeFrequency: 'daily' },
     
     // Guide pages
     { path: '/rehber', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/rehber/emlak-alim-satim', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/rehber/kiralama', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/rehber/yatirim', priority: 0.7, changeFrequency: 'monthly' },
+    { path: '/yatirim/kapsamli-rehber', priority: 0.8, changeFrequency: 'monthly' },
     { path: '/rehberler', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/rehberler/ev-nasil-satilir', priority: 0.6, changeFrequency: 'monthly' },
     { path: '/rehberler/kredi-nasil-alinir', priority: 0.6, changeFrequency: 'monthly' },
@@ -128,7 +132,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/kredi-hesaplayici', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/yatirim-hesaplayici', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/sss', priority: 0.6, changeFrequency: 'monthly' },
+    { path: '/yorumlar', priority: 0.7, changeFrequency: 'weekly' },
     { path: '/hakkimizda', priority: 0.5, changeFrequency: 'monthly' },
+    { path: '/hakkimizda/basari-hikayeleri', priority: 0.7, changeFrequency: 'monthly' },
+    { path: '/is-ortagi-programi', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/iletisim', priority: 0.5, changeFrequency: 'monthly' },
     
     // Legal pages
@@ -153,11 +160,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ? `${baseUrl}${route.path || ''}`
         : `${baseUrl}/${locale}${route.path}`;
       
+      // Calculate optimized priority based on route type
+      const routeType = route.path === '' ? 'homepage' as const
+        : route.path.includes('satilik') || route.path.includes('kiralik') ? 'cornerstone' as const
+        : route.path.includes('karasu') || route.path.includes('kocaali') ? 'hub' as const
+        : 'page' as const;
+      
+      const optimizedPriority = calculatePriority(routeType, false, false);
+      
       sitemapEntries.push({
         url,
         lastModified: staticLastModified,
         changeFrequency: route.changeFrequency,
-        priority: route.priority,
+        priority: Math.max(route.priority, optimizedPriority), // Use higher priority
       });
     });
   });
@@ -186,11 +201,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             ? new Date(listing.created_at)
             : new Date();
           
+          const listingPriority = calculatePriority(
+            'listing',
+            false, // Could check if featured
+            false // Could check if new (created in last 30 days)
+          );
+          
           sitemapEntries.push({
             url,
             lastModified,
-            changeFrequency: 'weekly',
-            priority: listing.status === 'satilik' ? 0.9 : 0.8,
+            changeFrequency: getChangeFrequency('listing'),
+            priority: listing.status === 'satilik' ? Math.max(0.9, listingPriority) : Math.max(0.8, listingPriority),
           });
         });
       });
@@ -223,11 +244,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             ? new Date(article.created_at)
             : new Date();
           
+          const articlePriority = calculatePriority('article', false, false);
+          
           sitemapEntries.push({
             url,
             lastModified,
-            changeFrequency: 'monthly',
-            priority: 0.7,
+            changeFrequency: getChangeFrequency('article'),
+            priority: Math.max(0.7, articlePriority),
           });
         });
       });
@@ -260,11 +283,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             ? new Date(article.created_at)
             : new Date();
           
+          const newsPriority = calculatePriority('news', false, false);
+          
           sitemapEntries.push({
             url,
             lastModified,
-            changeFrequency: 'weekly',
-            priority: 0.7,
+            changeFrequency: getChangeFrequency('news'),
+            priority: Math.max(0.7, newsPriority),
           });
         });
       });
@@ -295,11 +320,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             ? new Date(neighborhood.created_at)
             : new Date();
           
+          const neighborhoodPriority = calculatePriority('neighborhood', false, false);
+          
           sitemapEntries.push({
             url,
             lastModified,
-            changeFrequency: 'monthly',
-            priority: 0.8,
+            changeFrequency: getChangeFrequency('neighborhood'),
+            priority: Math.max(0.8, neighborhoodPriority),
           });
         });
       });
@@ -383,7 +410,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // Sort entries by priority (highest first) for better SEO
-  sitemapEntries.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+  // Convert to SitemapEntry format for sorting
+  const entriesForSorting = sitemapEntries.map(entry => ({
+    url: entry.url,
+    lastModified: entry.lastModified ? new Date(entry.lastModified) : new Date(),
+    changeFrequency: entry.changeFrequency || 'weekly',
+    priority: entry.priority || 0.5,
+  }));
+  const sortedEntries = sortSitemapEntries(entriesForSorting);
 
-  return sitemapEntries;
+  // If sitemap exceeds 50,000 URLs, split it (Next.js handles this automatically, but we can optimize)
+  // For now, return sorted entries
+  return sortedEntries;
 }

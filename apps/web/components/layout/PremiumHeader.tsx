@@ -34,7 +34,9 @@ import {
   BarChart3,
   LineChart,
   PieChart,
-  Info
+  Info,
+  Handshake,
+  Star
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { siteConfig } from "@karasu-emlak/config";
@@ -53,7 +55,7 @@ const iconMap: Record<string, LucideIcon> = {
   Home, Key, Plus, MapPin, FileText, Newspaper, BookOpen,
   Calculator, TrendingUp, Building2, Heart, Search, Phone, MessageCircle,
   Building, Landmark, Scale, Shield, Users, Award, Briefcase,
-  BarChart3, LineChart, PieChart, Info,
+  BarChart3, LineChart, PieChart, Info, Handshake, Star,
 };
 
 interface NavItem {
@@ -153,6 +155,7 @@ export function PremiumHeader() {
   // Yatırım dropdown
   const investmentMenuItems: NavItem[] = [
     { title: "Yatırım Rehberi", url: "/rehber/yatirim", icon: "BookOpen", description: "Yatırım stratejileri" },
+    { title: "Kapsamlı Yatırım Rehberi", url: "/yatirim/kapsamli-rehber", icon: "BookOpen", description: "Detaylı yatırım rehberi" },
     { title: "Piyasa Analizi", url: "/yatirim/piyasa-analizi", icon: "BarChart3", description: "Piyasa trendleri" },
     { title: "Yatırım Hesaplayıcı", url: "/yatirim-hesaplayici", icon: "Calculator", description: "Getiri hesaplama" },
     { title: "ROI Hesaplayıcı", url: "/yatirim/roi-hesaplayici", icon: "TrendingUp", description: "Yatırım getirisi" },
@@ -162,7 +165,17 @@ export function PremiumHeader() {
   const statsMenuItems: NavItem[] = [
     { title: "Piyasa Raporları", url: "/istatistikler/piyasa-raporlari", icon: "FileText", description: "Detaylı piyasa raporları" },
     { title: "Fiyat Trendleri", url: "/istatistikler/fiyat-trendleri", icon: "LineChart", description: "Fiyat analizleri" },
+    { title: "Fiyat Analizi Dashboard", url: "/istatistikler/fiyat-analizi-dashboard", icon: "BarChart3", description: "İnteraktif fiyat dashboard" },
     { title: "Bölge Analizi", url: "/istatistikler/bolge-analizi", icon: "PieChart", description: "Bölgesel analizler" },
+  ];
+
+  // Hakkımızda dropdown
+  const aboutMenuItems: NavItem[] = [
+    { title: "Hakkımızda", url: "/hakkimizda", icon: "Info", description: "Karasu Emlak hakkında" },
+    { title: "Ekibimiz", url: "/hakkimizda/ekibimiz", icon: "Users", description: "Emlak danışmanlarımız" },
+    { title: "Başarı Hikayeleri", url: "/hakkimizda/basari-hikayeleri", icon: "Award", description: "Müşteri başarı örnekleri" },
+    { title: "Referanslar", url: "/hakkimizda/referanslar", icon: "Star", description: "Müşteri referansları" },
+    { title: "Kariyer", url: "/hakkimizda/kariyer", icon: "Briefcase", description: "Kariyer fırsatları" },
   ];
 
   // Check if current path is active
@@ -401,6 +414,21 @@ export function PremiumHeader() {
                 ]} 
                 icon="TrendingUp" 
               />
+
+              {/* About - Hakkımızda */}
+              <DropdownNav 
+                title="Hakkımızda" 
+                items={aboutMenuItems} 
+                icon="Info" 
+              />
+
+              {/* İş Ortağı Programı - Direct Link */}
+              <NavLink item={{ 
+                title: "İş Ortağı", 
+                url: "/is-ortagi-programi", 
+                icon: "Handshake",
+                description: "Referans programı"
+              }} />
                 </>
               )}
             </nav>
@@ -697,6 +725,68 @@ export function PremiumHeader() {
                           );
                         })}
                       </div>
+                    </div>
+
+                    {/* Hakkımızda */}
+                    <div className="border-t border-gray-200/60 pt-2">
+                      <div className="px-3 py-1.5 text-[10px] font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-2">
+                        <Info className="h-3.5 w-3.5" />
+                        Hakkımızda
+                      </div>
+                      <div className="space-y-0.5">
+                        {aboutMenuItems.map((item) => {
+                          const Icon = item.icon ? iconMap[item.icon] : null;
+                          return (
+                            <Link
+                              key={item.url}
+                              href={item.url}
+                              className={`
+                                flex items-center gap-2 px-6 py-2
+                                rounded-md transition-all duration-150
+                                ${isActive(item.url)
+                                  ? 'text-[#006AFF] bg-blue-50/70'
+                                  : 'text-gray-600 hover:bg-blue-50/50 hover:text-[#006AFF]'
+                                }
+                              `}
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              {Icon && <Icon className="h-3.5 w-3.5 stroke-[1.5] flex-shrink-0" />}
+                              <div className="flex-1 min-w-0">
+                                <div className="font-medium text-[14px]">{item.title}</div>
+                                {item.description && (
+                                  <div className="text-[11px] text-gray-500 mt-0.5">
+                                    {item.description}
+                                  </div>
+                                )}
+                              </div>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* İş Ortağı Programı */}
+                    <div className="border-t border-gray-200/60 pt-2">
+                      <Link
+                        href="/is-ortagi-programi"
+                        className={`
+                          flex items-center gap-2 px-6 py-2
+                          rounded-md transition-all duration-150
+                          ${isActive('/is-ortagi-programi')
+                            ? 'text-[#006AFF] bg-blue-50/70'
+                            : 'text-gray-600 hover:bg-blue-50/50 hover:text-[#006AFF]'
+                          }
+                        `}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <Handshake className="h-3.5 w-3.5 stroke-[1.5] flex-shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-[14px]">İş Ortağı Programı</div>
+                          <div className="text-[11px] text-gray-500 mt-0.5">
+                            Referans programı ile ek gelir
+                          </div>
+                        </div>
+                      </Link>
                     </div>
 
 

@@ -245,10 +245,20 @@ export async function generateMetadata({
     listing.features.parking && 'otoparklı',
   ].filter(Boolean).join(', ');
 
+  // Get lastModified date for content freshness
+  const { getLastModified, generateLastModifiedMeta } = await import('@/lib/seo/content-freshness');
+  const lastModified = await getLastModified(
+    'listing',
+    slug,
+    listing.updated_at || listing.created_at
+  );
+  const lastModifiedMeta = generateLastModifiedMeta(lastModified);
+
   return {
     title: seoTitle,
     description: seoDescription,
     keywords,
+    ...lastModifiedMeta,
     alternates: {
       canonical: canonicalPath,
       languages: {
