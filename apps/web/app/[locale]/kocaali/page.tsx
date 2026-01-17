@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-export const revalidate = 3600; // Revalidate every hour
+// Static generation - no revalidation needed for location pages
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Button } from '@karasu/ui';
