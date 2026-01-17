@@ -134,6 +134,7 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
 
     // Cleanup function to remove map instance on unmount
     return () => {
+      // Only cleanup on actual unmount, not on Strict Mode re-renders
       if (mapContainerRef.current) {
         // Clear any existing map instances from the container
         const container = mapContainerRef.current;
@@ -158,7 +159,18 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
       }
       mapInstanceRef.current = null;
       isInitializingRef.current = false;
-      // Don't reset mapInitializedRef here - we want it to persist across Strict Mode re-renders
+      // Reset mapInitializedRef only on actual unmount (not Strict Mode re-renders)
+      // We'll use a flag to track if this is a real unmount
+      const timeoutId = setTimeout(() => {
+        // Only reset if component is truly unmounted (after a delay)
+        if (!mounted) {
+          mapInitializedRef.current = false;
+        }
+      }, 100);
+      
+      return () => {
+        clearTimeout(timeoutId);
+      };
     };
   }, [mounted]);
 
@@ -306,10 +318,15 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
                     try {
                       return (
                         <MapContainer
-                          key={mapKeyRef.current}
+                          key={`map-${mapKeyRef.current}-${shouldRenderMap ? '1' : '0'}`}
                           center={center}
                           zoom={13}
                           minZoom={11}
+                          whenCreated={(map) => {
+                            // Store map instance and mark as initialized
+                            mapInstanceRef.current = map;
+                            mapInitializedRef.current = true;
+                          }}
                           maxZoom={18}
                           style={{ height: '100%', width: '100%' }}
                           className="z-10"
