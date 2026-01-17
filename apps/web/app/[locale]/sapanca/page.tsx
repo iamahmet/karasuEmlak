@@ -309,43 +309,41 @@ export default async function SapancaPage({
           </div>
           
           <div className="container mx-auto px-4 relative z-10 max-w-7xl">
-            <ScrollReveal direction="up" delay={0}>
-              <div className="max-w-4xl mx-auto text-center">
-                <div className="inline-block mb-6">
-                  <span className="px-4 py-2 rounded-lg text-xs font-semibold bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary-light border border-primary/20 dark:border-primary/30">
-                    Sapanca Gölü'nün İncisi
-                  </span>
-                </div>
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
-                  Sapanca
-                </h1>
-                <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed">
-                  Bungalov & Emlak & Günlük Kiralık. Sapanca Gölü çevresinde doğal güzellikler, yürüyüş yolları ve emlak fırsatları.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                  <Button asChild size="lg" className="bg-primary text-white hover:bg-primary-dark dark:bg-primary dark:hover:bg-primary-light">
-                    <Link href={`${basePath}/sapanca/bungalov`}>
-                      <Home className="w-5 h-5 mr-2" />
-                      Bungalov
-                    </Link>
-                  </Button>
-                  <Button asChild size="lg" variant="outline" className="border-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">
-                    <Link href={`${basePath}/sapanca/gunluk-kiralik`}>
-                      <KeyRound className="w-5 h-5 mr-2" />
-                      Günlük Kiralık
-                    </Link>
-                  </Button>
-                  <Button asChild size="lg" variant="outline" className="border-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">
-                    <Link href={`${basePath}/sapanca/satilik-daire`}>
-                      <Home className="w-5 h-5 mr-2" />
-                      Satılık Daire
-                    </Link>
-                  </Button>
-                </div>
-                {/* Accent Line */}
-                <div className="h-1 w-20 bg-blue-600 dark:bg-blue-500 rounded-full mx-auto"></div>
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="inline-block mb-6">
+                <span className="px-4 py-2 rounded-lg text-xs font-semibold bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary-light border border-primary/20 dark:border-primary/30">
+                  Sapanca Gölü'nün İncisi
+                </span>
               </div>
-            </ScrollReveal>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
+                Sapanca
+              </h1>
+              <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed">
+                Bungalov & Emlak & Günlük Kiralık. Sapanca Gölü çevresinde doğal güzellikler, yürüyüş yolları ve emlak fırsatları.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <Button asChild size="lg" className="bg-primary text-white hover:bg-primary-dark dark:bg-primary dark:hover:bg-primary-light">
+                  <Link href={`${basePath}/sapanca/bungalov`}>
+                    <Home className="w-5 h-5 mr-2" />
+                    Bungalov
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="border-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <Link href={`${basePath}/sapanca/gunluk-kiralik`}>
+                    <KeyRound className="w-5 h-5 mr-2" />
+                    Günlük Kiralık
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="border-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <Link href={`${basePath}/sapanca/satilik-daire`}>
+                    <Home className="w-5 h-5 mr-2" />
+                    Satılık Daire
+                  </Link>
+                </Button>
+              </div>
+              {/* Accent Line */}
+              <div className="h-1 w-20 bg-blue-600 dark:bg-blue-500 rounded-full mx-auto"></div>
+            </div>
           </div>
         </section>
 
