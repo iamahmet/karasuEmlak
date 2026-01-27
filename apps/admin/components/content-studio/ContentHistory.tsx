@@ -60,7 +60,7 @@ export function ContentHistory({ contentItemId, locale, className }: ContentHist
 
       // Note: User info would need to be fetched from a profiles table or similar
       // For now, we'll just use the versions as-is
-      const versionsWithUsers = (data || []).map((version) => ({
+      const versionsWithUsers = (data || []).map((version: any) => ({
         ...version,
         user: version.created_by ? { email: "User" } : undefined,
       }));

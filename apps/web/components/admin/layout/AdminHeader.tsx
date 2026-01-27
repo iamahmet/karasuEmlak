@@ -29,7 +29,7 @@ export function AdminHeader() {
     // Use singleton client to prevent NavigatorLockAcquireTimeoutError
     const supabase = createClient();
 
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    supabase.auth.getUser().then(({ data: { user } }: any) => {
       setUser(user);
     });
   }, []);

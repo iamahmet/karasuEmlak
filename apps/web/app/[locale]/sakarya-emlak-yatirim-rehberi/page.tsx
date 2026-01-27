@@ -19,6 +19,9 @@ const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollR
   loading: () => null,
 });
 
+// Performance: Revalidate every hour for ISR
+export const revalidate = 3600; // 1 hour
+
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -165,7 +168,19 @@ export default async function SakaryaEmlakYatirimRehberiPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  let locale: string;
+  try {
+    const paramsResult = await params;
+    locale = paramsResult.locale;
+  } catch (error) {
+    console.error('Error getting params:', error);
+    locale = routing.defaultLocale;
+  }
+  
+  // Validate locale
+  if (!routing.locales.includes(locale as any)) {
+    locale = routing.defaultLocale;
+  }
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
   
   // Fetch investment-worthy listings

@@ -56,11 +56,11 @@ export function PerformanceMetrics() {
       const published = publishedResult.data || [];
       const avgViewsData = avgViewsResult.data || [];
       const avgViews = avgViewsData.length > 0 
-        ? avgViewsData.reduce((sum, a) => sum + (a.views || 0), 0) / avgViewsData.length 
+        ? avgViewsData.reduce((sum: number, a: any) => sum + (a.views || 0), 0) / avgViewsData.length 
         : 0;
       
       // Calculate average time between articles
-      const recentDates = recentArticlesResult.data?.map((a) => new Date(a.created_at).getTime()) || [];
+      const recentDates = recentArticlesResult.data?.map((a: any) => new Date(a.created_at).getTime()) || [];
       const avgTimeBetween = recentDates.length > 1
         ? (recentDates[0] - recentDates[recentDates.length - 1]) / (recentDates.length - 1)
         : 0;

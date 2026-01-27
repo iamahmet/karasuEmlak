@@ -37,18 +37,18 @@ export function NavigationMenuManager() {
       if (itemsError) throw itemsError;
 
       // Group items by menu_id and build hierarchy
-      const menusList: NavigationMenu[] = menusData?.map((menu) => {
-        const menuItems = itemsData?.filter((item) => item.menu_id === menu.id) || [];
+      const menusList: NavigationMenu[] = menusData?.map((menu: any) => {
+        const menuItems = itemsData?.filter((item: any) => item.menu_id === menu.id) || [];
         
         // Build hierarchy
         const itemsMap = new Map<string, NavigationItem>();
         const rootItems: NavigationItem[] = [];
 
-        menuItems.forEach((item) => {
+        menuItems.forEach((item: any) => {
           itemsMap.set(item.id, { ...item, children: [] });
         });
 
-        menuItems.forEach((item) => {
+        menuItems.forEach((item: any) => {
           const navItem = itemsMap.get(item.id);
           if (!navItem) return;
 
@@ -198,7 +198,7 @@ export function NavigationMenuManager() {
 
             <div className="space-y-2">
               {selectedMenuData.items.length > 0 ? (
-                selectedMenuData.items.map((item) => (
+                selectedMenuData.items.map((item: any) => (
                   <MenuItem key={item.id} item={item} />
                 ))
               ) : (

@@ -27,20 +27,41 @@ export function AdminHeader() {
 
   useEffect(() => {
     // Use singleton client to prevent NavigatorLockAcquireTimeoutError
-    const supabase = createClient();
+    try {
+      const supabase = createClient();
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid");
+        return;
+      }
 
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-    });
+      supabase.auth.getUser().then(({ data: { user } }: any) => {
+        setUser(user);
+      }).catch((error: any) => {
+        console.error("Error fetching user:", error);
+      });
+    } catch (error) {
+      console.error("Error creating Supabase client:", error);
+    }
   }, []);
 
   const handleLogout = async () => {
-    // Use singleton client to prevent NavigatorLockAcquireTimeoutError
-    const supabase = createClient();
-    
-    await supabase.auth.signOut();
-    const locale = window.location.pathname.split("/")[1] || "tr";
-    router.push(`/${locale}/login`);
+    try {
+      // Use singleton client to prevent NavigatorLockAcquireTimeoutError
+      const supabase = createClient();
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid");
+        return;
+      }
+      
+      await supabase.auth.signOut();
+      const locale = window.location.pathname.split("/")[1] || "tr";
+      router.push(`/${locale}/login`);
+    } catch (error) {
+      console.error("Error during logout:", error);
+      // Still redirect even if logout fails
+      const locale = window.location.pathname.split("/")[1] || "tr";
+      router.push(`/${locale}/login`);
+    }
   };
 
   return (

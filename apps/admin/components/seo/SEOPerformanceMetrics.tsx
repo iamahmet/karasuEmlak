@@ -57,14 +57,14 @@ export function SEOPerformanceMetrics({ locale = "tr" }: { locale?: string }) {
 
       const articles = articlesResult.data || [];
       const publishedCount = publishedResult.count || 0;
-      const totalViews = viewsResult.data?.reduce((sum, a) => sum + (a.views || 0), 0) || 0;
+      const totalViews = viewsResult.data?.reduce((sum: number, a: any) => sum + (a.views || 0), 0) || 0;
       const backlinksCount = backlinksResult.count || 0;
       const avgViews = publishedCount > 0 ? Math.round(totalViews / publishedCount) : 0;
       
       // Calculate reading time from content (average 200 words per minute)
       const avgReadingTime = articles.length > 0
         ? Math.round(
-            articles.reduce((sum, a) => {
+            articles.reduce((sum: number, a: any) => {
               const content = a.content || "";
               const wordCount = content.replace(/<[^>]*>/g, "").split(/\s+/).length;
               return sum + Math.ceil(wordCount / 200);

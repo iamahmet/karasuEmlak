@@ -41,6 +41,14 @@ function AdminLayoutComponent({ children }: { children: React.ReactNode }) {
     async function checkAuth() {
       try {
         const supabase = createClient();
+        if (!supabase || !supabase.auth) {
+          console.error("Supabase client is invalid");
+          const locale = pathname?.split("/")[1] || "tr";
+          router.push(`/${locale}/login?error=auth_error`);
+          setCheckingAuth(false);
+          return;
+        }
+        
         const { data: { user }, error } = await supabase.auth.getUser();
         
         if (error || !user) {

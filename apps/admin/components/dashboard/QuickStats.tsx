@@ -120,7 +120,7 @@ export function QuickStats() {
       const publishedArticles = publishedResult.count || 0;
       const totalUsers = usersResult?.count || 0;
       const totalComments = commentsResult?.count || 0;
-      const totalViews = viewsResult.data?.reduce((sum, a) => sum + (a.views || 0), 0) || 0;
+      const totalViews = viewsResult.data?.reduce((sum: number, a: any) => sum + (a.views || 0), 0) || 0;
       const todayArticles = todayArticlesResult.count || 0;
 
       // Calculate changes (mock for now, can be improved with historical data)

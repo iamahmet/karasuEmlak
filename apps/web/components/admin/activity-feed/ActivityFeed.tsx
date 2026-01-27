@@ -34,7 +34,7 @@ export function ActivityFeed({ limit = 10, initialActivity = [] }: { limit?: num
           .limit(limit);
 
         if (auditLogs) {
-          const formattedActivities: Activity[] = auditLogs.map((log) => {
+          const formattedActivities: Activity[] = auditLogs.map((log: any) => {
             let type: Activity["type"] = "system";
 
             if (log.category === "content") {
@@ -78,7 +78,7 @@ export function ActivityFeed({ limit = 10, initialActivity = [] }: { limit?: num
           schema: "public",
           table: "audit_logs",
         },
-        (payload) => {
+        ((payload: any) => {
           // Add new activity to the top
           const newActivity: Activity = {
             id: payload.new.id,
@@ -90,7 +90,7 @@ export function ActivityFeed({ limit = 10, initialActivity = [] }: { limit?: num
             metadata: payload.new.details,
           };
           setActivities((prev) => [newActivity, ...prev].slice(0, limit));
-        }
+        })
       )
       .subscribe();
 

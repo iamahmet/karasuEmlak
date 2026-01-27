@@ -111,6 +111,9 @@ export default function LoginPage() {
     setSuccess(false);
 
     try {
+      if (!supabase) {
+        throw new Error('Supabase client not available');
+      }
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,

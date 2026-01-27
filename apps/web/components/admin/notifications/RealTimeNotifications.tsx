@@ -54,7 +54,7 @@ export function RealTimeNotifications({ userId }: RealTimeNotificationsProps) {
           table: "notifications",
           filter: `user_id=eq.${userId}`,
         },
-        (payload) => {
+        ((payload: any) => {
           if (payload.new) {
             const newNotification = payload.new as Notification;
             setNotifications((prev) => [newNotification, ...prev]);
@@ -66,7 +66,7 @@ export function RealTimeNotifications({ userId }: RealTimeNotificationsProps) {
               icon: getNotificationIcon(newNotification.type),
             });
           }
-        }
+        })
       )
       .on(
         "postgres_changes",
@@ -76,7 +76,7 @@ export function RealTimeNotifications({ userId }: RealTimeNotificationsProps) {
           table: "notifications",
           filter: `user_id=eq.${userId}`,
         },
-        (payload) => {
+        ((payload: any) => {
           if (payload.new) {
             const updatedNotification = payload.new as Notification;
             setNotifications((prev) =>
@@ -88,7 +88,7 @@ export function RealTimeNotifications({ userId }: RealTimeNotificationsProps) {
               setUnreadCount((prev) => Math.max(0, prev - 1));
             }
           }
-        }
+        })
       )
       .subscribe();
 

@@ -51,7 +51,7 @@ export function MediaLibrary({ onSelect, className }: MediaLibraryProps) {
         return;
       }
 
-      const items = (data || []).map((file) => ({
+      const items = (data || []).map((file: any) => ({
         id: file.id || file.name,
         name: file.name,
         url: supabase.storage.from("content-images").getPublicUrl(file.name).data.publicUrl,

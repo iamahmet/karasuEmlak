@@ -79,7 +79,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
           .limit(5);
 
         if (articles) {
-          articles.forEach((article) => {
+          articles.forEach((article: any) => {
             searchResults.push({
               id: article.id,
               type: "article",
@@ -103,7 +103,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
           .limit(3);
 
         if (categories) {
-          categories.forEach((category) => {
+          categories.forEach((category: any) => {
             searchResults.push({
               id: category.id,
               type: "category",
@@ -126,7 +126,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
           .limit(3);
 
         if (profiles) {
-          profiles.forEach((profile) => {
+          profiles.forEach((profile: any) => {
             searchResults.push({
               id: profile.id,
               type: "user",

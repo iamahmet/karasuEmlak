@@ -54,7 +54,7 @@ export function QuickInsights() {
 
       const totalArticles = articlesResult.count || 0;
       const publishedArticles = publishedResult.count || 0;
-      const totalViews = viewsResult.data?.reduce((sum, a) => sum + (a.views || 0), 0) || 0;
+      const totalViews = viewsResult.data?.reduce((sum: number, a: any) => sum + (a.views || 0), 0) || 0;
       const totalComments = commentsResult.count || 0;
       const draftCount = totalArticles - publishedArticles;
       const avgViews = publishedArticles > 0 ? Math.round(totalViews / publishedArticles) : 0;

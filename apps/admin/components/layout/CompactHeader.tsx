@@ -39,21 +39,35 @@ export function CompactHeader({ onMenuToggle }: CompactHeaderProps) {
   useEffect(() => {
     setMounted(true);
     const fetchUserAndRole = async () => {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+      try {
+        const supabase = createClient();
+        if (!supabase || !supabase.auth) {
+          console.error("Supabase client is invalid");
+          return;
+        }
+        
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error) {
+          console.error("Error fetching user:", error);
+          return;
+        }
+        
+        setUser(user);
 
-      if (user) {
-        // Check if user is superadmin
-        const { data: roles } = await supabase
-          .from("user_roles")
-          .select("roles(name)")
-          .eq("user_id", user.id);
+        if (user) {
+          // Check if user is superadmin
+          const { data: roles } = await supabase
+            .from("user_roles")
+            .select("roles(name)")
+            .eq("user_id", user.id);
 
-        const hasSuperAdmin = roles?.some(
-          (ur: any) => ur.roles?.name === "super_admin"
-        ) || false;
-        setIsSuperAdmin(hasSuperAdmin);
+          const hasSuperAdmin = roles?.some(
+            (ur: any) => ur.roles?.name === "super_admin"
+          ) || false;
+          setIsSuperAdmin(hasSuperAdmin);
+        }
+      } catch (error) {
+        console.error("Error in fetchUserAndRole:", error);
       }
     };
     fetchUserAndRole();
@@ -81,10 +95,23 @@ export function CompactHeader({ onMenuToggle }: CompactHeaderProps) {
   }, []);
 
   const handleLogout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    const locale = window.location.pathname.split("/")[1] || "tr";
-    router.push(`/${locale}/login`);
+    try {
+      const supabase = createClient();
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid");
+        const locale = window.location.pathname.split("/")[1] || "tr";
+        router.push(`/${locale}/login`);
+        return;
+      }
+      await supabase.auth.signOut();
+      const locale = window.location.pathname.split("/")[1] || "tr";
+      router.push(`/${locale}/login`);
+    } catch (error) {
+      console.error("Error during logout:", error);
+      // Still redirect even if logout fails
+      const locale = window.location.pathname.split("/")[1] || "tr";
+      router.push(`/${locale}/login`);
+    }
   };
 
   // Generate breadcrumbs from pathname

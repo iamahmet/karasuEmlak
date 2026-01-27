@@ -78,10 +78,10 @@ export function NotificationCenter() {
             schema: "public",
             table: "notifications",
           },
-          (payload) => {
+          ((payload: any) => {
             const newNotification = payload.new as Notification;
             setNotifications((prev) => [newNotification, ...prev].slice(0, 10));
-          }
+          })
         )
         .subscribe();
     } catch (error) {

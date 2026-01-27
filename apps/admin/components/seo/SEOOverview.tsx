@@ -51,12 +51,12 @@ export function SEOOverview({ locale }: { locale: string }) {
         .limit(100);
 
       const totalArticles = articles?.length || 0;
-      const articlesWithMeta = articles?.filter((a) => a.meta_description).length || 0;
-      const articlesWithKeywords = articles?.filter((a) => {
+      const articlesWithMeta = articles?.filter((a: any) => a.meta_description).length || 0;
+      const articlesWithKeywords = articles?.filter((a: any) => {
         const keywords = a.keywords;
         return Array.isArray(keywords) ? keywords.length > 0 : !!keywords;
       }).length || 0;
-      const totalViews = articles?.reduce((sum, a) => sum + (a.views || 0), 0) || 0;
+      const totalViews = articles?.reduce((sum: number, a: any) => sum + (a.views || 0), 0) || 0;
       const avgViews = totalArticles > 0 ? Math.round(totalViews / totalArticles) : 0;
 
       // Calculate SEO score

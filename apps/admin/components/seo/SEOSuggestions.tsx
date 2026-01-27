@@ -58,9 +58,9 @@ export function SEOSuggestions({ locale = "tr" }: { locale?: string }) {
 
       const articles = articlesResult.data || [];
       const publishedCount = publishedResult.count || 0;
-      const articlesWithoutMeta = articles.filter((a) => !a.meta_description || a.meta_description.length < 50);
-      const articlesWithoutImage = articles.filter((a) => !a.featured_image);
-      const lowViewsArticles = viewsResult.data?.filter((a) => (a.views || 0) < 10) || [];
+      const articlesWithoutMeta = articles.filter((a: any) => !a.meta_description || a.meta_description.length < 50);
+      const articlesWithoutImage = articles.filter((a: any) => !a.featured_image);
+      const lowViewsArticles = viewsResult.data?.filter((a: any) => (a.views || 0) < 10) || [];
       const backlinksCount = backlinksResult.count || 0;
 
       const generatedSuggestions: SEOSuggestion[] = [];

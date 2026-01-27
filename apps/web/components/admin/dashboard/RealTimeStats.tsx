@@ -109,7 +109,7 @@ export function RealTimeStats({ initialStats }: RealTimeStatsProps) {
       const publishedArticles = publishedResult.count || 0;
       const totalUsers = usersResult.count || 0;
       const totalViews =
-        viewsResult.data?.reduce((sum, a) => sum + (a.views || 0), 0) || 0;
+        viewsResult.data?.reduce((sum: number, a: any) => sum + (a.views || 0), 0) || 0;
 
       setStats({
         totalViews,

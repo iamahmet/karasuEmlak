@@ -32,7 +32,7 @@ export function RealTimeUpdates() {
           schema: "public",
           table: "articles",
         },
-        (payload) => {
+        ((payload: any) => {
           const action = payload.eventType === "INSERT" ? "created" : payload.eventType === "UPDATE" ? "updated" : "deleted";
           const newRecord = payload.new as Record<string, any>;
           const oldRecord = payload.old as Record<string, any>;
@@ -46,9 +46,9 @@ export function RealTimeUpdates() {
             },
             ...prev.slice(0, 9), // Keep last 10 updates
           ]);
-        }
+        })
       )
-      .subscribe((status) => {
+      .subscribe((status: any) => {
         setIsConnected(status === "SUBSCRIBED");
       });
 
@@ -62,7 +62,7 @@ export function RealTimeUpdates() {
           schema: "public",
           table: "listings",
         },
-        (payload) => {
+        ((payload: any) => {
           const action = payload.eventType === "INSERT" ? "created" : payload.eventType === "UPDATE" ? "updated" : "deleted";
           const newRecord = payload.new as Record<string, any>;
           const oldRecord = payload.old as Record<string, any>;
@@ -76,7 +76,7 @@ export function RealTimeUpdates() {
             },
             ...prev.slice(0, 9),
           ]);
-        }
+        })
       )
       .subscribe();
 

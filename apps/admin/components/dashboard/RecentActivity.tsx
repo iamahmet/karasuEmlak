@@ -48,7 +48,7 @@ export function RecentActivity() {
           schema: "public",
           table: "audit_logs",
         },
-        (payload) => {
+        ((payload: any) => {
           if (payload.new) {
             // Fetch user profile for new activity
             const fetchUserProfile = async () => {
@@ -95,7 +95,7 @@ export function RecentActivity() {
 
             fetchUserProfile();
           }
-        }
+        })
       )
       .subscribe();
     

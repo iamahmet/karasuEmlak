@@ -48,7 +48,7 @@ export function RelatedArticles({
         
         if (data) {
           setSelectedArticles(data);
-          onArticlesChange?.(data.map(a => a.id));
+          onArticlesChange?.(data.map((a: any) => a.id));
         }
       }
     } catch (error) {
