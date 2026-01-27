@@ -50,6 +50,9 @@ export default function ContentImprovementPage() {
     setLoading(true);
     try {
       const supabase = createClient();
+      if (!supabase) {
+        throw new Error('Supabase client not available');
+      }
       const { data, error } = await supabase
         .from('articles')
         .select('id, title, slug, status, created_at')
@@ -68,6 +71,9 @@ export default function ContentImprovementPage() {
   async function fetchArticleDetails(articleId: string) {
     try {
       const supabase = createClient();
+      if (!supabase) {
+        throw new Error('Supabase client not available');
+      }
       const { data, error } = await supabase
         .from('articles')
         .select('*')

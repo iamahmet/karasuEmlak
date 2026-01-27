@@ -39,6 +39,12 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [activeViewers, setActiveViewers] = useState(Math.floor(Math.random() * 15) + 10);
+  const [isLoaded, setIsLoaded] = useState(false);
+  
+  // Fade-in animation on mount
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const stats = [
     { value: "500+", label: "Aktif İlan", icon: Home },
@@ -109,31 +115,14 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
     return () => clearInterval(interval);
   }, []);
 
-  const handlePrev = useCallback(() => {
-    const prev = currentSlide === 0 ? displayListings.length - 1 : currentSlide - 1;
-    setCurrentSlide(prev);
-    setProgress(0);
-    resetAutoPlay();
-    updateURL(prev);
-    trackHomepageEvent.carouselInteraction('prev');
-  }, [currentSlide, displayListings.length]);
-
-  const handleNext = useCallback(() => {
-    const next = (currentSlide + 1) % displayListings.length;
-    setCurrentSlide(next);
-    setProgress(0);
-    resetAutoPlay();
-    updateURL(next);
-    trackHomepageEvent.carouselInteraction('next');
-  }, [currentSlide, displayListings.length]);
-
-  const updateURL = (index: number) => {
+  const updateURL = useCallback((index: number) => {
+    if (typeof window === 'undefined') return;
     const url = new URL(window.location.href);
     url.searchParams.set('slide', index.toString());
     window.history.replaceState({}, '', url.toString());
-  };
+  }, []);
 
-  const resetAutoPlay = () => {
+  const resetAutoPlay = useCallback(() => {
     if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     if (progressRef.current) clearInterval(progressRef.current);
     setProgress(0);
@@ -147,7 +136,25 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
         setProgress(0);
       }, 5000);
     }
-  };
+  }, [isHovered, displayListings.length, updateURL]);
+
+  const handlePrev = useCallback(() => {
+    const prev = currentSlide === 0 ? displayListings.length - 1 : currentSlide - 1;
+    setCurrentSlide(prev);
+    setProgress(0);
+    resetAutoPlay();
+    updateURL(prev);
+    trackHomepageEvent.carouselInteraction('prev');
+  }, [currentSlide, displayListings.length, resetAutoPlay, updateURL]);
+
+  const handleNext = useCallback(() => {
+    const next = (currentSlide + 1) % displayListings.length;
+    setCurrentSlide(next);
+    setProgress(0);
+    resetAutoPlay();
+    updateURL(next);
+    trackHomepageEvent.carouselInteraction('next');
+  }, [currentSlide, displayListings.length, resetAutoPlay, updateURL]);
 
   // Touch swipe
   const minSwipeDistance = 50;
@@ -167,6 +174,8 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
 
   // Keyboard navigation
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleKeyDown = (e: KeyboardEvent) => {
       if (displayListings.length <= 1) return;
       const slider = sliderRef.current;
@@ -227,8 +236,12 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
               
               {/* Badge */}
               <div className="inline-block">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50/80 border border-blue-100 rounded-full backdrop-blur-sm">
-                  <Sparkles className="h-3.5 w-3.5 text-blue-600" aria-hidden="true" />
+                <div className={cn(
+                  "inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-blue-50/90 to-blue-50/70 border border-blue-100/80 rounded-full backdrop-blur-sm shadow-sm",
+                  "transition-all duration-700 ease-out",
+                  isLoaded ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+                )}>
+                  <Sparkles className="h-3.5 w-3.5 text-blue-600 animate-pulse" aria-hidden="true" />
                   <span className="text-xs font-semibold text-blue-600 tracking-tight">
                     Karasu'nun En Güvenilir Emlak Platformu
                   </span>
@@ -236,13 +249,18 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
               </div>
 
               {/* Premium H1 Typography */}
-              <div className="space-y-4">
-                <h1 className="text-[34px] sm:text-[40px] md:text-[56px] lg:text-[64px] font-bold text-gray-900 leading-[1.1] tracking-tight">
+              <div className={cn(
+                "space-y-4 transition-all duration-700 ease-out delay-100",
+                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              )}>
+                <h1 className="text-[34px] sm:text-[40px] md:text-[56px] lg:text-[64px] font-bold text-gray-900 leading-[1.1] tracking-[-0.02em]">
                   Hayalinizdeki Evi
                   <br />
                   <span className="relative inline-block">
-                    <span className="text-blue-600">Karasu'da</span>
-                    <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-blue-600/20 -translate-y-1"></span>
+                    <span className="text-blue-600 bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
+                      Karasu'da
+                    </span>
+                    <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue-600/30 via-blue-600/50 to-blue-600/30 -translate-y-1 rounded-full"></span>
                   </span>
                   {" "}Bulun
                 </h1>
@@ -254,14 +272,20 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
               </div>
 
               {/* Trust Strip: Single Row (replaces 3 big cards) */}
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
+              <div className={cn(
+                "flex flex-wrap items-center gap-x-6 gap-y-3 text-sm transition-all duration-700 ease-out delay-200",
+                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              )}>
                 {stats.map((stat, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <div className="p-1.5 bg-blue-50 rounded-md">
-                      <stat.icon className="h-4 w-4 text-blue-600" aria-hidden="true" />
+                  <div 
+                    key={index} 
+                    className="flex items-center gap-2 group cursor-default"
+                  >
+                    <div className="p-1.5 bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-lg shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-300">
+                      <stat.icon className="h-4 w-4 text-blue-600 group-hover:text-blue-700 transition-colors" aria-hidden="true" />
                     </div>
                     <div>
-                      <span className="font-bold text-gray-900">{stat.value}</span>
+                      <span className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{stat.value}</span>
                       <span className="text-gray-600 ml-1">{stat.label}</span>
                     </div>
                     {index < stats.length - 1 && (
@@ -272,17 +296,22 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
               </div>
 
               {/* Premium Search Widget */}
-              <Card className="border-gray-200 shadow-lg rounded-2xl overflow-hidden">
+              <Card className={cn(
+                "border-gray-200/80 shadow-xl rounded-2xl overflow-hidden bg-white/95 backdrop-blur-sm",
+                "transition-all duration-700 ease-out delay-300",
+                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
+                "hover:shadow-2xl hover:border-blue-200/50"
+              )}>
                 <CardContent className="p-6 space-y-4">
                   {/* Segmented Control: Satılık / Kiralık */}
-                  <div className="flex items-center gap-2 p-1 bg-gray-100 rounded-xl">
+                  <div className="flex items-center gap-2 p-1 bg-gradient-to-r from-gray-50 to-gray-100/50 rounded-xl border border-gray-200/50">
                     <button
                       onClick={() => setSearchStatus('satilik')}
                       className={cn(
-                        "flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200",
+                        "flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 ease-out",
                         searchStatus === 'satilik'
-                          ? "bg-white text-blue-600 shadow-sm"
-                          : "text-gray-600 hover:text-gray-900"
+                          ? "bg-white text-blue-600 shadow-md scale-[1.02]"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-white/50"
                       )}
                       aria-label="Satılık ilanlar"
                     >
@@ -292,10 +321,10 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
                     <button
                       onClick={() => setSearchStatus('kiralik')}
                       className={cn(
-                        "flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200",
+                        "flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 ease-out",
                         searchStatus === 'kiralik'
-                          ? "bg-white text-blue-600 shadow-sm"
-                          : "text-gray-600 hover:text-gray-900"
+                          ? "bg-white text-blue-600 shadow-md scale-[1.02]"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-white/50"
                       )}
                       aria-label="Kiralık ilanlar"
                     >
@@ -337,7 +366,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
                   <Button
                     onClick={handleSearch}
                     size="lg"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg transition-all"
+                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
                   >
                     <SearchIcon className="h-5 w-5 mr-2" />
                     İlan Ara
@@ -356,10 +385,17 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
               </Card>
 
               {/* Social Proof: Live Stats */}
-              <div className="flex items-center gap-2 text-sm text-gray-600 bg-blue-50/50 px-4 py-2.5 rounded-lg border border-blue-100">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" aria-hidden="true"></div>
+              <div className={cn(
+                "flex items-center gap-2 text-sm text-gray-600 bg-gradient-to-r from-blue-50/80 to-blue-50/50 px-4 py-2.5 rounded-lg border border-blue-100/80 shadow-sm",
+                "transition-all duration-700 ease-out delay-400",
+                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              )}>
+                <div className="relative">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" aria-hidden="true"></div>
+                  <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-75" aria-hidden="true"></div>
+                </div>
                 <span className="font-semibold text-gray-900">
-                  <span className="text-blue-600">{activeViewers}</span> kişi şu anda arıyor
+                  <span className="text-blue-600 font-bold">{activeViewers}</span> kişi şu anda arıyor
                 </span>
               </div>
             </div>
@@ -399,7 +435,12 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
                   </div>
 
                   {/* Premium Showcase Card */}
-                  <Card className="border-gray-200 shadow-lg rounded-2xl overflow-hidden">
+                  <Card className={cn(
+                    "border-gray-200/80 shadow-xl rounded-2xl overflow-hidden bg-white/95 backdrop-blur-sm",
+                    "transition-all duration-700 ease-out delay-300",
+                    isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
+                    "hover:shadow-2xl hover:border-blue-200/50"
+                  )}>
                     {/* Progress Bar */}
                     {displayListings.length > 1 && !isHovered && (
                       <div className="absolute top-0 left-0 right-0 h-1 bg-gray-100 z-20" aria-hidden="true">
@@ -414,7 +455,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
                       {/* Carousel Container */}
                       <div
                         ref={sliderRef}
-                        className="flex transition-transform duration-500 ease-in-out"
+                        className="flex transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]"
                         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                         role="group"
                         aria-label={`İlan ${currentSlide + 1} / ${displayListings.length}`}
@@ -435,7 +476,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
                             >
                               <Link
                                 href={listingUrl}
-                                className="block group"
+                                className="block group transition-transform duration-300 hover:scale-[1.01]"
                                 onClick={() => {
                                   trackHomepageEvent.listingCardClick(listing.id, index);
                                   trackInternalLink(listingUrl, listing.title || '', 'Listings', index);
@@ -525,14 +566,14 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
                                   </div>
                                   
                                   {/* Status Badge */}
-                                  <div className="absolute top-4 left-4 px-3 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-semibold shadow-md backdrop-blur-sm">
+                                  <div className="absolute top-4 left-4 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg text-xs font-semibold shadow-lg backdrop-blur-sm border border-white/20">
                                     {listing.status === 'satilik' ? 'Satılık' : 'Kiralık'}
                                   </div>
                                 </div>
 
                                 {/* Content */}
-                                <CardContent className="p-6 space-y-3">
-                                  <h3 className="font-bold text-lg text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                                <CardContent className="p-6 space-y-3 bg-gradient-to-b from-white to-gray-50/50">
+                                  <h3 className="font-bold text-lg text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300">
                                     {listing.title}
                                   </h3>
                                   
@@ -582,19 +623,19 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
                         <>
                           <button
                             onClick={handlePrev}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 backdrop-blur-sm border border-gray-200 hover:border-blue-600 hover:bg-white shadow-md hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 z-20"
+                            className="absolute left-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-white/95 backdrop-blur-md border border-gray-200/80 hover:border-blue-600 hover:bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 z-20 group"
                             aria-label="Önceki ilan"
                             type="button"
                           >
-                            <ChevronLeft className="h-5 w-5 text-gray-700" />
+                            <ChevronLeft className="h-5 w-5 text-gray-700 group-hover:text-blue-600 transition-colors" />
                           </button>
                           <button
                             onClick={handleNext}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 backdrop-blur-sm border border-gray-200 hover:border-blue-600 hover:bg-white shadow-md hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 z-20"
+                            className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-white/95 backdrop-blur-md border border-gray-200/80 hover:border-blue-600 hover:bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 z-20 group"
                             aria-label="Sonraki ilan"
                             type="button"
                           >
-                            <ChevronRight className="h-5 w-5 text-gray-700" />
+                            <ChevronRight className="h-5 w-5 text-gray-700 group-hover:text-blue-600 transition-colors" />
                           </button>
 
                           {/* Minimal Dots Indicator */}
@@ -608,10 +649,10 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
                                 key={index}
                                 onClick={() => handleSlideClick(index)}
                                 className={cn(
-                                  "h-1.5 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500",
+                                  "h-1.5 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
                                   index === currentSlide
-                                    ? 'w-8 bg-blue-600'
-                                    : 'w-1.5 bg-gray-300 hover:bg-gray-400'
+                                    ? 'w-8 bg-gradient-to-r from-blue-600 to-blue-500 shadow-sm'
+                                    : 'w-1.5 bg-gray-300 hover:bg-gray-400 hover:w-2'
                                 )}
                                 aria-label={`Slide ${index + 1}`}
                                 aria-selected={index === currentSlide ? "true" : "false"}

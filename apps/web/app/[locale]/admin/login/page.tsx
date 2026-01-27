@@ -29,6 +29,11 @@ export default function LoginPage() {
   useEffect(() => {
     async function checkAuth() {
       try {
+        if (!supabase) {
+          setError('Supabase client not available');
+          setCheckingAuth(false);
+          return;
+        }
         // Check for callback code in URL (magic link)
         const code = searchParams.get("code");
         if (code) {
@@ -50,6 +55,10 @@ export default function LoginPage() {
         }
         
         // Check if already logged in
+        if (!supabase) {
+          setCheckingAuth(false);
+          return;
+        }
         const { data: { user } } = await supabase.auth.getUser();
         
         if (user) {
@@ -74,6 +83,9 @@ export default function LoginPage() {
     setSuccess(false);
 
     try {
+      if (!supabase) {
+        throw new Error('Supabase client not available');
+      }
       const redirectTo = searchParams.get("redirect") || "/tr/admin/dashboard";
       const { error: otpError } = await supabase.auth.signInWithOtp({
         email,

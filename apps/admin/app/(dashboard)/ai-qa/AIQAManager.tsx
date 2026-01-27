@@ -39,6 +39,11 @@ export function AIQAManager() {
 
   async function fetchQuestions() {
     const supabase = createClient();
+    if (!supabase) {
+      console.error('Supabase client not available');
+      setLoading(false);
+      return;
+    }
     setLoading(true);
 
     try {
@@ -72,6 +77,10 @@ export function AIQAManager() {
 
   async function updateStatus(id: string, newStatus: 'draft' | 'approved' | 'published') {
     const supabase = createClient();
+    if (!supabase) {
+      console.error('Supabase client not available');
+      return;
+    }
     
     try {
       const updateData: any = { status: newStatus };
@@ -95,6 +104,10 @@ export function AIQAManager() {
     if (!confirm('Bu soru-cevap çiftini silmek istediğinizden emin misiniz?')) return;
 
     const supabase = createClient();
+    if (!supabase) {
+      console.error('Supabase client not available');
+      return;
+    }
     
     try {
       const { error } = await supabase
@@ -395,6 +408,11 @@ function AIQAEditor({
 
   async function handleSave() {
     const supabase = createClient();
+    if (!supabase) {
+      console.error('Supabase client not available');
+      alert('Supabase bağlantısı kurulamadı');
+      return;
+    }
     
     try {
       if (question) {
