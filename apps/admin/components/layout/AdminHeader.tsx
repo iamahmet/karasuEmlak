@@ -94,7 +94,10 @@ export function AdminHeader() {
                 </div>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 rounded-xl border border-border/40/50 dark:border-[#0a3d35]/50 shadow-2xl bg-white/95 dark:bg-card/95 backdrop-blur-xl p-2 animate-fade-in">
+            <DropdownMenuContent 
+              align="end" 
+              className="w-56 rounded-xl border border-border shadow-2xl bg-card backdrop-blur-xl p-2 animate-fade-in z-[100]"
+            >
               <DropdownMenuLabel className="pb-3 px-3 pt-2">
                 <div className="flex flex-col space-y-2">
                   <div className="flex items-center gap-3">
