@@ -27,6 +27,13 @@ export function TopContent({ locale = "tr" }: { locale?: string }) {
 
     // Set up real-time subscription for article views
     const supabase = createClient();
+    
+    // Critical: Verify supabase client exists
+    if (!supabase || !supabase.auth) {
+      console.error("Supabase client is invalid in TopContent");
+      return;
+    }
+    
     const channel = supabase
       .channel("articles-views-changes")
       .on(
@@ -55,6 +62,12 @@ export function TopContent({ locale = "tr" }: { locale?: string }) {
   const fetchTopContent = async () => {
     try {
       const supabase = createClient();
+      
+      // Critical: Verify supabase client exists
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid in fetchTopContent");
+        return;
+      }
       
       const { data, error } = await supabase
         .from("articles")

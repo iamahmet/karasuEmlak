@@ -39,6 +39,13 @@ export function RecentActivity() {
 
     // Set up real-time subscription
     const supabase = createClient();
+    
+    // Critical: Verify supabase client exists
+    if (!supabase || !supabase.auth) {
+      console.error("Supabase client is invalid in RecentActivity");
+      return;
+    }
+    
     const channel = supabase
       .channel("audit-logs-recent-changes")
       .on(
@@ -113,6 +120,12 @@ export function RecentActivity() {
   const fetchActivities = async () => {
     try {
       const supabase = createClient();
+      
+      // Critical: Verify supabase client exists
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid in fetchActivities");
+        return;
+      }
       
       // Try to fetch audit logs with error handling
       let auditData: any = null;

@@ -32,6 +32,12 @@ export function QuickInsights() {
     try {
       const supabase = createClient();
       
+      // Critical: Verify supabase client exists
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid in fetchInsights");
+        return;
+      }
+      
       // Fetch various metrics to generate insights
       const [
         articlesResult,

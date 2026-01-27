@@ -24,6 +24,13 @@ export function ContentCalendar() {
 
     // Set up real-time subscription
     const supabase = createClient();
+    
+    // Critical: Verify supabase client exists
+    if (!supabase || !supabase.auth) {
+      console.error("Supabase client is invalid in ContentCalendar");
+      return;
+    }
+    
     const channel = supabase
       .channel("scheduled-content-changes")
       .on(
@@ -50,6 +57,12 @@ export function ContentCalendar() {
   const fetchScheduled = async () => {
     try {
       const supabase = createClient();
+      
+      // Critical: Verify supabase client exists
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid in fetchScheduled");
+        return;
+      }
       
       // Get scheduled articles from content_items (where published_at is in the future)
       // Gracefully handle if table doesn't exist

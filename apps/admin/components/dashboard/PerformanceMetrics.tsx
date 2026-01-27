@@ -35,6 +35,12 @@ export function PerformanceMetrics() {
     try {
       const supabase = createClient();
       
+      // Critical: Verify supabase client exists
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid in fetchMetrics");
+        return;
+      }
+      
       // Fetch various performance metrics
       const [
         articlesResult,

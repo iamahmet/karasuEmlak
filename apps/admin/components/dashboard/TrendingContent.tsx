@@ -29,6 +29,13 @@ export function TrendingContent({ locale = "tr" }: { locale?: string }) {
 
     // Set up real-time subscription
     const supabase = createClient();
+    
+    // Critical: Verify supabase client exists
+    if (!supabase || !supabase.auth) {
+      console.error("Supabase client is invalid in TrendingContent");
+      return;
+    }
+    
     const channel = supabase
       .channel("trending-content-changes")
       .on(
@@ -55,6 +62,12 @@ export function TrendingContent({ locale = "tr" }: { locale?: string }) {
   const fetchTrending = async () => {
     try {
       const supabase = createClient();
+      
+      // Critical: Verify supabase client exists
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid in fetchTrending");
+        return;
+      }
       
       // Get articles with views from last 24 hours
       const { data: articles } = await supabase

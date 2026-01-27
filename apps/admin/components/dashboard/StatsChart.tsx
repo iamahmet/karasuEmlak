@@ -39,6 +39,13 @@ export function StatsChart({
       setLoading(true);
       const supabase = createClient();
       
+      // Critical: Verify supabase client exists
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid in fetchChartData");
+        setLoading(false);
+        return;
+      }
+      
       const endDate = new Date();
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
