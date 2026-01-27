@@ -1,16 +1,15 @@
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { createBrowserClient as createSupabaseBrowserClient } from '@supabase/ssr';
 
 /**
  * Supabase client for browser (client-side)
- * Uses @supabase/supabase-js directly instead of @supabase/ssr
- * to avoid internal singleton/hook issues that cause "Cannot destructure property 'auth'" errors
+ * Uses @supabase/ssr for PKCE flow support (code verifier stored in cookies)
  * 
  * Always returns a valid client instance. If env vars are missing,
  * returns a fallback client that fails gracefully.
  */
 
 // Singleton instance to prevent multiple client creations
-let browserClient: ReturnType<typeof createSupabaseClient> | null = null;
+let browserClient: ReturnType<typeof createSupabaseBrowserClient> | null = null;
 
 // Create a safe fallback client that's always returned when configuration fails
 function createFallbackClient() {
@@ -97,20 +96,28 @@ export function createClient() {
     return createFallbackClient();
   }
 
-  // Create the client using @supabase/supabase-js directly
+  // Create the client using @supabase/ssr for PKCE support
+  // This stores code verifier in cookies, required for OAuth/magic link flows
   try {
-    browserClient = createSupabaseClient(supabaseUrl, supabaseAnonKey, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true,
-        flowType: 'pkce',
-      },
-    });
+    browserClient = createSupabaseBrowserClient(supabaseUrl, supabaseAnonKey);
     
-    // Verify client was created successfully
-    if (!browserClient || !browserClient.auth) {
-      console.error('CRITICAL: createSupabaseClient returned invalid client');
+    // Verify client was created successfully with comprehensive checks
+    if (!browserClient) {
+      console.error('CRITICAL: createSupabaseBrowserClient returned null/undefined');
+      browserClient = null;
+      return createFallbackClient();
+    }
+    
+    // Check if auth property exists and is valid
+    if (!browserClient.auth) {
+      console.error('CRITICAL: Supabase client missing auth property');
+      browserClient = null;
+      return createFallbackClient();
+    }
+    
+    // Verify auth methods exist
+    if (typeof browserClient.auth.getUser !== 'function') {
+      console.error('CRITICAL: Supabase client.auth.getUser is not a function');
       browserClient = null;
       return createFallbackClient();
     }

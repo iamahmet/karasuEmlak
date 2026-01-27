@@ -71,8 +71,18 @@ export async function GET(request: NextRequest) {
       if (exchangeError) {
         console.error("Exchange error:", exchangeError);
         const adminUrl = getAdminUrl();
+        
+        // Handle PKCE code verifier error specifically
+        const isPKCEError = exchangeError.message?.includes('code verifier') || 
+                           exchangeError.message?.includes('PKCE');
+        
+        let errorMessage = exchangeError.message;
+        if (isPKCEError) {
+          errorMessage = "Güvenlik doğrulaması başarısız. Bu genellikle email linkinin farklı bir tarayıcıda açılması veya tarayıcı verilerinin temizlenmesi durumunda olur. Lütfen yeni bir magic link isteyin.";
+        }
+        
         return NextResponse.redirect(
-          new URL(`/tr/login?error=${encodeURIComponent(exchangeError.message)}`, adminUrl)
+          new URL(`/tr/login?error=${encodeURIComponent(errorMessage)}`, adminUrl)
         );
       }
 
