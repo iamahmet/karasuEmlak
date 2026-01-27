@@ -892,7 +892,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
           </button>
 
           {/* Undo/Redo Buttons */}
-          <div className="flex items-center gap-1 border-r border-gray-200 dark:border-gray-800 pr-2 mr-2">
+          <div className="flex items-center gap-1 border-r border-border pr-2 mr-2">
             <button
               type="button"
               onClick={handleUndo}
@@ -1390,7 +1390,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                           "input-modern text-base font-semibold h-14 pl-4 pr-12 border-2 focus:ring-2 focus:ring-design-light/20 transition-all duration-200",
                           validationErrors.title
                             ? "border-red-300 dark:border-red-700 focus:border-red-500 dark:focus:border-red-500"
-                            : "focus:border-design-light border-gray-200 dark:border-gray-800"
+                            : "focus:border-primary border-border"
                         )}
                         placeholder="Örn: Denize Sıfır 3+1 Daire, Merkez Mahallesi"
                       />
@@ -1545,7 +1545,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                           "input-modern h-12 border-2 focus:ring-2 focus:ring-design-light/20 transition-all duration-200",
                           validationErrors.property_type
                             ? "border-red-300 dark:border-red-700 focus:border-red-500 dark:focus:border-red-500"
-                            : "focus:border-design-light border-gray-200 dark:border-gray-800"
+                            : "focus:border-primary border-border"
                         )}>
                           <SelectValue placeholder="Emlak tipi seçin" />
                         </SelectTrigger>
@@ -1746,7 +1746,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                             "input-modern h-12 text-lg font-bold border-2 focus:ring-2 focus:ring-design-light/20 transition-all duration-200 pl-4 pr-12",
                             validationErrors.price_amount
                               ? "border-red-300 dark:border-red-700 focus:border-red-500 dark:focus:border-red-500"
-                              : "focus:border-design-light border-gray-200 dark:border-gray-800"
+                              : "focus:border-primary border-border"
                           )}
                           placeholder="0"
                         />
@@ -3108,7 +3108,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     </div>
 
                     {listing.price_amount && (
-                      <div className="space-y-1 pt-2 border-t border-gray-200 dark:border-gray-800">
+                      <div className="space-y-1 pt-2 border-t border-border">
                         <Label className="text-xs font-medium block text-muted-foreground">
                           Fiyat
                         </Label>
