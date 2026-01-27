@@ -46,8 +46,83 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        {/* CRITICAL: Force scroll to work - runs before React hydration */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function forceScroll() {
+                  var html = document.documentElement;
+                  var body = document.body;
+                  
+                  if (!html || !body) return;
+                  
+                  // Force enable scroll with inline styles
+                  html.style.setProperty('overflow', 'visible', 'important');
+                  html.style.setProperty('overflow-x', 'hidden', 'important');
+                  html.style.setProperty('overflow-y', 'scroll', 'important');
+                  html.style.setProperty('height', 'auto', 'important');
+                  html.style.setProperty('max-height', 'none', 'important');
+                  html.style.setProperty('position', 'static', 'important');
+                  
+                  body.style.setProperty('overflow', 'visible', 'important');
+                  body.style.setProperty('overflow-x', 'hidden', 'important');
+                  body.style.setProperty('overflow-y', 'visible', 'important');
+                  body.style.setProperty('height', 'auto', 'important');
+                  body.style.setProperty('max-height', 'none', 'important');
+                  body.style.setProperty('position', 'static', 'important');
+                  
+                  // Remove scroll lock classes
+                  html.classList.remove('overflow-hidden', 'no-scroll', 'scroll-locked');
+                  body.classList.remove('overflow-hidden', 'no-scroll', 'scroll-locked');
+                  
+                  // Remove data attributes
+                  html.removeAttribute('data-scroll-locked');
+                  body.removeAttribute('data-scroll-locked');
+                  
+                  // Remove Radix UI scroll locks
+                  var radixLocks = document.querySelectorAll('[data-radix-scroll-lock]');
+                  radixLocks.forEach(function(el) { el.remove(); });
+                }
+                
+                // Run immediately
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', forceScroll);
+                } else {
+                  forceScroll();
+                }
+                
+                // Run on every frame for first 3 seconds (catches late-loading components)
+                var startTime = Date.now();
+                var interval = setInterval(function() {
+                  forceScroll();
+                  if (Date.now() - startTime > 3000) {
+                    clearInterval(interval);
+                  }
+                }, 16); // ~60fps
+                
+                // Also watch for mutations
+                if (window.MutationObserver) {
+                  var observer = new MutationObserver(function() {
+                    forceScroll();
+                  });
+                  
+                  observer.observe(document.documentElement, {
+                    attributes: true,
+                    attributeFilter: ['style', 'class', 'data-scroll-locked']
+                  });
+                  
+                  observer.observe(document.body, {
+                    attributes: true,
+                    attributeFilter: ['style', 'class', 'data-scroll-locked']
+                  });
+                }
+              })();
+            `,
+          }}
+        />
       </head>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning className="antialiased">{children}</body>
     </html>
   );
 }

@@ -15,15 +15,21 @@
 
   html {
     scroll-behavior: smooth;
-    font-size: 16px; /* Base font size for better readability */
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    font-size: 16px;
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
+    height: auto !important;
+    min-height: 100%;
+    max-height: none !important;
     width: 100%;
-    /* Mobile optimizations */
-    -webkit-text-size-adjust: 100%; /* Prevent iOS text size adjustment */
+    -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    /* Smooth scrolling with momentum on iOS */
     -webkit-overflow-scrolling: touch;
+  }
+  
+  html:not([data-scroll-locked="true"]) {
+    overflow-y: scroll !important;
   }
 
   @media (min-width: 768px) {
@@ -36,19 +42,29 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     font-feature-settings: 'cv11', 'ss01';
     font-variant-numeric: tabular-nums;
-    font-size: 1rem; /* 16px base */
-    line-height: 1.6; /* Improved readability - WCAG AA compliant */
+    font-size: 1rem;
+    line-height: 1.6;
     letter-spacing: -0.011em;
     color: hsl(var(--foreground));
     background-color: hsl(var(--background));
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    height: auto !important;
+    min-height: 100vh;
+    max-height: none !important;
     width: 100%;
-    position: relative;
-    /* Mobile optimizations */
+    position: static !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Prevent pull-to-refresh on mobile (can be enabled per-page if needed) */
     overscroll-behavior-y: contain;
+  }
+  
+  body.overflow-hidden,
+  body[data-scroll-locked],
+  html.overflow-hidden,
+  html[data-scroll-locked] {
+    overflow-y: scroll !important;
+    position: static !important;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -728,4 +744,60 @@
 
 .animate-pulse-slow {
   animation: pulse-slow 4s ease-in-out infinite;
+}
+
+/* ===== CRITICAL SCROLL FIX - DO NOT REMOVE ===== */
+/* This MUST be at the end of the file to override everything including Tailwind base */
+/* Using maximum specificity to override Tailwind and inline styles */
+
+/* Force HTML to be scrollable - override EVERYTHING */
+html,
+html.dark,
+html.light,
+html:not(.no-scroll),
+html[class],
+html[class][class],
+html[style],
+html[style][class],
+html[style*="overflow"],
+html[style*="overflow"][class] {
+  overflow: visible !important;
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
+  height: auto !important;
+  max-height: none !important;
+  position: static !important;
+}
+
+/* Force body to allow scroll - override EVERYTHING */
+body,
+body.dark,
+body.light,
+body:not(.no-scroll),
+body[class],
+body[class][class],
+body[style],
+body[style][class],
+body[style*="overflow"],
+body[style*="overflow"][class] {
+  overflow: visible !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  height: auto !important;
+  max-height: none !important;
+  position: static !important;
+}
+
+/* Nuclear option: Override even if overflow is set to hidden in inline style */
+html[style*="overflow: hidden"],
+html[style*="overflow:hidden"],
+html[style*="overflow-y: hidden"],
+html[style*="overflow-y:hidden"],
+body[style*="overflow: hidden"],
+body[style*="overflow:hidden"],
+body[style*="overflow-y: hidden"],
+body[style*="overflow-y:hidden"] {
+  overflow: visible !important;
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
 }

@@ -7,22 +7,10 @@ import { siteConfig } from "@karasu-emlak/config";
 import { PremiumHeader } from "@/components/layout/PremiumHeader";
 import { PremiumFooter } from "@/components/layout/PremiumFooter";
 import { PremiumNewsTicker } from "@/components/layout/PremiumNewsTicker";
-import { StructuredData } from "@/components/seo/StructuredData";
 // Lazy load analytics components for better mobile performance
 import dynamic from 'next/dynamic';
-
-const GoogleAnalytics = dynamic(() => import("@/components/analytics/GoogleAnalytics").then(mod => ({ default: mod.GoogleAnalytics })), {
-});
-
-const WebVitals = dynamic(() => import("@/components/analytics/WebVitals").then(mod => ({ default: mod.WebVitals })), {
-});
-
-const PerformanceMonitor = dynamic(() => import("@/components/analytics/PerformanceMonitor").then(mod => ({ default: mod.PerformanceMonitor })), {
-});
 import { ClientOnlyComponents } from "@/components/layout/ClientOnlyComponents";
-import { getCachedOrganizationSchema } from "@/lib/seo/structured-data-cache";
-import { generateRealEstateAgentLocalSchema } from "@/lib/seo/local-seo-schemas";
-import { generateGoogleBusinessProfileSchema } from "@/lib/seo/local-seo-google-business";
+import type { ComponentType } from "react";
 import { SkipToContent } from "@/components/accessibility/SkipToContent";
 import SkipLinks from "@/components/accessibility/SkipLinks";
 import Announcer from "@/components/accessibility/Announcer";
@@ -39,18 +27,22 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const baseUrl = siteConfig.url;
-  // Since localePrefix is "as-needed", default locale doesn't need /tr prefix
-  const canonicalPath = locale === routing.defaultLocale ? '' : `/${locale}`;
+  try {
+    const { locale } = await params;
+    // Geçerli locale kontrolü - geçersizse varsayılan locale kullan
+    const validLocale = routing.locales.includes(locale as any) 
+      ? locale 
+      : routing.defaultLocale;
+    const baseUrl = siteConfig?.url ?? '';
+    const canonicalPath = validLocale === routing.defaultLocale ? '' : `/${validLocale}`;
 
-  return {
+    return {
     title: {
       default: siteConfig.name,
       template: `%s | ${siteConfig.name}`,
     },
     description: siteConfig.description,
-    metadataBase: new URL(baseUrl),
+    metadataBase: new URL(baseUrl || 'https://karasuemlak.net'),
     alternates: {
       canonical: canonicalPath || '/',
       languages: {
@@ -63,7 +55,7 @@ export async function generateMetadata({
     },
     openGraph: {
       type: "website",
-      locale: locale === 'tr' ? 'tr_TR' : locale,
+      locale: validLocale === 'tr' ? 'tr_TR' : validLocale,
       url: `${baseUrl}${canonicalPath}`,
       siteName: siteConfig.name,
       title: siteConfig.name,
@@ -119,6 +111,15 @@ export async function generateMetadata({
       google: process.env.GOOGLE_SITE_VERIFICATION,
     },
   };
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('[generateMetadata] layout:', (e as Error)?.message);
+    }
+    return {
+      title: siteConfig?.name ?? 'Karasu Emlak',
+      description: siteConfig?.description ?? 'Karasu emlak',
+    };
+  }
 }
 
 export const viewport: Viewport = {
@@ -164,137 +165,165 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  try {
-    const { locale } = await params;
+  const analyticsDisabled = process.env.NEXT_PUBLIC_DISABLE_ANALYTICS === '1';
+  const seoDisabled = process.env.NEXT_PUBLIC_DISABLE_SEO_TOOLS === '1';
 
-    if (!routing.locales.includes(locale as any)) {
-      notFound();
+  try {
+    let locale: string;
+    try {
+      const paramsResult = await params;
+      locale = paramsResult.locale;
+    } catch (paramError: any) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('[LocaleLayout] Error getting params, using default:', paramError?.message);
+      }
+      locale = routing.defaultLocale;
     }
 
-    // Get messages - use direct JSON import (simpler and more reliable)
+    // Eğer locale geçerli değilse, varsayılan locale'e fallback yap
+    // Bu, middleware'in rewrite'ının bazen çalışmaması durumunda güvenlik ağı sağlar
+    // ÖNEMLİ: Middleware rewrite yaptığında bile Next.js params hala orijinal URL'den geliyor olabilir
+    // Bu yüzden geçersiz locale'leri otomatik olarak varsayılan locale'e çeviriyoruz
+    const validLocale = routing.locales.includes(locale as any) 
+      ? locale 
+      : routing.defaultLocale;
+
+    // Geçersiz locale durumunda uyarı ver ama notFound() çağırma
+    // Middleware rewrite yapmış olabilir ve Next.js params henüz güncellenmemiş olabilir
+    if (!routing.locales.includes(locale as any)) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`[LocaleLayout] Invalid locale "${locale}", falling back to "${routing.defaultLocale}". This may be due to middleware rewrite.`);
+      }
+    }
+
+    // Get messages - use next-intl's getMessages hook
+    // This uses the messages loaded by i18n.ts getRequestConfig
     let messages = {};
-    try {
-      const messagesModule = await import(`../../messages/${locale}.json`);
-      if (messagesModule && typeof messagesModule === 'object') {
-        messages = (messagesModule as any).default || messagesModule;
-      }
-      if (typeof messages !== 'object' || messages === null || Array.isArray(messages)) {
-        // Fallback to Turkish
-        const fallbackModule = await import(`../../messages/tr.json`);
-        if (fallbackModule && typeof fallbackModule === 'object') {
-          messages = (fallbackModule as any).default || fallbackModule;
-        }
-        if (typeof messages !== 'object' || messages === null || Array.isArray(messages)) {
-          messages = {};
-        }
-      }
-    } catch (error: any) {
-      console.error('[LocaleLayout] Failed to load messages:', error?.message);
-      // Final fallback to empty object
+    const configPath = process.env.NEXT_INTL_CONFIG_PATH;
+    if (configPath) {
       try {
-        const fallbackModule = await import(`../../messages/tr.json`);
-        if (fallbackModule && typeof fallbackModule === 'object') {
-          messages = (fallbackModule as any).default || fallbackModule;
+        const { getMessages } = await import('next-intl/server');
+        const messagesResult = await getMessages();
+        messages = messagesResult || {};
+      } catch (error: any) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('[LocaleLayout] Failed to get messages from next-intl, falling back to JSON:', error?.message);
         }
-        if (typeof messages !== 'object' || messages === null || Array.isArray(messages)) {
-          messages = {};
-        }
+      }
+    }
+
+    if (!messages || Object.keys(messages).length === 0) {
+      try {
+        const fallback = await import(`@/messages/${validLocale}.json`);
+        messages = fallback.default || {};
       } catch (fallbackError: any) {
-        console.error('[LocaleLayout] Fallback import also failed:', fallbackError?.message);
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('[LocaleLayout] Failed to load fallback messages:', fallbackError?.message);
+        }
         messages = {};
       }
     }
-    const _rtl = isRTL(locale as any); // RTL is handled by HTML dir attribute
+    const _rtl = isRTL(validLocale as any); // RTL is handled by HTML dir attribute
 
-    // Use cached schema (organization data is static)
-    const organizationSchema = getCachedOrganizationSchema();
-    
+    let StructuredDataComponent: ComponentType<{ data: any }> | null = null;
+    let realEstateAgentSchema = null;
+    let googleBusinessSchema = null;
+
+    if (!seoDisabled) {
+      const { StructuredData } = await import("@/components/seo/StructuredData");
+      const { getCachedOrganizationSchema } = await import("@/lib/seo/structured-data-cache");
+      const { generateRealEstateAgentLocalSchema } = await import("@/lib/seo/local-seo-schemas");
+      const { generateGoogleBusinessProfileSchema } = await import("@/lib/seo/local-seo-google-business");
+
+      StructuredDataComponent = StructuredData;
+      // Keep cached organization schema warm
+      getCachedOrganizationSchema();
+      try {
+        realEstateAgentSchema = generateRealEstateAgentLocalSchema({
+          includeRating: true,
+          includeServices: true,
+          includeAreaServed: true,
+        });
+        googleBusinessSchema = generateGoogleBusinessProfileSchema();
+      } catch (error) {
+        console.error('Error generating SEO schemas:', error);
+        realEstateAgentSchema = null;
+        googleBusinessSchema = null;
+      }
+    }
+
+    let GoogleAnalyticsComponent: ComponentType<{ measurementId?: string; nonce?: string }> | null = null;
+    let WebVitalsComponent: ComponentType | null = null;
+    let PerformanceMonitorComponent: ComponentType | null = null;
+
+    if (!analyticsDisabled) {
+      GoogleAnalyticsComponent = dynamic(() => import("@/components/analytics/GoogleAnalytics").then(mod => ({ default: mod.GoogleAnalytics })));
+      WebVitalsComponent = dynamic(() => import("@/components/analytics/WebVitals").then(mod => ({ default: mod.WebVitals })));
+      PerformanceMonitorComponent = dynamic(() => import("@/components/analytics/PerformanceMonitor").then(mod => ({ default: mod.PerformanceMonitor })));
+    }
+
     // Get nonce from request headers (for CSP)
     const nonce = await getNonce();
 
-    // Generate comprehensive RealEstateAgent schema with ServiceArea
-    let realEstateAgentSchema = null;
-    let googleBusinessSchema = null;
-    
-    try {
-      realEstateAgentSchema = generateRealEstateAgentLocalSchema({
-        includeRating: true,
-        includeServices: true,
-        includeAreaServed: true,
-      });
-      
-      // Generate Google Business Profile schema for Local SEO
-      googleBusinessSchema = generateGoogleBusinessProfileSchema();
-    } catch (error) {
-      console.error('Error generating SEO schemas:', error);
-      realEstateAgentSchema = null;
-      googleBusinessSchema = null;
-    }
-
     return (
-      <div className="antialiased overflow-x-hidden w-full">
+      <>
         {/* Structured Data - Rendered in body (Next.js handles head automatically) */}
-        {realEstateAgentSchema && <StructuredData data={realEstateAgentSchema} />}
-        {googleBusinessSchema && <StructuredData data={googleBusinessSchema} />}
-        <IntlProvider locale={locale} messages={messages}>
+        {StructuredDataComponent && realEstateAgentSchema && (
+          <StructuredDataComponent data={realEstateAgentSchema} />
+        )}
+        {StructuredDataComponent && googleBusinessSchema && (
+          <StructuredDataComponent data={googleBusinessSchema} />
+        )}
+        <IntlProvider locale={validLocale} messages={messages}>
           <CriticalResourcesLoader />
           <SkipToContent />
           <SkipLinks />
           <Announcer />
           <ContrastChecker />
-          <div className="flex min-h-screen flex-col w-full overflow-x-hidden">
-            <PremiumNewsTicker basePath={locale === routing.defaultLocale ? "" : `/${locale}`} />
-            <PremiumHeader />
-            <main id="main-content" className="flex-1" role="main" aria-label="Ana içerik">{children}</main>
-            <PremiumFooter />
-            {/* Client-only components (ssr: false) */}
-            <ClientOnlyComponents basePath={locale === routing.defaultLocale ? "" : `/${locale}`} />
-            {/* Analytics - Only loads if consent given */}
-            {process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID && (
-              <Suspense fallback={null}>
-                <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID} nonce={nonce || undefined} />
-              </Suspense>
-            )}
-            {/* Web Vitals - Always active (performance monitoring) */}
-            <WebVitals />
-            {/* Performance Monitor - Tracks page load and resource performance */}
-            <PerformanceMonitor />
-          </div>
+          <PremiumNewsTicker basePath={validLocale === routing.defaultLocale ? "" : `/${validLocale}`} />
+          <PremiumHeader />
+          <main id="main-content" role="main" aria-label="Ana içerik">{children}</main>
+          <PremiumFooter />
+          {/* Client-only components (ssr: false) */}
+          <ClientOnlyComponents basePath={validLocale === routing.defaultLocale ? "" : `/${validLocale}`} />
+          {/* Analytics - Only loads if consent given */}
+          {!analyticsDisabled && process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID && GoogleAnalyticsComponent && (
+            <Suspense fallback={null}>
+              <GoogleAnalyticsComponent measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID} nonce={nonce || undefined} />
+            </Suspense>
+          )}
+          {/* Web Vitals - Always active (performance monitoring) */}
+          {!analyticsDisabled && WebVitalsComponent && <WebVitalsComponent />}
+          {/* Performance Monitor - Tracks page load and resource performance */}
+          {!analyticsDisabled && PerformanceMonitorComponent && <PerformanceMonitorComponent />}
           {/* Toast Notifications */}
           <Toaster />
           {/* Offline Indicator */}
           <OfflineIndicator />
         </IntlProvider>
-      </div>
+      </>
     );
   } catch (error: any) {
     console.error("[LocaleLayout] Error in LocaleLayout:", error?.message);
     console.error("[LocaleLayout] Error stack:", error?.stack);
-    // Fallback to default locale
-    let fallbackMessages = {};
-    try {
-      const fallbackModule = await import(`../../messages/tr.json`);
-      if (fallbackModule && typeof fallbackModule === 'object') {
-        fallbackMessages = (fallbackModule as any).default || fallbackModule;
-      }
-      if (typeof fallbackMessages !== 'object' || fallbackMessages === null) {
-        fallbackMessages = {};
-      }
-    } catch (fallbackError: any) {
-      console.error("[LocaleLayout] Fallback messages failed:", fallbackError?.message);
-      fallbackMessages = {};
-    }
-    // Generate comprehensive RealEstateAgent schema with ServiceArea (fallback)
+    // Fallback to default locale - use empty messages to avoid JSON parse errors
+    const fallbackMessages = {};
+    let FallbackStructuredData: ComponentType<{ data: any }> | null = null;
     let fallbackRealEstateAgentSchema = null;
-    try {
-      fallbackRealEstateAgentSchema = generateRealEstateAgentLocalSchema({
-        includeRating: true,
-        includeServices: true,
-        includeAreaServed: true, // This also includes serviceArea
-      });
-    } catch (schemaError: any) {
-      console.error("[LocaleLayout] Schema generation failed:", schemaError?.message);
-      fallbackRealEstateAgentSchema = null;
+    if (!seoDisabled) {
+      try {
+        const { StructuredData } = await import("@/components/seo/StructuredData");
+        const { generateRealEstateAgentLocalSchema } = await import("@/lib/seo/local-seo-schemas");
+        FallbackStructuredData = StructuredData;
+        fallbackRealEstateAgentSchema = generateRealEstateAgentLocalSchema({
+          includeRating: true,
+          includeServices: true,
+          includeAreaServed: true,
+        });
+      } catch (schemaError: any) {
+        console.error("[LocaleLayout] Schema generation failed:", schemaError?.message);
+        fallbackRealEstateAgentSchema = null;
+      }
     }
     // Get nonce from request headers (for CSP) - fallback scenario
     let nonce: string | undefined;
@@ -305,40 +334,49 @@ export default async function LocaleLayout({
       console.error("[LocaleLayout] Failed to get nonce:", nonceError?.message);
       nonce = undefined;
     }
+    let FallbackGoogleAnalytics: ComponentType<{ measurementId?: string; nonce?: string }> | null = null;
+    let FallbackWebVitals: ComponentType | null = null;
+    let FallbackPerformanceMonitor: ComponentType | null = null;
+    if (!analyticsDisabled) {
+      FallbackGoogleAnalytics = dynamic(() => import("@/components/analytics/GoogleAnalytics").then(mod => ({ default: mod.GoogleAnalytics })));
+      FallbackWebVitals = dynamic(() => import("@/components/analytics/WebVitals").then(mod => ({ default: mod.WebVitals })));
+      FallbackPerformanceMonitor = dynamic(() => import("@/components/analytics/PerformanceMonitor").then(mod => ({ default: mod.PerformanceMonitor })));
+    }
+
     return (
-      <div className="antialiased">
+      <>
         {/* Structured Data - Rendered in body (Next.js handles head automatically) */}
-        <StructuredData data={fallbackRealEstateAgentSchema} />
+        {FallbackStructuredData && fallbackRealEstateAgentSchema && (
+          <FallbackStructuredData data={fallbackRealEstateAgentSchema} />
+        )}
         <IntlProvider locale="tr" messages={fallbackMessages}>
           <CriticalResourcesLoader />
           <SkipToContent />
           <SkipLinks />
           <Announcer />
           <ContrastChecker />
-          <div className="flex min-h-screen flex-col">
-            <PremiumHeader />
-            <main id="main-content" className="flex-1" role="main" aria-label="Ana içerik">{children}</main>
-            <PremiumFooter />
-            {/* Client-only components (ssr: false) */}
-            <ClientOnlyComponents basePath="" />
-            {/* Analytics - Only loads if consent given */}
-            {process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID && (
-              <Suspense fallback={null}>
-                <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID} nonce={nonce || undefined} />
-              </Suspense>
-            )}
-            {/* Web Vitals - Always active (performance monitoring) */}
-            <WebVitals />
-            {/* Performance Monitor - Tracks page load and resource performance */}
-            <PerformanceMonitor />
-          </div>
+          <PremiumHeader />
+          <main id="main-content" role="main" aria-label="Ana içerik">{children}</main>
+          <PremiumFooter />
+          {/* Client-only components (ssr: false) */}
+          <ClientOnlyComponents basePath="" />
+          {/* Analytics - Only loads if consent given */}
+          {!analyticsDisabled && process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID && FallbackGoogleAnalytics && (
+            <Suspense fallback={null}>
+              <FallbackGoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID} nonce={nonce || undefined} />
+            </Suspense>
+          )}
+          {/* Web Vitals - Always active (performance monitoring) */}
+          {!analyticsDisabled && FallbackWebVitals && <FallbackWebVitals />}
+          {/* Performance Monitor - Tracks page load and resource performance */}
+          {!analyticsDisabled && FallbackPerformanceMonitor && <FallbackPerformanceMonitor />}
           {/* Toast Notifications */}
           <Toaster />
           {/* Offline Indicator */}
           <OfflineIndicator />
         </IntlProvider>
-      </div>
+      </>
     );
-}
+  }
 }
 
