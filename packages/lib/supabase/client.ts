@@ -39,26 +39,26 @@ export function createClient() {
 
   // Read environment variables directly from process.env
   // In Next.js, NEXT_PUBLIC_* vars are available at build time and runtime
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   // Check if environment variables are missing
-  const isMissingEnvVars = !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (isMissingEnvVars) {
-    // Log warning in console (helpful for debugging)
+  // CRITICAL: If env vars are missing, return fallback client IMMEDIATELY
+  // DO NOT call createSupabaseBrowserClient with placeholder values - it will fail
+  if (!supabaseUrl || !supabaseAnonKey) {
     console.warn(
       '⚠️ Supabase environment variables are missing!\n' +
       'Required: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY\n' +
       'Please add them in Vercel Dashboard → Settings → Environment Variables'
     );
+    // Return fallback client - DO NOT call createSupabaseBrowserClient
+    return createFallbackClient();
   }
 
   // Always return a safe client - never return null or undefined
   // Wrap everything in try-catch to ensure we always return a valid client
   try {
-    // createSupabaseBrowserClient should always return a valid client instance
-    // But we'll verify it anyway
+    // Only call createSupabaseBrowserClient with valid URL and key
     const client = createSupabaseBrowserClient(supabaseUrl, supabaseAnonKey);
     
     // Critical: Verify client exists and has auth property
