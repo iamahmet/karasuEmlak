@@ -215,7 +215,7 @@ export function QuickStats() {
   }
 
   return (
-    <Card className="card-professional bg-white dark:bg-[#0a3d35] relative overflow-hidden">
+    <Card className="card-professional bg-white dark:bg-card relative overflow-hidden">
       <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-design-light/5 to-transparent rounded-full blur-3xl"></div>
       <CardContent className="p-5 relative z-10">
         <div className="admin-grid-3 gap-3">
@@ -234,7 +234,7 @@ export function QuickStats() {
                     <p className="text-[10px] font-medium uppercase tracking-wider mb-1.5" style={{ color: 'hsl(var(--muted-foreground))' }}>
                       {stat.label}
                     </p>
-                    <p className="text-xl md:text-2xl font-bold mb-1.5 leading-tight text-design-dark dark:text-white" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+                    <p className="text-xl md:text-2xl font-bold mb-1.5 leading-tight text-foreground" style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
                       {stat.value}
                     </p>
                     {stat.change !== undefined && (

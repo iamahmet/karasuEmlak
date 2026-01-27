@@ -47,14 +47,14 @@ function SortableItem({ id, children, className }: SortableItemProps) {
       ref={setNodeRef}
       style={style}
       className={cn(
-        "flex items-center gap-2 p-3 rounded-lg border border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35] hover:bg-design-light/5 dark:hover:bg-design-light/10 transition-colors",
+        "flex items-center gap-2 p-3 rounded-lg border border-border/40 dark:border-border/40 bg-white dark:bg-card hover:bg-design-light/5 dark:hover:bg-primary/10 transition-colors",
         className
       )}
     >
       <div
         {...attributes}
         {...listeners}
-        className="cursor-grab active:cursor-grabbing text-design-gray dark:text-gray-400 hover:text-design-dark dark:hover:text-white transition-colors"
+        className="cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground transition-colors"
       >
         <GripVertical className="h-5 w-5" />
       </div>

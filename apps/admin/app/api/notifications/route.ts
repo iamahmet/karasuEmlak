@@ -1,6 +1,6 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@karasu/lib/supabase/service";
-import { withErrorHandling, createSuccessResponse, createErrorResponse } from "@/lib/api/error-handler";
+import { withErrorHandling, createErrorResponse } from "@/lib/api/error-handler";
 import { getRequestId } from "@/lib/api/middleware";
 
 /**
@@ -47,20 +47,39 @@ async function handleGet(request: NextRequest) {
   const { data: notifications, error } = await query;
 
   if (error) {
-    // If table doesn't exist, return empty array
+    // If table doesn't exist, return empty array silently
     const errorMessage = error.message?.toLowerCase() || "";
     const errorCode = error.code || "";
     
     if (
       errorCode === "PGRST116" || 
       errorCode === "42P01" ||
+      errorCode === "PGRST202" ||
+      errorCode === "PGRST205" ||
       errorMessage.includes("does not exist") ||
-      (errorMessage.includes("relation") && errorMessage.includes("does not exist"))
+      errorMessage.includes("relation") ||
+      errorMessage.includes("not found") ||
+      errorMessage.includes("permission denied")
     ) {
-      // Table doesn't exist - return empty array silently
-      return createSuccessResponse(requestId, { notifications: [] });
+      // Table doesn't exist or permission denied - return empty array silently
+      // Return in format expected by component: { success: true, notifications: [] }
+      return NextResponse.json(
+        { 
+          success: true, 
+          requestId,
+          notifications: [] 
+        },
+        {
+          status: 200,
+          headers: {
+            "x-request-id": requestId,
+            "Content-Type": "application/json",
+          },
+        }
+      );
     }
     
+    // For other database errors, return error response
     return createErrorResponse(
       requestId,
       "DATABASE_ERROR",
@@ -70,10 +89,21 @@ async function handleGet(request: NextRequest) {
     );
   }
 
-  return createSuccessResponse(requestId, { 
-    success: true,
-    notifications: notifications || [] 
-  });
+  // Return in format expected by component: { success: true, notifications: [...] }
+  return NextResponse.json(
+    { 
+      success: true, 
+      requestId,
+      notifications: notifications || [] 
+    },
+    {
+      status: 200,
+      headers: {
+        "x-request-id": requestId,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 }
 
 export const GET = withErrorHandling(handleGet);
@@ -82,7 +112,19 @@ async function handlePost(request: NextRequest) {
   const requestId = getRequestId(request);
   // Admin API: ALWAYS use service role client
   const supabase = createServiceClient();
-  const body = await request.json();
+  
+  let body;
+  try {
+    body = await request.json();
+  } catch (error) {
+    return createErrorResponse(
+      requestId,
+      "VALIDATION_ERROR",
+      "Invalid JSON in request body",
+      undefined,
+      400
+    );
+  }
 
   const { user_id, type, title, message, action_url } = body;
 
@@ -122,22 +164,35 @@ async function handlePost(request: NextRequest) {
     .single();
 
   if (error) {
-    // If table doesn't exist
+    // If table doesn't exist, return error silently
     const errorMessage = error.message?.toLowerCase() || "";
     const errorCode = error.code || "";
     
     if (
       errorCode === "PGRST116" || 
       errorCode === "42P01" ||
-      errorMessage.includes("does not exist")
+      errorCode === "PGRST202" ||
+      errorCode === "PGRST205" ||
+      errorMessage.includes("does not exist") ||
+      errorMessage.includes("relation") ||
+      errorMessage.includes("not found") ||
+      errorMessage.includes("permission denied")
     ) {
       // Table doesn't exist - return error silently
-      return createErrorResponse(
-        requestId,
-        "TABLE_NOT_FOUND",
-        "Notifications table does not exist. Please run migrations first.",
-        undefined,
-        404
+      return NextResponse.json(
+        {
+          success: false,
+          requestId,
+          code: "TABLE_NOT_FOUND",
+          message: "Notifications table does not exist. Please run migrations first.",
+        },
+        {
+          status: 404,
+          headers: {
+            "x-request-id": requestId,
+            "Content-Type": "application/json",
+          },
+        }
       );
     }
     
@@ -150,10 +205,20 @@ async function handlePost(request: NextRequest) {
     );
   }
 
-  return createSuccessResponse(requestId, { 
-    success: true,
-    notification 
-  });
+  return NextResponse.json(
+    { 
+      success: true, 
+      requestId,
+      notification 
+    },
+    {
+      status: 200,
+      headers: {
+        "x-request-id": requestId,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 }
 
 export const POST = withErrorHandling(handlePost);

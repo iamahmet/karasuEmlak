@@ -71,23 +71,23 @@ export function EnhancedModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "max-h-[90vh] overflow-hidden p-0 gap-0 rounded-2xl border-2 border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 shadow-2xl bg-white/98 dark:bg-[#0a3d35]/98 backdrop-blur-xl animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4 duration-300",
+          "max-h-[90vh] overflow-hidden p-0 gap-0 rounded-2xl border-2 border-border/40/60 dark:border-[#0a3d35]/60 shadow-2xl bg-white/98 dark:bg-card/98 backdrop-blur-xl animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4 duration-300",
           sizeClasses[size],
           className
         )}
       >
         {/* Header */}
         {(title || description || headerActions || showCloseButton) && (
-          <DialogHeader className="px-6 py-5 border-b border-[#E7E7E7] dark:border-[#0a3d35] bg-gradient-to-r from-white/50 to-transparent dark:from-[#0a3d35]/50 sticky top-0 z-10">
+          <DialogHeader className="px-6 py-5 border-b border-border/40 dark:border-[#0a3d35] bg-gradient-to-r from-white/50 to-transparent dark:from-[#0a3d35]/50 sticky top-0 z-10">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
                 {title && (
-                  <DialogTitle className="text-xl font-display font-bold text-design-dark dark:text-white mb-1 pr-8">
+                  <DialogTitle className="text-xl font-display font-bold text-foreground mb-1 pr-8">
                     {title}
                   </DialogTitle>
                 )}
                 {description && (
-                  <DialogDescription className="text-sm text-design-gray dark:text-gray-400 mt-1">
+                  <DialogDescription className="text-sm text-muted-foreground mt-1">
                     {description}
                   </DialogDescription>
                 )}
@@ -100,10 +100,10 @@ export function EnhancedModal({
                     variant="ghost"
                     size="icon"
                     onClick={() => onOpenChange(false)}
-                    className="h-8 w-8 rounded-lg hover:bg-[#E7E7E7]/50 dark:hover:bg-[#0a3d35]/50 transition-all duration-300 hover:scale-110"
+                    className="h-8 w-8 rounded-lg hover:bg-[#E7E7E7]/50 dark:hover:bg-card/50 transition-all duration-300 hover:scale-110"
                     aria-label="Kapat"
                   >
-                    <X className="h-4 w-4 text-design-dark dark:text-white" />
+                    <X className="h-4 w-4 text-foreground" />
                   </Button>
                 )}
               </div>

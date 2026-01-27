@@ -76,14 +76,14 @@ export function SEOReports({ locale }: { locale: string }) {
       <Card className="card-professional">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-design-light" />
+            <Calendar className="h-5 w-5 text-primary" />
             Rapor Ayarları
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-ui font-semibold text-design-dark dark:text-white mb-2 block">
+              <label className="text-sm font-ui font-semibold text-foreground mb-2 block">
                 Başlangıç Tarihi
               </label>
               <Input
@@ -93,7 +93,7 @@ export function SEOReports({ locale }: { locale: string }) {
               />
             </div>
             <div>
-              <label className="text-sm font-ui font-semibold text-design-dark dark:text-white mb-2 block">
+              <label className="text-sm font-ui font-semibold text-foreground mb-2 block">
                 Bitiş Tarihi
               </label>
               <Input
@@ -113,7 +113,7 @@ export function SEOReports({ locale }: { locale: string }) {
             <CardTitle className="text-base font-ui">Özet Rapor</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui mb-4">
+            <p className="text-sm text-muted-foreground font-ui mb-4">
               Genel SEO performans özeti ve temel metrikler
             </p>
             <Button
@@ -132,7 +132,7 @@ export function SEOReports({ locale }: { locale: string }) {
             <CardTitle className="text-base font-ui">Detaylı Rapor</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui mb-4">
+            <p className="text-sm text-muted-foreground font-ui mb-4">
               Kapsamlı SEO analizi ve önerileri içeren detaylı rapor
             </p>
             <Button
@@ -151,7 +151,7 @@ export function SEOReports({ locale }: { locale: string }) {
             <CardTitle className="text-base font-ui">Teknik SEO Raporu</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui mb-4">
+            <p className="text-sm text-muted-foreground font-ui mb-4">
               Teknik SEO kontrolleri ve site sağlık raporu
             </p>
             <Button
@@ -173,7 +173,7 @@ export function SEOReports({ locale }: { locale: string }) {
         </CardHeader>
         <CardContent>
           {reports.length === 0 ? (
-            <div className="text-center py-8 text-design-gray dark:text-gray-400">
+            <div className="text-center py-8 text-muted-foreground">
               <FileText className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>Henüz rapor oluşturulmamış</p>
             </div>
@@ -185,10 +185,10 @@ export function SEOReports({ locale }: { locale: string }) {
                   className="flex items-center justify-between p-3 rounded-lg bg-card border border-border"
                 >
                   <div>
-                    <p className="font-semibold text-design-dark dark:text-white font-ui text-sm">
+                    <p className="font-semibold text-foreground font-ui text-sm">
                       {report.name}
                     </p>
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                    <p className="text-xs text-muted-foreground font-ui">
                       {new Date(report.created_at || report.date).toLocaleDateString("tr-TR")}
                     </p>
                   </div>

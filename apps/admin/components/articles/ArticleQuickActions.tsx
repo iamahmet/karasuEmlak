@@ -100,7 +100,7 @@ export function ArticleQuickActions({
         </DialogTrigger>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+            <DialogTitle className="text-lg font-display font-bold text-foreground">
               Versiyon Geçmişi
             </DialogTitle>
           </DialogHeader>
@@ -129,7 +129,7 @@ export function ArticleQuickActions({
         </DialogTrigger>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+            <DialogTitle className="text-lg font-display font-bold text-foreground">
               Etiket Yönetimi
             </DialogTitle>
           </DialogHeader>
@@ -148,7 +148,7 @@ export function ArticleQuickActions({
                 </Badge>
               ))}
               {tags.length === 0 && (
-                <p className="text-sm text-design-gray dark:text-gray-400">
+                <p className="text-sm text-muted-foreground">
                   Henüz etiket eklenmedi
                 </p>
               )}
@@ -191,7 +191,7 @@ export function ArticleQuickActions({
         </DialogTrigger>
         <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+            <DialogTitle className="text-lg font-display font-bold text-foreground">
               Medya Kütüphanesi
             </DialogTitle>
           </DialogHeader>
@@ -211,7 +211,7 @@ export function ArticleQuickActions({
           className="w-full justify-start gap-2 text-sm border-design-light/20 hover:bg-design-light/5"
           onClick={onNavigateToSEO}
         >
-          <Sparkles className="h-4 w-4 text-design-light" />
+          <Sparkles className="h-4 w-4 text-primary" />
           AI SEO Asistanı
         </Button>
       )}

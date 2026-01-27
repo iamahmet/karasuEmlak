@@ -118,8 +118,8 @@ export function UsersAnalytics({ users }: UsersAnalyticsProps) {
       {/* Registration Trend Chart */}
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <TrendingUp className="h-5 w-5 text-primary" />
             Kayıt Trendi (Son 12 Ay)
           </CardTitle>
         </CardHeader>
@@ -154,8 +154,8 @@ export function UsersAnalytics({ users }: UsersAnalyticsProps) {
         {/* Role Distribution */}
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Users className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Users className="h-5 w-5 text-primary" />
               Rol Dağılımı
             </CardTitle>
           </CardHeader>
@@ -185,8 +185,8 @@ export function UsersAnalytics({ users }: UsersAnalyticsProps) {
         {/* Activity Status */}
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <BarChart3 className="h-5 w-5 text-primary" />
               Aktivite Durumu
             </CardTitle>
           </CardHeader>
@@ -217,8 +217,8 @@ export function UsersAnalytics({ users }: UsersAnalyticsProps) {
       {/* Recent Activity Chart */}
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Calendar className="h-5 w-5 text-primary" />
             Son 30 Gün Aktivite
           </CardTitle>
         </CardHeader>

@@ -125,7 +125,7 @@ export function ExportImport({ contentItems, onImport, className }: ExportImport
   return (
     <Card className={cn("card-professional", className)}>
       <CardHeader className="pb-4 px-5 pt-5">
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+        <CardTitle className="text-base font-display font-bold text-foreground">
           Dışa/İçe Aktarma
         </CardTitle>
       </CardHeader>
@@ -133,14 +133,14 @@ export function ExportImport({ contentItems, onImport, className }: ExportImport
         {/* Export */}
         <div className="space-y-3">
           <div className="flex items-center gap-2 mb-2">
-            <Download className="h-4 w-4 text-design-light" />
-            <span className="text-sm font-ui font-semibold text-design-dark dark:text-white">
+            <Download className="h-4 w-4 text-primary" />
+            <span className="text-sm font-ui font-semibold text-foreground">
               Dışa Aktar
             </span>
           </div>
           <div className="flex items-center gap-2">
             <Select value={exportFormat} onValueChange={(v) => setExportFormat(v as any)}>
-              <SelectTrigger className="h-10 w-32 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-xl font-ui">
+              <SelectTrigger className="h-10 w-32 text-sm border border-border/40 dark:border-border/40 rounded-xl font-ui">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="rounded-lg">
@@ -170,10 +170,10 @@ export function ExportImport({ contentItems, onImport, className }: ExportImport
         </div>
 
         {/* Import */}
-        <div className="space-y-3 pt-4 border-t border-[#E7E7E7] dark:border-[#062F28]">
+        <div className="space-y-3 pt-4 border-t border-border/40 dark:border-border/40">
           <div className="flex items-center gap-2 mb-2">
-            <Upload className="h-4 w-4 text-design-light" />
-            <span className="text-sm font-ui font-semibold text-design-dark dark:text-white">
+            <Upload className="h-4 w-4 text-primary" />
+            <span className="text-sm font-ui font-semibold text-foreground">
               İçe Aktar
             </span>
           </div>
@@ -188,7 +188,7 @@ export function ExportImport({ contentItems, onImport, className }: ExportImport
             <Button
               variant="outline"
               disabled={importing}
-              className="w-full h-10 border border-[#E7E7E7] dark:border-[#062F28] rounded-xl font-ui hover-scale"
+              className="w-full h-10 border border-border/40 dark:border-border/40 rounded-xl font-ui hover-scale"
               asChild
             >
               <span className="cursor-pointer">

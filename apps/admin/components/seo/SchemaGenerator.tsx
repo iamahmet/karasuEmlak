@@ -96,7 +96,7 @@ export function SchemaGenerator({ items, locale }: SchemaGeneratorProps) {
             <CardHeader className="pb-4 px-5 pt-5">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white mb-2">
+                  <CardTitle className="text-base font-display font-bold text-foreground mb-2">
                     {item.title}
                   </CardTitle>
                   <div className="flex gap-2 flex-wrap">
@@ -104,7 +104,7 @@ export function SchemaGenerator({ items, locale }: SchemaGeneratorProps) {
                       {item.slug}
                     </Badge>
                     {item.category && (
-                      <Badge variant="outline" className="text-[10px] px-2 py-0.5 font-ui bg-design-light/10 text-design-dark dark:text-white">
+                      <Badge variant="outline" className="text-[10px] px-2 py-0.5 font-ui bg-primary/10 text-foreground">
                         {item.category.name}
                       </Badge>
                     )}
@@ -135,7 +135,7 @@ export function SchemaGenerator({ items, locale }: SchemaGeneratorProps) {
               <CardContent className="px-5 pb-5 space-y-4">
                 <div className="relative">
                   <div className="flex items-center justify-between mb-2">
-                    <label className="text-xs font-ui font-semibold text-design-dark dark:text-white">
+                    <label className="text-xs font-ui font-semibold text-foreground">
                       JSON-LD Schema
                     </label>
                     <Button
@@ -161,7 +161,7 @@ export function SchemaGenerator({ items, locale }: SchemaGeneratorProps) {
                     value={JSON.stringify(schema, null, 2)}
                     readOnly
                     rows={15}
-                    className="font-mono text-xs bg-[#0a3d35] dark:bg-[#062F28] text-white border-[#062F28] dark:border-[#062F28] rounded-lg"
+                    className="font-mono text-xs bg-card dark:bg-muted text-white border-border/40 dark:border-border/40 rounded-lg"
                   />
                 </div>
                 <div className="flex gap-2">

@@ -249,8 +249,8 @@ export function RealTimeNotifications({ userId }: RealTimeNotificationsProps) {
     <Card className="card-professional">
       <CardHeader className="pb-4 px-5 pt-5">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Bell className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Bell className="h-5 w-5 text-primary" />
             Gerçek Zamanlı Bildirimler
             {unreadCount > 0 && (
               <Badge className="bg-red-600 text-white text-[10px] px-2 py-0.5">
@@ -272,7 +272,7 @@ export function RealTimeNotifications({ userId }: RealTimeNotificationsProps) {
       </CardHeader>
       <CardContent className="px-5 pb-5">
         {notifications.length === 0 ? (
-          <div className="text-center py-12 text-design-gray dark:text-gray-400">
+          <div className="text-center py-12 text-muted-foreground">
             <Bell className="h-12 w-12 mx-auto mb-3 opacity-50" />
             <p>Henüz bildirim yok</p>
           </div>
@@ -284,7 +284,7 @@ export function RealTimeNotifications({ userId }: RealTimeNotificationsProps) {
                 className={cn(
                   "flex items-start gap-3 p-3 rounded-lg border transition-all duration-200",
                   (notification.is_read ?? notification.read ?? false)
-                    ? "bg-white dark:bg-[#0a3d35] border-[#E7E7E7] dark:border-[#062F28] opacity-60"
+                    ? "bg-white dark:bg-card border-border/40 dark:border-border/40 opacity-60"
                     : "bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-900/20"
                 )}
               >
@@ -293,7 +293,7 @@ export function RealTimeNotifications({ userId }: RealTimeNotificationsProps) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                    <p className="text-sm font-semibold text-foreground font-ui">
                       {notification.title}
                     </p>
                     <Badge className={cn("text-[10px] px-2 py-0.5", getNotificationColor(notification.type))}>
@@ -302,10 +302,10 @@ export function RealTimeNotifications({ userId }: RealTimeNotificationsProps) {
                        notification.type === "error" ? "Hata" : "Bilgi"}
                     </Badge>
                   </div>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                  <p className="text-xs text-muted-foreground font-ui mb-1">
                     {notification.message}
                   </p>
-                  <p className="text-[10px] text-design-gray dark:text-gray-400 font-ui">
+                  <p className="text-[10px] text-muted-foreground font-ui">
                     {formatDateTime(notification.created_at)}
                   </p>
                 </div>

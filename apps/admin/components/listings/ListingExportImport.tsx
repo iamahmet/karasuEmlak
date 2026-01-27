@@ -129,7 +129,7 @@ export function ListingExportImport({ listing, onImport, className }: ListingExp
   return (
     <Card className={cn("card-professional", className)}>
       <CardHeader>
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
           <Download className="h-5 w-5 text-blue-600 dark:text-blue-400" />
           Dışa/İçe Aktarma
         </CardTitle>
@@ -137,7 +137,7 @@ export function ListingExportImport({ listing, onImport, className }: ListingExp
       <CardContent className="space-y-4">
         {/* Export Section */}
         <div>
-          <h4 className="text-sm font-semibold text-design-dark dark:text-white mb-3">
+          <h4 className="text-sm font-semibold text-foreground mb-3">
             Dışa Aktar
           </h4>
           <div className="grid grid-cols-3 gap-2">
@@ -197,7 +197,7 @@ export function ListingExportImport({ listing, onImport, className }: ListingExp
 
         {/* Import Section */}
         <div>
-          <h4 className="text-sm font-semibold text-design-dark dark:text-white mb-3">
+          <h4 className="text-sm font-semibold text-foreground mb-3">
             İçe Aktar
           </h4>
           <div className="space-y-2">
@@ -230,7 +230,7 @@ export function ListingExportImport({ listing, onImport, className }: ListingExp
                 )}
               </Button>
             </label>
-            <p className="text-xs text-design-gray dark:text-gray-400">
+            <p className="text-xs text-muted-foreground">
               JSON veya CSV formatında ilan verilerini içe aktarabilirsiniz
             </p>
           </div>

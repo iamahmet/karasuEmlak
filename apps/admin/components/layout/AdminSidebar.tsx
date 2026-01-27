@@ -325,7 +325,7 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
                 "w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-200 font-ui text-sm font-medium focus-professional group relative",
                 "min-h-[44px] touch-manipulation active:scale-[0.98]",
                 active
-                  ? "bg-gradient-to-r from-design-light/15 via-design-light/10 to-transparent text-design-dark dark:text-design-light shadow-sm shadow-design-light/5 dark:shadow-design-light/5 border-l-2 border-design-light"
+                  ? "bg-gradient-to-r from-design-light/15 via-design-light/10 to-transparent text-design-dark dark:text-primary shadow-sm shadow-design-light/5 dark:shadow-design-light/5 border-l-2 border-design-light"
                   : "text-muted-foreground hover:bg-muted/40 hover:text-foreground",
                 level > 0 && "pl-6 ml-2",
                 "before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-design-light/5 before:to-transparent before:opacity-0 before:group-hover:opacity-100 before:transition-opacity before:duration-200"
@@ -361,7 +361,7 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
               "flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-200 font-ui text-sm font-medium relative group focus-professional",
               "min-h-[44px] touch-manipulation active:scale-[0.98]",
               active
-                ? "bg-gradient-to-r from-design-light/15 via-design-light/10 to-transparent text-design-dark dark:text-design-light shadow-sm shadow-design-light/5 dark:shadow-design-light/5 border-l-2 border-design-light"
+                ? "bg-gradient-to-r from-design-light/15 via-design-light/10 to-transparent text-design-dark dark:text-primary shadow-sm shadow-design-light/5 dark:shadow-design-light/5 border-l-2 border-design-light"
                 : "text-muted-foreground hover:bg-muted/40 hover:text-foreground",
               level > 0 && "pl-6 ml-2",
               "before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-design-light/5 before:to-transparent before:opacity-0 before:group-hover:opacity-100 before:transition-opacity before:duration-200"
@@ -415,8 +415,8 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
             {/* 🔑 EMLAKÇI PANELİ SECTION */}
             <div>
               <div className="flex items-center gap-2 px-2 mb-2">
-                <Key className="h-3 w-3 text-design-light" />
-                <h3 className="text-[9px] font-display font-bold text-design-gray dark:text-gray-400 uppercase tracking-wider">
+                <Key className="h-3 w-3 text-primary" />
+                <h3 className="text-[9px] font-display font-bold text-muted-foreground uppercase tracking-wider">
                   Emlakçı Paneli
                 </h3>
               </div>
@@ -426,7 +426,7 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
             </div>
 
             {/* Divider */}
-            <div className="border-t border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 my-3"></div>
+            <div className="border-t border-border/40/60 dark:border-[#0a3d35]/60 my-3"></div>
 
             {/* 🛠️ POI369 STUDIO SECTION - PREMIUM & ELEGANT */}
             <div>
@@ -503,9 +503,9 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
           </nav>
 
           {/* Footer - Compact */}
-          <div className="relative p-3 border-t border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 bg-gradient-to-t from-white/40 to-transparent dark:from-[#062F28]/40">
-            <div className="text-[10px] text-design-gray dark:text-gray-400 font-ui text-center">
-              <p className="font-semibold text-design-dark dark:text-white mb-0.5">
+          <div className="relative p-3 border-t border-border/40/60 dark:border-[#0a3d35]/60 bg-gradient-to-t from-white/40 to-transparent dark:from-[#062F28]/40">
+            <div className="text-[10px] text-muted-foreground font-ui text-center">
+              <p className="font-semibold text-foreground mb-0.5">
                 v2.0.0
               </p>
               <p className="font-medium">© 2025</p>

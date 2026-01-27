@@ -237,7 +237,7 @@ export function BulkSEOOptimizer({ locale }: { locale: string }) {
       <Card className="card-professional">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <FileText className="h-5 w-5 text-design-light" />
+            <FileText className="h-5 w-5 text-primary" />
             İçerik Listesi
           </CardTitle>
         </CardHeader>
@@ -274,12 +274,12 @@ export function BulkSEOOptimizer({ locale }: { locale: string }) {
           {/* Content Items */}
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-design-light" />
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           ) : filteredItems.length === 0 ? (
             <div className="text-center py-12">
-              <FileText className="h-12 w-12 text-design-gray dark:text-gray-400 mx-auto mb-4 opacity-50" />
-              <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+              <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-50" />
+              <p className="text-sm text-muted-foreground font-ui">
                 İçerik bulunamadı
               </p>
             </div>
@@ -291,7 +291,7 @@ export function BulkSEOOptimizer({ locale }: { locale: string }) {
                   className={cn(
                     "p-4 rounded-xl border transition-all cursor-pointer",
                     selectedItem?.id === item.id
-                      ? "border-design-light bg-design-light/5 dark:bg-design-light/10"
+                      ? "border-design-light bg-design-light/5 dark:bg-primary/10"
                       : "border-border/50 hover:border-design-light/50 bg-card"
                   )}
                   onClick={() => setSelectedItem(item)}
@@ -299,7 +299,7 @@ export function BulkSEOOptimizer({ locale }: { locale: string }) {
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
-                        <h4 className="font-semibold text-sm text-design-dark dark:text-white truncate">
+                        <h4 className="font-semibold text-sm text-foreground truncate">
                           {item.title}
                         </h4>
                         <Badge
@@ -314,7 +314,7 @@ export function BulkSEOOptimizer({ locale }: { locale: string }) {
                           {item.type === "article" ? "Makale" : "Haber"}
                         </Badge>
                       </div>
-                      <p className="text-xs text-design-gray dark:text-gray-400 line-clamp-2">
+                      <p className="text-xs text-muted-foreground line-clamp-2">
                         {item.excerpt || item.meta_description || "Açıklama yok"}
                       </p>
                     </div>

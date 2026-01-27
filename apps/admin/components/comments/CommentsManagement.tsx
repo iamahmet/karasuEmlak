@@ -355,7 +355,7 @@ export function CommentsManagement({
         const comment = row.original as Comment;
         return (
           <div className="max-w-md">
-            <p className="text-sm text-design-dark dark:text-white line-clamp-2 mb-2">
+            <p className="text-sm text-foreground line-clamp-2 mb-2">
               {comment.content}
             </p>
             {comment.article && (
@@ -367,7 +367,7 @@ export function CommentsManagement({
                     : "http://localhost:3000";
                   window.open(`${baseUrl}/blog/${comment.article?.slug}`, "_blank");
                 }}
-                className="text-xs text-design-light hover:text-design-dark dark:hover:text-design-light flex items-center gap-1 hover:underline transition-colors"
+                className="text-xs text-primary hover:text-design-dark dark:hover:text-primary flex items-center gap-1 hover:underline transition-colors"
               >
                 <FileText className="h-3 w-3" />
                 {comment.article.title}
@@ -389,12 +389,12 @@ export function CommentsManagement({
               <div className="p-1.5 rounded-lg bg-blue-100 dark:bg-blue-900/30">
                 <User className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
               </div>
-              <p className="text-sm font-bold text-design-dark dark:text-white">
+              <p className="text-sm font-bold text-foreground">
                 {comment.author_name}
               </p>
             </div>
             {(comment.author_email || comment.user?.email) && (
-              <div className="flex items-center gap-1.5 text-xs text-design-gray dark:text-gray-400">
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                 <Mail className="h-3 w-3" />
                 <span>{comment.author_email || comment.user?.email}</span>
               </div>
@@ -440,7 +440,7 @@ export function CommentsManagement({
         
         return (
           <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs text-design-gray dark:text-gray-400">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <Calendar className="h-3 w-3" />
               <span>{timeAgo}</span>
             </div>
@@ -523,8 +523,8 @@ export function CommentsManagement({
               </Badge>
             </div>
             <div>
-              <p className="text-sm text-design-gray dark:text-gray-400 mb-1">Toplam Yorum</p>
-              <p className="text-2xl font-bold text-design-dark dark:text-white">{stats.total}</p>
+              <p className="text-sm text-muted-foreground mb-1">Toplam Yorum</p>
+              <p className="text-2xl font-bold text-foreground">{stats.total}</p>
             </div>
           </CardContent>
         </Card>
@@ -539,8 +539,8 @@ export function CommentsManagement({
               </Badge>
             </div>
             <div>
-              <p className="text-sm text-design-gray dark:text-gray-400 mb-1">Bekleyen</p>
-              <p className="text-2xl font-bold text-design-dark dark:text-white">{stats.pending}</p>
+              <p className="text-sm text-muted-foreground mb-1">Bekleyen</p>
+              <p className="text-2xl font-bold text-foreground">{stats.pending}</p>
             </div>
           </CardContent>
         </Card>
@@ -555,8 +555,8 @@ export function CommentsManagement({
               </Badge>
             </div>
             <div>
-              <p className="text-sm text-design-gray dark:text-gray-400 mb-1">Onaylanan</p>
-              <p className="text-2xl font-bold text-design-dark dark:text-white">{stats.approved}</p>
+              <p className="text-sm text-muted-foreground mb-1">Onaylanan</p>
+              <p className="text-2xl font-bold text-foreground">{stats.approved}</p>
             </div>
           </CardContent>
         </Card>
@@ -571,8 +571,8 @@ export function CommentsManagement({
               </Badge>
             </div>
             <div>
-              <p className="text-sm text-design-gray dark:text-gray-400 mb-1">Reddedilen</p>
-              <p className="text-2xl font-bold text-design-dark dark:text-white">{stats.rejected}</p>
+              <p className="text-sm text-muted-foreground mb-1">Reddedilen</p>
+              <p className="text-2xl font-bold text-foreground">{stats.rejected}</p>
             </div>
           </CardContent>
         </Card>
@@ -587,21 +587,21 @@ export function CommentsManagement({
               </Badge>
             </div>
             <div>
-              <p className="text-sm text-design-gray dark:text-gray-400 mb-1">Spam</p>
-              <p className="text-2xl font-bold text-design-dark dark:text-white">{stats.spam}</p>
+              <p className="text-sm text-muted-foreground mb-1">Spam</p>
+              <p className="text-2xl font-bold text-foreground">{stats.spam}</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
       <Card className="card-professional animate-slide-in-up border-2 border-transparent hover:border-design-light/20 transition-all duration-300">
-        <CardHeader className="pb-4 border-b border-[#E7E7E7] dark:border-[#062F28] bg-gradient-to-r from-blue-50/50 to-transparent dark:from-blue-900/20">
+        <CardHeader className="pb-4 border-b border-border/40 dark:border-border/40 bg-gradient-to-r from-blue-50/50 to-transparent dark:from-blue-900/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30">
                 <MessageSquare className="h-5 w-5 text-blue-600 dark:text-blue-400" />
               </div>
-              <CardTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+              <CardTitle className="text-lg font-display font-bold text-foreground">
                 Yorum Yönetimi
               </CardTitle>
             </div>
@@ -652,7 +652,7 @@ export function CommentsManagement({
           <div className="mb-6 space-y-4">
             <div className="flex items-center gap-4">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-design-gray dark:text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   placeholder="Yorum, yazar, email veya makale ara..."
                   value={searchQuery}
@@ -772,8 +772,8 @@ export function CommentsManagement({
       <Dialog open={detailModalOpen} onOpenChange={setDetailModalOpen}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-xl font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <MessageSquare className="h-5 w-5 text-design-light" />
+            <DialogTitle className="text-xl font-display font-bold text-foreground flex items-center gap-2">
+              <MessageSquare className="h-5 w-5 text-primary" />
               Yorum Detayları
             </DialogTitle>
           </DialogHeader>
@@ -782,12 +782,12 @@ export function CommentsManagement({
               {/* Comment Content */}
               <Card className="card-professional">
                 <CardHeader>
-                  <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white">
+                  <CardTitle className="text-sm font-display font-bold text-foreground">
                     Yorum İçeriği
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-design-dark dark:text-white leading-relaxed whitespace-pre-wrap">
+                  <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
                     {selectedComment.content}
                   </p>
                 </CardContent>
@@ -797,22 +797,22 @@ export function CommentsManagement({
               <div className="grid grid-cols-2 gap-4">
                 <Card className="card-professional">
                   <CardHeader>
-                    <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+                    <CardTitle className="text-sm font-display font-bold text-foreground flex items-center gap-2">
                       <User className="h-4 w-4" />
                       Yazar Bilgileri
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-2">
                     <div>
-                      <Label className="text-xs text-design-gray dark:text-gray-400">İsim</Label>
-                      <p className="text-sm font-semibold text-design-dark dark:text-white">
+                      <Label className="text-xs text-muted-foreground">İsim</Label>
+                      <p className="text-sm font-semibold text-foreground">
                         {selectedComment.author_name}
                       </p>
                     </div>
                     {(selectedComment.author_email || selectedComment.user?.email) && (
                       <div>
-                        <Label className="text-xs text-design-gray dark:text-gray-400">Email</Label>
-                        <p className="text-sm text-design-dark dark:text-white">
+                        <Label className="text-xs text-muted-foreground">Email</Label>
+                        <p className="text-sm text-foreground">
                           {selectedComment.author_email || selectedComment.user?.email}
                         </p>
                       </div>
@@ -823,14 +823,14 @@ export function CommentsManagement({
                 {/* Status & Actions */}
                 <Card className="card-professional">
                   <CardHeader>
-                    <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+                    <CardTitle className="text-sm font-display font-bold text-foreground flex items-center gap-2">
                       <Shield className="h-4 w-4" />
                       Durum ve İşlemler
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div>
-                      <Label className="text-xs text-design-gray dark:text-gray-400 mb-2 block">Durum</Label>
+                      <Label className="text-xs text-muted-foreground mb-2 block">Durum</Label>
                       {getStatusBadge(selectedComment)}
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -882,7 +882,7 @@ export function CommentsManagement({
               {selectedComment.article && (
                 <Card className="card-professional">
                   <CardHeader>
-                    <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+                    <CardTitle className="text-sm font-display font-bold text-foreground flex items-center gap-2">
                       <FileText className="h-4 w-4" />
                       İlgili İçerik
                     </CardTitle>
@@ -890,10 +890,10 @@ export function CommentsManagement({
                   <CardContent>
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-semibold text-design-dark dark:text-white">
+                        <p className="text-sm font-semibold text-foreground">
                           {selectedComment.article.title}
                         </p>
-                        <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           Slug: {selectedComment.article.slug}
                         </p>
                       </div>
@@ -917,7 +917,7 @@ export function CommentsManagement({
               )}
 
               {/* Timestamps */}
-              <div className="grid grid-cols-2 gap-4 text-xs text-design-gray dark:text-gray-400">
+              <div className="grid grid-cols-2 gap-4 text-xs text-muted-foreground">
                 <div>
                   <Label className="text-xs mb-1 block">Oluşturulma</Label>
                   <p>{new Date(selectedComment.created_at).toLocaleString("tr-TR")}</p>

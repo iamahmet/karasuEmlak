@@ -83,8 +83,8 @@ export function ArticleFormFields({
       {/* Title & Slug Section */}
       <Card className="card-professional border-2 border-slate-200/80 dark:border-[#0a3d35]/80">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <FileText className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <FileText className="h-5 w-5 text-primary" />
             Başlık ve URL
           </CardTitle>
         </CardHeader>
@@ -122,7 +122,7 @@ export function ArticleFormFields({
                 className="input-modern mt-1 font-mono text-sm"
                 placeholder="makale-slug"
               />
-              <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 URL'de görünecek kısım
               </p>
             </div>
@@ -167,10 +167,10 @@ export function ArticleFormFields({
       {/* Excerpt Section */}
       <Card className="card-professional">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <FileText className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <FileText className="h-5 w-5 text-primary" />
             Özet
-            <span className="text-xs font-normal text-design-gray dark:text-gray-400 ml-auto">
+            <span className="text-xs font-normal text-muted-foreground ml-auto">
               {excerptLength} / 160 karakter
             </span>
           </CardTitle>
@@ -183,7 +183,7 @@ export function ArticleFormFields({
             className="input-modern"
             placeholder="Makale özeti (150-160 karakter önerilir)"
           />
-          <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+          <p className="text-xs text-muted-foreground mt-1">
             {excerptLength} / 160 karakter - Arama sonuçlarında ve önizlemede görünecek kısa açıklama
           </p>
         </CardContent>
@@ -192,8 +192,8 @@ export function ArticleFormFields({
       {/* Featured Image Section */}
       <Card className="card-professional">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <ImageIcon className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <ImageIcon className="h-5 w-5 text-primary" />
             Öne Çıkan Görsel
             {article.featured_image && (
               <Badge className="ml-auto bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400 text-xs">
@@ -213,8 +213,8 @@ export function ArticleFormFields({
               <div className="p-3 bg-gray-50 dark:bg-gray-900/20 rounded-lg border border-gray-200 dark:border-gray-800">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <ImageIcon className="h-4 w-4 text-design-gray dark:text-gray-400" />
-                    <span className="text-xs text-design-gray dark:text-gray-400 font-mono truncate max-w-xs">
+                    <ImageIcon className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground font-mono truncate max-w-xs">
                       {article.featured_image.split('/').pop()}
                     </span>
                   </div>
@@ -235,19 +235,19 @@ export function ArticleFormFields({
       {/* Publishing Settings */}
       <Card className="card-professional">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-primary" />
             Yayınlama Ayarları
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-[#0a3d35]/50 border border-slate-200 dark:border-[#0a3d35]">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-card/50 border border-slate-200 dark:border-[#0a3d35]">
             <div className="flex items-center gap-3">
               <div>
-                <Label className="text-sm font-semibold text-design-dark dark:text-white">
+                <Label className="text-sm font-semibold text-foreground">
                   Yayında
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400">
+                <p className="text-xs text-muted-foreground">
                   Makale ziyaretçilere görünür olacak
                 </p>
               </div>
@@ -258,13 +258,13 @@ export function ArticleFormFields({
             />
           </div>
 
-          <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-[#0a3d35]/50 border border-slate-200 dark:border-[#0a3d35]">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-card/50 border border-slate-200 dark:border-[#0a3d35]">
             <div className="flex items-center gap-3">
               <div>
-                <Label className="text-sm font-semibold text-design-dark dark:text-white">
+                <Label className="text-sm font-semibold text-foreground">
                   Öne Çıkan
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400">
+                <p className="text-xs text-muted-foreground">
                   Ana sayfada öne çıkan bölümde göster
                 </p>
               </div>
@@ -275,13 +275,13 @@ export function ArticleFormFields({
             />
           </div>
 
-          <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-[#0a3d35]/50 border border-slate-200 dark:border-[#0a3d35]">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-card/50 border border-slate-200 dark:border-[#0a3d35]">
             <div className="flex items-center gap-3">
               <div>
-                <Label className="text-sm font-semibold text-design-dark dark:text-white">
+                <Label className="text-sm font-semibold text-foreground">
                   Son Dakika
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400">
+                <p className="text-xs text-muted-foreground">
                   Son dakika haberi olarak işaretle
                 </p>
               </div>
@@ -297,8 +297,8 @@ export function ArticleFormFields({
       {/* Author Section */}
       <Card className="card-professional">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <FileText className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <FileText className="h-5 w-5 text-primary" />
             Yazar Bilgisi
           </CardTitle>
         </CardHeader>
@@ -313,7 +313,7 @@ export function ArticleFormFields({
               className="input-modern text-sm"
               placeholder="Yazar adı"
             />
-            <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               Makale yazarının adı
             </p>
           </div>

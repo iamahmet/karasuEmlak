@@ -44,11 +44,11 @@ export default async function ConsentLogsPage({
       {/* Header - Enhanced Modern */}
       <div className="flex items-center justify-between mb-6 relative">
         <div className="relative">
-          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full opacity-50"></div>
-          <h1 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-br from-design-dark via-design-dark/90 to-design-dark/80 dark:from-white dark:via-gray-100 dark:to-gray-300 bg-clip-text text-transparent mb-2 tracking-tight">
+          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-primary/40 rounded-full opacity-50"></div>
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-2 tracking-tight">
             {t("logs.title")}
           </h1>
-          <p className="text-design-gray dark:text-gray-400 text-sm md:text-base font-body font-medium">
+          <p className="text-muted-foreground text-sm md:text-base font-body font-medium">
             {t("logs.description") || "Onay geçmişi ve log kayıtlarını görüntüleyin"}
           </p>
         </div>

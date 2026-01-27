@@ -162,8 +162,8 @@ export function ImprovementQueue() {
     <Card className="card-professional">
       <CardHeader className="card-professional-header">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <TrendingUp className="h-5 w-5 text-primary" />
             İyileştirme Kuyruğu
           </CardTitle>
           <button
@@ -174,7 +174,7 @@ export function ImprovementQueue() {
           >
             <RefreshCw
               className={cn(
-                "h-4 w-4 text-design-gray dark:text-gray-400",
+                "h-4 w-4 text-muted-foreground",
                 loading && "animate-spin"
               )}
             />
@@ -184,35 +184,35 @@ export function ImprovementQueue() {
       <CardContent className="space-y-4">
         {/* Statistics */}
         <div className="grid grid-cols-4 gap-2">
-          <div className="text-center p-3 rounded-lg border border-[#E7E7E7] dark:border-[#0a3d35] bg-white/60 dark:bg-[#0a3d35]/60">
+          <div className="text-center p-3 rounded-lg border border-border/40 dark:border-[#0a3d35] bg-white/60 dark:bg-card/60">
             <div className="text-2xl font-display font-bold text-yellow-600 dark:text-yellow-400">
               {stats.pending}
             </div>
-            <div className="text-[10px] text-design-gray dark:text-gray-400 mt-1">
+            <div className="text-[10px] text-muted-foreground mt-1">
               Bekliyor
             </div>
           </div>
-          <div className="text-center p-3 rounded-lg border border-[#E7E7E7] dark:border-[#0a3d35] bg-white/60 dark:bg-[#0a3d35]/60">
+          <div className="text-center p-3 rounded-lg border border-border/40 dark:border-[#0a3d35] bg-white/60 dark:bg-card/60">
             <div className="text-2xl font-display font-bold text-blue-600 dark:text-blue-400">
               {stats.processing}
             </div>
-            <div className="text-[10px] text-design-gray dark:text-gray-400 mt-1">
+            <div className="text-[10px] text-muted-foreground mt-1">
               İşleniyor
             </div>
           </div>
-          <div className="text-center p-3 rounded-lg border border-[#E7E7E7] dark:border-[#0a3d35] bg-white/60 dark:bg-[#0a3d35]/60">
+          <div className="text-center p-3 rounded-lg border border-border/40 dark:border-[#0a3d35] bg-white/60 dark:bg-card/60">
             <div className="text-2xl font-display font-bold text-green-600 dark:text-green-400">
               {stats.completed}
             </div>
-            <div className="text-[10px] text-design-gray dark:text-gray-400 mt-1">
+            <div className="text-[10px] text-muted-foreground mt-1">
               Tamamlandı
             </div>
           </div>
-          <div className="text-center p-3 rounded-lg border border-[#E7E7E7] dark:border-[#0a3d35] bg-white/60 dark:bg-[#0a3d35]/60">
+          <div className="text-center p-3 rounded-lg border border-border/40 dark:border-[#0a3d35] bg-white/60 dark:bg-card/60">
             <div className="text-2xl font-display font-bold text-red-600 dark:text-red-400">
               {stats.failed}
             </div>
-            <div className="text-[10px] text-design-gray dark:text-gray-400 mt-1">
+            <div className="text-[10px] text-muted-foreground mt-1">
               Başarısız
             </div>
           </div>
@@ -221,28 +221,28 @@ export function ImprovementQueue() {
         {/* Recent Improvements */}
         {recent.length > 0 && (
           <div>
-            <h4 className="text-sm font-semibold text-design-dark dark:text-white mb-3">
+            <h4 className="text-sm font-semibold text-foreground mb-3">
               Son İyileştirmeler ({recent.length})
             </h4>
             <div className="space-y-2 max-h-[400px] overflow-y-auto scrollbar-modern">
               {recent.map((item) => (
                 <div
                   key={item.id}
-                  className="p-2.5 rounded-lg border border-[#E7E7E7] dark:border-[#0a3d35] bg-white/60 dark:bg-[#0a3d35]/60"
+                  className="p-2.5 rounded-lg border border-border/40 dark:border-[#0a3d35] bg-white/60 dark:bg-card/60"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-design-dark dark:text-white truncate">
+                      <p className="text-xs font-semibold text-foreground truncate">
                         {item.content_title}
                       </p>
                       <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                         {getStatusBadge(item.status)}
                         {item.status === "processing" && item.progress > 0 && (
-                          <span className="text-[10px] text-design-gray dark:text-gray-400">
+                          <span className="text-[10px] text-muted-foreground">
                             %{item.progress}
                           </span>
                         )}
-                        <span className="text-[10px] text-design-gray dark:text-gray-400">
+                        <span className="text-[10px] text-muted-foreground">
                           {formatDate(item.created_at)}
                         </span>
                       </div>
@@ -260,7 +260,7 @@ export function ImprovementQueue() {
         )}
 
         {recent.length === 0 && !loading && (
-          <div className="text-center py-6 text-design-gray dark:text-gray-400">
+          <div className="text-center py-6 text-muted-foreground">
             <AlertCircle className="h-6 w-6 mx-auto mb-2 opacity-50" />
             <p className="text-xs">Henüz iyileştirme kaydı yok</p>
           </div>

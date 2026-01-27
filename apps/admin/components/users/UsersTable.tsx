@@ -254,9 +254,9 @@ export function UsersTable({
       return <ArrowUpDown className="h-3 w-3 ml-1 opacity-50" />;
     }
     return sortDirection === "asc" ? (
-      <ArrowUp className="h-3 w-3 ml-1 text-design-light" />
+      <ArrowUp className="h-3 w-3 ml-1 text-primary" />
     ) : (
-      <ArrowDown className="h-3 w-3 ml-1 text-design-light" />
+      <ArrowDown className="h-3 w-3 ml-1 text-primary" />
     );
   };
 
@@ -563,7 +563,7 @@ export function UsersTable({
           <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
             <div className="flex flex-1 gap-3 w-full md:w-auto">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-design-gray dark:text-gray-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Kullanıcı ara..."
                   value={searchQuery}
@@ -572,7 +572,7 @@ export function UsersTable({
                 />
               </div>
               <Select value={roleFilter} onValueChange={setRoleFilter}>
-                <SelectTrigger className="w-[140px] border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui">
+                <SelectTrigger className="w-[140px] border-border/40 dark:border-border/40 rounded-lg font-ui">
                   <SelectValue placeholder={t("filters.role")} />
                 </SelectTrigger>
                 <SelectContent>
@@ -583,7 +583,7 @@ export function UsersTable({
                 </SelectContent>
               </Select>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-[140px] border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui">
+                <SelectTrigger className="w-[140px] border-border/40 dark:border-border/40 rounded-lg font-ui">
                   <SelectValue placeholder={t("filters.status")} />
                 </SelectTrigger>
                 <SelectContent>
@@ -593,7 +593,7 @@ export function UsersTable({
                 </SelectContent>
               </Select>
               <Select value={emailVerifiedFilter} onValueChange={setEmailVerifiedFilter}>
-                <SelectTrigger className="w-[160px] border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui">
+                <SelectTrigger className="w-[160px] border-border/40 dark:border-border/40 rounded-lg font-ui">
                   <SelectValue placeholder={t("filters.emailVerified")} />
                 </SelectTrigger>
                 <SelectContent>
@@ -603,7 +603,7 @@ export function UsersTable({
                 </SelectContent>
               </Select>
               <Select value={dateRangeFilter} onValueChange={(value: any) => setDateRangeFilter(value)}>
-                <SelectTrigger className="w-[140px] border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui">
+                <SelectTrigger className="w-[140px] border-border/40 dark:border-border/40 rounded-lg font-ui">
                   <SelectValue placeholder={t("filters.dateRange")} />
                 </SelectTrigger>
                 <SelectContent>
@@ -621,15 +621,15 @@ export function UsersTable({
                     type="date"
                     value={customDateStart}
                     onChange={(e) => setCustomDateStart(e.target.value)}
-                    className="w-[140px] border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+                    className="w-[140px] border-border/40 dark:border-border/40 rounded-lg font-ui"
                     placeholder={t("filters.dateRangeStart")}
                   />
-                  <span className="text-design-gray dark:text-gray-400">-</span>
+                  <span className="text-muted-foreground">-</span>
                   <Input
                     type="date"
                     value={customDateEnd}
                     onChange={(e) => setCustomDateEnd(e.target.value)}
-                    className="w-[140px] border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+                    className="w-[140px] border-border/40 dark:border-border/40 rounded-lg font-ui"
                     placeholder={t("filters.dateRangeEnd")}
                   />
                 </div>
@@ -807,7 +807,7 @@ export function UsersTable({
           {viewMode === "table" ? (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#E7E7E7] dark:bg-[#062F28] border-b border-[#E7E7E7] dark:border-[#062F28]">
+              <thead className="bg-[#E7E7E7] dark:bg-muted border-b border-border/40 dark:border-border/40">
                 <tr>
                   <th className="px-4 py-3 text-left">
                     <input
@@ -825,10 +825,10 @@ export function UsersTable({
                     />
                   </th>
                     {visibleColumns.user && (
-                  <th className="px-4 py-3 text-left text-xs font-ui font-semibold text-design-gray dark:text-gray-400 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-ui font-semibold text-muted-foreground uppercase">
                         <button
                           onClick={() => handleSort("name")}
-                          className="flex items-center hover:text-design-light dark:hover:text-design-light transition-colors"
+                          className="flex items-center hover:text-primary dark:hover:text-primary transition-colors"
                         >
                     Kullanıcı
                           <SortIcon field="name" />
@@ -836,10 +836,10 @@ export function UsersTable({
                   </th>
                     )}
                     {visibleColumns.email && (
-                  <th className="px-4 py-3 text-left text-xs font-ui font-semibold text-design-gray dark:text-gray-400 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-ui font-semibold text-muted-foreground uppercase">
                         <button
                           onClick={() => handleSort("email")}
-                          className="flex items-center hover:text-design-light dark:hover:text-design-light transition-colors"
+                          className="flex items-center hover:text-primary dark:hover:text-primary transition-colors"
                         >
                     E-posta
                           <SortIcon field="email" />
@@ -847,20 +847,20 @@ export function UsersTable({
                   </th>
                     )}
                     {visibleColumns.roles && (
-                  <th className="px-4 py-3 text-left text-xs font-ui font-semibold text-design-gray dark:text-gray-400 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-ui font-semibold text-muted-foreground uppercase">
                     Roller
                   </th>
                     )}
                     {visibleColumns.status && (
-                  <th className="px-4 py-3 text-left text-xs font-ui font-semibold text-design-gray dark:text-gray-400 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-ui font-semibold text-muted-foreground uppercase">
                     Durum
                   </th>
                     )}
                     {visibleColumns.lastSignIn && (
-                  <th className="px-4 py-3 text-left text-xs font-ui font-semibold text-design-gray dark:text-gray-400 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-ui font-semibold text-muted-foreground uppercase">
                         <button
                           onClick={() => handleSort("last_sign_in_at")}
-                          className="flex items-center hover:text-design-light dark:hover:text-design-light transition-colors"
+                          className="flex items-center hover:text-primary dark:hover:text-primary transition-colors"
                         >
                     Son Giriş
                           <SortIcon field="last_sign_in_at" />
@@ -868,10 +868,10 @@ export function UsersTable({
                   </th>
                     )}
                     {visibleColumns.createdAt && (
-                  <th className="px-4 py-3 text-left text-xs font-ui font-semibold text-design-gray dark:text-gray-400 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-ui font-semibold text-muted-foreground uppercase">
                         <button
                           onClick={() => handleSort("created_at")}
-                          className="flex items-center hover:text-design-light dark:hover:text-design-light transition-colors"
+                          className="flex items-center hover:text-primary dark:hover:text-primary transition-colors"
                         >
                     Kayıt Tarihi
                           <SortIcon field="created_at" />
@@ -879,7 +879,7 @@ export function UsersTable({
                   </th>
                     )}
                     {visibleColumns.actions && (
-                  <th className="px-4 py-3 text-right text-xs font-ui font-semibold text-design-gray dark:text-gray-400 uppercase">
+                  <th className="px-4 py-3 text-right text-xs font-ui font-semibold text-muted-foreground uppercase">
                     İşlemler
                   </th>
                     )}
@@ -897,8 +897,8 @@ export function UsersTable({
                 ) : filteredAndSortedUsers.length === 0 ? (
                   <tr>
                     <td colSpan={Object.values(visibleColumns).filter(Boolean).length + 1} className="px-4 py-12 text-center">
-                      <User className="h-12 w-12 mx-auto mb-3 text-design-gray dark:text-gray-400 opacity-50" />
-                      <p className="text-design-gray dark:text-gray-400 font-ui">
+                      <User className="h-12 w-12 mx-auto mb-3 text-muted-foreground opacity-50" />
+                      <p className="text-muted-foreground font-ui">
                         {searchQuery || roleFilter !== "all" || statusFilter !== "all"
                           ? "Arama kriterlerinize uygun kullanıcı bulunamadı"
                           : "Henüz kullanıcı yok"}
@@ -909,7 +909,7 @@ export function UsersTable({
                   paginatedUsers.map((user) => (
                     <tr
                       key={user.id}
-                      className="hover:bg-design-light/5 dark:hover:bg-design-light/10 transition-colors cursor-pointer"
+                      className="hover:bg-design-light/5 dark:hover:bg-primary/10 transition-colors cursor-pointer"
                       onClick={(e) => {
                         // Don't trigger row click if clicking on interactive elements
                         const target = e.target as HTMLElement;
@@ -950,14 +950,14 @@ export function UsersTable({
                       {visibleColumns.user && (
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
-                                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-design-light to-green-600 flex items-center justify-center text-white font-bold">
+                                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
                                     {(user?.name || user?.email || "U").charAt(0).toUpperCase()}
                                   </div>
                                   <div>
-                                    <p className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                                    <p className="text-sm font-semibold text-foreground font-ui">
                                       {user?.name || "İsimsiz"}
                                     </p>
-                                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                                    <p className="text-xs text-muted-foreground font-ui">
                                       {user?.id ? `${user.id.slice(0, 8)}...` : "N/A"}
                                     </p>
                                   </div>
@@ -967,8 +967,8 @@ export function UsersTable({
                       {visibleColumns.email && (
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          <Mail className="h-4 w-4 text-design-gray dark:text-gray-400" />
-                                      <span className="text-sm text-design-dark dark:text-white font-ui">
+                          <Mail className="h-4 w-4 text-muted-foreground" />
+                                      <span className="text-sm text-foreground font-ui">
                                         {user?.email || "N/A"}
                                       </span>
                           {user.email_verified && (
@@ -1014,8 +1014,8 @@ export function UsersTable({
                       {visibleColumns.lastSignIn && (
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4 text-design-gray dark:text-gray-400" />
-                                      <span className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                          <Calendar className="h-4 w-4 text-muted-foreground" />
+                                      <span className="text-xs text-muted-foreground font-ui">
                                         {user?.last_sign_in_at
                                           ? formatDateTime(user.last_sign_in_at)
                                           : "Hiç giriş yapmamış"}
@@ -1025,7 +1025,7 @@ export function UsersTable({
                       )}
                       {visibleColumns.createdAt && (
                       <td className="px-4 py-3">
-                                    <span className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                                    <span className="text-xs text-muted-foreground font-ui">
                                       {user?.created_at ? formatDateTime(user.created_at) : "N/A"}
                                     </span>
                       </td>
@@ -1201,8 +1201,8 @@ export function UsersTable({
               </div>
             ) : filteredAndSortedUsers.length === 0 ? (
               <div className="text-center py-12">
-                <User className="h-12 w-12 mx-auto mb-3 text-design-gray dark:text-gray-400 opacity-50" />
-                <p className="text-design-gray dark:text-gray-400 font-ui">
+                <User className="h-12 w-12 mx-auto mb-3 text-muted-foreground opacity-50" />
+                <p className="text-muted-foreground font-ui">
                   {searchQuery || roleFilter !== "all" || statusFilter !== "all"
                     ? "Arama kriterlerinize uygun kullanıcı bulunamadı"
                     : "Henüz kullanıcı yok"}
@@ -1219,15 +1219,15 @@ export function UsersTable({
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex items-center gap-3 flex-1">
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-design-light to-green-600 flex items-center justify-center text-white font-bold text-lg">
+                          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">
                             {(user?.name || user?.email || "U").charAt(0).toUpperCase()}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-design-dark dark:text-white font-ui truncate">
+                            <p className="text-sm font-semibold text-foreground font-ui truncate">
                               {user?.name || "İsimsiz"}
                             </p>
                             {visibleColumns.email && (
-                              <p className="text-xs text-design-gray dark:text-gray-400 font-ui truncate">
+                              <p className="text-xs text-muted-foreground font-ui truncate">
                                 {user?.email || "N/A"}
                               </p>
                             )}
@@ -1282,7 +1282,7 @@ export function UsersTable({
                           </Badge>
                         </div>
                       )}
-                      <div className="space-y-2 text-xs text-design-gray dark:text-gray-400 font-ui">
+                      <div className="space-y-2 text-xs text-muted-foreground font-ui">
                         {visibleColumns.lastSignIn && (
                           <div className="flex items-center gap-2">
                             <Calendar className="h-3 w-3" />
@@ -1301,7 +1301,7 @@ export function UsersTable({
                         )}
                       </div>
                       {visibleColumns.actions && (
-                        <div className="mt-3 pt-3 border-t border-[#E7E7E7] dark:border-[#062F28]">
+                        <div className="mt-3 pt-3 border-t border-border/40 dark:border-border/40">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button
@@ -1419,22 +1419,22 @@ export function UsersTable({
           <CardContent className="p-4">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-4">
-          <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
-                  Toplam <span className="font-semibold text-design-dark dark:text-white">{filteredAndSortedUsers.length}</span> kullanıcıdan{" "}
-                  <span className="font-semibold text-design-dark dark:text-white">
+          <p className="text-sm text-muted-foreground font-ui">
+                  Toplam <span className="font-semibold text-foreground">{filteredAndSortedUsers.length}</span> kullanıcıdan{" "}
+                  <span className="font-semibold text-foreground">
                     {startIndex + 1}-{Math.min(endIndex, filteredAndSortedUsers.length)}
                   </span>{" "}
                   arası gösteriliyor
           </p>
           <div className="flex items-center gap-2">
-                  <label className="text-xs text-design-gray dark:text-gray-400 font-ui">Sayfa başına:</label>
+                  <label className="text-xs text-muted-foreground font-ui">Sayfa başına:</label>
                   <select
                     value={itemsPerPage}
                     onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                       setItemsPerPage(Number(e.target.value));
                       setCurrentPage(1);
                     }}
-                    className="text-xs border border-[#E7E7E7] dark:border-[#062F28] rounded-lg px-2 py-1 bg-white dark:bg-[#0a3d35] text-design-dark dark:text-white font-ui"
+                    className="text-xs border border-border/40 dark:border-border/40 rounded-lg px-2 py-1 bg-white dark:bg-card text-foreground font-ui"
                   >
                     <option value={10}>10</option>
                     <option value={25}>25</option>
@@ -1480,7 +1480,7 @@ export function UsersTable({
                         variant={currentPage === pageNum ? "default" : "outline"}
                         size="sm"
                         onClick={() => setCurrentPage(pageNum)}
-                        className={`h-8 w-8 p-0 ${currentPage === pageNum ? "bg-design-light text-white" : ""}`}
+                        className={`h-8 w-8 p-0 ${currentPage === pageNum ? "bg-primary text-primary-foreground" : ""}`}
                       >
                         {pageNum}
                       </Button>
@@ -1606,7 +1606,7 @@ export function UsersTable({
                 }}
                 className="mt-1"
               />
-              <p className="text-xs text-design-gray dark:text-gray-400 mt-2">
+              <p className="text-xs text-muted-foreground mt-2">
                 Örnek format: Email, Name, Role<br />
                 user@example.com, John Doe, staff
               </p>

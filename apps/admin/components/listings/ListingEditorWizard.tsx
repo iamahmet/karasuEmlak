@@ -414,12 +414,14 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
       case 1: // Temel Bilgiler
         return (
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
+            <div className="bg-card/95 backdrop-blur-xl rounded-xl p-6 border border-border/40">
               <div className="flex items-start gap-3">
-                <Info className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Info className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                </div>
                 <div>
-                  <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-1">İpuçları</h3>
-                  <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1 list-disc list-inside">
+                  <h3 className="font-semibold text-foreground mb-1">İpuçları</h3>
+                  <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
                     <li>Başlık açıklayıcı ve SEO dostu olmalı</li>
                     <li>Örnek: "Denize Sıfır 3+1 Daire, Merkez Mahallesi"</li>
                     <li>URL slug otomatik oluşturulur, isterseniz düzenleyebilirsiniz</li>
@@ -660,12 +662,14 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
       case 2: // Konum & Mahalle
         return (
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
+            <div className="bg-card/95 backdrop-blur-xl rounded-xl p-6 border border-border/40">
               <div className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                </div>
                 <div>
-                  <h3 className="font-semibold text-green-900 dark:text-green-100 mb-1">Konum Bilgisi</h3>
-                  <p className="text-sm text-green-800 dark:text-green-200">
+                  <h3 className="font-semibold text-foreground mb-1">Konum Bilgisi</h3>
+                  <p className="text-sm text-muted-foreground">
                     Detaylı adres bilgisi ilanın görünürlüğünü artırır ve potansiyel alıcıların ilanı bulmasını kolaylaştırır.
                   </p>
                 </div>
@@ -748,12 +752,14 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
         const pricePerM2 = calculatePricePerM2();
         return (
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
+            <div className="bg-card/95 backdrop-blur-xl rounded-xl p-6 border border-border/40">
               <div className="flex items-start gap-3">
-                <DollarSign className="h-5 w-5 text-purple-600 dark:text-purple-400 mt-0.5 flex-shrink-0" />
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <DollarSign className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                </div>
                 <div>
-                  <h3 className="font-semibold text-purple-900 dark:text-purple-100 mb-1">Fiyatlandırma</h3>
-                  <p className="text-sm text-purple-800 dark:text-purple-200">
+                  <h3 className="font-semibold text-foreground mb-1">Fiyatlandırma</h3>
+                  <p className="text-sm text-muted-foreground">
                     Gerçekçi fiyatlandırma ilanınızın daha fazla görüntülenmesini sağlar.
                   </p>
                 </div>
@@ -954,12 +960,14 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
       case 4: // Fotoğraflar
         return (
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 rounded-xl p-6 border border-orange-200 dark:border-orange-800">
+            <div className="bg-card/95 backdrop-blur-xl rounded-xl p-6 border border-border/40">
               <div className="flex items-start gap-3">
-                <Camera className="h-5 w-5 text-orange-600 dark:text-orange-400 mt-0.5 flex-shrink-0" />
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Camera className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                </div>
                 <div>
-                  <h3 className="font-semibold text-orange-900 dark:text-orange-100 mb-1">Fotoğraf İpuçları</h3>
-                  <ul className="text-sm text-orange-800 dark:text-orange-200 space-y-1 list-disc list-inside">
+                  <h3 className="font-semibold text-foreground mb-1">Fotoğraf İpuçları</h3>
+                  <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
                     <li>İlk fotoğraf kapak görseli olarak kullanılır</li>
                     <li>En fazla 20 fotoğraf yükleyebilirsiniz</li>
                     <li>Yüksek kaliteli, iyi aydınlatılmış fotoğraflar tercih edilir</li>
@@ -975,10 +983,10 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
               className={cn(
-                "border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300",
+                "border-2 border-dashed rounded-xl p-12 text-center transition-all duration-200",
                 dragActive
-                  ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 scale-105"
-                  : "border-gray-300 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600 hover:bg-gray-50 dark:hover:bg-gray-900/50"
+                  ? "border-primary bg-primary/5 scale-[1.02]"
+                  : "border-border/60 hover:border-primary/60 hover:bg-muted/30"
               )}
             >
               <input
@@ -996,8 +1004,8 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
               />
               <div className="flex flex-col items-center gap-4">
                 <div className={cn(
-                  "p-4 rounded-full transition-all duration-300",
-                  dragActive ? "bg-blue-100 dark:bg-blue-900/30" : "bg-gray-100 dark:bg-gray-800"
+                  "p-4 rounded-full transition-all duration-200",
+                  dragActive ? "bg-primary/10" : "bg-muted"
                 )}>
                   <Upload className={cn(
                     "h-8 w-8 transition-colors",
@@ -1132,12 +1140,14 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
       case 5: // Açıklama
         return (
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-indigo-200 dark:border-indigo-800">
+            <div className="bg-card/95 backdrop-blur-xl rounded-xl p-6 border border-border/40">
               <div className="flex items-start gap-3">
-                <FileText className="h-5 w-5 text-indigo-600 dark:text-indigo-400 mt-0.5 shrink-0" />
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <FileText className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+                </div>
                 <div>
-                  <h3 className="font-semibold text-indigo-900 dark:text-indigo-100 mb-1">Açıklama Yazma İpuçları</h3>
-                  <ul className="text-sm text-indigo-800 dark:text-indigo-200 space-y-1 list-disc list-inside">
+                  <h3 className="font-semibold text-foreground mb-1">Açıklama Yazma İpuçları</h3>
+                  <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
                     <li>Detaylı ve açıklayıcı bir açıklama yazın</li>
                     <li>Emlakın özelliklerini, avantajlarını ve çevresini anlatın</li>
                     <li>Ulaşım, okul, market gibi yakınlıkları belirtin</li>
@@ -1490,14 +1500,16 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
 
             {/* Success Message */}
             {listing.published && (
-              <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl">
+              <div className="p-4 bg-card/95 backdrop-blur-xl border border-border/40 rounded-xl">
                 <div className="flex items-center gap-3">
-                  <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" />
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0" />
+                  </div>
                   <div>
-                    <p className="text-sm font-semibold text-green-900 dark:text-green-100">
+                    <p className="text-sm font-semibold text-foreground">
                       İlan yayınlandığında sitede görünecek
                     </p>
-                    <p className="text-xs text-green-700 dark:text-green-300 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       İlanınız arama motorlarında indekslenecek ve potansiyel alıcılar tarafından görülebilecek.
                     </p>
                   </div>
@@ -1522,7 +1534,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white">
+              <div className="p-2 rounded-xl bg-primary/10 text-primary">
                 <StepIcon className="h-6 w-6" />
               </div>
               {listingId ? "İlan Düzenle" : "Yeni İlan Ekle"}
@@ -1559,9 +1571,9 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
             <span>İlerleme</span>
             <span className="font-semibold">{Math.round(progress)}%</span>
           </div>
-          <div className="h-3 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+          <div className="h-3 bg-muted rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-500 ease-out rounded-full"
+              className="h-full bg-primary transition-all duration-300 ease-out rounded-full"
               style={{ width: `${progress}%` } as React.CSSProperties}
             />
           </div>
@@ -1588,25 +1600,25 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                 <div className="flex flex-col items-center gap-2 flex-1">
                   <div
                     className={cn(
-                      "relative z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer",
+                      "relative z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer",
                       isActive
-                        ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white scale-110 shadow-lg shadow-blue-500/50"
+                        ? "bg-primary text-primary-foreground scale-105 shadow-md"
                         : isCompleted
-                        ? "bg-green-500 text-white hover:scale-105"
-                        : "bg-gray-200 dark:bg-gray-700 text-gray-400"
+                        ? "bg-primary/20 text-primary hover:bg-primary/30"
+                        : "bg-muted text-muted-foreground"
                     )}
                   >
                     <StepIcon className="h-5 w-5" />
                     {isCompleted && (
-                      <div className="absolute -top-1 -right-1 bg-green-500 rounded-full p-0.5">
-                        <CheckCircle className="h-3 w-3 text-white" />
+                      <div className="absolute -top-1 -right-1 bg-primary rounded-full p-0.5 border-2 border-card">
+                        <CheckCircle className="h-3 w-3 text-primary-foreground" />
                       </div>
                     )}
                   </div>
                   <div className="text-center">
                     <p className={cn(
                       "text-xs font-medium",
-                      isActive ? "text-blue-600 dark:text-blue-400" : "text-gray-500"
+                      isActive ? "text-primary" : "text-muted-foreground"
                     )}>
                       {step.label}
                     </p>
@@ -1617,8 +1629,8 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                 </div>
                 {index < STEPS.length - 1 && (
                   <div className={cn(
-                    "flex-1 h-0.5 mx-2 transition-all duration-300",
-                    isCompleted ? "bg-green-500" : "bg-gray-200 dark:bg-gray-700"
+                    "flex-1 h-0.5 mx-2 transition-all duration-200",
+                    isCompleted ? "bg-primary" : "bg-muted"
                   )} />
                 )}
               </div>
@@ -1628,7 +1640,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
       </div>
 
       {/* Content Card */}
-      <Card className="shadow-xl border-2 bg-card/50 backdrop-blur-sm">
+      <Card className="shadow-sm border-border/40 bg-card/95 backdrop-blur-xl">
         <CardContent className="p-8">
           <div className="min-h-[500px]">
             {renderStepContent()}
@@ -1666,7 +1678,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
             <Button
               onClick={() => handleSave(true)}
               disabled={saving}
-              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white gap-2 shadow-lg hover:shadow-xl transition-all"
+              className="gap-2"
             >
               {saving ? (
                 <>
@@ -1683,7 +1695,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
           ) : (
             <Button
               onClick={handleNext}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white gap-2 shadow-lg hover:shadow-xl transition-all"
+              className="gap-2"
             >
               Sonraki
               <ChevronRight className="h-4 w-4" />

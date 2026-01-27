@@ -134,9 +134,9 @@ export function StatsChart({
 
   if (loading) {
     return (
-      <Card className={cn("card-professional bg-white dark:bg-[#0a3d35] relative overflow-hidden", className)}>
+      <Card className={cn("card-professional bg-white dark:bg-card relative overflow-hidden", className)}>
         <CardHeader className="pb-4 px-5 pt-5 relative z-10">
-          <CardTitle className="text-lg md:text-xl font-display font-bold text-design-dark dark:text-white">
+          <CardTitle className="text-lg md:text-xl font-display font-bold text-foreground">
             {title}
           </CardTitle>
         </CardHeader>
@@ -150,11 +150,11 @@ export function StatsChart({
   }
 
   return (
-    <Card className={cn("card-professional bg-white dark:bg-[#0a3d35] relative overflow-hidden", className)}>
+    <Card className={cn("card-professional bg-white dark:bg-card relative overflow-hidden", className)}>
       <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-design-light/5 to-transparent rounded-full blur-3xl"></div>
       <CardHeader className="pb-4 px-5 pt-5 relative z-10">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg md:text-xl font-display font-bold text-design-dark dark:text-white flex items-center gap-3">
+          <CardTitle className="text-lg md:text-xl font-display font-bold text-foreground flex items-center gap-3">
             <span className="w-1 h-6 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full shadow-lg"></span>
             {title}
           </CardTitle>
@@ -177,7 +177,7 @@ export function StatsChart({
       </CardHeader>
       <CardContent className="px-5 pb-5 relative z-10">
         {data.length === 0 ? (
-          <div className="h-64 flex items-center justify-center text-design-gray dark:text-gray-400">
+          <div className="h-64 flex items-center justify-center text-muted-foreground">
             <div className="text-center">
               <BarChart3 className="h-12 w-12 mx-auto mb-2 opacity-50" />
               <p className="text-sm">Veri bulunamadı</p>
@@ -203,19 +203,19 @@ export function StatsChart({
                         <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/20 to-transparent rounded-t-lg"></div>
                       </div>
                       {point.value > 0 && (
-                        <div className="absolute -top-6 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-design-dark dark:bg-design-light text-white dark:text-design-dark text-[10px] px-2 py-1 rounded shadow-lg whitespace-nowrap z-10">
+                        <div className="absolute -top-6 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-design-dark dark:bg-primary text-primary-foreground dark:text-design-dark text-[10px] px-2 py-1 rounded shadow-lg whitespace-nowrap z-10">
                           {point.value}
                         </div>
                       )}
                     </div>
-                    <span className="text-[10px] text-design-gray dark:text-gray-400 font-medium">
+                    <span className="text-[10px] text-muted-foreground font-medium">
                       {point.date.split(".")[0]}
                     </span>
                   </div>
                 );
               })}
             </div>
-            <div className="flex items-center justify-between text-xs text-design-gray dark:text-gray-400 pt-2 border-t border-[#E7E7E7]/50 dark:border-[#062F28]/50">
+            <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border/40/50 dark:border-border/40/50">
               <span>Toplam: {data.reduce((sum, d) => sum + d.value, 0).toLocaleString("tr-TR")}</span>
               <span>Ortalama: {Math.round(data.reduce((sum, d) => sum + d.value, 0) / data.length).toLocaleString("tr-TR")}</span>
             </div>

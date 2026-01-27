@@ -17,19 +17,15 @@ export function ScrollLockReset() {
     
     const forceEnableScroll = () => {
       // SET inline styles with !important (not remove - CSS might override)
-      html.style.setProperty('overflow', 'visible', 'important');
       html.style.setProperty('overflow-x', 'hidden', 'important');
-      html.style.setProperty('overflow-y', 'scroll', 'important');
-      html.style.setProperty('height', 'auto', 'important');
-      html.style.setProperty('max-height', 'none', 'important');
-      html.style.setProperty('position', 'static', 'important');
+      html.style.setProperty('overflow-y', 'auto', 'important');
+      html.style.setProperty('height', '100%', 'important');
+      html.style.setProperty('position', 'relative', 'important');
       
-      body.style.setProperty('overflow', 'visible', 'important');
       body.style.setProperty('overflow-x', 'hidden', 'important');
-      body.style.setProperty('overflow-y', 'visible', 'important');
-      body.style.setProperty('height', 'auto', 'important');
-      body.style.setProperty('max-height', 'none', 'important');
-      body.style.setProperty('position', 'static', 'important');
+      body.style.setProperty('overflow-y', 'auto', 'important');
+      body.style.setProperty('height', '100%', 'important');
+      body.style.setProperty('position', 'relative', 'important');
       
       // Remove scroll lock classes
       html.classList.remove('overflow-hidden', 'no-scroll', 'scroll-locked');
@@ -73,38 +69,21 @@ export function ScrollLockReset() {
     };
     
     // Wheel event handler - only intervene if scroll is blocked
+    // REMOVED: This was preventing native scroll from working properly
+    // Native scroll should work when not blocked - no need to intercept
     const handleWheel = (e: WheelEvent) => {
-      // Only handle vertical scroll
-      if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
-      
-      const html = document.documentElement;
-      const canScroll = html.scrollHeight > window.innerHeight;
-      
-      if (!canScroll) return;
-      
-      // Check if scroll is blocked
+      // Only check if scroll is blocked - don't intercept if it's working
       if (isScrollBlocked()) {
         // Unlock first
         forceEnableScroll();
-        
-        // Then manually scroll as fallback
-        const currentScroll = window.pageYOffset || html.scrollTop || 0;
-        const scrollAmount = e.deltaY;
-        const maxScroll = html.scrollHeight - window.innerHeight;
-        const newScroll = Math.max(0, Math.min(maxScroll, currentScroll + scrollAmount));
-        
-        window.scrollTo(0, newScroll);
-        html.scrollTop = newScroll;
-        
-        // Prevent default only if we had to intervene
-        e.preventDefault();
-        e.stopPropagation();
+        // Let native scroll handle it after unlock - don't preventDefault
       }
       // Otherwise let native scroll work (faster!)
     };
     
-    // Add wheel listener with capture to intercept early
-    document.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+    // Add wheel listener with passive: true to not block native scroll
+    // Only use capture to detect early, but don't prevent default
+    document.addEventListener('wheel', handleWheel, { passive: true, capture: false });
     
     // Run immediately
     forceEnableScroll();
@@ -145,7 +124,7 @@ export function ScrollLockReset() {
         observerRef.current.disconnect();
       }
       documentObserver.disconnect();
-      document.removeEventListener('wheel', handleWheel, { capture: true } as any);
+      document.removeEventListener('wheel', handleWheel, { passive: true, capture: false } as any);
     };
   }, []);
   

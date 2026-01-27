@@ -42,10 +42,10 @@ export function ErrorState({
           <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center mb-3 animate-fade-in-up">
             <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
           </div>
-          <h3 className="text-heading-3 text-design-dark dark:text-white mb-1">
+          <h3 className="text-heading-3 text-foreground mb-1">
             {title}
           </h3>
-          <p className="text-caption text-design-gray dark:text-gray-400 text-center max-w-md mb-4">
+          <p className="text-caption text-muted-foreground text-center max-w-md mb-4">
             {message}
           </p>
           <div className="flex items-center gap-2">

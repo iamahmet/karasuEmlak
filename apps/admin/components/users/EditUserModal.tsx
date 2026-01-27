@@ -174,8 +174,8 @@ export function EditUserModal({ userId, open, onClose, onSuccess, onRoleChange }
       <Dialog open={open} onOpenChange={onClose}>
         <DialogContent>
           <div className="py-8 text-center">
-            <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin text-design-light" />
-            <p className="text-design-gray dark:text-gray-400">{t("loading")}</p>
+            <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin text-primary" />
+            <p className="text-muted-foreground">{t("loading")}</p>
           </div>
         </DialogContent>
       </Dialog>
@@ -187,7 +187,7 @@ export function EditUserModal({ userId, open, onClose, onSuccess, onRoleChange }
       <Dialog open={open} onOpenChange={onClose}>
         <DialogContent>
           <div className="py-8 text-center">
-            <p className="text-design-gray dark:text-gray-400">{t("errors.userNotFound")}</p>
+            <p className="text-muted-foreground">{t("errors.userNotFound")}</p>
             <Button variant="outline" onClick={onClose} className="mt-4">
               {t("actions.close")}
             </Button>
@@ -202,10 +202,10 @@ export function EditUserModal({ userId, open, onClose, onSuccess, onRoleChange }
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border-2 border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 shadow-2xl bg-white/98 dark:bg-[#0a3d35]/98 backdrop-blur-xl">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border-2 border-border/40/60 dark:border-[#0a3d35]/60 shadow-2xl bg-white/98 dark:bg-card/98 backdrop-blur-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Edit className="h-5 w-5 text-design-light" />
+            <Edit className="h-5 w-5 text-primary" />
             {t("title")}
           </DialogTitle>
           <DialogDescription>
@@ -394,7 +394,7 @@ export function EditUserModal({ userId, open, onClose, onSuccess, onRoleChange }
             </TabsContent>
           </Tabs>
 
-          <div className="flex gap-3 pt-4 border-t border-[#E7E7E7] dark:border-[#062F28]">
+          <div className="flex gap-3 pt-4 border-t border-border/40 dark:border-border/40">
             <Button
               type="button"
               variant="outline"
@@ -407,7 +407,7 @@ export function EditUserModal({ userId, open, onClose, onSuccess, onRoleChange }
             <Button
               type="submit"
               disabled={loading || !isValid}
-              className="flex-1 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white"
+              className="flex-1"
             >
               {loading ? (
                 <>

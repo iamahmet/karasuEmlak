@@ -157,8 +157,8 @@ export function PerformanceMetrics() {
             <CardContent className="p-5">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <Icon className="h-5 w-5 text-design-light" />
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui font-semibold">
+                  <Icon className="h-5 w-5 text-primary" />
+                  <p className="text-xs text-muted-foreground font-ui font-semibold">
                     {metric.label}
                   </p>
                 </div>
@@ -167,17 +167,17 @@ export function PerformanceMetrics() {
                 </Badge>
               </div>
               <div className="flex items-baseline gap-2">
-                <p className="text-2xl font-bold text-design-dark dark:text-white">
+                <p className="text-2xl font-bold text-foreground">
                   {metric.value}
                 </p>
                 {metric.unit && (
-                  <span className="text-sm text-design-gray dark:text-gray-400 font-ui">
+                  <span className="text-sm text-muted-foreground font-ui">
                     {metric.unit}
                   </span>
                 )}
               </div>
               <div className="mt-2">
-                <div className="flex items-center justify-between text-xs text-design-gray dark:text-gray-400 mb-1">
+                <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
                   <span>Hedef: {metric.target}{metric.unit || ""}</span>
                   <span>
                     {typeof metric.value === "number"
@@ -185,7 +185,7 @@ export function PerformanceMetrics() {
                       : 0}%
                   </span>
                 </div>
-                <div className="h-1.5 bg-[#E7E7E7] dark:bg-[#062F28] rounded-full overflow-hidden">
+                <div className="h-1.5 bg-[#E7E7E7] dark:bg-muted rounded-full overflow-hidden">
                   <div
                     className={cn(
                       "h-full rounded-full transition-all duration-500",

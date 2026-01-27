@@ -822,7 +822,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
             {translationMode && (
               <div className="absolute right-0 top-full mt-2 bg-card border border-border rounded-lg shadow-lg z-50 min-w-[200px]">
                 <div className="p-2">
-                  <p className="text-xs font-semibold text-design-gray dark:text-gray-400 mb-2 px-2">Hedef Dil</p>
+                  <p className="text-xs font-semibold text-muted-foreground mb-2 px-2">Hedef Dil</p>
                   {availableLocales.filter(l => l.code !== locale).map((loc) => (
                     <button
                       key={loc.code}
@@ -832,13 +832,13 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                         toast.success(`${loc.name} çeviri modu aktif`);
                       }}
                       className={`w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center gap-2 ${
-                        targetLocale === loc.code ? "bg-design-light/10" : ""
+                        targetLocale === loc.code ? "bg-primary/10" : ""
                       }`}
                     >
                       <span>{loc.flag}</span>
                       <span>{loc.name}</span>
                       {targetLocale === loc.code && (
-                        <CheckCircle2 className="h-4 w-4 ml-auto text-design-light" />
+                        <CheckCircle2 className="h-4 w-4 ml-auto text-primary" />
                       )}
                     </button>
                   ))}
@@ -991,10 +991,10 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
       </div>
 
       {/* Enhanced Keyboard Shortcuts Hint */}
-      <div className="flex items-center gap-3 text-xs text-design-gray dark:text-gray-400 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50 dark:from-gray-900/40 dark:via-gray-900/30 dark:to-gray-900/40 px-5 py-3 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm backdrop-blur-sm">
-        <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-white/60 dark:bg-[#0a3d35]/60 border border-gray-200 dark:border-gray-700">
-          <Zap className="h-3.5 w-3.5 text-design-light" />
-          <span className="font-bold text-design-dark dark:text-white">Kısayollar</span>
+      <div className="flex items-center gap-3 text-xs text-muted-foreground bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50 dark:from-gray-900/40 dark:via-gray-900/30 dark:to-gray-900/40 px-5 py-3 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm backdrop-blur-sm">
+        <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-white/60 dark:bg-card/60 border border-gray-200 dark:border-gray-700">
+          <Zap className="h-3.5 w-3.5 text-primary" />
+          <span className="font-bold text-foreground">Kısayollar</span>
         </div>
         <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-800 transition-colors">
           <kbd className="px-2 py-1 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-xs font-mono font-semibold shadow-sm">⌘S</kbd>
@@ -1235,7 +1235,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
 
             {/* Templates Button - Enhanced */}
             <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2 text-xs text-design-gray dark:text-gray-400">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <InfoIcon className="h-4 w-4" />
                 <span>İpucu: Şablonlar ile hızlıca başlayın</span>
               </div>
@@ -1296,8 +1296,8 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                         >
                           <div className="flex items-start justify-between gap-2 mb-2">
                             <div className="flex items-center gap-2">
-                              <div className="p-2 rounded-lg bg-design-light/10 group-hover:bg-design-light/20 transition-colors">
-                                <Icon className="h-4 w-4 text-design-light" />
+                              <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-design-light/20 transition-colors">
+                                <Icon className="h-4 w-4 text-primary" />
                               </div>
                               <div>
                                 <h3 className="text-sm font-semibold text-foreground">
@@ -1308,7 +1308,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                                 </Badge>
                               </div>
                             </div>
-                            <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-design-light transition-colors" />
+                            <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-primary transition-colors" />
                           </div>
                           <p className="text-xs text-muted-foreground line-clamp-2">
                             {template.description}
@@ -1360,7 +1360,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                           updateListing({ title: suggested });
                           toast.success("Başlık oluşturuldu!");
                         }}
-                        className="text-xs text-design-light hover:text-design-dark dark:hover:text-design-light font-medium flex items-center gap-1 transition-colors"
+                        className="text-xs text-primary hover:text-design-dark dark:hover:text-primary font-medium flex items-center gap-1 transition-colors"
                         title="AI ile başlık oluştur"
                       >
                         <Sparkles className="h-3 w-3" />
@@ -1414,7 +1414,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       )}
                     </div>
                     <div className="flex items-center justify-between">
-                      <p className="text-xs text-design-gray dark:text-gray-400 font-medium">
+                      <p className="text-xs text-muted-foreground font-medium">
                         {listing.title.length} / 70 karakter
                       </p>
                       <div className="flex items-center gap-2">
@@ -1461,12 +1461,12 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="space-y-2">
                       <Label htmlFor="slug" className="text-sm font-medium text-foreground flex items-center gap-2">
-                        <Globe className="h-4 w-4 text-design-light" />
+                        <Globe className="h-4 w-4 text-primary" />
                         Slug (URL)
                         <span className="text-red-500">*</span>
                       </Label>
                       <div className="flex items-center gap-2 p-3 rounded-xl bg-gray-50 dark:bg-gray-900/30 border-2 border-gray-200 dark:border-gray-800 focus-within:border-design-light focus-within:ring-2 focus-within:ring-design-light/20 transition-all duration-200">
-                        <span className="text-sm text-design-gray dark:text-gray-400 font-medium">/ilan/</span>
+                        <span className="text-sm text-muted-foreground font-medium">/ilan/</span>
                         <Input
                           id="slug"
                           value={listing.slug}
@@ -1492,7 +1492,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
 
                     <div className="space-y-2">
                       <Label htmlFor="status" className="text-sm font-medium text-foreground flex items-center gap-2">
-                        <TrendingUp className="h-4 w-4 text-design-light" />
+                        <TrendingUp className="h-4 w-4 text-primary" />
                         İlan Tipi
                         <span className="text-red-500">*</span>
                       </Label>
@@ -1523,7 +1523,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
 
                   <div className="space-y-2">
                     <Label htmlFor="property_type" className="text-sm font-medium text-foreground flex items-center gap-2">
-                      <Building2 className="h-4 w-4 text-design-light" />
+                      <Building2 className="h-4 w-4 text-primary" />
                       Emlak Tipi
                       <span className="text-red-500">*</span>
                     </Label>
@@ -1555,8 +1555,8 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                           return (
                             <SelectItem key={type.value} value={type.value} className="cursor-pointer py-2.5 hover:bg-design-light/5">
                               <div className="flex items-center gap-3">
-                                <div className="p-1.5 rounded-lg bg-design-light/10">
-                                  <Icon className="h-4 w-4 text-design-light" />
+                                <div className="p-1.5 rounded-lg bg-primary/10">
+                                  <Icon className="h-4 w-4 text-primary" />
                                 </div>
                                 <span className="font-medium">{type.label}</span>
                               </div>
@@ -1593,7 +1593,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <Label htmlFor="location_neighborhood" className="text-sm font-medium text-foreground flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-design-light" />
+                        <MapPin className="h-4 w-4 text-primary" />
                         Mahalle
                         <span className="text-red-500">*</span>
                       </Label>
@@ -1606,7 +1606,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                             updateListing({ location_neighborhood: random });
                             toast.success("Örnek mahalle eklendi");
                           }}
-                          className="text-xs text-design-light hover:text-design-dark dark:hover:text-design-light font-medium flex items-center gap-1 transition-colors"
+                          className="text-xs text-primary hover:text-design-dark dark:hover:text-primary font-medium flex items-center gap-1 transition-colors"
                           title="Örnek mahalle ekle"
                         >
                           <Sparkles className="h-3 w-3" />
@@ -1653,8 +1653,8 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="location_address" className="text-sm font-ui font-bold text-design-dark dark:text-white flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-design-light" />
+                    <Label htmlFor="location_address" className="text-sm font-ui font-bold text-foreground flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-primary" />
                       Detaylı Adres
                     </Label>
                     <Textarea
@@ -1666,7 +1666,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       placeholder="Sokak, cadde, bina no vb. detaylı adres bilgisi..."
                     />
                     {listing.location_address && (
-                      <p className="text-xs text-design-gray dark:text-gray-400">
+                      <p className="text-xs text-muted-foreground">
                         {listing.location_address.length} karakter
                       </p>
                     )}
@@ -1674,7 +1674,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
 
                   {/* Map Integration Placeholder */}
                   <div className="p-4 bg-gray-50 dark:bg-gray-900/20 rounded-lg border border-gray-200 dark:border-gray-800">
-                    <div className="flex items-center gap-2 text-sm text-design-gray dark:text-gray-400">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <MapPin className="h-4 w-4" />
                       <span>Harita entegrasyonu yakında eklenecek</span>
                     </div>
@@ -1686,7 +1686,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
             {/* Details Tab */}
             <TabsContent value="details" className="space-y-6">
               <Card className="card-professional animate-slide-in-up hover-lift border-2 border-transparent hover:border-design-light/20 transition-all duration-300">
-                <CardHeader className="pb-4 border-b border-[#E7E7E7] dark:border-[#062F28] bg-gradient-to-r from-emerald-50/50 to-transparent dark:from-emerald-900/20">
+                <CardHeader className="pb-4 border-b border-border/40 dark:border-border/40 bg-gradient-to-r from-emerald-50/50 to-transparent dark:from-emerald-900/20">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/30">
                       <DollarSign className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
@@ -1700,8 +1700,8 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <Label htmlFor="price_amount" className="text-sm font-ui font-bold text-design-dark dark:text-white flex items-center gap-2">
-                          <DollarSign className="h-4 w-4 text-design-light" />
+                        <Label htmlFor="price_amount" className="text-sm font-ui font-bold text-foreground flex items-center gap-2">
+                          <DollarSign className="h-4 w-4 text-primary" />
                           Fiyat
                           <span className="text-red-500">*</span>
                         </Label>
@@ -1719,7 +1719,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                             updateListing({ price_amount: suggestedPrice });
                             toast.success("Piyasa fiyatı önerildi!");
                           }}
-                          className="text-xs text-design-light hover:text-design-dark dark:hover:text-design-light font-medium flex items-center gap-1 transition-colors"
+                          className="text-xs text-primary hover:text-design-dark dark:hover:text-primary font-medium flex items-center gap-1 transition-colors"
                           title="Piyasa fiyatı öner"
                         >
                           <Calculator className="h-3 w-3" />
@@ -1757,15 +1757,15 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                         )}
                       </div>
                       {listing.price_amount && (
-                        <p className="text-xs text-design-gray dark:text-gray-400 font-medium">
+                        <p className="text-xs text-muted-foreground font-medium">
                           {formatCurrency(listing.price_amount)}
                         </p>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="price_currency" className="text-sm font-ui font-bold text-design-dark dark:text-white flex items-center gap-2">
-                        <Globe className="h-4 w-4 text-design-light" />
+                      <Label htmlFor="price_currency" className="text-sm font-ui font-bold text-foreground flex items-center gap-2">
+                        <Globe className="h-4 w-4 text-primary" />
                         Para Birimi
                       </Label>
                       <Select
@@ -1898,8 +1898,8 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                   )}
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800 hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-design-light/10 transition-all duration-200">
-                      <Label htmlFor="area_sqm" className="text-xs font-ui font-bold text-design-dark dark:text-white flex items-center gap-2">
+                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800 hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-primary/10 transition-all duration-200">
+                      <Label htmlFor="area_sqm" className="text-xs font-ui font-bold text-foreground flex items-center gap-2">
                         <div className="p-1.5 rounded-lg bg-blue-100 dark:bg-blue-900/30">
                           <Ruler className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
                         </div>
@@ -1915,8 +1915,8 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       />
                     </div>
 
-                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800 hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-design-light/10 transition-all duration-200">
-                      <Label htmlFor="room_count" className="text-xs font-ui font-bold text-design-dark dark:text-white flex items-center gap-2">
+                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800 hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-primary/10 transition-all duration-200">
+                      <Label htmlFor="room_count" className="text-xs font-ui font-bold text-foreground flex items-center gap-2">
                         <div className="p-1.5 rounded-lg bg-purple-100 dark:bg-purple-900/30">
                           <Bed className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
                         </div>
@@ -1932,8 +1932,8 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       />
                     </div>
 
-                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800 hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-design-light/10 transition-all duration-200">
-                      <Label htmlFor="floor" className="text-xs font-ui font-bold text-design-dark dark:text-white flex items-center gap-2">
+                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800 hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-primary/10 transition-all duration-200">
+                      <Label htmlFor="floor" className="text-xs font-ui font-bold text-foreground flex items-center gap-2">
                         <div className="p-1.5 rounded-lg bg-green-100 dark:bg-green-900/30">
                           <Layers className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
                         </div>
@@ -1949,8 +1949,8 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       />
                     </div>
 
-                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800 hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-design-light/10 transition-all duration-200">
-                      <Label htmlFor="building_age" className="text-xs font-ui font-bold text-design-dark dark:text-white flex items-center gap-2">
+                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800 hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-primary/10 transition-all duration-200">
+                      <Label htmlFor="building_age" className="text-xs font-ui font-bold text-foreground flex items-center gap-2">
                         <div className="p-1.5 rounded-lg bg-orange-100 dark:bg-orange-900/30">
                           <Calendar className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400" />
                         </div>
@@ -1981,7 +1981,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
               )}
 
               <Card className="card-professional animate-fade-in-scale border-2 border-transparent hover:border-design-light/20 transition-all duration-300">
-                <CardHeader className="pb-4 border-b border-[#E7E7E7] dark:border-[#062F28] bg-gradient-to-r from-pink-50/50 to-transparent dark:from-pink-900/20">
+                <CardHeader className="pb-4 border-b border-border/40 dark:border-border/40 bg-gradient-to-r from-pink-50/50 to-transparent dark:from-pink-900/20">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="p-2 rounded-lg bg-pink-100 dark:bg-pink-900/30">
@@ -1991,7 +1991,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                         <CardTitle className="text-base font-semibold text-foreground">
                           Fotoğraflar
                         </CardTitle>
-                        <p className="text-xs text-design-gray dark:text-gray-400 mt-0.5">
+                        <p className="text-xs text-muted-foreground mt-0.5">
                           {listing.images.length}/20 fotoğraf yüklendi
                         </p>
                       </div>
@@ -2053,14 +2053,14 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       <Upload className={cn(
                         "h-12 w-12 transition-colors duration-300",
                         dragActive
-                          ? "text-design-light"
+                          ? "text-primary"
                           : "text-gray-400"
                       )} />
                     </div>
-                    <p className="text-base font-bold text-design-dark dark:text-white mb-2">
+                    <p className="text-base font-bold text-foreground mb-2">
                       Fotoğrafları buraya sürükleyin
                     </p>
-                    <p className="text-sm text-design-gray dark:text-gray-400 mb-6">
+                    <p className="text-sm text-muted-foreground mb-6">
                       veya dosya seçmek için tıklayın
                     </p>
                     <div className="flex items-center justify-center gap-3">
@@ -2083,7 +2083,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                         Medya Kütüphanesi
                       </Button>
                     </div>
-                    <p className="text-xs text-design-gray dark:text-gray-400 mt-4">
+                    <p className="text-xs text-muted-foreground mt-4">
                       PNG, JPG, WEBP formatları desteklenir • Maksimum 10MB • En fazla 20 fotoğraf
                     </p>
                   </div>
@@ -2093,8 +2093,8 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                     <div className="mt-6">
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
-                          <ImageIcon className="h-5 w-5 text-design-light" />
-                          <h3 className="text-sm font-bold text-design-dark dark:text-white">
+                          <ImageIcon className="h-5 w-5 text-primary" />
+                          <h3 className="text-sm font-bold text-foreground">
                             Yüklenen Fotoğraflar ({listing.images.length})
                           </h3>
                         </div>
@@ -2474,7 +2474,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
             <TabsContent value="seo" className="space-y-6">
               {/* SEO Score Overview */}
               <Card className="card-professional animate-slide-in-up border-2 border-transparent hover:border-design-light/20 transition-all duration-300">
-                <CardHeader className="pb-4 border-b border-[#E7E7E7] dark:border-[#062F28] bg-gradient-to-r from-blue-50/50 to-transparent dark:from-blue-900/20">
+                <CardHeader className="pb-4 border-b border-border/40 dark:border-border/40 bg-gradient-to-r from-blue-50/50 to-transparent dark:from-blue-900/20">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30">
@@ -2484,7 +2484,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                         <CardTitle className="text-base font-semibold text-foreground">
                           SEO Skoru
                         </CardTitle>
-                        <p className="text-xs text-design-gray dark:text-gray-400 mt-0.5">
+                        <p className="text-xs text-muted-foreground mt-0.5">
                           İlanınızın arama motoru optimizasyonu
                         </p>
                       </div>
@@ -2546,7 +2546,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
 
               {/* Advanced SEO Analysis */}
               <Card className="card-professional animate-slide-in-up border-2 border-blue-200 dark:border-blue-800 hover:border-blue-400 dark:hover:border-blue-600 transition-all duration-300">
-                <CardHeader className="pb-4 border-b border-[#E7E7E7] dark:border-[#062F28] bg-gradient-to-r from-blue-50/50 to-transparent dark:from-blue-900/20">
+                <CardHeader className="pb-4 border-b border-border/40 dark:border-border/40 bg-gradient-to-r from-blue-50/50 to-transparent dark:from-blue-900/20">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30">
@@ -2723,7 +2723,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
               <Card className="card-professional">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+                    <CardTitle className="text-base font-display font-bold text-foreground">
                       SEO Kontrol Listesi
                     </CardTitle>
                     <div className={`px-3 py-1 rounded-lg text-sm font-semibold ${
@@ -2927,7 +2927,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
 
               <Card className="card-professional">
                 <CardHeader>
-                  <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+                  <CardTitle className="text-base font-display font-bold text-foreground">
                     Yayın Ayarları
                   </CardTitle>
                 </CardHeader>
@@ -2938,7 +2938,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                         <Label htmlFor="published" className="text-sm font-ui font-semibold">
                           Yayınla
                         </Label>
-                        <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           İlanı yayınla
                         </p>
                       </div>
@@ -2954,7 +2954,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                         <Label htmlFor="featured" className="text-sm font-ui font-semibold">
                           Öne Çıkan
                         </Label>
-                        <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           Ana sayfada göster
                         </p>
                       </div>
@@ -2970,7 +2970,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                         <Label htmlFor="available" className="text-sm font-ui font-semibold">
                           Müsait
                         </Label>
-                        <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           İlan aktif
                         </p>
                       </div>
@@ -3013,7 +3013,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                   <button
                     type="button"
                     onClick={() => setSidebarCollapsed(false)}
-                    className="p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35] transition-colors"
+                    className="p-3 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40 hover:bg-[#E7E7E7] dark:hover:bg-card transition-colors"
                     title="İlan Ayarları"
                   >
                     <Settings className="h-4 w-4" />
@@ -3021,7 +3021,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                   <button
                     type="button"
                     onClick={() => { setSidebarCollapsed(false); setActiveTab("seo"); }}
-                    className="p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35] transition-colors"
+                    className="p-3 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40 hover:bg-[#E7E7E7] dark:hover:bg-card transition-colors"
                     title="SEO Skoru"
                   >
                     <TrendingUp className="h-4 w-4" />
@@ -3215,12 +3215,12 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
         {livePreview && livePreviewUrl && (
           <div className={`space-y-4 transition-all duration-300 ${
             previewSide === "right" 
-              ? "col-span-1 border-l border-[#E7E7E7] dark:border-[#062F28] pl-6" 
-              : "col-span-full border-t border-[#E7E7E7] dark:border-[#062F28] pt-6"
+              ? "col-span-1 border-l border-border/40 dark:border-border/40 pl-6" 
+              : "col-span-full border-t border-border/40 dark:border-border/40 pt-6"
           }`}>
-            <div className="flex items-center justify-between sticky top-24 bg-white dark:bg-[#062F28] pb-4 z-10">
+            <div className="flex items-center justify-between sticky top-24 bg-white dark:bg-muted pb-4 z-10">
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-display font-bold text-design-dark dark:text-white">
+                <h3 className="text-sm font-display font-bold text-foreground">
                   Canlı Önizleme
                 </h3>
                 <Badge variant="outline" className="text-xs bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
@@ -3251,7 +3251,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                 </button>
               </div>
             </div>
-            <div className={`rounded-lg border border-[#E7E7E7] dark:border-[#062F28] overflow-hidden bg-white ${
+            <div className={`rounded-lg border border-border/40 dark:border-border/40 overflow-hidden bg-white ${
               previewSide === "right" ? "h-[calc(100vh-200px)]" : "h-[600px]"
             }`}>
               <iframe
@@ -3268,10 +3268,10 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
       {/* Preview Modal */}
       {showPreview && previewUrl && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-[#0a3d35] rounded-xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="flex items-center justify-between p-4 border-b border-[#E7E7E7] dark:border-[#062F28]">
+          <div className="bg-white dark:bg-card rounded-xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-border/40 dark:border-border/40">
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-display font-bold text-design-dark dark:text-white">
+                <h2 className="text-lg font-display font-bold text-foreground">
                   Önizleme
                 </h2>
                 <div className="flex items-center gap-1 ml-4">
@@ -3280,8 +3280,8 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     onClick={() => setPreviewMode("desktop")}
                     className={`p-1.5 rounded ${
                       previewMode === "desktop" 
-                        ? "bg-design-light text-white" 
-                        : "text-design-gray dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        ? "bg-primary text-primary-foreground" 
+                        : "text-muted-foreground hover:bg-gray-100 dark:hover:bg-gray-800"
                     }`}
                     title="Masaüstü Görünümü"
                     aria-label="Masaüstü Görünümü"
@@ -3293,8 +3293,8 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     onClick={() => setPreviewMode("tablet")}
                     className={`p-1.5 rounded ${
                       previewMode === "tablet" 
-                        ? "bg-design-light text-white" 
-                        : "text-design-gray dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        ? "bg-primary text-primary-foreground" 
+                        : "text-muted-foreground hover:bg-gray-100 dark:hover:bg-gray-800"
                     }`}
                     title="Tablet Görünümü"
                     aria-label="Tablet Görünümü"
@@ -3306,8 +3306,8 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     onClick={() => setPreviewMode("mobile")}
                     className={`p-1.5 rounded ${
                       previewMode === "mobile" 
-                        ? "bg-design-light text-white" 
-                        : "text-design-gray dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        ? "bg-primary text-primary-foreground" 
+                        : "text-muted-foreground hover:bg-gray-100 dark:hover:bg-gray-800"
                     }`}
                     title="Mobil Görünümü"
                     aria-label="Mobil Görünümü"
@@ -3322,7 +3322,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                   setShowPreview(false);
                   setPreviewUrl(null);
                 }}
-                className="text-design-gray dark:text-gray-400 hover:text-design-dark dark:hover:text-white transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors"
                 title="Önizlemeyi Kapat"
                 aria-label="Önizlemeyi Kapat"
               >
@@ -3349,13 +3349,13 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
       {/* Media Library Dialog - Enhanced */}
       {showMediaLibrary && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-6xl max-h-[90vh] bg-white dark:bg-[#0a3d35] rounded-2xl shadow-2xl border-2 border-gray-200 dark:border-gray-800 animate-bounce-in overflow-hidden flex flex-col">
+          <div className="relative w-full max-w-6xl max-h-[90vh] bg-white dark:bg-card rounded-2xl shadow-2xl border-2 border-gray-200 dark:border-gray-800 animate-bounce-in overflow-hidden flex flex-col">
             <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-blue-50/50 to-transparent dark:from-blue-900/20">
               <div>
-                <h2 className="text-2xl font-display font-bold text-design-dark dark:text-white mb-1">
+                <h2 className="text-2xl font-display font-bold text-foreground mb-1">
                   Medya Kütüphanesi
                 </h2>
-                <p className="text-sm text-design-gray dark:text-gray-400">
+                <p className="text-sm text-muted-foreground">
                   Fotoğraf seçin veya yeni fotoğraf yükleyin
                 </p>
               </div>
@@ -3387,13 +3387,13 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
       {/* Image Optimizer Dialog - Enhanced */}
       {showImageOptimizer && editingImageIndex !== null && listing.images[editingImageIndex] && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-5xl max-h-[90vh] bg-white dark:bg-[#0a3d35] rounded-2xl shadow-2xl border-2 border-gray-200 dark:border-gray-800 animate-bounce-in overflow-hidden flex flex-col">
+          <div className="relative w-full max-w-5xl max-h-[90vh] bg-white dark:bg-card rounded-2xl shadow-2xl border-2 border-gray-200 dark:border-gray-800 animate-bounce-in overflow-hidden flex flex-col">
             <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-purple-50/50 to-transparent dark:from-purple-900/20">
               <div>
-                <h2 className="text-2xl font-display font-bold text-design-dark dark:text-white mb-1">
+                <h2 className="text-2xl font-display font-bold text-foreground mb-1">
                   Fotoğraf Optimize Et
                 </h2>
-                <p className="text-sm text-design-gray dark:text-gray-400">
+                <p className="text-sm text-muted-foreground">
                   Fotoğrafı düzenleyin, kırpın ve optimize edin
                 </p>
               </div>

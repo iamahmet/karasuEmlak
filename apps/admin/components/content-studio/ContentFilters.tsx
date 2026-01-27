@@ -64,11 +64,11 @@ export function ContentFilters({ onFiltersChange }: ContentFiltersProps) {
     <Card className="card-professional">
       <CardHeader className="pb-4 px-5 pt-5">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Filter className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Filter className="h-5 w-5 text-primary" />
             Filtreler
             {activeFiltersCount > 0 && (
-              <Badge className="bg-design-light text-white text-[10px] px-2 py-0.5">
+              <Badge className="bg-primary text-primary-foreground text-[10px] px-2 py-0.5">
                 {activeFiltersCount}
               </Badge>
             )}
@@ -89,7 +89,7 @@ export function ContentFilters({ onFiltersChange }: ContentFiltersProps) {
       <CardContent className="px-5 pb-5 space-y-4">
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-design-gray dark:text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="İçerik ara..."
             value={filters.search}
@@ -101,7 +101,7 @@ export function ContentFilters({ onFiltersChange }: ContentFiltersProps) {
         {/* Basic Filters */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div>
-            <label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1 block">
+            <label className="text-xs font-ui font-semibold text-muted-foreground mb-1 block">
               Durum
             </label>
             <Select value={filters.status} onValueChange={(v) => handleFilterChange("status", v)}>
@@ -119,7 +119,7 @@ export function ContentFilters({ onFiltersChange }: ContentFiltersProps) {
           </div>
 
           <div>
-            <label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1 block">
+            <label className="text-xs font-ui font-semibold text-muted-foreground mb-1 block">
               Tip
             </label>
             <Select value={filters.type} onValueChange={(v) => handleFilterChange("type", v)}>
@@ -137,7 +137,7 @@ export function ContentFilters({ onFiltersChange }: ContentFiltersProps) {
           </div>
 
           <div>
-            <label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1 block">
+            <label className="text-xs font-ui font-semibold text-muted-foreground mb-1 block">
               Tarih
             </label>
             <Select value={filters.dateRange} onValueChange={(v) => handleFilterChange("dateRange", v)}>
@@ -155,7 +155,7 @@ export function ContentFilters({ onFiltersChange }: ContentFiltersProps) {
           </div>
 
           <div>
-            <label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1 block">
+            <label className="text-xs font-ui font-semibold text-muted-foreground mb-1 block">
               Kategori
             </label>
             <Select value={filters.category} onValueChange={(v) => handleFilterChange("category", v)}>
@@ -183,9 +183,9 @@ export function ContentFilters({ onFiltersChange }: ContentFiltersProps) {
 
         {/* Advanced Filters */}
         {showAdvanced && (
-          <div className="grid grid-cols-2 gap-3 pt-2 border-t border-[#E7E7E7] dark:border-[#062F28]">
+          <div className="grid grid-cols-2 gap-3 pt-2 border-t border-border/40 dark:border-border/40">
             <div>
-              <label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1 block">
+              <label className="text-xs font-ui font-semibold text-muted-foreground mb-1 block">
                 Yazar
               </label>
               <Select value={filters.author} onValueChange={(v) => handleFilterChange("author", v)}>
@@ -200,7 +200,7 @@ export function ContentFilters({ onFiltersChange }: ContentFiltersProps) {
             </div>
 
             <div>
-              <label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1 block">
+              <label className="text-xs font-ui font-semibold text-muted-foreground mb-1 block">
                 Etiketler
               </label>
               <Input
@@ -218,7 +218,7 @@ export function ContentFilters({ onFiltersChange }: ContentFiltersProps) {
 
         {/* Active Filters Display */}
         {activeFiltersCount > 0 && (
-          <div className="flex flex-wrap gap-2 pt-2 border-t border-[#E7E7E7] dark:border-[#062F28]">
+          <div className="flex flex-wrap gap-2 pt-2 border-t border-border/40 dark:border-border/40">
             {filters.status !== "all" && (
               <Badge variant="outline" className="text-[10px] px-2 py-0.5 flex items-center gap-1">
                 Durum: {filters.status}

@@ -78,7 +78,7 @@ export function TipTapEditor({
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: "text-design-light hover:underline",
+          class: "text-primary hover:underline",
         },
       }),
       Table.configure({

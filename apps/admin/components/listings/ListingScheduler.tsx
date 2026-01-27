@@ -67,7 +67,7 @@ export function ListingScheduler({ listing, onSchedule, className }: ListingSche
   return (
     <Card className={cn("card-professional", className)}>
       <CardHeader>
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
           <Calendar className="h-5 w-5 text-purple-600 dark:text-purple-400" />
           Zamanlama
         </CardTitle>
@@ -204,12 +204,12 @@ export function ListingScheduler({ listing, onSchedule, className }: ListingSche
         </div>
 
         {/* Auto Renew */}
-        <div className="flex items-center justify-between p-4 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+        <div className="flex items-center justify-between p-4 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40">
           <div>
             <Label className="text-sm font-ui font-semibold">
               Otomatik Yenileme
             </Label>
-            <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               İlan süresi dolduğunda otomatik olarak yenile
             </p>
           </div>
@@ -244,10 +244,10 @@ export function ListingScheduler({ listing, onSchedule, className }: ListingSche
         {/* Active Schedules */}
         {(schedule.publishAt || schedule.unpublishAt || schedule.reminderAt) && (
           <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-800">
-            <p className="text-xs font-semibold text-design-gray dark:text-gray-400 mb-2">
+            <p className="text-xs font-semibold text-muted-foreground mb-2">
               Aktif Zamanlamalar:
             </p>
-            <div className="space-y-1 text-xs text-design-gray dark:text-gray-400">
+            <div className="space-y-1 text-xs text-muted-foreground">
               {schedule.publishAt && (
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="h-3 w-3 text-green-600" />

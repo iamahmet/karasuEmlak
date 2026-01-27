@@ -1177,7 +1177,7 @@ export function MediaLibrary({
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
-                  className="h-4 w-4 rounded border-gray-300 text-design-light focus:ring-design-light"
+                  className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-design-light"
                   aria-label={`Select ${item.name}`}
                 />
               </div>

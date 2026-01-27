@@ -129,14 +129,14 @@ export function PullToRefresh({
       >
         {isRefreshing ? (
           refreshingContent || (
-            <div className="flex items-center gap-2 text-design-light">
+            <div className="flex items-center gap-2 text-primary">
               <Loader2 className="h-5 w-5 animate-spin" />
               <span className="text-sm font-medium">Yenileniyor...</span>
             </div>
           )
         ) : canRelease ? (
           releaseContent || (
-            <div className="flex items-center gap-2 text-design-light">
+            <div className="flex items-center gap-2 text-primary">
               <Loader2
                 className="h-5 w-5 transition-transform duration-200"
                 style={{ transform: `rotate(${rotation}deg)` }}

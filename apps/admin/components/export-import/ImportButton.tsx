@@ -70,7 +70,7 @@ export function ImportButton({
       <Button
         variant="outline"
         onClick={() => fileInputRef.current?.click()}
-        className="h-9 px-3 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+        className="h-9 px-3 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
       >
         <Upload className="h-4 w-4 mr-2" />
         Import

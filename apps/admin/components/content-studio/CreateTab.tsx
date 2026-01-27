@@ -96,23 +96,23 @@ export function CreateTab({ locale, defaultType }: CreateTabProps) {
   return (
     <Card className="card-professional hover-lift">
       <CardHeader className="pb-4 px-5 pt-5">
-        <CardTitle className="text-lg font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-design-light" />
+        <CardTitle className="text-lg font-display font-bold text-foreground flex items-center gap-2">
+          <Sparkles className="h-5 w-5 text-primary" />
           Yeni İçerik Oluştur
         </CardTitle>
       </CardHeader>
       <CardContent className="px-5 pb-5">
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "form" | "templates" | "keywords")} className="space-y-4">
-          <TabsList className="grid w-full grid-cols-3 rounded-xl bg-[#E7E7E7]/30 dark:bg-[#062F28]/30 p-1">
-            <TabsTrigger value="form" className="rounded-lg font-ui text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-[#0a3d35]">
+          <TabsList className="grid w-full grid-cols-3 rounded-xl bg-[#E7E7E7]/30 dark:bg-muted/30 p-1">
+            <TabsTrigger value="form" className="rounded-lg font-ui text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-card">
               <Sparkles className="h-4 w-4 mr-2" />
               AI ile Oluştur
             </TabsTrigger>
-            <TabsTrigger value="keywords" className="rounded-lg font-ui text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-[#0a3d35]">
+            <TabsTrigger value="keywords" className="rounded-lg font-ui text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-card">
               <Sparkles className="h-4 w-4 mr-2" />
               Anahtar Kelime
             </TabsTrigger>
-            <TabsTrigger value="templates" className="rounded-lg font-ui text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-[#0a3d35]">
+            <TabsTrigger value="templates" className="rounded-lg font-ui text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-card">
               <FileText className="h-4 w-4 mr-2" />
               Şablonlar
             </TabsTrigger>
@@ -121,21 +121,21 @@ export function CreateTab({ locale, defaultType }: CreateTabProps) {
           <TabsContent value="form" className="space-y-4 mt-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
-            <Label htmlFor="type" className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1.5 block">İçerik Kategorisi</Label>
+            <Label htmlFor="type" className="text-xs font-ui font-semibold text-muted-foreground mb-1.5 block">İçerik Kategorisi</Label>
             <Select
               value={formData.type}
               onValueChange={(value) => setFormData({ ...formData, type: value })}
             >
-              <SelectTrigger id="type" className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui">
+              <SelectTrigger id="type" className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="rounded-lg border border-[#E7E7E7] dark:border-[#062F28]">
+              <SelectContent className="rounded-lg border border-border/40 dark:border-border/40">
                 <SelectItem value="normal" className="text-sm font-ui">📄 Standart İçerik (800-1200 kelime)</SelectItem>
                 <SelectItem value="cornerstone" className="text-sm font-ui">⭐ Cornerstone İçerik (2000+ kelime, detaylı rehber)</SelectItem>
                 <SelectItem value="programmatic" className="text-sm font-ui">🔄 Programmatik SEO (Otomatik sayfalar)</SelectItem>
               </SelectContent>
             </Select>
-            <p className="text-[11px] text-design-gray dark:text-gray-400 mt-1.5 font-ui">
+            <p className="text-[11px] text-muted-foreground mt-1.5 font-ui">
               {formData.type === "cornerstone" && "💡 Cornerstone: Kapsamlı, derinlemesine içerik (mahalle rehberleri, kapsamlı analizler)"}
               {formData.type === "normal" && "💡 Standart: Günlük blog yazıları, haberler, kısa rehberler"}
               {formData.type === "programmatic" && "💡 Programmatik: Otomatik oluşturulan sayfalar için"}
@@ -143,15 +143,15 @@ export function CreateTab({ locale, defaultType }: CreateTabProps) {
           </div>
 
           <div>
-            <Label htmlFor="template" className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1.5 block">İçerik Tipi</Label>
+            <Label htmlFor="template" className="text-xs font-ui font-semibold text-muted-foreground mb-1.5 block">İçerik Tipi</Label>
             <Select
               value={formData.template}
               onValueChange={(value) => setFormData({ ...formData, template: value })}
             >
-              <SelectTrigger id="template" className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui">
+              <SelectTrigger id="template" className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="rounded-lg border border-[#E7E7E7] dark:border-[#062F28]">
+              <SelectContent className="rounded-lg border border-border/40 dark:border-border/40">
                 <SelectItem value="blog" className="text-sm font-ui">📝 Blog Yazısı (Genel)</SelectItem>
                 <SelectItem value="neighborhood" className="text-sm font-ui">🏘️ Mahalle Rehberi</SelectItem>
                 <SelectItem value="market-analysis" className="text-sm font-ui">📊 Piyasa Analizi</SelectItem>
@@ -165,7 +165,7 @@ export function CreateTab({ locale, defaultType }: CreateTabProps) {
         </div>
 
         <div>
-          <Label htmlFor="topic" className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1.5 block">
+          <Label htmlFor="topic" className="text-xs font-ui font-semibold text-muted-foreground mb-1.5 block">
             Konu / Başlık <span className="text-red-500">*</span>
           </Label>
           <Input
@@ -173,15 +173,15 @@ export function CreateTab({ locale, defaultType }: CreateTabProps) {
             value={formData.topic}
             onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
             placeholder="Örn: Karasu Liman Mahallesi'nde Emlak Fiyatları 2025"
-            className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+            className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui"
           />
-          <p className="text-[11px] text-design-gray dark:text-gray-400 mt-1.5 font-ui">
+          <p className="text-[11px] text-muted-foreground mt-1.5 font-ui">
             💡 İpucu: Mahalle adı, emlak tipi veya bölge bilgisi ekleyin (Karasu, Kocaali, mahalle adları)
           </p>
         </div>
 
         <div>
-          <Label htmlFor="brief" className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1.5 block">
+          <Label htmlFor="brief" className="text-xs font-ui font-semibold text-muted-foreground mb-1.5 block">
             Detaylar / Özet (Opsiyonel)
           </Label>
           <Textarea
@@ -190,16 +190,16 @@ export function CreateTab({ locale, defaultType }: CreateTabProps) {
             onChange={(e) => setFormData({ ...formData, brief: e.target.value })}
             placeholder="Örn: Karasu Liman Mahallesi'ndeki son fiyat trendleri, mahalle özellikleri, denize yakınlık, ulaşım imkanları, yatırım potansiyeli hakkında detaylı bir rehber..."
             rows={5}
-            className="text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui resize-none"
+            className="text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui resize-none"
           />
-          <p className="text-[11px] text-design-gray dark:text-gray-400 mt-1.5 font-ui">
+          <p className="text-[11px] text-muted-foreground mt-1.5 font-ui">
             💡 İpucu: Hangi konuları kapsamasını istediğinizi, hedef kitleyi veya özel vurguları belirtin
           </p>
         </div>
 
         {/* Quick Start Suggestions - Karasu Emlak Specific */}
         <div className="rounded-xl border border-slate-200/60 bg-gradient-to-br from-slate-50/50 to-blue-50/30 p-4">
-          <p className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-3">
+          <p className="text-xs font-ui font-semibold text-muted-foreground mb-3">
             ⚡ Hızlı Başlangıç Önerileri
           </p>
           <div className="flex flex-wrap gap-2">
@@ -222,7 +222,7 @@ export function CreateTab({ locale, defaultType }: CreateTabProps) {
         </div>
 
         <div className="flex justify-end gap-2 pt-2">
-          <Button variant="outline" onClick={() => router.back()} className="h-9 px-4 text-sm font-ui border border-[#E7E7E7] dark:border-[#062F28] rounded-lg hover-scale">
+          <Button variant="outline" onClick={() => router.back()} className="h-9 px-4 text-sm font-ui border border-border/40 dark:border-border/40 rounded-lg hover-scale">
             Cancel
           </Button>
           <Button onClick={handleCreate} disabled={loading || !formData.topic} className="h-9 px-4 text-sm font-ui bg-gradient-to-r from-[#006AFF] to-blue-600 hover:from-[#0052CC] hover:to-blue-700 text-white rounded-lg hover-scale micro-bounce shadow-md">

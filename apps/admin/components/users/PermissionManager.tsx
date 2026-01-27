@@ -208,8 +208,8 @@ export function PermissionManager({ userId, locale = "tr" }: PermissionManagerPr
     <Card className="card-professional">
       <CardHeader className="pb-4 px-5 pt-5">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Shield className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Shield className="h-5 w-5 text-primary" />
             İzin Yönetimi
           </CardTitle>
           <Button
@@ -236,7 +236,7 @@ export function PermissionManager({ userId, locale = "tr" }: PermissionManagerPr
         <div className="space-y-6">
           {Object.entries(groupedPermissions).map(([category, categoryPermissions]) => (
             <div key={category}>
-              <h4 className="text-sm font-semibold text-design-dark dark:text-white mb-3 font-ui">
+              <h4 className="text-sm font-semibold text-foreground mb-3 font-ui">
                 {category}
               </h4>
               <div className="space-y-2">
@@ -245,7 +245,7 @@ export function PermissionManager({ userId, locale = "tr" }: PermissionManagerPr
                   return (
                     <div
                       key={permission.id}
-                      className="flex items-start gap-3 p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:shadow-md transition-all duration-200"
+                      className="flex items-start gap-3 p-3 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40 hover:shadow-md transition-all duration-200"
                     >
                       <Checkbox
                         checked={isChecked}
@@ -254,7 +254,7 @@ export function PermissionManager({ userId, locale = "tr" }: PermissionManagerPr
                       />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <p className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                          <p className="text-sm font-semibold text-foreground font-ui">
                             {permission.name}
                           </p>
                           {isChecked && (
@@ -263,7 +263,7 @@ export function PermissionManager({ userId, locale = "tr" }: PermissionManagerPr
                             </Badge>
                           )}
                         </div>
-                        <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                        <p className="text-xs text-muted-foreground font-ui">
                           {permission.description}
                         </p>
                       </div>

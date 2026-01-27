@@ -176,10 +176,10 @@ export function RealTimeStats({ initialStats }: RealTimeStatsProps) {
             <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                  <p className="text-xs text-muted-foreground font-ui mb-1">
                     {stat.label}
                   </p>
-                  <p className="text-2xl font-bold text-design-dark dark:text-white mb-2">
+                  <p className="text-2xl font-bold text-foreground mb-2">
                     {stat.value}
                   </p>
                   {stat.change && (
@@ -197,7 +197,7 @@ export function RealTimeStats({ initialStats }: RealTimeStatsProps) {
                       >
                         {stat.change}
                       </span>
-                      <span className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                      <span className="text-xs text-muted-foreground font-ui">
                         bu ay
                       </span>
                     </div>

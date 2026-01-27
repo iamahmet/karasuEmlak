@@ -121,7 +121,7 @@ export function ContentBlocks({ blocks, onChange, className }: ContentBlocksProp
         <div className="flex items-start gap-2">
           {/* Drag Handle */}
           <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity pt-2">
-            <GripVertical className="h-4 w-4 text-design-gray dark:text-gray-400 cursor-move" />
+            <GripVertical className="h-4 w-4 text-muted-foreground cursor-move" />
           </div>
 
           {/* Block Content */}
@@ -240,7 +240,7 @@ export function ContentBlocks({ blocks, onChange, className }: ContentBlocksProp
                     onClick={() => setEditingBlock(block.id)}
                     className="p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900/20 cursor-text border-l-4 border-design-light bg-gray-50 dark:bg-gray-900/10"
                   >
-                    <Quote className="h-5 w-5 text-design-light mb-2" />
+                    <Quote className="h-5 w-5 text-primary mb-2" />
                     <p className="text-lg italic">{block.content || "Alıntı yazın..."}</p>
                   </div>
                 )}
@@ -263,7 +263,7 @@ export function ContentBlocks({ blocks, onChange, className }: ContentBlocksProp
                     onClick={() => setEditingBlock(block.id)}
                     className="p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900/20 cursor-text bg-gray-900 dark:bg-gray-950 font-mono text-sm"
                   >
-                    <Code className="h-5 w-5 text-design-light mb-2" />
+                    <Code className="h-5 w-5 text-primary mb-2" />
                     <pre className="whitespace-pre-wrap">{block.content || "Kod yazın..."}</pre>
                   </div>
                 )}

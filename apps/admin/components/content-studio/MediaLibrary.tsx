@@ -120,10 +120,10 @@ export function MediaLibrary({ onSelect, className }: MediaLibraryProps) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-display font-bold text-design-dark dark:text-white">
+          <h3 className="text-lg font-display font-bold text-foreground">
             Medya Kütüphanesi
           </h3>
-          <p className="text-xs text-design-gray dark:text-gray-400 font-ui mt-1">
+          <p className="text-xs text-muted-foreground font-ui mt-1">
             {mediaItems.length} görsel
           </p>
         </div>
@@ -136,7 +136,7 @@ export function MediaLibrary({ onSelect, className }: MediaLibraryProps) {
           </DialogTrigger>
           <DialogContent className="max-w-2xl rounded-xl">
             <DialogHeader>
-              <DialogTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+              <DialogTitle className="text-lg font-display font-bold text-foreground">
                 Görsel Yükle
               </DialogTitle>
             </DialogHeader>
@@ -150,12 +150,12 @@ export function MediaLibrary({ onSelect, className }: MediaLibraryProps) {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-design-gray dark:text-gray-400" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           placeholder="Görsel ara..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10 h-10 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-xl font-ui input-modern"
+          className="pl-10 h-10 text-sm border border-border/40 dark:border-border/40 rounded-xl font-ui input-modern"
         />
       </div>
 
@@ -165,7 +165,7 @@ export function MediaLibrary({ onSelect, className }: MediaLibraryProps) {
           {[...Array(12)].map((_, i) => (
             <Card key={i} className="card-modern animate-pulse">
               <CardContent className="p-0 aspect-square">
-                <div className="w-full h-full bg-[#E7E7E7] dark:bg-[#062F28] rounded-xl"></div>
+                <div className="w-full h-full bg-[#E7E7E7] dark:bg-muted rounded-xl"></div>
               </CardContent>
             </Card>
           ))}
@@ -174,9 +174,9 @@ export function MediaLibrary({ onSelect, className }: MediaLibraryProps) {
         <Card className="card-professional">
           <CardContent className="py-12 text-center">
             <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#E7E7E7] to-[#E7E7E7]/80 dark:from-[#062F28] dark:to-[#062F28]/80 flex items-center justify-center shadow-lg">
-              <ImageIcon className="h-8 w-8 text-design-gray dark:text-gray-400" />
+              <ImageIcon className="h-8 w-8 text-muted-foreground" />
             </div>
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui font-medium">
+            <p className="text-sm text-muted-foreground font-ui font-medium">
               {searchQuery ? "Görsel bulunamadı" : "Henüz görsel yok"}
             </p>
           </CardContent>
@@ -223,10 +223,10 @@ export function MediaLibrary({ onSelect, className }: MediaLibraryProps) {
                 </div>
               </CardContent>
               <div className="p-2">
-                <p className="text-[10px] font-ui font-semibold text-design-dark dark:text-white line-clamp-1 mb-1">
+                <p className="text-[10px] font-ui font-semibold text-foreground line-clamp-1 mb-1">
                   {item.name}
                 </p>
-                <p className="text-[9px] text-design-gray dark:text-gray-400 font-ui">
+                <p className="text-[9px] text-muted-foreground font-ui">
                   {formatFileSize(item.size)}
                 </p>
               </div>

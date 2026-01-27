@@ -637,7 +637,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
       <div className="hidden flex items-center justify-between sticky top-0 z-40 bg-card border-b border-border px-6 py-4 -mx-6 -mt-6 mb-6 backdrop-blur-sm bg-card/95">
         <div className="flex items-center gap-4">
           <div>
-            <h1 className="text-2xl font-display font-bold text-design-dark dark:text-white mb-1">
+            <h1 className="text-2xl font-display font-bold text-foreground mb-1">
               Haber Düzenle
             </h1>
             <div className="flex items-center gap-4 text-xs text-foreground/70">
@@ -682,7 +682,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
               onClick={() => setTranslationMode(!translationMode)}
               className={`p-2 rounded-lg transition-colors ${
                 translationMode 
-                  ? "bg-design-light text-white" 
+                  ? "bg-primary text-primary-foreground" 
                   : "hover:bg-muted"
               }`}
               title="Çeviri Modu"
@@ -692,7 +692,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
             {translationMode && (
               <div className="absolute right-0 top-full mt-2 bg-card border border-border rounded-lg shadow-lg z-50 min-w-[200px]">
                 <div className="p-2">
-                  <p className="text-xs font-semibold text-design-gray dark:text-gray-400 mb-2 px-2">Hedef Dil</p>
+                  <p className="text-xs font-semibold text-muted-foreground mb-2 px-2">Hedef Dil</p>
                   {availableLocales.filter(l => l.code !== locale).map((loc) => (
                     <button
                       key={loc.code}
@@ -702,13 +702,13 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                         toast.success(`${loc.name} çeviri modu aktif`);
                       }}
                       className={`w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center gap-2 ${
-                        targetLocale === loc.code ? "bg-design-light/10" : ""
+                        targetLocale === loc.code ? "bg-primary/10" : ""
                       }`}
                     >
                       <span>{loc.flag}</span>
                       <span>{loc.name}</span>
                       {targetLocale === loc.code && (
-                        <CheckCircle2 className="h-4 w-4 ml-auto text-design-light" />
+                        <CheckCircle2 className="h-4 w-4 ml-auto text-primary" />
                       )}
                     </button>
                   ))}
@@ -729,7 +729,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                   toast.success(`Yön: ${currentDir === 'rtl' ? 'LTR' : 'RTL'}`);
                 }
               }}
-              className="p-2 rounded-lg hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35] transition-colors"
+              className="p-2 rounded-lg hover:bg-[#E7E7E7] dark:hover:bg-card transition-colors"
               title="RTL/LTR Değiştir"
             >
               <AlignLeftIcon className="h-4 w-4" />
@@ -742,8 +742,8 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
             onClick={() => setLivePreview(!livePreview)}
             className={`p-2 rounded-lg transition-colors ${
               livePreview 
-                ? "bg-design-light text-white" 
-                : "hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35]"
+                ? "bg-primary text-primary-foreground" 
+                : "hover:bg-[#E7E7E7] dark:hover:bg-card"
             }`}
             title="Canlı Önizleme"
           >
@@ -754,7 +754,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
           <button
             type="button"
             onClick={() => setDistractionFree(!distractionFree)}
-            className="p-2 rounded-lg hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35] transition-colors"
+            className="p-2 rounded-lg hover:bg-[#E7E7E7] dark:hover:bg-card transition-colors"
             title="Dikkat Dağıtmayan Mod"
           >
             <Layers className="h-4 w-4" />
@@ -764,7 +764,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
           <button
             type="button"
             onClick={() => setIsFullscreen(!isFullscreen)}
-            className="p-2 rounded-lg hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35] transition-colors"
+            className="p-2 rounded-lg hover:bg-[#E7E7E7] dark:hover:bg-card transition-colors"
             title="Tam Ekran"
           >
             {isFullscreen ? (
@@ -793,7 +793,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                   const url = `${baseUrl}/${locale}/haber/${article.slug}`;
                   window.open(url, "_blank");
                 }}
-                className="px-4 py-2 text-sm font-medium text-white bg-design-light rounded-lg hover:bg-design-dark transition-colors inline-flex items-center gap-2"
+                className="px-4 py-2 text-sm font-medium text-white bg-design-light rounded-lg hover:bg-primary/90 transition-colors inline-flex items-center gap-2"
               >
                 <Eye className="h-4 w-4" />
                 Görüntüle
@@ -823,7 +823,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
             type="button"
             onClick={() => handleSave()}
             disabled={saving || !isDirty}
-            className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-design-light to-design-dark rounded-lg hover:from-design-dark hover:to-design-light transition-all disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
+            className="px-4 py-2 text-sm font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
           >
             {saving ? (
               <>
@@ -841,7 +841,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
       </div>
 
       {/* Enhanced Keyboard Shortcuts Hint */}
-      <div className="flex items-center gap-3 text-xs text-design-gray dark:text-gray-400 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-900/30 dark:to-gray-900/20 px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-800">
+      <div className="flex items-center gap-3 text-xs text-muted-foreground bg-card/95 backdrop-blur-xl px-4 py-2.5 rounded-lg border border-border/40">
         <span className="font-semibold flex items-center gap-1">
           <Zap className="h-3 w-3" />
           Kısayollar:
@@ -863,7 +863,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
           <span>Kapat</span>
         </div>
         {distractionFree && (
-          <div className="flex items-center gap-1 ml-auto text-design-light">
+          <div className="flex items-center gap-1 ml-auto text-primary">
             <Focus className="h-3 w-3" />
             <span>Dikkat Dağıtmayan Mod</span>
           </div>
@@ -935,7 +935,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                 </DialogTrigger>
                 <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
-                    <DialogTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+                    <DialogTitle className="text-lg font-display font-bold text-foreground">
                       İçerik Şablonları
                     </DialogTitle>
                   </DialogHeader>
@@ -973,7 +973,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
               <Card className="card-professional">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+                    <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
                       İçerik
                       {codeMode && (
                         <Badge variant="outline" className="text-xs bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800">
@@ -1077,7 +1077,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                           tabSize: 2,
                         }}
                       />
-                      <div className="flex items-center justify-between text-xs text-design-gray dark:text-gray-400">
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
                         <p>HTML kodunu doğrudan düzenleyebilirsiniz</p>
                         <div className="flex items-center gap-4">
                           <span>Satır: {article.content.split('\n').length}</span>
@@ -1127,7 +1127,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                       className={distractionFree ? "min-h-[600px]" : ""}
                     />
                     {distractionFree && (
-                      <div className="absolute top-2 right-2 flex items-center gap-2 text-xs text-design-gray dark:text-gray-400 bg-white/80 dark:bg-[#0a3d35]/80 px-2 py-1 rounded">
+                      <div className="absolute top-2 right-2 flex items-center gap-2 text-xs text-muted-foreground bg-white/80 dark:bg-card/80 px-2 py-1 rounded">
                         <Focus className="h-3 w-3" />
                         Dikkat Dağıtmayan Mod Aktif
                       </div>
@@ -1141,7 +1141,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
               <Card className="card-professional">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+                    <CardTitle className="text-base font-display font-bold text-foreground">
                       Öne Çıkan Görsel
                     </CardTitle>
                     <div className="flex items-center gap-2">
@@ -1172,8 +1172,8 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                       <div className="p-3 bg-gray-50 dark:bg-gray-900/20 rounded-lg border border-gray-200 dark:border-gray-800">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <ImageIcon className="h-4 w-4 text-design-gray dark:text-gray-400" />
-                            <span className="text-xs text-design-gray dark:text-gray-400 font-mono truncate max-w-xs">
+                            <ImageIcon className="h-4 w-4 text-muted-foreground" />
+                            <span className="text-xs text-muted-foreground font-mono truncate max-w-xs">
                               {article.featured_image.split('/').pop()}
                             </span>
                           </div>
@@ -1211,7 +1211,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
               {/* Excerpt */}
               <Card className="card-professional">
                 <CardHeader>
-                  <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+                  <CardTitle className="text-base font-display font-bold text-foreground">
                     Özet
                   </CardTitle>
                 </CardHeader>
@@ -1224,7 +1224,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                     className="input-modern"
                     placeholder="Haber özeti (150-160 karakter önerilir)"
                   />
-                  <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     {article.excerpt?.length || 0} karakter
                   </p>
                 </CardContent>
@@ -1448,7 +1448,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
               <Card className="card-professional">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+                    <CardTitle className="text-base font-display font-bold text-foreground">
                       SEO Ayarları
                     </CardTitle>
                     <div className="flex items-center gap-2">
@@ -1556,7 +1556,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                       className="input-modern mt-1"
                       placeholder="SEO meta açıklaması (120-160 karakter önerilir)"
                     />
-                    <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       {article.meta_description?.length || 0} / 160 karakter
                       {article.meta_description && article.meta_description.length < 120 && (
                         <span className="text-foreground/70 ml-2">⚠️ 120 karakterden kısa</span>
@@ -1578,7 +1578,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                       className="input-modern mt-1"
                       placeholder="kelime1, kelime2, kelime3"
                     />
-                    <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       Virgülle ayrılmış anahtar kelimeler ({typeof article.seo_keywords === 'string' ? article.seo_keywords.split(",").filter(k => k.trim()).length : 0} kelime)
                     </p>
                   </div>
@@ -1590,7 +1590,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
             <TabsContent value="settings" className="space-y-6">
               <Card className="card-professional">
                 <CardHeader>
-                  <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+                  <CardTitle className="text-base font-display font-bold text-foreground">
                     Yayın Ayarları
                   </CardTitle>
                 </CardHeader>
@@ -1601,7 +1601,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                         <Label htmlFor="is_published" className="text-sm font-ui font-semibold">
                           Yayınla
                         </Label>
-                        <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           Haberi yayınla
                         </p>
                       </div>
@@ -1624,7 +1624,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                         <Label htmlFor="is_featured" className="text-sm font-ui font-semibold">
                           Öne Çıkan
                         </Label>
-                        <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           Ana sayfada göster
                         </p>
                       </div>
@@ -1640,7 +1640,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                         <Label htmlFor="is_breaking" className="text-sm font-ui font-semibold">
                           Son Dakika
                         </Label>
-                        <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           Son dakika haberi
                         </p>
                       </div>
@@ -1670,7 +1670,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
 
                   {article.published_at && (
                     <div className="p-4 bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-800 rounded-lg">
-                      <div className="flex items-center gap-2 text-sm text-design-gray dark:text-gray-400">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Calendar className="h-4 w-4" />
                         <span>Yayın Tarihi: {new Date(article.published_at).toLocaleString("tr-TR")}</span>
                       </div>
@@ -1684,7 +1684,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
             <TabsContent value="analytics" className="space-y-6">
               <Card className="card-professional">
                 <CardHeader>
-                  <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+                  <CardTitle className="text-base font-display font-bold text-foreground">
                     İstatistikler
                   </CardTitle>
                 </CardHeader>
@@ -1852,7 +1852,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
           }`}>
             <div className="flex items-center justify-between sticky top-24 bg-card pb-4 z-10">
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-display font-bold text-design-dark dark:text-white">
+                <h3 className="text-sm font-display font-bold text-foreground">
                   Canlı Önizleme
                 </h3>
                 <Badge variant="outline" className="text-xs bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
@@ -1900,10 +1900,10 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
       {/* Preview Modal */}
       {showPreview && previewUrl && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-[#0a3d35] rounded-xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="flex items-center justify-between p-4 border-b border-[#E7E7E7] dark:border-[#062F28]">
+          <div className="bg-white dark:bg-card rounded-xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-border/40 dark:border-border/40">
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-display font-bold text-design-dark dark:text-white">
+                <h2 className="text-lg font-display font-bold text-foreground">
                   Önizleme
                 </h2>
                 <div className="flex items-center gap-1 ml-4">
@@ -1912,8 +1912,8 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                     onClick={() => setPreviewMode("desktop")}
                     className={`p-1.5 rounded ${
                       previewMode === "desktop" 
-                        ? "bg-design-light text-white" 
-                        : "text-design-gray dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        ? "bg-primary text-primary-foreground" 
+                        : "text-muted-foreground hover:bg-gray-100 dark:hover:bg-gray-800"
                     }`}
                   >
                     <Monitor className="h-4 w-4" />
@@ -1923,8 +1923,8 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                     onClick={() => setPreviewMode("tablet")}
                     className={`p-1.5 rounded ${
                       previewMode === "tablet" 
-                        ? "bg-design-light text-white" 
-                        : "text-design-gray dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        ? "bg-primary text-primary-foreground" 
+                        : "text-muted-foreground hover:bg-gray-100 dark:hover:bg-gray-800"
                     }`}
                   >
                     <Tablet className="h-4 w-4" />
@@ -1934,8 +1934,8 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                     onClick={() => setPreviewMode("mobile")}
                     className={`p-1.5 rounded ${
                       previewMode === "mobile" 
-                        ? "bg-design-light text-white" 
-                        : "text-design-gray dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        ? "bg-primary text-primary-foreground" 
+                        : "text-muted-foreground hover:bg-gray-100 dark:hover:bg-gray-800"
                     }`}
                   >
                     <Smartphone className="h-4 w-4" />
@@ -1948,7 +1948,7 @@ export function ArticleEditorAdvanced({ article: initialArticle, categories, loc
                   setShowPreview(false);
                   setPreviewUrl(null);
                 }}
-                className="text-design-gray dark:text-gray-400 hover:text-design-dark dark:hover:text-white transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 <X className="h-5 w-5" />
               </button>

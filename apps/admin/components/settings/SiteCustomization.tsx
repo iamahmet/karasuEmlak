@@ -186,7 +186,7 @@ export function SiteCustomization({ locale }: { locale: string }) {
         {[...Array(3)].map((_, i) => (
           <Card key={i} className="card-modern animate-pulse">
             <CardContent className="p-6">
-              <div className="h-4 bg-[#E7E7E7] dark:bg-[#062F28] rounded w-3/4"></div>
+              <div className="h-4 bg-muted rounded w-3/4"></div>
             </CardContent>
           </Card>
         ))}
@@ -196,7 +196,7 @@ export function SiteCustomization({ locale }: { locale: string }) {
 
   return (
     <Tabs defaultValue="logo" className="space-y-6">
-      <TabsList className="bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-lg p-1 flex-wrap h-auto">
+      <TabsList className="bg-card/95 backdrop-blur-xl border border-border/40 rounded-lg p-1 flex-wrap h-auto">
         <TabsTrigger value="logo" className="text-xs font-ui flex items-center gap-2">
           <Image className="h-4 w-4" />
           Logo & Favicon
@@ -227,8 +227,8 @@ export function SiteCustomization({ locale }: { locale: string }) {
       <TabsContent value="logo">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Image className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Image className="h-5 w-5 text-primary" />
               Logo & Favicon Ayarları
             </CardTitle>
           </CardHeader>
@@ -239,7 +239,7 @@ export function SiteCustomization({ locale }: { locale: string }) {
               </Label>
               <div className="flex items-center gap-4">
                 {logoPreview && (
-                  <div className="w-32 h-32 border border-[#E7E7E7] dark:border-[#062F28] rounded-lg overflow-hidden bg-white dark:bg-[#0a3d35] flex items-center justify-center">
+                  <div className="w-32 h-32 border border-border/40 rounded-lg overflow-hidden bg-card/95 backdrop-blur-xl flex items-center justify-center">
                     <img src={logoPreview} alt="Logo preview" className="max-w-full max-h-full object-contain" />
                   </div>
                 )}
@@ -305,8 +305,8 @@ export function SiteCustomization({ locale }: { locale: string }) {
       <TabsContent value="header">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Layout className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Layout className="h-5 w-5 text-primary" />
               Header Ayarları
             </CardTitle>
           </CardHeader>
@@ -316,7 +316,7 @@ export function SiteCustomization({ locale }: { locale: string }) {
                 <Label htmlFor="header_search" className="text-xs font-ui font-semibold">
                   Arama Kutusu
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Header'da arama kutusunu göster
                 </p>
               </div>
@@ -336,7 +336,7 @@ export function SiteCustomization({ locale }: { locale: string }) {
                 <Label htmlFor="header_language" className="text-xs font-ui font-semibold">
                   Dil Değiştirici
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Header'da dil değiştiriciyi göster
                 </p>
               </div>
@@ -356,7 +356,7 @@ export function SiteCustomization({ locale }: { locale: string }) {
                 <Label htmlFor="header_sticky" className="text-xs font-ui font-semibold">
                   Yapışkan Header
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Header'ı scroll'da sabit tut
                 </p>
               </div>
@@ -397,8 +397,8 @@ export function SiteCustomization({ locale }: { locale: string }) {
       <TabsContent value="footer">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Layout className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Layout className="h-5 w-5 text-primary" />
               Footer Ayarları
             </CardTitle>
           </CardHeader>
@@ -408,7 +408,7 @@ export function SiteCustomization({ locale }: { locale: string }) {
                 <Label htmlFor="footer_newsletter" className="text-xs font-ui font-semibold">
                   Newsletter Formu
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Footer'da newsletter formunu göster
                 </p>
               </div>
@@ -428,7 +428,7 @@ export function SiteCustomization({ locale }: { locale: string }) {
                 <Label htmlFor="footer_social" className="text-xs font-ui font-semibold">
                   Sosyal Medya Linkleri
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Footer'da sosyal medya linklerini göster
                 </p>
               </div>
@@ -460,7 +460,7 @@ export function SiteCustomization({ locale }: { locale: string }) {
                 placeholder="© 2025 Karasu Emlak. Tüm hakları saklıdır."
               />
             </div>
-            <div className="pt-4 border-t border-[#E7E7E7] dark:border-[#062F28]">
+            <div className="pt-4 border-t border-border/40">
               <Label className="text-xs font-ui font-semibold mb-3 block">
                 Sosyal Medya URL'leri
               </Label>
@@ -565,8 +565,8 @@ export function SiteCustomization({ locale }: { locale: string }) {
       <TabsContent value="mobile">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Smartphone className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Smartphone className="h-5 w-5 text-primary" />
               Mobil Ayarları
             </CardTitle>
           </CardHeader>
@@ -576,7 +576,7 @@ export function SiteCustomization({ locale }: { locale: string }) {
                 <Label htmlFor="mobile_menu" className="text-xs font-ui font-semibold">
                   Hamburger Menü
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Mobil cihazlarda hamburger menüyü göster
                 </p>
               </div>
@@ -596,7 +596,7 @@ export function SiteCustomization({ locale }: { locale: string }) {
                 <Label htmlFor="mobile_search" className="text-xs font-ui font-semibold">
                   Mobil Arama
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Mobil cihazlarda arama kutusunu göster
                 </p>
               </div>
@@ -619,8 +619,8 @@ export function SiteCustomization({ locale }: { locale: string }) {
       <TabsContent value="components">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Eye className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Eye className="h-5 w-5 text-primary" />
               Bileşen Görünürlüğü
             </CardTitle>
           </CardHeader>
@@ -638,7 +638,7 @@ export function SiteCustomization({ locale }: { locale: string }) {
                   <Label htmlFor={component.key} className="text-xs font-ui font-semibold">
                     {component.label}
                   </Label>
-                  <p className="text-xs text-design-gray dark:text-gray-400 mt-1">{component.desc}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{component.desc}</p>
                 </div>
                 <Switch
                   id={component.key}
@@ -663,8 +663,8 @@ export function SiteCustomization({ locale }: { locale: string }) {
       <TabsContent value="theme">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Palette className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Palette className="h-5 w-5 text-primary" />
               Tema Renkleri
             </CardTitle>
           </CardHeader>

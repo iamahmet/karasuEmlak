@@ -77,19 +77,19 @@ export function ThemeToggle() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-9 w-9 rounded-lg hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35] transition-all duration-200 hover:scale-105 micro-bounce"
+          className="h-9 w-9 rounded-lg hover:bg-[#E7E7E7] dark:hover:bg-card transition-all duration-200 hover:scale-105 micro-bounce"
         >
           {theme === "light" ? (
-            <Sun className="h-4 w-4 text-design-gray dark:text-gray-400" />
+            <Sun className="h-4 w-4 text-muted-foreground" />
           ) : theme === "dark" ? (
-            <Moon className="h-4 w-4 text-design-gray dark:text-gray-400" />
+            <Moon className="h-4 w-4 text-muted-foreground" />
           ) : (
-            <Monitor className="h-4 w-4 text-design-gray dark:text-gray-400" />
+            <Monitor className="h-4 w-4 text-muted-foreground" />
           )}
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40 rounded-lg border border-[#E7E7E7] dark:border-[#062F28]">
+      <DropdownMenuContent align="end" className="w-40 rounded-lg border border-border/40 dark:border-border/40">
         <DropdownMenuItem
           onClick={() => setTheme("light")}
           className="flex items-center gap-2 cursor-pointer font-ui text-sm px-3 py-2"

@@ -39,11 +39,11 @@ export function DashboardWidget({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 flex-1">
             {draggable && (
-              <div className="cursor-move text-design-gray dark:text-gray-400 hover:text-design-dark dark:hover:text-white transition-colors">
+              <div className="cursor-move text-muted-foreground hover:text-foreground transition-colors">
                 <GripVertical className="h-4 w-4" />
               </div>
             )}
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+            <CardTitle className="text-base font-display font-bold text-foreground">
               {title}
             </CardTitle>
           </div>

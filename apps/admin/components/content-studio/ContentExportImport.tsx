@@ -86,8 +86,8 @@ export function ContentExportImport({ locale }: ContentExportImportProps) {
       {/* Export */}
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Download className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Download className="h-5 w-5 text-primary" />
             İçerik Dışa Aktar
           </CardTitle>
         </CardHeader>
@@ -97,7 +97,7 @@ export function ContentExportImport({ locale }: ContentExportImportProps) {
               Format Seç
             </Label>
             <Select value={exportFormat} onValueChange={(value: "json" | "csv" | "excel") => setExportFormat(value)}>
-              <SelectTrigger className="w-full px-4 py-2 rounded-lg border border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35] text-sm font-ui">
+              <SelectTrigger className="w-full px-4 py-2 rounded-lg border border-border/40 dark:border-border/40 bg-white dark:bg-card text-sm font-ui">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -145,8 +145,8 @@ export function ContentExportImport({ locale }: ContentExportImportProps) {
       {/* Import */}
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Upload className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Upload className="h-5 w-5 text-primary" />
             İçerik İçe Aktar
           </CardTitle>
         </CardHeader>
@@ -156,7 +156,7 @@ export function ContentExportImport({ locale }: ContentExportImportProps) {
               Format Seç
             </Label>
             <Select value={importFormat} onValueChange={(value: "json" | "csv") => setImportFormat(value)}>
-              <SelectTrigger className="w-full px-4 py-2 rounded-lg border border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35] text-sm font-ui">
+              <SelectTrigger className="w-full px-4 py-2 rounded-lg border border-border/40 dark:border-border/40 bg-white dark:bg-card text-sm font-ui">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

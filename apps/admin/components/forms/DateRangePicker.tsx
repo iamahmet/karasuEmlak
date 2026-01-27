@@ -49,25 +49,25 @@ export function DateRangePicker({
     <div className={cn("space-y-2", className)}>
       <div className="flex items-center gap-2">
         <div className="flex-1">
-          <Label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1 block">
+          <Label className="text-xs font-ui font-semibold text-muted-foreground mb-1 block">
             Start Date
           </Label>
           <Input
             type="date"
             value={startDate || ""}
             onChange={(e) => handleStartDateChange(e.target.value)}
-            className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+            className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui"
           />
         </div>
         <div className="flex-1">
-          <Label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1 block">
+          <Label className="text-xs font-ui font-semibold text-muted-foreground mb-1 block">
             End Date
           </Label>
           <Input
             type="date"
             value={endDate || ""}
             onChange={(e) => handleEndDateChange(e.target.value)}
-            className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+            className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui"
           />
         </div>
       </div>
@@ -82,7 +82,7 @@ export function DateRangePicker({
               handleStartDateChange(range.start);
               handleEndDateChange(range.end);
             }}
-            className="h-7 px-2 text-xs border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+            className="h-7 px-2 text-xs border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
           >
             {range.label}
           </Button>

@@ -88,14 +88,14 @@ export function BacklinkMonitor({ locale }: { locale: string }) {
           <CardContent className="p-5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                <p className="text-xs text-muted-foreground font-ui mb-1">
                   Toplam Backlink
                 </p>
-                <p className="text-2xl font-bold text-design-dark dark:text-white">
+                <p className="text-2xl font-bold text-foreground">
                   {backlinks.length}
                 </p>
               </div>
-              <Link2 className="h-8 w-8 text-design-light opacity-50" />
+              <Link2 className="h-8 w-8 text-primary opacity-50" />
             </div>
           </CardContent>
         </Card>
@@ -103,7 +103,7 @@ export function BacklinkMonitor({ locale }: { locale: string }) {
           <CardContent className="p-5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                <p className="text-xs text-muted-foreground font-ui mb-1">
                   Aktif Backlink
                 </p>
                 <p className="text-2xl font-bold text-green-600">
@@ -118,7 +118,7 @@ export function BacklinkMonitor({ locale }: { locale: string }) {
           <CardContent className="p-5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                <p className="text-xs text-muted-foreground font-ui mb-1">
                   Kayıp Backlink
                 </p>
                 <p className="text-2xl font-bold text-red-600">
@@ -158,14 +158,14 @@ export function BacklinkMonitor({ locale }: { locale: string }) {
 
       {/* Backlinks List */}
       {loading ? (
-        <div className="text-center py-8 text-design-gray dark:text-gray-400">
+        <div className="text-center py-8 text-muted-foreground">
           Yükleniyor...
         </div>
       ) : backlinks.length === 0 ? (
         <Card className="card-professional">
           <CardContent className="p-8 text-center">
-            <Globe className="h-12 w-12 mx-auto mb-4 text-design-gray dark:text-gray-400 opacity-50" />
-            <p className="text-design-gray dark:text-gray-400 font-ui">
+            <Globe className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
+            <p className="text-muted-foreground font-ui">
               Henüz backlink tespit edilmedi
             </p>
           </CardContent>
@@ -178,7 +178,7 @@ export function BacklinkMonitor({ locale }: { locale: string }) {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h4 className="font-semibold text-design-dark dark:text-white font-ui">
+                      <h4 className="font-semibold text-foreground font-ui">
                         {backlink.anchorText}
                       </h4>
                       {getStatusBadge(backlink.status)}
@@ -190,24 +190,24 @@ export function BacklinkMonitor({ locale }: { locale: string }) {
                     </div>
                     <div className="space-y-1 text-sm">
                       <div className="flex items-center gap-2">
-                        <span className="text-design-gray dark:text-gray-400 font-ui">Kaynak:</span>
+                        <span className="text-muted-foreground font-ui">Kaynak:</span>
                         <a
                           href={backlink.sourceUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-design-light hover:underline font-ui flex items-center gap-1"
+                          className="text-primary hover:underline font-ui flex items-center gap-1"
                         >
                           {new URL(backlink.sourceUrl).hostname}
                           <ExternalLink className="h-3 w-3" />
                         </a>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-design-gray dark:text-gray-400 font-ui">Hedef:</span>
-                        <span className="text-design-dark dark:text-white font-ui">
+                        <span className="text-muted-foreground font-ui">Hedef:</span>
+                        <span className="text-foreground font-ui">
                           {backlink.targetUrl}
                         </span>
                       </div>
-                      <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                      <p className="text-xs text-muted-foreground font-ui">
                         Keşfedildi: {new Date(backlink.discoveredAt).toLocaleDateString("tr-TR")}
                       </p>
                     </div>

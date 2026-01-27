@@ -873,7 +873,7 @@ export function NewsEditorAdvanced({ article: initialArticle, locale }: NewsEdit
         {/* Split Resize Handle */}
         {viewMode === "split" && (
           <div className="w-1 bg-border hover:bg-design-light/20 cursor-col-resize transition-colors relative group">
-            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-8 group-hover:bg-design-light/10" />
+            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-8 group-hover:bg-primary/10" />
           </div>
         )}
 

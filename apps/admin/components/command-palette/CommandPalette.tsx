@@ -194,12 +194,12 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                       }
                     }}
                     keywords={item.keywords}
-                    className="flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-design-light/10 dark:hover:bg-design-light/5 rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-muted rounded-lg transition-colors"
                   >
-                    <Icon className="h-4 w-4 text-design-gray dark:text-gray-400" />
+                    <Icon className="h-4 w-4 text-muted-foreground" />
                     <span className="font-ui text-sm">{item.label}</span>
                     {item.path && (
-                      <span className="ml-auto text-xs text-design-gray dark:text-gray-400 font-mono">
+                      <span className="ml-auto text-xs text-muted-foreground font-mono">
                         {item.path}
                       </span>
                     )}
@@ -220,13 +220,13 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             <span>Navigate</span>
           </div>
           <div className="flex items-center gap-4">
-            <kbd className="px-2 py-1 bg-[#E7E7E7] dark:bg-[#062F28] rounded text-xs font-mono">
+            <kbd className="px-2 py-1 bg-[#E7E7E7] dark:bg-muted rounded text-xs font-mono">
               Enter
             </kbd>
             <span>Select</span>
           </div>
           <div className="flex items-center gap-4">
-            <kbd className="px-2 py-1 bg-[#E7E7E7] dark:bg-[#062F28] rounded text-xs font-mono">
+            <kbd className="px-2 py-1 bg-[#E7E7E7] dark:bg-muted rounded text-xs font-mono">
               Esc
             </kbd>
             <span>Close</span>

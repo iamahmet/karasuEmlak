@@ -61,15 +61,15 @@ export function EnhancedErrorState({
 
   if (variant === "compact") {
     return (
-      <Card className={cn("card-professional bg-white dark:bg-[#0a3d35] border-red-200 dark:border-red-800", className)}>
+      <Card className={cn("card-professional bg-white dark:bg-card border-red-200 dark:border-red-800", className)}>
         <CardContent className="p-6">
           <div className="flex items-start gap-4">
             <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/20 flex-shrink-0">
               <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-design-dark dark:text-white mb-1">{title}</h3>
-              <p className="text-sm text-design-gray dark:text-gray-400 mb-4">{errorMessage}</p>
+              <h3 className="text-lg font-semibold text-foreground mb-1">{title}</h3>
+              <p className="text-sm text-muted-foreground mb-4">{errorMessage}</p>
               <div className="flex items-center gap-2">
                 {showRetryButton && onRetry && (
                   <Button
@@ -108,14 +108,14 @@ export function EnhancedErrorState({
         className
       )}
     >
-      <Card className="card-professional bg-white dark:bg-[#0a3d35] border-red-200 dark:border-red-800 max-w-md w-full">
+      <Card className="card-professional bg-white dark:bg-card border-red-200 dark:border-red-800 max-w-md w-full">
         <CardContent className="p-8">
           <div className="text-center">
             <div className="mx-auto w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center mb-4">
               <AlertCircle className="h-8 w-8 text-red-600 dark:text-red-400" />
             </div>
-            <h2 className="text-xl font-display font-bold text-design-dark dark:text-white mb-2">{title}</h2>
-            <p className="text-sm text-design-gray dark:text-gray-400 mb-6">{errorMessage}</p>
+            <h2 className="text-xl font-display font-bold text-foreground mb-2">{title}</h2>
+            <p className="text-sm text-muted-foreground mb-6">{errorMessage}</p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               {showRetryButton && onRetry && (

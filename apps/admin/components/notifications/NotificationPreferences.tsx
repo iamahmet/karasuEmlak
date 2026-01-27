@@ -170,22 +170,22 @@ export function NotificationPreferences({ userId }: NotificationPreferencesProps
   return (
     <Card className="card-professional">
       <CardHeader className="pb-4 px-5 pt-5">
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-          <Settings className="h-5 w-5 text-design-light" />
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+          <Settings className="h-5 w-5 text-primary" />
           Bildirim Tercihleri
         </CardTitle>
       </CardHeader>
       <CardContent className="px-5 pb-5 space-y-6">
         {/* Global Toggles */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40">
             <div className="flex items-center gap-3">
-              <Mail className="h-5 w-5 text-design-light" />
+              <Mail className="h-5 w-5 text-primary" />
               <div>
-                <Label className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                <Label className="text-sm font-semibold text-foreground font-ui">
                   E-posta Bildirimleri
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                <p className="text-xs text-muted-foreground font-ui">
                   E-posta ile bildirim al
                 </p>
               </div>
@@ -196,14 +196,14 @@ export function NotificationPreferences({ userId }: NotificationPreferencesProps
             />
           </div>
 
-          <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40">
             <div className="flex items-center gap-3">
-              <Bell className="h-5 w-5 text-design-light" />
+              <Bell className="h-5 w-5 text-primary" />
               <div>
-                <Label className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                <Label className="text-sm font-semibold text-foreground font-ui">
                   Push Bildirimleri
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                <p className="text-xs text-muted-foreground font-ui">
                   Tarayıcı push bildirimleri
                 </p>
               </div>
@@ -214,14 +214,14 @@ export function NotificationPreferences({ userId }: NotificationPreferencesProps
             />
           </div>
 
-          <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40">
             <div className="flex items-center gap-3">
-              <MessageSquare className="h-5 w-5 text-design-light" />
+              <MessageSquare className="h-5 w-5 text-primary" />
               <div>
-                <Label className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                <Label className="text-sm font-semibold text-foreground font-ui">
                   Uygulama İçi Bildirimler
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                <p className="text-xs text-muted-foreground font-ui">
                   Panel içi bildirimler
                 </p>
               </div>
@@ -236,7 +236,7 @@ export function NotificationPreferences({ userId }: NotificationPreferencesProps
         {/* Email Types */}
         {preferences.email_enabled && (
           <div className="space-y-3">
-            <h4 className="text-sm font-semibold text-design-dark dark:text-white font-ui flex items-center gap-2">
+            <h4 className="text-sm font-semibold text-foreground font-ui flex items-center gap-2">
               <Mail className="h-4 w-4" />
               E-posta Bildirim Türleri
             </h4>
@@ -246,11 +246,11 @@ export function NotificationPreferences({ userId }: NotificationPreferencesProps
                 return (
                   <div
                     key={type.key}
-                    className="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]"
+                    className="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40"
                   >
                     <div className="flex items-center gap-2">
-                      <Icon className="h-4 w-4 text-design-gray dark:text-gray-400" />
-                      <Label className="text-xs font-ui text-design-dark dark:text-white">
+                      <Icon className="h-4 w-4 text-muted-foreground" />
+                      <Label className="text-xs font-ui text-foreground">
                         {type.label}
                       </Label>
                     </div>
@@ -270,7 +270,7 @@ export function NotificationPreferences({ userId }: NotificationPreferencesProps
         {/* Push Types */}
         {preferences.push_enabled && (
           <div className="space-y-3">
-            <h4 className="text-sm font-semibold text-design-dark dark:text-white font-ui flex items-center gap-2">
+            <h4 className="text-sm font-semibold text-foreground font-ui flex items-center gap-2">
               <Bell className="h-4 w-4" />
               Push Bildirim Türleri
             </h4>
@@ -280,11 +280,11 @@ export function NotificationPreferences({ userId }: NotificationPreferencesProps
                 return (
                   <div
                     key={type.key}
-                    className="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]"
+                    className="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40"
                   >
                     <div className="flex items-center gap-2">
-                      <Icon className="h-4 w-4 text-design-gray dark:text-gray-400" />
-                      <Label className="text-xs font-ui text-design-dark dark:text-white">
+                      <Icon className="h-4 w-4 text-muted-foreground" />
+                      <Label className="text-xs font-ui text-foreground">
                         {type.label}
                       </Label>
                     </div>
@@ -304,7 +304,7 @@ export function NotificationPreferences({ userId }: NotificationPreferencesProps
         {/* In-App Types */}
         {preferences.in_app_enabled && (
           <div className="space-y-3">
-            <h4 className="text-sm font-semibold text-design-dark dark:text-white font-ui flex items-center gap-2">
+            <h4 className="text-sm font-semibold text-foreground font-ui flex items-center gap-2">
               <MessageSquare className="h-4 w-4" />
               Uygulama İçi Bildirim Türleri
             </h4>
@@ -314,11 +314,11 @@ export function NotificationPreferences({ userId }: NotificationPreferencesProps
                 return (
                   <div
                     key={type.key}
-                    className="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]"
+                    className="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40"
                   >
                     <div className="flex items-center gap-2">
-                      <Icon className="h-4 w-4 text-design-gray dark:text-gray-400" />
-                      <Label className="text-xs font-ui text-design-dark dark:text-white">
+                      <Icon className="h-4 w-4 text-muted-foreground" />
+                      <Label className="text-xs font-ui text-foreground">
                         {type.label}
                       </Label>
                     </div>
@@ -336,7 +336,7 @@ export function NotificationPreferences({ userId }: NotificationPreferencesProps
         )}
 
         {/* Save Button */}
-        <div className="flex justify-end pt-4 border-t border-[#E7E7E7] dark:border-[#062F28]">
+        <div className="flex justify-end pt-4 border-t border-border/40 dark:border-border/40">
           <Button
             onClick={savePreferences}
             disabled={saving}

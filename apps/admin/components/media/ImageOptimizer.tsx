@@ -73,14 +73,14 @@ export function ImageOptimizer({
   return (
     <Card className="card-professional">
       <CardHeader className="pb-4 px-5 pt-5">
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-          <Zap className="h-5 w-5 text-design-light" />
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+          <Zap className="h-5 w-5 text-primary" />
           Görsel Optimizasyonu
         </CardTitle>
       </CardHeader>
       <CardContent className="px-5 pb-5 space-y-4">
         {/* Image Preview */}
-        <div className="relative w-full h-48 rounded-lg overflow-hidden bg-[#E7E7E7] dark:bg-[#062F28]">
+        <div className="relative w-full h-48 rounded-lg overflow-hidden bg-[#E7E7E7] dark:bg-muted">
           <img
             src={imageUrl}
             alt="Preview"
@@ -103,13 +103,13 @@ export function ImageOptimizer({
             step={5}
             value={quality}
             onChange={(e) => setQuality(parseInt(e.target.value))}
-            className="w-full h-2 bg-[#E7E7E7] dark:bg-[#062F28] rounded-lg appearance-none cursor-pointer accent-design-light"
+            className="w-full h-2 bg-[#E7E7E7] dark:bg-muted rounded-lg appearance-none cursor-pointer accent-design-light"
             aria-label="Kalite seviyesi"
             aria-valuemin={50}
             aria-valuemax={100}
             aria-valuenow={quality}
           />
-          <div className="flex justify-between text-xs text-design-gray dark:text-gray-400">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>Düşük (Küçük dosya)</span>
             <span>Yüksek (Büyük dosya)</span>
           </div>
@@ -130,13 +130,13 @@ export function ImageOptimizer({
             step={160}
             value={width}
             onChange={(e) => setWidth(parseInt(e.target.value))}
-            className="w-full h-2 bg-[#E7E7E7] dark:bg-[#062F28] rounded-lg appearance-none cursor-pointer accent-design-light"
+            className="w-full h-2 bg-[#E7E7E7] dark:bg-muted rounded-lg appearance-none cursor-pointer accent-design-light"
             aria-label="Görsel genişliği"
             aria-valuemin={320}
             aria-valuemax={3840}
             aria-valuenow={width}
           />
-          <div className="flex justify-between text-xs text-design-gray dark:text-gray-400">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>320px</span>
             <span>3840px</span>
           </div>
@@ -187,7 +187,7 @@ export function ImageOptimizer({
         )}
 
         {/* Actions */}
-        <div className="flex gap-2 pt-2 border-t border-[#E7E7E7] dark:border-[#062F28]">
+        <div className="flex gap-2 pt-2 border-t border-border/40 dark:border-border/40">
           <Button
             onClick={handleOptimize}
             disabled={optimizing}

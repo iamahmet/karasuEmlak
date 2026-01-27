@@ -69,8 +69,8 @@ export function ContentAnalytics({ contentItemId, locale }: ContentAnalyticsProp
         {[...Array(6)].map((_, i) => (
           <Card key={i} className="card-modern animate-pulse">
             <CardContent className="p-4">
-              <div className="h-4 bg-[#E7E7E7] dark:bg-[#062F28] rounded mb-2"></div>
-              <div className="h-8 bg-[#E7E7E7] dark:bg-[#062F28] rounded"></div>
+              <div className="h-4 bg-[#E7E7E7] dark:bg-muted rounded mb-2"></div>
+              <div className="h-8 bg-[#E7E7E7] dark:bg-muted rounded"></div>
             </CardContent>
           </Card>
         ))}
@@ -81,7 +81,7 @@ export function ContentAnalytics({ contentItemId, locale }: ContentAnalyticsProp
   if (!analytics) {
     return (
       <div className="text-center py-8">
-        <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+        <p className="text-sm text-muted-foreground font-ui">
           Analitik verisi bulunamadı
         </p>
       </div>
@@ -131,7 +131,7 @@ export function ContentAnalytics({ contentItemId, locale }: ContentAnalyticsProp
       value: formatDateTime(analytics.lastUpdated),
       icon: TrendingUp,
       color: "text-design-gray",
-      bgColor: "bg-[#E7E7E7] dark:bg-[#062F28]",
+      bgColor: "bg-[#E7E7E7] dark:bg-muted",
     },
   ];
 
@@ -165,10 +165,10 @@ export function ContentAnalytics({ contentItemId, locale }: ContentAnalyticsProp
                   )}
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[10px] font-ui font-semibold text-design-gray dark:text-gray-400 uppercase tracking-wider">
+                  <p className="text-[10px] font-ui font-semibold text-muted-foreground uppercase tracking-wider">
                     {metric.label}
                   </p>
-                  <p className="text-xl font-display font-bold text-design-dark dark:text-white">
+                  <p className="text-xl font-display font-bold text-foreground">
                     {metric.value}
                   </p>
                 </div>
@@ -181,13 +181,13 @@ export function ContentAnalytics({ contentItemId, locale }: ContentAnalyticsProp
       {/* Performance Chart Placeholder */}
       <Card className="card-professional">
         <CardHeader className="pb-3 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+          <CardTitle className="text-base font-display font-bold text-foreground">
             Performans Trendi
           </CardTitle>
         </CardHeader>
         <CardContent className="px-5 pb-5">
           <div className="h-48 flex items-center justify-center bg-gradient-to-br from-[#E7E7E7]/30 to-transparent dark:from-[#062F28]/30 dark:to-transparent rounded-xl">
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+            <p className="text-sm text-muted-foreground font-ui">
               Grafik yakında eklenecek
             </p>
           </div>

@@ -370,7 +370,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
         {[...Array(3)].map((_, i) => (
           <Card key={i} className="card-modern animate-pulse">
             <CardContent className="p-6">
-              <div className="h-4 bg-[#E7E7E7] dark:bg-[#062F28] rounded w-3/4"></div>
+              <div className="h-4 bg-muted rounded w-3/4"></div>
             </CardContent>
           </Card>
         ))}
@@ -380,7 +380,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
 
   return (
     <Tabs defaultValue="general" className="space-y-6">
-      <TabsList className="bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-lg p-1">
+      <TabsList className="bg-card/95 backdrop-blur-xl border border-border/40 rounded-lg p-1">
         <TabsTrigger value="general" className="text-xs font-ui flex items-center gap-2">
           <Globe className="h-4 w-4" />
           Genel
@@ -419,8 +419,8 @@ export function SettingsManagement({ locale }: { locale: string }) {
       <TabsContent value="general">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Globe className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Globe className="h-5 w-5 text-primary" />
               Genel Ayarlar
             </CardTitle>
           </CardHeader>
@@ -486,7 +486,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
                 <Label htmlFor="enable_registration" className="text-xs font-ui font-semibold">
                   Kullanıcı Kaydı
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Yeni kullanıcıların kayıt olmasına izin ver
                 </p>
               </div>
@@ -503,7 +503,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
                 <Label htmlFor="maintenance_mode" className="text-xs font-ui font-semibold">
                   Bakım Modu
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Siteyi bakım moduna al
                 </p>
               </div>
@@ -523,8 +523,8 @@ export function SettingsManagement({ locale }: { locale: string }) {
       <TabsContent value="email">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Mail className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Mail className="h-5 w-5 text-primary" />
               E-posta Ayarları
             </CardTitle>
           </CardHeader>
@@ -561,8 +561,8 @@ export function SettingsManagement({ locale }: { locale: string }) {
       <TabsContent value="notifications">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Bell className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Bell className="h-5 w-5 text-primary" />
               Bildirim Ayarları
             </CardTitle>
           </CardHeader>
@@ -572,7 +572,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
                 <Label htmlFor="enable_comments" className="text-xs font-ui font-semibold">
                   Yorumlar
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Yorum özelliğini etkinleştir
                 </p>
               </div>
@@ -589,7 +589,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
                 <Label htmlFor="enable_newsletter" className="text-xs font-ui font-semibold">
                   Bülten
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Bülten özelliğini etkinleştir
                 </p>
               </div>
@@ -609,8 +609,8 @@ export function SettingsManagement({ locale }: { locale: string }) {
       <TabsContent value="security" className="space-y-4">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Shield className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Shield className="h-5 w-5 text-primary" />
               Oturum ve Kimlik Doğrulama
             </CardTitle>
           </CardHeader>
@@ -628,7 +628,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
                 min={300}
                 max={86400}
               />
-              <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 Kullanıcı oturumunun otomatik olarak sona ereceği süre (varsayılan: 3600 saniye = 1 saat)
               </p>
             </div>
@@ -637,7 +637,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
                 <Label htmlFor="two_factor_enabled" className="text-xs font-ui font-semibold">
                   İki Faktörlü Kimlik Doğrulama (2FA)
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Admin kullanıcıları için 2FA zorunlu olsun
                 </p>
               </div>
@@ -654,8 +654,8 @@ export function SettingsManagement({ locale }: { locale: string }) {
 
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Lock className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Lock className="h-5 w-5 text-primary" />
               Şifre Politikası
             </CardTitle>
           </CardHeader>
@@ -729,8 +729,8 @@ export function SettingsManagement({ locale }: { locale: string }) {
 
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Clock className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Clock className="h-5 w-5 text-primary" />
               Rate Limiting
             </CardTitle>
           </CardHeader>
@@ -740,7 +740,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
                 <Label htmlFor="rate_limit_enabled" className="text-xs font-ui font-semibold">
                   Rate Limiting Aktif
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   API isteklerini sınırla
                 </p>
               </div>
@@ -792,8 +792,8 @@ export function SettingsManagement({ locale }: { locale: string }) {
       <TabsContent value="media" className="space-y-4">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <FileImage className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <FileImage className="h-5 w-5 text-primary" />
               Yükleme Ayarları
             </CardTitle>
           </CardHeader>
@@ -811,7 +811,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
                 min={1048576}
                 max={104857600}
               />
-              <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 {Math.round(settings.max_upload_size / 1048576)} MB
               </p>
             </div>
@@ -820,7 +820,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
                 <Label htmlFor="enable_image_compression" className="text-xs font-ui font-semibold">
                   Görsel Sıkıştırma
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Yüklenen görselleri otomatik sıkıştır
                 </p>
               </div>
@@ -853,8 +853,8 @@ export function SettingsManagement({ locale }: { locale: string }) {
 
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Image className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Image className="h-5 w-5 text-primary" />
               İzin Verilen Dosya Türleri
             </CardTitle>
           </CardHeader>
@@ -918,8 +918,8 @@ export function SettingsManagement({ locale }: { locale: string }) {
       <TabsContent value="seo" className="space-y-4">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Search className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Search className="h-5 w-5 text-primary" />
               SEO Varsayılanları
             </CardTitle>
           </CardHeader>
@@ -995,8 +995,8 @@ export function SettingsManagement({ locale }: { locale: string }) {
       <TabsContent value="social" className="space-y-4">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Share2 className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Share2 className="h-5 w-5 text-primary" />
               Sosyal Medya Bağlantıları
             </CardTitle>
           </CardHeader>
@@ -1074,8 +1074,8 @@ export function SettingsManagement({ locale }: { locale: string }) {
       <TabsContent value="performance" className="space-y-4">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Zap className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Zap className="h-5 w-5 text-primary" />
               Performans Ayarları
             </CardTitle>
           </CardHeader>
@@ -1085,7 +1085,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
                 <Label htmlFor="enable_caching" className="text-xs font-ui font-semibold">
                   Önbellekleme (Caching)
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Sayfa ve API yanıtlarını önbelleğe al
                 </p>
               </div>
@@ -1118,7 +1118,7 @@ export function SettingsManagement({ locale }: { locale: string }) {
                 <Label htmlFor="enable_cdn" className="text-xs font-ui font-semibold">
                   CDN Kullanımı
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Statik dosyalar için CDN kullan
                 </p>
               </div>
@@ -1150,8 +1150,8 @@ export function SettingsManagement({ locale }: { locale: string }) {
       </TabsContent>
 
       {/* Save Button */}
-      <div className="flex items-center justify-between pt-4 border-t border-[#E7E7E7] dark:border-[#062F28]">
-        <div className="text-xs text-design-gray dark:text-gray-400">
+      <div className="flex items-center justify-between pt-4 border-t border-border/40">
+        <div className="text-xs text-muted-foreground">
           {lastSaved && (
             <span className="flex items-center gap-1">
               <Save className="h-3 w-3" />
@@ -1172,14 +1172,14 @@ export function SettingsManagement({ locale }: { locale: string }) {
               setHasChanges(false);
             }}
             disabled={saving || !hasChanges}
-            className="border border-[#E7E7E7] dark:border-[#062F28]"
+            className=""
           >
             İptal
           </Button>
           <Button
             onClick={handleSave}
             disabled={saving || !hasChanges}
-            className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-lg hover:shadow-xl hover-scale micro-bounce rounded-xl"
+            className="rounded-xl"
           >
             <Save className="h-4 w-4 mr-2" />
             {saving ? "Kaydediliyor..." : "Kaydet"}

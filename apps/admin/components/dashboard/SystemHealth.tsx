@@ -145,8 +145,8 @@ export function SystemHealth() {
     <Card className="card-professional hover-lift">
       <CardHeader className="pb-4 px-5 pt-5">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Shield className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Shield className="h-5 w-5 text-primary" />
             Sistem Sağlığı
           </CardTitle>
           {healthChecks.length > 0 && (
@@ -183,8 +183,8 @@ export function SystemHealth() {
       <CardContent className="px-5 pb-5">
         {healthChecks.length === 0 ? (
           <div className="text-center py-8">
-            <AlertCircle className="h-12 w-12 mx-auto mb-4 text-design-gray dark:text-gray-400" />
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+            <AlertCircle className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground font-ui">
               Sistem durumu kontrol edilemedi
             </p>
           </div>
@@ -217,14 +217,14 @@ export function SystemHealth() {
                       <Icon className={cn("h-5 w-5", check.status === "healthy" ? "text-green-600 dark:text-green-400" : check.status === "warning" ? "text-yellow-600 dark:text-yellow-400" : "text-red-600 dark:text-red-400")} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-ui font-semibold text-design-dark dark:text-white mb-1">
+                      <p className="text-sm font-ui font-semibold text-foreground mb-1">
                         {check.name}
                       </p>
-                      <p className="text-xs text-design-gray dark:text-gray-400 font-ui truncate">
+                      <p className="text-xs text-muted-foreground font-ui truncate">
                         {check.message}
                       </p>
                       {check.lastChecked && (
-                        <p className="text-[10px] text-design-gray dark:text-gray-400 font-ui mt-1 flex items-center gap-1">
+                        <p className="text-[10px] text-muted-foreground font-ui mt-1 flex items-center gap-1">
                           <Clock className="h-3 w-3" />
                           Son kontrol: {check.lastChecked}
                         </p>

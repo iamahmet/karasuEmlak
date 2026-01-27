@@ -103,7 +103,7 @@ export function BulkImageOperations({ images, onUpdate, className }: BulkImageOp
   return (
     <Card className={cn("card-professional", className)}>
       <CardHeader>
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
           <ImageIcon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
           Toplu Görsel İşlemleri
         </CardTitle>
@@ -195,12 +195,12 @@ export function BulkImageOperations({ images, onUpdate, className }: BulkImageOp
         {processing && progress > 0 && (
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-design-gray dark:text-gray-400">
+              <span className="text-muted-foreground">
                 {processing === "optimize" && "Optimize ediliyor..."}
                 {processing === "resize" && "Boyutlandırılıyor..."}
                 {processing === "watermark" && "Watermark ekleniyor..."}
               </span>
-              <span className="font-semibold text-design-dark dark:text-white">
+              <span className="font-semibold text-foreground">
                 {Math.round(progress)}%
               </span>
             </div>

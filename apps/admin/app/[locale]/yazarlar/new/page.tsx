@@ -21,7 +21,7 @@ export default async function NewAuthorPage({
   setRequestLocale(locale);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="min-h-screen bg-background">
       <div className="admin-container responsive-padding py-6">
         <AuthorEditor locale={locale} />
       </div>

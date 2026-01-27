@@ -24,7 +24,7 @@ export default async function SEOControlPage({
     <div className="admin-container responsive-padding space-section animate-fade-in">
       <div className="admin-page-header">
         <div className="relative">
-          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full opacity-50"></div>
+          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-primary/40 rounded-full opacity-50"></div>
           <h1 className="admin-page-title">
             {t("seoControl")}
           </h1>
@@ -38,11 +38,10 @@ export default async function SEOControlPage({
         <Card className="card-professional hover-lift group cursor-pointer">
           <CardHeader className="pb-4 px-5 pt-5">
             <div className="flex items-center gap-3">
-              <div className="relative p-2.5 rounded-xl bg-gradient-to-br from-blue-500/20 via-blue-500/10 to-blue-500/5 group-hover:from-blue-500/30 group-hover:via-blue-500/20 group-hover:to-blue-500/10 transition-all duration-300 micro-bounce shadow-sm group-hover:shadow-md">
-                <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400 relative z-10 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3" />
-                <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent"></div>
+              <div className="relative p-2.5 rounded-xl bg-primary/10 transition-all duration-200 shadow-sm group-hover:shadow-md">
+                <FileText className="h-5 w-5 text-primary relative z-10 transition-transform duration-200 group-hover:scale-110" />
               </div>
-              <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+              <CardTitle className="text-base font-display font-bold text-foreground">
                 Metadata Editor
               </CardTitle>
             </div>
@@ -52,7 +51,7 @@ export default async function SEOControlPage({
               Edit meta titles, descriptions, and Open Graph tags for all pages
             </p>
             <Link href={`/${locale}/seo/control/metadata`}>
-              <span className="text-design-light hover:text-design-dark dark:hover:text-white text-sm font-semibold font-ui transition-colors duration-200 inline-flex items-center gap-1">
+              <span className="text-primary hover:text-foreground text-sm font-semibold font-ui transition-colors duration-200 inline-flex items-center gap-1">
                 Open Editor →
               </span>
             </Link>
@@ -62,11 +61,10 @@ export default async function SEOControlPage({
         <Card className="card-professional hover-lift group cursor-pointer">
           <CardHeader className="pb-4 px-5 pt-5">
             <div className="flex items-center gap-3">
-              <div className="relative p-2.5 rounded-xl bg-gradient-to-br from-green-500/20 via-green-500/10 to-green-500/5 group-hover:from-green-500/30 group-hover:via-green-500/20 group-hover:to-green-500/10 transition-all duration-300 micro-bounce shadow-sm group-hover:shadow-md">
-                <Code className="h-5 w-5 text-green-600 dark:text-green-400 relative z-10 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3" />
-                <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent"></div>
+              <div className="relative p-2.5 rounded-xl bg-primary/10 transition-all duration-200 shadow-sm group-hover:shadow-md">
+                <Code className="h-5 w-5 text-primary relative z-10 transition-transform duration-200 group-hover:scale-110" />
               </div>
-              <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+              <CardTitle className="text-base font-display font-bold text-foreground">
                 Schema Generator
               </CardTitle>
             </div>
@@ -76,7 +74,7 @@ export default async function SEOControlPage({
               Generate and manage JSON-LD structured data for better SEO
             </p>
             <Link href={`/${locale}/seo/control/schema`}>
-              <span className="text-design-light hover:text-design-dark dark:hover:text-white text-sm font-semibold font-ui transition-colors duration-200 inline-flex items-center gap-1">
+              <span className="text-primary hover:text-foreground text-sm font-semibold font-ui transition-colors duration-200 inline-flex items-center gap-1">
                 Open Generator →
               </span>
             </Link>
@@ -86,11 +84,10 @@ export default async function SEOControlPage({
         <Card className="card-professional hover-lift group cursor-pointer">
           <CardHeader className="pb-4 px-5 pt-5">
             <div className="flex items-center gap-3">
-              <div className="relative p-2.5 rounded-xl bg-gradient-to-br from-purple-500/20 via-purple-500/10 to-purple-500/5 group-hover:from-purple-500/30 group-hover:via-purple-500/20 group-hover:to-purple-500/10 transition-all duration-300 micro-bounce shadow-sm group-hover:shadow-md">
-                <Link2 className="h-5 w-5 text-purple-600 dark:text-purple-400 relative z-10 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3" />
-                <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent"></div>
+              <div className="relative p-2.5 rounded-xl bg-primary/10 transition-all duration-200 shadow-sm group-hover:shadow-md">
+                <Link2 className="h-5 w-5 text-primary relative z-10 transition-transform duration-200 group-hover:scale-110" />
               </div>
-              <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+              <CardTitle className="text-base font-display font-bold text-foreground">
                 Internal Links
               </CardTitle>
             </div>
@@ -100,7 +97,7 @@ export default async function SEOControlPage({
               AI-powered internal linking suggestions and management
             </p>
             <Link href={`/${locale}/seo/control/links`}>
-              <span className="text-design-light hover:text-design-dark dark:hover:text-white text-sm font-semibold font-ui transition-colors duration-200 inline-flex items-center gap-1">
+              <span className="text-primary hover:text-foreground text-sm font-semibold font-ui transition-colors duration-200 inline-flex items-center gap-1">
                 Open Manager →
               </span>
             </Link>
@@ -110,8 +107,8 @@ export default async function SEOControlPage({
 
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Search className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Search className="h-5 w-5 text-primary" />
             Quick SEO Analysis
           </CardTitle>
         </CardHeader>
@@ -121,7 +118,7 @@ export default async function SEOControlPage({
           </p>
           <div className="flex gap-2">
             <Link href={`/${locale}/project-bot?tab=findings&category=seo`}>
-              <span className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-design-light to-green-600 text-white rounded-xl hover:from-design-dark hover:to-green-700 text-sm font-semibold font-ui shadow-md hover:shadow-lg transition-all duration-200 hover-scale micro-bounce">
+              <span className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 text-sm font-semibold font-ui shadow-sm hover:shadow-md transition-all duration-200">
                 Run SEO Scan
               </span>
             </Link>

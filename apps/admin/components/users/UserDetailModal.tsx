@@ -138,8 +138,8 @@ export function UserDetailModal({
       <Dialog open={open} onOpenChange={onClose}>
         <DialogContent className="max-w-2xl">
           <div className="py-8 text-center">
-            <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin text-design-light" />
-            <p className="text-design-gray dark:text-gray-400">{t("loading")}</p>
+            <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin text-primary" />
+            <p className="text-muted-foreground">{t("loading")}</p>
           </div>
         </DialogContent>
       </Dialog>
@@ -151,7 +151,7 @@ export function UserDetailModal({
       <Dialog open={open} onOpenChange={onClose}>
         <DialogContent className="max-w-2xl">
           <div className="py-8 text-center">
-            <p className="text-design-gray dark:text-gray-400">{t("errors.userNotFound")}</p>
+            <p className="text-muted-foreground">{t("errors.userNotFound")}</p>
             <Button variant="outline" onClick={onClose} className="mt-4">
               {t("actions.close")}
             </Button>
@@ -166,19 +166,19 @@ export function UserDetailModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border-2 border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 shadow-2xl bg-white/98 dark:bg-[#0a3d35]/98 backdrop-blur-xl">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-border/40 shadow-2xl bg-card/95 backdrop-blur-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-design-light to-green-600 flex items-center justify-center text-white font-bold text-lg">
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">
               {user.profile?.name
                 ? user.profile.name.charAt(0).toUpperCase()
                 : user.email?.charAt(0).toUpperCase()}
             </div>
             <div>
-              <p className="text-lg font-display font-bold text-design-dark dark:text-white">
+              <p className="text-lg font-display font-bold text-foreground">
                 {user.profile?.name || "İsimsiz Kullanıcı"}
               </p>
-              <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+              <p className="text-sm text-muted-foreground font-ui">
                 {user.email}
               </p>
             </div>
@@ -191,17 +191,17 @@ export function UserDetailModal({
         <div className="space-y-6">
             {/* Basic Info */}
             <div className="space-y-4">
-              <h3 className="text-sm font-ui font-semibold text-design-dark dark:text-white uppercase">
+              <h3 className="text-sm font-ui font-semibold text-foreground uppercase">
                 Temel Bilgiler
               </h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                  <p className="text-xs text-muted-foreground font-ui mb-1">
                     E-posta
                   </p>
                   <div className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-design-gray dark:text-gray-400" />
-                    <span className="text-sm text-design-dark dark:text-white font-ui">
+                    <Mail className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm text-foreground font-ui">
                       {user.email}
                     </span>
                     {user.email_confirmed_at ? (
@@ -233,7 +233,7 @@ export function UserDetailModal({
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                  <p className="text-xs text-muted-foreground font-ui mb-1">
                     Durum
                   </p>
                   <Badge
@@ -248,23 +248,23 @@ export function UserDetailModal({
                   </Badge>
                 </div>
                 <div>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                  <p className="text-xs text-muted-foreground font-ui mb-1">
                     Kayıt Tarihi
                   </p>
                   <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-design-gray dark:text-gray-400" />
-                    <span className="text-sm text-design-dark dark:text-white font-ui">
+                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm text-foreground font-ui">
                       {formatDateTime(user.created_at)}
                     </span>
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                  <p className="text-xs text-muted-foreground font-ui mb-1">
                     Son Giriş
                   </p>
                   <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-design-gray dark:text-gray-400" />
-                    <span className="text-sm text-design-dark dark:text-white font-ui">
+                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm text-foreground font-ui">
                       {user.last_sign_in_at
                         ? formatDateTime(user.last_sign_in_at)
                         : "Hiç giriş yapmamış"}
@@ -277,7 +277,7 @@ export function UserDetailModal({
             {/* Roles */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-ui font-semibold text-design-dark dark:text-white uppercase flex items-center gap-2">
+                <h3 className="text-sm font-ui font-semibold text-foreground uppercase flex items-center gap-2">
                   <Shield className="h-4 w-4" />
                   {t("roles.title")}
                 </h3>
@@ -382,7 +382,7 @@ export function UserDetailModal({
             </div>
 
             {/* Actions */}
-            <div className="flex gap-2 pt-4 border-t border-[#E7E7E7] dark:border-[#062F28]">
+            <div className="flex gap-2 pt-4 border-t border-border/40 dark:border-border/40">
               <Button
                 variant="outline"
                 className="flex-1 gap-2"

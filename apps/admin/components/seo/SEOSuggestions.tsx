@@ -273,7 +273,7 @@ export function SEOSuggestions({ locale = "tr" }: { locale?: string }) {
         <Card className="card-professional">
           <CardContent className="py-12 text-center">
             <CheckCircle2 className="h-12 w-12 mx-auto mb-3 text-green-600 opacity-50" />
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+            <p className="text-sm text-muted-foreground font-ui">
               {filter === "all" 
                 ? "Tüm öneriler tamamlandı! Harika iş çıkarıyorsunuz." 
                 : "Bu kategoride öneri bulunmuyor."}
@@ -294,7 +294,7 @@ export function SEOSuggestions({ locale = "tr" }: { locale?: string }) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
-                      <h4 className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                      <h4 className="text-sm font-semibold text-foreground font-ui">
                         {suggestion.title}
                       </h4>
                       <Badge className={cn("text-[10px] px-2 py-0.5", getSuggestionBadge(suggestion.type))}>
@@ -312,7 +312,7 @@ export function SEOSuggestions({ locale = "tr" }: { locale?: string }) {
                         </Badge>
                       )}
                     </div>
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-3">
+                    <p className="text-xs text-muted-foreground font-ui mb-3">
                       {suggestion.description}
                     </p>
                     {suggestion.actionUrl && suggestion.actionLabel && (

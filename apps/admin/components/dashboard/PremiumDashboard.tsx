@@ -159,8 +159,6 @@ interface StatCardProps {
   change?: string;
   changeType?: "positive" | "negative" | "neutral";
   subtitle?: string;
-  gradient: string;
-  iconBg: string;
   delay?: number;
 }
 
@@ -172,58 +170,46 @@ function StatCard({
   change,
   changeType = "neutral",
   subtitle,
-  gradient,
-  iconBg,
   delay = 0,
 }: StatCardProps) {
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-2xl border border-white/20 dark:border-white/10",
-        "bg-white/70 dark:bg-white/5 backdrop-blur-xl",
-        "shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]",
-        "hover:shadow-[0_16px_48px_rgba(13,151,98,0.15)] dark:hover:shadow-[0_16px_48px_rgba(13,151,98,0.2)]",
-        "transition-all duration-500 ease-out",
-        "hover:-translate-y-1 hover:border-primary/30",
-        "animate-in fade-in slide-in-from-bottom-4"
+        "group relative overflow-hidden rounded-xl border border-border/40",
+        "bg-card/95 backdrop-blur-xl",
+        "shadow-sm shadow-black/5 dark:shadow-black/20",
+        "transition-all duration-200",
+        "hover:border-border/60 hover:shadow-md",
+        "animate-in fade-in slide-in-from-bottom-2"
       )}
       style={{ animationDelay: `${delay}ms`, animationFillMode: "backwards" }}
     >
-      {/* Gradient Overlay */}
-      <div
-        className={cn(
-          "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500",
-          gradient
-        )}
-      />
-
-      {/* Decorative Elements */}
-      <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors duration-500" />
-      <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-primary/3 rounded-full blur-xl" />
+      {/* Subtle gradient overlay on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
 
       <div className="relative p-5 sm:p-6">
         <div className="flex items-start justify-between mb-4">
           <div
             className={cn(
-              "p-3 rounded-xl transition-all duration-300",
-              "group-hover:scale-110 group-hover:rotate-3",
-              iconBg
+              "p-3 rounded-lg transition-all duration-200",
+              "bg-primary/10 text-primary",
+              "group-hover:bg-primary/15"
             )}
           >
-            <Icon className="h-5 w-5 text-white" />
+            <Icon className="h-5 w-5" />
           </div>
 
           {change && (
             <div
               className={cn(
-                "flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold",
-                "backdrop-blur-md border",
+                "flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium",
+                "border border-border/40",
                 changeType === "positive" &&
-                  "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+                  "bg-primary/10 text-primary border-primary/20",
                 changeType === "negative" &&
-                  "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20",
+                  "bg-destructive/10 text-destructive border-destructive/20",
                 changeType === "neutral" &&
-                  "bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20"
+                  "bg-muted/50 text-muted-foreground border-border/40"
               )}
             >
               {changeType === "positive" && <ArrowUpRight className="h-3 w-3" />}
@@ -245,8 +231,8 @@ function StatCard({
           )}
         </div>
 
-        {/* Progress Line */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Subtle bottom accent */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
       </div>
     </div>
   );
@@ -261,7 +247,6 @@ interface QuickActionProps {
   description: string;
   icon: React.ComponentType<{ className?: string }>;
   href: string;
-  gradient: string;
   delay?: number;
 }
 
@@ -270,48 +255,47 @@ function QuickActionButton({
   description,
   icon: Icon,
   href,
-  gradient,
   delay = 0,
 }: QuickActionProps) {
   return (
     <Link href={href}>
       <div
         className={cn(
-          "group relative overflow-hidden rounded-2xl p-5",
-          "border-2 border-dashed border-border/60 hover:border-transparent",
-          "bg-white/50 dark:bg-white/5 hover:bg-gradient-to-br",
-          gradient,
-          "transition-all duration-500 ease-out",
-          "hover:-translate-y-1 hover:shadow-xl",
-          "animate-in fade-in slide-in-from-bottom-4"
+          "group relative overflow-hidden rounded-xl p-4",
+          "border border-border/40",
+          "bg-card/95 backdrop-blur-xl",
+          "hover:border-border/60 hover:bg-card",
+          "transition-all duration-200",
+          "hover:shadow-md",
+          "animate-in fade-in slide-in-from-bottom-2"
         )}
         style={{ animationDelay: `${delay}ms`, animationFillMode: "backwards" }}
       >
-        {/* Shimmer Effect */}
-        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+        {/* Subtle hover overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
 
-        <div className="relative flex items-center gap-4">
+        <div className="relative flex items-center gap-3">
           <div
             className={cn(
-              "p-3 rounded-xl bg-white/80 dark:bg-white/10",
-              "group-hover:bg-white/90 dark:group-hover:bg-white/20",
-              "shadow-lg transition-all duration-300",
-              "group-hover:scale-110 group-hover:rotate-6"
+              "p-2.5 rounded-lg",
+              "bg-primary/10 text-primary",
+              "group-hover:bg-primary/15",
+              "transition-all duration-200"
             )}
           >
-            <Icon className="h-6 w-6 text-foreground group-hover:text-primary transition-colors" />
+            <Icon className="h-5 w-5" />
           </div>
 
-          <div className="flex-1">
-            <h3 className="font-bold text-foreground group-hover:text-white dark:group-hover:text-white transition-colors">
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-sm text-foreground truncate">
               {label}
             </h3>
-            <p className="text-sm text-muted-foreground group-hover:text-white/80 dark:group-hover:text-white/70 transition-colors">
+            <p className="text-xs text-muted-foreground truncate mt-0.5">
               {description}
             </p>
           </div>
 
-          <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-white group-hover:translate-x-1 transition-all" />
+          <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all flex-shrink-0" />
         </div>
       </div>
     </Link>
@@ -326,35 +310,35 @@ function ListingItem({ listing }: { listing: Listing }) {
   const getStatusBadge = (status: string, published: boolean) => {
     if (!published) {
       return (
-        <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">
+        <span className="text-[10px] px-2 py-0.5 rounded-lg bg-muted/50 text-muted-foreground font-medium border border-border/40">
           Taslak
         </span>
       );
     }
     if (status === "satilik") {
       return (
-        <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 font-medium">
+        <span className="text-[10px] px-2 py-0.5 rounded-lg bg-primary/10 text-primary font-medium border border-primary/20">
           Satılık
         </span>
       );
     }
     return (
-      <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium">
+      <span className="text-[10px] px-2 py-0.5 rounded-lg bg-primary/10 text-primary font-medium border border-primary/20">
         Kiralık
       </span>
     );
   };
 
   return (
-    <div className="group flex items-center gap-4 p-4 rounded-xl hover:bg-primary/5 dark:hover:bg-primary/10 transition-all duration-300 cursor-pointer">
+    <div className="group flex items-center gap-4 p-4 rounded-lg hover:bg-muted/50 transition-all duration-200 cursor-pointer border-b border-border/40 last:border-b-0">
       {/* Property Icon */}
       <div className="relative flex-shrink-0">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+        <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
           <Home className="h-5 w-5 text-primary" />
         </div>
         {listing.featured && (
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-amber-400 rounded-full flex items-center justify-center shadow-lg">
-            <Sparkles className="h-2.5 w-2.5 text-amber-900" />
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary rounded-full flex items-center justify-center shadow-sm border-2 border-card">
+            <Sparkles className="h-2.5 w-2.5 text-white" />
           </div>
         )}
       </div>
@@ -433,9 +417,7 @@ function ActivityItemComponent({ activity }: { activity: ActivityItem }) {
       <div
         className={cn(
           "p-2 rounded-lg transition-colors",
-          activity.type === "listing" && "bg-blue-100 dark:bg-blue-900/30 text-blue-600",
-          activity.type === "article" && "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600",
-          activity.type === "news" && "bg-purple-100 dark:bg-purple-900/30 text-purple-600"
+          "bg-primary/10 text-primary"
         )}
       >
         <Icon className="h-4 w-4" />
@@ -589,18 +571,18 @@ export function PremiumDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950/20">
+      <div className="min-h-screen bg-background">
         <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="animate-pulse space-y-8">
-            <div className="h-16 bg-muted/50 rounded-2xl w-1/2" />
+            <div className="h-16 bg-muted/50 rounded-xl w-1/2" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="h-40 bg-muted/50 rounded-2xl" />
+                <div key={i} className="h-40 bg-muted/50 rounded-xl" />
               ))}
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 h-80 bg-muted/50 rounded-2xl" />
-              <div className="h-80 bg-muted/50 rounded-2xl" />
+              <div className="lg:col-span-2 h-80 bg-muted/50 rounded-xl" />
+              <div className="h-80 bg-muted/50 rounded-xl" />
             </div>
           </div>
         </div>
@@ -614,40 +596,29 @@ export function PremiumDashboard() {
       description: "Hızlıca yeni ilan ekle",
       icon: Plus,
       href: "/listings/new",
-      gradient: "hover:from-emerald-500 hover:to-teal-600",
     },
     {
       label: "İlanları Yönet",
       description: "Tüm ilanları görüntüle",
       icon: Search,
       href: "/listings",
-      gradient: "hover:from-blue-500 hover:to-indigo-600",
     },
     {
       label: "Medya",
       description: "Görselleri yönet",
       icon: ImageIcon,
       href: "/media",
-      gradient: "hover:from-purple-500 hover:to-pink-600",
     },
     {
       label: "Ayarlar",
       description: "Site ayarlarını düzenle",
       icon: Settings,
       href: "/settings",
-      gradient: "hover:from-slate-500 hover:to-slate-700",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950/20">
-      {/* Background Pattern */}
-      <div className="fixed inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMwRDk3NjIiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEuNSIvPjwvZz48L2c+PC9zdmc+')] opacity-60 dark:opacity-30 pointer-events-none" />
-
-      {/* Gradient Orbs */}
-      <div className="fixed top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-primary/10 via-emerald-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
-      <div className="fixed bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-blue-500/10 via-indigo-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
-
+    <div className="min-h-screen bg-background">
       <div className="relative max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
         <header className="mb-8 sm:mb-10">
@@ -668,7 +639,7 @@ export function PremiumDashboard() {
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
                 {greeting()},{" "}
-                <span className="bg-gradient-to-r from-primary via-emerald-500 to-teal-500 bg-clip-text text-transparent">
+                <span className="text-primary">
                   Admin
                 </span>
               </h1>
@@ -683,13 +654,13 @@ export function PremiumDashboard() {
             >
               <Button
                 variant="outline"
-                className="gap-2 bg-white/50 dark:bg-white/5 backdrop-blur-sm border-white/30 hover:bg-white/80 dark:hover:bg-white/10"
+                className="gap-2"
               >
                 <RefreshCw className="h-4 w-4" />
                 Yenile
               </Button>
               <Link href="/listings/new">
-                <Button className="gap-2 bg-gradient-to-r from-primary to-emerald-600 hover:from-primary/90 hover:to-emerald-600/90 shadow-lg shadow-primary/25">
+                <Button className="gap-2">
                   <Plus className="h-4 w-4" />
                   Yeni İlan
                 </Button>
@@ -706,8 +677,8 @@ export function PremiumDashboard() {
             icon={Home}
             change="+12%"
             changeType="positive"
-            gradient="bg-gradient-to-br from-blue-500/10 to-indigo-500/5"
-            iconBg="bg-gradient-to-br from-blue-500 to-indigo-600"
+            gradient=""
+            iconBg=""
             delay={100}
           />
           <StatCard
@@ -717,8 +688,8 @@ export function PremiumDashboard() {
             change={`${stats.total > 0 ? Math.round((stats.published / stats.total) * 100) : 0}%`}
             changeType="positive"
             subtitle={`${stats.drafts} taslak`}
-            gradient="bg-gradient-to-br from-emerald-500/10 to-teal-500/5"
-            iconBg="bg-gradient-to-br from-emerald-500 to-teal-600"
+            gradient=""
+            iconBg=""
             delay={200}
           />
           <StatCard
@@ -727,8 +698,8 @@ export function PremiumDashboard() {
             icon={Sparkles}
             change="+5%"
             changeType="positive"
-            gradient="bg-gradient-to-br from-amber-500/10 to-orange-500/5"
-            iconBg="bg-gradient-to-br from-amber-500 to-orange-600"
+            gradient=""
+            iconBg=""
             delay={300}
           />
           <StatCard
@@ -739,18 +710,15 @@ export function PremiumDashboard() {
             change="+8%"
             changeType="positive"
             subtitle={`${stats.satilik} satılık, ${stats.kiralik} kiralık`}
-            gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/5"
-            iconBg="bg-gradient-to-br from-purple-500 to-pink-600"
+            gradient=""
+            iconBg=""
             delay={400}
           />
         </div>
 
         {/* Quick Actions */}
         <div className="mb-8">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="p-2 rounded-lg bg-primary/10">
-              <Zap className="h-4 w-4 text-primary" />
-            </div>
+          <div className="flex items-center gap-3 mb-4">
             <h2 className="text-lg font-semibold text-foreground">Hızlı İşlemler</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -767,11 +735,11 @@ export function PremiumDashboard() {
             className="lg:col-span-2 animate-in fade-in slide-in-from-bottom-4 duration-700"
             style={{ animationDelay: "600ms", animationFillMode: "backwards" }}
           >
-            <Card className="overflow-hidden border-white/20 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl shadow-xl">
+            <Card className="overflow-hidden border-border/40 bg-card/95 backdrop-blur-xl shadow-sm">
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-emerald-500/10">
+                    <div className="p-2 rounded-lg bg-primary/10">
                       <BarChart3 className="h-5 w-5 text-primary" />
                     </div>
                     <div>
@@ -857,11 +825,11 @@ export function PremiumDashboard() {
             className="animate-in fade-in slide-in-from-bottom-4 duration-700"
             style={{ animationDelay: "700ms", animationFillMode: "backwards" }}
           >
-            <Card className="h-full overflow-hidden border-white/20 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl shadow-xl">
+            <Card className="h-full overflow-hidden border-border/40 bg-card/95 backdrop-blur-xl shadow-sm">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-gradient-to-br from-indigo-500/20 to-purple-500/10">
-                    <Activity className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <Activity className="h-5 w-5 text-primary" />
                   </div>
                   <div>
                     <CardTitle className="text-lg font-semibold">Son Aktiviteler</CardTitle>
@@ -894,12 +862,12 @@ export function PremiumDashboard() {
           className="mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700"
           style={{ animationDelay: "800ms", animationFillMode: "backwards" }}
         >
-          <Card className="overflow-hidden border-white/20 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl shadow-xl">
+          <Card className="overflow-hidden border-border/40 bg-card/95 backdrop-blur-xl shadow-sm">
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500/20 to-teal-500/10">
-                    <Home className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <Home className="h-5 w-5 text-primary" />
                   </div>
                   <div>
                     <CardTitle className="text-lg font-semibold">Son Eklenen İlanlar</CardTitle>
@@ -942,16 +910,18 @@ export function PremiumDashboard() {
           style={{ animationDelay: "900ms", animationFillMode: "backwards" }}
         >
           {[
-            { label: "Satılık", value: stats.satilik, icon: Target, color: "text-emerald-600" },
-            { label: "Kiralık", value: stats.kiralik, icon: Home, color: "text-blue-600" },
-            { label: "Taslak", value: stats.drafts, icon: FileText, color: "text-amber-600" },
-            { label: "Öne Çıkan", value: stats.featured, icon: Sparkles, color: "text-purple-600" },
+            { label: "Satılık", value: stats.satilik, icon: Target },
+            { label: "Kiralık", value: stats.kiralik, icon: Home },
+            { label: "Taslak", value: stats.drafts, icon: FileText },
+            { label: "Öne Çıkan", value: stats.featured, icon: Sparkles },
           ].map((item) => (
             <div
               key={item.label}
-              className="flex items-center gap-3 p-4 rounded-xl bg-white/50 dark:bg-white/5 border border-white/20 dark:border-white/10 backdrop-blur-sm"
+              className="flex items-center gap-3 p-4 rounded-xl bg-card/95 backdrop-blur-xl border border-border/40"
             >
-              <item.icon className={cn("h-5 w-5", item.color)} />
+              <div className="p-2 rounded-lg bg-primary/10">
+                <item.icon className="h-5 w-5 text-primary" />
+              </div>
               <div>
                 <p className="text-2xl font-bold text-foreground">{item.value}</p>
                 <p className="text-xs text-muted-foreground">{item.label}</p>

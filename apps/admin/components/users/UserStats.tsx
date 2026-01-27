@@ -24,36 +24,36 @@ export function UserStats({
       label: "Toplam Kullanıcı",
       value: totalUsers,
       icon: Users,
-      color: "text-blue-600",
-      bgColor: "bg-blue-100 dark:bg-blue-900/20",
+      color: "text-primary",
+      bgColor: "bg-primary/10",
     },
     {
       label: "Admin",
       value: adminUsers,
       icon: Shield,
-      color: "text-red-600",
-      bgColor: "bg-red-100 dark:bg-red-900/20",
+      color: "text-primary",
+      bgColor: "bg-primary/10",
     },
     {
       label: "Staff",
       value: staffUsers,
       icon: UserCheck,
-      color: "text-purple-600",
-      bgColor: "bg-purple-100 dark:bg-purple-900/20",
+      color: "text-primary",
+      bgColor: "bg-primary/10",
     },
     {
       label: "Aktif",
       value: activeUsers,
       icon: TrendingUp,
-      color: "text-green-600",
-      bgColor: "bg-green-100 dark:bg-green-900/20",
+      color: "text-primary",
+      bgColor: "bg-primary/10",
     },
     {
       label: "Pasif",
       value: inactiveUsers,
       icon: UserX,
-      color: "text-gray-600",
-      bgColor: "bg-gray-100 dark:bg-gray-900/20",
+      color: "text-muted-foreground",
+      bgColor: "bg-muted/50",
     },
   ];
 
@@ -69,10 +69,10 @@ export function UserStats({
             <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                  <p className="text-xs text-muted-foreground font-ui mb-1">
                     {stat.label}
                   </p>
-                  <p className="text-2xl font-bold text-design-dark dark:text-white">
+                  <p className="text-2xl font-bold text-foreground">
                     {stat.value}
                   </p>
                 </div>

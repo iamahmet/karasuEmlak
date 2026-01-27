@@ -122,11 +122,11 @@ export function RealTimeUpdates() {
   };
 
   return (
-    <Card className="card-professional bg-white dark:bg-[#0a3d35] relative overflow-hidden">
+    <Card className="card-professional bg-white dark:bg-card relative overflow-hidden">
       <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-design-light/5 to-transparent rounded-full blur-3xl"></div>
       <CardHeader className="pb-4 px-5 pt-5 relative z-10">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg md:text-xl font-display font-bold text-design-dark dark:text-white flex items-center gap-3">
+          <CardTitle className="text-lg md:text-xl font-display font-bold text-foreground flex items-center gap-3">
             <span className="w-1 h-6 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full shadow-lg"></span>
             Canlı Güncellemeler
           </CardTitle>
@@ -137,7 +137,7 @@ export function RealTimeUpdates() {
                 isConnected ? "bg-green-500 animate-pulse" : "bg-gray-400"
               )}
             />
-            <span className="text-xs text-design-gray dark:text-gray-400 font-ui">
+            <span className="text-xs text-muted-foreground font-ui">
               {isConnected ? "Bağlı" : "Bağlantı yok"}
             </span>
           </div>
@@ -146,8 +146,8 @@ export function RealTimeUpdates() {
       <CardContent className="px-5 pb-5 relative z-10">
         {updates.length === 0 ? (
           <div className="text-center py-8">
-            <Activity className="h-12 w-12 text-design-gray dark:text-gray-400 mx-auto mb-3 opacity-50" />
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+            <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-3 opacity-50" />
+            <p className="text-sm text-muted-foreground font-ui">
               Henüz güncelleme yok
             </p>
           </div>
@@ -156,14 +156,14 @@ export function RealTimeUpdates() {
             {updates.map((update) => (
               <div
                 key={update.id}
-                className="flex items-start gap-3 p-3 rounded-lg bg-slate-50 dark:bg-[#062F28]/50 border border-slate-200/50 dark:border-[#0a3d35]/50 hover:border-design-light/50 dark:hover:border-design-light/50 transition-all group"
+                className="flex items-start gap-3 p-3 rounded-lg bg-slate-50 dark:bg-muted/50 border border-slate-200/50 dark:border-[#0a3d35]/50 hover:border-design-light/50 dark:hover:border-design-light/50 transition-all group"
               >
                 <div className="p-2 rounded-lg bg-gradient-to-br from-design-light/20 to-design-light/10 group-hover:from-design-light/30 group-hover:to-design-light/20 transition-all">
                   {getTypeIcon(update.type)}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-sm font-semibold text-design-dark dark:text-white truncate">
+                    <p className="text-sm font-semibold text-foreground truncate">
                       {update.title}
                     </p>
                     <Badge
@@ -175,7 +175,7 @@ export function RealTimeUpdates() {
                       {getActionLabel(update.action)}
                     </Badge>
                   </div>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                  <p className="text-xs text-muted-foreground font-ui">
                     {update.timestamp.toLocaleTimeString("tr-TR", {
                       hour: "2-digit",
                       minute: "2-digit",

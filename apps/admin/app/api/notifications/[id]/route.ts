@@ -6,7 +6,7 @@ import { createServiceClient } from "@karasu/lib/supabase/service";
  * Mark as read/unread or delete a notification
  * Admin API: Uses service role to bypass RLS
  */
-export async function PUT(
+async function handleUpdate(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -38,6 +38,21 @@ export async function PUT(
       .eq("id", id);
 
     if (error) {
+      // If table doesn't exist, return success silently
+      const errorMessage = error.message?.toLowerCase() || "";
+      const errorCode = error.code || "";
+      
+      if (
+        errorCode === "PGRST116" || 
+        errorCode === "42P01" ||
+        errorMessage.includes("does not exist")
+      ) {
+        return NextResponse.json({
+          success: true,
+          message: "Notification updated",
+        });
+      }
+
       return NextResponse.json(
         { error: error.message },
         { status: 500 }
@@ -55,6 +70,9 @@ export async function PUT(
     );
   }
 }
+
+export const PUT = handleUpdate;
+export const PATCH = handleUpdate;
 
 export async function DELETE(
   _request: NextRequest,

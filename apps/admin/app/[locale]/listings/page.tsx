@@ -17,13 +17,13 @@ export default function ListingsPage() {
   const locale = (params?.locale as string) || "tr";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="min-h-screen bg-background">
       {/* Enhanced Header */}
-      <div className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+      <div className="border-b border-border/40 bg-card/95 backdrop-blur-xl sticky top-0 z-50">
         <div className="admin-container responsive-padding py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary">
                 <Home className="h-6 w-6" />
               </div>
               <div>

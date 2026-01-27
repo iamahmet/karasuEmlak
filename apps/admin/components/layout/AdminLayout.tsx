@@ -55,8 +55,7 @@ function AdminLayoutComponent({ children }: { children: React.ReactNode }) {
     <>
       <div className="flex h-screen overflow-hidden bg-background relative admin-layout-container">
         {/* Background Pattern - Subtle & Modern */}
-        <div className="absolute inset-0 pointer-events-none admin-layout-background opacity-30" />
-        <div className="absolute inset-0 bg-gradient-to-br from-design-light/3 via-transparent to-transparent dark:from-design-light/2 pointer-events-none" />
+        <div className="absolute inset-0 pointer-events-none admin-layout-background opacity-20" />
         
         {/* Use ImprovedCompactSidebar for desktop, AdminSidebar for mobile */}
         <div className="hidden lg:block">

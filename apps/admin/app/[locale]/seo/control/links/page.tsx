@@ -49,12 +49,14 @@ export default async function InternalLinksPage({
       {/* Header - Enhanced Modern */}
       <div className="flex items-center justify-between mb-6 relative">
         <div className="relative">
-          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full opacity-50"></div>
-          <h1 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-br from-design-dark via-design-dark/90 to-design-dark/80 dark:from-white dark:via-gray-100 dark:to-gray-300 bg-clip-text text-transparent mb-2 tracking-tight flex items-center gap-3">
-            <Link2 className="h-8 w-8 text-design-light" />
+          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-primary/40 rounded-full opacity-50"></div>
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-2 tracking-tight flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-primary/10">
+              <Link2 className="h-8 w-8 text-primary" />
+            </div>
             Internal Links Manager
           </h1>
-          <p className="text-design-gray dark:text-gray-400 text-sm md:text-base font-body font-medium">
+          <p className="text-muted-foreground text-sm md:text-base font-body font-medium">
             AI-powered internal linking suggestions and management
           </p>
         </div>
@@ -62,8 +64,8 @@ export default async function InternalLinksPage({
 
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-primary" />
             AI-Powered Link Suggestions
           </CardTitle>
         </CardHeader>

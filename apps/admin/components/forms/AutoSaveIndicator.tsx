@@ -40,7 +40,7 @@ export function AutoSaveIndicator({
 
   if (isSaving) {
     return (
-      <div className={cn("flex items-center gap-2 text-xs text-design-gray dark:text-gray-400", className)}>
+      <div className={cn("flex items-center gap-2 text-xs text-muted-foreground", className)}>
         <Loader2 className="h-4 w-4 animate-spin" />
         <span>Kaydediliyor...</span>
       </div>

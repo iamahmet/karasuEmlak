@@ -77,15 +77,15 @@ export function ArticleEditorHeader({
   const [showMoreMenu, setShowMoreMenu] = useState(false);
 
   const getSEOScoreColor = (score: number) => {
-    if (score >= 80) return "text-green-600 dark:text-green-400";
+    if (score >= 80) return "text-primary";
     if (score >= 60) return "text-yellow-600 dark:text-yellow-400";
-    return "text-red-600 dark:text-red-400";
+    return "text-destructive";
   };
 
   const getSEOScoreBg = (score: number) => {
-    if (score >= 80) return "bg-green-100 dark:bg-green-900/20";
+    if (score >= 80) return "bg-primary/10";
     if (score >= 60) return "bg-yellow-100 dark:bg-yellow-900/20";
-    return "bg-red-100 dark:bg-red-900/20";
+    return "bg-destructive/10";
   };
 
   return (
@@ -99,7 +99,7 @@ export function ArticleEditorHeader({
                 {title || "Yeni Makale"}
               </h1>
               {isPublished && (
-                <Badge className="bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400 text-xs px-2 py-0.5">
+                <Badge className="bg-primary/10 text-primary text-xs px-2 py-0.5">
                   Yayında
                 </Badge>
               )}
@@ -116,7 +116,7 @@ export function ArticleEditorHeader({
                 <span className="flex items-center gap-1.5">
                   <CheckCircle2 className={cn(
                     "h-3.5 w-3.5",
-                    isDirty ? "text-yellow-500" : "text-green-500"
+                    isDirty ? "text-yellow-500" : "text-primary"
                   )} />
                   <span className={cn(isDirty && "text-yellow-600 dark:text-yellow-400")}>
                     {isDirty ? "Kaydedilmemiş" : `Son kayıt: ${lastSaved.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })}`}
@@ -155,7 +155,7 @@ export function ArticleEditorHeader({
               className={cn(
                 "gap-2",
                 isDirty
-                  ? "bg-design-light hover:bg-design-light/90 text-white"
+                  ? "bg-primary hover:bg-primary/90 text-primary-foreground"
                   : "bg-muted text-muted-foreground"
               )}
             >
@@ -187,7 +187,7 @@ export function ArticleEditorHeader({
               <Button
                 onClick={onPublish}
                 size="sm"
-                className="gap-2 bg-green-600 hover:bg-green-700 text-white"
+                className="gap-2"
               >
                 <Zap className="h-4 w-4" />
                 Yayınla

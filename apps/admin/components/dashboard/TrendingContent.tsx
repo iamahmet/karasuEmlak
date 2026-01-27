@@ -108,13 +108,13 @@ export function TrendingContent({ locale = "tr" }: { locale?: string }) {
     <Card className="card-professional">
       <CardHeader className="pb-4 px-5 pt-5">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <TrendingUp className="h-5 w-5 text-primary" />
             Trend İçerikler
           </CardTitle>
           <Link
             href={`/${locale}/seo/content-studio`}
-            className="text-xs text-design-light hover:text-design-dark dark:hover:text-design-light transition-colors flex items-center gap-1"
+            className="text-xs text-primary hover:text-design-dark dark:hover:text-primary transition-colors flex items-center gap-1"
           >
             Tümünü Gör
             <ArrowRight className="h-3 w-3" />
@@ -123,7 +123,7 @@ export function TrendingContent({ locale = "tr" }: { locale?: string }) {
       </CardHeader>
       <CardContent className="px-5 pb-5">
         {trending.length === 0 ? (
-          <div className="text-center py-12 text-design-gray dark:text-gray-400">
+          <div className="text-center py-12 text-muted-foreground">
             <TrendingUp className="h-12 w-12 mx-auto mb-3 opacity-50" />
             <p>Henüz trend içerik bulunmuyor</p>
           </div>
@@ -133,14 +133,14 @@ export function TrendingContent({ locale = "tr" }: { locale?: string }) {
               <Link
                 key={article.id}
                 href={`/${locale}/seo/content-studio/${article.id}`}
-                className="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:shadow-md hover:border-design-light/30 transition-all duration-200 group"
+                className="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40 hover:shadow-md hover:border-design-light/30 transition-all duration-200 group"
               >
-                <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-design-light/20 to-design-light/10 flex items-center justify-center font-bold text-design-dark dark:text-white text-sm">
+                <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-design-light/20 to-design-light/10 flex items-center justify-center font-bold text-foreground text-sm">
                   {index + 1}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-sm font-semibold text-design-dark dark:text-white group-hover:text-design-light transition-colors truncate">
+                    <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors truncate">
                       {article.title}
                     </p>
                     {article.category && (
@@ -149,7 +149,7 @@ export function TrendingContent({ locale = "tr" }: { locale?: string }) {
                       </Badge>
                     )}
                   </div>
-                  <div className="flex items-center gap-3 text-xs text-design-gray dark:text-gray-400">
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <Eye className="h-3 w-3" />
                       {article.views.toLocaleString("tr-TR")}

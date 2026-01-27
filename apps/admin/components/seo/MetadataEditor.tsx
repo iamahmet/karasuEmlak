@@ -87,10 +87,10 @@ export function MetadataEditor({ items, type, locale }: MetadataEditorProps) {
             <CardHeader className="pb-4 px-5 pt-5">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white mb-2">
+                  <CardTitle className="text-base font-display font-bold text-foreground mb-2">
                     {displayTitle}
                   </CardTitle>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui">{item.slug || item.id}</p>
+                  <p className="text-xs text-muted-foreground font-ui">{item.slug || item.id}</p>
                 </div>
                 {!isEditing && (
                   <Button
@@ -109,7 +109,7 @@ export function MetadataEditor({ items, type, locale }: MetadataEditorProps) {
               {isEditing ? (
                 <>
                   <div>
-                    <label className="text-xs font-ui font-semibold text-design-dark dark:text-white mb-2 block">
+                    <label className="text-xs font-ui font-semibold text-foreground mb-2 block">
                       Meta Title
                     </label>
                     <Input
@@ -120,7 +120,7 @@ export function MetadataEditor({ items, type, locale }: MetadataEditorProps) {
                       className="input-modern"
                     />
                     <div className="flex items-center justify-between mt-1">
-                      <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                      <p className="text-xs text-muted-foreground font-ui">
                         {metaTitle.length}/60 karakter
                       </p>
                       {metaTitle.length >= 30 && metaTitle.length <= 60 && (
@@ -132,7 +132,7 @@ export function MetadataEditor({ items, type, locale }: MetadataEditorProps) {
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs font-ui font-semibold text-design-dark dark:text-white mb-2 block">
+                    <label className="text-xs font-ui font-semibold text-foreground mb-2 block">
                       Meta Description
                     </label>
                     <Textarea
@@ -144,7 +144,7 @@ export function MetadataEditor({ items, type, locale }: MetadataEditorProps) {
                       className="input-modern"
                     />
                     <div className="flex items-center justify-between mt-1">
-                      <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                      <p className="text-xs text-muted-foreground font-ui">
                         {metaDescription.length}/160 karakter
                       </p>
                       {metaDescription.length >= 120 && metaDescription.length <= 160 && (
@@ -156,7 +156,7 @@ export function MetadataEditor({ items, type, locale }: MetadataEditorProps) {
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs font-ui font-semibold text-design-dark dark:text-white mb-2 block">
+                    <label className="text-xs font-ui font-semibold text-foreground mb-2 block">
                       Canonical URL
                     </label>
                     <Input
@@ -191,35 +191,35 @@ export function MetadataEditor({ items, type, locale }: MetadataEditorProps) {
               ) : (
                 <>
                   <div>
-                    <label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1 block">
+                    <label className="text-xs font-ui font-semibold text-muted-foreground mb-1 block">
                       Meta Title
                     </label>
-                    <p className="text-sm font-ui text-design-dark dark:text-white mt-1">
+                    <p className="text-sm font-ui text-foreground mt-1">
                       {metaTitle || (
-                        <span className="text-design-gray dark:text-gray-400 italic">Belirtilmemiş</span>
+                        <span className="text-muted-foreground italic">Belirtilmemiş</span>
                       )}
                     </p>
                   </div>
                   <div>
-                    <label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1 block">
+                    <label className="text-xs font-ui font-semibold text-muted-foreground mb-1 block">
                       Meta Description
                     </label>
-                    <p className="text-sm font-ui text-design-dark dark:text-white mt-1">
+                    <p className="text-sm font-ui text-foreground mt-1">
                       {metaDescription || (
-                        <span className="text-design-gray dark:text-gray-400 italic">Belirtilmemiş</span>
+                        <span className="text-muted-foreground italic">Belirtilmemiş</span>
                       )}
                     </p>
                   </div>
                   {canonicalUrl && (
                     <div>
-                      <label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1 block">
+                      <label className="text-xs font-ui font-semibold text-muted-foreground mb-1 block">
                         Canonical URL
                       </label>
                       <a
                         href={canonicalUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-design-light hover:text-design-dark dark:hover:text-white font-ui hover:underline flex items-center gap-1 mt-1 transition-colors duration-200"
+                        className="text-sm text-primary hover:text-foreground font-ui hover:underline flex items-center gap-1 mt-1 transition-colors duration-200"
                       >
                         {canonicalUrl}
                         <ExternalLink className="h-3 w-3" />

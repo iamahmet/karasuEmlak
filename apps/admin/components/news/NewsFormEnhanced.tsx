@@ -263,10 +263,10 @@ export function NewsFormEnhanced({
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <label className="text-sm font-semibold text-design-dark dark:text-white">
+              <label className="text-sm font-semibold text-foreground">
                 Yayınla
               </label>
-              <p className="text-xs text-design-gray dark:text-gray-400">
+              <p className="text-xs text-muted-foreground">
                 Haberi hemen yayınla
               </p>
             </div>
@@ -283,10 +283,10 @@ export function NewsFormEnhanced({
 
           <div className="flex items-center justify-between">
             <div>
-              <label className="text-sm font-semibold text-design-dark dark:text-white">
+              <label className="text-sm font-semibold text-foreground">
                 Acil Haber
               </label>
-              <p className="text-xs text-design-gray dark:text-gray-400">
+              <p className="text-xs text-muted-foreground">
                 Öne çıkan acil haber olarak işaretle
               </p>
             </div>

@@ -79,14 +79,14 @@ export function DataTable<TData, TValue>({
             onChange={(event) =>
               table.getColumn(searchKey)?.setFilterValue(event.target.value)
             }
-            className="max-w-sm h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+            className="max-w-sm h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui"
           />
         )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
-              className="ml-auto h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+              className="ml-auto h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui"
             >
               Columns <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
@@ -114,19 +114,19 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* Table */}
-      <div className="rounded-lg border border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35] overflow-x-auto -mx-4 md:mx-0 table-wrapper">
+      <div className="rounded-lg border border-border/40 dark:border-border/40 bg-white dark:bg-card overflow-x-auto -mx-4 md:mx-0 table-wrapper">
         <Table className="min-w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="border-[#E7E7E7] dark:border-[#062F28] hover:bg-transparent"
+                className="border-border/40 dark:border-border/40 hover:bg-transparent"
               >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
-                      className="h-10 px-4 text-xs font-semibold text-design-gray dark:text-gray-400 uppercase tracking-wider font-ui"
+                      className="h-10 px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider font-ui"
                     >
                       {header.isPlaceholder
                         ? null
@@ -146,12 +146,12 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="border-[#E7E7E7] dark:border-[#062F28] hover:bg-design-light/5 dark:hover:bg-design-light/10 transition-colors"
+                  className="border-border/40 dark:border-border/40 hover:bg-design-light/5 dark:hover:bg-primary/10 transition-colors"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className="px-4 py-3 text-sm text-design-dark dark:text-white font-ui"
+                      className="px-4 py-3 text-sm text-foreground font-ui"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -165,7 +165,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center text-sm text-design-gray dark:text-gray-400 font-ui"
+                  className="h-24 text-center text-sm text-muted-foreground font-ui"
                 >
                   No results.
                 </TableCell>
@@ -177,7 +177,7 @@ export function DataTable<TData, TValue>({
 
       {/* Pagination */}
       <div className="flex items-center justify-between">
-        <div className="text-sm text-design-gray dark:text-gray-400 font-ui">
+        <div className="text-sm text-muted-foreground font-ui">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
@@ -187,11 +187,11 @@ export function DataTable<TData, TValue>({
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            className="h-8 px-3 text-xs border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+            className="h-8 px-3 text-xs border border-border/40 dark:border-border/40 rounded-lg font-ui"
           >
             Previous
           </Button>
-          <div className="text-xs text-design-gray dark:text-gray-400 font-ui px-2">
+          <div className="text-xs text-muted-foreground font-ui px-2">
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </div>
@@ -200,7 +200,7 @@ export function DataTable<TData, TValue>({
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            className="h-8 px-3 text-xs border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+            className="h-8 px-3 text-xs border border-border/40 dark:border-border/40 rounded-lg font-ui"
           >
             Next
           </Button>

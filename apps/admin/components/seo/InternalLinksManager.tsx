@@ -123,7 +123,7 @@ Return as JSON array:
       <div className="lg:col-span-1">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+            <CardTitle className="text-base font-display font-bold text-foreground">
               Makale Seç
             </CardTitle>
           </CardHeader>
@@ -139,10 +139,10 @@ Return as JSON array:
                     : "border-border hover:border-design-light/40 bg-card"
                 )}
               >
-                <p className="font-semibold text-sm font-ui text-design-dark dark:text-white line-clamp-2">
+                <p className="font-semibold text-sm font-ui text-foreground line-clamp-2">
                   {article.title}
                 </p>
-                <p className="text-xs text-design-gray dark:text-gray-400 font-ui mt-1">
+                <p className="text-xs text-muted-foreground font-ui mt-1">
                   {article.slug}
                 </p>
               </button>
@@ -158,10 +158,10 @@ Return as JSON array:
             <CardHeader className="pb-4 px-5 pt-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white mb-2">
+                  <CardTitle className="text-base font-display font-bold text-foreground mb-2">
                     {selectedArticle.title}
                   </CardTitle>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                  <p className="text-xs text-muted-foreground font-ui">
                     {selectedArticle.slug}
                   </p>
                 </div>
@@ -198,18 +198,18 @@ Return as JSON array:
                             <Badge variant="outline" className="text-[10px] px-2 py-0.5 font-ui">
                               "{suggestion.anchor}"
                             </Badge>
-                            <span className="text-xs text-design-gray dark:text-gray-400">→</span>
+                            <span className="text-xs text-muted-foreground">→</span>
                             <a
                               href={`/${locale}/haber/${suggestion.targetSlug}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-xs text-design-light hover:text-design-dark dark:hover:text-white font-ui hover:underline flex items-center gap-1 transition-colors duration-200"
+                              className="text-xs text-primary hover:text-foreground font-ui hover:underline flex items-center gap-1 transition-colors duration-200"
                             >
                               {suggestion.targetSlug}
                               <ExternalLink className="h-3 w-3" />
                             </a>
                           </div>
-                          <p className="text-sm text-design-gray dark:text-gray-400 italic font-ui">
+                          <p className="text-sm text-muted-foreground italic font-ui">
                             "{suggestion.context}"
                           </p>
                         </div>
@@ -243,8 +243,8 @@ Return as JSON array:
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <Link2 className="h-12 w-12 mx-auto mb-4 text-design-gray dark:text-gray-400" />
-                  <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+                  <Link2 className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                  <p className="text-sm text-muted-foreground font-ui">
                     {generating
                       ? "Link önerileri analiz ediliyor..."
                       : "Önerileri görmek için yukarıdaki butona tıklayın"}

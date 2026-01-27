@@ -16,11 +16,10 @@
   html {
     scroll-behavior: smooth;
     font-size: 16px;
-    overflow-x: hidden !important;
-    overflow-y: scroll !important;
-    height: auto !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
     min-height: 100%;
-    max-height: none !important;
     width: 100%;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
@@ -29,7 +28,7 @@
   }
   
   html:not([data-scroll-locked="true"]) {
-    overflow-y: scroll !important;
+    overflow-y: auto;
   }
 
   @media (min-width: 768px) {
@@ -47,13 +46,12 @@
     letter-spacing: -0.011em;
     color: hsl(var(--foreground));
     background-color: hsl(var(--background));
-    overflow-x: hidden !important;
-    overflow-y: visible !important;
-    height: auto !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
     min-height: 100vh;
-    max-height: none !important;
     width: 100%;
-    position: static !important;
+    position: relative;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overscroll-behavior-y: contain;
@@ -63,8 +61,8 @@
   body[data-scroll-locked],
   html.overflow-hidden,
   html[data-scroll-locked] {
-    overflow-y: scroll !important;
-    position: static !important;
+    overflow-y: auto;
+    position: relative;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -750,45 +748,31 @@
 /* This MUST be at the end of the file to override everything including Tailwind base */
 /* Using maximum specificity to override Tailwind and inline styles */
 
-/* Force HTML to be scrollable - override EVERYTHING */
+/* Force HTML to be scrollable - override scroll locks */
 html,
 html.dark,
 html.light,
 html:not(.no-scroll),
-html[class],
-html[class][class],
-html[style],
-html[style][class],
-html[style*="overflow"],
-html[style*="overflow"][class] {
-  overflow: visible !important;
-  overflow-x: hidden !important;
-  overflow-y: scroll !important;
-  height: auto !important;
-  max-height: none !important;
-  position: static !important;
+html:not([data-scroll-locked="true"]) {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100%;
+  position: relative;
 }
 
-/* Force body to allow scroll - override EVERYTHING */
+/* Force body to allow scroll - override scroll locks */
 body,
 body.dark,
 body.light,
 body:not(.no-scroll),
-body[class],
-body[class][class],
-body[style],
-body[style][class],
-body[style*="overflow"],
-body[style*="overflow"][class] {
-  overflow: visible !important;
-  overflow-x: hidden !important;
-  overflow-y: visible !important;
-  height: auto !important;
-  max-height: none !important;
-  position: static !important;
+body:not([data-scroll-locked="true"]) {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100%;
+  position: relative;
 }
 
-/* Nuclear option: Override even if overflow is set to hidden in inline style */
+/* Override scroll locks when explicitly set to hidden */
 html[style*="overflow: hidden"],
 html[style*="overflow:hidden"],
 html[style*="overflow-y: hidden"],
@@ -797,7 +781,6 @@ body[style*="overflow: hidden"],
 body[style*="overflow:hidden"],
 body[style*="overflow-y: hidden"],
 body[style*="overflow-y:hidden"] {
-  overflow: visible !important;
-  overflow-x: hidden !important;
-  overflow-y: scroll !important;
+  overflow-x: hidden;
+  overflow-y: auto;
 }

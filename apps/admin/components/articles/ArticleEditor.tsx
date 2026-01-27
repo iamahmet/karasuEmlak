@@ -281,10 +281,10 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-display font-bold text-design-dark dark:text-white mb-2">
+          <h1 className="text-3xl font-display font-bold text-foreground mb-2">
             Haber Düzenle
           </h1>
-          <div className="flex items-center gap-4 text-sm text-design-gray dark:text-gray-400">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
             {lastSaved && (
               <span className="flex items-center gap-1">
                 <CheckCircle2 className="h-4 w-4 text-green-500" />
@@ -328,7 +328,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
                   const url = `${baseUrl}/${locale}/haber/${article.slug}`;
                   window.open(url, "_blank");
                 }}
-                className="px-4 py-2 text-sm font-medium text-white bg-design-light rounded-xl hover:bg-design-dark transition-colors inline-flex items-center gap-2"
+                className="px-4 py-2 text-sm font-medium text-white bg-design-light rounded-xl hover:bg-primary/90 transition-colors inline-flex items-center gap-2"
               >
                 <Eye className="h-4 w-4" />
                 Görüntüle
@@ -358,7 +358,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
             type="button"
             onClick={handleSave}
             disabled={saving || !isDirty}
-            className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-design-light to-design-dark rounded-xl hover:from-design-dark hover:to-design-light transition-all disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
+            className="px-4 py-2 text-sm font-medium rounded-xl disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
           >
             {saving ? (
               <>
@@ -380,7 +380,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-card rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
             <div className="flex items-center justify-between p-4 border-b border-border">
-              <h2 className="text-lg font-display font-bold text-design-dark dark:text-white">
+              <h2 className="text-lg font-display font-bold text-foreground">
                 Önizleme
               </h2>
               <button
@@ -389,7 +389,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
                   setShowPreview(false);
                   setPreviewUrl(null);
                 }}
-                className="text-design-gray dark:text-gray-400 hover:text-design-dark dark:hover:text-white transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -430,7 +430,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
         <TabsContent value="content" className="space-y-6">
           <Card className="card-professional">
             <CardHeader>
-              <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+              <CardTitle className="text-base font-display font-bold text-foreground">
                 Temel Bilgiler
               </CardTitle>
             </CardHeader>
@@ -508,7 +508,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
                   className="input-modern mt-1"
                   placeholder="Haber özeti (150-160 karakter önerilir)"
                 />
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   {article.excerpt?.length || 0} karakter
                 </p>
               </div>
@@ -517,7 +517,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
 
           <Card className="card-professional">
             <CardHeader>
-              <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+              <CardTitle className="text-base font-display font-bold text-foreground">
                 İçerik
               </CardTitle>
             </CardHeader>
@@ -533,7 +533,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
           <Card className="card-professional">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+                <CardTitle className="text-base font-display font-bold text-foreground">
                   Öne Çıkan Görsel
                 </CardTitle>
                 <MediaLibraryButton
@@ -555,7 +555,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
         <TabsContent value="seo" className="space-y-6">
           <Card className="card-professional">
             <CardHeader>
-              <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+              <CardTitle className="text-base font-display font-bold text-foreground">
                 SEO Ayarları
               </CardTitle>
             </CardHeader>
@@ -572,7 +572,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
                   className="input-modern mt-1"
                   placeholder="SEO meta açıklaması (150-160 karakter önerilir)"
                 />
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   {article.meta_description?.length || 0} karakter
                   {article.meta_description && article.meta_description.length < 150 && (
                     <span className="text-yellow-500 ml-2">⚠️ 150 karakterden kısa</span>
@@ -594,7 +594,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
                   className="input-modern mt-1"
                   placeholder="kelime1, kelime2, kelime3"
                 />
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Virgülle ayrılmış anahtar kelimeler
                 </p>
               </div>
@@ -619,7 +619,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
         <TabsContent value="settings" className="space-y-6">
           <Card className="card-professional">
             <CardHeader>
-              <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+              <CardTitle className="text-base font-display font-bold text-foreground">
                 Yayın Ayarları
               </CardTitle>
             </CardHeader>
@@ -630,7 +630,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
                     <Label htmlFor="is_published" className="text-sm font-ui font-semibold">
                       Yayınla
                     </Label>
-                    <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       Haberi yayınla
                     </p>
                   </div>
@@ -653,7 +653,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
                     <Label htmlFor="is_featured" className="text-sm font-ui font-semibold">
                       Öne Çıkan
                     </Label>
-                    <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       Ana sayfada göster
                     </p>
                   </div>
@@ -669,7 +669,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
                     <Label htmlFor="is_breaking" className="text-sm font-ui font-semibold">
                       Son Dakika
                     </Label>
-                    <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       Son dakika haberi
                     </p>
                   </div>
@@ -683,7 +683,7 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
 
               {article.published_at && (
                 <div className="p-4 bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-800 rounded-lg">
-                  <div className="flex items-center gap-2 text-sm text-design-gray dark:text-gray-400">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4" />
                     <span>Yayın Tarihi: {new Date(article.published_at).toLocaleString("tr-TR")}</span>
                   </div>
@@ -697,38 +697,44 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
         <TabsContent value="analytics" className="space-y-6">
           <Card className="card-professional">
             <CardHeader>
-              <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+              <CardTitle className="text-base font-display font-bold text-foreground">
                 İstatistikler
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="p-4 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-900/10 border border-blue-200 dark:border-blue-800">
+                <div className="p-4 rounded-lg bg-card/95 backdrop-blur-xl border border-border/40">
                   <div className="flex items-center gap-2 mb-2">
-                    <Eye className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                    <span className="text-sm font-semibold text-blue-900 dark:text-blue-100">Görüntülenme</span>
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <Eye className="h-5 w-5 text-primary" />
+                    </div>
+                    <span className="text-sm font-semibold text-foreground">Görüntülenme</span>
                   </div>
-                  <p className="text-2xl font-bold text-blue-900 dark:text-blue-100">
+                  <p className="text-2xl font-bold text-foreground">
                     {article.views.toLocaleString()}
                   </p>
                 </div>
 
-                <div className="p-4 rounded-lg bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-900/10 border border-green-200 dark:border-green-800">
+                <div className="p-4 rounded-lg bg-card/95 backdrop-blur-xl border border-border/40">
                   <div className="flex items-center gap-2 mb-2">
-                    <Clock className="h-5 w-5 text-green-600 dark:text-green-400" />
-                    <span className="text-sm font-semibold text-green-900 dark:text-green-100">Okuma Süresi</span>
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <Clock className="h-5 w-5 text-primary" />
+                    </div>
+                    <span className="text-sm font-semibold text-foreground">Okuma Süresi</span>
                   </div>
-                  <p className="text-2xl font-bold text-green-900 dark:text-green-100">
+                  <p className="text-2xl font-bold text-foreground">
                     {article.reading_time} dk
                   </p>
                 </div>
 
-                <div className="p-4 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-900/10 border border-purple-200 dark:border-purple-800">
+                <div className="p-4 rounded-lg bg-card/95 backdrop-blur-xl border border-border/40">
                   <div className="flex items-center gap-2 mb-2">
-                    <FileText className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                    <span className="text-sm font-semibold text-purple-900 dark:text-purple-100">Kelime Sayısı</span>
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <FileText className="h-5 w-5 text-primary" />
+                    </div>
+                    <span className="text-sm font-semibold text-foreground">Kelime Sayısı</span>
                   </div>
-                  <p className="text-2xl font-bold text-purple-900 dark:text-purple-100">
+                  <p className="text-2xl font-bold text-foreground">
                     {article.content.replace(/<[^>]*>/g, " ").split(/\s+/).filter(w => w.length > 0).length.toLocaleString()}
                   </p>
                 </div>

@@ -91,7 +91,7 @@ export function UserPreferences() {
   };
 
   if (loading) {
-    return <div className="text-center py-8 text-sm text-design-gray dark:text-gray-400 font-ui">Loading preferences...</div>;
+    return <div className="text-center py-8 text-sm text-muted-foreground font-ui">Loading preferences...</div>;
   }
 
   return (
@@ -99,19 +99,19 @@ export function UserPreferences() {
       {/* General Settings */}
       <Card className="card-modern">
         <CardHeader className="pb-3 px-4 pt-4">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <User className="h-4 w-4 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <User className="h-4 w-4 text-primary" />
             General Settings
           </CardTitle>
         </CardHeader>
         <CardContent className="px-4 pb-4 space-y-4">
           <div className="space-y-2">
-            <Label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400">Language</Label>
+            <Label className="text-xs font-ui font-semibold text-muted-foreground">Language</Label>
             <Select
               value={preferences.locale}
               onValueChange={(value) => setPreferences({ ...preferences, locale: value })}
             >
-              <SelectTrigger className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui">
+              <SelectTrigger className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="rounded-lg">
@@ -125,14 +125,14 @@ export function UserPreferences() {
           </div>
 
           <div className="space-y-2">
-            <Label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400">Dashboard Layout</Label>
+            <Label className="text-xs font-ui font-semibold text-muted-foreground">Dashboard Layout</Label>
             <Select
               value={preferences.dashboardLayout}
               onValueChange={(value: "grid" | "list") =>
                 setPreferences({ ...preferences, dashboardLayout: value })
               }
             >
-              <SelectTrigger className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui">
+              <SelectTrigger className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="rounded-lg">
@@ -143,7 +143,7 @@ export function UserPreferences() {
           </div>
 
           <div className="space-y-2">
-            <Label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400">Items Per Page</Label>
+            <Label className="text-xs font-ui font-semibold text-muted-foreground">Items Per Page</Label>
             <Input
               type="number"
               value={preferences.itemsPerPage}
@@ -156,7 +156,7 @@ export function UserPreferences() {
               min={10}
               max={100}
               step={10}
-              className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+              className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui"
             />
           </div>
         </CardContent>
@@ -165,16 +165,16 @@ export function UserPreferences() {
       {/* Notifications */}
       <Card className="card-modern">
         <CardHeader className="pb-3 px-4 pt-4">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Bell className="h-4 w-4 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Bell className="h-4 w-4 text-primary" />
             Notifications
           </CardTitle>
         </CardHeader>
         <CardContent className="px-4 pb-4 space-y-4">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label className="text-sm font-ui font-medium text-design-dark dark:text-white">Email Notifications</Label>
-              <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+              <Label className="text-sm font-ui font-medium text-foreground">Email Notifications</Label>
+              <p className="text-xs text-muted-foreground font-ui">
                 Receive email notifications for important updates
               </p>
             </div>
@@ -188,8 +188,8 @@ export function UserPreferences() {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label className="text-sm font-ui font-medium text-design-dark dark:text-white">Push Notifications</Label>
-              <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+              <Label className="text-sm font-ui font-medium text-foreground">Push Notifications</Label>
+              <p className="text-xs text-muted-foreground font-ui">
                 Receive browser push notifications
               </p>
             </div>
@@ -208,7 +208,7 @@ export function UserPreferences() {
         <Button
           onClick={handleSave}
           disabled={saving}
-          className="h-9 px-4 bg-design-dark hover:bg-design-dark/90 text-white rounded-lg font-ui hover-scale micro-bounce"
+          className="h-9 px-4 bg-design-dark hover:bg-primary/90/90 text-white rounded-lg font-ui hover-scale micro-bounce"
         >
           <Save className="h-4 w-4 mr-2" />
           {saving ? "Saving..." : "Save Preferences"}

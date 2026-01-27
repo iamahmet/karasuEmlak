@@ -14,8 +14,8 @@ export function ChartCard({ title, icon: Icon, children, className }: ChartCardP
   return (
     <Card className={`card-modern ${className || ""}`}>
       <CardHeader className="pb-3 px-4 pt-4">
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-          {Icon && <Icon className="h-4 w-4 text-design-light" />}
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+          {Icon && <Icon className="h-4 w-4 text-primary" />}
           {title}
         </CardTitle>
       </CardHeader>

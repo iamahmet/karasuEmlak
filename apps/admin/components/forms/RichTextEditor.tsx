@@ -25,15 +25,15 @@ function ToolbarMediaLibraryButton({ onSelect }: { onSelect: (url: string) => vo
       <DialogTrigger asChild>
         <button
           type="button"
-          className="px-2 py-1 text-sm rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui flex items-center gap-1"
+          className="px-2 py-1 text-sm rounded hover:bg-muted transition-colors font-ui flex items-center gap-1"
           title="Medya Kütüphanesi"
         >
           <FolderOpen className="h-3.5 w-3.5" />
         </button>
       </DialogTrigger>
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden flex flex-col p-0 rounded-xl">
-        <DialogHeader className="px-6 py-4 border-b border-[#E7E7E7] dark:border-[#062F28]">
-          <DialogTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+        <DialogHeader className="px-6 py-4 border-b border-border/40">
+          <DialogTitle className="text-lg font-display font-bold text-foreground">
             Medya Kütüphanesi
           </DialogTitle>
         </DialogHeader>
@@ -170,13 +170,13 @@ export function RichTextEditor({
   return (
     <div className={cn("space-y-2", className)}>
       {label && (
-        <Label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400">
+        <Label className="text-xs font-ui font-semibold text-muted-foreground">
           {label}
         </Label>
       )}
-      <div className="border border-[#E7E7E7] dark:border-[#062F28] rounded-lg bg-white dark:bg-[#0a3d35] relative">
+      <div className="border border-border/40 rounded-lg bg-card dark:bg-card relative">
         {/* Enhanced Toolbar */}
-        <div className="flex items-center gap-1 p-2 border-b border-[#E7E7E7] dark:border-[#062F28] flex-wrap bg-gray-50 dark:bg-gray-900/30">
+        <div className="flex items-center gap-1 p-2 border-b border-border/40 flex-wrap bg-muted/30 dark:bg-muted/20">
           {/* Text Formatting */}
           <div className="flex items-center gap-1">
             <button
@@ -185,7 +185,7 @@ export function RichTextEditor({
                 document.execCommand("bold", false);
                 handleInput();
               }}
-              className="px-2 py-1.5 text-sm font-bold rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui"
+              className="px-2 py-1.5 text-sm font-bold rounded hover:bg-muted transition-colors font-ui text-foreground"
               title="Bold (⌘B)"
             >
               B
@@ -196,7 +196,7 @@ export function RichTextEditor({
                 document.execCommand("italic", false);
                 handleInput();
               }}
-              className="px-2 py-1.5 text-sm italic rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui"
+              className="px-2 py-1.5 text-sm italic rounded hover:bg-muted transition-colors font-ui"
               title="Italic (⌘I)"
             >
               I
@@ -207,14 +207,14 @@ export function RichTextEditor({
                 document.execCommand("underline", false);
                 handleInput();
               }}
-              className="px-2 py-1.5 text-sm underline rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui"
+              className="px-2 py-1.5 text-sm underline rounded hover:bg-muted transition-colors font-ui"
               title="Underline (⌘U)"
             >
               U
             </button>
           </div>
           
-          <div className="w-px h-6 bg-[#E7E7E7] dark:bg-[#062F28] mx-1" />
+          <div className="w-px h-6 bg-[#E7E7E7] dark:bg-muted mx-1" />
           
           {/* Headings */}
           <div className="flex items-center gap-1">
@@ -224,7 +224,7 @@ export function RichTextEditor({
                 document.execCommand("formatBlock", false, "h1");
                 handleInput();
               }}
-              className="px-2 py-1.5 text-xs font-semibold rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui"
+              className="px-2 py-1.5 text-xs font-semibold rounded hover:bg-muted transition-colors font-ui"
               title="Başlık 1"
             >
               H1
@@ -235,7 +235,7 @@ export function RichTextEditor({
                 document.execCommand("formatBlock", false, "h2");
                 handleInput();
               }}
-              className="px-2 py-1.5 text-xs font-semibold rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui"
+              className="px-2 py-1.5 text-xs font-semibold rounded hover:bg-muted transition-colors font-ui"
               title="Başlık 2"
             >
               H2
@@ -246,14 +246,14 @@ export function RichTextEditor({
                 document.execCommand("formatBlock", false, "h3");
                 handleInput();
               }}
-              className="px-2 py-1.5 text-xs font-semibold rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui"
+              className="px-2 py-1.5 text-xs font-semibold rounded hover:bg-muted transition-colors font-ui"
               title="Başlık 3"
             >
               H3
             </button>
           </div>
           
-          <div className="w-px h-6 bg-[#E7E7E7] dark:bg-[#062F28] mx-1" />
+          <div className="w-px h-6 bg-[#E7E7E7] dark:bg-muted mx-1" />
           
           {/* Lists */}
           <div className="flex items-center gap-1">
@@ -263,7 +263,7 @@ export function RichTextEditor({
                 document.execCommand("insertUnorderedList", false);
                 handleInput();
               }}
-              className="px-2 py-1.5 text-sm rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui"
+              className="px-2 py-1.5 text-sm rounded hover:bg-muted transition-colors font-ui"
               title="Bullet List"
             >
               •
@@ -274,7 +274,7 @@ export function RichTextEditor({
                 document.execCommand("insertOrderedList", false);
                 handleInput();
               }}
-              className="px-2 py-1.5 text-sm rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui"
+              className="px-2 py-1.5 text-sm rounded hover:bg-muted transition-colors font-ui"
               title="Numbered List"
             >
               1.
@@ -285,14 +285,14 @@ export function RichTextEditor({
                 document.execCommand("formatBlock", false, "blockquote");
                 handleInput();
               }}
-              className="px-2 py-1.5 text-sm rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui flex items-center"
+              className="px-2 py-1.5 text-sm rounded hover:bg-muted transition-colors font-ui flex items-center"
               title="Quote"
             >
               <Quote className="h-3 w-3" />
             </button>
           </div>
           
-          <div className="w-px h-6 bg-[#E7E7E7] dark:bg-[#062F28] mx-1" />
+          <div className="w-px h-6 bg-[#E7E7E7] dark:bg-muted mx-1" />
           
           {/* Alignment */}
           <div className="flex items-center gap-1">
@@ -302,7 +302,7 @@ export function RichTextEditor({
                 document.execCommand("justifyLeft", false);
                 handleInput();
               }}
-              className="px-2 py-1.5 text-sm rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui"
+              className="px-2 py-1.5 text-sm rounded hover:bg-muted transition-colors font-ui"
               title="Sola Hizala"
             >
               ⬅
@@ -313,7 +313,7 @@ export function RichTextEditor({
                 document.execCommand("justifyCenter", false);
                 handleInput();
               }}
-              className="px-2 py-1.5 text-sm rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui"
+              className="px-2 py-1.5 text-sm rounded hover:bg-muted transition-colors font-ui"
               title="Ortala"
             >
               ⬌
@@ -324,14 +324,14 @@ export function RichTextEditor({
                 document.execCommand("justifyRight", false);
                 handleInput();
               }}
-              className="px-2 py-1.5 text-sm rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui flex items-center"
+              className="px-2 py-1.5 text-sm rounded hover:bg-muted transition-colors font-ui flex items-center"
               title="Sağa Hizala"
             >
               <AlignRight className="h-3 w-3" />
             </button>
           </div>
           
-          <div className="w-px h-6 bg-[#E7E7E7] dark:bg-[#062F28] mx-1" />
+          <div className="w-px h-6 bg-[#E7E7E7] dark:bg-muted mx-1" />
           
           {/* Undo/Redo */}
           <div className="flex items-center gap-1">
@@ -341,7 +341,7 @@ export function RichTextEditor({
                 document.execCommand("undo", false);
                 handleInput();
               }}
-              className="px-2 py-1.5 text-sm rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui flex items-center"
+              className="px-2 py-1.5 text-sm rounded hover:bg-muted transition-colors font-ui flex items-center"
               title="Geri Al (⌘Z)"
             >
               <Undo className="h-3 w-3" />
@@ -352,14 +352,14 @@ export function RichTextEditor({
                 document.execCommand("redo", false);
                 handleInput();
               }}
-              className="px-2 py-1.5 text-sm rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui flex items-center"
+              className="px-2 py-1.5 text-sm rounded hover:bg-muted transition-colors font-ui flex items-center"
               title="Yinele (⌘⇧Z)"
             >
               <Redo className="h-3 w-3" />
             </button>
           </div>
           
-          <div className="w-px h-6 bg-[#E7E7E7] dark:bg-[#062F28] mx-1" />
+          <div className="w-px h-6 bg-[#E7E7E7] dark:bg-muted mx-1" />
           
           {/* Link & Media */}
           <div className="flex items-center gap-1">
@@ -372,7 +372,7 @@ export function RichTextEditor({
                 }
                 setShowLinkDialog(true);
               }}
-              className="px-2 py-1.5 text-sm rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui flex items-center gap-1"
+              className="px-2 py-1.5 text-sm rounded hover:bg-muted transition-colors font-ui flex items-center gap-1"
               title="Insert Link (⌘K)"
             >
               <Link2 className="h-3.5 w-3.5" />
@@ -410,7 +410,7 @@ export function RichTextEditor({
                 };
                 input.click();
               }}
-              className="px-2 py-1.5 text-sm rounded hover:bg-design-light/10 dark:hover:bg-design-light/5 transition-colors font-ui flex items-center gap-1"
+              className="px-2 py-1.5 text-sm rounded hover:bg-muted transition-colors font-ui flex items-center gap-1"
               title="Görsel Yükle"
             >
               <ImageIcon className="h-3.5 w-3.5" />
@@ -421,7 +421,7 @@ export function RichTextEditor({
 
         {/* Link Dialog */}
         {showLinkDialog && (
-          <div className="absolute top-full left-0 right-0 bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-lg p-3 shadow-lg z-50 mt-1">
+          <div className="absolute top-full left-0 right-0 bg-card dark:bg-card border border-border/40 rounded-lg p-3 shadow-lg z-50 mt-1">
             <div className="space-y-2">
               <div>
                 <label className="text-xs font-ui font-semibold mb-1 block">Link Metni</label>
@@ -429,7 +429,7 @@ export function RichTextEditor({
                   type="text"
                   value={linkText}
                   onChange={(e) => setLinkText(e.target.value)}
-                  className="w-full px-2 py-1 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded bg-white dark:bg-[#0a3d35] text-design-dark dark:text-white"
+                  className="w-full px-2 py-1 text-sm border border-border/40 rounded bg-card dark:bg-card text-foreground"
                   placeholder="Link metni"
                 />
               </div>
@@ -439,7 +439,7 @@ export function RichTextEditor({
                   type="url"
                   value={linkUrl}
                   onChange={(e) => setLinkUrl(e.target.value)}
-                  className="w-full px-2 py-1 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded bg-white dark:bg-[#0a3d35] text-design-dark dark:text-white"
+                  className="w-full px-2 py-1 text-sm border border-border/40 rounded bg-card dark:bg-card text-foreground"
                   placeholder="https://..."
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
@@ -467,7 +467,7 @@ export function RichTextEditor({
                 <button
                   type="button"
                   onClick={insertLink}
-                  className="px-3 py-1 text-xs bg-design-light text-white rounded hover:bg-design-dark transition-colors"
+                  className="px-3 py-1 text-xs bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors"
                 >
                   Ekle
                 </button>
@@ -482,7 +482,7 @@ export function RichTextEditor({
           contentEditable
           onInput={handleInput}
           onKeyDown={handleKeyDown}
-          className="min-h-[200px] p-4 text-sm text-design-dark dark:text-white focus:outline-none font-ui"
+          className="min-h-[200px] p-4 text-sm text-foreground focus:outline-none font-ui bg-background"
           style={{
             whiteSpace: "pre-wrap",
             wordBreak: "break-word",

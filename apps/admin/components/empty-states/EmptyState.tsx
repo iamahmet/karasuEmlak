@@ -28,8 +28,8 @@ export function EmptyState({
   if (variant === "minimal") {
     return (
       <div className={cn("text-center py-8", className)}>
-        <Icon className="h-8 w-8 mx-auto mb-2 text-design-gray dark:text-gray-400 opacity-50" />
-        <p className="text-sm text-design-gray dark:text-gray-400 font-ui">{description}</p>
+        <Icon className="h-8 w-8 mx-auto mb-2 text-muted-foreground opacity-50" />
+        <p className="text-sm text-muted-foreground font-ui">{description}</p>
       </div>
     );
   }
@@ -39,12 +39,12 @@ export function EmptyState({
       <Card className={cn("card-professional", className)}>
         <CardContent className="flex flex-col items-center justify-center py-8 px-6">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-design-light/20 to-design-light/10 dark:from-design-light/10 dark:to-design-light/5 flex items-center justify-center mb-3 animate-fade-in-up">
-            <Icon className="h-6 w-6 text-design-gray dark:text-gray-400" />
+            <Icon className="h-6 w-6 text-muted-foreground" />
           </div>
-          <h3 className="text-heading-3 text-design-dark dark:text-white mb-1">
+          <h3 className="text-heading-3 text-foreground mb-1">
             {title}
           </h3>
-          <p className="text-caption text-design-gray dark:text-gray-400 text-center max-w-md mb-4">
+          <p className="text-caption text-muted-foreground text-center max-w-md mb-4">
             {description}
           </p>
           {action && (
@@ -65,12 +65,12 @@ export function EmptyState({
     <Card className={cn("card-professional", className)}>
       <CardContent className="empty-state-professional">
         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-design-light/20 to-design-light/10 dark:from-design-light/10 dark:to-design-light/5 flex items-center justify-center mb-4 animate-fade-in-up">
-          <Icon className="h-8 w-8 text-design-gray dark:text-gray-400" />
+          <Icon className="h-8 w-8 text-muted-foreground" />
         </div>
-        <h3 className="text-heading-3 text-design-dark dark:text-white mb-2">
+        <h3 className="text-heading-3 text-foreground mb-2">
           {title}
         </h3>
-        <p className="text-body text-design-gray dark:text-gray-400 text-center max-w-md mb-6">
+        <p className="text-body text-muted-foreground text-center max-w-md mb-6">
           {description}
         </p>
         {action && (

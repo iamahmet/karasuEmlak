@@ -28,7 +28,7 @@ export function ContentPreview({ content, className }: ContentPreviewProps) {
         <Button
           variant="outline"
           className={cn(
-            "h-9 px-3 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale",
+            "h-9 px-3 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale",
             className
           )}
         >
@@ -38,13 +38,13 @@ export function ContentPreview({ content, className }: ContentPreviewProps) {
       </DialogTrigger>
       <DialogContent
         className={cn(
-          "max-w-4xl max-h-[90vh] overflow-hidden flex flex-col p-0 rounded-xl border border-[#E7E7E7] dark:border-[#062F28]",
+          "max-w-4xl max-h-[90vh] overflow-hidden flex flex-col p-0 rounded-xl border border-border/40 dark:border-border/40",
           isFullscreen && "max-w-[95vw] max-h-[95vh]"
         )}
       >
-        <DialogHeader className="px-6 py-4 border-b border-[#E7E7E7] dark:border-[#062F28] bg-gradient-to-r from-design-light/5 to-transparent">
+        <DialogHeader className="px-6 py-4 border-b border-border/40 dark:border-border/40 bg-gradient-to-r from-design-light/5 to-transparent">
           <div className="flex items-center justify-between">
-            <DialogTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+            <DialogTitle className="text-lg font-display font-bold text-foreground">
               İçerik Önizleme
             </DialogTitle>
             <div className="flex items-center gap-2">
@@ -72,7 +72,7 @@ export function ContentPreview({ content, className }: ContentPreviewProps) {
           </div>
         </DialogHeader>
 
-        <div className="flex-1 overflow-y-auto scrollbar-modern p-6 bg-white dark:bg-[#0a3d35]">
+        <div className="flex-1 overflow-y-auto scrollbar-modern p-6 bg-white dark:bg-card">
           {/* Article Preview */}
           <article className="max-w-3xl mx-auto">
             {/* Featured Image */}
@@ -87,13 +87,13 @@ export function ContentPreview({ content, className }: ContentPreviewProps) {
             )}
 
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl font-display font-bold text-design-dark dark:text-white mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6 leading-tight">
               {content.title}
             </h1>
 
             {/* Meta Description */}
             {content.metaDescription && (
-              <p className="text-lg text-design-gray dark:text-gray-400 mb-6 font-ui italic">
+              <p className="text-lg text-muted-foreground mb-6 font-ui italic">
                 {content.metaDescription}
               </p>
             )}
@@ -101,7 +101,7 @@ export function ContentPreview({ content, className }: ContentPreviewProps) {
             {/* Excerpt */}
             {content.excerpt && (
               <div className="mb-8 p-4 rounded-xl bg-gradient-to-r from-design-light/10 to-transparent border-l-4 border-design-light">
-                <p className="text-lg text-design-dark dark:text-white font-ui font-medium">
+                <p className="text-lg text-foreground font-ui font-medium">
                   {content.excerpt}
                 </p>
               </div>
@@ -114,7 +114,7 @@ export function ContentPreview({ content, className }: ContentPreviewProps) {
                 prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
                 prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
                 prose-p:leading-relaxed prose-p:mb-6
-                prose-a:text-design-dark dark:prose-a:text-design-light prose-a:no-underline hover:prose-a:underline
+                prose-a:text-design-dark dark:prose-a:text-primary prose-a:no-underline hover:prose-a:underline
                 prose-strong:font-semibold prose-strong:text-foreground
                 prose-ul:my-6 prose-ul:pl-6
                 prose-ol:my-6 prose-ol:pl-6
@@ -129,14 +129,14 @@ export function ContentPreview({ content, className }: ContentPreviewProps) {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-[#E7E7E7] dark:border-[#062F28] bg-gradient-to-r from-design-light/5 to-transparent">
+        <div className="px-6 py-4 border-t border-border/40 dark:border-border/40 bg-gradient-to-r from-design-light/5 to-transparent">
           <div className="flex items-center justify-between">
-            <div className="text-sm text-design-gray dark:text-gray-400 font-ui">
-              Locale: <span className="font-semibold text-design-dark dark:text-white">{content.locale.toUpperCase()}</span>
+            <div className="text-sm text-muted-foreground font-ui">
+              Locale: <span className="font-semibold text-foreground">{content.locale.toUpperCase()}</span>
             </div>
             <Button
               onClick={() => setIsOpen(false)}
-              className="h-9 px-4 bg-design-dark hover:bg-design-dark/90 text-white rounded-lg font-ui hover-scale micro-bounce"
+              className="h-9 px-4 bg-design-dark hover:bg-primary/90/90 text-white rounded-lg font-ui hover-scale micro-bounce"
             >
               Kapat
             </Button>

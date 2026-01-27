@@ -59,19 +59,15 @@ export default function RootLayout({
                   if (!html || !body) return;
                   
                   // Force enable scroll with inline styles
-                  html.style.setProperty('overflow', 'visible', 'important');
                   html.style.setProperty('overflow-x', 'hidden', 'important');
-                  html.style.setProperty('overflow-y', 'scroll', 'important');
-                  html.style.setProperty('height', 'auto', 'important');
-                  html.style.setProperty('max-height', 'none', 'important');
-                  html.style.setProperty('position', 'static', 'important');
+                  html.style.setProperty('overflow-y', 'auto', 'important');
+                  html.style.setProperty('height', '100%', 'important');
+                  html.style.setProperty('position', 'relative', 'important');
                   
-                  body.style.setProperty('overflow', 'visible', 'important');
                   body.style.setProperty('overflow-x', 'hidden', 'important');
-                  body.style.setProperty('overflow-y', 'visible', 'important');
-                  body.style.setProperty('height', 'auto', 'important');
-                  body.style.setProperty('max-height', 'none', 'important');
-                  body.style.setProperty('position', 'static', 'important');
+                  body.style.setProperty('overflow-y', 'auto', 'important');
+                  body.style.setProperty('height', '100%', 'important');
+                  body.style.setProperty('position', 'relative', 'important');
                   
                   // Remove scroll lock classes
                   html.classList.remove('overflow-hidden', 'no-scroll', 'scroll-locked');

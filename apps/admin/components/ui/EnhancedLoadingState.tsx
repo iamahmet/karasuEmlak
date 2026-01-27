@@ -68,10 +68,10 @@ export function EnhancedLoadingState({
       >
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-design-light/20 to-transparent rounded-full animate-pulse"></div>
-          <Loader2 className="h-12 w-12 animate-spin text-design-light relative z-10" />
+          <Loader2 className="h-12 w-12 animate-spin text-primary relative z-10" />
         </div>
         {showMessage && (
-          <p className="text-sm text-design-gray dark:text-gray-400 font-ui mt-4 animate-pulse">
+          <p className="text-sm text-muted-foreground font-ui mt-4 animate-pulse">
             {message}
           </p>
         )}
@@ -94,7 +94,7 @@ export function EnhancedLoadingState({
           <div className="h-3 w-3 bg-design-light rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
         </div>
         {showMessage && (
-          <p className="text-sm text-design-gray dark:text-gray-400 font-ui mt-4">
+          <p className="text-sm text-muted-foreground font-ui mt-4">
             {message}
           </p>
         )}
@@ -112,10 +112,10 @@ export function EnhancedLoadingState({
     >
       <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-r from-design-light/20 to-transparent rounded-full animate-pulse"></div>
-        <Loader2 className="h-8 w-8 animate-spin text-design-light relative z-10 mb-4" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary relative z-10 mb-4" />
       </div>
       {showMessage && (
-        <p className="text-sm text-design-gray dark:text-gray-400 font-ui">{message}</p>
+        <p className="text-sm text-muted-foreground font-ui">{message}</p>
       )}
     </div>
   );

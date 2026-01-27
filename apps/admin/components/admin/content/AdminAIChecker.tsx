@@ -280,7 +280,7 @@ export function AdminAIChecker({
       {/* Actions */}
       <Card className="card-professional">
         <CardHeader className="card-professional-header">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+          <CardTitle className="text-base font-display font-bold text-foreground">
             AI Analiz & İyileştirme
           </CardTitle>
         </CardHeader>
@@ -329,27 +329,27 @@ export function AdminAIChecker({
       {analysis && (
         <Card className="card-professional">
           <CardHeader className="card-professional-header">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+            <CardTitle className="text-base font-display font-bold text-foreground">
               Analiz Sonuçları
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Scores */}
             <div className="grid grid-cols-3 gap-4">
-              <div className="text-center p-4 rounded-xl border border-[#E7E7E7] dark:border-[#0a3d35] bg-white/60 dark:bg-[#0a3d35]/60">
-                <p className="text-xs text-design-gray dark:text-gray-400 mb-2">İnsan Benzeri</p>
+              <div className="text-center p-4 rounded-xl border border-border/40 dark:border-[#0a3d35] bg-white/60 dark:bg-card/60">
+                <p className="text-xs text-muted-foreground mb-2">İnsan Benzeri</p>
                 <p className={cn("text-2xl font-display font-bold", getScoreColor(analysis.humanLikeScore))}>
                   {analysis.humanLikeScore}
                 </p>
               </div>
-              <div className="text-center p-4 rounded-xl border border-[#E7E7E7] dark:border-[#0a3d35] bg-white/60 dark:bg-[#0a3d35]/60">
-                <p className="text-xs text-design-gray dark:text-gray-400 mb-2">AI Olasılığı</p>
+              <div className="text-center p-4 rounded-xl border border-border/40 dark:border-[#0a3d35] bg-white/60 dark:bg-card/60">
+                <p className="text-xs text-muted-foreground mb-2">AI Olasılığı</p>
                 <p className={cn("text-2xl font-display font-bold", getScoreColor(100 - analysis.aiProbability * 100))}>
                   {Math.round(analysis.aiProbability * 100)}%
                 </p>
               </div>
-              <div className="text-center p-4 rounded-xl border border-[#E7E7E7] dark:border-[#0a3d35] bg-white/60 dark:bg-[#0a3d35]/60">
-                <p className="text-xs text-design-gray dark:text-gray-400 mb-2">Genel Kalite</p>
+              <div className="text-center p-4 rounded-xl border border-border/40 dark:border-[#0a3d35] bg-white/60 dark:bg-card/60">
+                <p className="text-xs text-muted-foreground mb-2">Genel Kalite</p>
                 <p className={cn("text-2xl font-display font-bold", getScoreColor(analysis.overallQuality))}>
                   {analysis.overallQuality}
                 </p>
@@ -359,13 +359,13 @@ export function AdminAIChecker({
             {/* Issues */}
             {analysis.issues.length > 0 && (
               <div>
-                <h4 className="text-sm font-semibold text-design-dark dark:text-white mb-3 flex items-center gap-2">
+                <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
                   <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
                   Tespit Edilen Sorunlar
                 </h4>
                 <ul className="space-y-2">
                   {analysis.issues.map((issue, idx) => (
-                    <li key={idx} className="text-sm text-design-gray dark:text-gray-400 flex items-start gap-2">
+                    <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
                       <span className="text-red-600 dark:text-red-400 mt-0.5">•</span>
                       <span>{issue}</span>
                     </li>
@@ -377,13 +377,13 @@ export function AdminAIChecker({
             {/* Strengths */}
             {analysis.strengths.length > 0 && (
               <div>
-                <h4 className="text-sm font-semibold text-design-dark dark:text-white mb-3 flex items-center gap-2">
+                <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
                   Güçlü Yönler
                 </h4>
                 <ul className="space-y-2">
                   {analysis.strengths.map((strength, idx) => (
-                    <li key={idx} className="text-sm text-design-gray dark:text-gray-400 flex items-start gap-2">
+                    <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
                       <span className="text-green-600 dark:text-green-400 mt-0.5">•</span>
                       <span>{strength}</span>
                     </li>
@@ -395,14 +395,14 @@ export function AdminAIChecker({
             {/* Suggestions */}
             {analysis.suggestions.length > 0 && (
               <div>
-                <h4 className="text-sm font-semibold text-design-dark dark:text-white mb-3 flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-design-light" />
+                <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-primary" />
                   İyileştirme Önerileri
                 </h4>
                 <ul className="space-y-2">
                   {analysis.suggestions.map((suggestion, idx) => (
-                    <li key={idx} className="text-sm text-design-gray dark:text-gray-400 flex items-start gap-2">
-                      <span className="text-design-light mt-0.5">•</span>
+                    <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
+                      <span className="text-primary mt-0.5">•</span>
                       <span>{suggestion}</span>
                     </li>
                   ))}
@@ -420,10 +420,10 @@ export function AdminAIChecker({
             <div className="flex items-start gap-3">
               <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-500 flex-shrink-0 mt-0.5" />
               <div className="flex-1">
-                <h3 className="text-sm font-semibold text-design-dark dark:text-white mb-1">
+                <h3 className="text-sm font-semibold text-foreground mb-1">
                   Veritabanı Şema Önbelleği Güncel Değil
                 </h3>
-                <p className="text-xs text-design-gray dark:text-gray-400 mb-3">
+                <p className="text-xs text-muted-foreground mb-3">
                   PostgREST şema önbelleği güncel değil. İçeriği kaydetmek için önce şema önbelleğini yenileyin.
                 </p>
                 <Button
@@ -455,7 +455,7 @@ export function AdminAIChecker({
         <Card className="card-professional">
           <CardHeader className="card-professional-header">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+              <CardTitle className="text-base font-display font-bold text-foreground">
                 İyileştirilmiş İçerik
               </CardTitle>
               <Button
@@ -479,19 +479,19 @@ export function AdminAIChecker({
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="p-4 rounded-xl border border-[#E7E7E7] dark:border-[#0a3d35] bg-white/60 dark:bg-[#0a3d35]/60">
-                <p className="text-sm text-design-gray dark:text-gray-400 whitespace-pre-wrap">
+              <div className="p-4 rounded-xl border border-border/40 dark:border-[#0a3d35] bg-white/60 dark:bg-card/60">
+                <p className="text-sm text-muted-foreground whitespace-pre-wrap">
                   {improvedContent.improvedText}
                 </p>
               </div>
               {improvedContent.changes.length > 0 && (
                 <div>
-                  <h4 className="text-sm font-semibold text-design-dark dark:text-white mb-2">
+                  <h4 className="text-sm font-semibold text-foreground mb-2">
                     Yapılan Değişiklikler
                   </h4>
                   <ul className="space-y-1">
                     {improvedContent.changes.map((change, idx) => (
-                      <li key={idx} className="text-xs text-design-gray dark:text-gray-400">
+                      <li key={idx} className="text-xs text-muted-foreground">
                         • {change}
                       </li>
                     ))}

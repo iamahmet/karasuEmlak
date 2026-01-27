@@ -184,14 +184,14 @@ export function EnhancedFormField({
         <Label
           htmlFor={name}
           className={cn(
-            "text-sm font-ui font-semibold text-design-dark dark:text-white",
+            "text-sm font-ui font-semibold text-foreground",
             required && "after:content-['*'] after:ml-1 after:text-red-500"
           )}
         >
           {label}
         </Label>
         {isValidating && (
-          <div className="flex items-center gap-1 text-xs text-design-gray dark:text-gray-400">
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <div className="h-3 w-3 border-2 border-design-light border-t-transparent rounded-full animate-spin"></div>
             <span>Kontrol ediliyor...</span>
           </div>
@@ -213,7 +213,7 @@ export function EnhancedFormField({
       </div>
 
       {hint && !showError && (
-        <div className="flex items-start gap-1.5 text-xs text-design-gray dark:text-gray-400">
+        <div className="flex items-start gap-1.5 text-xs text-muted-foreground">
           <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
           <span>{hint}</span>
         </div>

@@ -41,17 +41,17 @@ export function AnalyticsOverview({
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <Card className="card-professional hover-lift">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 px-5 pt-5">
-          <CardTitle className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 uppercase tracking-wider">
+          <CardTitle className="text-xs font-ui font-semibold text-muted-foreground uppercase tracking-wider">
             Oturumlar
           </CardTitle>
-          <Users className="h-4 w-4 text-design-light" />
+          <Users className="h-4 w-4 text-primary" />
         </CardHeader>
         <CardContent className="px-5 pb-5">
-          <div className="text-3xl font-display font-bold text-design-dark dark:text-white mb-2">
+          <div className="text-3xl font-display font-bold text-foreground mb-2">
             {totalSessions.toLocaleString("tr-TR")}
           </div>
           <div className="flex items-center gap-2">
-            <p className="text-xs text-design-gray dark:text-gray-400">
+            <p className="text-xs text-muted-foreground">
               Bugün: {latestDaily.sessions || 0}
             </p>
             {sessionsTrend !== 0 && (
@@ -73,17 +73,17 @@ export function AnalyticsOverview({
 
       <Card className="card-professional hover-lift">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 px-5 pt-5">
-          <CardTitle className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 uppercase tracking-wider">
+          <CardTitle className="text-xs font-ui font-semibold text-muted-foreground uppercase tracking-wider">
             Sayfa Görüntülemeleri
           </CardTitle>
-          <Eye className="h-4 w-4 text-design-light" />
+          <Eye className="h-4 w-4 text-primary" />
         </CardHeader>
         <CardContent className="px-5 pb-5">
-          <div className="text-3xl font-display font-bold text-design-dark dark:text-white mb-2">
+          <div className="text-3xl font-display font-bold text-foreground mb-2">
             {totalPageViews.toLocaleString("tr-TR")}
           </div>
           <div className="flex items-center gap-2">
-            <p className="text-xs text-design-gray dark:text-gray-400">
+            <p className="text-xs text-muted-foreground">
               Bugün: {latestDaily.page_views || 0}
             </p>
             {pageViewsTrend !== 0 && (
@@ -105,17 +105,17 @@ export function AnalyticsOverview({
 
       <Card className="card-professional hover-lift">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 px-5 pt-5">
-          <CardTitle className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 uppercase tracking-wider">
+          <CardTitle className="text-xs font-ui font-semibold text-muted-foreground uppercase tracking-wider">
             Tıklamalar
           </CardTitle>
-          <MousePointerClick className="h-4 w-4 text-design-light" />
+          <MousePointerClick className="h-4 w-4 text-primary" />
         </CardHeader>
         <CardContent className="px-5 pb-5">
-          <div className="text-3xl font-display font-bold text-design-dark dark:text-white mb-2">
+          <div className="text-3xl font-display font-bold text-foreground mb-2">
             {totalClicks.toLocaleString("tr-TR")}
           </div>
           <div className="flex items-center gap-2">
-            <p className="text-xs text-design-gray dark:text-gray-400">
+            <p className="text-xs text-muted-foreground">
               Bugün: {latestDaily.clicks || 0}
             </p>
             {clicksTrend !== 0 && (
@@ -137,16 +137,16 @@ export function AnalyticsOverview({
 
       <Card className="card-professional hover-lift">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 px-5 pt-5">
-          <CardTitle className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 uppercase tracking-wider">
+          <CardTitle className="text-xs font-ui font-semibold text-muted-foreground uppercase tracking-wider">
             Bounce Rate
           </CardTitle>
-          <TrendingUp className="h-4 w-4 text-design-light" />
+          <TrendingUp className="h-4 w-4 text-primary" />
         </CardHeader>
         <CardContent className="px-5 pb-5">
-          <div className="text-3xl font-display font-bold text-design-dark dark:text-white mb-2">
+          <div className="text-3xl font-display font-bold text-foreground mb-2">
             {avgBounceRate.toFixed(1)}%
           </div>
-          <p className="text-xs text-design-gray dark:text-gray-400">
+          <p className="text-xs text-muted-foreground">
             Ortalama (30 gün)
           </p>
         </CardContent>

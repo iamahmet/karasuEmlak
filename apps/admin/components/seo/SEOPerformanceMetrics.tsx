@@ -188,8 +188,8 @@ export function SEOPerformanceMetrics({ locale = "tr" }: { locale?: string }) {
     <div className="space-y-4">
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Zap className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Zap className="h-5 w-5 text-primary" />
             SEO Performans Metrikleri
           </CardTitle>
         </CardHeader>
@@ -213,10 +213,10 @@ export function SEOPerformanceMetrics({ locale = "tr" }: { locale?: string }) {
                           <Icon className={cn("h-4 w-4", metric.status === "good" ? "text-green-600" : metric.status === "warning" ? "text-orange-600" : "text-red-600")} />
                         </div>
                         <div>
-                          <p className="text-[10px] font-ui font-semibold text-design-gray dark:text-gray-400 uppercase tracking-wider">
+                          <p className="text-[10px] font-ui font-semibold text-muted-foreground uppercase tracking-wider">
                             {metric.label}
                           </p>
-                          <p className="text-xl font-display font-bold text-design-dark dark:text-white">
+                          <p className="text-xl font-display font-bold text-foreground">
                             {metric.value}
                           </p>
                         </div>
@@ -237,7 +237,7 @@ export function SEOPerformanceMetrics({ locale = "tr" }: { locale?: string }) {
                       </Badge>
                     </div>
                     <div className="space-y-2">
-                      <div className="flex items-center justify-between text-xs text-design-gray dark:text-gray-400">
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
                         <span>Hedef: {metric.target}</span>
                         <span>{progress}%</span>
                       </div>

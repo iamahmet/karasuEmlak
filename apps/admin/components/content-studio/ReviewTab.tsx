@@ -154,10 +154,10 @@ export function ReviewTab({ locale }: { locale: string }) {
                 <CardHeader className="pb-4 px-5 pt-5">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1 min-w-0 pr-16">
-                      <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white mb-2 line-clamp-2 leading-snug">
+                      <CardTitle className="text-base font-display font-bold text-foreground mb-2 line-clamp-2 leading-snug">
                         {item.title || item.slug}
                       </CardTitle>
-                      <p className="text-xs text-design-gray dark:text-gray-400 font-ui truncate">
+                      <p className="text-xs text-muted-foreground font-ui truncate">
                         /blog/{item.slug}
                       </p>
                     </div>
@@ -168,7 +168,7 @@ export function ReviewTab({ locale }: { locale: string }) {
                     <Badge variant="outline" className="text-[10px] px-2 py-0.5 font-ui capitalize border-slate-200/80">
                       {item.type || 'Blog'}
                     </Badge>
-                    <span className="text-xs text-design-gray dark:text-gray-400 font-ui flex items-center gap-1">
+                    <span className="text-xs text-muted-foreground font-ui flex items-center gap-1">
                       <Clock className="h-3 w-3" />
                       {new Date(item.created_at || item.updated_at).toLocaleDateString("tr-TR", { day: "numeric", month: "short" })}
                     </span>
@@ -176,7 +176,7 @@ export function ReviewTab({ locale }: { locale: string }) {
                   
                   {/* Excerpt Preview */}
                   {item.excerpt && (
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-muted-foreground font-ui line-clamp-2 leading-relaxed">
                       {item.excerpt}
                     </p>
                   )}

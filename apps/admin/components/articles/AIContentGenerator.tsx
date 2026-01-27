@@ -80,8 +80,8 @@ export function AIContentGenerator({ onGenerate, className }: AIContentGenerator
     <Card className={cn("card-professional", className)}>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-primary" />
             AI İçerik Üretici
           </CardTitle>
           <Badge variant="outline" className="text-xs">
@@ -123,7 +123,7 @@ export function AIContentGenerator({ onGenerate, className }: AIContentGenerator
                 className={cn(
                   "px-3 py-1.5 text-xs rounded-lg border transition-all",
                   tone === t
-                    ? "bg-design-light text-white border-design-light"
+                    ? "bg-primary text-primary-foreground border-design-light"
                     : "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-design-light/50"
                 )}
               >
@@ -178,7 +178,7 @@ export function AIContentGenerator({ onGenerate, className }: AIContentGenerator
           <div className="space-y-3 p-4 bg-gray-50 dark:bg-gray-900/20 rounded-lg border border-gray-200 dark:border-gray-800">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold flex items-center gap-2">
-                <Lightbulb className="h-4 w-4 text-design-light" />
+                <Lightbulb className="h-4 w-4 text-primary" />
                 Oluşturulan İçerik
               </h3>
               <div className="flex items-center gap-1">
@@ -209,16 +209,16 @@ export function AIContentGenerator({ onGenerate, className }: AIContentGenerator
             <div className="space-y-2 text-sm">
               <div>
                 <p className="font-semibold text-gray-600 dark:text-gray-400 mb-1">Başlık:</p>
-                <p className="text-design-dark dark:text-white">{generated.title}</p>
+                <p className="text-foreground">{generated.title}</p>
               </div>
               <div>
                 <p className="font-semibold text-gray-600 dark:text-gray-400 mb-1">Özet:</p>
-                <p className="text-design-dark dark:text-white">{generated.excerpt}</p>
+                <p className="text-foreground">{generated.excerpt}</p>
               </div>
               <div>
                 <p className="font-semibold text-gray-600 dark:text-gray-400 mb-1">İçerik:</p>
                 <div 
-                  className="text-design-dark dark:text-white prose prose-sm max-w-none"
+                  className="text-foreground prose prose-sm max-w-none"
                   dangerouslySetInnerHTML={{ __html: generated.content.substring(0, 200) + "..." }}
                 />
               </div>

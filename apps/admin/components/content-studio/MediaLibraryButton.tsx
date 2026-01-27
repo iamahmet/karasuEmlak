@@ -26,8 +26,8 @@ export function MediaLibraryButton({ onSelect, className }: MediaLibraryButtonPr
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden flex flex-col p-0 rounded-xl">
-        <DialogHeader className="px-6 py-4 border-b border-[#E7E7E7] dark:border-[#062F28]">
-          <DialogTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+        <DialogHeader className="px-6 py-4 border-b border-border/40 dark:border-border/40">
+          <DialogTitle className="text-lg font-display font-bold text-foreground">
             Medya Kütüphanesi
           </DialogTitle>
         </DialogHeader>

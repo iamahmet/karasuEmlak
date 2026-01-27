@@ -70,8 +70,8 @@ export function SEOBoosterDashboard({ locale }: { locale: string }) {
                   className={cn(
                     "data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-design-light rounded-none px-6 py-4 font-ui font-semibold text-sm transition-all duration-200 cursor-pointer select-none",
                     activeTab === tab.id
-                      ? "text-design-dark dark:text-white border-b-2 border-design-light"
-                      : "text-design-gray dark:text-gray-400 hover:text-design-dark dark:hover:text-white"
+                      ? "text-foreground border-b-2 border-design-light"
+                      : "text-muted-foreground hover:text-foreground"
                   )}
                 >
                   {tab.label}
@@ -104,17 +104,17 @@ export function SEOBoosterDashboard({ locale }: { locale: string }) {
 
           <TabsContent value="content" className="m-0 p-6 space-y-6">
             <div>
-              <h3 className="text-lg font-display font-bold text-design-dark dark:text-white mb-2 flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-design-light" />
+              <h3 className="text-lg font-display font-bold text-foreground mb-2 flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-primary" />
                 AI Destekli Tek Tıkla SEO Optimizasyonu
               </h3>
-              <p className="text-sm text-design-gray dark:text-gray-400 mb-4">
+              <p className="text-sm text-muted-foreground mb-4">
                 Tüm içeriklerinizi tek tıkla optimize edin. Makaleler ve haberler için kapsamlı SEO optimizasyonu.
               </p>
             </div>
             <BulkSEOOptimizer locale={locale} />
             <div className="pt-6 border-t border-slate-200/50 dark:border-[#0a3d35]/50">
-              <h3 className="text-lg font-display font-bold text-design-dark dark:text-white mb-4">
+              <h3 className="text-lg font-display font-bold text-foreground mb-4">
                 İçerik Analizi
               </h3>
               <SEOContentOptimizer locale={locale} />

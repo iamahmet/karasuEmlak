@@ -217,7 +217,7 @@ export function ContentEditor({
                       setFeaturedImage(url);
                       setIsDirty(true);
                     }}
-                    className="h-8 px-3 text-xs border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+                    className="h-8 px-3 text-xs border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
                   />
                 </div>
                 <ImageUpload
@@ -300,7 +300,7 @@ export function ContentEditor({
             variant="outline"
             onClick={() => handleSave()}
             disabled={saving || !isDirty}
-            className="border border-[#E7E7E7] dark:border-[#062F28] rounded-xl hover-scale"
+            className="border border-border/40 dark:border-border/40 rounded-xl hover-scale"
           >
             <Save className="h-4 w-4 mr-2" />
             Kaydet

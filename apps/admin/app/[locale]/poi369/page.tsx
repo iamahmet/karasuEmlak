@@ -193,10 +193,10 @@ export default async function POI369DashboardPage({
       {/* Header */}
       <div className="admin-page-header">
         <div className="relative">
-          <div className="absolute -left-3 top-0 bottom-0 w-0.5 bg-gradient-to-b from-orange-500 via-orange-400 to-orange-600 rounded-full opacity-60"></div>
+          <div className="absolute -left-3 top-0 bottom-0 w-0.5 bg-primary/40 rounded-full"></div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500/10 to-orange-600/5 border border-orange-500/20">
-              <Code className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+            <div className="p-2 rounded-lg bg-primary/10 border border-border/40">
+              <Code className="h-6 w-6 text-primary" />
             </div>
             <div>
               <h1 className="admin-page-title">POI369 Developer Dashboard</h1>
@@ -209,15 +209,17 @@ export default async function POI369DashboardPage({
       </div>
 
       {/* Warning Banner */}
-      <Card className="mb-6 border-orange-200 dark:border-orange-900/30 bg-orange-50 dark:bg-orange-900/10">
+      <Card className="mb-6 border-border/40 bg-card/95 backdrop-blur-xl">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-orange-600 dark:text-orange-400 mt-0.5 flex-shrink-0" />
+            <div className="p-2 rounded-lg bg-primary/10">
+              <AlertTriangle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+            </div>
             <div>
-              <h3 className="font-semibold text-orange-900 dark:text-orange-200 mb-1">
+              <h3 className="font-semibold text-foreground mb-1">
                 Gelişmiş Araçlar
               </h3>
-              <p className="text-sm text-orange-700 dark:text-orange-300">
+              <p className="text-sm text-muted-foreground">
                 Bu panel geliştirici araçları içerir. Değişiklikler sistem genelinde etkili olabilir.
                 Lütfen dikkatli kullanın.
               </p>
@@ -239,13 +241,12 @@ export default async function POI369DashboardPage({
               key={stat.label}
               className="card-professional hover-subtle group cursor-pointer relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-orange-500/8 to-transparent rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <CardHeader className="flex flex-row items-center justify-between pb-2 px-4 pt-4 relative z-10">
                 <CardTitle className="text-[9px] font-medium uppercase tracking-wider text-muted-foreground">
                   {stat.label}
                 </CardTitle>
-                <div className="relative p-2 rounded-lg transition-all duration-200 shadow-sm bg-orange-500/10">
-                  <Icon className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400 transition-transform duration-200 group-hover:scale-110" />
+                <div className="relative p-2 rounded-lg transition-all duration-200 shadow-sm bg-primary/10">
+                  <Icon className="h-3.5 w-3.5 text-primary transition-transform duration-200 group-hover:scale-110" />
                 </div>
               </CardHeader>
               <CardContent className="px-4 pb-4 relative z-10">
@@ -253,13 +254,13 @@ export default async function POI369DashboardPage({
                   <div className="text-xl md:text-2xl font-bold text-foreground tracking-tight font-['Urbanist']">
                     {stat.value}
                   </div>
-                  <span className="text-[9px] font-semibold px-2 py-0.5 rounded-md border bg-orange-500/10 text-orange-700 dark:text-orange-300 border-orange-500/20">
+                  <span className="text-[9px] font-semibold px-2 py-0.5 rounded-md border bg-primary/10 text-primary border-primary/20">
                     {stat.change}
                   </span>
                 </div>
                 <div className="relative h-1 rounded-full overflow-hidden bg-muted/40">
                   <div
-                    className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out bg-gradient-to-r from-orange-500 to-orange-400"
+                    className="absolute inset-y-0 left-0 rounded-full transition-all duration-300 ease-out bg-primary"
                     style={{ width: `${progressWidth}%` }}
                   />
                 </div>
@@ -278,11 +279,10 @@ export default async function POI369DashboardPage({
               key={link.title}
               className="card-professional hover-lift cursor-pointer group relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-500/5 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <CardHeader className="pb-3 px-5 pt-5 relative z-10">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="p-2 rounded-lg bg-orange-500/10 border border-orange-500/20">
-                    <Icon className={`h-5 w-5 ${link.color}`} />
+                  <div className="p-2 rounded-lg bg-primary/10 border border-border/40">
+                    <Icon className="h-5 w-5 text-primary" />
                   </div>
                   <CardTitle className="text-base font-bold">{link.title}</CardTitle>
                 </div>
@@ -291,7 +291,7 @@ export default async function POI369DashboardPage({
                 <p className="text-sm text-muted-foreground mb-4">{link.description}</p>
                 <a
                   href={link.href}
-                  className="text-sm font-medium text-orange-600 dark:text-orange-400 hover:underline inline-flex items-center gap-1"
+                  className="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1"
                 >
                   Aç
                   <TrendingUp className="h-3 w-3" />

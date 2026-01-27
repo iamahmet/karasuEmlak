@@ -96,7 +96,7 @@ export function AutoSave({
         </Badge>
       )}
       {lastSaveRef.current && status === "saved" && (
-        <span className="text-[10px] text-design-gray dark:text-gray-400 font-ui">
+        <span className="text-[10px] text-muted-foreground font-ui">
           {lastSaveRef.current.toLocaleTimeString("tr-TR", {
             hour: "2-digit",
             minute: "2-digit",

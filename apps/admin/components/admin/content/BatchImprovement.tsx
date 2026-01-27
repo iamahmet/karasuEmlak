@@ -63,8 +63,8 @@ export function BatchImprovement() {
   return (
     <Card className="card-professional">
       <CardHeader className="card-professional-header">
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-design-light" />
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+          <Sparkles className="h-5 w-5 text-primary" />
           Toplu İçerik İyileştirme
         </CardTitle>
       </CardHeader>
@@ -87,7 +87,7 @@ export function BatchImprovement() {
               </>
             )}
           </Button>
-          <label className="flex items-center gap-2 text-sm text-design-gray dark:text-gray-400 cursor-pointer">
+          <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
             <input
               type="checkbox"
               checked={autoApply}
@@ -100,21 +100,21 @@ export function BatchImprovement() {
 
         {results.length > 0 && (
           <div className="mt-4 space-y-2 max-h-[400px] overflow-y-auto scrollbar-modern">
-            <h4 className="text-sm font-semibold text-design-dark dark:text-white mb-2">
+            <h4 className="text-sm font-semibold text-foreground mb-2">
               İşlem Sonuçları ({results.length})
             </h4>
             {results.map((result) => (
               <div
                 key={result.articleId}
-                className="p-3 rounded-lg border border-[#E7E7E7] dark:border-[#0a3d35] bg-white/60 dark:bg-[#0a3d35]/60"
+                className="p-3 rounded-lg border border-border/40 dark:border-[#0a3d35] bg-white/60 dark:bg-card/60"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-design-dark dark:text-white truncate">
+                    <p className="text-sm font-semibold text-foreground truncate">
                       {result.title}
                     </p>
                     {result.score !== undefined && (
-                      <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                      <p className="text-xs text-muted-foreground mt-1">
                         Kalite Skoru: {result.score}
                       </p>
                     )}
@@ -131,7 +131,7 @@ export function BatchImprovement() {
                       <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
                     )}
                     {result.improved && (
-                      <Badge className="bg-design-light/20 text-design-light text-xs">
+                      <Badge className="bg-design-light/20 text-primary text-xs">
                         İyileştirildi
                       </Badge>
                     )}

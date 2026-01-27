@@ -166,7 +166,7 @@ export function ContentChecklist({ article, className }: ContentChecklistProps) 
     <Card className={cn("card-professional", className)}>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+          <CardTitle className="text-sm font-display font-bold text-foreground flex items-center gap-2">
             <CheckCircle2 className="h-4 w-4" />
             İçerik Kontrol Listesi
           </CardTitle>

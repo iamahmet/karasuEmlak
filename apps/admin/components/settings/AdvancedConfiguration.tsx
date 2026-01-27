@@ -121,8 +121,8 @@ export function AdvancedConfiguration() {
   return (
     <Card className="card-professional">
       <CardHeader className="pb-4 px-5 pt-5">
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-          <Settings className="h-5 w-5 text-design-light" />
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+          <Settings className="h-5 w-5 text-primary" />
           Gelişmiş Yapılandırma
         </CardTitle>
       </CardHeader>
@@ -138,12 +138,12 @@ export function AdvancedConfiguration() {
           {/* Performance Tab */}
           <TabsContent value="performance" className="space-y-4 mt-4">
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-card/95 backdrop-blur-xl border border-border/40">
                 <div>
-                  <Label className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                  <Label className="text-sm font-semibold text-foreground font-ui">
                     Önbellek Etkin
                   </Label>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mt-1">
+                  <p className="text-xs text-muted-foreground font-ui mt-1">
                     Performans için önbellekleme kullan
                   </p>
                 </div>
@@ -165,12 +165,12 @@ export function AdvancedConfiguration() {
                 </div>
               )}
 
-              <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-card/95 backdrop-blur-xl border border-border/40">
                 <div>
-                  <Label className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                  <Label className="text-sm font-semibold text-foreground font-ui">
                     Rate Limiting
                   </Label>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mt-1">
+                  <p className="text-xs text-muted-foreground font-ui mt-1">
                     API isteklerini sınırla
                   </p>
                 </div>
@@ -238,12 +238,12 @@ export function AdvancedConfiguration() {
                 />
               </div>
 
-              <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-card/95 backdrop-blur-xl border border-border/40">
                 <div>
-                  <Label className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                  <Label className="text-sm font-semibold text-foreground font-ui">
                     MFA Zorunlu
                   </Label>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mt-1">
+                  <p className="text-xs text-muted-foreground font-ui mt-1">
                     Admin kullanıcıları için çok faktörlü kimlik doğrulama
                   </p>
                 </div>
@@ -258,12 +258,12 @@ export function AdvancedConfiguration() {
           {/* Features Tab */}
           <TabsContent value="features" className="space-y-4 mt-4">
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-card/95 backdrop-blur-xl border border-border/40">
                 <div>
-                  <Label className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                  <Label className="text-sm font-semibold text-foreground font-ui">
                     Bakım Modu
                   </Label>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mt-1">
+                  <p className="text-xs text-muted-foreground font-ui mt-1">
                     Siteyi bakım moduna al
                   </p>
                 </div>
@@ -273,12 +273,12 @@ export function AdvancedConfiguration() {
                 />
               </div>
 
-              <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-card/95 backdrop-blur-xl border border-border/40">
                 <div>
-                  <Label className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                  <Label className="text-sm font-semibold text-foreground font-ui">
                     Debug Modu
                   </Label>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mt-1">
+                  <p className="text-xs text-muted-foreground font-ui mt-1">
                     Hata ayıklama bilgilerini göster
                   </p>
                 </div>
@@ -288,12 +288,12 @@ export function AdvancedConfiguration() {
                 />
               </div>
 
-              <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-card/95 backdrop-blur-xl border border-border/40">
                 <div>
-                  <Label className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+                  <Label className="text-sm font-semibold text-foreground font-ui">
                     Analitik Etkin
                   </Label>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui mt-1">
+                  <p className="text-xs text-muted-foreground font-ui mt-1">
                     Kullanım analitiği topla
                   </p>
                 </div>
@@ -315,7 +315,7 @@ export function AdvancedConfiguration() {
                 className="min-h-[200px] font-mono text-xs"
                 placeholder='{"custom_key": "custom_value"}'
               />
-              <p className="text-xs text-design-gray dark:text-gray-400 font-ui flex items-center gap-1">
+              <p className="text-xs text-muted-foreground font-ui flex items-center gap-1">
                 <Info className="h-3 w-3" />
                 JSON formatında özel yapılandırma ekleyebilirsiniz
               </p>
@@ -324,7 +324,7 @@ export function AdvancedConfiguration() {
         </Tabs>
 
         {/* Save Button */}
-        <div className="flex justify-end pt-4 mt-6 border-t border-[#E7E7E7] dark:border-[#062F28]">
+        <div className="flex justify-end pt-4 mt-6 border-t border-border/40">
           <Button
             onClick={saveConfig}
             disabled={saving}

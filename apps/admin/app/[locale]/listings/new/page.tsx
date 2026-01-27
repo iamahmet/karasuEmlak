@@ -20,9 +20,9 @@ export default function NewListingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="min-h-screen bg-background">
       {/* Enhanced Header */}
-      <div className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+      <div className="border-b border-border/40 bg-card/95 backdrop-blur-xl sticky top-0 z-50">
         <div className="admin-container responsive-padding py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -38,7 +38,7 @@ export default function NewListingPage() {
               <div className="h-6 w-px bg-border" />
               <div>
                 <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-                  <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
+                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
                     <Sparkles className="h-5 w-5" />
                   </div>
                   Yeni İlan Oluştur
@@ -71,7 +71,7 @@ export default function NewListingPage() {
       {/* Main Content */}
       <div className="admin-container responsive-padding py-8">
         {/* Quick Tips Card */}
-        <Card className="mb-6 border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-primary/10">
+        <Card className="mb-6 border-border/40 bg-card/95 backdrop-blur-xl">
           <CardContent className="p-6">
             <div className="flex items-start gap-4">
               <div className="p-3 rounded-lg bg-primary/10">

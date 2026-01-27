@@ -81,20 +81,20 @@ export function FileUpload({
         className={cn(
           "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200",
           isDragActive
-            ? "border-design-light bg-design-light/10 dark:bg-design-light/5"
-            : "border-[#E7E7E7] dark:border-[#062F28] hover:border-design-light/50",
+            ? "border-design-light bg-primary/10 dark:bg-design-light/5"
+            : "border-border/40 dark:border-border/40 hover:border-design-light/50",
           "hover-scale"
         )}
       >
         <input {...getInputProps()} />
-        <Upload className="h-12 w-12 mx-auto mb-4 text-design-gray dark:text-gray-400" />
-        <p className="text-sm font-medium text-design-dark dark:text-white mb-1 font-ui">
+        <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+        <p className="text-sm font-medium text-foreground mb-1 font-ui">
           {isDragActive ? "Drop files here" : "Drag & drop files here"}
         </p>
-        <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+        <p className="text-xs text-muted-foreground font-ui">
           or click to select files
         </p>
-        <p className="text-xs text-design-gray dark:text-gray-400 mt-2 font-ui">
+        <p className="text-xs text-muted-foreground mt-2 font-ui">
           Max {maxFiles} files, {maxSize}MB each
         </p>
       </div>
@@ -109,7 +109,7 @@ export function FileUpload({
               <Card key={index} className="card-modern">
                 <CardContent className="flex items-center gap-3 p-3">
                   {preview ? (
-                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-[#E7E7E7] dark:bg-[#062F28] flex-shrink-0">
+                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-[#E7E7E7] dark:bg-muted flex-shrink-0">
                       <img
                         src={preview}
                         alt={file.name}
@@ -117,15 +117,15 @@ export function FileUpload({
                       />
                     </div>
                   ) : (
-                    <div className="w-12 h-12 rounded-lg bg-[#E7E7E7] dark:bg-[#062F28] flex items-center justify-center flex-shrink-0">
-                      <File className="h-6 w-6 text-design-gray dark:text-gray-400" />
+                    <div className="w-12 h-12 rounded-lg bg-[#E7E7E7] dark:bg-muted flex items-center justify-center flex-shrink-0">
+                      <File className="h-6 w-6 text-muted-foreground" />
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-design-dark dark:text-white truncate font-ui">
+                    <p className="text-sm font-medium text-foreground truncate font-ui">
                       {file.name}
                     </p>
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                    <p className="text-xs text-muted-foreground font-ui">
                       {(file.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                   </div>
@@ -145,7 +145,7 @@ export function FileUpload({
           <Button
             onClick={handleUpload}
             disabled={uploading}
-            className="w-full h-9 bg-design-dark hover:bg-design-dark/90 text-white rounded-lg font-ui hover-scale micro-bounce"
+            className="w-full h-9 bg-design-dark hover:bg-primary/90/90 text-white rounded-lg font-ui hover-scale micro-bounce"
           >
             {uploading ? (
               <>

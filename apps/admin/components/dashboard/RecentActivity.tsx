@@ -262,10 +262,10 @@ export function RecentActivity() {
   }
 
   return (
-    <Card className="card-professional bg-white dark:bg-[#0a3d35] relative overflow-hidden">
+    <Card className="card-professional bg-white dark:bg-card relative overflow-hidden">
       <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-design-light/5 to-transparent rounded-full blur-3xl"></div>
       <CardHeader className="pb-4 px-5 pt-5 relative z-10">
-        <CardTitle className="text-base font-bold text-design-dark dark:text-white" style={{ fontFamily: "'Urbanist', system-ui, sans-serif" }}>
+        <CardTitle className="text-base font-bold text-foreground" style={{ fontFamily: "'Urbanist', system-ui, sans-serif" }}>
           Son Aktiviteler
         </CardTitle>
       </CardHeader>
@@ -287,7 +287,7 @@ export function RecentActivity() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-sm font-semibold text-design-dark dark:text-white">
+                    <p className="text-sm font-semibold text-foreground">
                       {getActionLabel(activity.action, activity.entity_type)}
                     </p>
                     <Badge variant="outline" className="text-[10px] px-2 py-0.5">

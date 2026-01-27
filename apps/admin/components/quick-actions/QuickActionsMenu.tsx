@@ -75,14 +75,14 @@ export function QuickActionsMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="h-9 px-3 bg-design-dark hover:bg-design-dark/90 text-white rounded-lg font-ui hover-scale micro-bounce"
+          className="h-9 px-3 bg-design-dark hover:bg-primary/90/90 text-white rounded-lg font-ui hover-scale micro-bounce"
         >
           <Plus className="h-4 w-4 mr-2" />
           Quick Actions
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 rounded-lg">
-        <DropdownMenuLabel className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400">
+        <DropdownMenuLabel className="text-xs font-ui font-semibold text-muted-foreground">
           Quick Actions
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -97,7 +97,7 @@ export function QuickActionsMenu() {
               <Icon className="h-4 w-4" />
               <span className="flex-1">{action.label}</span>
               {action.shortcut && (
-                <kbd className="text-[10px] px-1.5 py-0.5 bg-[#E7E7E7] dark:bg-[#062F28] rounded font-mono">
+                <kbd className="text-[10px] px-1.5 py-0.5 bg-[#E7E7E7] dark:bg-muted rounded font-mono">
                   {action.shortcut}
                 </kbd>
               )}

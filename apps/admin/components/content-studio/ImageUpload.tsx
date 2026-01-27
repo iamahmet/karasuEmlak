@@ -128,32 +128,32 @@ export function ImageUpload({ onUpload, currentImage, className, showLabel = tru
           className={cn(
             "border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 hover-lift",
             isDragActive
-              ? "border-design-light bg-design-light/10"
-              : "border-[#E7E7E7] dark:border-[#062F28] hover:border-design-light/50",
+              ? "border-design-light bg-primary/10"
+              : "border-border/40 dark:border-border/40 hover:border-design-light/50",
             uploading && "opacity-50 cursor-not-allowed"
           )}
         >
           <input {...getInputProps()} />
           {uploading ? (
             <div className="flex flex-col items-center gap-3">
-              <Loader2 className="h-10 w-10 animate-spin text-design-light" />
-              <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+              <Loader2 className="h-10 w-10 animate-spin text-primary" />
+              <p className="text-sm text-muted-foreground font-ui">
                 Yükleniyor...
               </p>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-3">
               <div className="p-4 rounded-xl bg-gradient-to-br from-design-light/20 to-design-light/10">
-                <Upload className="h-8 w-8 text-design-dark dark:text-design-light" />
+                <Upload className="h-8 w-8 text-design-dark dark:text-primary" />
               </div>
               <div>
-                <p className="text-sm font-ui font-semibold text-design-dark dark:text-white mb-1">
+                <p className="text-sm font-ui font-semibold text-foreground mb-1">
                   {isDragActive ? "Bırakın" : "Görsel Yükleyin"}
                 </p>
-                <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                <p className="text-xs text-muted-foreground font-ui">
                   Sürükleyip bırakın veya tıklayın
                 </p>
-                <p className="text-[10px] text-design-gray dark:text-gray-400 font-ui mt-1">
+                <p className="text-[10px] text-muted-foreground font-ui mt-1">
                   PNG, JPG, GIF, WEBP (Max 5MB)
                 </p>
               </div>

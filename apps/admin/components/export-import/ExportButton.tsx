@@ -113,7 +113,7 @@ export function ExportButton<T>({
         <Button
           variant="outline"
           disabled={exporting || data.length === 0}
-          className="h-9 px-3 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+          className="h-9 px-3 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
         >
           <Download className="h-4 w-4 mr-2" />
           {exporting ? "Exporting..." : "Export"}

@@ -118,13 +118,13 @@ export function TopContent({ locale = "tr" }: { locale?: string }) {
     <Card className="card-professional">
       <CardHeader className="pb-4 px-5 pt-5">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <TrendingUp className="h-5 w-5 text-primary" />
             En Çok Okunan İçerikler
           </CardTitle>
           <Link
             href={`/${locale}/seo/content-studio`}
-            className="text-xs text-design-light hover:text-green-600 transition-colors flex items-center gap-1"
+            className="text-xs text-primary hover:text-green-600 transition-colors flex items-center gap-1"
           >
             Tümünü Gör
             <ArrowRight className="h-3 w-3" />
@@ -133,7 +133,7 @@ export function TopContent({ locale = "tr" }: { locale?: string }) {
       </CardHeader>
       <CardContent className="px-5 pb-5">
         {topArticles.length === 0 ? (
-          <div className="text-center py-12 text-design-gray dark:text-gray-400">
+          <div className="text-center py-12 text-muted-foreground">
             <FileText className="h-12 w-12 mx-auto mb-3 opacity-50" />
             <p>İçerik bulunamadı</p>
           </div>
@@ -143,14 +143,14 @@ export function TopContent({ locale = "tr" }: { locale?: string }) {
               <Link
                 key={article.id}
                 href={`/${locale}/seo/content-studio/${article.id}`}
-                className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:shadow-md transition-all duration-200 group"
+                className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40 hover:shadow-md transition-all duration-200 group"
               >
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-design-light to-green-600 flex items-center justify-center text-white font-bold text-xs">
                     {index + 1}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-design-dark dark:text-white truncate group-hover:text-design-light transition-colors">
+                    <p className="text-sm font-semibold text-foreground truncate group-hover:text-primary transition-colors">
                       {article.title}
                     </p>
                     {article.category && (
@@ -161,8 +161,8 @@ export function TopContent({ locale = "tr" }: { locale?: string }) {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
-                  <Eye className="h-4 w-4 text-design-gray dark:text-gray-400" />
-                  <span className="text-sm font-semibold text-design-dark dark:text-white">
+                  <Eye className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm font-semibold text-foreground">
                     {article.views.toLocaleString("tr-TR")}
                   </span>
                 </div>

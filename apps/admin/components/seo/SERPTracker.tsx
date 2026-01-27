@@ -86,7 +86,7 @@ export function SERPTracker({ locale }: { locale: string }) {
       <Card className="card-professional">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Search className="h-5 w-5 text-design-light" />
+            <Search className="h-5 w-5 text-primary" />
             SERP Pozisyon Takibi
           </CardTitle>
         </CardHeader>
@@ -114,14 +114,14 @@ export function SERPTracker({ locale }: { locale: string }) {
 
       {/* Results */}
       <div className="space-y-4">
-        <h3 className="text-lg font-display font-bold text-design-dark dark:text-white">
+        <h3 className="text-lg font-display font-bold text-foreground">
           Takip Edilen Pozisyonlar
         </h3>
         {results.length === 0 ? (
           <Card className="card-professional">
             <CardContent className="p-8 text-center">
-              <BarChart3 className="h-12 w-12 mx-auto mb-4 text-design-gray dark:text-gray-400 opacity-50" />
-              <p className="text-design-gray dark:text-gray-400 font-ui">
+              <BarChart3 className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
+              <p className="text-muted-foreground font-ui">
                 Henüz takip edilen keyword yok
               </p>
             </CardContent>
@@ -138,7 +138,7 @@ export function SERPTracker({ locale }: { locale: string }) {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <h4 className="font-semibold text-design-dark dark:text-white font-ui">
+                          <h4 className="font-semibold text-foreground font-ui">
                             {result.keyword}
                           </h4>
                           <Badge className={cn("text-[10px] px-2 py-0.5", getPositionColor(result.position))}>
@@ -161,13 +161,13 @@ export function SERPTracker({ locale }: { locale: string }) {
                           )}
                         </div>
                         <div className="space-y-1">
-                          <p className="text-sm font-medium text-design-dark dark:text-white font-ui">
+                          <p className="text-sm font-medium text-foreground font-ui">
                             {result.title}
                           </p>
-                          <p className="text-xs text-design-gray dark:text-gray-400 font-ui line-clamp-2">
+                          <p className="text-xs text-muted-foreground font-ui line-clamp-2">
                             {result.description}
                           </p>
-                          <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                          <p className="text-xs text-muted-foreground font-ui">
                             {result.url}
                           </p>
                         </div>

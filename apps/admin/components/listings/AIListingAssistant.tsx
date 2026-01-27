@@ -184,7 +184,7 @@ export function AIListingAssistant({ listing, onUpdate, className }: AIListingAs
     <Card className={cn("card-professional border-gradient-to-r from-purple-200 to-pink-200", className)}>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-purple-600 dark:text-purple-400" />
             AI İlan Asistanı
           </CardTitle>
@@ -262,7 +262,7 @@ export function AIListingAssistant({ listing, onUpdate, className }: AIListingAs
                     {suggestion.type === "description" && <FileText className="h-4 w-4 text-green-600 dark:text-green-400 flex-shrink-0" />}
                     {suggestion.type === "price" && <DollarSign className="h-4 w-4 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />}
                     {suggestion.type === "features" && <Sparkles className="h-4 w-4 text-purple-600 dark:text-purple-400 flex-shrink-0" />}
-                    <h4 className="text-sm font-semibold text-design-dark dark:text-white">
+                    <h4 className="text-sm font-semibold text-foreground">
                       {suggestion.title}
                     </h4>
                     <Badge
@@ -299,7 +299,7 @@ export function AIListingAssistant({ listing, onUpdate, className }: AIListingAs
                     </Button>
                   )}
                 </div>
-                <p className="text-xs text-design-gray dark:text-gray-400 mb-2 line-clamp-3 break-words">
+                <p className="text-xs text-muted-foreground mb-2 line-clamp-3 break-words">
                   {suggestion.suggestion}
                 </p>
                 {suggestion.reasoning && (
@@ -316,7 +316,7 @@ export function AIListingAssistant({ listing, onUpdate, className }: AIListingAs
         {suggestions.length === 0 && !loading && (
           <div className="text-center py-6 px-4">
             <Sparkles className="h-12 w-12 mx-auto mb-3 text-gray-400" />
-            <p className="text-sm text-design-gray dark:text-gray-400 mb-2 leading-relaxed">
+            <p className="text-sm text-muted-foreground mb-2 leading-relaxed">
               AI önerileri almak için "Akıllı Öneriler" butonuna tıklayın
             </p>
             <p className="text-xs text-design-gray dark:text-gray-500 leading-relaxed">

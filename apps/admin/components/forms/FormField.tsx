@@ -38,7 +38,7 @@ export function FormField({
       </Label>
       {children}
       {hint && !error && (
-        <p className="text-xs text-design-gray dark:text-gray-400 font-ui">{hint}</p>
+        <p className="text-xs text-muted-foreground font-ui">{hint}</p>
       )}
       {error && <FormError message={error} />}
     </div>

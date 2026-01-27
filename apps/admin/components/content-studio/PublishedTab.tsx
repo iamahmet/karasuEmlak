@@ -72,8 +72,8 @@ export function PublishedTab({ locale }: { locale: string }) {
         {[...Array(6)].map((_, i) => (
           <Card key={i} className="card-modern animate-pulse">
             <CardContent className="p-4">
-              <div className="h-4 bg-[#E7E7E7] dark:bg-[#062F28] rounded mb-2"></div>
-              <div className="h-4 bg-[#E7E7E7] dark:bg-[#062F28] rounded w-3/4"></div>
+              <div className="h-4 bg-[#E7E7E7] dark:bg-muted rounded mb-2"></div>
+              <div className="h-4 bg-[#E7E7E7] dark:bg-muted rounded w-3/4"></div>
             </CardContent>
           </Card>
         ))}
@@ -86,8 +86,8 @@ export function PublishedTab({ locale }: { locale: string }) {
       {items.length === 0 ? (
         <Card className="card-professional">
           <CardContent className="py-12 text-center">
-            <FileText className="h-12 w-12 mx-auto mb-4 text-design-gray dark:text-gray-400" />
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+            <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground font-ui">
               Yayınlanan içerik yok
             </p>
           </CardContent>
@@ -99,10 +99,10 @@ export function PublishedTab({ locale }: { locale: string }) {
               <CardHeader className="pb-4 px-5 pt-5">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1 min-w-0">
-                    <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white mb-1 line-clamp-2">
+                    <CardTitle className="text-base font-display font-bold text-foreground mb-1 line-clamp-2">
                       {item.title || item.slug}
                     </CardTitle>
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui truncate">
+                    <p className="text-xs text-muted-foreground font-ui truncate">
                       {item.slug}
                     </p>
                   </div>
@@ -115,7 +115,7 @@ export function PublishedTab({ locale }: { locale: string }) {
                   <Badge variant="outline" className="text-[10px] px-2 py-0.5 font-ui capitalize">
                     {item.type}
                   </Badge>
-                  <span className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                  <span className="text-xs text-muted-foreground font-ui">
                     {item.published_at 
                       ? new Date(item.published_at).toLocaleDateString("tr-TR")
                       : "Yayınlanmadı"}

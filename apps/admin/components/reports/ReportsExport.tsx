@@ -184,7 +184,7 @@ export function ReportsExport({ locale: _locale }: { locale: string }) {
       {/* Report Type Selection */}
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+          <CardTitle className="text-base font-display font-bold text-foreground">
             Rapor Türü
           </CardTitle>
         </CardHeader>
@@ -200,16 +200,16 @@ export function ReportsExport({ locale: _locale }: { locale: string }) {
                     "p-4 rounded-lg border-2 transition-all duration-200 text-left hover-lift",
                     reportConfig.type === type.value
                       ? "border-design-light bg-green-50 dark:bg-green-900/10"
-                      : "border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35]"
+                      : "border-border/40 dark:border-border/40 bg-white dark:bg-card"
                   )}
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <Icon className="h-5 w-5 text-design-light" />
-                    <p className="font-semibold text-sm text-design-dark dark:text-white">
+                    <Icon className="h-5 w-5 text-primary" />
+                    <p className="font-semibold text-sm text-foreground">
                       {type.label}
                     </p>
                   </div>
-                  <p className="text-xs text-design-gray dark:text-gray-400">{type.description}</p>
+                  <p className="text-xs text-muted-foreground">{type.description}</p>
                 </button>
               );
             })}
@@ -220,8 +220,8 @@ export function ReportsExport({ locale: _locale }: { locale: string }) {
       {/* Export Settings */}
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Calendar className="h-5 w-5 text-primary" />
             Dışa Aktarma Ayarları
           </CardTitle>
         </CardHeader>
@@ -242,7 +242,7 @@ export function ReportsExport({ locale: _locale }: { locale: string }) {
                     dateRange: { ...reportConfig.dateRange, start: e.target.value },
                   })
                 }
-                className="w-full mt-1 px-4 py-2 rounded-lg border border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35] text-sm font-ui"
+                className="w-full mt-1 px-4 py-2 rounded-lg border border-border/40 dark:border-border/40 bg-white dark:bg-card text-sm font-ui"
               />
             </div>
             <div>
@@ -259,7 +259,7 @@ export function ReportsExport({ locale: _locale }: { locale: string }) {
                     dateRange: { ...reportConfig.dateRange, end: e.target.value },
                   })
                 }
-                className="w-full mt-1 px-4 py-2 rounded-lg border border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35] text-sm font-ui"
+                className="w-full mt-1 px-4 py-2 rounded-lg border border-border/40 dark:border-border/40 bg-white dark:bg-card text-sm font-ui"
               />
             </div>
           </div>
@@ -274,7 +274,7 @@ export function ReportsExport({ locale: _locale }: { locale: string }) {
                   "flex items-center gap-2 px-4 py-2 rounded-lg border-2 transition-all duration-200",
                   reportConfig.format === "csv"
                     ? "border-design-light bg-green-50 dark:bg-green-900/10"
-                    : "border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35]"
+                    : "border-border/40 dark:border-border/40 bg-white dark:bg-card"
                 )}
               >
                 <FileSpreadsheet className="h-4 w-4" />
@@ -286,7 +286,7 @@ export function ReportsExport({ locale: _locale }: { locale: string }) {
                   "flex items-center gap-2 px-4 py-2 rounded-lg border-2 transition-all duration-200",
                   reportConfig.format === "json"
                     ? "border-design-light bg-green-50 dark:bg-green-900/10"
-                    : "border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35]"
+                    : "border-border/40 dark:border-border/40 bg-white dark:bg-card"
                 )}
               >
                 <FileJson className="h-4 w-4" />
@@ -298,7 +298,7 @@ export function ReportsExport({ locale: _locale }: { locale: string }) {
                   "flex items-center gap-2 px-4 py-2 rounded-lg border-2 transition-all duration-200",
                   reportConfig.format === "excel"
                     ? "border-design-light bg-green-50 dark:bg-green-900/10"
-                    : "border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35]"
+                    : "border-border/40 dark:border-border/40 bg-white dark:bg-card"
                 )}
               >
                 <FileSpreadsheet className="h-4 w-4" />

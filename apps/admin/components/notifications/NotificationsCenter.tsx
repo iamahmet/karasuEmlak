@@ -72,12 +72,18 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
 
       const data = await response.json();
       
-      if (!data.success) {
-        throw new Error("Invalid response format");
+      // Handle both response formats for backward compatibility
+      if (data.success) {
+        // New format: { success: true, notifications: [...] }
+        // Old format: { success: true, data: { notifications: [...] } }
+        const notifications = data.notifications || data.data?.notifications || [];
+        setNotifications(notifications);
+        setFilteredNotifications(notifications);
+      } else {
+        // Error response or invalid format - set empty arrays
+        setNotifications([]);
+        setFilteredNotifications([]);
       }
-
-      setNotifications(data.notifications || []);
-      setFilteredNotifications(data.notifications || []);
     } catch (error: any) {
       // Notifications fetch failed, show empty state
       setNotifications([]);
@@ -262,7 +268,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
         {[...Array(5)].map((_, i) => (
           <Card key={i} className="card-modern animate-pulse">
             <CardContent className="p-6">
-              <div className="h-4 bg-[#E7E7E7] dark:bg-[#062F28] rounded w-3/4"></div>
+              <div className="h-4 bg-[#E7E7E7] dark:bg-muted rounded w-3/4"></div>
             </CardContent>
           </Card>
         ))}
@@ -278,7 +284,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
 
   return (
     <Tabs defaultValue="notifications" className="space-y-6">
-      <TabsList className="bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-lg p-1">
+      <TabsList className="bg-white dark:bg-card border border-border/40 dark:border-border/40 rounded-lg p-1">
         <TabsTrigger value="notifications" className="text-xs font-ui flex items-center gap-2">
           <Bell className="h-4 w-4" />
           Bildirimler
@@ -298,10 +304,10 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
               <CardContent className="p-5">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">Toplam</p>
-                    <p className="text-2xl font-bold text-design-dark dark:text-white">{stats.total}</p>
+                    <p className="text-xs text-muted-foreground font-ui mb-1">Toplam</p>
+                    <p className="text-2xl font-bold text-foreground">{stats.total}</p>
                   </div>
-                  <Bell className="h-8 w-8 text-design-light" />
+                  <Bell className="h-8 w-8 text-primary" />
                 </div>
               </CardContent>
             </Card>
@@ -309,8 +315,8 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
               <CardContent className="p-5">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">Okunmamış</p>
-                    <p className="text-2xl font-bold text-design-dark dark:text-white">{stats.unread}</p>
+                    <p className="text-xs text-muted-foreground font-ui mb-1">Okunmamış</p>
+                    <p className="text-2xl font-bold text-foreground">{stats.unread}</p>
                   </div>
                   <Bell className="h-8 w-8 text-yellow-600" />
                 </div>
@@ -320,8 +326,8 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
               <CardContent className="p-5">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">Okundu</p>
-                    <p className="text-2xl font-bold text-design-dark dark:text-white">{stats.read}</p>
+                    <p className="text-xs text-muted-foreground font-ui mb-1">Okundu</p>
+                    <p className="text-2xl font-bold text-foreground">{stats.read}</p>
                   </div>
                   <CheckCircle2 className="h-8 w-8 text-green-600" />
                 </div>
@@ -334,7 +340,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
             <CardContent className="p-5">
               <div className="flex items-center gap-4">
                 <div className="flex-1 relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-design-gray dark:text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     placeholder="Bildirim ara..."
                     value={searchQuery}
@@ -357,7 +363,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
 
           {/* Filter Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-lg p-1">
+            <TabsList className="bg-white dark:bg-card border border-border/40 dark:border-border/40 rounded-lg p-1">
               <TabsTrigger value="all" className="text-xs font-ui">Tümü</TabsTrigger>
               <TabsTrigger value="unread" className="text-xs font-ui">Okunmamış</TabsTrigger>
               <TabsTrigger value="read" className="text-xs font-ui">Okundu</TabsTrigger>
@@ -370,13 +376,13 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
             <TabsContent value={activeTab} className="mt-6">
               <Card className="card-professional">
                 <CardHeader className="pb-4 px-5 pt-5">
-                  <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+                  <CardTitle className="text-base font-display font-bold text-foreground">
                     Bildirimler ({filteredNotifications.length})
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="px-5 pb-5">
                   {filteredNotifications.length === 0 ? (
-                    <div className="text-center py-12 text-design-gray dark:text-gray-400">
+                    <div className="text-center py-12 text-muted-foreground">
                       <BellOff className="h-12 w-12 mx-auto mb-3 opacity-50" />
                       <p>Bildirim bulunamadı</p>
                     </div>
@@ -388,7 +394,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
                           className={cn(
                             "p-4 rounded-lg border transition-all duration-200",
                             (notification.is_read ?? notification.read ?? false)
-                              ? "bg-white dark:bg-[#0a3d35] border-[#E7E7E7] dark:border-[#062F28] opacity-60"
+                              ? "bg-white dark:bg-card border-border/40 dark:border-border/40 opacity-60"
                               : "bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800",
                             "hover:shadow-md hover-lift"
                           )}
@@ -399,7 +405,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 mb-1">
-                                <p className="text-sm font-semibold text-design-dark dark:text-white">
+                                <p className="text-sm font-semibold text-foreground">
                                   {notification.title}
                                 </p>
                                 {getTypeBadge(notification.type)}
@@ -407,11 +413,11 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
                                   <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
                                 )}
                               </div>
-                              <p className="text-sm text-design-gray dark:text-gray-400 mb-2">
+                              <p className="text-sm text-muted-foreground mb-2">
                                 {notification.message}
                               </p>
                               <div className="flex items-center gap-4">
-                                <p className="text-xs text-design-gray dark:text-gray-400">
+                                <p className="text-xs text-muted-foreground">
                                   {new Date(notification.created_at).toLocaleDateString("tr-TR", {
                                     day: "2-digit",
                                     month: "2-digit",
@@ -470,8 +476,8 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
       <TabsContent value="settings">
         <Card className="card-professional">
           <CardHeader className="pb-4 px-5 pt-5">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Settings className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Settings className="h-5 w-5 text-primary" />
               Bildirim Ayarları
             </CardTitle>
           </CardHeader>
@@ -482,7 +488,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
                   <Label htmlFor="email_notifications" className="text-xs font-ui font-semibold">
                     E-posta Bildirimleri
                   </Label>
-                  <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     Önemli bildirimleri e-posta ile al
                   </p>
                 </div>
@@ -499,7 +505,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
                   <Label htmlFor="push_notifications" className="text-xs font-ui font-semibold">
                     Push Bildirimleri
                   </Label>
-                  <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     Tarayıcı push bildirimlerini etkinleştir
                   </p>
                 </div>
@@ -516,7 +522,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
                   <Label htmlFor="comment_notifications" className="text-xs font-ui font-semibold">
                     Yorum Bildirimleri
                   </Label>
-                  <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     Yeni yorumlar için bildirim al
                   </p>
                 </div>
@@ -533,7 +539,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
                   <Label htmlFor="content_notifications" className="text-xs font-ui font-semibold">
                     İçerik Bildirimleri
                   </Label>
-                  <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     İçerik yayınlama bildirimlerini al
                   </p>
                 </div>
@@ -550,7 +556,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
                   <Label htmlFor="system_notifications" className="text-xs font-ui font-semibold">
                     Sistem Bildirimleri
                   </Label>
-                  <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     Sistem güncellemeleri ve uyarıları al
                   </p>
                 </div>
@@ -563,7 +569,7 @@ export function NotificationsCenter({ locale: _locale }: { locale: string }) {
                 />
               </div>
             </div>
-            <div className="pt-4 border-t border-[#E7E7E7] dark:border-[#062F28]">
+            <div className="pt-4 border-t border-border/40 dark:border-border/40">
               <Button
                 className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-lg hover:shadow-xl hover-scale micro-bounce rounded-xl"
                 onClick={async () => {

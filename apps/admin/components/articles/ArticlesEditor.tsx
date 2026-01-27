@@ -268,8 +268,8 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <FileText className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <FileText className="h-5 w-5 text-primary" />
               Haberler
             </CardTitle>
             <button
@@ -279,7 +279,7 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                 e.stopPropagation();
                 handleNew();
               }}
-              className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-lg hover:shadow-xl hover-scale micro-bounce rounded-xl inline-flex items-center justify-center px-4 py-2 font-medium transition-all duration-200 relative z-10"
+              className="rounded-xl inline-flex items-center justify-center px-4 py-2 font-medium transition-all duration-200 relative z-10"
             >
               <Plus className="h-4 w-4 mr-2" />
               Yeni Haber
@@ -289,8 +289,8 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
         <CardContent className="px-5 pb-5">
           {articles.length === 0 ? (
             <div className="text-center py-12">
-              <FileText className="h-12 w-12 mx-auto mb-4 text-design-gray dark:text-gray-400" />
-              <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+              <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+              <p className="text-sm text-muted-foreground font-ui">
                 Henüz haber yok
               </p>
             </div>
@@ -311,10 +311,10 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 flex-wrap">
-                      <h3 className="text-sm font-display font-bold text-design-dark dark:text-white group-hover:text-design-light transition-colors truncate">
+                      <h3 className="text-sm font-display font-bold text-foreground group-hover:text-primary transition-colors truncate">
                         {article.title}
                       </h3>
-                      <span className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                      <span className="text-xs text-muted-foreground font-ui">
                         /{article.slug}
                       </span>
                       {article.is_published ? (
@@ -338,7 +338,7 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                       )}
                     </div>
                     {article.excerpt && (
-                      <p className="text-xs text-design-gray dark:text-gray-400 mt-1 line-clamp-1">
+                      <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
                         {article.excerpt}
                       </p>
                     )}
@@ -445,8 +445,8 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
           >
             <CardHeader className="pb-4 px-5 pt-5 sticky top-0 bg-card z-10 border-b border-border">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-                  <Edit2 className="h-5 w-5 text-design-light" />
+                <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+                  <Edit2 className="h-5 w-5 text-primary" />
                   {editingArticle.id ? "Makale Düzenle" : "Yeni Makale"}
                 </CardTitle>
                 {showList && (
@@ -456,7 +456,7 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                     setShowEditor(false);
                     setEditingArticle(null);
                   }}
-                  className="text-design-gray dark:text-gray-400 hover:text-design-dark dark:hover:text-white transition-colors text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="text-muted-foreground hover:text-foreground transition-colors text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
                   aria-label="Kapat"
                 >
                   <X className="h-5 w-5" />
@@ -465,7 +465,7 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                 {!showList && (
                 <Link
                   href={`/${locale}/articles`}
-                  className="text-design-gray dark:text-gray-400 hover:text-design-dark dark:hover:text-white transition-colors text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   ← Listeye Dön
                 </Link>
@@ -651,12 +651,12 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
               </div>
 
               <div className="grid grid-cols-3 gap-4 pt-2">
-                <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40">
                   <div>
                     <Label htmlFor="is_published" className="text-xs font-ui font-semibold">
                       Yayınla
                     </Label>
-                    <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       Haberi yayınla
                     </p>
                   </div>
@@ -669,12 +669,12 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                   />
                 </div>
 
-                <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40">
                   <div>
                     <Label htmlFor="is_featured" className="text-xs font-ui font-semibold">
                       Öne Çıkan
                     </Label>
-                    <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       Ana sayfada göster
                     </p>
                   </div>
@@ -687,12 +687,12 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                   />
                 </div>
 
-                <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28]">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40">
                   <div>
                     <Label htmlFor="is_breaking" className="text-xs font-ui font-semibold">
                       Son Dakika
                     </Label>
-                    <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       Son dakika haberi
                     </p>
                   </div>
@@ -713,7 +713,7 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                     setShowEditor(false);
                     setEditingArticle(null);
                   }}
-                  className="px-4 py-2 text-sm font-medium text-design-gray dark:text-gray-400 hover:text-design-dark dark:hover:text-white transition-colors rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   İptal
                 </button>
@@ -721,7 +721,7 @@ export function ArticlesEditor({ locale = "tr", articleId, showList = false }: A
                   type="button"
                   onClick={handleSave}
                   disabled={saving}
-                  className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-lg hover:shadow-xl hover-scale micro-bounce rounded-xl px-4 py-2 text-sm font-medium inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="rounded-xl px-4 py-2 text-sm font-medium inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {saving ? (
                     <>

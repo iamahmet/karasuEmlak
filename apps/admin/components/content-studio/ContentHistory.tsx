@@ -120,8 +120,8 @@ export function ContentHistory({ contentItemId, locale, className }: ContentHist
   return (
     <Card className={cn("card-professional", className)}>
       <CardHeader className="pb-4 px-5 pt-5">
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-          <History className="h-5 w-5 text-design-light" />
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+          <History className="h-5 w-5 text-primary" />
           Versiyon Geçmişi
         </CardTitle>
       </CardHeader>
@@ -129,9 +129,9 @@ export function ContentHistory({ contentItemId, locale, className }: ContentHist
         {versions.length === 0 ? (
           <div className="text-center py-8">
             <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#E7E7E7] to-[#E7E7E7]/80 dark:from-[#062F28] dark:to-[#062F28]/80 flex items-center justify-center shadow-lg">
-              <History className="h-8 w-8 text-design-gray dark:text-gray-400" />
+              <History className="h-8 w-8 text-muted-foreground" />
             </div>
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui font-medium">
+            <p className="text-sm text-muted-foreground font-ui font-medium">
               Henüz versiyon geçmişi yok
             </p>
           </div>
@@ -144,35 +144,35 @@ export function ContentHistory({ contentItemId, locale, className }: ContentHist
                   "p-4 rounded-xl border transition-all duration-300 hover-lift",
                   index === 0
                     ? "border-design-light bg-gradient-to-r from-design-light/10 to-transparent"
-                    : "border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35]"
+                    : "border-border/40 dark:border-border/40 bg-white dark:bg-card"
                 )}
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-gradient-to-br from-design-light/20 to-design-light/10">
-                      <Clock className="h-4 w-4 text-design-dark dark:text-design-light" />
+                      <Clock className="h-4 w-4 text-design-dark dark:text-primary" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-display font-bold text-design-dark dark:text-white">
+                        <span className="text-sm font-display font-bold text-foreground">
                           Versiyon {version.version_number}
                         </span>
                         {index === 0 && (
                           <Badge
                             variant="outline"
-                            className="text-[10px] px-2 py-0.5 bg-design-light/15 text-design-dark dark:text-design-light border-design-light/30 font-ui font-semibold"
+                            className="text-[10px] px-2 py-0.5 bg-design-light/15 text-design-dark dark:text-primary border-design-light/30 font-ui font-semibold"
                           >
                             Güncel
                           </Badge>
                         )}
                       </div>
-                      <p className="text-xs text-design-gray dark:text-gray-400 font-ui mt-0.5">
+                      <p className="text-xs text-muted-foreground font-ui mt-0.5">
                         {formatDateTime(version.created_at)}
                       </p>
                     </div>
                   </div>
                   {version.user && (
-                    <div className="flex items-center gap-1.5 text-xs text-design-gray dark:text-gray-400 font-ui">
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-ui">
                       <User className="h-3.5 w-3.5" />
                       <span>{version.user.email || "Bilinmeyen"}</span>
                     </div>
@@ -180,11 +180,11 @@ export function ContentHistory({ contentItemId, locale, className }: ContentHist
                 </div>
 
                 <div className="mb-3">
-                  <p className="text-sm font-ui font-semibold text-design-dark dark:text-white line-clamp-1 mb-1">
+                  <p className="text-sm font-ui font-semibold text-foreground line-clamp-1 mb-1">
                     {version.title}
                   </p>
                   {version.excerpt && (
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui line-clamp-2">
+                    <p className="text-xs text-muted-foreground font-ui line-clamp-2">
                       {version.excerpt}
                     </p>
                   )}
@@ -198,7 +198,7 @@ export function ContentHistory({ contentItemId, locale, className }: ContentHist
                       setSelectedVersion(version);
                       setIsPreviewOpen(true);
                     }}
-                    className="h-8 px-3 text-xs border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+                    className="h-8 px-3 text-xs border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
                   >
                     <Eye className="h-3.5 w-3.5 mr-1.5" />
                     Önizle
@@ -208,7 +208,7 @@ export function ContentHistory({ contentItemId, locale, className }: ContentHist
                       variant="outline"
                       size="sm"
                       onClick={() => handleRestore(version)}
-                      className="h-8 px-3 text-xs border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+                      className="h-8 px-3 text-xs border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
                     >
                       <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
                       Geri Yükle
@@ -224,39 +224,39 @@ export function ContentHistory({ contentItemId, locale, className }: ContentHist
         <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto scrollbar-modern">
             <DialogHeader>
-              <DialogTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+              <DialogTitle className="text-lg font-display font-bold text-foreground">
                 Versiyon {selectedVersion?.version_number} Önizleme
               </DialogTitle>
             </DialogHeader>
             {selectedVersion && (
               <div className="space-y-4 mt-4">
                 <div>
-                  <h3 className="text-sm font-ui font-semibold text-design-gray dark:text-gray-400 mb-2">
+                  <h3 className="text-sm font-ui font-semibold text-muted-foreground mb-2">
                     Başlık
                   </h3>
-                  <p className="text-base font-ui text-design-dark dark:text-white">
+                  <p className="text-base font-ui text-foreground">
                     {selectedVersion.title}
                   </p>
                 </div>
                 {selectedVersion.excerpt && (
                   <div>
-                    <h3 className="text-sm font-ui font-semibold text-design-gray dark:text-gray-400 mb-2">
+                    <h3 className="text-sm font-ui font-semibold text-muted-foreground mb-2">
                       Özet
                     </h3>
-                    <p className="text-sm font-ui text-design-dark dark:text-white">
+                    <p className="text-sm font-ui text-foreground">
                       {selectedVersion.excerpt}
                     </p>
                   </div>
                 )}
                 <div>
-                  <h3 className="text-sm font-ui font-semibold text-design-gray dark:text-gray-400 mb-2">
+                  <h3 className="text-sm font-ui font-semibold text-muted-foreground mb-2">
                     İçerik
                   </h3>
                   <div
                     className="prose prose-sm prose-slate dark:prose-invert max-w-none
                       prose-headings:font-bold prose-headings:tracking-tight
                       prose-p:leading-relaxed prose-p:mb-4
-                      prose-a:text-design-dark dark:prose-a:text-design-light
+                      prose-a:text-design-dark dark:prose-a:text-primary
                       prose-strong:font-semibold
                       prose-ul:my-4 prose-ol:my-4
                       prose-li:my-1"
@@ -265,10 +265,10 @@ export function ContentHistory({ contentItemId, locale, className }: ContentHist
                 </div>
                 {selectedVersion.meta_description && (
                   <div>
-                    <h3 className="text-sm font-ui font-semibold text-design-gray dark:text-gray-400 mb-2">
+                    <h3 className="text-sm font-ui font-semibold text-muted-foreground mb-2">
                       Meta Açıklama
                     </h3>
-                    <p className="text-sm font-ui text-design-dark dark:text-white">
+                    <p className="text-sm font-ui text-foreground">
                       {selectedVersion.meta_description}
                     </p>
                   </div>

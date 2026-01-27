@@ -104,8 +104,8 @@ export function AIContentAssistant({
     <Card className={cn("card-professional", className)}>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-primary" />
             AI İçerik Asistanı
           </CardTitle>
           <Badge variant="outline" className="text-xs">
@@ -150,12 +150,12 @@ export function AIContentAssistant({
                   className={cn(
                     "p-3 rounded-lg border transition-all",
                     selectedSuggestions.metaDescription === suggestion
-                      ? "bg-design-light/10 border-design-light"
+                      ? "bg-primary/10 border-design-light"
                       : "bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-800 hover:border-design-light/50"
                   )}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <p className="text-sm text-design-dark dark:text-white flex-1">
+                    <p className="text-sm text-foreground flex-1">
                       {suggestion}
                     </p>
                     <div className="flex items-center gap-1">
@@ -178,7 +178,7 @@ export function AIContentAssistant({
                         onClick={() => applySuggestion("metaDescription", suggestion)}
                         className={cn(
                           "h-7 w-7 p-0",
-                          selectedSuggestions.metaDescription === suggestion && "bg-design-light text-white"
+                          selectedSuggestions.metaDescription === suggestion && "bg-primary text-primary-foreground"
                         )}
                       >
                         <Check className="h-3 w-3" />
@@ -227,12 +227,12 @@ export function AIContentAssistant({
                   className={cn(
                     "p-3 rounded-lg border transition-all",
                     selectedSuggestions.seoKeywords === suggestion
-                      ? "bg-design-light/10 border-design-light"
+                      ? "bg-primary/10 border-design-light"
                       : "bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-800 hover:border-design-light/50"
                   )}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <p className="text-sm text-design-dark dark:text-white flex-1">
+                    <p className="text-sm text-foreground flex-1">
                       {suggestion}
                     </p>
                     <div className="flex items-center gap-1">
@@ -255,7 +255,7 @@ export function AIContentAssistant({
                         onClick={() => applySuggestion("seoKeywords", suggestion)}
                         className={cn(
                           "h-7 w-7 p-0",
-                          selectedSuggestions.seoKeywords === suggestion && "bg-design-light text-white"
+                          selectedSuggestions.seoKeywords === suggestion && "bg-primary text-primary-foreground"
                         )}
                       >
                         <Check className="h-3 w-3" />
@@ -304,12 +304,12 @@ export function AIContentAssistant({
                   className={cn(
                     "p-3 rounded-lg border transition-all",
                     selectedSuggestions.excerpt === suggestion
-                      ? "bg-design-light/10 border-design-light"
+                      ? "bg-primary/10 border-design-light"
                       : "bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-800 hover:border-design-light/50"
                   )}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <p className="text-sm text-design-dark dark:text-white flex-1">
+                    <p className="text-sm text-foreground flex-1">
                       {suggestion}
                     </p>
                     <div className="flex items-center gap-1">
@@ -332,7 +332,7 @@ export function AIContentAssistant({
                         onClick={() => applySuggestion("excerpt", suggestion)}
                         className={cn(
                           "h-7 w-7 p-0",
-                          selectedSuggestions.excerpt === suggestion && "bg-design-light text-white"
+                          selectedSuggestions.excerpt === suggestion && "bg-primary text-primary-foreground"
                         )}
                       >
                         <Check className="h-3 w-3" />
@@ -382,12 +382,12 @@ export function AIContentAssistant({
                     className={cn(
                       "p-3 rounded-lg border transition-all",
                       selectedSuggestions.title === suggestion
-                        ? "bg-design-light/10 border-design-light"
+                        ? "bg-primary/10 border-design-light"
                         : "bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-800 hover:border-design-light/50"
                     )}
                   >
                     <div className="flex items-start justify-between gap-2">
-                      <p className="text-sm text-design-dark dark:text-white flex-1 font-semibold">
+                      <p className="text-sm text-foreground flex-1 font-semibold">
                         {suggestion}
                       </p>
                       <div className="flex items-center gap-1">
@@ -410,7 +410,7 @@ export function AIContentAssistant({
                           onClick={() => applySuggestion("title", suggestion)}
                           className={cn(
                             "h-7 w-7 p-0",
-                            selectedSuggestions.title === suggestion && "bg-design-light text-white"
+                            selectedSuggestions.title === suggestion && "bg-primary text-primary-foreground"
                           )}
                         >
                           <Check className="h-3 w-3" />
@@ -425,7 +425,7 @@ export function AIContentAssistant({
         )}
 
         {!suggestions.metaDescription && !suggestions.seoKeywords && !suggestions.excerpt && !suggestions.title && (
-          <div className="text-center py-8 text-design-gray dark:text-gray-400">
+          <div className="text-center py-8 text-muted-foreground">
             <Sparkles className="h-12 w-12 mx-auto mb-3 opacity-50" />
             <p className="text-sm">
               AI ile içerik önerileri oluşturmak için yukarıdaki butonlara tıklayın

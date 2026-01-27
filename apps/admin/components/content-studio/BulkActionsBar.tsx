@@ -53,10 +53,10 @@ export function BulkActionsBar({
       )}
       style={{ zIndex: 'var(--z-fixed)' }}
     >
-      <div className="flex items-center gap-3 px-6 py-4 bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-2xl shadow-2xl backdrop-blur-xl">
+      <div className="flex items-center gap-3 px-6 py-4 bg-white dark:bg-card border border-border/40 dark:border-border/40 rounded-2xl shadow-2xl backdrop-blur-xl">
         <Badge
           variant="outline"
-          className="px-3 py-1.5 bg-design-light/15 text-design-dark dark:text-design-light font-ui font-bold border-design-light/30"
+          className="px-3 py-1.5 bg-design-light/15 text-design-dark dark:text-primary font-ui font-bold border-design-light/30"
         >
           {selectedIds.length} seçili
         </Badge>
@@ -67,7 +67,7 @@ export function BulkActionsBar({
             size="sm"
             onClick={() => handleAction("publish")}
             disabled={loading}
-            className="h-9 px-3 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+            className="h-9 px-3 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
           >
             <CheckCircle2 className="h-4 w-4 mr-2" />
             Yayınla
@@ -78,7 +78,7 @@ export function BulkActionsBar({
             size="sm"
             onClick={() => handleAction("archive")}
             disabled={loading}
-            className="h-9 px-3 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+            className="h-9 px-3 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
           >
             <Archive className="h-4 w-4 mr-2" />
             Arşivle
@@ -90,7 +90,7 @@ export function BulkActionsBar({
                 variant="outline"
                 size="sm"
                 disabled={loading}
-                className="h-9 px-3 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+                className="h-9 px-3 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
               >
                 Daha Fazla
               </Button>

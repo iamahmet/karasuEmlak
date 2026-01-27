@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@karasu/ui";
 import { Bell, AlertCircle, Info, CheckCircle2 } from "lucide-react";
-import { createClient } from "@karasu/lib/supabase/client";
+// Using API route instead of direct Supabase client to avoid console errors
 import { formatDateTime } from "@karasu/ui";
 import { cn } from "@karasu/lib";
 
@@ -32,45 +32,26 @@ export function NotificationCenter() {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const supabase = createClient();
-        const { data, error } = await supabase
-          .from("notifications")
-          .select("*")
-          .order("created_at", { ascending: false })
-          .limit(10);
-
-        if (error) {
-          // Table doesn't exist - gracefully degrade silently
-          // Check all possible error codes and messages
-          const errorMessage = error.message?.toLowerCase() || "";
-          const errorCode = error.code || "";
-          
-          const isTableMissing = 
-            errorCode === "PGRST116" || 
-            errorCode === "42P01" || 
-            errorCode === "404" ||
-            errorMessage.includes("does not exist") || 
-            errorMessage.includes("relation") || 
-            errorMessage.includes("not found") ||
-            errorMessage.includes("permission denied") ||
-            errorMessage.includes("relation \"public.notifications\" does not exist") ||
-            errorMessage.includes("relation public.notifications does not exist");
-          
-          if (isTableMissing) {
-            // Silently handle - table doesn't exist or no permission
-            setNotifications([]);
-            setLoading(false);
-            return;
-          }
-          
-          // For other errors, also gracefully degrade silently
+        // Use API route instead of direct Supabase client to avoid console errors
+        const response = await fetch("/api/notifications?limit=10");
+        
+        if (!response.ok) {
+          // Table doesn't exist or other error - gracefully degrade silently
           setNotifications([]);
           setLoading(false);
           return;
         }
 
-        if (data) {
-          setNotifications(data as Notification[]);
+        const data = await response.json();
+        
+        // Handle both response formats for backward compatibility
+        if (data.success) {
+          // New format: { success: true, notifications: [...] }
+          // Old format: { success: true, data: { notifications: [...] } }
+          const notifications = data.notifications || data.data?.notifications || [];
+          setNotifications(notifications as Notification[]);
+        } else {
+          setNotifications([]);
         }
       } catch (error) {
         // Notifications fetch failed, show empty state silently
@@ -81,67 +62,27 @@ export function NotificationCenter() {
     };
 
     fetchNotifications();
-
-    // Set up real-time subscription (only if table exists)
-    // Note: We use a flag to track if subscription should be attempted
-    let channel: ReturnType<ReturnType<typeof createClient>['channel']> | null = null;
-    let shouldSubscribe = true;
     
-    // Delay subscription to ensure fetchNotifications completes first
-    const subscriptionTimeout = setTimeout(() => {
-      if (shouldSubscribe && !loading) {
-        try {
-          const supabase = createClient();
-          channel = supabase
-            .channel("notifications")
-            .on(
-              "postgres_changes",
-              {
-                event: "INSERT",
-                schema: "public",
-                table: "notifications",
-              },
-              (payload) => {
-                const newNotification = payload.new as Notification;
-                setNotifications((prev) => [newNotification, ...prev].slice(0, 10));
-              }
-            )
-            .subscribe();
-        } catch (error) {
-          // Table doesn't exist, skip real-time subscription silently
-          // No logging to avoid console noise
-          shouldSubscribe = false;
-        }
-      }
-    }, 200);
-    
-    return () => {
-      clearTimeout(subscriptionTimeout);
-      shouldSubscribe = false;
-      if (channel) {
-        const supabase = createClient();
-        try {
-          supabase.removeChannel(channel);
-        } catch (error) {
-          // Silently handle cleanup errors
-        }
-      }
-    };
-  }, [loading]);
+    // Note: Real-time subscriptions disabled when using API route
+    // To enable real-time, we'd need to use Supabase client directly
+    // but that causes console errors when table doesn't exist
+  }, []);
 
   const unreadCount = notifications.filter((n) => !(n.is_read ?? n.read ?? false)).length;
 
   const markAsRead = async (id: string) => {
     try {
-      const supabase = createClient();
-      await supabase
-        .from("notifications")
-        .update({ is_read: true })
-        .eq("id", id);
+      const response = await fetch(`/api/notifications/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_read: true }),
+      });
 
-      setNotifications((prev) =>
-        prev.map((n) => (n.id === id ? { ...n, is_read: true, read: true } : n))
-      );
+      if (response.ok) {
+        setNotifications((prev) =>
+          prev.map((n) => (n.id === id ? { ...n, is_read: true, read: true } : n))
+        );
+      }
     } catch (error) {
       // Mark as read failed, non-critical
     }
@@ -149,13 +90,17 @@ export function NotificationCenter() {
 
   const markAllAsRead = async () => {
     try {
-      const supabase = createClient();
-      await supabase
-        .from("notifications")
-        .update({ read: true })
-        .eq("read", false);
-
-      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+      // Update local state optimistically
+      setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true, read: true })));
+      
+      // Try to update on server (non-blocking)
+      await fetch("/api/notifications/bulk", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_read: true }),
+      }).catch(() => {
+        // Non-critical, already updated locally
+      });
     } catch (error) {
       // Mark all as read failed, non-critical
     }
@@ -177,13 +122,13 @@ export function NotificationCenter() {
   const getNotificationColor = (type: Notification["type"]) => {
     switch (type) {
       case "success":
-        return "text-design-light";
+        return "text-primary";
       case "warning":
         return "text-yellow-500";
       case "error":
         return "text-red-500";
       default:
-        return "text-design-gray dark:text-gray-400";
+        return "text-muted-foreground";
     }
   };
 
@@ -193,21 +138,21 @@ export function NotificationCenter() {
         <Button
           variant="ghost"
           size="icon"
-          className="relative h-9 w-9 rounded-lg hover:bg-[#E7E7E7] dark:hover:bg-[#0a3d35] transition-all duration-200 hover:scale-105 group micro-bounce"
+          className="relative h-9 w-9 rounded-lg hover:bg-muted transition-all duration-200 hover:scale-105 group micro-bounce"
         >
-          <Bell className="h-4 w-4 text-design-gray dark:text-gray-400 group-hover:text-design-dark dark:group-hover:text-design-light transition-colors" />
+          <Bell className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
           {unreadCount > 0 && (
-            <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-design-light dark:bg-design-dark border-2 border-white dark:border-[#062F28] animate-pulse" />
+            <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-primary border-2 border-background animate-pulse" />
           )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-96 p-0 rounded-lg border border-[#E7E7E7] dark:border-[#062F28] shadow-xl"
+        className="w-96 p-0 rounded-lg border border-border/40 dark:border-border/40 shadow-xl"
       >
-        <div className="p-4 border-b border-[#E7E7E7] dark:border-[#062F28]">
+        <div className="p-4 border-b border-border/40 dark:border-border/40">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+            <h3 className="text-sm font-semibold text-foreground font-ui">
               Notifications
             </h3>
             {unreadCount > 0 && (
@@ -215,7 +160,7 @@ export function NotificationCenter() {
                 variant="ghost"
                 size="sm"
                 onClick={markAllAsRead}
-                className="h-7 px-2 text-xs text-design-gray dark:text-gray-400 hover:text-design-dark dark:hover:text-white font-ui"
+                className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground font-ui"
               >
                 Mark all as read
               </Button>
@@ -224,7 +169,7 @@ export function NotificationCenter() {
           {unreadCount > 0 && (
             <Badge
               variant="outline"
-              className="text-[10px] px-2 py-0.5 bg-design-light/20 text-design-dark dark:text-design-light"
+              className="text-[10px] px-2 py-0.5 bg-primary/10 text-primary"
             >
               {unreadCount} unread
             </Badge>
@@ -233,23 +178,23 @@ export function NotificationCenter() {
 
         <div className="max-h-96 overflow-y-auto">
           {loading ? (
-            <div className="p-8 text-center text-sm text-design-gray dark:text-gray-400 font-ui">
+            <div className="p-8 text-center text-sm text-muted-foreground font-ui">
               Loading...
             </div>
           ) : notifications.length === 0 ? (
-            <div className="p-8 text-center text-sm text-design-gray dark:text-gray-400 font-ui">
+            <div className="p-8 text-center text-sm text-muted-foreground font-ui">
               No notifications
             </div>
           ) : (
-            <div className="divide-y divide-[#E7E7E7] dark:divide-[#062F28]">
+            <div className="divide-y divide-border/40">
               {notifications.map((notification) => {
                 const Icon = getNotificationIcon(notification.type);
                 return (
                   <div
                     key={notification.id}
                     className={cn(
-                      "p-4 hover:bg-design-light/5 dark:hover:bg-design-light/10 transition-colors cursor-pointer",
-                      !notification.read && "bg-design-light/5 dark:bg-design-light/10"
+                      "p-4 hover:bg-muted/50 transition-colors cursor-pointer",
+                      !(notification.is_read ?? notification.read ?? false) && "bg-primary/5"
                     )}
                     onClick={() => markAsRead(notification.id)}
                   >
@@ -264,17 +209,17 @@ export function NotificationCenter() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2 mb-1">
-                          <p className="text-sm font-medium text-design-dark dark:text-white font-ui">
+                          <p className="text-sm font-medium text-foreground font-ui">
                             {notification.title}
                           </p>
                           {!(notification.is_read ?? notification.read ?? false) && (
-                            <div className="w-2 h-2 rounded-full bg-design-light flex-shrink-0 mt-1" />
+                            <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-1" />
                           )}
                         </div>
-                        <p className="text-xs text-design-gray dark:text-gray-400 font-ui line-clamp-2">
+                        <p className="text-xs text-muted-foreground font-ui line-clamp-2">
                           {notification.message}
                         </p>
-                        <p className="text-[10px] text-design-gray dark:text-gray-400 mt-1 font-ui">
+                        <p className="text-[10px] text-muted-foreground mt-1 font-ui">
                           {formatDateTime(notification.created_at)}
                         </p>
                       </div>

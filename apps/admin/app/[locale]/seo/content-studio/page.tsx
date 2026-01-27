@@ -79,7 +79,7 @@ export default async function ContentStudioPage({
     <div className="admin-container responsive-padding space-section animate-fade-in">
       <div className="admin-page-header">
         <div className="relative">
-          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full opacity-50"></div>
+          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-primary/40 rounded-full opacity-50"></div>
           <h1 className="admin-page-title">
             {t("title")}
           </h1>

@@ -170,20 +170,20 @@ export function SEOOverview({ locale }: { locale: string }) {
         <CardContent className="p-8">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-display font-bold text-design-dark dark:text-white mb-2">
+              <h3 className="text-lg font-display font-bold text-foreground mb-2">
                 Genel SEO Skoru
               </h3>
-              <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+              <p className="text-sm text-muted-foreground font-ui">
                 Tüm SEO metriklerinizin toplam performansı
               </p>
             </div>
             <div className="relative">
               <div className="w-32 h-32 rounded-full bg-gradient-to-br from-design-light/20 to-design-light/10 flex items-center justify-center border-4 border-design-light/30">
                 <div className="text-center">
-                  <div className="text-4xl font-display font-bold text-design-dark dark:text-white">
+                  <div className="text-4xl font-display font-bold text-foreground">
                     {overallScore}
                   </div>
-                  <div className="text-xs text-design-gray dark:text-gray-400 font-ui">/ 100</div>
+                  <div className="text-xs text-muted-foreground font-ui">/ 100</div>
                 </div>
               </div>
               <div
@@ -215,7 +215,7 @@ export function SEOOverview({ locale }: { locale: string }) {
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <Icon className={cn("h-5 w-5", metric.color)} />
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui font-semibold">
+                    <p className="text-xs text-muted-foreground font-ui font-semibold">
                       {metric.label}
                     </p>
                   </div>
@@ -224,7 +224,7 @@ export function SEOOverview({ locale }: { locale: string }) {
                   </Badge>
                 </div>
                 <div className="flex items-baseline gap-2 mb-2">
-                  <p className="text-2xl font-bold text-design-dark dark:text-white">
+                  <p className="text-2xl font-bold text-foreground">
                     {metric.value}
                   </p>
                   {metric.change !== undefined && (
@@ -264,10 +264,10 @@ export function SEOOverview({ locale }: { locale: string }) {
                   <Search className="h-5 w-5 text-blue-600" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-design-dark dark:text-white font-ui">
+                  <h4 className="font-semibold text-foreground font-ui">
                     SEO Analiz Başlat
                   </h4>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                  <p className="text-xs text-muted-foreground font-ui">
                     Site genelinde SEO analizi yap
                   </p>
                 </div>
@@ -284,10 +284,10 @@ export function SEOOverview({ locale }: { locale: string }) {
                   <Zap className="h-5 w-5 text-green-600" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-design-dark dark:text-white font-ui">
+                  <h4 className="font-semibold text-foreground font-ui">
                     Teknik SEO Kontrolü
                   </h4>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                  <p className="text-xs text-muted-foreground font-ui">
                     Teknik SEO sorunlarını tespit et
                   </p>
                 </div>
@@ -304,10 +304,10 @@ export function SEOOverview({ locale }: { locale: string }) {
                   <FileText className="h-5 w-5 text-purple-600" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-design-dark dark:text-white font-ui">
+                  <h4 className="font-semibold text-foreground font-ui">
                     İçerik Optimizasyonu
                   </h4>
-                  <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                  <p className="text-xs text-muted-foreground font-ui">
                     İçerikleri SEO için optimize et
                   </p>
                 </div>

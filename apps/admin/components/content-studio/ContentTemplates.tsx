@@ -229,11 +229,11 @@ export function ContentTemplates({ onSelectTemplate, className }: ContentTemplat
             placeholder="Şablon ara..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui input-modern"
+            className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui input-modern"
           />
         </div>
         <Select value={filterType} onValueChange={setFilterType}>
-          <SelectTrigger className="w-full sm:w-48 h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui">
+          <SelectTrigger className="w-full sm:w-48 h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui">
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="rounded-lg">
@@ -264,24 +264,24 @@ export function ContentTemplates({ onSelectTemplate, className }: ContentTemplat
               <CardHeader className="pb-3 px-4 pt-4">
                 <div className="flex items-start justify-between mb-2">
                   <div className="p-2 rounded-lg bg-gradient-to-br from-design-light/20 to-design-light/10 group-hover:from-design-light/30 group-hover:to-design-light/20 transition-all duration-300">
-                    <Icon className="h-5 w-5 text-design-dark dark:text-design-light" />
+                    <Icon className="h-5 w-5 text-design-dark dark:text-primary" />
                   </div>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-design-light/15 text-design-dark dark:text-design-light font-ui font-semibold uppercase">
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-design-light/15 text-design-dark dark:text-primary font-ui font-semibold uppercase">
                     {template.type}
                   </span>
                 </div>
-                <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+                <CardTitle className="text-base font-display font-bold text-foreground">
                   {template.name}
                 </CardTitle>
               </CardHeader>
               <CardContent className="px-4 pb-4">
-                <p className="text-sm text-design-gray dark:text-gray-400 font-ui mb-4 line-clamp-2">
+                <p className="text-sm text-muted-foreground font-ui mb-4 line-clamp-2">
                   {template.description}
                 </p>
                 <Button
                   variant="outline"
                   onClick={() => onSelectTemplate(template)}
-                  className="w-full h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+                  className="w-full h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Şablonu Kullan
@@ -295,9 +295,9 @@ export function ContentTemplates({ onSelectTemplate, className }: ContentTemplat
       {filteredTemplates.length === 0 && (
         <div className="text-center py-12">
           <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#E7E7E7] to-[#E7E7E7]/80 dark:from-[#062F28] dark:to-[#062F28]/80 flex items-center justify-center shadow-lg">
-            <FileText className="h-8 w-8 text-design-gray dark:text-gray-400" />
+            <FileText className="h-8 w-8 text-muted-foreground" />
           </div>
-          <p className="text-sm text-design-gray dark:text-gray-400 font-ui font-medium">
+          <p className="text-sm text-muted-foreground font-ui font-medium">
             Şablon bulunamadı
           </p>
         </div>

@@ -22,6 +22,10 @@ export function getCloudinaryClient() {
  */
 export function getCloudinaryCloudName(): string {
   const env = getEnv();
-  return env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const cloudName = env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  if (!cloudName) {
+    throw new Error('NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME is not set');
+  }
+  return cloudName;
 }
 

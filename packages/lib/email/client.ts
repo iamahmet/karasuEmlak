@@ -51,7 +51,8 @@ export async function sendEmail({
     }
 
     const env = getEnv();
-    const defaultFrom = from || `Karasu Emlak <noreply@${env.NEXT_PUBLIC_SITE_URL.replace(/^https?:\/\//, "")}>`;
+    const siteUrl = env.NEXT_PUBLIC_SITE_URL || 'karasuemlak.net';
+    const defaultFrom = from || `Karasu Emlak <noreply@${siteUrl.replace(/^https?:\/\//, "")}>`;
     const defaultReplyTo = replyTo || env.RESEND_REPLY_TO || "info@karasuemlak.net";
 
     const { data, error } = await resend.emails.send({

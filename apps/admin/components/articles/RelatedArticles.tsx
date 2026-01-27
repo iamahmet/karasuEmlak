@@ -105,14 +105,14 @@ export function RelatedArticles({
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle className="text-sm font-display font-bold text-design-dark dark:text-white">
+        <CardTitle className="text-sm font-display font-bold text-foreground">
           İlgili Haberler
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-design-gray dark:text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             value={searchQuery}
             onChange={(e) => {
@@ -155,7 +155,7 @@ export function RelatedArticles({
         {/* Selected Articles */}
         {selectedArticles.length > 0 && (
           <div className="space-y-2">
-            <p className="text-xs font-semibold text-design-gray dark:text-gray-400">
+            <p className="text-xs font-semibold text-muted-foreground">
               Seçili Haberler ({selectedArticles.length})
             </p>
             {selectedArticles.map((article) => (
@@ -175,7 +175,7 @@ export function RelatedArticles({
                         const url = `${baseUrl}/tr/haber/${article.slug}`;
                         window.open(url, "_blank");
                       }}
-                      className="text-xs text-design-light hover:underline flex items-center gap-1"
+                      className="text-xs text-primary hover:underline flex items-center gap-1"
                     >
                       <ExternalLink className="h-3 w-3" />
                       Görüntüle

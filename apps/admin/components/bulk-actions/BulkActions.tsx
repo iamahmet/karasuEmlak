@@ -59,7 +59,7 @@ export function BulkActions<T>({
   return (
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-fixed bg-card border border-border rounded-lg shadow-lg px-4 py-3 flex items-center gap-3 animate-slide-up" style={{ zIndex: 'var(--z-fixed)' }}>
       <div className="flex items-center gap-2">
-        <CheckSquare className="h-4 w-4 text-design-light" />
+        <CheckSquare className="h-4 w-4 text-primary" />
         <span className="text-sm font-semibold text-foreground font-ui">
           {selectedItems.length} selected
         </span>

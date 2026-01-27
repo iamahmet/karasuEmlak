@@ -240,21 +240,13 @@ export function UsersManagement({
 
   return (
     <div className="space-y-6">
-      {/* Enhanced Action Bar */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-display font-bold text-design-dark dark:text-white mb-1">
-            Kullanıcı Yönetimi
-          </h1>
-          <p className="text-sm text-design-gray dark:text-gray-400">
-            Tüm kullanıcıları görüntüleyin, düzenleyin ve yönetin
-          </p>
-        </div>
+      {/* Action Bar */}
+      <div className="flex items-center justify-end">
         <Button
           onClick={() => {
             setCreateModalOpen(true);
           }}
-          className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-lg hover:shadow-xl hover:scale-105 micro-bounce rounded-xl gap-2 px-5 py-2.5 font-semibold transition-all duration-200"
+          className="gap-2"
           style={{ pointerEvents: 'auto' }}
         >
           <Plus className="h-4 w-4" />
@@ -278,35 +270,35 @@ export function UsersManagement({
       <Card className="card-professional overflow-hidden">
         <CardContent className="p-0">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <div className="border-b border-[#E7E7E7] dark:border-[#062F28] bg-gradient-to-r from-design-light/5 via-transparent to-design-light/5">
+            <div className="border-b border-border/40">
               <TabsList className="w-full justify-start rounded-none bg-transparent p-0 h-auto gap-0">
                 <TabsTrigger
                   value="all"
-                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-design-light rounded-none px-6 py-4 font-ui font-semibold text-sm transition-all hover:bg-design-light/5"
+                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4 font-ui font-semibold text-sm transition-all hover:bg-muted"
                 >
                   {t("tabs.all")} ({stats.total})
                 </TabsTrigger>
                 <TabsTrigger
                   value="admin"
-                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-design-light rounded-none px-6 py-4 font-ui font-semibold text-sm transition-all hover:bg-design-light/5"
+                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4 font-ui font-semibold text-sm transition-all hover:bg-muted"
                 >
                   {t("tabs.admin")} ({stats.admin})
                 </TabsTrigger>
                 <TabsTrigger
                   value="staff"
-                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-design-light rounded-none px-6 py-4 font-ui font-semibold text-sm transition-all hover:bg-design-light/5"
+                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4 font-ui font-semibold text-sm transition-all hover:bg-muted"
                 >
                   {t("tabs.staff")} ({stats.staff})
                 </TabsTrigger>
                 <TabsTrigger
                   value="active"
-                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-design-light rounded-none px-6 py-4 font-ui font-semibold text-sm transition-all hover:bg-design-light/5"
+                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4 font-ui font-semibold text-sm transition-all hover:bg-muted"
                 >
                   {t("tabs.active")} ({stats.active})
                 </TabsTrigger>
                 <TabsTrigger
                   value="inactive"
-                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-design-light rounded-none px-6 py-4 font-ui font-semibold text-sm transition-all hover:bg-design-light/5"
+                  className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-6 py-4 font-ui font-semibold text-sm transition-all hover:bg-muted"
                 >
                   {t("tabs.inactive")} ({stats.inactive})
                 </TabsTrigger>

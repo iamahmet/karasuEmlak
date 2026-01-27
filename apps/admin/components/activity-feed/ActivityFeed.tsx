@@ -115,11 +115,11 @@ export function ActivityFeed({ limit = 10, initialActivity = [] }: { limit?: num
   const getActivityColor = (type: Activity["type"]) => {
     switch (type) {
       case "content":
-        return "bg-design-light/20 text-design-dark dark:text-design-light";
+        return "bg-design-light/20 text-design-dark dark:text-primary";
       case "user":
-        return "bg-design-light/20 text-design-dark dark:text-design-light";
+        return "bg-design-light/20 text-design-dark dark:text-primary";
       case "bot":
-        return "bg-design-light/20 text-design-dark dark:text-design-light";
+        return "bg-design-light/20 text-design-dark dark:text-primary";
       default:
         return "bg-muted text-muted-foreground";
     }
@@ -153,15 +153,15 @@ export function ActivityFeed({ limit = 10, initialActivity = [] }: { limit?: num
   return (
     <Card className="card-modern">
       <CardHeader className="pb-3 px-4 pt-4">
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-          <Clock className="h-4 w-4 text-design-light" />
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+          <Clock className="h-4 w-4 text-primary" />
           Recent Activity
         </CardTitle>
       </CardHeader>
       <CardContent className="px-4 pb-4">
         {activities.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+            <p className="text-sm text-muted-foreground font-ui">
               No recent activity
             </p>
           </div>
@@ -172,7 +172,7 @@ export function ActivityFeed({ limit = 10, initialActivity = [] }: { limit?: num
               return (
                 <div
                   key={activity.id}
-                  className="flex items-start gap-3 p-2 rounded-lg hover:bg-design-light/5 dark:hover:bg-design-light/10 transition-colors"
+                  className="flex items-start gap-3 p-2 rounded-lg hover:bg-design-light/5 dark:hover:bg-primary/10 transition-colors"
                 >
                   <div
                     className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${getActivityColor(
@@ -183,7 +183,7 @@ export function ActivityFeed({ limit = 10, initialActivity = [] }: { limit?: num
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <p className="text-sm font-medium text-design-dark dark:text-white font-ui">
+                      <p className="text-sm font-medium text-foreground font-ui">
                         {activity.action}
                       </p>
                       <Badge
@@ -193,10 +193,10 @@ export function ActivityFeed({ limit = 10, initialActivity = [] }: { limit?: num
                         {activity.type}
                       </Badge>
                     </div>
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui line-clamp-1">
+                    <p className="text-xs text-muted-foreground font-ui line-clamp-1">
                       {activity.description}
                     </p>
-                    <p className="text-[10px] text-design-gray dark:text-gray-400 mt-1 font-ui">
+                    <p className="text-[10px] text-muted-foreground mt-1 font-ui">
                       {formatDateTime(activity.timestamp)}
                     </p>
                   </div>

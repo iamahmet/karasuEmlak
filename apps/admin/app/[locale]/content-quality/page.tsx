@@ -209,7 +209,7 @@ export default function ContentQualityPage() {
       {/* Header */}
       <div className="admin-page-header">
         <div className="relative">
-          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full opacity-50"></div>
+          <div className="absolute -left-4 top-0 bottom-0 w-1 bg-primary/40 rounded-full opacity-50"></div>
           <h1 className="admin-page-title">İçerik Kalitesi</h1>
           <p className="admin-page-description">
             Tüm içeriklerinizin kalite skorlarını görüntüleyin ve düşük kaliteli içerikleri iyileştirin
@@ -300,12 +300,12 @@ export default function ContentQualityPage() {
             <div className="flex-1">
               <div className="w-full bg-muted rounded-full h-4 overflow-hidden">
                 <div
-                  className={`h-full rounded-full transition-all duration-500 ${
+                  className={`h-full rounded-full transition-all duration-300 ${
                     (stats.averageScore || 0) >= 70
-                      ? 'bg-gradient-to-r from-green-500 to-green-600'
+                      ? 'bg-primary'
                       : (stats.averageScore || 0) >= 50
-                      ? 'bg-gradient-to-r from-yellow-500 to-yellow-600'
-                      : 'bg-gradient-to-r from-red-500 to-red-600'
+                      ? 'bg-yellow-500'
+                      : 'bg-destructive'
                   }`}
                   style={{ width: `${Math.min(100, Math.max(0, stats.averageScore || 0))}%` }}
                 />

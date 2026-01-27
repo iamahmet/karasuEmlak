@@ -146,14 +146,14 @@ export function AdvancedSEOTools({
   return (
     <Card className={cn("card-professional", className)}>
       <CardHeader className="pb-4 px-5 pt-5">
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-          <Search className="h-5 w-5 text-design-light" />
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+          <Search className="h-5 w-5 text-primary" />
           Gelişmiş SEO Araçları
         </CardTitle>
       </CardHeader>
       <CardContent className="px-5 pb-5">
         <Tabs defaultValue="analysis" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-3 rounded-xl bg-[#E7E7E7]/30 dark:bg-[#062F28]/30 p-1">
+          <TabsList className="grid w-full grid-cols-3 rounded-xl bg-[#E7E7E7]/30 dark:bg-muted/30 p-1">
             <TabsTrigger value="analysis" className="rounded-lg font-ui text-sm">
               Analiz
             </TabsTrigger>
@@ -171,7 +171,7 @@ export function AdvancedSEOTools({
               <>
                 <div className="p-4 rounded-xl bg-gradient-to-r from-design-light/10 to-transparent border border-design-light/20">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-ui font-semibold text-design-dark dark:text-white">
+                    <span className="text-sm font-ui font-semibold text-foreground">
                       SEO Skoru
                     </span>
                     <Badge
@@ -190,34 +190,34 @@ export function AdvancedSEOTools({
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
                     <div>
-                      <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                      <p className="text-xs text-muted-foreground font-ui mb-1">
                         Kelime Sayısı
                       </p>
-                      <p className="text-sm font-display font-bold text-design-dark dark:text-white">
+                      <p className="text-sm font-display font-bold text-foreground">
                         {analysis.wordCount}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                      <p className="text-xs text-muted-foreground font-ui mb-1">
                         Başlık Sayısı
                       </p>
-                      <p className="text-sm font-display font-bold text-design-dark dark:text-white">
+                      <p className="text-sm font-display font-bold text-foreground">
                         {analysis.headingCount}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                      <p className="text-xs text-muted-foreground font-ui mb-1">
                         Link Sayısı
                       </p>
-                      <p className="text-sm font-display font-bold text-design-dark dark:text-white">
+                      <p className="text-sm font-display font-bold text-foreground">
                         {analysis.linkCount}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                      <p className="text-xs text-muted-foreground font-ui mb-1">
                         Görsel Sayısı
                       </p>
-                      <p className="text-sm font-display font-bold text-design-dark dark:text-white">
+                      <p className="text-sm font-display font-bold text-foreground">
                         {analysis.imageCount}
                       </p>
                     </div>
@@ -228,7 +228,7 @@ export function AdvancedSEOTools({
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <AlertCircle className="h-4 w-4 text-yellow-600" />
-                      <span className="text-sm font-ui font-semibold text-design-dark dark:text-white">
+                      <span className="text-sm font-ui font-semibold text-foreground">
                         Sorunlar
                       </span>
                     </div>
@@ -251,7 +251,7 @@ export function AdvancedSEOTools({
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4 text-green-600" />
-                      <span className="text-sm font-ui font-semibold text-design-dark dark:text-white">
+                      <span className="text-sm font-ui font-semibold text-foreground">
                         Öneriler
                       </span>
                     </div>
@@ -277,23 +277,23 @@ export function AdvancedSEOTools({
           <TabsContent value="metadata" className="space-y-4">
             <div className="space-y-3">
               <div>
-                <Label htmlFor="meta-title" className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1.5 block">
+                <Label htmlFor="meta-title" className="text-xs font-ui font-semibold text-muted-foreground mb-1.5 block">
                   Meta Başlık
                 </Label>
                 <Input
                   id="meta-title"
                   value={seoData.metaTitle}
                   onChange={(e) => setSeoData({ ...seoData, metaTitle: e.target.value })}
-                  className="h-10 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-xl font-ui input-modern"
+                  className="h-10 text-sm border border-border/40 dark:border-border/40 rounded-xl font-ui input-modern"
                   maxLength={60}
                 />
-                <p className="text-[10px] text-design-gray dark:text-gray-400 font-ui mt-1">
+                <p className="text-[10px] text-muted-foreground font-ui mt-1">
                   {seoData.metaTitle.length}/60 karakter
                 </p>
               </div>
 
               <div>
-                <Label htmlFor="meta-description" className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1.5 block">
+                <Label htmlFor="meta-description" className="text-xs font-ui font-semibold text-muted-foreground mb-1.5 block">
                   Meta Açıklama
                 </Label>
                 <Textarea
@@ -303,16 +303,16 @@ export function AdvancedSEOTools({
                     setSeoData({ ...seoData, metaDescription: e.target.value })
                   }
                   rows={3}
-                  className="text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-xl font-ui input-modern"
+                  className="text-sm border border-border/40 dark:border-border/40 rounded-xl font-ui input-modern"
                   maxLength={160}
                 />
-                <p className="text-[10px] text-design-gray dark:text-gray-400 font-ui mt-1">
+                <p className="text-[10px] text-muted-foreground font-ui mt-1">
                   {seoData.metaDescription.length}/160 karakter
                 </p>
               </div>
 
               <div>
-                <Label htmlFor="keywords" className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1.5 block">
+                <Label htmlFor="keywords" className="text-xs font-ui font-semibold text-muted-foreground mb-1.5 block">
                   Anahtar Kelimeler
                 </Label>
                 <Input
@@ -320,12 +320,12 @@ export function AdvancedSEOTools({
                   value={seoData.keywords}
                   onChange={(e) => setSeoData({ ...seoData, keywords: e.target.value })}
                   placeholder="kelime1, kelime2, kelime3"
-                  className="h-10 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-xl font-ui input-modern"
+                  className="h-10 text-sm border border-border/40 dark:border-border/40 rounded-xl font-ui input-modern"
                 />
               </div>
 
               <div>
-                <Label htmlFor="canonical" className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400 mb-1.5 block">
+                <Label htmlFor="canonical" className="text-xs font-ui font-semibold text-muted-foreground mb-1.5 block">
                   Canonical URL
                 </Label>
                 <Input
@@ -333,7 +333,7 @@ export function AdvancedSEOTools({
                   value={seoData.canonicalUrl}
                   onChange={(e) => setSeoData({ ...seoData, canonicalUrl: e.target.value })}
                   placeholder="https://example.com/page"
-                  className="h-10 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-xl font-ui input-modern"
+                  className="h-10 text-sm border border-border/40 dark:border-border/40 rounded-xl font-ui input-modern"
                 />
               </div>
 
@@ -350,12 +350,12 @@ export function AdvancedSEOTools({
           <TabsContent value="suggestions" className="space-y-4">
             <div className="p-4 rounded-xl bg-gradient-to-r from-design-light/10 to-transparent border border-design-light/20">
               <div className="flex items-center gap-2 mb-3">
-                <Sparkles className="h-5 w-5 text-design-light" />
-                <span className="text-sm font-ui font-semibold text-design-dark dark:text-white">
+                <Sparkles className="h-5 w-5 text-primary" />
+                <span className="text-sm font-ui font-semibold text-foreground">
                   AI ile SEO Önerileri
                 </span>
               </div>
-              <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-4">
+              <p className="text-xs text-muted-foreground font-ui mb-4">
                 OpenAI kullanarak içeriğiniz için optimize edilmiş SEO önerileri oluşturun.
               </p>
               <Button

@@ -209,7 +209,7 @@ export function ArticlesManagement({ locale: _locale }: { locale: string }) {
       {/* Compact Header */}
       <div className="flex items-center justify-between pb-4 border-b border-border">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
+          <div className="p-2 rounded-lg bg-primary/10 text-primary">
             <FileText className="h-5 w-5" />
           </div>
           <div>
@@ -241,7 +241,7 @@ export function ArticlesManagement({ locale: _locale }: { locale: string }) {
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+        <Card className="border border-border/40 bg-card/95 backdrop-blur-xl">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -253,7 +253,7 @@ export function ArticlesManagement({ locale: _locale }: { locale: string }) {
           </CardContent>
         </Card>
 
-        <Card className="border-2 border-green-500/20 bg-gradient-to-br from-green-500/5 to-green-500/10">
+        <Card className="border border-border/40 bg-card/95 backdrop-blur-xl">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -261,24 +261,24 @@ export function ArticlesManagement({ locale: _locale }: { locale: string }) {
                 <p className="text-2xl font-bold text-foreground mt-1">{stats.published}</p>
                 <p className="text-[10px] text-muted-foreground mt-0.5">{stats.drafts} taslak</p>
               </div>
-              <Eye className="h-5 w-5 text-green-600 opacity-50" />
+              <Eye className="h-5 w-5 text-primary opacity-50" />
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-2 border-yellow-500/20 bg-gradient-to-br from-yellow-500/5 to-yellow-500/10">
+        <Card className="border border-border/40 bg-card/95 backdrop-blur-xl">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs font-medium text-muted-foreground">Öne Çıkan</p>
                 <p className="text-2xl font-bold text-foreground mt-1">{stats.featured}</p>
               </div>
-              <Sparkles className="h-5 w-5 text-yellow-600 opacity-50" />
+              <Sparkles className="h-5 w-5 text-primary opacity-50" />
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-2 border-blue-500/20 bg-gradient-to-br from-blue-500/5 to-blue-500/10">
+        <Card className="border border-border/40 bg-card/95 backdrop-blur-xl">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -287,7 +287,7 @@ export function ArticlesManagement({ locale: _locale }: { locale: string }) {
                   {stats.totalViews.toLocaleString("tr-TR")}
                 </p>
               </div>
-              <TrendingUp className="h-5 w-5 text-blue-600 opacity-50" />
+              <TrendingUp className="h-5 w-5 text-primary opacity-50" />
             </div>
           </CardContent>
         </Card>
@@ -442,7 +442,7 @@ export function ArticlesManagement({ locale: _locale }: { locale: string }) {
                         </Badge>
                       )}
                       {article.is_breaking && (
-                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-5 text-red-600 border-red-600">
+                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-5 text-destructive border-destructive">
                           Son Dakika
                         </Badge>
                       )}

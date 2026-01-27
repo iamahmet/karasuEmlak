@@ -123,7 +123,7 @@ export function SimilarListings({ listing, onSelect, className }: SimilarListing
     <Card className={cn("card-professional", className)}>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
             <Home className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             Benzer İlanlar
           </CardTitle>
@@ -143,12 +143,12 @@ export function SimilarListings({ listing, onSelect, className }: SimilarListing
       <CardContent>
         {loading ? (
           <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-6 w-6 animate-spin text-design-light" />
+            <Loader2 className="h-6 w-6 animate-spin text-primary" />
           </div>
         ) : similarListings.length === 0 ? (
           <div className="text-center py-8">
             <AlertTriangle className="h-12 w-12 mx-auto mb-3 text-gray-400" />
-            <p className="text-sm text-design-gray dark:text-gray-400">
+            <p className="text-sm text-muted-foreground">
               Benzer ilan bulunamadı
             </p>
           </div>
@@ -163,7 +163,7 @@ export function SimilarListings({ listing, onSelect, className }: SimilarListing
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <h4 className="text-sm font-semibold text-design-dark dark:text-white group-hover:text-design-light transition-colors">
+                      <h4 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
                         {similar.title}
                       </h4>
                       <Badge
@@ -180,7 +180,7 @@ export function SimilarListings({ listing, onSelect, className }: SimilarListing
                         %{Math.round(similar.similarity * 100)} benzer
                       </Badge>
                     </div>
-                    <div className="flex items-center gap-4 text-xs text-design-gray dark:text-gray-400 mb-2">
+                    <div className="flex items-center gap-4 text-xs text-muted-foreground mb-2">
                       <span className="flex items-center gap-1">
                         <MapPin className="h-3 w-3" />
                         {similar.location_neighborhood}
@@ -193,7 +193,7 @@ export function SimilarListings({ listing, onSelect, className }: SimilarListing
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-2">
-                        <span className="text-lg font-bold text-design-dark dark:text-white">
+                        <span className="text-lg font-bold text-foreground">
                           {formatCurrency(similar.price_amount)}
                         </span>
                         {similar.priceDifference !== 0 && (
@@ -218,7 +218,7 @@ export function SimilarListings({ listing, onSelect, className }: SimilarListing
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-2">
-                    <div className="flex items-center gap-1 text-xs text-design-gray dark:text-gray-400">
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
                       <Eye className="h-3 w-3" />
                       {similar.views}
                     </div>

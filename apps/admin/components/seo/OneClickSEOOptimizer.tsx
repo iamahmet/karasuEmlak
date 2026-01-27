@@ -174,10 +174,10 @@ export function OneClickSEOOptimizer({
       
       <CardHeader className="pb-4 px-5 pt-5 relative z-10">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg md:text-xl font-display font-bold text-design-dark dark:text-white flex items-center gap-3">
+          <CardTitle className="text-lg md:text-xl font-display font-bold text-foreground flex items-center gap-3">
             <span className="w-1 h-6 bg-gradient-to-b from-design-light via-design-light/80 to-design-dark rounded-full shadow-lg"></span>
             <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-design-light" />
+              <Sparkles className="h-5 w-5 text-primary" />
               Tek Tıkla SEO Optimizasyonu
             </div>
           </CardTitle>
@@ -196,12 +196,12 @@ export function OneClickSEOOptimizer({
         {!result && (
           <div className="text-center py-8">
             <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-design-light/20 to-design-light/10 flex items-center justify-center mb-4">
-              <Zap className="h-8 w-8 text-design-light" />
+              <Zap className="h-8 w-8 text-primary" />
             </div>
-            <h3 className="text-lg font-semibold text-design-dark dark:text-white mb-2">
+            <h3 className="text-lg font-semibold text-foreground mb-2">
               AI Destekli SEO Optimizasyonu
             </h3>
-            <p className="text-sm text-design-gray dark:text-gray-400 mb-6 max-w-md mx-auto">
+            <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
               En güçlü SEO teknikleri ile içeriğinizi tek tıkla optimize edin. 
               Başlık, meta açıklama, anahtar kelimeler ve içerik yapısı profesyonel seviyede optimize edilecek.
             </p>
@@ -233,8 +233,8 @@ export function OneClickSEOOptimizer({
             <div className="p-4 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100/50 dark:from-[#062F28] dark:to-[#0a3d35] border border-slate-200/50 dark:border-[#0a3d35]/50">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <BarChart3 className="h-5 w-5 text-design-light" />
-                  <span className="font-semibold text-design-dark dark:text-white">SEO Skoru</span>
+                  <BarChart3 className="h-5 w-5 text-primary" />
+                  <span className="font-semibold text-foreground">SEO Skoru</span>
                 </div>
                 <span className={cn("text-2xl font-bold", getScoreColor(result.seo_score))}>
                   {result.seo_score}/100
@@ -254,8 +254,8 @@ export function OneClickSEOOptimizer({
               <div className="p-4 rounded-xl border border-border/50 bg-card">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-design-light" />
-                    <span className="font-semibold text-sm text-design-dark dark:text-white">Başlık</span>
+                    <FileText className="h-4 w-4 text-primary" />
+                    <span className="font-semibold text-sm text-foreground">Başlık</span>
                   </div>
                   {appliedFields.has("title") ? (
                     <Badge className="bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400 text-xs">
@@ -273,13 +273,13 @@ export function OneClickSEOOptimizer({
                     </Button>
                   )}
                 </div>
-                <p className="text-sm text-design-gray dark:text-gray-400 line-through mb-1">
+                <p className="text-sm text-muted-foreground line-through mb-1">
                   {content.title}
                 </p>
-                <p className="text-sm font-medium text-design-dark dark:text-white">
+                <p className="text-sm font-medium text-foreground">
                   {result.title}
                 </p>
-                <div className="mt-2 flex items-center gap-2 text-xs text-design-gray dark:text-gray-400">
+                <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                   <span>{content.title.length} → {result.title.length} karakter</span>
                   {result.title.length >= 30 && result.title.length <= 60 && (
                     <Badge className="bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400 text-[10px]">
@@ -293,8 +293,8 @@ export function OneClickSEOOptimizer({
               <div className="p-4 rounded-xl border border-border/50 bg-card">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <Search className="h-4 w-4 text-design-light" />
-                    <span className="font-semibold text-sm text-design-dark dark:text-white">Meta Açıklama</span>
+                    <Search className="h-4 w-4 text-primary" />
+                    <span className="font-semibold text-sm text-foreground">Meta Açıklama</span>
                   </div>
                   {appliedFields.has("meta_description") ? (
                     <Badge className="bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400 text-xs">
@@ -313,14 +313,14 @@ export function OneClickSEOOptimizer({
                   )}
                 </div>
                 {content.meta_description && (
-                  <p className="text-sm text-design-gray dark:text-gray-400 line-through mb-1">
+                  <p className="text-sm text-muted-foreground line-through mb-1">
                     {content.meta_description}
                   </p>
                 )}
-                <p className="text-sm font-medium text-design-dark dark:text-white">
+                <p className="text-sm font-medium text-foreground">
                   {result.meta_description}
                 </p>
-                <div className="mt-2 flex items-center gap-2 text-xs text-design-gray dark:text-gray-400">
+                <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                   <span>
                     {content.meta_description?.length || 0} → {result.meta_description.length} karakter
                   </span>
@@ -336,8 +336,8 @@ export function OneClickSEOOptimizer({
               <div className="p-4 rounded-xl border border-border/50 bg-card">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <Target className="h-4 w-4 text-design-light" />
-                    <span className="font-semibold text-sm text-design-dark dark:text-white">SEO Anahtar Kelimeleri</span>
+                    <Target className="h-4 w-4 text-primary" />
+                    <span className="font-semibold text-sm text-foreground">SEO Anahtar Kelimeleri</span>
                   </div>
                   {appliedFields.has("seo_keywords") ? (
                     <Badge className="bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400 text-xs">
@@ -356,11 +356,11 @@ export function OneClickSEOOptimizer({
                   )}
                 </div>
                 {content.seo_keywords && (
-                  <p className="text-sm text-design-gray dark:text-gray-400 line-through mb-1">
+                  <p className="text-sm text-muted-foreground line-through mb-1">
                     {content.seo_keywords}
                   </p>
                 )}
-                <p className="text-sm font-medium text-design-dark dark:text-white">
+                <p className="text-sm font-medium text-foreground">
                   {result.seo_keywords}
                 </p>
               </div>
@@ -370,8 +370,8 @@ export function OneClickSEOOptimizer({
                 <div className="p-4 rounded-xl border border-border/50 bg-card">
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <FileText className="h-4 w-4 text-design-light" />
-                      <span className="font-semibold text-sm text-design-dark dark:text-white">Özet</span>
+                      <FileText className="h-4 w-4 text-primary" />
+                      <span className="font-semibold text-sm text-foreground">Özet</span>
                     </div>
                     {appliedFields.has("excerpt") ? (
                       <Badge className="bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400 text-xs">
@@ -390,11 +390,11 @@ export function OneClickSEOOptimizer({
                     )}
                   </div>
                   {content.excerpt && (
-                    <p className="text-sm text-design-gray dark:text-gray-400 line-through mb-1">
+                    <p className="text-sm text-muted-foreground line-through mb-1">
                       {content.excerpt}
                     </p>
                   )}
-                  <p className="text-sm font-medium text-design-dark dark:text-white">
+                  <p className="text-sm font-medium text-foreground">
                     {result.excerpt}
                   </p>
                 </div>
@@ -404,15 +404,15 @@ export function OneClickSEOOptimizer({
             {/* Content Improvements */}
             {result.content_improvements && (
               <div className="p-4 rounded-xl border border-border/50 bg-card">
-                <h4 className="font-semibold text-sm text-design-dark dark:text-white mb-3 flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-design-light" />
+                <h4 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-primary" />
                   İçerik İyileştirme Önerileri
                 </h4>
                 <div className="space-y-3">
                   {result.content_improvements.suggested_headings && result.content_improvements.suggested_headings.length > 0 && (
                     <div>
-                      <p className="text-xs font-medium text-design-gray dark:text-gray-400 mb-1">Önerilen Başlıklar:</p>
-                      <ul className="list-disc list-inside text-xs text-design-dark dark:text-white space-y-1">
+                      <p className="text-xs font-medium text-muted-foreground mb-1">Önerilen Başlıklar:</p>
+                      <ul className="list-disc list-inside text-xs text-foreground space-y-1">
                         {result.content_improvements.suggested_headings.map((heading, i) => (
                           <li key={i}>{heading}</li>
                         ))}
@@ -421,7 +421,7 @@ export function OneClickSEOOptimizer({
                   )}
                   {result.content_improvements.lsi_keywords && result.content_improvements.lsi_keywords.length > 0 && (
                     <div>
-                      <p className="text-xs font-medium text-design-gray dark:text-gray-400 mb-1">LSI Anahtar Kelimeler:</p>
+                      <p className="text-xs font-medium text-muted-foreground mb-1">LSI Anahtar Kelimeler:</p>
                       <div className="flex flex-wrap gap-1">
                         {result.content_improvements.lsi_keywords.map((keyword, i) => (
                           <Badge key={i} variant="outline" className="text-[10px]">
@@ -433,7 +433,7 @@ export function OneClickSEOOptimizer({
                   )}
                   {result.content_improvements.word_count_target && (
                     <div>
-                      <p className="text-xs font-medium text-design-gray dark:text-gray-400">
+                      <p className="text-xs font-medium text-muted-foreground">
                         Hedef Kelime Sayısı: {result.content_improvements.word_count_target} kelime
                       </p>
                     </div>

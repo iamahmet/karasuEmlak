@@ -149,14 +149,14 @@ export function ContentCalendar() {
   return (
     <Card className="card-professional">
       <CardHeader className="pb-4 px-5 pt-5">
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-          <Calendar className="h-5 w-5 text-design-light" />
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+          <Calendar className="h-5 w-5 text-primary" />
           Planlanmış İçerikler
         </CardTitle>
       </CardHeader>
       <CardContent className="px-5 pb-5">
         {scheduled.length === 0 ? (
-          <div className="text-center py-12 text-design-gray dark:text-gray-400">
+          <div className="text-center py-12 text-muted-foreground">
             <Calendar className="h-12 w-12 mx-auto mb-3 opacity-50" />
             <p>Planlanmış içerik bulunmuyor</p>
           </div>
@@ -170,20 +170,20 @@ export function ContentCalendar() {
               return (
                 <div
                   key={item.id}
-                  className="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:shadow-md transition-all duration-200"
+                  className="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-card border border-border/40 dark:border-border/40 hover:shadow-md transition-all duration-200"
                 >
                   <div className="flex-shrink-0">
                     {getStatusIcon(item.status)}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-design-dark dark:text-white truncate mb-1">
+                    <p className="text-sm font-semibold text-foreground truncate mb-1">
                       {item.title}
                     </p>
                     <div className="flex items-center gap-2">
                       <Badge className={cn("text-[10px] px-2 py-0.5", getStatusBadge(item.status))}>
                         {item.status === "published" ? "Yayınlandı" : item.status === "failed" ? "Başarısız" : "Planlandı"}
                       </Badge>
-                      <span className="text-xs text-design-gray dark:text-gray-400">
+                      <span className="text-xs text-muted-foreground">
                         {hoursUntil > 24
                           ? `${Math.floor(hoursUntil / 24)} gün sonra`
                           : hoursUntil > 0
@@ -192,7 +192,7 @@ export function ContentCalendar() {
                       </span>
                     </div>
                   </div>
-                  <div className="text-xs text-design-gray dark:text-gray-400 text-right">
+                  <div className="text-xs text-muted-foreground text-right">
                     {scheduledDate.toLocaleDateString("tr-TR", {
                       day: "2-digit",
                       month: "2-digit",

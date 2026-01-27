@@ -157,8 +157,8 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <FileText className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <FileText className="h-5 w-5 text-primary" />
               Statik Sayfalar
             </CardTitle>
             <button
@@ -178,8 +178,8 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
         <CardContent className="px-5 pb-5">
           {pages.length === 0 ? (
             <div className="text-center py-12">
-              <FileText className="h-12 w-12 mx-auto mb-4 text-design-gray dark:text-gray-400" />
-              <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+              <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+              <p className="text-sm text-muted-foreground font-ui">
                 Henüz sayfa yok
               </p>
             </div>
@@ -188,7 +188,7 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
               {pages.map((page) => (
                 <div
                   key={page.id}
-                  className="flex items-center justify-between p-4 border border-[#E7E7E7] dark:border-[#062F28] rounded-lg hover:border-design-light transition-all cursor-pointer group"
+                  className="flex items-center justify-between p-4 border border-border/40 rounded-lg hover:border-design-light transition-all cursor-pointer group"
                   onClick={(e) => {
                     const target = e.target as HTMLElement;
                     // Don't trigger if clicking on buttons or links
@@ -200,10 +200,10 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 flex-wrap">
-                      <h3 className="text-sm font-display font-bold text-design-dark dark:text-white group-hover:text-design-light transition-colors truncate">
+                      <h3 className="text-sm font-display font-bold text-foreground group-hover:text-primary transition-colors truncate">
                         {page.title}
                       </h3>
-                      <span className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                      <span className="text-xs text-muted-foreground font-ui">
                         /{page.slug}
                       </span>
                       {page.is_published ? (
@@ -217,7 +217,7 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
                       )}
                     </div>
                     {page.meta_description && (
-                      <p className="text-xs text-design-gray dark:text-gray-400 mt-1 line-clamp-1">
+                      <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
                         {page.meta_description}
                       </p>
                     )}
@@ -235,7 +235,7 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
                         const url = `${baseUrl}/${locale}/${page.slug}`;
                         window.open(url, "_blank");
                       }}
-                      className="inline-flex items-center justify-center h-9 rounded-xl px-3 text-xs border-2 border-[#E7E7E7] dark:border-[#0a3d35] bg-background/80 backdrop-blur-sm hover:bg-accent/50 hover:text-accent-foreground hover:border-design-light dark:hover:border-design-light hover:shadow-md hover:scale-105 transition-all duration-300 relative z-10"
+                      className="inline-flex items-center justify-center h-9 rounded-xl px-3 text-xs border-2 border-border/40 bg-background/80 backdrop-blur-sm hover:bg-accent/50 hover:text-accent-foreground hover:border-design-light dark:hover:border-design-light hover:shadow-md hover:scale-105 transition-all duration-300 relative z-10"
                       title="Görüntüle"
                     >
                       <Eye className="h-4 w-4" />
@@ -247,7 +247,7 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
                         e.stopPropagation();
                         handleEdit(page);
                       }}
-                      className="inline-flex items-center justify-center h-9 rounded-xl px-3 text-xs border-2 border-[#E7E7E7] dark:border-[#0a3d35] bg-background/80 backdrop-blur-sm hover:bg-accent/50 hover:text-accent-foreground hover:border-design-light dark:hover:border-design-light hover:shadow-md hover:scale-105 transition-all duration-300 relative z-10"
+                      className="inline-flex items-center justify-center h-9 rounded-xl px-3 text-xs border-2 border-border/40 bg-background/80 backdrop-blur-sm hover:bg-accent/50 hover:text-accent-foreground hover:border-design-light dark:hover:border-design-light hover:shadow-md hover:scale-105 transition-all duration-300 relative z-10"
                       title="Düzenle"
                     >
                       <Edit2 className="h-4 w-4" />
@@ -274,14 +274,14 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
           }}
         >
           <Card 
-            className="modal-content card-professional w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#0a3d35] shadow-2xl"
+            className="modal-content card-professional w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-card/95 backdrop-blur-xl shadow-2xl"
             data-editor="static-page-editor"
             onClick={(e) => e.stopPropagation()}
           >
-            <CardHeader className="pb-4 px-5 pt-5 sticky top-0 bg-white dark:bg-[#0a3d35] z-10 border-b border-[#E7E7E7] dark:border-[#062F28]">
+            <CardHeader className="pb-4 px-5 pt-5 sticky top-0 bg-card/95 backdrop-blur-xl z-10 border-b border-border/40">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-                  <Edit2 className="h-5 w-5 text-design-light" />
+                <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+                  <Edit2 className="h-5 w-5 text-primary" />
                   {editingPage.id ? "Sayfa Düzenle" : "Yeni Sayfa"}
                 </CardTitle>
                 <button
@@ -290,7 +290,7 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
                     setShowEditor(false);
                     setEditingPage(null);
                   }}
-                  className="text-design-gray dark:text-gray-400 hover:text-design-dark dark:hover:text-white transition-colors text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="text-muted-foreground hover:text-foreground transition-colors text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
                   aria-label="Kapat"
                 >
                   ✕
@@ -374,7 +374,7 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
                 <Label htmlFor="is_published" className="text-xs font-ui font-semibold">
                   Yayınla
                 </Label>
-                <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Sayfayı yayınla
                 </p>
               </div>

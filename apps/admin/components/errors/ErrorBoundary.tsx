@@ -66,13 +66,13 @@ function ErrorFallback({ error, onReset }: { error: Error | null; onReset: () =>
             <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
               <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
             </div>
-            <CardTitle className="text-lg font-display font-bold text-design-dark dark:text-white">
+            <CardTitle className="text-lg font-display font-bold text-foreground">
               Bir Hata Oluştu
             </CardTitle>
           </div>
         </CardHeader>
         <CardContent className="px-5 pb-5 space-y-4">
-          <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+          <p className="text-sm text-muted-foreground font-ui">
             {error?.message || "Beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin veya ana sayfaya dönün."}
           </p>
 

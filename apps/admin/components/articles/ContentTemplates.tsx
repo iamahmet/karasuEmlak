@@ -152,8 +152,8 @@ export function ContentTemplates({ onSelect, className }: ContentTemplatesProps)
   return (
     <Card className={cn("card-professional", className)}>
       <CardHeader>
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-design-light" />
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+          <Sparkles className="h-5 w-5 text-primary" />
           İçerik Şablonları
         </CardTitle>
       </CardHeader>
@@ -170,7 +170,7 @@ export function ContentTemplates({ onSelect, className }: ContentTemplatesProps)
                 className={cn(
                   "px-3 py-1.5 text-xs rounded-lg border transition-all flex items-center gap-1.5",
                   selectedCategory === category.id
-                    ? "bg-design-light text-white border-design-light"
+                    ? "bg-primary text-primary-foreground border-design-light"
                     : "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-design-light/50"
                 )}
               >
@@ -194,11 +194,11 @@ export function ContentTemplates({ onSelect, className }: ContentTemplatesProps)
               >
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-lg bg-design-light/10 group-hover:bg-design-light/20 transition-colors">
-                      <Icon className="h-4 w-4 text-design-light" />
+                    <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-design-light/20 transition-colors">
+                      <Icon className="h-4 w-4 text-primary" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-semibold text-design-dark dark:text-white">
+                      <h3 className="text-sm font-semibold text-foreground">
                         {template.name}
                       </h3>
                       <Badge 
@@ -209,7 +209,7 @@ export function ContentTemplates({ onSelect, className }: ContentTemplatesProps)
                       </Badge>
                     </div>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-design-light transition-colors" />
+                  <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-primary transition-colors" />
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
                   {template.description}

@@ -36,7 +36,7 @@ export function ContentStudioTabs({
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-      <TabsList className="bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] rounded-lg p-1 flex-wrap h-auto grid w-full grid-cols-5">
+      <TabsList className="bg-white dark:bg-card border border-border/40 dark:border-border/40 rounded-lg p-1 flex-wrap h-auto grid w-full grid-cols-5">
         <TabsTrigger 
           value="create" 
           className="text-xs font-ui data-[state=active]:bg-gradient-to-r data-[state=active]:from-design-light data-[state=active]:to-green-600 data-[state=active]:text-white rounded-xl transition-all duration-200 hover-scale micro-bounce"

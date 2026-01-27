@@ -87,7 +87,7 @@ export function BulkOperations({
                   someSelected && "data-[state=checked]:bg-design-light/50"
                 )}
               />
-              <span className="text-sm font-semibold text-design-dark dark:text-white">
+              <span className="text-sm font-semibold text-foreground">
                 {selectedItems.length} öğe seçildi
               </span>
             </div>

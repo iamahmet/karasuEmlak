@@ -390,10 +390,10 @@ export function ListingFormEnhanced({
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <label className="text-sm font-semibold text-design-dark dark:text-white">
+              <label className="text-sm font-semibold text-foreground">
                 Müsait
               </label>
-              <p className="text-xs text-design-gray dark:text-gray-400">
+              <p className="text-xs text-muted-foreground">
                 İlan görünür ve aktif durumda
               </p>
             </div>
@@ -405,10 +405,10 @@ export function ListingFormEnhanced({
 
           <div className="flex items-center justify-between">
             <div>
-              <label className="text-sm font-semibold text-design-dark dark:text-white">
+              <label className="text-sm font-semibold text-foreground">
                 Öne Çıkan
               </label>
-              <p className="text-xs text-design-gray dark:text-gray-400">
+              <p className="text-xs text-muted-foreground">
                 Ana sayfada öne çıkan ilanlar bölümünde göster
               </p>
             </div>

@@ -46,8 +46,8 @@ export function AnalyticsCharts({ dailyMetrics, contentMetrics, period }: Analyt
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-design-light" />
+            <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-primary" />
               Zaman Aralığı
             </CardTitle>
             <Select value={selectedPeriod} onValueChange={handlePeriodChange}>
@@ -69,13 +69,13 @@ export function AnalyticsCharts({ dailyMetrics, contentMetrics, period }: Analyt
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+            <CardTitle className="text-base font-display font-bold text-foreground">
               Oturumlar ve Sayfa Görüntülemeleri
             </CardTitle>
             <div className="flex items-center gap-4 text-xs">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-design-light"></div>
-                <span className="text-design-gray dark:text-gray-400">Oturumlar</span>
+                <span className="text-muted-foreground">Oturumlar</span>
                 {sessionsTrend !== 0 && (
                   <span className={`flex items-center gap-1 ${sessionsTrend > 0 ? "text-green-600" : "text-red-600"}`}>
                     {sessionsTrend > 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
@@ -85,7 +85,7 @@ export function AnalyticsCharts({ dailyMetrics, contentMetrics, period }: Analyt
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                <span className="text-design-gray dark:text-gray-400">Sayfa Görüntülemeleri</span>
+                <span className="text-muted-foreground">Sayfa Görüntülemeleri</span>
                 {pageViewsTrend !== 0 && (
                   <span className={`flex items-center gap-1 ${pageViewsTrend > 0 ? "text-green-600" : "text-red-600"}`}>
                     {pageViewsTrend > 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
@@ -134,7 +134,7 @@ export function AnalyticsCharts({ dailyMetrics, contentMetrics, period }: Analyt
       {/* Clicks Chart */}
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+          <CardTitle className="text-base font-display font-bold text-foreground">
             Tıklamalar
           </CardTitle>
         </CardHeader>
@@ -160,7 +160,7 @@ export function AnalyticsCharts({ dailyMetrics, contentMetrics, period }: Analyt
       {/* Bounce Rate Chart */}
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+          <CardTitle className="text-base font-display font-bold text-foreground">
             Bounce Rate (Zıplama Oranı)
           </CardTitle>
         </CardHeader>
@@ -195,7 +195,7 @@ export function AnalyticsCharts({ dailyMetrics, contentMetrics, period }: Analyt
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+            <CardTitle className="text-base font-display font-bold text-foreground">
               En Popüler İçerikler
             </CardTitle>
             <Button variant="outline" size="sm" className="text-xs">
@@ -206,7 +206,7 @@ export function AnalyticsCharts({ dailyMetrics, contentMetrics, period }: Analyt
         </CardHeader>
         <CardContent className="px-5 pb-5">
           {contentMetrics.length === 0 ? (
-            <div className="text-center py-12 text-design-gray dark:text-gray-400">
+            <div className="text-center py-12 text-muted-foreground">
               <p>İçerik metrikleri bulunamadı</p>
             </div>
           ) : (
@@ -221,17 +221,17 @@ export function AnalyticsCharts({ dailyMetrics, contentMetrics, period }: Analyt
                       {idx + 1}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-design-dark dark:text-white truncate">
+                      <p className="font-semibold text-foreground truncate">
                         {metric.content_slug || "Bilinmeyen"}
                       </p>
-                      <p className="text-xs text-design-gray dark:text-gray-400">
+                      <p className="text-xs text-muted-foreground">
                         {metric.views || 0} görüntülenme • Ortalama {metric.avg_time_on_page || 0}s
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 flex-shrink-0">
                     {metric.ctr && (
-                      <div className="text-sm font-semibold text-design-dark dark:text-white">
+                      <div className="text-sm font-semibold text-foreground">
                         {(metric.ctr * 100).toFixed(1)}% CTR
                       </div>
                     )}

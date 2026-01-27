@@ -68,7 +68,7 @@ export function AdvancedFilters({
       <Button
         variant="outline"
         onClick={() => setIsOpen(!isOpen)}
-        className="h-9 px-3 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale relative"
+        className="h-9 px-3 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale relative"
       >
         <Filter className="h-4 w-4 mr-2" />
         Filters
@@ -90,7 +90,7 @@ export function AdvancedFilters({
           <Card className="absolute top-full left-0 mt-2 z-popover w-96 card-modern shadow-xl" style={{ zIndex: 'var(--z-popover)' }}>
             <CardHeader className="pb-3 px-4 pt-4">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white">
+                <CardTitle className="text-base font-display font-bold text-foreground">
                   Filters
                 </CardTitle>
                 <Button
@@ -106,7 +106,7 @@ export function AdvancedFilters({
             <CardContent className="px-4 pb-4 space-y-4">
               {filters.map((filter) => (
                 <div key={filter.key} className="space-y-2">
-                  <Label className="text-xs font-ui font-semibold text-design-gray dark:text-gray-400">
+                  <Label className="text-xs font-ui font-semibold text-muted-foreground">
                     {filter.label}
                   </Label>
                   {filter.type === "text" && (
@@ -116,7 +116,7 @@ export function AdvancedFilters({
                         handleFilterChange(filter.key, e.target.value)
                       }
                       placeholder={filter.placeholder}
-                      className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+                      className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui"
                     />
                   )}
                   {filter.type === "select" && (
@@ -126,7 +126,7 @@ export function AdvancedFilters({
                         handleFilterChange(filter.key, value)
                       }
                     >
-                      <SelectTrigger className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui">
+                      <SelectTrigger className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui">
                         <SelectValue placeholder={filter.placeholder} />
                       </SelectTrigger>
                       <SelectContent className="rounded-lg">
@@ -149,7 +149,7 @@ export function AdvancedFilters({
                       onChange={(e) =>
                         handleFilterChange(filter.key, e.target.value)
                       }
-                      className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+                      className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui"
                     />
                   )}
                   {filter.type === "number" && (
@@ -160,7 +160,7 @@ export function AdvancedFilters({
                         handleFilterChange(filter.key, e.target.value)
                       }
                       placeholder={filter.placeholder}
-                      className="h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui"
+                      className="h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui"
                     />
                   )}
                   {filter.type === "checkbox" && filter.options && (
@@ -204,14 +204,14 @@ export function AdvancedFilters({
               <div className="flex gap-2 pt-2">
                 <Button
                   onClick={handleApply}
-                  className="flex-1 h-9 bg-design-dark hover:bg-design-dark/90 text-white rounded-lg font-ui hover-scale micro-bounce"
+                  className="flex-1 h-9 bg-design-dark hover:bg-primary/90/90 text-white rounded-lg font-ui hover-scale micro-bounce"
                 >
                   Apply Filters
                 </Button>
                 <Button
                   variant="outline"
                   onClick={handleReset}
-                  className="h-9 px-4 border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+                  className="h-9 px-4 border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
                 >
                   Reset
                 </Button>

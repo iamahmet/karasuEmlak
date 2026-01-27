@@ -144,7 +144,7 @@ export function ContentSearch({ locale, onSelect }: ContentSearchProps) {
         <CardContent className="p-4">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-design-gray dark:text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 type="text"
                 placeholder="İçerik ara... (başlık, slug, içerik)"
@@ -155,7 +155,7 @@ export function ContentSearch({ locale, onSelect }: ContentSearchProps) {
             </div>
             <div className="flex gap-2 flex-wrap">
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-[140px] px-4 py-2 rounded-lg border border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35] text-sm font-ui">
+                <SelectTrigger className="w-[140px] px-4 py-2 rounded-lg border border-border/40 dark:border-border/40 bg-white dark:bg-card text-sm font-ui">
                   <SelectValue placeholder="Durum" />
                 </SelectTrigger>
                 <SelectContent>
@@ -167,7 +167,7 @@ export function ContentSearch({ locale, onSelect }: ContentSearchProps) {
                 </SelectContent>
               </Select>
               <Select value={typeFilter} onValueChange={setTypeFilter}>
-                <SelectTrigger className="w-[140px] px-4 py-2 rounded-lg border border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35] text-sm font-ui">
+                <SelectTrigger className="w-[140px] px-4 py-2 rounded-lg border border-border/40 dark:border-border/40 bg-white dark:bg-card text-sm font-ui">
                   <SelectValue placeholder="Tip" />
                 </SelectTrigger>
                 <SelectContent>
@@ -179,7 +179,7 @@ export function ContentSearch({ locale, onSelect }: ContentSearchProps) {
                 </SelectContent>
               </Select>
               <Select value={dateFilter} onValueChange={setDateFilter}>
-                <SelectTrigger className="w-[140px] px-4 py-2 rounded-lg border border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35] text-sm font-ui">
+                <SelectTrigger className="w-[140px] px-4 py-2 rounded-lg border border-border/40 dark:border-border/40 bg-white dark:bg-card text-sm font-ui">
                   <SelectValue placeholder="Tarih" />
                 </SelectTrigger>
                 <SelectContent>
@@ -208,9 +208,9 @@ export function ContentSearch({ locale, onSelect }: ContentSearchProps) {
       {/* Results */}
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center justify-between">
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Search className="h-5 w-5 text-design-light" />
+              <Search className="h-5 w-5 text-primary" />
               Arama Sonuçları
             </div>
             <Badge variant="outline" className="text-xs font-ui">
@@ -227,8 +227,8 @@ export function ContentSearch({ locale, onSelect }: ContentSearchProps) {
             </div>
           ) : filteredItems.length === 0 ? (
             <div className="text-center py-12">
-              <FileText className="h-12 w-12 mx-auto mb-4 text-design-gray dark:text-gray-400" />
-              <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+              <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+              <p className="text-sm text-muted-foreground font-ui">
                 {hasActiveFilters ? "Arama kriterlerinize uygun içerik bulunamadı" : "Henüz içerik yok"}
               </p>
             </div>
@@ -240,7 +240,7 @@ export function ContentSearch({ locale, onSelect }: ContentSearchProps) {
                   <div
                     key={item.id}
                     className={cn(
-                      "p-4 rounded-lg border border-[#E7E7E7] dark:border-[#062F28] bg-white dark:bg-[#0a3d35] hover:border-design-light transition-all cursor-pointer hover-lift",
+                      "p-4 rounded-lg border border-border/40 dark:border-border/40 bg-white dark:bg-card hover:border-design-light transition-all cursor-pointer hover-lift",
                       selectedItem?.id === item.id && "border-design-light bg-design-light/5"
                     )}
                     onClick={() => {
@@ -253,7 +253,7 @@ export function ContentSearch({ locale, onSelect }: ContentSearchProps) {
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-2">
-                          <h3 className="text-sm font-display font-bold text-design-dark dark:text-white line-clamp-1">
+                          <h3 className="text-sm font-display font-bold text-foreground line-clamp-1">
                             {localeData?.title || item.slug}
                           </h3>
                           <Badge
@@ -272,11 +272,11 @@ export function ContentSearch({ locale, onSelect }: ContentSearchProps) {
                           </Badge>
                         </div>
                         {localeData?.excerpt && (
-                          <p className="text-xs text-design-gray dark:text-gray-400 font-ui line-clamp-2 mb-2">
+                          <p className="text-xs text-muted-foreground font-ui line-clamp-2 mb-2">
                             {localeData.excerpt}
                           </p>
                         )}
-                        <div className="flex items-center gap-4 text-[10px] text-design-gray dark:text-gray-400 font-ui">
+                        <div className="flex items-center gap-4 text-[10px] text-muted-foreground font-ui">
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
                             {new Date(item.created_at).toLocaleDateString("tr-TR")}

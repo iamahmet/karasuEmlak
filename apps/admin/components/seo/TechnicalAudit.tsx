@@ -130,11 +130,11 @@ export function TechnicalAudit({ locale }: { locale: string }) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-display font-bold text-design-dark dark:text-white mb-2">
+          <h3 className="text-lg font-display font-bold text-foreground mb-2">
             Teknik SEO Kontrolü
           </h3>
           {lastAudit && (
-            <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+            <p className="text-sm text-muted-foreground font-ui">
               Son kontrol: {lastAudit.toLocaleString("tr-TR")}
             </p>
           )}
@@ -154,25 +154,25 @@ export function TechnicalAudit({ locale }: { locale: string }) {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="text-sm font-ui font-semibold text-design-gray dark:text-gray-400 mb-1">
+              <h4 className="text-sm font-ui font-semibold text-muted-foreground mb-1">
                 Teknik SEO Skoru
               </h4>
-              <div className="text-3xl font-display font-bold text-design-dark dark:text-white">
+              <div className="text-3xl font-display font-bold text-foreground">
                 {totalScore}%
               </div>
             </div>
             <div className="flex items-center gap-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600">{passedCount}</div>
-                <div className="text-xs text-design-gray dark:text-gray-400 font-ui">Başarılı</div>
+                <div className="text-xs text-muted-foreground font-ui">Başarılı</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-yellow-600">{warningCount}</div>
-                <div className="text-xs text-design-gray dark:text-gray-400 font-ui">Uyarı</div>
+                <div className="text-xs text-muted-foreground font-ui">Uyarı</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-red-600">{failCount}</div>
-                <div className="text-xs text-design-gray dark:text-gray-400 font-ui">Başarısız</div>
+                <div className="text-xs text-muted-foreground font-ui">Başarısız</div>
               </div>
             </div>
           </div>
@@ -181,7 +181,7 @@ export function TechnicalAudit({ locale }: { locale: string }) {
 
       {/* Issues */}
       {loading ? (
-        <div className="text-center py-8 text-design-gray dark:text-gray-400">
+        <div className="text-center py-8 text-muted-foreground">
           Kontrol ediliyor...
         </div>
       ) : (
@@ -197,7 +197,7 @@ export function TechnicalAudit({ locale }: { locale: string }) {
                     <div className="flex items-center gap-3 mb-2">
                       <div className="flex items-center gap-2">
                         {getCategoryIcon(issue.category)}
-                        <h4 className="font-semibold text-design-dark dark:text-white font-ui">
+                        <h4 className="font-semibold text-foreground font-ui">
                           {issue.title}
                         </h4>
                       </div>
@@ -206,7 +206,7 @@ export function TechnicalAudit({ locale }: { locale: string }) {
                         {issue.category}
                       </Badge>
                     </div>
-                    <p className="text-sm text-design-gray dark:text-gray-400 font-ui mb-2">
+                    <p className="text-sm text-muted-foreground font-ui mb-2">
                       {issue.description}
                     </p>
                     {issue.fix && (

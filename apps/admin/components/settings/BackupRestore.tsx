@@ -152,15 +152,15 @@ export function BackupRestore() {
   return (
     <Card className="card-professional">
       <CardHeader className="pb-4 px-5 pt-5">
-        <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-          <Database className="h-5 w-5 text-design-light" />
+        <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+          <Database className="h-5 w-5 text-primary" />
           Yedekleme ve Geri Yükleme
         </CardTitle>
       </CardHeader>
       <CardContent className="px-5 pb-5 space-y-6">
         {/* Create Backup */}
         <div className="space-y-3">
-          <h4 className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+          <h4 className="text-sm font-semibold text-foreground font-ui">
             Yeni Yedek Oluştur
           </h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -186,7 +186,7 @@ export function BackupRestore() {
         {/* Backup List */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-semibold text-design-dark dark:text-white font-ui">
+            <h4 className="text-sm font-semibold text-foreground font-ui">
               Mevcut Yedekler
             </h4>
             <Button
@@ -205,7 +205,7 @@ export function BackupRestore() {
           </div>
 
           {backups.length === 0 ? (
-            <div className="text-center py-8 text-design-gray dark:text-gray-400">
+            <div className="text-center py-8 text-muted-foreground">
               <Database className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p className="text-sm font-ui">Henüz yedek bulunmuyor</p>
             </div>
@@ -214,13 +214,13 @@ export function BackupRestore() {
               {backups.map((backup) => (
                 <div
                   key={backup.id}
-                  className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#0a3d35] border border-[#E7E7E7] dark:border-[#062F28] hover:shadow-md transition-all duration-200"
+                  className="flex items-center justify-between p-3 rounded-lg bg-card/95 backdrop-blur-xl border border-border/40 hover:shadow-md transition-all duration-200"
                 >
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     {getBackupTypeIcon(backup.type)}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <p className="text-sm font-semibold text-design-dark dark:text-white truncate font-ui">
+                        <p className="text-sm font-semibold text-foreground truncate font-ui">
                           {backup.name}
                         </p>
                         <Badge variant="outline" className="text-[10px] px-2 py-0.5">
@@ -233,7 +233,7 @@ export function BackupRestore() {
                           <AlertCircle className="h-4 w-4 text-red-600" />
                         )}
                       </div>
-                      <div className="flex items-center gap-3 text-xs text-design-gray dark:text-gray-400 font-ui">
+                      <div className="flex items-center gap-3 text-xs text-muted-foreground font-ui">
                         <span>{formatFileSize(backup.size)}</span>
                         <span>•</span>
                         <span className="flex items-center gap-1">

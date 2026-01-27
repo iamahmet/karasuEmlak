@@ -123,7 +123,7 @@ export function KeywordTracker({ locale }: { locale: string }) {
       <Card className="card-professional">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Target className="h-5 w-5 text-design-light" />
+            <Target className="h-5 w-5 text-primary" />
             Keyword Takibi
           </CardTitle>
         </CardHeader>
@@ -153,8 +153,8 @@ export function KeywordTracker({ locale }: { locale: string }) {
       {keywords.length === 0 ? (
         <Card className="card-professional">
           <CardContent className="p-12 text-center">
-            <Search className="h-16 w-16 mx-auto mb-4 text-design-gray dark:text-gray-400 opacity-50" />
-            <p className="text-design-gray dark:text-gray-400 font-ui">
+            <Search className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
+            <p className="text-muted-foreground font-ui">
               Henüz keyword eklenmemiş
             </p>
           </CardContent>
@@ -169,16 +169,16 @@ export function KeywordTracker({ locale }: { locale: string }) {
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-3">
-                        <h4 className="text-lg font-semibold text-design-dark dark:text-white font-ui">
+                        <h4 className="text-lg font-semibold text-foreground font-ui">
                           {keyword.keyword}
                         </h4>
-                        <Badge className="bg-design-light/20 text-design-dark dark:text-design-light">
+                        <Badge className="bg-design-light/20 text-design-dark dark:text-primary">
                           Pozisyon: {keyword.position}
                         </Badge>
                       </div>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div>
-                          <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                          <p className="text-xs text-muted-foreground font-ui mb-1">
                             Pozisyon Değişimi
                           </p>
                           <div className="flex items-center gap-2">
@@ -197,22 +197,22 @@ export function KeywordTracker({ locale }: { locale: string }) {
                                 </span>
                               </>
                             ) : (
-                              <span className="text-sm font-bold text-design-gray dark:text-gray-400">
+                              <span className="text-sm font-bold text-muted-foreground">
                                 Değişmedi
                               </span>
                             )}
                           </div>
                         </div>
                         <div>
-                          <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                          <p className="text-xs text-muted-foreground font-ui mb-1">
                             Arama Hacmi
                           </p>
-                          <p className="text-sm font-bold text-design-dark dark:text-white">
+                          <p className="text-sm font-bold text-foreground">
                             {keyword.searchVolume.toLocaleString("tr-TR")}/ay
                           </p>
                         </div>
                         <div>
-                          <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                          <p className="text-xs text-muted-foreground font-ui mb-1">
                             Zorluk
                           </p>
                           <div className="flex items-center gap-2">
@@ -229,16 +229,16 @@ export function KeywordTracker({ locale }: { locale: string }) {
                                 style={{ width: `${keyword.difficulty}%` }}
                               />
                             </div>
-                            <span className="text-sm font-bold text-design-dark dark:text-white">
+                            <span className="text-sm font-bold text-foreground">
                               {keyword.difficulty}
                             </span>
                           </div>
                         </div>
                         <div>
-                          <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                          <p className="text-xs text-muted-foreground font-ui mb-1">
                             Sayfa
                           </p>
-                          <p className="text-sm font-bold text-design-dark dark:text-white truncate">
+                          <p className="text-sm font-bold text-foreground truncate">
                             {keyword.url}
                           </p>
                         </div>

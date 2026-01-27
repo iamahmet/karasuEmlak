@@ -134,7 +134,7 @@ export function UserAnalytics({ userId, locale = "tr" }: UserAnalyticsProps) {
         {[...Array(4)].map((_, i) => (
           <Card key={i} className="card-modern animate-pulse">
             <CardContent className="p-5">
-              <div className="h-16 bg-[#E7E7E7] dark:bg-[#062F28] rounded"></div>
+              <div className="h-16 bg-[#E7E7E7] dark:bg-muted rounded"></div>
             </CardContent>
           </Card>
         ))}
@@ -146,7 +146,7 @@ export function UserAnalytics({ userId, locale = "tr" }: UserAnalyticsProps) {
     return (
       <Card className="card-professional">
         <CardContent className="py-12 text-center">
-          <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+          <p className="text-sm text-muted-foreground font-ui">
             Analitik verisi bulunamadı
           </p>
         </CardContent>
@@ -209,8 +209,8 @@ export function UserAnalytics({ userId, locale = "tr" }: UserAnalyticsProps) {
     <div className="space-y-4">
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <BarChart3 className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <BarChart3 className="h-5 w-5 text-primary" />
             Kullanıcı Analitiği
           </CardTitle>
         </CardHeader>
@@ -249,10 +249,10 @@ export function UserAnalytics({ userId, locale = "tr" }: UserAnalyticsProps) {
                       )}
                     </div>
                     <div className="space-y-1">
-                      <p className="text-[10px] font-ui font-semibold text-design-gray dark:text-gray-400 uppercase tracking-wider">
+                      <p className="text-[10px] font-ui font-semibold text-muted-foreground uppercase tracking-wider">
                         {metric.label}
                       </p>
-                      <p className="text-xl font-display font-bold text-design-dark dark:text-white">
+                      <p className="text-xl font-display font-bold text-foreground">
                         {metric.value}
                       </p>
                     </div>
@@ -263,8 +263,8 @@ export function UserAnalytics({ userId, locale = "tr" }: UserAnalyticsProps) {
           </div>
           
           {analytics.lastActivity && (
-            <div className="mt-4 pt-4 border-t border-[#E7E7E7] dark:border-[#062F28]">
-              <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+            <div className="mt-4 pt-4 border-t border-border/40 dark:border-border/40">
+              <p className="text-xs text-muted-foreground font-ui">
                 Son Aktivite: {new Date(analytics.lastActivity).toLocaleDateString("tr-TR", {
                   day: "2-digit",
                   month: "2-digit",

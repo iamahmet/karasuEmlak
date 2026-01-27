@@ -122,7 +122,7 @@ export function ListingAnalytics({ listingId, className }: ListingAnalyticsProps
     return (
       <Card className={cn("card-professional", className)}>
         <CardContent className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-design-light" />
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </CardContent>
       </Card>
     );
@@ -136,7 +136,7 @@ export function ListingAnalytics({ listingId, className }: ListingAnalyticsProps
     <div className={cn("space-y-6", className)}>
       {/* Time Range Selector */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-display font-bold text-design-dark dark:text-white">
+        <h3 className="text-lg font-display font-bold text-foreground">
           İlan Analitikleri
         </h3>
         <div className="flex items-center gap-2">
@@ -158,7 +158,7 @@ export function ListingAnalytics({ listingId, className }: ListingAnalyticsProps
       {/* Views Overview */}
       <Card className="card-professional">
         <CardHeader>
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
             <Eye className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             Görüntülenmeler
           </CardTitle>
@@ -221,7 +221,7 @@ export function ListingAnalytics({ listingId, className }: ListingAnalyticsProps
       {/* Engagement Metrics */}
       <Card className="card-professional">
         <CardHeader>
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
             <Activity className="h-5 w-5 text-green-600 dark:text-green-400" />
             Etkileşim Metrikleri
           </CardTitle>
@@ -283,7 +283,7 @@ export function ListingAnalytics({ listingId, className }: ListingAnalyticsProps
       {/* Performance Score */}
       <Card className="card-professional border-gradient-to-r from-purple-200 to-pink-200">
         <CardHeader>
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
             <BarChart3 className="h-5 w-5 text-purple-600 dark:text-purple-400" />
             Performans Skoru
           </CardTitle>
@@ -322,25 +322,25 @@ export function ListingAnalytics({ listingId, className }: ListingAnalyticsProps
                   </div>
                 </div>
               </div>
-              <p className="text-sm font-semibold text-design-dark dark:text-white">
+              <p className="text-sm font-semibold text-foreground">
                 Genel Performans
               </p>
             </div>
             <div className="space-y-3">
               <div className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-900/20">
-                <span className="text-sm text-design-gray dark:text-gray-400">Sıralama</span>
+                <span className="text-sm text-muted-foreground">Sıralama</span>
                 <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
                   #{analytics.performance.rank} / {analytics.performance.competitors}
                 </Badge>
               </div>
               <div className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-900/20">
-                <span className="text-sm text-design-gray dark:text-gray-400">Rakip İlan</span>
-                <span className="text-sm font-bold text-design-dark dark:text-white">
+                <span className="text-sm text-muted-foreground">Rakip İlan</span>
+                <span className="text-sm font-bold text-foreground">
                   {analytics.performance.competitors}
                 </span>
               </div>
               <div className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-900/20">
-                <span className="text-sm text-design-gray dark:text-gray-400">Çıkış Oranı</span>
+                <span className="text-sm text-muted-foreground">Çıkış Oranı</span>
                 <span className={cn(
                   "text-sm font-bold",
                   analytics.performance.bounceRate < 30 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
@@ -380,7 +380,7 @@ export function ListingAnalytics({ listingId, className }: ListingAnalyticsProps
       {/* Predictions */}
       <Card className="card-professional border-gradient-to-r from-indigo-200 to-purple-200">
         <CardHeader>
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
             <Zap className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
             AI Tahminleri
           </CardTitle>

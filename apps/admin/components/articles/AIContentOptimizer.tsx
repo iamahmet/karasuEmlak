@@ -208,8 +208,8 @@ export function AIContentOptimizer({ article, onOptimize, className }: AIContent
     <Card className={cn("card-professional", className)}>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-display font-bold text-design-dark dark:text-white flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-design-light" />
+          <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-primary" />
             AI İçerik Optimizasyonu
           </CardTitle>
           <Badge variant="outline" className="text-xs">
@@ -296,7 +296,7 @@ export function AIContentOptimizer({ article, onOptimize, className }: AIContent
                       ) : (
                         <Lightbulb className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                       )}
-                      <h4 className="text-sm font-semibold text-design-dark dark:text-white">
+                      <h4 className="text-sm font-semibold text-foreground">
                         {issue.title}
                       </h4>
                       <Badge variant="outline" className="text-[10px]">
@@ -336,7 +336,7 @@ export function AIContentOptimizer({ article, onOptimize, className }: AIContent
         {suggestions.length > 0 && (
           <div className="space-y-2">
             <h3 className="text-sm font-semibold flex items-center gap-2">
-              <Lightbulb className="h-4 w-4 text-design-light" />
+              <Lightbulb className="h-4 w-4 text-primary" />
               AI Önerileri
             </h3>
             {suggestions.map((suggestion, idx) => (
@@ -361,7 +361,7 @@ export function AIContentOptimizer({ article, onOptimize, className }: AIContent
                       ) : (
                         <Lightbulb className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                       )}
-                      <h4 className="text-sm font-semibold text-design-dark dark:text-white">
+                      <h4 className="text-sm font-semibold text-foreground">
                         {suggestion.title}
                       </h4>
                     </div>

@@ -56,8 +56,8 @@ export function LoadingState({
         className
       )}
     >
-      <Loader2 className="h-8 w-8 animate-spin text-design-light mb-4" />
-      <p className="text-sm text-design-gray dark:text-gray-400 font-ui">{message}</p>
+      <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
+      <p className="text-sm text-muted-foreground font-ui">{message}</p>
     </div>
   );
 }

@@ -105,10 +105,10 @@ export function CreateUserModal({ open, onClose, onSuccess }: CreateUserModalPro
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md rounded-2xl border-2 border-[#E7E7E7]/60 dark:border-[#0a3d35]/60 shadow-2xl bg-white/98 dark:bg-[#0a3d35]/98 backdrop-blur-xl">
+      <DialogContent className="max-w-md rounded-2xl border-2 border-border/40/60 dark:border-[#0a3d35]/60 shadow-2xl bg-white/98 dark:bg-card/98 backdrop-blur-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <UserPlus className="h-5 w-5 text-design-light" />
+            <UserPlus className="h-5 w-5 text-primary" />
             {t("title")}
           </DialogTitle>
           <DialogDescription>
@@ -146,7 +146,7 @@ export function CreateUserModal({ open, onClose, onSuccess }: CreateUserModalPro
               <Label htmlFor="magicLink" className="text-xs font-ui font-semibold">
                 {t("fields.magicLink")}
               </Label>
-              <p className="text-xs text-design-gray dark:text-gray-400 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 {t("fields.magicLinkDescription")}
               </p>
             </div>
@@ -211,7 +211,7 @@ export function CreateUserModal({ open, onClose, onSuccess }: CreateUserModalPro
             <Button
               type="submit"
               disabled={loading || !isValid}
-              className="flex-1 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white"
+              className="flex-1"
             >
               {loading ? (
                 <>

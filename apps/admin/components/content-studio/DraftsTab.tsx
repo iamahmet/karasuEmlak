@@ -202,12 +202,12 @@ export function DraftsTab({ locale }: { locale: string }) {
                 variant="outline"
                 size="sm"
                 onClick={toggleSelectAll}
-                className="h-9 px-3 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+                className="h-9 px-3 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
               >
                 {selectedIds.length === filteredDrafts.length ? "Tümünü Kaldır" : "Tümünü Seç"}
               </Button>
               {selectedIds.length > 0 && (
-                <span className="text-sm text-design-gray dark:text-gray-400 font-ui">
+                <span className="text-sm text-muted-foreground font-ui">
                   {selectedIds.length} seçili
                 </span>
               )}
@@ -233,26 +233,26 @@ export function DraftsTab({ locale }: { locale: string }) {
                       checked={isSelected}
                       onCheckedChange={() => toggleSelection(draft.id)}
                       onClick={(e) => e.stopPropagation()}
-                      className="w-5 h-5 rounded border-2 border-[#E7E7E7] dark:border-[#062F28] data-[state=checked]:bg-design-light data-[state=checked]:border-design-light"
+                      className="w-5 h-5 rounded border-2 border-border/40 dark:border-border/40 data-[state=checked]:bg-design-light data-[state=checked]:border-design-light"
                     />
                   </div>
 
                   <CardHeader className="pb-3 px-4 pt-4">
-                    <CardTitle className="line-clamp-2 text-base font-display font-bold text-design-dark dark:text-white pr-8">
+                    <CardTitle className="line-clamp-2 text-base font-display font-bold text-foreground pr-8">
                       {localeContent?.title || draft.slug}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="px-4 pb-4">
                     {localeContent?.excerpt && (
-                      <p className="text-sm text-design-gray dark:text-gray-400 font-ui line-clamp-2 mb-3">
+                      <p className="text-sm text-muted-foreground font-ui line-clamp-2 mb-3">
                         {localeContent.excerpt}
                       </p>
                     )}
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-design-light/15 text-design-dark dark:text-design-light font-ui font-semibold uppercase">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-design-light/15 text-design-dark dark:text-primary font-ui font-semibold uppercase">
                         {draft.type}
                       </span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#E7E7E7] dark:bg-[#062F28] text-design-gray dark:text-gray-400 font-ui font-semibold">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#E7E7E7] dark:bg-muted text-muted-foreground font-ui font-semibold">
                         {draft.status}
                       </span>
                     </div>
@@ -264,7 +264,7 @@ export function DraftsTab({ locale }: { locale: string }) {
                           e.stopPropagation();
                           router.push(`/seo/content-studio/${draft.id}`);
                         }}
-                        className="flex-1 h-9 text-sm border border-[#E7E7E7] dark:border-[#062F28] rounded-lg font-ui hover-scale"
+                        className="flex-1 h-9 text-sm border border-border/40 dark:border-border/40 rounded-lg font-ui hover-scale"
                       >
                         <Edit className="h-3.5 w-3.5 mr-2" />
                         Düzenle

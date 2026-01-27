@@ -97,7 +97,7 @@ export function CompetitorAnalysis({ locale }: { locale: string }) {
       <Card className="card-professional">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5 text-design-light" />
+            <Users className="h-5 w-5 text-primary" />
             Rakip Analizi
           </CardTitle>
         </CardHeader>
@@ -127,7 +127,7 @@ export function CompetitorAnalysis({ locale }: { locale: string }) {
       {loading ? (
         <Card className="card-professional">
           <CardContent className="p-8 text-center">
-            <div className="text-design-gray dark:text-gray-400 font-ui">
+            <div className="text-muted-foreground font-ui">
               Yükleniyor...
             </div>
           </CardContent>
@@ -135,8 +135,8 @@ export function CompetitorAnalysis({ locale }: { locale: string }) {
       ) : competitors.length === 0 ? (
         <Card className="card-professional">
           <CardContent className="p-8 text-center">
-            <Globe className="h-12 w-12 mx-auto mb-4 text-design-gray dark:text-gray-400 opacity-50" />
-            <p className="text-design-gray dark:text-gray-400 font-ui">
+            <Globe className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
+            <p className="text-muted-foreground font-ui">
               Henüz rakip eklenmemiş
             </p>
           </CardContent>
@@ -148,7 +148,7 @@ export function CompetitorAnalysis({ locale }: { locale: string }) {
               <CardContent className="p-5">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h4 className="font-semibold text-design-dark dark:text-white font-ui mb-1">
+                    <h4 className="font-semibold text-foreground font-ui mb-1">
                       {competitor.domain}
                     </h4>
                     <Badge variant="outline" className="text-[10px] px-2 py-0.5">
@@ -159,41 +159,41 @@ export function CompetitorAnalysis({ locale }: { locale: string }) {
                     href={`https://${competitor.domain}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-design-light hover:text-green-600"
+                    className="text-primary hover:text-green-600"
                   >
                     <Globe className="h-5 w-5" />
                   </a>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                    <p className="text-xs text-muted-foreground font-ui mb-1">
                       Backlink
                     </p>
-                    <p className="text-lg font-bold text-design-dark dark:text-white">
+                    <p className="text-lg font-bold text-foreground">
                       {competitor.backlinks.toLocaleString("tr-TR")}
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                    <p className="text-xs text-muted-foreground font-ui mb-1">
                       Organik Keyword
                     </p>
-                    <p className="text-lg font-bold text-design-dark dark:text-white">
+                    <p className="text-lg font-bold text-foreground">
                       {competitor.organicKeywords.toLocaleString("tr-TR")}
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                    <p className="text-xs text-muted-foreground font-ui mb-1">
                       Trafik
                     </p>
-                    <p className="text-lg font-bold text-design-dark dark:text-white">
+                    <p className="text-lg font-bold text-foreground">
                       {competitor.traffic.toLocaleString("tr-TR")}
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui mb-1">
+                    <p className="text-xs text-muted-foreground font-ui mb-1">
                       Domain Authority
                     </p>
-                    <p className="text-lg font-bold text-design-dark dark:text-white">
+                    <p className="text-lg font-bold text-foreground">
                       {competitor.domainAuthority}
                     </p>
                   </div>

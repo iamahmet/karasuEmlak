@@ -3,7 +3,7 @@ import { Loader2 } from 'lucide-react';
 
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="max-w-md w-full">
         <CardContent className="p-8 text-center space-y-4">
           <Loader2 className="h-12 w-12 text-primary animate-spin mx-auto" />

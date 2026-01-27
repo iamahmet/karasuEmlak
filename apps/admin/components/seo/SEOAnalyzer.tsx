@@ -117,7 +117,7 @@ export function SEOAnalyzer({ locale }: { locale: string }) {
       <Card className="card-professional">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Search className="h-5 w-5 text-design-light" />
+            <Search className="h-5 w-5 text-primary" />
             SEO Analiz Aracı
           </CardTitle>
         </CardHeader>
@@ -160,10 +160,10 @@ export function SEOAnalyzer({ locale }: { locale: string }) {
             <CardContent className="p-8">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-display font-bold text-design-dark dark:text-white mb-2">
+                  <h3 className="text-lg font-display font-bold text-foreground mb-2">
                     SEO Skoru
                   </h3>
-                  <p className="text-sm text-design-gray dark:text-gray-400 font-ui">
+                  <p className="text-sm text-muted-foreground font-ui">
                     {analysis.url}
                   </p>
                 </div>
@@ -173,7 +173,7 @@ export function SEOAnalyzer({ locale }: { locale: string }) {
                       <div className={cn("text-4xl font-display font-bold", getScoreColor(analysis.score))}>
                         {analysis.score}
                       </div>
-                      <div className="text-xs text-design-gray dark:text-gray-400 font-ui">/ 100</div>
+                      <div className="text-xs text-muted-foreground font-ui">/ 100</div>
                     </div>
                   </div>
                 </div>
@@ -191,36 +191,36 @@ export function SEOAnalyzer({ locale }: { locale: string }) {
                 <div className="p-4 rounded-lg bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20">
                   <div className="flex items-center gap-2 mb-2">
                     <FileText className="h-4 w-4 text-blue-600" />
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui">Kelime Sayısı</p>
+                    <p className="text-xs text-muted-foreground font-ui">Kelime Sayısı</p>
                   </div>
-                  <p className="text-2xl font-bold text-design-dark dark:text-white">
+                  <p className="text-2xl font-bold text-foreground">
                     {analysis.metrics.wordCount}
                   </p>
                 </div>
                 <div className="p-4 rounded-lg bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/20">
                   <div className="flex items-center gap-2 mb-2">
                     <Link2 className="h-4 w-4 text-green-600" />
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui">İç Link</p>
+                    <p className="text-xs text-muted-foreground font-ui">İç Link</p>
                   </div>
-                  <p className="text-2xl font-bold text-design-dark dark:text-white">
+                  <p className="text-2xl font-bold text-foreground">
                     {analysis.metrics.internalLinks}
                   </p>
                 </div>
                 <div className="p-4 rounded-lg bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20">
                   <div className="flex items-center gap-2 mb-2">
                     <ImageIcon className="h-4 w-4 text-purple-600" />
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui">Görsel</p>
+                    <p className="text-xs text-muted-foreground font-ui">Görsel</p>
                   </div>
-                  <p className="text-2xl font-bold text-design-dark dark:text-white">
+                  <p className="text-2xl font-bold text-foreground">
                     {analysis.metrics.imageCount}
                   </p>
                 </div>
                 <div className="p-4 rounded-lg bg-gradient-to-br from-orange-500/10 to-orange-500/5 border border-orange-500/20">
                   <div className="flex items-center gap-2 mb-2">
                     <Globe className="h-4 w-4 text-orange-600" />
-                    <p className="text-xs text-design-gray dark:text-gray-400 font-ui">Dış Link</p>
+                    <p className="text-xs text-muted-foreground font-ui">Dış Link</p>
                   </div>
-                  <p className="text-2xl font-bold text-design-dark dark:text-white">
+                  <p className="text-2xl font-bold text-foreground">
                     {analysis.metrics.externalLinks}
                   </p>
                 </div>
@@ -233,7 +233,7 @@ export function SEOAnalyzer({ locale }: { locale: string }) {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>Tespit Edilen Sorunlar</span>
-                <Badge className="bg-design-light/20 text-design-dark dark:text-design-light">
+                <Badge className="bg-design-light/20 text-design-dark dark:text-primary">
                   {analysis.issues.length} sorun
                 </Badge>
               </CardTitle>
@@ -251,22 +251,22 @@ export function SEOAnalyzer({ locale }: { locale: string }) {
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <h4 className="font-semibold text-design-dark dark:text-white font-ui">
+                          <h4 className="font-semibold text-foreground font-ui">
                             {issue.title}
                           </h4>
                           <Badge className={cn("text-[10px] px-2 py-0.5", getImpactColor(issue.impact))}>
                             {issue.impact === "high" ? "Yüksek" : issue.impact === "medium" ? "Orta" : "Düşük"}
                           </Badge>
                         </div>
-                        <p className="text-sm text-design-gray dark:text-gray-400 font-ui mb-3">
+                        <p className="text-sm text-muted-foreground font-ui mb-3">
                           {issue.description}
                         </p>
                         {issue.fix && (
-                          <div className="p-3 rounded-lg bg-design-light/10 border border-design-light/20">
-                            <p className="text-xs font-semibold text-design-dark dark:text-white font-ui mb-1">
+                          <div className="p-3 rounded-lg bg-primary/10 border border-design-light/20">
+                            <p className="text-xs font-semibold text-foreground font-ui mb-1">
                               Çözüm:
                             </p>
-                            <p className="text-xs text-design-gray dark:text-gray-400 font-ui">
+                            <p className="text-xs text-muted-foreground font-ui">
                               {issue.fix}
                             </p>
                           </div>
@@ -284,8 +284,8 @@ export function SEOAnalyzer({ locale }: { locale: string }) {
       {!analysis && !analyzing && (
         <Card className="card-professional">
           <CardContent className="p-12 text-center">
-            <Search className="h-16 w-16 mx-auto mb-4 text-design-gray dark:text-gray-400 opacity-50" />
-            <p className="text-design-gray dark:text-gray-400 font-ui">
+            <Search className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
+            <p className="text-muted-foreground font-ui">
               Analiz etmek için bir URL girin
             </p>
           </CardContent>
