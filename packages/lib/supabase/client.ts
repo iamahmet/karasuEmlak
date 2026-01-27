@@ -8,28 +8,24 @@ import { createBrowserClient as createSupabaseBrowserClient } from '@supabase/ss
  * returns a client with placeholder values (API calls will fail gracefully).
  */
 export function createClient() {
+  // Create a safe fallback client that's always returned
+  const createFallbackClient = () => ({
+    auth: {
+      getUser: () => Promise.resolve({ data: { user: null }, error: { message: 'Supabase client initialization failed' } }),
+      signOut: () => Promise.resolve({ error: { message: 'Supabase client initialization failed' } }),
+      signInWithOtp: () => Promise.resolve({ error: { message: 'Supabase client initialization failed' } }),
+      signInWithPassword: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }),
+      signUp: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }),
+      exchangeCodeForSession: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }),
+    },
+    from: () => ({ select: () => ({ eq: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }) }) }),
+  } as any);
+
   // Only create client on client-side
   if (typeof window === 'undefined') {
     // Return a mock client for SSR that won't cause errors
     // This should never be used, but prevents SSR errors
-    const ssrClient = {
-      auth: {
-        getUser: () => Promise.resolve({ data: { user: null }, error: null }),
-        signOut: () => Promise.resolve({ error: null }),
-        signInWithOtp: () => Promise.resolve({ error: null }),
-        signInWithPassword: () => Promise.resolve({ data: null, error: null }),
-        signUp: () => Promise.resolve({ data: null, error: null }),
-        exchangeCodeForSession: () => Promise.resolve({ data: null, error: null }),
-      },
-      from: () => ({ select: () => ({ eq: () => Promise.resolve({ data: null, error: null }) }) }),
-    } as any;
-    
-    // Ensure SSR client has auth
-    if (!ssrClient.auth) {
-      console.error('CRITICAL: SSR client missing auth property');
-    }
-    
-    return ssrClient;
+    return createFallbackClient();
   }
 
   // Read environment variables directly from process.env
@@ -50,63 +46,32 @@ export function createClient() {
   }
 
   // Always return a safe client - never return null or undefined
-  let client;
   try {
     // createSupabaseBrowserClient should always return a valid client instance
-    client = createSupabaseBrowserClient(supabaseUrl, supabaseAnonKey);
+    const client = createSupabaseBrowserClient(supabaseUrl, supabaseAnonKey);
     
     // Critical: Verify client exists and has auth property
     if (!client) {
       console.error('CRITICAL: createSupabaseBrowserClient returned null/undefined');
-      throw new Error('Supabase client is null');
+      return createFallbackClient();
     }
     
     if (!client.auth) {
       console.error('CRITICAL: Supabase client missing auth property');
-      throw new Error('Invalid Supabase client - missing auth');
+      return createFallbackClient();
     }
     
     // Additional safety check: verify auth has required methods
     if (typeof client.auth.getUser !== 'function') {
       console.error('CRITICAL: Supabase client.auth.getUser is not a function');
-      throw new Error('Invalid Supabase client - auth.getUser missing');
+      return createFallbackClient();
     }
     
     return client;
   } catch (error: any) {
     console.error('Error creating Supabase client:', error?.message || error);
-    // Return a safe fallback client with guaranteed auth property
-    // This ensures we NEVER return null/undefined
-    const fallbackClient = {
-      auth: {
-        getUser: () => Promise.resolve({ data: { user: null }, error: { message: 'Supabase client initialization failed' } }),
-        signOut: () => Promise.resolve({ error: { message: 'Supabase client initialization failed' } }),
-        signInWithOtp: () => Promise.resolve({ error: { message: 'Supabase client initialization failed' } }),
-        signInWithPassword: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }),
-        signUp: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }),
-        exchangeCodeForSession: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }),
-      },
-      from: () => ({ select: () => ({ eq: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }) }) }),
-    } as any;
-    
-    // Triple-check fallback has auth (should never fail, but safety first)
-    if (!fallbackClient || !fallbackClient.auth) {
-      console.error('CRITICAL: Fallback client construction failed - this should never happen');
-      // Last resort: return minimal client
-      return {
-        auth: {
-          getUser: () => Promise.resolve({ data: { user: null }, error: { message: 'Critical Supabase client failure' } }),
-          signOut: () => Promise.resolve({ error: { message: 'Critical Supabase client failure' } }),
-          signInWithOtp: () => Promise.resolve({ error: { message: 'Critical Supabase client failure' } }),
-          signInWithPassword: () => Promise.resolve({ data: null, error: { message: 'Critical Supabase client failure' } }),
-          signUp: () => Promise.resolve({ data: null, error: { message: 'Critical Supabase client failure' } }),
-          exchangeCodeForSession: () => Promise.resolve({ data: null, error: { message: 'Critical Supabase client failure' } }),
-        },
-        from: () => ({ select: () => ({ eq: () => Promise.resolve({ data: null, error: { message: 'Critical Supabase client failure' } }) }) }),
-      } as any;
-    }
-    
-    return fallbackClient;
+    // Return a safe fallback client - NEVER return null/undefined
+    return createFallbackClient();
   }
 }
 
