@@ -81,6 +81,13 @@ export function ListingsStats() {
       // Try fallback with direct Supabase query
       try {
         const supabase = createClient();
+        
+        // Critical: Verify supabase client exists
+        if (!supabase || !supabase.auth) {
+          console.error("Supabase client is invalid in ListingsStats fallback");
+          return;
+        }
+        
         const { data: listings, error: supabaseError } = await supabase
           .from("listings")
           .select("id, published, featured, status, price, price_amount, deleted_at")
