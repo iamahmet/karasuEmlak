@@ -3362,7 +3362,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
               <button
                 type="button"
                 onClick={() => setShowMediaLibrary(false)}
-                className="p-2 rounded-lg bg-white/80 dark:bg-gray-900/80 hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110 border border-gray-200 dark:border-gray-800"
+                className="p-2 rounded-lg bg-card/80 hover:bg-card transition-all duration-200 hover:scale-110 border border-border"
                 title="Kapat (Esc)"
               >
                 <X className="h-5 w-5 text-foreground" />
@@ -3387,8 +3387,8 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
       {/* Image Optimizer Dialog - Enhanced */}
       {showImageOptimizer && editingImageIndex !== null && listing.images[editingImageIndex] && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-5xl max-h-[90vh] bg-white dark:bg-card rounded-2xl shadow-2xl border-2 border-gray-200 dark:border-gray-800 animate-bounce-in overflow-hidden flex flex-col">
-            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-purple-50/50 to-transparent dark:from-purple-900/20">
+          <div className="relative w-full max-w-5xl max-h-[90vh] bg-card rounded-2xl shadow-2xl border-2 border-border animate-bounce-in overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between p-6 border-b border-border bg-gradient-to-r from-purple-50/50 to-transparent dark:from-purple-900/20">
               <div>
                 <h2 className="text-2xl font-display font-bold text-foreground mb-1">
                   Fotoğraf Optimize Et
@@ -3403,7 +3403,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                   setShowImageOptimizer(false);
                   setEditingImageIndex(null);
                 }}
-                className="p-2 rounded-lg bg-white/80 dark:bg-gray-900/80 hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110 border border-gray-200 dark:border-gray-800"
+                className="p-2 rounded-lg bg-card/80 hover:bg-card transition-all duration-200 hover:scale-110 border border-border"
                 title="Kapat (Esc)"
               >
                 <X className="h-5 w-5 text-foreground" />

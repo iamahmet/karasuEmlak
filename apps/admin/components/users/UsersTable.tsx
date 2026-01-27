@@ -553,11 +553,11 @@ export function UsersTable({
       case "editor":
         return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400";
       case "viewer":
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
+        return "bg-muted text-muted-foreground";
       case "user":
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
+        return "bg-muted text-muted-foreground";
       default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
+        return "bg-muted text-muted-foreground";
     }
   };
 
@@ -999,7 +999,7 @@ export function UsersTable({
                               </Badge>
                             ))
                           ) : (
-                            <Badge className="text-[10px] px-2 py-0.5 bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400">
+                            <Badge className="text-[10px] px-2 py-0.5 bg-muted text-muted-foreground">
                               user
                             </Badge>
                           )}
@@ -1294,7 +1294,7 @@ export function UsersTable({
                               </Badge>
                             ))
                           ) : (
-                            <Badge className="text-[10px] px-2 py-0.5 bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400">
+                            <Badge className="text-[10px] px-2 py-0.5 bg-muted text-muted-foreground">
                               user
                             </Badge>
                           )}
