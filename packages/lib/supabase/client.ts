@@ -7,9 +7,9 @@ import { createBrowserClient as createSupabaseBrowserClient } from '@supabase/ss
  * Always returns a valid client instance. If env vars are missing,
  * returns a client with placeholder values (API calls will fail gracefully).
  */
-export function createClient() {
-  // Create a safe fallback client that's always returned
-  const createFallbackClient = () => ({
+// Create a safe fallback client that's always returned
+function createFallbackClient() {
+  const fallback = {
     auth: {
       getUser: () => Promise.resolve({ data: { user: null }, error: { message: 'Supabase client initialization failed' } }),
       signOut: () => Promise.resolve({ error: { message: 'Supabase client initialization failed' } }),
@@ -19,8 +19,17 @@ export function createClient() {
       exchangeCodeForSession: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }),
     },
     from: () => ({ select: () => ({ eq: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }) }) }),
-  } as any);
+  } as any;
+  
+  // Ensure fallback always has auth
+  if (!fallback.auth) {
+    console.error('CRITICAL: Fallback client missing auth - this should never happen');
+  }
+  
+  return fallback;
+}
 
+export function createClient() {
   // Only create client on client-side
   if (typeof window === 'undefined') {
     // Return a mock client for SSR that won't cause errors
