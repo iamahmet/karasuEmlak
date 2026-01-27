@@ -35,12 +35,16 @@ import {
   Wrench,
   Activity,
   GitBranch,
+  User,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@karasu/lib";
 import { Button } from "@karasu/ui";
 import { Logo } from "@/components/branding/Logo";
 import { useSwipe } from "@/lib/mobile/swipe-gestures";
 import { hapticButtonPress } from "@/lib/mobile/haptics";
+import { createClient } from "@karasu/lib/supabase/client";
+import { useRouter } from "@/i18n/routing";
 
 interface NavItem {
   href?: string;
@@ -58,9 +62,26 @@ interface AdminSidebarProps {
 export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSidebarProps = {}) {
   const t = useTranslations("admin.nav");
   const pathname = usePathname();
+  const router = useRouter();
   const [expandedMenus, setExpandedMenus] = useState<string[]>(["contentManagement"]);
   const [poi369Expanded, setPoi369Expanded] = useState(false); // Collapsible Poi369 Studio
+  const [user, setUser] = useState<any>(null);
   const sidebarRef = useRef<HTMLElement>(null);
+
+  // Fetch current user
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+  }, []);
+
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    const locale = window.location.pathname.split("/")[1] || "tr";
+    router.push(`/${locale}/login`);
+  };
 
   // Swipe gesture to close sidebar on mobile
   const swipeHandlers = useSwipe({
@@ -408,13 +429,16 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
           {/* Logo - Compact & Professional */}
           <div className="relative px-4 py-4 border-b border-border/40 bg-card/95 backdrop-blur-xl">
             <div className="flex items-center gap-3">
-              <Logo variant="icon" size="md" href="/dashboard" />
+              {/* Logo with better styling */}
+              <div className="flex-shrink-0">
+                <Logo variant="icon" size="lg" href="/dashboard" />
+              </div>
               <div className="flex flex-col min-w-0 flex-1">
                 <span className="text-sm font-display font-bold text-foreground leading-tight truncate">
                   Karasu Emlak
                 </span>
                 <span className="text-[10px] text-muted-foreground leading-tight font-medium">
-                  Admin Panel
+                  Yönetim Paneli
                 </span>
               </div>
             </div>
@@ -512,11 +536,44 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
             </div>
           </nav>
 
-          {/* Footer - Compact */}
-          <div className="relative p-3 border-t border-border/40/60 dark:border-[#0a3d35]/60 bg-gradient-to-t from-white/40 to-transparent dark:from-[#062F28]/40">
-            <div className="text-[10px] text-muted-foreground font-ui text-center">
+          {/* Footer - User Info & Version */}
+          <div className="relative p-3 border-t border-border/40 bg-card/95 backdrop-blur-xl">
+            {/* User Info */}
+            <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-muted/50 transition-all duration-200 mb-2 group">
+              {/* Avatar */}
+              <div className="relative flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center shadow-inner border border-primary/20">
+                  <User className="h-5 w-5 text-primary" />
+                </div>
+                {/* Online indicator */}
+                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-card shadow-sm" />
+              </div>
+
+              {/* User Info */}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-foreground truncate">
+                  {user?.email?.split("@")[0] || user?.user_metadata?.name || "Kullanıcı"}
+                </p>
+                <p className="text-[11px] text-muted-foreground truncate">
+                  {user?.email || "Yükleniyor..."}
+                </p>
+              </div>
+
+              {/* Logout Button */}
+              <button
+                onClick={handleLogout}
+                className="p-2 rounded-lg hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-all duration-200 flex-shrink-0"
+                aria-label="Çıkış yap"
+                title="Çıkış yap"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Version */}
+            <div className="text-[10px] text-muted-foreground font-ui text-center pt-2 border-t border-border/40">
               <p className="font-semibold text-foreground mb-0.5">
-                v2.0.0
+                v2.1.0
               </p>
               <p className="font-medium">© 2025</p>
             </div>
