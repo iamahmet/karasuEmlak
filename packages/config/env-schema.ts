@@ -4,57 +4,72 @@ import { z } from 'zod';
  * Environment variables schema with Zod validation
  * This ensures type safety and runtime validation for all environment variables
  */
+/**
+ * Trim and validate string env var
+ */
+function trimString(key: string) {
+  return z.string()
+    .transform((val) => val?.trim() || '')
+    .refine((val) => val.length > 0, { message: `${key} is required` });
+}
+
+function trimOptionalString() {
+  return z.string()
+    .optional()
+    .transform((val) => val?.trim() || undefined);
+}
+
 const envSchema = z.object({
-  // Site Configuration
-  NEXT_PUBLIC_SITE_URL: z.string().url(),
+  // Site Configuration (Optional)
+  NEXT_PUBLIC_SITE_URL: z.string().url().optional().transform((val) => val?.trim() || undefined).or(z.literal('').transform(() => undefined)).or(z.undefined()),
 
-  // Supabase Configuration
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
-  SUPABASE_URL: z.string().url(),
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
-  SUPABASE_ANON_KEY: z.string().min(1),
-  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
-  SUPABASE_JWT_SECRET: z.string().min(1),
+  // Supabase Configuration (Required - but with fallback)
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url().transform((val) => val?.trim()).or(z.string().min(1).transform((val) => val?.trim())),
+  SUPABASE_URL: z.string().url().optional().transform((val) => val?.trim() || undefined).or(z.undefined()),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1).transform((val) => val?.trim()),
+  SUPABASE_ANON_KEY: trimOptionalString(),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).transform((val) => val?.trim()),
+  SUPABASE_JWT_SECRET: trimOptionalString(),
 
-  // Supabase Database (Direct PostgreSQL Connection)
-  SUPABASE_DB_HOST: z.string().min(1),
-  SUPABASE_DB_PORT: z.coerce.number().int().positive(),
-  SUPABASE_DB_NAME: z.string().min(1),
-  SUPABASE_DB_USER: z.string().min(1),
-  SUPABASE_DB_PASSWORD: z.string().min(1),
+  // Supabase Database (Optional - only needed for direct DB access)
+  SUPABASE_DB_HOST: trimOptionalString(),
+  SUPABASE_DB_PORT: z.coerce.number().int().positive().optional().or(z.undefined()),
+  SUPABASE_DB_NAME: trimOptionalString(),
+  SUPABASE_DB_USER: trimOptionalString(),
+  SUPABASE_DB_PASSWORD: trimOptionalString(),
 
   // AI Services (Optional)
-  OPENAI_API_KEY: z.string().optional(),
-  GEMINI_API_KEY: z.string().optional(),
+  OPENAI_API_KEY: trimOptionalString(),
+  GEMINI_API_KEY: trimOptionalString(),
   
   // Image Search APIs (Optional)
-  UNSPLASH_ACCESS_KEY: z.string().optional(),
-  PEXELS_API_KEY: z.string().optional(),
-  PIXABAY_API_KEY: z.string().optional(),
-  GOOGLE_CUSTOM_SEARCH_API_KEY: z.string().optional(),
-  GOOGLE_CUSTOM_SEARCH_ENGINE_ID: z.string().optional(),
+  UNSPLASH_ACCESS_KEY: trimOptionalString(),
+  PEXELS_API_KEY: trimOptionalString(),
+  PIXABAY_API_KEY: trimOptionalString(),
+  GOOGLE_CUSTOM_SEARCH_API_KEY: trimOptionalString(),
+  GOOGLE_CUSTOM_SEARCH_ENGINE_ID: trimOptionalString(),
 
   // External API Services (Optional)
-  OPENWEATHER_API_KEY: z.string().optional(),
-  OPENCAGE_API_KEY: z.string().optional(),
-  NEWSAPI_KEY: z.string().optional(),
-  NUMVERIFY_API_KEY: z.string().optional(),
+  OPENWEATHER_API_KEY: trimOptionalString(),
+  OPENCAGE_API_KEY: trimOptionalString(),
+  NEWSAPI_KEY: trimOptionalString(),
+  NUMVERIFY_API_KEY: trimOptionalString(),
   
   // SEO Research MCP (Optional - Deprecated, using free Google APIs instead)
-  CAPSOLVER_API_KEY: z.string().optional(),
+  CAPSOLVER_API_KEY: trimOptionalString(),
   
   // Google Search Console (Optional - Free, for backlinks analysis)
-  GOOGLE_SEARCH_CONSOLE_CLIENT_EMAIL: z.string().email().optional(),
-  GOOGLE_SEARCH_CONSOLE_PRIVATE_KEY: z.string().optional(),
+  GOOGLE_SEARCH_CONSOLE_CLIENT_EMAIL: z.string().email().optional().transform((val) => val?.trim() || undefined).or(z.undefined()),
+  GOOGLE_SEARCH_CONSOLE_PRIVATE_KEY: trimOptionalString(),
   
   // GitHub MCP Server (Optional)
-  GITHUB_PERSONAL_ACCESS_TOKEN: z.string().optional(),
+  GITHUB_PERSONAL_ACCESS_TOKEN: trimOptionalString(),
 
-  // Cloudinary Configuration
-  CLOUDINARY_CLOUD_NAME: z.string().min(1),
-  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
-  CLOUDINARY_API_KEY: z.string().min(1),
-  CLOUDINARY_API_SECRET: z.string().min(1),
+  // Cloudinary Configuration (Optional - only needed for image uploads)
+  CLOUDINARY_CLOUD_NAME: trimOptionalString(),
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: trimOptionalString(),
+  CLOUDINARY_API_KEY: trimOptionalString(),
+  CLOUDINARY_API_SECRET: trimOptionalString(),
 
   // Google Services (Optional)
   GOOGLE_MAPS_API_KEY: z.string().optional(),
@@ -96,11 +111,32 @@ const envSchema = z.object({
 });
 
 /**
+ * Pre-process environment variables: trim all string values
+ * This prevents whitespace issues that cause build failures
+ */
+function preprocessEnv(): Record<string, string | undefined> {
+  const processed: Record<string, string | undefined> = {};
+  
+  for (const key in process.env) {
+    const value = process.env[key];
+    if (typeof value === 'string') {
+      // Trim all env vars to prevent whitespace issues
+      processed[key] = value.trim();
+    } else {
+      processed[key] = value;
+    }
+  }
+  
+  return processed;
+}
+
+/**
  * Validated environment variables
  * Throws error if validation fails
  */
 export function validateEnv() {
-  return envSchema.parse(process.env);
+  const processed = preprocessEnv();
+  return envSchema.parse(processed);
 }
 
 /**
@@ -170,20 +206,45 @@ export function getEnv(): Env {
     if (error instanceof z.ZodError) {
       const isDevelopment = process.env.NODE_ENV === 'development';
       
+      // Filter out optional field errors (they're not critical)
+      const criticalErrors = error.errors.filter((err) => {
+        const path = err.path.join('.');
+        // These are truly required
+        return path === 'NEXT_PUBLIC_SUPABASE_URL' || 
+               path === 'NEXT_PUBLIC_SUPABASE_ANON_KEY' || 
+               path === 'SUPABASE_SERVICE_ROLE_KEY';
+      });
+      
       if (isDevelopment) {
-        console.warn('⚠️  Environment variables validation failed (development mode):');
-        error.errors.forEach((err) => {
-          console.warn(`  - ${err.path.join('.')}: ${err.message}`);
-        });
+        if (criticalErrors.length > 0) {
+          console.warn('⚠️  Critical environment variables missing (development mode):');
+          criticalErrors.forEach((err) => {
+            console.warn(`  - ${err.path.join('.')}: ${err.message}`);
+          });
+        } else {
+          console.warn('⚠️  Some optional environment variables validation failed (development mode):');
+          error.errors.slice(0, 5).forEach((err) => {
+            console.warn(`  - ${err.path.join('.')}: ${err.message}`);
+          });
+        }
         console.warn('⚠️  Continuing with partial environment variables...');
         // Return partial env with defaults for development
         return process.env as unknown as Env;
       } else {
-        console.error('❌ Environment variables validation failed:');
-        error.errors.forEach((err) => {
-          console.error(`  - ${err.path.join('.')}: ${err.message}`);
-        });
-        throw new Error('Invalid environment variables. Please check your .env.local file.');
+        if (criticalErrors.length > 0) {
+          console.error('❌ Critical environment variables validation failed:');
+          criticalErrors.forEach((err) => {
+            console.error(`  - ${err.path.join('.')}: ${err.message}`);
+          });
+          throw new Error('Invalid environment variables. Please check your .env.local file.');
+        } else {
+          // Only optional vars failed, continue
+          console.warn('⚠️  Some optional environment variables validation failed (production):');
+          error.errors.slice(0, 5).forEach((err) => {
+            console.warn(`  - ${err.path.join('.')}: ${err.message}`);
+          });
+          return process.env as unknown as Env;
+        }
       }
     }
     throw error;

@@ -47,6 +47,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         {/* CRITICAL: Force scroll to work - runs before React hydration */}
+        {/* Simplified: Only runs once on load, React component handles ongoing monitoring */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -85,38 +86,15 @@ export default function RootLayout({
                   radixLocks.forEach(function(el) { el.remove(); });
                 }
                 
-                // Run immediately
+                // Run immediately and once more after a short delay
                 if (document.readyState === 'loading') {
                   document.addEventListener('DOMContentLoaded', forceScroll);
                 } else {
                   forceScroll();
                 }
                 
-                // Run on every frame for first 3 seconds (catches late-loading components)
-                var startTime = Date.now();
-                var interval = setInterval(function() {
-                  forceScroll();
-                  if (Date.now() - startTime > 3000) {
-                    clearInterval(interval);
-                  }
-                }, 16); // ~60fps
-                
-                // Also watch for mutations
-                if (window.MutationObserver) {
-                  var observer = new MutationObserver(function() {
-                    forceScroll();
-                  });
-                  
-                  observer.observe(document.documentElement, {
-                    attributes: true,
-                    attributeFilter: ['style', 'class', 'data-scroll-locked']
-                  });
-                  
-                  observer.observe(document.body, {
-                    attributes: true,
-                    attributeFilter: ['style', 'class', 'data-scroll-locked']
-                  });
-                }
+                // Run once more after 100ms to catch late-loading components
+                setTimeout(forceScroll, 100);
               })();
             `,
           }}

@@ -11,48 +11,60 @@ import { siteConfig } from '@karasu-emlak/config';
  * - Allow/disallow rules for optimal indexing
  */
 export default function robots(): MetadataRoute.Robots {
-  return {
-    rules: [
-      {
-        userAgent: '*',
-        allow: '/',
-        disallow: [
-          '/api/',
-          '/admin/',
-          '/_next/',
-          '/favorilerim',
-          '/karsilastir',
-          '/aramalarim',
-          '/yorumlar',
-          '/*?*sort=*', // Disallow sorted/filtered URLs to prevent duplicate content
-          '/*?*page=*', // Disallow pagination URLs (use canonical instead)
-        ],
-        crawlDelay: 0.5, // Respectful crawl delay (500ms)
-      },
-      {
-        userAgent: 'Googlebot',
-        allow: '/',
-        disallow: ['/api/', '/admin/'],
-        crawlDelay: 0.1, // Faster for Googlebot
-      },
-      {
-        userAgent: 'Googlebot-Image',
-        allow: '/',
-        disallow: ['/api/', '/admin/'],
-      },
-      {
-        userAgent: 'Bingbot',
-        allow: '/',
-        disallow: ['/api/', '/admin/'],
-        crawlDelay: 0.5,
-      },
-    ],
-    sitemap: [
-      `${siteConfig.url}/sitemap.xml`,
-      `${siteConfig.url}/sitemap-news.xml`,
-      `${siteConfig.url}/sitemap-images.xml`,
-    ],
-    host: siteConfig.url.replace('https://', '').replace('http://', ''),
-  };
+  try {
+    const baseUrl = siteConfig.url || 'https://karasuemlak.net';
+    
+    return {
+      rules: [
+        {
+          userAgent: '*',
+          allow: '/',
+          disallow: [
+            '/api/',
+            '/admin/',
+            '/_next/',
+            '/favorilerim',
+            '/karsilastir',
+            '/aramalarim',
+            '/yorumlar',
+            '/*?*sort=*', // Disallow sorted/filtered URLs to prevent duplicate content
+            '/*?*page=*', // Disallow pagination URLs (use canonical instead)
+          ],
+          crawlDelay: 0.5, // Respectful crawl delay (500ms)
+        },
+        {
+          userAgent: 'Googlebot',
+          allow: '/',
+          disallow: ['/api/', '/admin/'],
+          crawlDelay: 0.1, // Faster for Googlebot
+        },
+        {
+          userAgent: 'Googlebot-Image',
+          allow: '/',
+          disallow: ['/api/', '/admin/'],
+        },
+        {
+          userAgent: 'Bingbot',
+          allow: '/',
+          disallow: ['/api/', '/admin/'],
+          crawlDelay: 0.5,
+        },
+      ],
+      sitemap: [
+        `${baseUrl}/sitemap.xml`,
+        `${baseUrl}/sitemap-news.xml`,
+        `${baseUrl}/sitemap-images.xml`,
+      ],
+      host: baseUrl.replace('https://', '').replace('http://', ''),
+    };
+  } catch (error: any) {
+    console.error('[robots] Error generating robots.txt:', error);
+    // Return minimal robots.txt on error
+    return {
+      rules: [{ userAgent: '*', allow: '/', disallow: ['/api/', '/admin/'] }],
+      sitemap: [`https://karasuemlak.net/sitemap.xml`],
+      host: 'karasuemlak.net',
+    };
+  }
 }
 

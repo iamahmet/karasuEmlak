@@ -1,13 +1,16 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 /**
- * ScrollLockReset - Nuclear option: Forces scroll to work
- * Sets inline styles with !important to override everything
- * Also handles wheel events for guaranteed scrolling
+ * ScrollLockReset - Optimized scroll unlock
+ * Only unlocks when scroll is actually blocked
+ * Uses debounced MutationObserver to avoid infinite loops
  */
 export function ScrollLockReset() {
+  const lastCheckRef = useRef(0);
+  const observerRef = useRef<MutationObserver | null>(null);
+  
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
@@ -41,8 +44,35 @@ export function ScrollLockReset() {
       radixScrollLocks.forEach(el => el.remove());
     };
     
-    // CRITICAL: Always handle wheel events manually for guaranteed scrolling
-    // Native scroll might be blocked, so we always do it ourselves
+    // Check if scroll is actually blocked
+    const isScrollBlocked = (): boolean => {
+      const htmlStyle = window.getComputedStyle(html);
+      const bodyStyle = window.getComputedStyle(body);
+      
+      return (
+        htmlStyle.overflow === 'hidden' || 
+        htmlStyle.overflowY === 'hidden' ||
+        bodyStyle.overflow === 'hidden' || 
+        bodyStyle.overflowY === 'hidden' ||
+        html.hasAttribute('data-scroll-locked') ||
+        body.hasAttribute('data-scroll-locked') ||
+        document.querySelectorAll('[data-radix-scroll-lock]').length > 0
+      );
+    };
+    
+    // Debounced check - only unlock if actually blocked
+    const checkAndUnlock = () => {
+      const now = Date.now();
+      // Throttle to max once per 100ms
+      if (now - lastCheckRef.current < 100) return;
+      lastCheckRef.current = now;
+      
+      if (isScrollBlocked()) {
+        forceEnableScroll();
+      }
+    };
+    
+    // Wheel event handler - only intervene if scroll is blocked
     const handleWheel = (e: WheelEvent) => {
       // Only handle vertical scroll
       if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
@@ -52,23 +82,25 @@ export function ScrollLockReset() {
       
       if (!canScroll) return;
       
-      // Always force unlock first
-      forceEnableScroll();
-      
-      // Always manually scroll - don't trust native scroll
-      const currentScroll = window.pageYOffset || html.scrollTop || 0;
-      const scrollAmount = e.deltaY; // 1:1 ratio for natural feel
-      const maxScroll = html.scrollHeight - window.innerHeight;
-      const newScroll = Math.max(0, Math.min(maxScroll, currentScroll + scrollAmount));
-      
-      // Apply scroll immediately
-      window.scrollTo(0, newScroll);
-      html.scrollTop = newScroll;
-      document.body.scrollTop = newScroll; // Fallback
-      
-      // Prevent default to stop any other handlers
-      e.preventDefault();
-      e.stopPropagation();
+      // Check if scroll is blocked
+      if (isScrollBlocked()) {
+        // Unlock first
+        forceEnableScroll();
+        
+        // Then manually scroll as fallback
+        const currentScroll = window.pageYOffset || html.scrollTop || 0;
+        const scrollAmount = e.deltaY;
+        const maxScroll = html.scrollHeight - window.innerHeight;
+        const newScroll = Math.max(0, Math.min(maxScroll, currentScroll + scrollAmount));
+        
+        window.scrollTo(0, newScroll);
+        html.scrollTop = newScroll;
+        
+        // Prevent default only if we had to intervene
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      // Otherwise let native scroll work (faster!)
     };
     
     // Add wheel listener with capture to intercept early
@@ -77,20 +109,13 @@ export function ScrollLockReset() {
     // Run immediately
     forceEnableScroll();
     
-    // Run on intervals to catch late-loading components
-    const intervals = [10, 50, 100, 200, 500, 1000, 2000, 3000];
-    const timeouts = intervals.map(ms => setTimeout(forceEnableScroll, ms));
+    // Run on intervals to catch late-loading components (less aggressive)
+    const intervals = [100, 500, 1000, 2000];
+    const timeouts = intervals.map(ms => setTimeout(checkAndUnlock, ms));
     
-    // Watch for scroll locks being re-applied
+    // Watch for scroll locks being re-applied (debounced)
     const observer = new MutationObserver(() => {
-      const htmlStyle = window.getComputedStyle(html);
-      const bodyStyle = window.getComputedStyle(body);
-      
-      // If scroll is blocked, unlock it
-      if (htmlStyle.overflow === 'hidden' || htmlStyle.overflowY === 'hidden' ||
-          bodyStyle.overflow === 'hidden' || bodyStyle.overflowY === 'hidden') {
-        forceEnableScroll();
-      }
+      checkAndUnlock();
     });
     
     observer.observe(html, { 
@@ -102,12 +127,11 @@ export function ScrollLockReset() {
       attributeFilter: ['style', 'class', 'data-scroll-locked']
     });
     
-    // Watch for Radix UI scroll locks
+    observerRef.current = observer;
+    
+    // Watch for Radix UI scroll locks (debounced)
     const documentObserver = new MutationObserver(() => {
-      const radixLocks = document.querySelectorAll('[data-radix-scroll-lock]');
-      if (radixLocks.length > 0) {
-        forceEnableScroll();
-      }
+      checkAndUnlock();
     });
     
     documentObserver.observe(document, { 
@@ -117,7 +141,9 @@ export function ScrollLockReset() {
     
     return () => {
       timeouts.forEach(clearTimeout);
-      observer.disconnect();
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
       documentObserver.disconnect();
       document.removeEventListener('wheel', handleWheel, { capture: true } as any);
     };

@@ -1,106 +1,204 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 /**
- * Environment Variable Whitespace Checker
+ * ENV Doctor - Environment Variables Validator
  * 
- * Checks all environment variables for leading/trailing whitespace
- * Exits with non-zero code if any whitespace is found
+ * Checks all required env vars, trims whitespace, validates format
  * 
- * Usage: node scripts/check-env.ts
- * 
- * This script should be run before builds to catch whitespace issues early
+ * Usage:
+ *   pnpm tsx scripts/check-env.ts
  */
 
-const CRITICAL_ENV_VARS = [
-  'CRON_SECRET',
-  'REVALIDATE_SECRET',
-  'SUPABASE_SERVICE_ROLE_KEY',
-  'SUPABASE_ANON_KEY',
-  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-  'CLOUDINARY_API_SECRET',
-  'OPENAI_API_KEY',
-  'GEMINI_API_KEY',
-  'GITHUB_PERSONAL_ACCESS_TOKEN',
+import { readFileSync, existsSync } from 'fs';
+import { resolve } from 'path';
+import * as dotenv from 'dotenv';
+
+// Load .env.local
+const envPath = resolve(process.cwd(), '.env.local');
+if (existsSync(envPath)) {
+  dotenv.config({ path: envPath });
+}
+
+interface EnvVar {
+  key: string;
+  value: string | undefined;
+  required: boolean;
+  serverOnly: boolean;
+  hasWhitespace: boolean;
+  isEmpty: boolean;
+  isValid: boolean;
+  issues: string[];
+}
+
+// Required env vars (from codebase analysis)
+const REQUIRED_ENV_VARS: Array<{
+  key: string;
+  serverOnly?: boolean;
+  description?: string;
+}> = [
+  // Supabase (Required)
+  { key: 'NEXT_PUBLIC_SUPABASE_URL', description: 'Supabase project URL' },
+  { key: 'NEXT_PUBLIC_SUPABASE_ANON_KEY', description: 'Supabase anon key (public)' },
+  { key: 'SUPABASE_SERVICE_ROLE_KEY', serverOnly: true, description: 'Supabase service role key (server-only)' },
+  { key: 'SUPABASE_JWT_SECRET', serverOnly: true, description: 'Supabase JWT secret' },
+  
+  // Optional but commonly used
+  { key: 'NEXT_PUBLIC_SITE_URL', description: 'Site URL for canonical links' },
+  { key: 'CLOUDINARY_CLOUD_NAME', description: 'Cloudinary cloud name' },
+  { key: 'CLOUDINARY_API_KEY', description: 'Cloudinary API key' },
+  { key: 'CLOUDINARY_API_SECRET', serverOnly: true, description: 'Cloudinary API secret' },
+  
+  // AI Services (Optional)
+  { key: 'OPENAI_API_KEY', serverOnly: true, description: 'OpenAI API key' },
+  { key: 'GEMINI_API_KEY', serverOnly: true, description: 'Google Gemini API key' },
+  
+  // Analytics (Optional)
+  { key: 'NEXT_PUBLIC_GA4_MEASUREMENT_ID', description: 'Google Analytics 4 ID' },
+  
+  // Cron (Optional)
+  { key: 'CRON_SECRET', serverOnly: true, description: 'Cron job secret (must not have whitespace)' },
 ];
 
-function checkEnvVar(key, value) {
-  if (value === undefined) {
-    return null;
-  }
-
-  const hasLeadingWhitespace = value.length > 0 && value !== value.trimStart();
-  const hasTrailingWhitespace = value.length > 0 && value !== value.trimEnd();
-  const trimmedLength = value.trim().length;
-  const originalLength = value.length;
-
-  if (hasLeadingWhitespace || hasTrailingWhitespace) {
-    return {
-      key,
-      hasLeadingWhitespace,
-      hasTrailingWhitespace,
-      originalLength,
-      trimmedLength,
-    };
-  }
-
-  return null;
-}
-
-function maskValue(value) {
-  if (value.length <= 8) {
-    return '*'.repeat(value.length);
-  }
-  return `${value.substring(0, 4)}${'*'.repeat(value.length - 8)}${value.substring(value.length - 4)}`;
-}
-
-function main() {
-  console.log('🔍 Checking environment variables for whitespace issues...\n');
-
-  const issues = [];
-  const allEnvVars = Object.keys(process.env);
-
-  // Check critical vars first
-  for (const key of CRITICAL_ENV_VARS) {
-    const issue = checkEnvVar(key, process.env[key]);
-    if (issue) {
-      issues.push(issue);
-    }
-  }
-
-  // Check all other vars
-  for (const key of allEnvVars) {
-    if (!CRITICAL_ENV_VARS.includes(key)) {
-      const issue = checkEnvVar(key, process.env[key]);
-      if (issue) {
-        issues.push(issue);
-      }
-    }
-  }
-
-  if (issues.length === 0) {
-    console.log('✅ No whitespace issues found in environment variables.\n');
-    process.exit(0);
-  }
-
-  console.error('❌ Found environment variables with whitespace issues:\n');
+function checkEnvVar(key: string, required: boolean, serverOnly: boolean): EnvVar {
+  const rawValue = process.env[key];
+  const value = rawValue?.trim();
   
-  for (const issue of issues) {
-    const value = process.env[issue.key] || '';
-    const masked = maskValue(value);
-    
-    console.error(`  ${issue.key}:`);
-    console.error(`    Value (masked): "${masked}"`);
-    console.error(`    Original length: ${issue.originalLength}`);
-    console.error(`    Trimmed length: ${issue.trimmedLength}`);
-    console.error(`    Leading whitespace: ${issue.hasLeadingWhitespace ? '❌ YES' : '✅ No'}`);
-    console.error(`    Trailing whitespace: ${issue.hasTrailingWhitespace ? '❌ YES' : '✅ No'}`);
-    console.error('');
+  const hasWhitespace = rawValue !== value;
+  const isEmpty = !value || value.length === 0;
+  const isValid = !isEmpty && !hasWhitespace;
+  
+  const issues: string[] = [];
+  if (required && isEmpty) {
+    issues.push('Missing required variable');
   }
-
-  console.error('💡 Fix: Remove leading/trailing whitespace from the environment variable values.');
-  console.error('   In Vercel: Settings → Environment Variables → Edit → Remove whitespace');
-  console.error('   Locally: Check your .env.local file\n');
-
-  process.exit(1);
+  if (hasWhitespace) {
+    issues.push('Has leading/trailing whitespace');
+  }
+  if (key === 'CRON_SECRET' && hasWhitespace) {
+    issues.push('CRITICAL: CRON_SECRET whitespace will cause build failures');
+  }
+  
+  return {
+    key,
+    value: rawValue,
+    required,
+    serverOnly,
+    hasWhitespace,
+    isEmpty,
+    isValid: required ? isValid : true,
+    issues,
+  };
 }
 
-main();
+function generateEnvExample(): string {
+  let example = '# ============================================\n';
+  example += '# KARASU EMLAK - ENVIRONMENT VARIABLES\n';
+  example += '# ============================================\n';
+  example += '# Copy this file to .env.local and fill in your values\n';
+  example += '# cp .env.example .env.local\n\n';
+  
+  example += '# ============================================\n';
+  example += '# SUPABASE (Required)\n';
+  example += '# ============================================\n';
+  example += 'NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co\n';
+  example += 'NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key\n';
+  example += 'SUPABASE_SERVICE_ROLE_KEY=your-service-role-key\n';
+  example += 'SUPABASE_JWT_SECRET=your-jwt-secret\n\n';
+  
+  example += '# ============================================\n';
+  example += '# SITE CONFIGURATION (Optional)\n';
+  example += '# ============================================\n';
+  example += 'NEXT_PUBLIC_SITE_URL=https://www.karasuemlak.net\n\n';
+  
+  example += '# ============================================\n';
+  example += '# CLOUDINARY (Optional)\n';
+  example += '# ============================================\n';
+  example += 'CLOUDINARY_CLOUD_NAME=your-cloud-name\n';
+  example += 'CLOUDINARY_API_KEY=your-api-key\n';
+  example += 'CLOUDINARY_API_SECRET=your-api-secret\n\n';
+  
+  example += '# ============================================\n';
+  example += '# AI SERVICES (Optional)\n';
+  example += '# ============================================\n';
+  example += 'OPENAI_API_KEY=sk-your-openai-key\n';
+  example += 'GEMINI_API_KEY=your-gemini-key\n\n';
+  
+  example += '# ============================================\n';
+  example += '# ANALYTICS (Optional)\n';
+  example += '# ============================================\n';
+  example += 'NEXT_PUBLIC_GA4_MEASUREMENT_ID=G-XXXXXXXXXX\n\n';
+  
+  example += '# ============================================\n';
+  example += '# CRON (Optional)\n';
+  example += '# ============================================\n';
+  example += '# IMPORTANT: Use printf, NOT echo (no whitespace!)\n';
+  example += '# printf "secret" | vercel env add CRON_SECRET production\n';
+  example += 'CRON_SECRET=your-cron-secret\n';
+  
+  return example;
+}
+
+async function main() {
+  console.log('🏥 ENV Doctor - Environment Variables Validator\n');
+  
+  const results: EnvVar[] = [];
+  let criticalIssues = 0;
+  let warnings = 0;
+  
+  // Check all required vars
+  for (const env of REQUIRED_ENV_VARS) {
+    const result = checkEnvVar(env.key, env.required !== false, env.serverOnly || false);
+    results.push(result);
+    
+    if (result.issues.length > 0) {
+      if (result.required) {
+        criticalIssues++;
+        console.error(`❌ ${result.key}: ${result.issues.join(', ')}`);
+      } else {
+        warnings++;
+        console.warn(`⚠️  ${result.key}: ${result.issues.join(', ')}`);
+      }
+    } else if (result.required) {
+      console.log(`✅ ${result.key}: OK`);
+    }
+  }
+  
+  // Check for CRON_SECRET whitespace (critical)
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret && cronSecret !== cronSecret.trim()) {
+    criticalIssues++;
+    console.error(`❌ CRON_SECRET: Has whitespace (will cause build failures)`);
+  }
+  
+  // Generate .env.example if missing
+  const examplePath = resolve(process.cwd(), 'apps/web/.env.example');
+  if (!existsSync(examplePath)) {
+    console.log('\n📝 Generating .env.example...');
+    const example = generateEnvExample();
+    require('fs').writeFileSync(examplePath, example, 'utf-8');
+    console.log(`✅ Created: ${examplePath}`);
+  }
+  
+  // Summary
+  console.log(`\n📊 Summary:`);
+  console.log(`   ✅ Valid: ${results.filter(r => r.isValid && r.required).length}`);
+  console.log(`   ❌ Critical Issues: ${criticalIssues}`);
+  console.log(`   ⚠️  Warnings: ${warnings}`);
+  
+  if (criticalIssues > 0) {
+    console.error(`\n❌ CRITICAL: Fix ${criticalIssues} issue(s) before continuing!`);
+    process.exit(1);
+  }
+  
+  if (warnings > 0) {
+    console.warn(`\n⚠️  WARNING: ${warnings} optional variable(s) have issues`);
+  } else {
+    console.log(`\n✅ All environment variables are valid!`);
+  }
+  
+  process.exit(0);
+}
+
+main().catch((err) => {
+  console.error('Fatal error:', err);
+  process.exit(1);
+});

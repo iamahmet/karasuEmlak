@@ -18,6 +18,7 @@ import { generatePlaceSchema } from '@/lib/seo/local-seo-schemas';
 import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
+import { filterListingsByRegion } from '@/lib/utils/region-filter';
 import dynamicImport from 'next/dynamic';
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
@@ -146,11 +147,8 @@ export default async function SapancaPage({
     const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
     const featuredListings = (featuredListingsResult || []) as Awaited<ReturnType<typeof getFeaturedListings>>;
 
-    // Filter listings for Sapanca
-    const sapancaListings = featuredListings.filter(l => 
-      l.location_district?.toLowerCase().includes('sapanca') || 
-      l.location_neighborhood?.toLowerCase().includes('sapanca')
-    );
+    // Filter listings for Sapanca with robust region matching
+    const sapancaListings = filterListingsByRegion(featuredListings, 'sapanca');
 
     // Fetch Sapanca-related blog articles and cornerstone content
     let sapancaArticles: any[] = [];
@@ -160,18 +158,64 @@ export default async function SapancaPage({
       const allArticlesResult = await withTimeout(getArticles(50, 0), 3000, { articles: [], total: 0 });
       // Safely process articles to handle malformed JSON
       const allArticles = (allArticlesResult?.articles || []).map((article: any) => {
-        // Safely handle keywords field (can be array, string, or malformed JSON)
-        if (article.keywords && typeof article.keywords === 'string') {
-          const parsed = safeJsonParse(article.keywords, [], 'sapanca.page.keywords');
-          article.keywords = Array.isArray(parsed) ? parsed : [];
-          // If parsing failed and it's a string, try comma-separated
-          if (article.keywords.length === 0 && typeof article.keywords === 'string') {
-            article.keywords = article.keywords.split(',').map((k: string) => k.trim()).filter(Boolean);
+        try {
+          // Safely handle keywords field (can be array, string, or malformed JSON)
+          if (article.keywords) {
+            if (typeof article.keywords === 'string') {
+              try {
+                const parsed = safeJsonParse(article.keywords, [], 'sapanca.page.keywords');
+                article.keywords = Array.isArray(parsed) ? parsed : [];
+                // If parsing failed and original was a string, try comma-separated
+                if (article.keywords.length === 0) {
+                  const originalKeywords = article.keywords;
+                  if (typeof originalKeywords === 'string') {
+                    article.keywords = originalKeywords.split(',').map((k: string) => k.trim()).filter(Boolean);
+                  }
+                }
+              } catch (parseError) {
+                // If safeJsonParse itself throws (shouldn't happen, but be safe), try comma-separated
+                const originalKeywords = article.keywords;
+                if (typeof originalKeywords === 'string') {
+                  article.keywords = originalKeywords.split(',').map((k: string) => k.trim()).filter(Boolean);
+                } else {
+                  article.keywords = [];
+                }
+              }
+            } else if (Array.isArray(article.keywords)) {
+              // Already an array, keep it
+              article.keywords = article.keywords;
+            } else {
+              // Unknown type, default to empty array
+              article.keywords = [];
+            }
+          } else {
+            // No keywords field, default to empty array
+            article.keywords = [];
           }
-        }
-        // Ensure keywords is always an array
-        if (!Array.isArray(article.keywords)) {
+          // Ensure keywords is always an array
+          if (!Array.isArray(article.keywords)) {
+            article.keywords = [];
+          }
+          
+          // Safely handle tags field (can be array, string, or malformed JSON)
+          if (article.tags) {
+            if (typeof article.tags === 'string') {
+              try {
+                const parsed = safeJsonParse(article.tags, [], 'sapanca.page.tags');
+                article.tags = Array.isArray(parsed) ? parsed : [];
+              } catch {
+                article.tags = [];
+              }
+            } else if (!Array.isArray(article.tags)) {
+              article.tags = [];
+            }
+          } else {
+            article.tags = [];
+          }
+        } catch (error) {
+          // If anything goes wrong, ensure both fields are at least empty arrays
           article.keywords = [];
+          article.tags = [];
         }
         return article;
       });
@@ -188,8 +232,13 @@ export default async function SapancaPage({
         if (Array.isArray(article.keywords)) {
           keywords = article.keywords.join(' ').toLowerCase();
         } else if (typeof article.keywords === 'string') {
-          const parsed = safeJsonParse(article.keywords, [], 'sapanca.page.keywords-search');
-          keywords = Array.isArray(parsed) ? parsed.join(' ').toLowerCase() : article.keywords.toLowerCase();
+          try {
+            const parsed = safeJsonParse(article.keywords, [], 'sapanca.page.keywords-search');
+            keywords = Array.isArray(parsed) ? parsed.join(' ').toLowerCase() : article.keywords.toLowerCase();
+          } catch {
+            // If parsing fails, use the string as-is
+            keywords = article.keywords.toLowerCase();
+          }
         }
       } catch {
         keywords = '';

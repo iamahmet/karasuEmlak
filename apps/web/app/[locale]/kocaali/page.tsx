@@ -15,6 +15,7 @@ import { generateFAQSchema, generateBreadcrumbSchema } from '@/lib/seo/structure
 import { generatePlaceSchema } from '@/lib/seo/local-seo-schemas';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
+import { filterListingsByRegion } from '@/lib/utils/region-filter';
 import dynamicImport from 'next/dynamic';
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
@@ -128,11 +129,8 @@ export default async function KocaaliPage({
   const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
   const featuredListings = (featuredListingsResult || []) as Awaited<ReturnType<typeof getFeaturedListings>>;
 
-  // Filter listings for Kocaali
-  const kocaaliListings = featuredListings.filter(l => 
-    l.location_district?.toLowerCase().includes('kocaali') || 
-    l.location_neighborhood?.toLowerCase().includes('kocaali')
-  );
+  // Filter listings for Kocaali with robust region matching
+  const kocaaliListings = filterListingsByRegion(featuredListings, 'kocaali');
 
   // Generate comprehensive local SEO schemas
   const placeSchema = generatePlaceSchema({

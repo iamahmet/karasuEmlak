@@ -11,8 +11,9 @@ export default function NotFound() {
   const popularPages = [
     { href: `${basePath}/satilik`, label: 'Satılık İlanlar', icon: Home, description: 'Karasu ve Kocaali\'de satılık emlak ilanları' },
     { href: `${basePath}/kiralik`, label: 'Kiralık İlanlar', icon: Home, description: 'Kiralık emlak seçenekleri' },
-    { href: `${basePath}/karasu-satilik-ev`, label: 'Karasu Satılık Ev', icon: MapPin, description: 'Karasu\'da satılık ev ilanları' },
-    { href: `${basePath}/kocaali-satilik-ev`, label: 'Kocaali Satılık Ev', icon: MapPin, description: 'Kocaali\'de satılık ev ilanları' },
+    { href: `${basePath}/karasu`, label: 'Karasu', icon: MapPin, description: 'Karasu\'da satılık ev ilanları' },
+    { href: `${basePath}/kocaali`, label: 'Kocaali', icon: MapPin, description: 'Kocaali\'de satılık ev ilanları' },
+    { href: `${basePath}/sapanca`, label: 'Sapanca', icon: MapPin, description: 'Sapanca\'da bungalov ve emlak seçenekleri' },
     { href: `${basePath}/blog`, label: 'Blog', icon: FileText, description: 'Emlak rehberleri ve haberler' },
     { href: `${basePath}/rehber`, label: 'Rehberler', icon: BookOpen, description: 'Emlak alım-satım rehberleri' },
     { href: `${basePath}/kredi-hesaplayici`, label: 'Kredi Hesaplayıcı', icon: Calculator, description: 'Konut kredisi hesaplama' },
@@ -97,11 +98,11 @@ export default function NotFound() {
               <Link href={`${basePath}/kocaali`} className="text-center p-4 rounded-lg hover:bg-gray-50 transition-colors">
                 <div className="text-sm font-medium text-gray-900">Kocaali</div>
               </Link>
+              <Link href={`${basePath}/sapanca`} className="text-center p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                <div className="text-sm font-medium text-gray-900">Sapanca</div>
+              </Link>
               <Link href={`${basePath}/haberler`} className="text-center p-4 rounded-lg hover:bg-gray-50 transition-colors">
                 <div className="text-sm font-medium text-gray-900">Haberler</div>
-              </Link>
-              <Link href={`${basePath}/iletisim`} className="text-center p-4 rounded-lg hover:bg-gray-50 transition-colors">
-                <div className="text-sm font-medium text-gray-900">İletişim</div>
               </Link>
             </div>
           </div>

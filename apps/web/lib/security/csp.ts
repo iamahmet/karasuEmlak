@@ -33,8 +33,8 @@ export function buildCSP(options: CSPOptions = {}): string {
       "'sha256-qQkJVfk6J5BW+yPPN0N8zNfBqw4NLyb8RtnR7gQ62yg='",
       // Hash for inline script in satilik page (Next.js hydration script)
       "'sha256-SURB9hFJRD2BFib2KvfXjlVDfwAYHPeX+4bAJAa3PT0='",
-      // Hash for scroll fix script (app/layout.tsx) - forces scroll to work
-      "'sha256-agDGA905DmLAmjpGDeB6v9srSsYlMxLn7b+JUxV4Fl0='",
+      // Hash for scroll fix script (app/layout.tsx) - forces scroll to work (optimized version)
+      "'sha256-6artMuKIJM7xPFv6EYq/cZVByswTntyP7ksoX0bbe1I='",
     ] : []),
     // Required third-parties
     'https://www.googletagmanager.com',

@@ -56,6 +56,11 @@ const ENDPOINTS: Entry[] = [
   { name: 'homepage', method: 'GET', path: '/', expectJson: false, callerPages: [] },
   { name: 'kiralik', method: 'GET', path: '/kiralik', expectJson: false, callerPages: [] },
   { name: 'satilik', method: 'GET', path: '/satilik', expectJson: false, callerPages: [] },
+  { name: 'karasu', method: 'GET', path: '/karasu', expectJson: false, callerPages: [] },
+  { name: 'kocaali', method: 'GET', path: '/kocaali', expectJson: false, callerPages: [] },
+  { name: 'sapanca', method: 'GET', path: '/sapanca', expectJson: false, callerPages: [] },
+  { name: 'tr/kocaali', method: 'GET', path: '/tr/kocaali', expectJson: false, callerPages: [] },
+  { name: 'tr/sapanca', method: 'GET', path: '/tr/sapanca', expectJson: false, callerPages: [] },
   { name: 'blog', method: 'GET', path: '/blog', expectJson: false, callerPages: [] },
   { name: 'haberler', method: 'GET', path: '/haberler', expectJson: false, callerPages: [] },
   

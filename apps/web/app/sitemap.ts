@@ -17,9 +17,19 @@ import { calculatePriority, getChangeFrequency, sortSitemapEntries } from '@/lib
  * - Sitemap index support (sitemap.xml, sitemap-news.xml, sitemap-images.xml)
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = siteConfig.url;
-  const supabase = createServiceClient();
-  const sitemapEntries: MetadataRoute.Sitemap = [];
+  try {
+    const baseUrl = siteConfig.url || 'https://karasuemlak.net';
+    let supabase;
+    
+    try {
+      supabase = createServiceClient();
+    } catch (error: any) {
+      console.error('[sitemap] Failed to create Supabase client:', error.message);
+      // Return minimal sitemap with static routes only
+      return getStaticSitemap(baseUrl);
+    }
+    
+    const sitemapEntries: MetadataRoute.Sitemap = [];
 
   // Static routes with optimized priorities and frequencies
   const staticRoutes: Array<{
@@ -468,4 +478,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // If sitemap exceeds 50,000 URLs, split it (Next.js handles this automatically, but we can optimize)
   // For now, return sorted entries
   return sortedEntries;
+  } catch (error: any) {
+    console.error('[sitemap] Error generating sitemap:', error);
+    // Return minimal sitemap on error
+    return getStaticSitemap(siteConfig.url || 'https://karasuemlak.net');
+  }
+}
+
+/**
+ * Get minimal static sitemap (fallback on error)
+ */
+function getStaticSitemap(baseUrl: string): MetadataRoute.Sitemap {
+  return [
+    { url: baseUrl, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
+    { url: `${baseUrl}/satilik`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
+    { url: `${baseUrl}/kiralik`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
+    { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
+  ];
 }
