@@ -831,7 +831,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                         setTargetLocale(loc.code);
                         toast.success(`${loc.name} çeviri modu aktif`);
                       }}
-                      className={`w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center gap-2 ${
+                      className={`w-full text-left px-3 py-2 text-sm rounded hover:bg-muted transition-colors flex items-center gap-2 ${
                         targetLocale === loc.code ? "bg-primary/10" : ""
                       }`}
                     >
@@ -881,7 +881,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
           <button
             type="button"
             onClick={() => setIsFullscreen(!isFullscreen)}
-            className="p-2.5 rounded-xl bg-card border border-border hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900/20 transition-all duration-200 hover:scale-105"
+            className="p-2.5 rounded-xl bg-card border border-border hover:border-primary hover:bg-muted/50 transition-all duration-200 hover:scale-105"
             title="Tam Ekran"
           >
             {isFullscreen ? (
@@ -919,7 +919,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
               <button
                 type="button"
                 onClick={handleUnpublish}
-                className="px-4 py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-gray-200 dark:border-gray-700"
+                className="px-4 py-2.5 text-sm font-semibold text-foreground bg-muted rounded-xl hover:bg-muted/80 transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-border"
               >
                 Yayından Kaldır
               </button>
@@ -991,33 +991,33 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
       </div>
 
       {/* Enhanced Keyboard Shortcuts Hint */}
-      <div className="flex items-center gap-3 text-xs text-muted-foreground bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50 dark:from-gray-900/40 dark:via-gray-900/30 dark:to-gray-900/40 px-5 py-3 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm backdrop-blur-sm">
-        <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-white/60 dark:bg-card/60 border border-gray-200 dark:border-gray-700">
+      <div className="flex items-center gap-3 text-xs text-muted-foreground bg-muted/50 px-5 py-3 rounded-xl border border-border shadow-sm backdrop-blur-sm">
+        <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-card/60 border border-border">
           <Zap className="h-3.5 w-3.5 text-primary" />
           <span className="font-bold text-foreground">Kısayollar</span>
         </div>
-        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-800 transition-colors">
-          <kbd className="px-2 py-1 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-xs font-mono font-semibold shadow-sm">⌘S</kbd>
+        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-card/80 border border-border hover:bg-card transition-colors">
+          <kbd className="px-2 py-1 bg-muted border border-border rounded-md text-xs font-mono font-semibold shadow-sm text-foreground">⌘S</kbd>
           <span className="font-medium">Kaydet</span>
         </div>
-        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-800 transition-colors">
-          <kbd className="px-2 py-1 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-xs font-mono font-semibold shadow-sm">⌘P</kbd>
+        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-card/80 border border-border hover:bg-card transition-colors">
+          <kbd className="px-2 py-1 bg-muted border border-border rounded-md text-xs font-mono font-semibold shadow-sm text-foreground">⌘P</kbd>
           <span className="font-medium">Yayınla</span>
         </div>
-        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-800 transition-colors">
-          <kbd className="px-2 py-1 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-xs font-mono font-semibold shadow-sm">⌘K</kbd>
+        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-card/80 border border-border hover:bg-card transition-colors">
+          <kbd className="px-2 py-1 bg-muted border border-border rounded-md text-xs font-mono font-semibold shadow-sm text-foreground">⌘K</kbd>
           <span className="font-medium">Önizle</span>
         </div>
-        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-800 transition-colors">
-          <kbd className="px-2 py-1 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-xs font-mono font-semibold shadow-sm">⌘Z</kbd>
+        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-card/80 border border-border hover:bg-card transition-colors">
+          <kbd className="px-2 py-1 bg-muted border border-border rounded-md text-xs font-mono font-semibold shadow-sm text-foreground">⌘Z</kbd>
           <span className="font-medium">Geri Al</span>
         </div>
-        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-800 transition-colors">
-          <kbd className="px-2 py-1 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-xs font-mono font-semibold shadow-sm">⌘⇧Z</kbd>
+        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-card/80 border border-border hover:bg-card transition-colors">
+          <kbd className="px-2 py-1 bg-muted border border-border rounded-md text-xs font-mono font-semibold shadow-sm text-foreground">⌘⇧Z</kbd>
           <span className="font-medium">Yinele</span>
         </div>
-        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-800 transition-colors">
-          <kbd className="px-2 py-1 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-xs font-mono font-semibold shadow-sm">Esc</kbd>
+        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-card/80 border border-border hover:bg-card transition-colors">
+          <kbd className="px-2 py-1 bg-muted border border-border rounded-md text-xs font-mono font-semibold shadow-sm text-foreground">Esc</kbd>
           <span className="font-medium">Kapat</span>
         </div>
         {distractionFree && (
@@ -1308,7 +1308,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                                 </Badge>
                               </div>
                             </div>
-                            <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-primary transition-colors" />
+                            <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                           </div>
                           <p className="text-xs text-muted-foreground line-clamp-2">
                             {template.description}
@@ -1439,7 +1439,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       </div>
                     </div>
                     {/* Enhanced Progress Bar */}
-                    <div className="mt-2 h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden shadow-inner">
+                    <div className="mt-2 h-2 bg-muted rounded-full overflow-hidden shadow-inner">
                       <div
                         className={cn(
                           "h-full transition-all duration-500 ease-out relative",
@@ -1465,7 +1465,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                         Slug (URL)
                         <span className="text-red-500">*</span>
                       </Label>
-                      <div className="flex items-center gap-2 p-3 rounded-xl bg-gray-50 dark:bg-gray-900/30 border-2 border-gray-200 dark:border-gray-800 focus-within:border-design-light focus-within:ring-2 focus-within:ring-design-light/20 transition-all duration-200">
+                      <div className="flex items-center gap-2 p-3 rounded-xl bg-muted/30 border-2 border-border focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all duration-200">
                         <span className="text-sm text-muted-foreground font-medium">/ilan/</span>
                         <Input
                           id="slug"
@@ -1673,7 +1673,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                   </div>
 
                   {/* Map Integration Placeholder */}
-                  <div className="p-4 bg-gray-50 dark:bg-gray-900/20 rounded-lg border border-gray-200 dark:border-gray-800">
+                  <div className="p-4 bg-muted/30 rounded-lg border border-border">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <MapPin className="h-4 w-4" />
                       <span>Harita entegrasyonu yakında eklenecek</span>
@@ -1898,7 +1898,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                   )}
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800 hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-primary/10 transition-all duration-200">
+                    <div className="space-y-2 p-4 rounded-xl bg-muted/30 border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200">
                       <Label htmlFor="area_sqm" className="text-xs font-ui font-bold text-foreground flex items-center gap-2">
                         <div className="p-1.5 rounded-lg bg-blue-100 dark:bg-blue-900/30">
                           <Ruler className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
@@ -1915,7 +1915,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       />
                     </div>
 
-                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800 hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-primary/10 transition-all duration-200">
+                    <div className="space-y-2 p-4 rounded-xl bg-muted/30 border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200">
                       <Label htmlFor="room_count" className="text-xs font-ui font-bold text-foreground flex items-center gap-2">
                         <div className="p-1.5 rounded-lg bg-purple-100 dark:bg-purple-900/30">
                           <Bed className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
@@ -1932,7 +1932,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       />
                     </div>
 
-                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800 hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-primary/10 transition-all duration-200">
+                    <div className="space-y-2 p-4 rounded-xl bg-muted/30 border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200">
                       <Label htmlFor="floor" className="text-xs font-ui font-bold text-foreground flex items-center gap-2">
                         <div className="p-1.5 rounded-lg bg-green-100 dark:bg-green-900/30">
                           <Layers className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
@@ -1949,7 +1949,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       />
                     </div>
 
-                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800 hover:border-design-light/50 hover:bg-design-light/5 dark:hover:bg-primary/10 transition-all duration-200">
+                    <div className="space-y-2 p-4 rounded-xl bg-muted/30 border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200">
                       <Label htmlFor="building_age" className="text-xs font-ui font-bold text-foreground flex items-center gap-2">
                         <div className="p-1.5 rounded-lg bg-orange-100 dark:bg-orange-900/30">
                           <Calendar className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400" />
@@ -2024,7 +2024,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       "border-2 border-dashed rounded-2xl p-12 text-center transition-all duration-300 relative overflow-hidden",
                       dragActive
                         ? "border-design-light bg-gradient-to-br from-design-light/10 to-design-light/5 scale-[1.02] shadow-lg"
-                        : "border-gray-300 dark:border-gray-700 hover:border-design-light/50 hover:bg-gray-50/50 dark:hover:bg-gray-900/20"
+                        : "border-border hover:border-primary/50 hover:bg-muted/50"
                     )}
                   >
                     {dragActive && (
@@ -2048,13 +2048,13 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                       "p-4 rounded-2xl mx-auto mb-4 w-fit transition-all duration-300",
                       dragActive
                         ? "bg-design-light/20 scale-110"
-                        : "bg-gray-100 dark:bg-gray-800"
+                        : "bg-muted"
                     )}>
                       <Upload className={cn(
                         "h-12 w-12 transition-colors duration-300",
                         dragActive
                           ? "text-primary"
-                          : "text-gray-400"
+                          : "text-muted-foreground"
                       )} />
                     </div>
                     <p className="text-base font-bold text-foreground mb-2">
@@ -2115,7 +2115,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                         {listing.images.map((image, index) => (
                           <div
                             key={index}
-                            className="group relative aspect-square rounded-xl overflow-hidden border-2 border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-900 hover-lift transition-all duration-300 animate-fade-in-scale hover:border-design-light/50 hover:shadow-lg"
+                            className="group relative aspect-square rounded-xl overflow-hidden border-2 border-border bg-muted hover-lift transition-all duration-300 animate-fade-in-scale hover:border-primary/50 hover:shadow-lg"
                             style={{ animationDelay: `${index * 50}ms` }}
                           >
                             <img
@@ -2517,23 +2517,23 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                             "p-4 rounded-xl border-2 transition-all duration-200 hover:scale-105",
                             item.done
                               ? "bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-green-300 dark:border-green-700"
-                              : "bg-gray-50 dark:bg-gray-900/30 border-gray-200 dark:border-gray-800"
+                              : "bg-muted/30 border-border"
                           )}
                         >
                           <div className="flex items-center gap-3 mb-2">
                             {item.done ? (
                               <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
                             ) : (
-                              <XCircle className="h-5 w-5 text-gray-400" />
+                              <XCircle className="h-5 w-5 text-muted-foreground" />
                             )}
                             <Icon className={cn(
                               "h-5 w-5",
-                              item.done ? "text-green-600 dark:text-green-400" : "text-gray-400"
+                              item.done ? "text-green-600 dark:text-green-400" : "text-muted-foreground"
                             )} />
                           </div>
                           <span className={cn(
                             "text-sm font-bold block",
-                            item.done ? "text-green-900 dark:text-green-100" : "text-gray-600 dark:text-gray-400"
+                            item.done ? "text-green-900 dark:text-green-100" : "text-muted-foreground"
                           )}>
                             {item.label}
                           </span>
@@ -2743,13 +2743,13 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     <div className={`p-3 rounded-lg border ${
                       seoScore.title 
                         ? "bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800"
-                        : "bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800"
+                        : "bg-muted/30 border-border"
                     }`}>
                       <div className="flex items-center gap-2">
                         {seoScore.title ? (
                           <CheckCircle2 className="h-4 w-4 text-green-600" />
                         ) : (
-                          <AlertCircle className="h-4 w-4 text-gray-400" />
+                          <AlertCircle className="h-4 w-4 text-muted-foreground" />
                         )}
                         <span className="text-xs font-semibold">Başlık (30-70 karakter)</span>
                       </div>
@@ -2757,13 +2757,13 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     <div className={`p-3 rounded-lg border ${
                       seoScore.description 
                         ? "bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800"
-                        : "bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800"
+                        : "bg-muted/30 border-border"
                     }`}>
                       <div className="flex items-center gap-2">
                         {seoScore.description ? (
                           <CheckCircle2 className="h-4 w-4 text-green-600" />
                         ) : (
-                          <AlertCircle className="h-4 w-4 text-gray-400" />
+                          <AlertCircle className="h-4 w-4 text-muted-foreground" />
                         )}
                         <span className="text-xs font-semibold">Açıklama (min 200 karakter)</span>
                       </div>
@@ -2771,13 +2771,13 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     <div className={`p-3 rounded-lg border ${
                       seoScore.images 
                         ? "bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800"
-                        : "bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800"
+                        : "bg-muted/30 border-border"
                     }`}>
                       <div className="flex items-center gap-2">
                         {seoScore.images ? (
                           <CheckCircle2 className="h-4 w-4 text-green-600" />
                         ) : (
-                          <AlertCircle className="h-4 w-4 text-gray-400" />
+                          <AlertCircle className="h-4 w-4 text-muted-foreground" />
                         )}
                         <span className="text-xs font-semibold">Fotoğraflar (min 3)</span>
                       </div>
@@ -2785,13 +2785,13 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     <div className={`p-3 rounded-lg border ${
                       seoScore.location 
                         ? "bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800"
-                        : "bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800"
+                        : "bg-muted/30 border-border"
                     }`}>
                       <div className="flex items-center gap-2">
                         {seoScore.location ? (
                           <CheckCircle2 className="h-4 w-4 text-green-600" />
                         ) : (
-                          <AlertCircle className="h-4 w-4 text-gray-400" />
+                          <AlertCircle className="h-4 w-4 text-muted-foreground" />
                         )}
                         <span className="text-xs font-semibold">Konum Bilgisi</span>
                       </div>
@@ -2799,13 +2799,13 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     <div className={`p-3 rounded-lg border ${
                       seoScore.price 
                         ? "bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800"
-                        : "bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800"
+                        : "bg-muted/30 border-border"
                     }`}>
                       <div className="flex items-center gap-2">
                         {seoScore.price ? (
                           <CheckCircle2 className="h-4 w-4 text-green-600" />
                         ) : (
-                          <AlertCircle className="h-4 w-4 text-gray-400" />
+                          <AlertCircle className="h-4 w-4 text-muted-foreground" />
                         )}
                         <span className="text-xs font-semibold">Fiyat Bilgisi</span>
                       </div>

@@ -511,7 +511,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                 </p>
               )}
               <div className="flex items-center justify-between mt-1">
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted-foreground">
                   {listing.title.length} karakter
                 </p>
                 {listing.title.length > 0 && listing.title.length < 30 && (
@@ -541,7 +541,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                 URL Slug <span className="text-red-500">*</span>
               </Label>
               <div className="mt-2 flex items-center gap-2">
-                <span className="text-sm text-gray-500">/ilan/</span>
+                <span className="text-sm text-muted-foreground">/ilan/</span>
                 <Input
                   id="slug"
                   value={listing.slug}
@@ -584,7 +584,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                   </SelectTrigger>
                   <SelectContent 
                     position="popper"
-                    className="!z-[99999] rounded-xl border-2 shadow-xl bg-white dark:bg-gray-900"
+                    className="!z-[99999] rounded-xl border-2 shadow-xl bg-card"
                     sideOffset={4}
                     onCloseAutoFocus={(e) => e.preventDefault()}
                   >
@@ -632,7 +632,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                   </SelectTrigger>
                   <SelectContent 
                     position="popper"
-                    className="z-[9999] max-h-[300px] rounded-xl border-2 shadow-xl bg-white dark:bg-gray-900"
+                    className="z-[9999] max-h-[300px] rounded-xl border-2 shadow-xl bg-card"
                     sideOffset={4}
                   >
                     {PROPERTY_TYPES.map((type) => {
@@ -711,7 +711,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                   disabled
                   className="mt-2 h-12 text-base bg-muted"
                 />
-                <p className="text-xs text-gray-500 mt-1">Varsayılan: Karasu</p>
+                <p className="text-xs text-muted-foreground mt-1">Varsayılan: Karasu</p>
               </div>
             </div>
 
@@ -728,14 +728,14 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                 rows={4}
                 placeholder="Sokak, cadde, bina numarası gibi detaylı adres bilgisi..."
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 Detaylı adres bilgisi harita entegrasyonu için kullanılır
               </p>
             </div>
 
             {/* Map Integration Placeholder */}
-            <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-8 text-center bg-muted/30">
-              <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <div className="border-2 border-dashed border-border rounded-xl p-8 text-center bg-muted/30">
+              <MapPin className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <h4 className="font-semibold text-foreground mb-2">Harita Entegrasyonu</h4>
               <p className="text-sm text-muted-foreground mb-4">
                 Konum seçimi için harita entegrasyonu yakında eklenecek
@@ -795,12 +795,12 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                       value={listing.price_currency || "TRY"}
                       onValueChange={(value) => setListing({ ...listing, price_currency: value })}
                     >
-                      <SelectTrigger className="h-8 w-16 border-0 bg-transparent p-0 hover:bg-gray-100 dark:hover:bg-gray-800 rounded">
+                      <SelectTrigger className="h-8 w-16 border-0 bg-transparent p-0 hover:bg-muted rounded">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent 
                         position="popper"
-                        className="z-[9999] bg-white dark:bg-gray-900 min-w-[80px]"
+                        className="z-[9999] bg-card min-w-[80px]"
                         sideOffset={4}
                       >
                         <SelectItem value="TRY" className="cursor-pointer">₺ TRY</SelectItem>
@@ -843,7 +843,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                   </SelectTrigger>
                   <SelectContent 
                     position="popper"
-                    className="!z-[99999] rounded-xl border-2 shadow-xl bg-white dark:bg-gray-900"
+                    className="!z-[99999] rounded-xl border-2 shadow-xl bg-card"
                     sideOffset={4}
                     onCloseAutoFocus={(e) => e.preventDefault()}
                   >
@@ -882,7 +882,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                   min="0"
                 />
                 {listing.area_sqm && (
-                  <p className="text-xs text-gray-500 mt-1">{formatNumber(listing.area_sqm)} m²</p>
+                  <p className="text-xs text-muted-foreground mt-1">{formatNumber(listing.area_sqm)} m²</p>
                 )}
               </div>
 
@@ -906,7 +906,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                   min="0"
                 />
                 {listing.room_count && (
-                  <p className="text-xs text-gray-500 mt-1">{listing.room_count}+1</p>
+                  <p className="text-xs text-muted-foreground mt-1">{listing.room_count}+1</p>
                 )}
               </div>
 
@@ -950,7 +950,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                   min="0"
                 />
                 {listing.building_age !== undefined && listing.building_age !== null && (
-                  <p className="text-xs text-gray-500 mt-1">{listing.building_age} yaşında</p>
+                  <p className="text-xs text-muted-foreground mt-1">{listing.building_age} yaşında</p>
                 )}
               </div>
             </div>
@@ -1009,14 +1009,14 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                 )}>
                   <Upload className={cn(
                     "h-8 w-8 transition-colors",
-                    dragActive ? "text-blue-600 dark:text-blue-400" : "text-gray-400"
+                    dragActive ? "text-primary" : "text-muted-foreground"
                   )} />
                 </div>
                 <div>
-                  <p className="text-base font-semibold text-gray-900 dark:text-white mb-1">
+                  <p className="text-base font-semibold text-foreground mb-1">
                     {dragActive ? "Fotoğrafları buraya bırakın" : "Fotoğrafları sürükleyip bırakın"}
                   </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                  <p className="text-sm text-muted-foreground mb-2">
                     veya
                   </p>
                   <Button
@@ -1029,7 +1029,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                     Dosya Seç
                   </Button>
                 </div>
-                <p className="text-xs text-gray-400 dark:text-gray-500">
+                <p className="text-xs text-muted-foreground">
                   PNG, JPG, WEBP (Max 10MB per file) • {listing.images.length}/20 fotoğraf
                 </p>
               </div>
@@ -1074,7 +1074,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                           variant="ghost"
                           size="icon"
                           onClick={() => setPrimaryImage(index)}
-                          className="h-8 w-8 rounded-full bg-white/90 hover:bg-white text-gray-900"
+                          className="h-8 w-8 rounded-full bg-card/90 hover:bg-card text-foreground"
                           title="Kapak yap"
                         >
                           <Star className="h-4 w-4" />
@@ -1084,7 +1084,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                           size="icon"
                           onClick={() => moveImage(index, "up")}
                           disabled={index === 0}
-                          className="h-8 w-8 rounded-full bg-white/90 hover:bg-white text-gray-900 disabled:opacity-50"
+                          className="h-8 w-8 rounded-full bg-card/90 hover:bg-card text-foreground disabled:opacity-50"
                           title="Yukarı taşı"
                         >
                           <MoveUp className="h-4 w-4" />
@@ -1094,7 +1094,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                           size="icon"
                           onClick={() => moveImage(index, "down")}
                           disabled={index === listing.images.length - 1}
-                          className="h-8 w-8 rounded-full bg-white/90 hover:bg-white text-gray-900 disabled:opacity-50"
+                          className="h-8 w-8 rounded-full bg-card/90 hover:bg-card text-foreground disabled:opacity-50"
                           title="Aşağı taşı"
                         >
                           <MoveDown className="h-4 w-4" />
@@ -1278,7 +1278,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
               />
               {listing.description && (
                 <div className="mt-3 flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-xs text-gray-500">
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
                     <span>
                       {listing.description.replace(/<[^>]*>/g, "").length} karakter
                     </span>
@@ -1337,20 +1337,20 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                     </div>
                   </div>
                 ) : (
-                  <div className="aspect-video rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+                  <div className="aspect-video rounded-lg border-2 border-dashed border-border flex items-center justify-center bg-muted/30">
                     <div className="text-center">
-                      <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-                      <p className="text-sm text-gray-500">Fotoğraf eklenmemiş</p>
+                      <ImageIcon className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+                      <p className="text-sm text-muted-foreground">Fotoğraf eklenmemiş</p>
                     </div>
                   </div>
                 )}
 
                 {/* Title */}
                 <div>
-                  <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  <h4 className="text-xl font-bold text-foreground mb-2">
                     {listing.title || "İlan Başlığı"}
                   </h4>
-                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <MapPin className="h-4 w-4" />
                     <span>{listing.location_neighborhood || "Mahalle"}</span>
                   </div>
@@ -1359,38 +1359,38 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                 {/* Details Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {listing.price_amount && (
-                    <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Fiyat</p>
-                      <p className="text-lg font-bold text-gray-900 dark:text-white">
+                    <div className="bg-card rounded-lg p-3 border border-border">
+                      <p className="text-xs text-muted-foreground mb-1">Fiyat</p>
+                      <p className="text-lg font-bold text-foreground">
                         {formatCurrency(listing.price_amount)}
                       </p>
                       {previewPricePerM2 && listing.area_sqm && (
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           {formatCurrency(previewPricePerM2)}/m²
                         </p>
                       )}
                     </div>
                   )}
                   {listing.area_sqm && (
-                    <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Metrekare</p>
-                      <p className="text-lg font-bold text-gray-900 dark:text-white">
+                    <div className="bg-card rounded-lg p-3 border border-border">
+                      <p className="text-xs text-muted-foreground mb-1">Metrekare</p>
+                      <p className="text-lg font-bold text-foreground">
                         {formatNumber(listing.area_sqm)} m²
                       </p>
                     </div>
                   )}
                   {listing.room_count && (
-                    <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Oda</p>
-                      <p className="text-lg font-bold text-gray-900 dark:text-white">
+                    <div className="bg-card rounded-lg p-3 border border-border">
+                      <p className="text-xs text-muted-foreground mb-1">Oda</p>
+                      <p className="text-lg font-bold text-foreground">
                         {listing.room_count}+1
                       </p>
                     </div>
                   )}
                   {listing.property_type && (
-                    <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Tip</p>
-                      <p className="text-lg font-bold text-gray-900 dark:text-white capitalize">
+                    <div className="bg-card rounded-lg p-3 border border-border">
+                      <p className="text-xs text-muted-foreground mb-1">Tip</p>
+                      <p className="text-lg font-bold text-foreground capitalize">
                         {PROPERTY_TYPES.find(t => t.value === listing.property_type)?.label || listing.property_type}
                       </p>
                     </div>
@@ -1439,7 +1439,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
               </h3>
 
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600 transition-all">
+                <div className="flex items-center justify-between p-4 bg-card rounded-xl border-2 border-border hover:border-primary transition-all">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <Globe className="h-4 w-4 text-blue-600" />
@@ -1447,7 +1447,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                         Sitede Yayınla
                       </Label>
                     </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-muted-foreground">
                       İlanı sitede görünür yap ve arama motorlarında indeksle
                     </p>
                   </div>
@@ -1458,7 +1458,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                   />
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-yellow-400 dark:hover:border-yellow-600 transition-all">
+                <div className="flex items-center justify-between p-4 bg-card rounded-xl border-2 border-border hover:border-primary transition-all">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <Star className="h-4 w-4 text-yellow-600" />
@@ -1466,7 +1466,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                         Öne Çıkan İlan
                       </Label>
                     </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-muted-foreground">
                       Ana sayfada ve öne çıkan bölümlerde göster
                     </p>
                   </div>
@@ -1477,7 +1477,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                   />
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-green-400 dark:hover:border-green-600 transition-all">
+                <div className="flex items-center justify-between p-4 bg-card rounded-xl border-2 border-border hover:border-primary transition-all">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <CheckCircle className="h-4 w-4 text-green-600" />
@@ -1485,7 +1485,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                         Müsait
                       </Label>
                     </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-muted-foreground">
                       İlan aktif ve görüntülenebilir durumda
                     </p>
                   </div>
@@ -1547,13 +1547,13 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
           </div>
           <div className="flex items-center gap-3">
             {autoSaving && (
-              <div className="flex items-center gap-2 text-sm text-gray-500 bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-lg">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted px-3 py-1.5 rounded-lg">
                 <Loader2 className="h-3 w-3 animate-spin" />
                 <span>Kaydediliyor...</span>
               </div>
             )}
             {lastSaved && !autoSaving && (
-              <div className="flex items-center gap-2 text-sm text-gray-500">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Clock className="h-3 w-3" />
                 <span>Son kayıt: {lastSaved.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })}</span>
               </div>
@@ -1567,7 +1567,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
 
         {/* Progress Bar */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
+          <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
             <span>İlerleme</span>
             <span className="font-semibold">{Math.round(progress)}%</span>
           </div>
@@ -1622,7 +1622,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
                     )}>
                       {step.label}
                     </p>
-                    <p className="text-[10px] text-gray-400 mt-0.5 hidden md:block">
+                    <p className="text-[10px] text-muted-foreground mt-0.5 hidden md:block">
                       {step.description}
                     </p>
                   </div>
@@ -1649,7 +1649,7 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
       </Card>
 
       {/* Footer Actions */}
-      <div className="mt-6 flex items-center justify-between bg-white dark:bg-gray-900 rounded-xl border-2 border-gray-200 dark:border-gray-700 p-4 shadow-lg">
+      <div className="mt-6 flex items-center justify-between bg-card rounded-xl border-2 border-border p-4 shadow-lg">
         <Button
           variant="outline"
           onClick={handlePrevious}
@@ -1706,24 +1706,24 @@ export function ListingEditorWizard({ listingId, onClose, onSave }: ListingEdito
 
       {/* Keyboard Shortcuts Hint */}
       <div className="mt-4 text-center">
-        <p className="text-xs text-gray-400 flex items-center justify-center gap-4">
+        <p className="text-xs text-muted-foreground flex items-center justify-center gap-4">
           <span className="flex items-center gap-1">
-            <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs">⌘</kbd>
-            <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs">→</kbd>
+            <kbd className="px-2 py-1 bg-muted rounded text-xs text-foreground">⌘</kbd>
+            <kbd className="px-2 py-1 bg-muted rounded text-xs text-foreground">→</kbd>
             Sonraki
           </span>
           <span className="flex items-center gap-1">
-            <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs">⌘</kbd>
-            <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs">←</kbd>
+            <kbd className="px-2 py-1 bg-muted rounded text-xs text-foreground">⌘</kbd>
+            <kbd className="px-2 py-1 bg-muted rounded text-xs text-foreground">←</kbd>
             Önceki
           </span>
           <span className="flex items-center gap-1">
-            <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs">⌘</kbd>
-            <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs">S</kbd>
+            <kbd className="px-2 py-1 bg-muted rounded text-xs text-foreground">⌘</kbd>
+            <kbd className="px-2 py-1 bg-muted rounded text-xs text-foreground">S</kbd>
             Kaydet
           </span>
           <span className="flex items-center gap-1">
-            <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs">ESC</kbd>
+            <kbd className="px-2 py-1 bg-muted rounded text-xs text-foreground">ESC</kbd>
             Kapat
           </span>
         </p>
