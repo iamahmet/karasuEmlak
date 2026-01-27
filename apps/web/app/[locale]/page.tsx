@@ -381,8 +381,8 @@ export default async function HomePage({
       <StructuredData data={realEstateAgentSchema} />
       <StructuredData data={websiteSchema} />
 
-      {/* Compact Hero Section with Featured Listings */}
-      <CompactHeroSection basePath={basePath} featuredListings={featuredListings} />
+      {/* Compact Hero Section with Recent Listings */}
+      <CompactHeroSection basePath={basePath} recentListings={recentListings} />
 
       {/* Son Eklenen İlanlar - Hero Section'ın Hemen Altında */}
       <SectionErrorBoundary sectionName="Son Eklenen İlanlar">

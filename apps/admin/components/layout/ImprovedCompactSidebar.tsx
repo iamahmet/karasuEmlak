@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
-import { usePathname, Link } from "../../i18n/routing";
+import { usePathname, Link, useRouter } from "../../i18n/routing";
 import {
   LayoutDashboard,
   Home,
@@ -41,12 +41,14 @@ const SIDEBAR_STORAGE_KEY = "admin-sidebar-collapsed";
 
 export function ImprovedCompactSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<string[]>(["içerikler"]);
   const [poi369Expanded, setPoi369Expanded] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const sidebarRef = useRef<HTMLElement>(null);
 
   // Animation mount state
@@ -59,6 +61,7 @@ export function ImprovedCompactSidebar() {
     const fetchUserRole = async () => {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
       
       if (user) {
         // Check if user is superadmin
@@ -139,14 +142,20 @@ export function ImprovedCompactSidebar() {
         { href: "/comments", label: "Yorumlar", icon: MessageSquare },
       ],
     },
-    // Ayarlar sadece superadmin için
-    ...(isSuperAdmin ? [{ href: "/settings", label: "Ayarlar", icon: Settings }] : []),
+    // Ayarlar POI369 Studio'ya taşındı
   ], []);
 
   const poi369Items: NavItem[] = useMemo(() => [
     { href: "/seo/booster", label: "SEO Booster", icon: Zap },
     { href: "/analytics/dashboard", label: "Analytics", icon: BarChart3 },
     { href: "/project-bot", label: "Project Bot", icon: Code },
+    {
+      label: "Gelişmiş Ayarlar",
+      icon: Settings,
+      children: [
+        { href: "/settings", label: "Sistem Ayarları", icon: Settings },
+      ],
+    },
   ], []);
 
   const isExpanded = !collapsed || hovered;
@@ -544,12 +553,22 @@ export function ImprovedCompactSidebar() {
 
               {/* User Info */}
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-foreground truncate">Admin User</p>
-                <p className="text-[11px] text-muted-foreground truncate">admin@karasuemlak.net</p>
+                <p className="text-sm font-semibold text-foreground truncate">
+                  {user?.email?.split("@")[0] || user?.user_metadata?.name || "Kullanıcı"}
+                </p>
+                <p className="text-[11px] text-muted-foreground truncate">
+                  {user?.email || "Yükleniyor..."}
+                </p>
               </div>
 
               {/* Logout Button */}
               <button
+                onClick={async () => {
+                  const supabase = createClient();
+                  await supabase.auth.signOut();
+                  const locale = window.location.pathname.split("/")[1] || "tr";
+                  router.push(`/${locale}/login`);
+                }}
                 className="p-2 rounded-lg hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-all duration-300"
                 aria-label="Çıkış yap"
               >
@@ -574,8 +593,12 @@ export function ImprovedCompactSidebar() {
                 className="bg-card/95 backdrop-blur-xl border-border/50 shadow-xl"
               >
                 <div className="px-2 py-1">
-                  <p className="text-sm font-semibold">Admin User</p>
-                  <p className="text-[11px] text-muted-foreground">admin@karasuemlak.net</p>
+                  <p className="text-sm font-semibold">
+                    {user?.email?.split("@")[0] || user?.user_metadata?.name || "Kullanıcı"}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground">
+                    {user?.email || "Yükleniyor..."}
+                  </p>
                 </div>
               </TooltipContent>
             </Tooltip>

@@ -208,11 +208,7 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
         },
       ],
     },
-    {
-      href: "/settings",
-      label: "Ayarlar",
-      icon: Settings,
-    },
+    // Ayarlar POI369 Studio'ya taşındı
   ];
 
   // 🛠️ POI369 STUDIO (SECONDARY, ADVANCED TOOLS - GELİŞTİRME ODAKLI)
@@ -311,6 +307,11 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
       label: "Gelişmiş Ayarlar",
       icon: Wrench,
       children: [
+        {
+          href: "/settings",
+          label: "Sistem Ayarları",
+          icon: Settings,
+        },
         {
           href: "/compliance/consent",
           label: "Compliance",
