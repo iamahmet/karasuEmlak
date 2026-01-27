@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
 import { Fragment } from 'react';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';

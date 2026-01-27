@@ -1,6 +1,5 @@
 import { Button } from '@karasu/ui';
 
-export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import { routing } from '@/i18n/routing';
 import { siteConfig } from '@karasu-emlak/config';

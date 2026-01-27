@@ -27,7 +27,6 @@ import { Button } from '@karasu/ui';
 import { getListingStats } from '@/lib/supabase/queries';
 import { withTimeout } from '@/lib/utils/timeout';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600;
 
 export async function generateStaticParams() {

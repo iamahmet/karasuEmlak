@@ -1,7 +1,6 @@
 import { Button } from '@karasu/ui';
 import type { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 1800; // Revalidate every 30 minutes (homepage shows dynamic content)
 import Link from 'next/link';
 import { routing } from '@/i18n/routing';

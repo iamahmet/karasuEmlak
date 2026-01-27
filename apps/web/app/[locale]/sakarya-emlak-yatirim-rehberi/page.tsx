@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { siteConfig } from '@karasu-emlak/config';
 
-export const dynamic = 'force-dynamic';
 import { routing } from '@/i18n/routing';
 import { Button } from '@karasu/ui';
 import Link from 'next/link';

@@ -9,7 +9,6 @@ import { StructuredData } from '@/components/seo/StructuredData';
 import { generateLocalBusinessSchema, generateFAQSchema } from '@/lib/seo/structured-data';
 import dynamicImport from 'next/dynamic';
 
-export const dynamic = 'force-dynamic';
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,

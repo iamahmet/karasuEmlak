@@ -19,7 +19,6 @@ import { generateOrganizationSchema } from '@/lib/seo/structured-data';
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600;
 
 export async function generateStaticParams() {

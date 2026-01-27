@@ -21,7 +21,6 @@ import { generateWebPageSchema } from '@/lib/seo/blog-structured-data';
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600;
 
 export async function generateStaticParams() {

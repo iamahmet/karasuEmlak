@@ -10,7 +10,6 @@ import { Button } from '@karasu/ui';
 import { ArrowRight, Mail, Linkedin, Instagram } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // 1 hour
 
 export async function generateStaticParams() {

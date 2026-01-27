@@ -17,7 +17,6 @@ import dynamicImport from 'next/dynamic';
 import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticles';
 import { getRelatedContent } from '@/lib/content/related-content';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // 1 hour
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {

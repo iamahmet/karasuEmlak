@@ -4,7 +4,6 @@ import { routing } from '@/i18n/routing';
 import { Calendar, User, ExternalLink, MapPin, FileText } from 'lucide-react';
 import type { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 1800; // Revalidate every 30 minutes (news changes frequently)
 import { getNewsArticles } from '@/lib/supabase/queries';
 import { getLatestGundemArticles } from '@/lib/rss/gundem-parser';

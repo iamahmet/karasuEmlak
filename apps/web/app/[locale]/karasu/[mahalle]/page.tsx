@@ -11,7 +11,6 @@ import { Button } from '@karasu/ui';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateArticleSchema } from '@/lib/seo/structured-data';
 
-export const dynamic = 'force-dynamic';
 
 const mahalleLabels: Record<string, { name: string; description: string }> = {
   merkez: {

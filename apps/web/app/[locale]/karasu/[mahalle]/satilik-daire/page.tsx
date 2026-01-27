@@ -18,7 +18,6 @@ import { withTimeout } from '@/lib/utils/timeout';
 import { generateSlug } from '@/lib/utils';
 import dynamicImport from 'next/dynamic';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // 1 hour
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {

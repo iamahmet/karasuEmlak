@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { siteConfig } from '@karasu-emlak/config';
 
-export const dynamic = 'force-dynamic';
 import { routing } from '@/i18n/routing';
 import { getListings } from '@/lib/supabase/queries/listings';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';

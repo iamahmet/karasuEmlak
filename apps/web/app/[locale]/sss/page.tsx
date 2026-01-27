@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';

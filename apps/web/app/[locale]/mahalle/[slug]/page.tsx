@@ -30,7 +30,6 @@ const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollR
   loading: () => null,
 });
 
-export const dynamic = 'force-dynamic';
 
 export async function generateStaticParams() {
   // First try neighborhoods table (preferred) - use slugs directly from database

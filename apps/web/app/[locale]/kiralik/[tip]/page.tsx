@@ -9,7 +9,6 @@ import { Home, Building2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
 
-export const dynamic = 'force-dynamic';
 
 const propertyTypeLabels: Record<string, string> = {
   daire: 'Daire',

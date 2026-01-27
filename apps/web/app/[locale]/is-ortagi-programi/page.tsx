@@ -19,7 +19,6 @@ import { generateServiceSchema } from '@/lib/seo/local-seo-schemas';
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600;
 
 export async function generateStaticParams() {

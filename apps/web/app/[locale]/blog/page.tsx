@@ -30,7 +30,6 @@ import { generateFAQSchema } from '@/lib/seo/structured-data';
 import { generateBlogCollectionPageSchema } from '@/lib/seo/blog-structured-data';
 import dynamicImport from 'next/dynamic';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour
 
 const TrustSignalsBarDynamic = dynamicImport(() => import('@/components/trust/TrustSignalsBar').then(mod => ({ default: mod.TrustSignalsBar })), {
