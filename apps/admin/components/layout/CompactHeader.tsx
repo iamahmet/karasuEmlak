@@ -31,16 +31,32 @@ export function CompactHeader({ onMenuToggle }: CompactHeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState<any>(null);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    const fetchUserAndRole = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
-    });
+
+      if (user) {
+        // Check if user is superadmin
+        const { data: roles } = await supabase
+          .from("user_roles")
+          .select("roles(name)")
+          .eq("user_id", user.id);
+
+        const hasSuperAdmin = roles?.some(
+          (ur: any) => ur.roles?.name === "super_admin"
+        ) || false;
+        setIsSuperAdmin(hasSuperAdmin);
+      }
+    };
+    fetchUserAndRole();
   }, []);
 
   // Track scroll for sticky header shadow
@@ -334,19 +350,22 @@ export function CompactHeader({ onMenuToggle }: CompactHeaderProps) {
 
               <DropdownMenuSeparator className="my-1.5 bg-border/50" />
 
-              <DropdownMenuGroup>
-                <DropdownMenuItem
-                  onClick={() => router.push("/settings")}
-                  className="rounded-lg px-2 py-2 cursor-pointer group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-muted group-hover:bg-primary/10 transition-colors">
-                      <Settings className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
+              {/* Ayarlar sadece superadmin için */}
+              {isSuperAdmin && (
+                <DropdownMenuGroup>
+                  <DropdownMenuItem
+                    onClick={() => router.push("/settings")}
+                    className="rounded-lg px-2 py-2 cursor-pointer group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="p-1.5 rounded-lg bg-muted group-hover:bg-primary/10 transition-colors">
+                        <Settings className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
+                      </div>
+                      <span className="text-sm font-medium">Ayarlar</span>
                     </div>
-                    <span className="text-sm font-medium">Ayarlar</span>
-                  </div>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              )}
 
               <DropdownMenuSeparator className="my-1.5 bg-border/50" />
 

@@ -46,15 +46,31 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
   const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState<any>(null);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    const fetchUserAndRole = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
-    });
+
+      if (user) {
+        // Check if user is superadmin
+        const { data: roles } = await supabase
+          .from("user_roles")
+          .select("roles(name)")
+          .eq("user_id", user.id);
+
+        const hasSuperAdmin = roles?.some(
+          (ur: any) => ur.roles?.name === "super_admin"
+        ) || false;
+        setIsSuperAdmin(hasSuperAdmin);
+      }
+    };
+    fetchUserAndRole();
   }, []);
 
   const handleLogout = async () => {
@@ -87,7 +103,8 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
     { href: "/media", label: "Medya", icon: Image, description: "Medya kütüphanesi", color: "pink" },
     { href: "/analytics/dashboard", label: "Analytics", icon: BarChart3, description: "Site analitikleri", color: "cyan" },
     { href: "/seo/booster", label: "SEO Booster", icon: Zap, description: "SEO optimizasyonu", color: "orange" },
-    { href: "/settings", label: "Ayarlar", icon: Settings, description: "Sistem ayarları", color: "slate" },
+    // Ayarlar sadece superadmin için
+    ...(isSuperAdmin ? [{ href: "/settings", label: "Ayarlar", icon: Settings, description: "Sistem ayarları", color: "slate" }] : []),
   ];
 
   // Get current page title from pathname
@@ -380,7 +397,9 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
                   <DropdownMenuItem
                     onClick={() => {
                       hapticButtonPress();
-                      router.push('/settings');
+                      if (isSuperAdmin) {
+                        router.push('/settings');
+                      }
                     }}
                     className="rounded-xl px-2 py-2.5 cursor-pointer group"
                   >
