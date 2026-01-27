@@ -1,30 +1,64 @@
-import { createBrowserClient as createSupabaseBrowserClient } from '@supabase/ssr';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
 /**
  * Supabase client for browser (client-side)
- * Uses anon key - safe for client-side usage
+ * Uses @supabase/supabase-js directly instead of @supabase/ssr
+ * to avoid internal singleton/hook issues that cause "Cannot destructure property 'auth'" errors
  * 
  * Always returns a valid client instance. If env vars are missing,
- * returns a client with placeholder values (API calls will fail gracefully).
+ * returns a fallback client that fails gracefully.
  */
-// Create a safe fallback client that's always returned
+
+// Singleton instance to prevent multiple client creations
+let browserClient: ReturnType<typeof createSupabaseClient> | null = null;
+
+// Create a safe fallback client that's always returned when configuration fails
 function createFallbackClient() {
+  const noopPromise = (errorMsg: string) => Promise.resolve({ 
+    data: null, 
+    error: { message: errorMsg, name: 'ConfigurationError' } 
+  });
+  
   const fallback = {
     auth: {
-      getUser: () => Promise.resolve({ data: { user: null }, error: { message: 'Supabase client initialization failed' } }),
-      signOut: () => Promise.resolve({ error: { message: 'Supabase client initialization failed' } }),
-      signInWithOtp: () => Promise.resolve({ error: { message: 'Supabase client initialization failed' } }),
-      signInWithPassword: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }),
-      signUp: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }),
-      exchangeCodeForSession: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }),
+      getUser: () => noopPromise('Supabase not configured'),
+      getSession: () => noopPromise('Supabase not configured'),
+      signOut: () => noopPromise('Supabase not configured'),
+      signInWithOtp: () => noopPromise('Supabase not configured'),
+      signInWithPassword: () => noopPromise('Supabase not configured'),
+      signUp: () => noopPromise('Supabase not configured'),
+      exchangeCodeForSession: () => noopPromise('Supabase not configured'),
+      resetPasswordForEmail: () => noopPromise('Supabase not configured'),
+      updateUser: () => noopPromise('Supabase not configured'),
+      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
     },
-    from: () => ({ select: () => ({ eq: () => Promise.resolve({ data: null, error: { message: 'Supabase client initialization failed' } }) }) }),
+    from: (table: string) => ({
+      select: (columns?: string) => ({
+        eq: (column: string, value: any) => noopPromise('Supabase not configured'),
+        single: () => noopPromise('Supabase not configured'),
+        order: () => ({ data: null, error: { message: 'Supabase not configured' } }),
+        limit: () => ({ data: null, error: { message: 'Supabase not configured' } }),
+      }),
+      insert: () => noopPromise('Supabase not configured'),
+      update: () => ({ eq: () => noopPromise('Supabase not configured') }),
+      delete: () => ({ eq: () => noopPromise('Supabase not configured') }),
+      upsert: () => noopPromise('Supabase not configured'),
+    }),
+    storage: {
+      from: (bucket: string) => ({
+        upload: () => noopPromise('Supabase not configured'),
+        download: () => noopPromise('Supabase not configured'),
+        getPublicUrl: () => ({ data: { publicUrl: '' } }),
+        list: () => noopPromise('Supabase not configured'),
+        remove: () => noopPromise('Supabase not configured'),
+      }),
+    },
+    channel: () => ({
+      on: () => ({ subscribe: () => ({ unsubscribe: () => {} }) }),
+      subscribe: () => ({ unsubscribe: () => {} }),
+    }),
+    removeChannel: () => Promise.resolve('ok'),
   } as any;
-  
-  // Ensure fallback always has auth
-  if (!fallback.auth) {
-    console.error('CRITICAL: Fallback client missing auth - this should never happen');
-  }
   
   return fallback;
 }
@@ -33,61 +67,58 @@ export function createClient() {
   // Only create client on client-side
   if (typeof window === 'undefined') {
     // Return a mock client for SSR that won't cause errors
-    // This should never be used, but prevents SSR errors
     return createFallbackClient();
   }
 
-  // Read environment variables directly from process.env
-  // In Next.js, NEXT_PUBLIC_* vars are available at build time and runtime
+  // Return cached client if it exists and is valid
+  if (browserClient) {
+    return browserClient;
+  }
+
+  // Read environment variables
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  // Check if environment variables are missing
-  // CRITICAL: If env vars are missing, return fallback client IMMEDIATELY
-  // DO NOT call createSupabaseBrowserClient with placeholder values - it will fail
+  // If env vars are missing, return fallback client
   if (!supabaseUrl || !supabaseAnonKey) {
     console.warn(
       '⚠️ Supabase environment variables are missing!\n' +
       'Required: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY\n' +
       'Please add them in Vercel Dashboard → Settings → Environment Variables'
     );
-    // Return fallback client - DO NOT call createSupabaseBrowserClient
     return createFallbackClient();
   }
 
-  // Always return a safe client - never return null or undefined
-  // Wrap everything in try-catch to ensure we always return a valid client
+  // Validate URL format
   try {
-    // Only call createSupabaseBrowserClient with valid URL and key
-    const client = createSupabaseBrowserClient(supabaseUrl, supabaseAnonKey);
+    new URL(supabaseUrl);
+  } catch {
+    console.error('CRITICAL: Invalid NEXT_PUBLIC_SUPABASE_URL format');
+    return createFallbackClient();
+  }
+
+  // Create the client using @supabase/supabase-js directly
+  try {
+    browserClient = createSupabaseClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+        flowType: 'pkce',
+      },
+    });
     
-    // Critical: Verify client exists and has auth property
-    if (!client || client === null || client === undefined) {
-      console.error('CRITICAL: createSupabaseBrowserClient returned null/undefined');
+    // Verify client was created successfully
+    if (!browserClient || !browserClient.auth) {
+      console.error('CRITICAL: createSupabaseClient returned invalid client');
+      browserClient = null;
       return createFallbackClient();
     }
     
-    if (!client.auth || client.auth === null || client.auth === undefined) {
-      console.error('CRITICAL: Supabase client missing auth property');
-      return createFallbackClient();
-    }
-    
-    // Additional safety check: verify auth has required methods
-    if (typeof client.auth.getUser !== 'function') {
-      console.error('CRITICAL: Supabase client.auth.getUser is not a function');
-      return createFallbackClient();
-    }
-    
-    // Final verification: ensure client is not null/undefined
-    if (client === null || client === undefined) {
-      console.error('CRITICAL: Client is null/undefined after all checks');
-      return createFallbackClient();
-    }
-    
-    return client;
+    return browserClient;
   } catch (error: any) {
     console.error('Error creating Supabase client:', error?.message || error);
-    // Return a safe fallback client - NEVER return null/undefined
+    browserClient = null;
     return createFallbackClient();
   }
 }
