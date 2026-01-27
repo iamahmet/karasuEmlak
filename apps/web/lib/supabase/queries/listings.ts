@@ -107,6 +107,10 @@ export async function getListings(
   // Apply filters
   if (filters?.status) {
     query = query.eq('status', filters.status);
+    // Debug log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[getListings] Filtering by status:', filters.status);
+    }
   }
 
   if (filters?.property_type && filters.property_type.length > 0) {
@@ -176,41 +180,147 @@ export async function getListings(
     data = result.data;
     error = result.error;
     count = result.count;
+
+    // Validate data before processing
+    if (data && !Array.isArray(data)) {
+      console.error('[getListings] Invalid data format - expected array, got:', typeof data);
+      return { listings: [], total: 0 };
+    }
   } catch (queryError: any) {
     console.error('[getListings] Unexpected error executing query:', queryError.message);
+    console.error('[getListings] Query error stack:', queryError.stack);
     return { listings: [], total: 0 };
   }
 
   if (error) {
-    console.error('Error fetching listings:', error);
+    console.error('[getListings] Error fetching listings:', error);
+    console.error('[getListings] Error code:', error.code);
+    console.error('[getListings] Error message:', error.message);
+    console.error('[getListings] Error details:', error.details);
+    console.error('[getListings] Error hint:', error.hint);
+    // Don't return empty - let the caller handle the error
+    // But log it for debugging
     return { listings: [], total: 0 };
+  }
+  
+  // Debug log in development
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[getListings] Query successful:', {
+      count: data?.length || 0,
+      total: count || 0,
+      status: filters?.status || 'all',
+      filters: JSON.stringify(filters || {}),
+    });
   }
 
   // Parse features and images safely using utility functions
   // Wrap in try-catch to handle any unexpected JSON parsing errors
   let listings: Listing[] = [];
   try {
-    listings = (data || []).map((listing: any) => {
+    listings = (data || []).map((listing: any, index: number) => {
       try {
-        return {
+        // Validate listing data before parsing
+        if (!listing || typeof listing !== 'object') {
+          console.warn(`[getListings] Invalid listing at index ${index}, skipping`);
+          return null;
+        }
+
+        // Safely parse features - handle both string and object formats
+        let parsedFeatures = {};
+        try {
+          parsedFeatures = safeParseFeatures(listing.features);
+        } catch (featuresError: any) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn(`[getListings] Error parsing features for listing ${listing.id}:`, featuresError.message);
+            if (typeof listing.features === 'string') {
+              console.warn(`[getListings] Features string length: ${listing.features.length}, preview: ${listing.features.substring(0, 100)}`);
+            }
+          }
+          parsedFeatures = {};
+        }
+
+        // Safely parse images - handle both string and array formats
+        let parsedImages: any[] = [];
+        try {
+          parsedImages = safeParseImages(listing.images);
+        } catch (imagesError: any) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn(`[getListings] Error parsing images for listing ${listing.id}:`, imagesError.message);
+            if (typeof listing.images === 'string') {
+              console.warn(`[getListings] Images string length: ${listing.images.length}, preview: ${listing.images.substring(0, 100)}`);
+            }
+          }
+          parsedImages = [];
+        }
+
+        const parsedListing = {
           ...listing,
-          features: safeParseFeatures(listing.features),
-          images: safeParseImages(listing.images),
+          features: parsedFeatures,
+          images: parsedImages,
         } as Listing;
+
+        // Test serialization before returning (catch any non-serializable data)
+        try {
+          JSON.stringify(parsedListing);
+        } catch (serializeError: any) {
+          console.error(`[getListings] Listing ${listing.id} is not serializable:`, serializeError.message);
+          // Return minimal safe listing
+          return {
+            id: listing.id,
+            title: listing.title || '',
+            slug: listing.slug || '',
+            status: listing.status || 'kiralik',
+            property_type: listing.property_type || 'daire',
+            location_city: listing.location_city || 'Sakarya',
+            location_district: listing.location_district || 'Karasu',
+            location_neighborhood: listing.location_neighborhood || '',
+            price_amount: typeof listing.price_amount === 'number' ? listing.price_amount : null,
+            price_currency: listing.price_currency || 'TRY',
+            available: listing.available ?? true,
+            published: listing.published ?? false,
+            featured: listing.featured ?? false,
+            created_at: typeof listing.created_at === 'string' ? listing.created_at : new Date().toISOString(),
+            updated_at: typeof listing.updated_at === 'string' ? listing.updated_at : new Date().toISOString(),
+            images: [],
+            features: {},
+          } as Listing;
+        }
+
+        return parsedListing;
       } catch (parseError: any) {
-        console.warn(`[getListings] Error parsing listing ${listing.id}:`, parseError.message);
-        return {
-          ...listing,
-          features: {},
-          images: [],
-        } as Listing;
+        console.error(`[getListings] Critical error parsing listing ${listing?.id || 'unknown'} at index ${index}:`, parseError.message);
+        if (process.env.NODE_ENV === 'development') {
+          console.error(`[getListings] Listing data:`, {
+            id: listing?.id,
+            title: listing?.title,
+            featuresType: typeof listing?.features,
+            imagesType: typeof listing?.images,
+            featuresLength: typeof listing?.features === 'string' ? listing.features.length : 'N/A',
+            imagesLength: typeof listing?.images === 'string' ? listing.images.length : 'N/A',
+          });
+        }
+        // Return null to filter out later
+        return null;
       }
-    });
+    }).filter((listing): listing is Listing => listing !== null); // Filter out null entries
   } catch (batchError: any) {
-    console.error('[getListings] Error processing listings:', batchError.message);
+    console.error('[getListings] Critical error processing listings:', batchError.message);
+    console.error('[getListings] Batch error stack:', batchError.stack);
+    // Return empty array instead of crashing
     return { listings: [], total: 0 };
   }
 
+  // Final debug log
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[getListings] Final result:', {
+      listingsCount: listings.length,
+      total: count || 0,
+      hasData: listings.length > 0,
+    });
+  }
+
+  // Note: Serialization should be done at the page level, not here
+  // This allows pages to handle serialization errors gracefully
   return { listings, total: count || 0 };
 }
 
@@ -313,25 +423,50 @@ export async function getFeaturedListings(limit = 6): Promise<Listing[]> {
   // If we have featured listings, return them with parsed JSON
   if (!featuredError && featuredData && featuredData.length > 0) {
     try {
-      const parsedListings = featuredData.map((listing: any) => {
+      const parsedListings = featuredData.map((listing: any, index: number) => {
         try {
+          // Validate listing data
+          if (!listing || typeof listing !== 'object') {
+            console.warn(`[getFeaturedListings] Invalid listing at index ${index}, skipping`);
+            return null;
+          }
+
+          // Safely parse features
+          let parsedFeatures = {};
+          try {
+            parsedFeatures = safeParseFeatures(listing.features);
+          } catch (featuresError: any) {
+            if (process.env.NODE_ENV === 'development') {
+              console.warn(`[getFeaturedListings] Error parsing features for listing ${listing.id}:`, featuresError.message);
+            }
+            parsedFeatures = {};
+          }
+
+          // Safely parse images
+          let parsedImages: any[] = [];
+          try {
+            parsedImages = safeParseImages(listing.images);
+          } catch (imagesError: any) {
+            if (process.env.NODE_ENV === 'development') {
+              console.warn(`[getFeaturedListings] Error parsing images for listing ${listing.id}:`, imagesError.message);
+            }
+            parsedImages = [];
+          }
+
           return {
             ...listing,
-            features: safeParseFeatures(listing.features),
-            images: safeParseImages(listing.images),
+            features: parsedFeatures,
+            images: parsedImages,
           } as Listing;
         } catch (parseError: any) {
-          console.warn(`[getFeaturedListings] Error parsing listing ${listing.id}:`, parseError.message);
-          return {
-            ...listing,
-            features: {},
-            images: [],
-          } as Listing;
+          console.error(`[getFeaturedListings] Critical error parsing listing ${listing?.id || 'unknown'} at index ${index}:`, parseError.message);
+          return null;
         }
-      });
+      }).filter((listing): listing is Listing => listing !== null);
       return parsedListings;
     } catch (batchError: any) {
       console.error('[getFeaturedListings] Error processing featured listings:', batchError.message);
+      console.error('[getFeaturedListings] Batch error stack:', batchError.stack);
       return [];
     }
   }
@@ -354,24 +489,49 @@ export async function getFeaturedListings(limit = 6): Promise<Listing[]> {
   // Parse JSON fields safely with error handling
   let parsedListings: Listing[] = [];
   try {
-    parsedListings = (data || []).map((listing: any) => {
+    parsedListings = (data || []).map((listing: any, index: number) => {
       try {
+        // Validate listing data
+        if (!listing || typeof listing !== 'object') {
+          console.warn(`[getFeaturedListings] Invalid listing at index ${index}, skipping`);
+          return null;
+        }
+
+        // Safely parse features
+        let parsedFeatures = {};
+        try {
+          parsedFeatures = safeParseFeatures(listing.features);
+        } catch (featuresError: any) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn(`[getFeaturedListings] Error parsing features for listing ${listing.id}:`, featuresError.message);
+          }
+          parsedFeatures = {};
+        }
+
+        // Safely parse images
+        let parsedImages: any[] = [];
+        try {
+          parsedImages = safeParseImages(listing.images);
+        } catch (imagesError: any) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn(`[getFeaturedListings] Error parsing images for listing ${listing.id}:`, imagesError.message);
+          }
+          parsedImages = [];
+        }
+
         return {
           ...listing,
-          features: safeParseFeatures(listing.features),
-          images: safeParseImages(listing.images),
+          features: parsedFeatures,
+          images: parsedImages,
         } as Listing;
       } catch (parseError: any) {
-        console.warn(`[getFeaturedListings] Error parsing listing ${listing.id}:`, parseError.message);
-        return {
-          ...listing,
-          features: {},
-          images: [],
-        } as Listing;
+        console.error(`[getFeaturedListings] Critical error parsing listing ${listing?.id || 'unknown'} at index ${index}:`, parseError.message);
+        return null;
       }
-    });
+    }).filter((listing): listing is Listing => listing !== null);
   } catch (batchError: any) {
     console.error('[getFeaturedListings] Error processing listings:', batchError.message);
+    console.error('[getFeaturedListings] Batch error stack:', batchError.stack);
     return [];
   }
 
@@ -407,24 +567,49 @@ export async function getRecentListings(limit = 6): Promise<Listing[]> {
   // Parse JSON fields safely
   let parsedListings: Listing[] = [];
   try {
-    parsedListings = (data || []).map((listing: any) => {
+    parsedListings = (data || []).map((listing: any, index: number) => {
       try {
+        // Validate listing data
+        if (!listing || typeof listing !== 'object') {
+          console.warn(`[getRecentListings] Invalid listing at index ${index}, skipping`);
+          return null;
+        }
+
+        // Safely parse features
+        let parsedFeatures = {};
+        try {
+          parsedFeatures = safeParseFeatures(listing.features);
+        } catch (featuresError: any) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn(`[getRecentListings] Error parsing features for listing ${listing.id}:`, featuresError.message);
+          }
+          parsedFeatures = {};
+        }
+
+        // Safely parse images
+        let parsedImages: any[] = [];
+        try {
+          parsedImages = safeParseImages(listing.images);
+        } catch (imagesError: any) {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn(`[getRecentListings] Error parsing images for listing ${listing.id}:`, imagesError.message);
+          }
+          parsedImages = [];
+        }
+
         return {
           ...listing,
-          features: safeParseFeatures(listing.features),
-          images: safeParseImages(listing.images),
+          features: parsedFeatures,
+          images: parsedImages,
         } as Listing;
       } catch (parseError: any) {
-        console.warn(`[getRecentListings] Error parsing listing ${listing.id}:`, parseError.message);
-        return {
-          ...listing,
-          features: {},
-          images: [],
-        } as Listing;
+        console.error(`[getRecentListings] Critical error parsing listing ${listing?.id || 'unknown'} at index ${index}:`, parseError.message);
+        return null;
       }
-    });
+    }).filter((listing): listing is Listing => listing !== null);
   } catch (batchError: any) {
     console.error('[getRecentListings] Error processing listings:', batchError.message);
+    console.error('[getRecentListings] Batch error stack:', batchError.stack);
     return [];
   }
 

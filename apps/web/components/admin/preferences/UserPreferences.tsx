@@ -10,6 +10,7 @@ import { Switch } from "@karasu/ui";
 import { Save, User, Bell } from "lucide-react";
 import { toast } from "sonner";
 import { createClient } from "@karasu/lib/supabase/client";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 
 interface Preferences {
   locale: string;
@@ -39,7 +40,11 @@ export function UserPreferences() {
       try {
         const stored = localStorage.getItem("user-preferences");
         if (stored) {
-          setPreferences(JSON.parse(stored));
+          const parsed = safeJsonParse(stored, {}, {
+            context: "user-preferences",
+            dedupeKey: "user-preferences",
+          });
+          setPreferences(parsed as Preferences);
         }
 
         const supabase = createClient();

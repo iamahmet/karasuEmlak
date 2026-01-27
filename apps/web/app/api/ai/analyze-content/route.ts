@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 
 let openai: any = null;
 
@@ -88,7 +89,10 @@ Lütfen şu formatta JSON döndür:
     });
 
     const responseText = completion.choices[0]?.message?.content || "{}";
-    const result = JSON.parse(responseText);
+    const result = safeJsonParse<{ suggestions?: any[] }>(responseText, { suggestions: [] }, {
+      context: "ai.analyze-content.response",
+      dedupeKey: "ai.analyze-content.response",
+    });
 
     // Add manual suggestions based on analysis
     const manualSuggestions = [];

@@ -4,6 +4,8 @@
  * Maximum 4 properties can be compared at once
  */
 
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
+
 const COMPARISON_STORAGE_KEY = 'karasu-emlak-comparison';
 const MAX_COMPARISON_ITEMS = 4;
 
@@ -15,7 +17,11 @@ export function getComparisonItems(): string[] {
   
   try {
     const stored = localStorage.getItem(COMPARISON_STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
+    if (!stored) return [];
+    return safeJsonParse(stored, [], {
+      context: 'comparison',
+      dedupeKey: 'comparison',
+    });
   } catch {
     return [];
   }

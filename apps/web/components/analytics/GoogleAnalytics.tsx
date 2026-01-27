@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 
 interface GoogleAnalyticsProps {
   measurementId?: string;
@@ -18,6 +19,7 @@ interface GoogleAnalyticsProps {
 export function GoogleAnalytics({ measurementId, nonce }: GoogleAnalyticsProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [canLoad, setCanLoad] = useState(false);
 
   useEffect(() => {
     if (!measurementId || typeof window === "undefined") return;
@@ -26,56 +28,27 @@ export function GoogleAnalytics({ measurementId, nonce }: GoogleAnalyticsProps) 
     const cookieConsent = localStorage.getItem("cookie-consent");
     if (!cookieConsent) return;
 
-    try {
-      const consent = JSON.parse(cookieConsent);
-      if (!consent.analytics) return;
-    } catch {
-      return;
-    }
+    const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+      context: 'cookie-consent',
+      dedupeKey: 'cookie-consent',
+    });
+    if (!consent.analytics) return;
+    setCanLoad(true);
+  }, [measurementId]);
 
-    // Track page view
+  useEffect(() => {
+    if (!canLoad || !measurementId || typeof window === "undefined") return;
     if (window.gtag) {
       window.gtag("config", measurementId, {
         page_path: pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : ""),
       });
     }
-  }, [pathname, searchParams, measurementId]);
+  }, [pathname, searchParams, measurementId, canLoad]);
 
-  if (!measurementId) return null;
+  if (!measurementId || !canLoad) return null;
 
   return (
     <>
-      <Script
-        id="google-analytics-init"
-        strategy="afterInteractive"
-        nonce={nonce}
-        dangerouslySetInnerHTML={{
-          __html: `
-            // Check cookie consent before loading GA4
-            (function() {
-              const cookieConsent = localStorage.getItem('cookie-consent');
-              if (!cookieConsent) return;
-              
-              try {
-                const consent = JSON.parse(cookieConsent);
-                if (!consent.analytics) return;
-              } catch {
-                return;
-              }
-
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${measurementId}', {
-                page_path: window.location.pathname,
-                anonymize_ip: true,
-                allow_google_signals: false,
-                allow_ad_personalization_signals: false,
-              });
-            })();
-          `,
-        }}
-      />
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
         strategy="afterInteractive"
@@ -89,6 +62,13 @@ export function GoogleAnalytics({ measurementId, nonce }: GoogleAnalyticsProps) 
                 window.dataLayer.push(args);
               }
             };
+            window.gtag("js", new Date());
+            window.gtag("config", measurementId, {
+              page_path: window.location.pathname,
+              anonymize_ip: true,
+              allow_google_signals: false,
+              allow_ad_personalization_signals: false,
+            });
           }
         }}
       />
@@ -111,12 +91,11 @@ export function trackEvent(
   const cookieConsent = localStorage.getItem("cookie-consent");
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag("event", action, {
     event_category: category,
@@ -135,12 +114,11 @@ export function trackPageView(path: string, title?: string) {
   const cookieConsent = localStorage.getItem("cookie-consent");
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag("event", "page_view", {
     page_path: path,

@@ -14,6 +14,15 @@ export function IntlProvider({ locale, messages, children }: IntlProviderProps) 
     <NextIntlClientProvider
       locale={locale}
       messages={messages}
+      onError={(error) => {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('[IntlProvider] i18n error:', error);
+        }
+      }}
+      getMessageFallback={({ namespace, key }) => {
+        const prefix = namespace ? `${namespace}.` : '';
+        return `${prefix}${key}`;
+      }}
       timeZone="Europe/Istanbul"
       formats={{
         dateTime: {

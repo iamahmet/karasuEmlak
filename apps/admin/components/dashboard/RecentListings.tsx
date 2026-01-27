@@ -69,7 +69,7 @@ export function RecentListings() {
         const supabase = createClient();
         const { data: listings, error: supabaseError } = await supabase
           .from("listings")
-          .select("id, title, slug, status, property_type, price, price_amount, published, featured, created_at, location_neighborhood, deleted_at")
+          .select("id, title, slug, status, property_type, price_amount, published, featured, created_at, location_neighborhood, deleted_at")
           .order("created_at", { ascending: false })
           .limit(20);
 
@@ -89,7 +89,7 @@ export function RecentListings() {
             slug: l.slug,
             status: l.status,
             property_type: l.property_type,
-            price: l.price_amount || l.price || 0,
+            price: l.price_amount || 0,
             published: l.published,
             featured: l.featured,
             created_at: l.created_at,

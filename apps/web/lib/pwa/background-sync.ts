@@ -3,6 +3,8 @@
  * Handles offline form submissions and data synchronization
  */
 
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
+
 export interface BackgroundSyncTask {
   id: string;
   type: 'form_submission' | 'favorite' | 'search' | 'contact';
@@ -70,7 +72,11 @@ export function getStoredSyncTasks(): BackgroundSyncTask[] {
   
   try {
     const stored = localStorage.getItem(SYNC_TASKS_STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
+    if (!stored) return [];
+    return safeJsonParse(stored, [], {
+      context: 'background-sync.tasks',
+      dedupeKey: 'background-sync.tasks',
+    });
   } catch {
     return [];
   }

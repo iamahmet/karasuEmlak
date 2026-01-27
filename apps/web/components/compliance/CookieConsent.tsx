@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button, Switch, Label } from '@karasu/ui';
 import { X, Settings, Cookie } from 'lucide-react';
 import Link from 'next/link';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 
 const COOKIE_CONSENT_KEY = 'cookie-consent';
 const COOKIE_CONSENT_VERSION = '1.0';
@@ -29,16 +30,15 @@ export function CookieConsent() {
     if (!consent) {
       setShowBanner(true);
     } else {
-      // Load saved preferences
-      try {
-        const saved = JSON.parse(consent);
-        if (saved.version === COOKIE_CONSENT_VERSION) {
-          setPreferences(saved.preferences);
-        } else {
-          // Version mismatch, show banner again
-          setShowBanner(true);
-        }
-      } catch {
+      // Load saved preferences safely
+      const saved = safeJsonParse<{ version: string; preferences: CookiePreferences } | null>(consent, null, {
+        context: 'cookie-consent',
+        dedupeKey: 'cookie-consent',
+      });
+      if (saved && saved.version === COOKIE_CONSENT_VERSION) {
+        setPreferences(saved.preferences);
+      } else {
+        // Version mismatch or invalid JSON, show banner again
         setShowBanner(true);
       }
     }

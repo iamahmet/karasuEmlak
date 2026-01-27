@@ -4,6 +4,7 @@
  */
 
 import type { PostgrestResponse } from '@supabase/supabase-js';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 
 /**
  * Safely execute a Supabase query with error handling
@@ -76,18 +77,17 @@ function safeProcessItem(item: any): any {
     if (typeof value === 'string') {
       const trimmed = value.trim();
       if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
-        try {
-          // Clean the string first - remove control characters that might break parsing
-          const cleaned = value.replace(/[\x00-\x1F\x7F-\x9F]/g, '').trim();
-          // Only parse if it's actually JSON
-          const parsed = JSON.parse(cleaned);
+        // Clean the string first - remove control characters that might break parsing
+        const cleaned = value.replace(/[\x00-\x1F\x7F-\x9F]/g, '').trim();
+        const PARSE_FAILED = "__SAFE_JSON_PARSE_FAILED__";
+        const parsed = safeJsonParse(cleaned, PARSE_FAILED as any, {
+          context: `supabase.safe-wrapper.${key}`,
+          dedupeKey: `supabase.safe-wrapper.${key}`,
+        });
+        if (parsed !== PARSE_FAILED) {
           processed[key] = parsed;
-        } catch (parseError: any) {
-          // Log warning but don't crash - keep as string
-          if (process.env.NODE_ENV === 'development') {
-            console.warn(`[SafeSupabaseWrapper] Failed to parse JSON field "${key}":`, parseError.message);
-          }
-          // Not valid JSON, keep as string
+        } else if (process.env.NODE_ENV === 'development') {
+          console.warn(`[SafeSupabaseWrapper] Failed to parse JSON field "${key}"`);
         }
       }
     } else if (typeof value === 'object' && value !== null) {

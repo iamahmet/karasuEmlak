@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { handleAPIError, getUserFriendlyMessage, logError } from "@/lib/errors/handle-api-error";
 import { FLAGSHIP_CONTENT_PROMPT } from "@/lib/prompts/editorial-optimizer";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 
 let openai: any = null;
 
@@ -138,7 +139,19 @@ Lütfen şu formatta JSON döndür:
     });
 
     const responseText = completion.choices[0]?.message?.content || "{}";
-    const content = JSON.parse(responseText);
+    const content = safeJsonParse<{
+      title?: string;
+      content?: string;
+      excerpt?: string;
+      metaDescription?: string;
+      meta_description?: string;
+      keywords?: string;
+      faq?: any[];
+      internalLinks?: any[];
+    }>(responseText, { title: "", content: "" }, {
+      context: "ai.generate-article.response",
+      dedupeKey: "ai.generate-article.response",
+    });
 
     if (!content.title || !content.content) {
       throw new Error("Invalid response format");

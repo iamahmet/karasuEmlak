@@ -108,7 +108,7 @@ export function ListingsStats() {
   const processListings = (listings: any[]) => {
     // Handle both price and price_amount formats
     const getPrice = (listing: any) => {
-      return listing.price_amount || listing.price || 0;
+      return listing.price_amount || 0;
     };
 
     const total = listings?.length || 0;

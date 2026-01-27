@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter, usePathname } from "@/i18n/routing";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 import {
   CommandDialog,
   CommandEmpty,
@@ -41,7 +42,11 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
     // Load recent items from localStorage
     const stored = localStorage.getItem("admin-recent-items");
     if (stored) {
-      setRecentItems(JSON.parse(stored));
+      const parsed = safeJsonParse(stored, [], {
+        context: "admin-recent-items",
+        dedupeKey: "admin-recent-items",
+      });
+      setRecentItems(Array.isArray(parsed) ? parsed : []);
     }
   }, []);
 

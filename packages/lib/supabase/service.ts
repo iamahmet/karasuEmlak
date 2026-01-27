@@ -15,18 +15,20 @@ export function createServiceClient() {
   
   try {
     const env = getEnv();
-    supabaseUrl = env.SUPABASE_URL;
+    // Try SUPABASE_URL first, fallback to NEXT_PUBLIC_SUPABASE_URL
+    supabaseUrl = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
     serviceRoleKey = env.SUPABASE_SERVICE_ROLE_KEY;
   } catch (error) {
     // Fallback to process.env if getEnv fails (development mode)
-    supabaseUrl = process.env.SUPABASE_URL;
+    // Try both SUPABASE_URL and NEXT_PUBLIC_SUPABASE_URL
+    supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
     serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   }
 
   if (!supabaseUrl || !serviceRoleKey) {
     throw new Error(
       'Missing required Supabase environment variables.\n' +
-      'Required: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY\n' +
+      'Required: SUPABASE_URL (or NEXT_PUBLIC_SUPABASE_URL), SUPABASE_SERVICE_ROLE_KEY\n' +
       `SUPABASE_URL: ${supabaseUrl ? 'SET' : 'MISSING'}\n` +
       `SUPABASE_SERVICE_ROLE_KEY: ${serviceRoleKey ? 'SET' : 'MISSING'}`
     );

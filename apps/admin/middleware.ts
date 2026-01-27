@@ -35,7 +35,8 @@ export async function middleware(request: NextRequest) {
   const skipAuth = pathname.includes("/login") ||
                    pathname.includes("/signup") ||
                    pathname.includes("/auth") ||
-                   pathname.includes("/api/");
+                   pathname.includes("/api/") ||
+                   pathname.includes("/healthz");
 
   if (!skipAuth && !isDevelopment) {
     try {
@@ -58,30 +59,48 @@ export async function middleware(request: NextRequest) {
       );
 
       // Refresh session - this updates cookies
-      const { data: { user }, error } = await supabase.auth.getUser();
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-      if (!user || error) {
+      if (!user || authError) {
         const loginUrl = new URL(`/tr/login`, request.url);
         loginUrl.searchParams.set("redirect", pathname);
         return NextResponse.redirect(loginUrl);
       }
 
       // Check staff role via user_roles table
-      const { data: roles } = await supabase
+      // Handle case where user_roles table might not exist
+      const { data: roles, error: rolesError } = await supabase
         .from("user_roles")
         .select("roles(name)")
         .eq("user_id", user.id);
+
+      // If table doesn't exist, allow access in development
+      if (rolesError && (rolesError.code === "PGRST116" || rolesError.code === "42P01")) {
+        if (isDevelopment) {
+          console.warn("⚠️  user_roles table not found, allowing access in development");
+        } else {
+          console.error("❌ user_roles table not found in production");
+          return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
+        }
+      }
 
       const isStaff = roles?.some(
         (ur: any) => ur.roles?.name === "super_admin" || ur.roles?.name === "admin" || ur.roles?.name === "staff"
       );
 
-      if (!isStaff) {
+      if (!isStaff && roles && roles.length > 0) {
+        // User has roles but none are staff/admin
+        return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
+      } else if (!isStaff && (!roles || roles.length === 0) && !isDevelopment) {
+        // No roles found and not in development
         return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
       }
     } catch (error) {
       console.error("Admin middleware auth error:", error);
-      return NextResponse.redirect(new URL("/tr/login", request.url));
+      // In development, allow access even on error
+      if (!isDevelopment) {
+        return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
+      }
     }
   }
 

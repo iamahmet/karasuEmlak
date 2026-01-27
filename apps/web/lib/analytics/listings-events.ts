@@ -2,6 +2,8 @@
  * Analytics events for listings page
  */
 
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
+
 /**
  * Track listing view (when user views a listing card)
  */
@@ -11,12 +13,11 @@ export function trackListingView(listingId: string, listingTitle: string, viewMo
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag('event', 'view_item', {
     event_category: 'Listings',
@@ -35,12 +36,11 @@ export function trackQuickView(listingId: string, listingTitle: string) {
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag('event', 'view_item', {
     event_category: 'Listings',
@@ -59,12 +59,11 @@ export function trackFilterUsage(filterType: string, filterValue: string | numbe
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag('event', 'filter_used', {
     event_category: 'Listings',
@@ -83,12 +82,11 @@ export function trackViewModeChange(viewMode: 'grid' | 'list' | 'map') {
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag('event', 'view_mode_change', {
     event_category: 'Listings',
@@ -106,12 +104,11 @@ export function trackSearch(query: string, resultsCount: number) {
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag('event', 'search', {
     event_category: 'Listings',
@@ -129,12 +126,11 @@ export function trackListingClick(listingId: string, listingTitle: string, sourc
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag('event', 'select_item', {
     event_category: 'Listings',

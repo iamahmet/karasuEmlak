@@ -41,10 +41,15 @@ export async function withTimeout<T>(
   } catch (error) {
     // If it's a timeout error, return fallback
     if (error instanceof Error && error.message.includes('timed out')) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`[withTimeout] Operation timed out after ${ms}ms, using fallback`);
+      }
       return fallback;
     }
     // For other errors, also return fallback (graceful degradation)
-    console.warn('Operation failed, using fallback:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('[withTimeout] Operation failed, using fallback:', error);
+    }
     return fallback;
   }
 }

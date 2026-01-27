@@ -3,6 +3,8 @@
  * Manages saved search filters using localStorage
  */
 
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
+
 const SAVED_SEARCHES_STORAGE_KEY = 'karasu-emlak-saved-searches';
 const MAX_SAVED_SEARCHES = 10;
 
@@ -21,7 +23,11 @@ export function getSavedSearches(): SavedSearch[] {
   
   try {
     const stored = localStorage.getItem(SAVED_SEARCHES_STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
+    if (!stored) return [];
+    return safeJsonParse(stored, [], {
+      context: 'saved-searches',
+      dedupeKey: 'saved-searches',
+    });
   } catch {
     return [];
   }

@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Button } from "@karasu/ui";
 import { Upload } from "lucide-react";
 import { toast } from "sonner";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 
 interface ImportButtonProps {
   onImport: (data: any[]) => Promise<void>;
@@ -33,7 +34,16 @@ export function ImportButton({
       let data: any[] = [];
 
       if (file.name.endsWith(".json")) {
-        data = JSON.parse(fileContent);
+        const PARSE_FAILED = "__SAFE_JSON_PARSE_FAILED__";
+        const parsed = safeJsonParse(fileContent, PARSE_FAILED as any, {
+          context: "admin.import-button.file",
+          dedupeKey: "admin.import-button.file",
+        });
+        if (parsed === PARSE_FAILED) {
+          toast.error("Geçersiz JSON dosyası");
+          return;
+        }
+        data = parsed as any[];
       } else if (file.name.endsWith(".csv")) {
         const lines = fileContent.split("\n");
         const headers = lines[0].split(",").map((h) => h.trim());

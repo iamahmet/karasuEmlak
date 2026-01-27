@@ -4,6 +4,7 @@
  */
 
 import { registerBackgroundSync } from '@/lib/pwa/background-sync';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 
 interface RetryOptions {
   maxRetries?: number;
@@ -39,9 +40,14 @@ export async function fetchWithRetry<T = any>(
   if (typeof window !== 'undefined' && !navigator.onLine && options.method && options.method !== 'GET') {
     // Register background sync for offline requests
     try {
+      const bodyString = typeof options.body === 'string' ? options.body : undefined;
+      const looksLikeJson = bodyString ? /^[\s]*[{\[]/.test(bodyString) : false;
+      const parsedBody = bodyString && looksLikeJson
+        ? safeJsonParse(bodyString, {}, { context: 'api-client.offline-body', dedupeKey: 'api-client.offline-body' })
+        : {};
       const taskId = await registerBackgroundSync({
         type: 'form_submission',
-        data: options.body ? JSON.parse(options.body as string) : {},
+        data: parsedBody,
         url,
         method: (options.method as 'POST' | 'PUT' | 'PATCH' | 'DELETE') || 'POST',
       });
@@ -79,8 +85,30 @@ export async function fetchWithRetry<T = any>(
       });
 
       if (response.ok) {
-        const data = await response.json();
-        return data;
+        const contentType = response.headers.get('content-type') || '';
+        const text = await response.text();
+        if (!contentType.toLowerCase().includes('application/json')) {
+          return {
+            success: false,
+            error: 'Unexpected non-JSON response',
+            message: 'Unexpected non-JSON response',
+            code: 'NON_JSON_RESPONSE',
+          };
+        }
+        const PARSE_FAILED = '__SAFE_JSON_PARSE_FAILED__';
+        const data = safeJsonParse(text, PARSE_FAILED as any, {
+          context: 'api-client.response',
+          dedupeKey: `api-client.response:${url}`,
+        });
+        if (data === PARSE_FAILED) {
+          return {
+            success: false,
+            error: 'Invalid JSON response',
+            message: 'Invalid JSON response',
+            code: 'BAD_JSON_RESPONSE',
+          };
+        }
+        return data as ApiResponse<T>;
       }
 
       if (retryableStatuses.includes(response.status) && attempt < maxRetries) {
@@ -89,7 +117,11 @@ export async function fetchWithRetry<T = any>(
         continue;
       }
 
-      const errorData = await response.json().catch(() => ({}));
+      const errorText = await response.text();
+      const errorData = safeJsonParse<Record<string, any>>(errorText, {}, {
+        context: 'api-client.error-response',
+        dedupeKey: `api-client.error:${url}`,
+      });
       return {
         success: false,
         error: errorData.message || errorData.error || `HTTP ${response.status}`,

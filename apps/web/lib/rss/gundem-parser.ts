@@ -197,7 +197,15 @@ export async function parseGundemRSS(rssUrl: string): Promise<ParsedRSSFeed> {
       parseTagValue: true,
     });
 
-    const json = parser.parse(xmlText);
+    let json;
+    try {
+      json = parser.parse(xmlText);
+    } catch (parseError: any) {
+      console.error('[Gundem RSS] XML parse error:', parseError?.message);
+      console.error('[Gundem RSS] XML text length:', xmlText?.length);
+      console.error('[Gundem RSS] XML preview:', xmlText?.substring(0, 500));
+      throw parseError;
+    }
     
     // Extract channel data
     const channel = json.rss?.channel || json.feed;
@@ -275,7 +283,10 @@ export async function parseGundemRSS(rssUrl: string): Promise<ParsedRSSFeed> {
       articles,
     };
   } catch (error: any) {
-    console.error('RSS parsing error:', error?.message || error);
+    console.error('[Gundem RSS] Parsing error:', error?.message || error);
+    if (error?.stack) {
+      console.error('[Gundem RSS] Stack:', error.stack);
+    }
     // Don't throw - return empty feed to prevent page crashes
     return {
       title: 'Karasu Gündem',

@@ -1,23 +1,31 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { validateEmail, isEmailValid } from '../email-validation';
+
+vi.mock('@/lib/utils/api-client', () => ({
+  fetchWithRetry: vi.fn().mockResolvedValue({ success: false }),
+}));
 
 describe('email-validation utilities', () => {
   describe('validateEmail', () => {
-    it('should validate correct email addresses', () => {
-      expect(validateEmail('test@example.com')).toBe(true);
-      expect(validateEmail('user.name@domain.co.uk')).toBe(true);
-      expect(validateEmail('user+tag@example.com')).toBe(true);
+    beforeEach(() => {
+      vi.clearAllMocks();
     });
 
-    it('should reject invalid email addresses', () => {
-      expect(validateEmail('invalid')).toBe(false);
-      expect(validateEmail('@example.com')).toBe(false);
-      expect(validateEmail('user@')).toBe(false);
-      expect(validateEmail('user @example.com')).toBe(false);
+    it('should validate correct email addresses', async () => {
+      expect((await validateEmail('test@example.com'))?.valid).toBe(true);
+      expect((await validateEmail('user.name@domain.co.uk'))?.valid).toBe(true);
+      expect((await validateEmail('user+tag@example.com'))?.valid).toBe(true);
     });
 
-    it('should handle empty strings', () => {
-      expect(validateEmail('')).toBe(false);
+    it('should reject invalid email addresses', async () => {
+      expect((await validateEmail('invalid'))?.valid).toBe(false);
+      expect((await validateEmail('@example.com'))?.valid).toBe(false);
+      expect((await validateEmail('user@'))?.valid).toBe(false);
+      expect((await validateEmail('user @example.com'))?.valid).toBe(false);
+    });
+
+    it('should handle empty strings', async () => {
+      expect((await validateEmail(''))?.valid).toBe(false);
     });
   });
 

@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { createClient } from "@/lib/admin/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@karasu/ui";
 import type { Metadata } from "next";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -195,16 +196,14 @@ export default async function DashboardPage({
         // Safely parse details/metadata if it's a JSON string
         recentActivity = recentActivityData.map((log: any) => {
           let metadata = {};
-          try {
-            const details = log.details || log.metadata;
-            if (typeof details === 'string') {
-              metadata = JSON.parse(details);
-            } else if (details && typeof details === 'object') {
-              metadata = details;
-            }
-          } catch (e) {
-            // If parsing fails, use empty object
-            metadata = {};
+          const details = log.details || log.metadata;
+          if (typeof details === 'string') {
+            metadata = safeJsonParse(details, {}, {
+              context: 'admin.dashboard.recent-activity',
+              dedupeKey: 'admin.dashboard.recent-activity',
+            });
+          } else if (details && typeof details === 'object') {
+            metadata = details;
           }
           
           return {

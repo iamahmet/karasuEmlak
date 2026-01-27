@@ -24,26 +24,8 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 async function reloadSchema() {
   console.log("🔄 Supabase PostgREST schema cache yenileniyor...");
-  
+  console.log("💡 For full reload use: pnpm supabase:reload-postgrest");
   try {
-    // Method 1: Query table to force schema refresh
-    console.log("📊 Schema refresh için content_comments tablosu sorgulanıyor...");
-
-    // Method 2: Direct SQL execution (if RPC doesn't work)
-    if (notifyError) {
-      console.log("⚠️  RPC method failed, trying direct SQL...");
-      const { error: sqlError } = await supabase
-        .from('_dummy')
-        .select('*')
-        .limit(0)
-        .catch(() => {
-          // This will fail but might trigger schema refresh
-          return { error: null };
-        });
-    }
-
-    // Method 3: Query the table to force schema refresh
-    console.log("📊 Schema refresh için content_comments tablosu sorgulanıyor...");
     const { data, error } = await supabase
       .from("content_comments")
       .select("id")

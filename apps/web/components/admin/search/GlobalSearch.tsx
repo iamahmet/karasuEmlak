@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter, usePathname } from "@/i18n/routing";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 import {
   CommandDialog,
   CommandEmpty,
@@ -50,7 +51,11 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
   useEffect(() => {
     const stored = localStorage.getItem("admin-recent-searches");
     if (stored) {
-      setRecentSearches(JSON.parse(stored));
+      const parsed = safeJsonParse(stored, [], {
+        context: "admin-recent-searches",
+        dedupeKey: "admin-recent-searches",
+      });
+      setRecentSearches(Array.isArray(parsed) ? parsed : []);
     }
   }, []);
 

@@ -47,20 +47,19 @@ async function handleGet(request: NextRequest) {
   const { data: notifications, error } = await query;
 
   if (error) {
-    // If table doesn't exist, return empty array
     const errorMessage = error.message?.toLowerCase() || "";
     const errorCode = error.code || "";
-    
-    if (
-      errorCode === "PGRST116" || 
-      errorCode === "42P01" ||
+    const isMissing = errorCode === "PGRST116" || errorCode === "42P01" ||
       errorMessage.includes("does not exist") ||
-      (errorMessage.includes("relation") && errorMessage.includes("does not exist"))
-    ) {
-      console.warn(`[${requestId}] notifications table not found, returning empty array`);
+      (errorMessage.includes("relation") && errorMessage.includes("does not exist"));
+    const isStaleCache = errorCode === "PGRST205" || errorCode === "PGRST202" ||
+      errorMessage.includes("schema cache") || errorMessage.includes("could not find the table");
+
+    if (isMissing || isStaleCache) {
+      console.warn(`[${requestId}] notifications: ${isStaleCache ? "schema cache stale" : "table not found"}, returning []`);
       return createSuccessResponse(requestId, { notifications: [] });
     }
-    
+
     return createErrorResponse(
       requestId,
       "DATABASE_ERROR",

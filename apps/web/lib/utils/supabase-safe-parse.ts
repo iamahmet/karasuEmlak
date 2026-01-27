@@ -3,6 +3,8 @@
  * Handles malformed JSON in database fields gracefully
  */
 
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
+
 /**
  * Safely parse a Supabase response, handling any JSON parsing errors
  */
@@ -19,22 +21,15 @@ export function safeParseSupabaseResponse<T = any>(
     return data as T;
   }
 
-  // Try to parse JSON string
-  try {
-    return JSON.parse(data) as T;
-  } catch (error: any) {
-    const errorMsg = error instanceof Error ? error.message : 'Unknown error';
-    const position = errorMsg.match(/position (\d+)/)?.[1];
-    
-    console.warn('[SafeSupabaseParse] Failed to parse response:', {
-      error: errorMsg,
-      position: position || 'unknown',
-      preview: data.substring(0, 200),
-      length: data.length,
-    });
-    
+  const PARSE_FAILED = "__SAFE_JSON_PARSE_FAILED__";
+  const parsed = safeJsonParse(data, PARSE_FAILED as any, {
+    context: "supabase.safe-parse.response",
+    dedupeKey: "supabase.safe-parse.response",
+  });
+  if (parsed === PARSE_FAILED) {
     return fallback;
   }
+  return parsed as T;
 }
 
 /**
@@ -54,10 +49,12 @@ export function safeProcessSupabaseResult<T extends Record<string, any>>(
   // Safely parse JSON fields
   for (const field of jsonFields) {
     if (processed[field] && typeof processed[field] === 'string') {
-      try {
-        processed[field] = JSON.parse(processed[field]);
-      } catch {
-        // If parsing fails, keep original value or set to fallback
+      const PARSE_FAILED = "__SAFE_JSON_PARSE_FAILED__";
+      const parsedField = safeJsonParse(processed[field], PARSE_FAILED as any, {
+        context: `supabase.safe-parse.field.${field}`,
+        dedupeKey: `supabase.safe-parse.field.${field}`,
+      });
+      if (parsedField === PARSE_FAILED) {
         if (field === 'features') {
           processed[field] = {};
         } else if (field === 'images') {
@@ -65,6 +62,8 @@ export function safeProcessSupabaseResult<T extends Record<string, any>>(
         } else {
           // Keep original string value
         }
+      } else {
+        processed[field] = parsedField;
       }
     }
   }

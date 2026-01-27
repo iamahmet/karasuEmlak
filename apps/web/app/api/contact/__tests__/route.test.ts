@@ -20,6 +20,11 @@ vi.mock('@karasu/lib/supabase/service', () => ({
   })),
 }));
 
+// Mock rate limit
+vi.mock('@/lib/security/rate-limit', () => ({
+  withRateLimit: vi.fn().mockResolvedValue({ success: true }),
+}));
+
 describe('POST /api/contact', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -30,6 +35,7 @@ describe('POST /api/contact', () => {
       method: 'POST',
       body: JSON.stringify({
         email: 'test@example.com',
+        subject: 'Test Konu',
         message: 'Test message',
       }),
     });
@@ -38,7 +44,8 @@ describe('POST /api/contact', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.error).toContain('name');
+    expect(data.errors).toBeDefined();
+    expect(data.errors.some((e: { path?: string[] }) => e.path?.includes('name'))).toBe(true);
   });
 
   it('returns 400 for invalid email', async () => {
@@ -47,6 +54,7 @@ describe('POST /api/contact', () => {
       body: JSON.stringify({
         name: 'Test User',
         email: 'invalid-email',
+        subject: 'Test Konu',
         message: 'Test message',
       }),
     });
@@ -55,7 +63,8 @@ describe('POST /api/contact', () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.error).toContain('email');
+    expect(data.errors).toBeDefined();
+    expect(data.errors.some((e: { path?: string[] }) => e.path?.includes('email'))).toBe(true);
   });
 
   it('returns 200 for valid request', async () => {
@@ -65,6 +74,7 @@ describe('POST /api/contact', () => {
         name: 'Test User',
         email: 'test@example.com',
         phone: '+905551234567',
+        subject: 'Test Konu',
         message: 'Test message',
       }),
     });
@@ -73,6 +83,6 @@ describe('POST /api/contact', () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data.success).toBe(true);
+    expect(data.message).toBeDefined();
   });
 });

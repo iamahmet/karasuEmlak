@@ -15,6 +15,7 @@ import {
   AlertCircle
 } from "lucide-react";
 import { toast } from "sonner";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 import { cn } from "@karasu/lib";
 
 interface ListingExportImportProps {
@@ -100,7 +101,15 @@ export function ListingExportImport({ listing, onImport, className }: ListingExp
       let data;
 
       if (file.name.endsWith(".json")) {
-        data = JSON.parse(text);
+        const PARSE_FAILED = "__SAFE_JSON_PARSE_FAILED__";
+        const parsed = safeJsonParse(text, PARSE_FAILED as any, {
+          context: "admin.listings.import.file",
+          dedupeKey: "admin.listings.import.file",
+        });
+        if (parsed === PARSE_FAILED) {
+          throw new Error("Geçersiz JSON dosyası");
+        }
+        data = parsed;
       } else if (file.name.endsWith(".csv")) {
         // Simple CSV parser
         const lines = text.split("\n");

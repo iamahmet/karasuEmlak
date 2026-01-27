@@ -7,6 +7,7 @@ import { Button } from '@karasu/ui';
 import { cn } from '@karasu/lib';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { hapticButtonPress } from '@/lib/mobile/haptics';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 
 interface MobileSearchProps {
   placeholder?: string;
@@ -27,7 +28,9 @@ function getSearchHistory(): SearchHistoryItem[] {
   if (typeof window === 'undefined') return [];
   try {
     const history = localStorage.getItem('search-history');
-    return history ? JSON.parse(history) : [];
+    if (!history) return [];
+    // Use safeJsonParse - localStorage can be corrupted
+    return safeJsonParse(history, [], 'mobile-search.history');
   } catch {
     return [];
   }

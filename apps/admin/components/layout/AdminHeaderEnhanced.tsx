@@ -2,18 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { 
+import {
   Search, User, LogOut, Menu, X, Command, Bell, Settings, Sparkles,
   LayoutDashboard, Home, FileText, Newspaper, Users, MessageSquare,
-  Image, BarChart3, Shield, Zap, Code, Link2, Calendar, Bot, Activity,
-  ChevronRight, HelpCircle, BookOpen, ExternalLink, Monitor, Smartphone
+  Image, BarChart3, Zap, ChevronRight, ExternalLink
 } from "lucide-react";
 import { ThemeToggle } from "../theme/ThemeToggle";
 import { GlobalSearch } from "../search/GlobalSearch";
 import { NotificationCenter } from "../notifications/NotificationCenter";
 import { hapticButtonPress } from "@/lib/mobile/haptics";
 import {
-  Input,
   Button,
   DropdownMenu,
   DropdownMenuContent,
@@ -40,6 +38,7 @@ interface QuickNavItem {
   icon: React.ComponentType<{ className?: string }>;
   badge?: number;
   description?: string;
+  color?: string;
 }
 
 export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHeaderEnhancedProps) {
@@ -59,6 +58,7 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
   }, []);
 
   const handleLogout = async () => {
+    hapticButtonPress();
     const supabase = createClient();
     await supabase.auth.signOut();
     const locale = window.location.pathname.split("/")[1] || "tr";
@@ -79,16 +79,15 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
 
   // Quick navigation items
   const quickNavItems: QuickNavItem[] = [
-    { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, description: "Ana kontrol paneli" },
-    { href: "/articles", label: "Blog Yazıları", icon: FileText, description: "Makale yönetimi" },
-    { href: "/haberler", label: "Haberler", icon: Newspaper, description: "Haber yönetimi" },
-    { href: "/listings", label: "İlanlar", icon: Home, description: "Emlak ilanları" },
-    { href: "/users", label: "Kullanıcılar", icon: Users, description: "Kullanıcı yönetimi" },
-    { href: "/comments", label: "Yorumlar", icon: MessageSquare, description: "Yorum moderasyonu" },
-    { href: "/media", label: "Medya", icon: Image, description: "Medya kütüphanesi" },
-    { href: "/analytics/dashboard", label: "Analytics", icon: BarChart3, description: "Site analitikleri" },
-    { href: "/seo/booster", label: "SEO Booster", icon: Zap, description: "SEO optimizasyonu" },
-    { href: "/settings", label: "Ayarlar", icon: Settings, description: "Sistem ayarları" },
+    { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, description: "Ana kontrol paneli", color: "primary" },
+    { href: "/listings", label: "İlanlar", icon: Home, description: "Emlak ilanları", color: "emerald" },
+    { href: "/articles", label: "Blog Yazıları", icon: FileText, description: "Makale yönetimi", color: "blue" },
+    { href: "/haberler", label: "Haberler", icon: Newspaper, description: "Haber yönetimi", color: "violet" },
+    { href: "/users", label: "Kullanıcılar", icon: Users, description: "Kullanıcı yönetimi", color: "amber" },
+    { href: "/media", label: "Medya", icon: Image, description: "Medya kütüphanesi", color: "pink" },
+    { href: "/analytics/dashboard", label: "Analytics", icon: BarChart3, description: "Site analitikleri", color: "cyan" },
+    { href: "/seo/booster", label: "SEO Booster", icon: Zap, description: "SEO optimizasyonu", color: "orange" },
+    { href: "/settings", label: "Ayarlar", icon: Settings, description: "Sistem ayarları", color: "slate" },
   ];
 
   // Get current page title from pathname
@@ -103,31 +102,52 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
       "/comments": "Yorumlar",
       "/media": "Medya",
       "/settings": "Ayarlar",
-      "/content-quality": "İçerik Kalitesi",
-      "/content-review": "İçerik İnceleme",
       "/seo": "SEO Araçları",
       "/analytics": "Analytics",
     };
     return pageMap[path] || path.split("/").pop()?.replace(/-/g, " ") || "Admin Panel";
   };
 
+  const getColorClasses = (color: string) => {
+    const colors: Record<string, string> = {
+      primary: "bg-primary/10 text-primary group-hover:bg-primary/20",
+      emerald: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500/20",
+      blue: "bg-blue-500/10 text-blue-600 dark:text-blue-400 group-hover:bg-blue-500/20",
+      violet: "bg-violet-500/10 text-violet-600 dark:text-violet-400 group-hover:bg-violet-500/20",
+      amber: "bg-amber-500/10 text-amber-600 dark:text-amber-400 group-hover:bg-amber-500/20",
+      pink: "bg-pink-500/10 text-pink-600 dark:text-pink-400 group-hover:bg-pink-500/20",
+      cyan: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 group-hover:bg-cyan-500/20",
+      orange: "bg-orange-500/10 text-orange-600 dark:text-orange-400 group-hover:bg-orange-500/20",
+      slate: "bg-slate-500/10 text-slate-600 dark:text-slate-400 group-hover:bg-slate-500/20",
+    };
+    return colors[color] || colors.primary;
+  };
+
   if (!mounted) {
     return (
-      <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-card/80 backdrop-blur-xl h-14" />
+      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-card/95 backdrop-blur-xl h-14" />
     );
   }
 
   return (
     <>
-      <header 
-        role="banner" 
-        className="sticky top-0 z-50 w-full border-b border-border/60 bg-card/98 backdrop-blur-xl supports-[backdrop-filter]:bg-card/95 shadow-sm shadow-black/5 dark:shadow-black/20 transition-all duration-200"
-        style={{ height: 'var(--header-height, 52px)' }}
+      <header
+        role="banner"
+        className={cn(
+          "sticky top-0 z-50 w-full h-14",
+          "border-b border-border/40",
+          // Glassmorphism - matching sidebar
+          "bg-gradient-to-r from-card/98 via-card/95 to-card/98",
+          "backdrop-blur-2xl backdrop-saturate-150",
+          "shadow-sm shadow-black/5 dark:shadow-black/20",
+          "transition-all duration-300"
+        )}
       >
-        {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-design-light/3 via-transparent to-design-light/3 opacity-50 pointer-events-none" />
-        
-        <div className="container flex h-[52px] items-center gap-2.5 px-3 md:px-4 relative">
+        {/* Decorative gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/3 via-transparent to-primary/3 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent pointer-events-none" />
+
+        <div className="relative flex h-full items-center gap-3 px-3 sm:px-4">
           {/* Mobile menu toggle */}
           <Button
             variant="ghost"
@@ -136,102 +156,124 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
               hapticButtonPress();
               onMenuToggle?.();
             }}
-            className="md:hidden h-10 w-10 rounded-md hover:bg-muted/50 transition-all touch-manipulation active:scale-95"
-            aria-label="Menü"
-            style={{ touchAction: 'manipulation', minHeight: '44px', minWidth: '44px' }}
-          >
-            {isMobileMenuOpen ? (
-              <X className="h-4 w-4 text-design-dark dark:text-white" />
-            ) : (
-              <Menu className="h-4 w-4 text-design-dark dark:text-white" />
+            className={cn(
+              "h-10 w-10 rounded-xl",
+              "hover:bg-muted/50 active:scale-95",
+              "transition-all duration-200",
+              "touch-manipulation"
             )}
+            aria-label="Menü"
+            style={{ minHeight: '44px', minWidth: '44px' }}
+          >
+            <div className={cn(
+              "transition-transform duration-300",
+              isMobileMenuOpen && "rotate-90"
+            )}>
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </div>
           </Button>
 
-          {/* Logo - Desktop only, compact */}
-          <div className="hidden md:flex items-center min-w-0">
-            <Logo variant="full" size="sm" href="/dashboard" />
+          {/* Logo - Compact */}
+          <div className="hidden sm:flex items-center">
+            <Logo variant="icon" size="sm" href="/dashboard" />
           </div>
 
-          {/* Page Title - Mobile only */}
-          <div className="md:hidden flex-1 min-w-0">
-            <h1 className="text-sm font-display font-semibold text-design-dark dark:text-white truncate">
+          {/* Page Title */}
+          <div className="flex-1 min-w-0">
+            <h1 className="text-base font-bold text-foreground truncate">
               {getPageTitle()}
             </h1>
           </div>
-          
-          {/* Breadcrumb - Desktop only, compact */}
-          <div className="hidden lg:flex items-center gap-1.5 text-xs text-muted-foreground">
-            <span className="font-medium">Dashboard</span>
-            <ChevronRight className="h-3 w-3" />
-            <span>{getPageTitle()}</span>
-          </div>
 
-          {/* Search - Compact */}
-          <div className="hidden sm:flex flex-1 max-w-md">
-            <div className="relative group w-full">
-              <div className="absolute inset-0 bg-gradient-to-r from-design-light/15 to-transparent rounded-lg opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 blur-md -z-10" />
-              <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-design-gray dark:text-gray-400 group-focus-within:text-design-light transition-all duration-300 z-10" />
-              <Input
-                type="search"
-                placeholder={t("header.search") || "Ara..."}
-                onClick={() => setSearchOpen(true)}
-                onFocus={() => setSearchOpen(true)}
-                aria-label="Site genelinde ara"
-                className="pl-8 pr-14 h-8 text-xs border border-border/60 focus:border-design-light focus:ring-1 focus:ring-design-light/20 bg-card/80 backdrop-blur-sm text-foreground transition-all duration-200 rounded-md font-ui placeholder:text-muted-foreground cursor-pointer hover:border-design-light/40 hover:bg-card/90 relative z-10"
-              />
-              <kbd className="absolute right-2 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[9px] font-mono bg-muted border border-border/50 rounded text-muted-foreground shadow-sm z-10 hidden sm:flex items-center gap-0.5">
-                <Command className="h-2.5 w-2.5" />
-                <span>K</span>
-              </kbd>
-            </div>
-          </div>
+          {/* Right side actions */}
+          <div className="flex items-center gap-1">
+            {/* Search Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                hapticButtonPress();
+                setSearchOpen(true);
+              }}
+              className={cn(
+                "h-10 w-10 rounded-xl",
+                "hover:bg-primary/8 hover:text-primary",
+                "transition-all duration-200"
+              )}
+              aria-label="Ara"
+              style={{ minHeight: '44px', minWidth: '44px' }}
+            >
+              <Search className="h-4.5 w-4.5" />
+            </Button>
 
-          <GlobalSearch open={searchOpen} onOpenChange={setSearchOpen} />
+            <GlobalSearch open={searchOpen} onOpenChange={setSearchOpen} />
 
-          {/* Right side actions - Compact */}
-          <div className="flex items-center gap-1.5">
-            {/* Quick Nav Dropdown - Desktop only */}
+            {/* Quick Nav Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="hidden lg:flex h-8 w-8 rounded-md hover:bg-muted/50 transition-all"
+                  className={cn(
+                    "hidden sm:flex h-10 w-10 rounded-xl",
+                    "hover:bg-primary/8 hover:text-primary",
+                    "transition-all duration-200"
+                  )}
                   aria-label="Hızlı navigasyon"
                 >
-                  <LayoutDashboard className="h-4 w-4 text-design-dark dark:text-white" />
+                  <Sparkles className="h-4.5 w-4.5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent 
-                align="end" 
-                className="w-64 rounded-lg border border-border/60 shadow-lg bg-card/98 backdrop-blur-xl p-1.5"
+              <DropdownMenuContent
+                align="end"
+                className={cn(
+                  "w-72 rounded-xl p-2",
+                  "bg-card/98 backdrop-blur-xl",
+                  "border border-border/50 shadow-xl"
+                )}
               >
-                <DropdownMenuLabel className="px-2.5 py-2 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                <DropdownMenuLabel className="px-2 py-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                   Hızlı Navigasyon
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator className="my-1.5" />
-                <div className="max-h-[360px] overflow-y-auto scrollbar-modern">
-                  {quickNavItems.map((item) => (
+                <DropdownMenuSeparator className="my-1.5 bg-border/50" />
+                <div className="max-h-[400px] overflow-y-auto scrollbar-modern space-y-0.5">
+                  {quickNavItems.map((item, index) => (
                     <DropdownMenuItem
                       key={item.href}
-                      onClick={() => router.push(item.href)}
-                      className="rounded-md hover:bg-muted/50 transition-all cursor-pointer px-2.5 py-2 group"
+                      onClick={() => {
+                        hapticButtonPress();
+                        router.push(item.href);
+                      }}
+                      className={cn(
+                        "rounded-xl px-2 py-2.5 cursor-pointer group",
+                        "hover:bg-muted/50 transition-all duration-200",
+                        "animate-in fade-in slide-in-from-left-2"
+                      )}
+                      style={{ animationDelay: `${index * 30}ms` }}
                     >
-                      <div className="flex items-center gap-2.5 w-full">
-                        <div className="flex-shrink-0 w-7 h-7 rounded-md bg-gradient-to-br from-design-light/15 to-design-light/5 dark:from-design-light/25 dark:to-design-light/15 flex items-center justify-center group-hover:scale-110 transition-transform">
-                          <item.icon className="h-3.5 w-3.5 text-design-light" />
+                      <div className="flex items-center gap-3 w-full">
+                        <div className={cn(
+                          "flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center",
+                          "transition-all duration-200 group-hover:scale-105",
+                          getColorClasses(item.color || "primary")
+                        )}>
+                          <item.icon className="h-4 w-4" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-ui font-semibold text-design-dark dark:text-white truncate">
+                          <p className="text-sm font-semibold text-foreground truncate">
                             {item.label}
                           </p>
                           {item.description && (
-                            <p className="text-[10px] text-muted-foreground truncate mt-0.5">
+                            <p className="text-[11px] text-muted-foreground truncate">
                               {item.description}
                             </p>
                           )}
                         </div>
-                        <ChevronRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <ChevronRight className="h-4 w-4 text-muted-foreground/50 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                     </DropdownMenuItem>
                   ))}
@@ -239,124 +281,144 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Theme Toggle - Compact */}
+            {/* Theme Toggle */}
             <ThemeToggle />
 
-            {/* Notifications - Compact */}
+            {/* Notifications */}
             <NotificationCenter />
 
-            {/* User menu - Modern & Compact */}
+            {/* User menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
+                <Button
+                  variant="ghost"
+                  size="icon"
                   aria-label="Kullanıcı menüsü"
-                  className="h-8 w-8 rounded-md hover:bg-muted/50 transition-all duration-200 relative group"
+                  className={cn(
+                    "h-10 w-10 rounded-xl ml-0.5",
+                    "hover:bg-muted/50",
+                    "transition-all duration-200"
+                  )}
+                  style={{ minHeight: '44px', minWidth: '44px' }}
                 >
-                  <div className="relative w-7 h-7 rounded-md bg-gradient-to-br from-design-dark via-design-dark/90 to-design-dark/80 dark:from-design-light dark:via-design-light/90 dark:to-design-light/80 flex items-center justify-center border border-border/40 shadow-sm group-hover:shadow-md transition-all duration-200">
-                    <User className="h-3.5 w-3.5 text-white dark:text-design-dark" />
+                  <div className="relative">
+                    <div className={cn(
+                      "w-8 h-8 rounded-xl",
+                      "bg-gradient-to-br from-primary/30 to-primary/10",
+                      "flex items-center justify-center",
+                      "shadow-inner border border-primary/10"
+                    )}>
+                      <User className="h-4 w-4 text-primary" />
+                    </div>
+                    {/* Online indicator */}
+                    <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-card" />
                   </div>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent 
-                align="end" 
-                className="w-64 rounded-lg border border-border/60 shadow-lg bg-card/98 backdrop-blur-xl p-1.5 animate-in fade-in-0 zoom-in-95 duration-200"
+              <DropdownMenuContent
+                align="end"
+                className={cn(
+                  "w-72 rounded-xl p-2",
+                  "bg-card/98 backdrop-blur-xl",
+                  "border border-border/50 shadow-xl",
+                  "animate-in fade-in-0 zoom-in-95 duration-200"
+                )}
               >
-                {/* User Info - Compact */}
-                <DropdownMenuLabel className="px-2.5 py-2.5 border-b border-border/60">
-                  <div className="flex items-center gap-2.5">
-                      <div className="relative w-8 h-8 rounded-md bg-gradient-to-br from-design-dark via-design-dark/90 to-design-dark/80 dark:from-design-light dark:via-design-light/90 dark:to-design-light/80 flex items-center justify-center shadow-sm border border-border/40">
-                      <User className="h-4 w-4 text-white dark:text-design-dark" />
+                {/* User Info */}
+                <div className="px-2 py-3 mb-2 rounded-xl bg-gradient-to-r from-muted/50 to-transparent">
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <div className={cn(
+                        "w-12 h-12 rounded-xl",
+                        "bg-gradient-to-br from-primary/30 to-primary/10",
+                        "flex items-center justify-center shadow-inner"
+                      )}>
+                        <User className="h-6 w-6 text-primary" />
+                      </div>
+                      <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-card" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs font-semibold leading-none text-design-dark dark:text-white truncate">
-                        {user?.email?.split('@')[0] || "User"}
+                      <p className="text-sm font-bold text-foreground truncate">
+                        {user?.email?.split('@')[0] || "Admin User"}
                       </p>
-                      <p className="text-[10px] leading-none text-muted-foreground mt-1 font-ui truncate">
-                        {user?.email || "user@example.com"}
+                      <p className="text-[11px] text-muted-foreground truncate">
+                        {user?.email || "admin@karasuemlak.net"}
                       </p>
-                      <Badge variant="outline" className="mt-1.5 text-[9px] px-1.5 py-0.5 border-design-light/30 text-design-light h-4">
+                      <Badge className={cn(
+                        "mt-1.5 text-[10px] px-2 py-0.5 h-5",
+                        "bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
+                      )}>
                         Admin
                       </Badge>
                     </div>
                   </div>
-                </DropdownMenuLabel>
-                
-                <DropdownMenuSeparator className="my-2" />
+                </div>
 
-                {/* Quick Actions - Compact */}
-                <DropdownMenuGroup>
-                  <DropdownMenuItem 
-                    onClick={() => router.push('/dashboard')}
-                    className="rounded-md hover:bg-[#E7E7E7]/50 dark:hover:bg-[#0a3d35]/50 transition-all cursor-pointer px-2.5 py-2 group"
+                <DropdownMenuSeparator className="my-2 bg-border/50" />
+
+                {/* Quick Actions */}
+                <DropdownMenuGroup className="space-y-0.5">
+                  <DropdownMenuItem
+                    onClick={() => {
+                      hapticButtonPress();
+                      router.push('/dashboard');
+                    }}
+                    className="rounded-xl px-2 py-2.5 cursor-pointer group"
                   >
-                    <div className="flex items-center gap-2 w-full">
-                      <LayoutDashboard className="h-3.5 w-3.5 text-design-light group-hover:scale-110 transition-transform" />
-                      <span className="text-xs font-ui">Dashboard</span>
+                    <div className="flex items-center gap-3 w-full">
+                      <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                        <LayoutDashboard className="h-4 w-4 text-primary" />
+                      </div>
+                      <span className="text-sm font-medium">Dashboard</span>
                     </div>
                   </DropdownMenuItem>
 
-                  <DropdownMenuItem 
-                    onClick={() => router.push('/settings')}
-                    className="rounded-md hover:bg-[#E7E7E7]/50 dark:hover:bg-[#0a3d35]/50 transition-all cursor-pointer px-2.5 py-2 group"
+                  <DropdownMenuItem
+                    onClick={() => {
+                      hapticButtonPress();
+                      router.push('/settings');
+                    }}
+                    className="rounded-xl px-2 py-2.5 cursor-pointer group"
                   >
-                    <div className="flex items-center gap-2 w-full">
-                      <Settings className="h-3.5 w-3.5 text-design-light group-hover:rotate-90 transition-transform" />
-                      <span className="text-xs font-ui">Ayarlar</span>
-                    </div>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-
-                <DropdownMenuSeparator className="my-1.5" />
-
-                {/* Help & Resources - Compact */}
-                <DropdownMenuGroup>
-                  <DropdownMenuItem 
-                    onClick={() => window.open('https://docs.karasuemlak.net', '_blank')}
-                    className="rounded-md hover:bg-[#E7E7E7]/50 dark:hover:bg-[#0a3d35]/50 transition-all cursor-pointer px-2.5 py-2 group"
-                  >
-                    <div className="flex items-center gap-2 w-full">
-                      <BookOpen className="h-3.5 w-3.5 text-design-light" />
-                      <span className="text-xs font-ui">Dokümantasyon</span>
-                      <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto" />
-                    </div>
-                  </DropdownMenuItem>
-
-                  <DropdownMenuItem 
-                    onClick={() => router.push('/help')}
-                    className="rounded-md hover:bg-[#E7E7E7]/50 dark:hover:bg-[#0a3d35]/50 transition-all cursor-pointer px-2.5 py-2 group"
-                  >
-                    <div className="flex items-center gap-2 w-full">
-                      <HelpCircle className="h-3.5 w-3.5 text-design-light" />
-                      <span className="text-xs font-ui">Yardım & Destek</span>
+                    <div className="flex items-center gap-3 w-full">
+                      <div className="p-2 rounded-lg bg-muted group-hover:bg-primary/10 transition-colors">
+                        <Settings className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:rotate-90 transition-all duration-300" />
+                      </div>
+                      <span className="text-sm font-medium">Ayarlar</span>
                     </div>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
 
-                <DropdownMenuSeparator className="my-1.5" />
+                <DropdownMenuSeparator className="my-2 bg-border/50" />
 
                 {/* View Site */}
-                <DropdownMenuItem 
-                  onClick={() => window.open('/', '_blank')}
-                  className="rounded-md hover:bg-[#E7E7E7]/50 dark:hover:bg-[#0a3d35]/50 transition-all cursor-pointer px-2.5 py-2 group"
+                <DropdownMenuItem
+                  onClick={() => {
+                    hapticButtonPress();
+                    window.open('/', '_blank');
+                  }}
+                  className="rounded-xl px-2 py-2.5 cursor-pointer group"
                 >
-                  <div className="flex items-center gap-2 w-full">
-                    <ExternalLink className="h-3.5 w-3.5 text-design-light" />
-                    <span className="text-xs font-ui">Siteyi Görüntüle</span>
+                  <div className="flex items-center gap-3 w-full">
+                    <div className="p-2 rounded-lg bg-muted group-hover:bg-blue-500/10 transition-colors">
+                      <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-blue-500 transition-colors" />
+                    </div>
+                    <span className="text-sm font-medium">Siteyi Görüntüle</span>
                   </div>
                 </DropdownMenuItem>
-                
-                <DropdownMenuSeparator className="my-1.5" />
-                
+
+                <DropdownMenuSeparator className="my-2 bg-border/50" />
+
                 {/* Logout */}
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={handleLogout}
-                  className="rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-all cursor-pointer px-2.5 py-2 group"
+                  className="rounded-xl px-2 py-2.5 cursor-pointer group hover:bg-destructive/10"
                 >
-                  <div className="flex items-center gap-2 w-full">
-                    <LogOut className="h-3.5 w-3.5 group-hover:rotate-12 transition-transform" />
-                    <span className="text-xs font-ui font-semibold">Çıkış Yap</span>
+                  <div className="flex items-center gap-3 w-full">
+                    <div className="p-2 rounded-lg bg-destructive/10 group-hover:bg-destructive/20 transition-colors">
+                      <LogOut className="h-4 w-4 text-destructive group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                    <span className="text-sm font-semibold text-destructive">Çıkış Yap</span>
                   </div>
                 </DropdownMenuItem>
               </DropdownMenuContent>

@@ -6,6 +6,7 @@
  */
 
 import OpenAI from 'openai';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 
 // Initialize OpenAI client (lazy load)
 let openaiClient: OpenAI | null = null;
@@ -163,7 +164,10 @@ Sadece JSON döndür, başka açıklama yapma.`;
       throw new Error('No response from OpenAI');
     }
 
-    const parsed = JSON.parse(response);
+    const parsed = safeJsonParse<Record<string, any>>(response, {}, {
+      context: 'content-quality.response',
+      dedupeKey: 'content-quality.response',
+    });
     
     return {
       score: parsed.score || 0,
@@ -334,7 +338,10 @@ Sadece JSON döndür, başka açıklama yapma.`;
       throw new Error('No response from OpenAI');
     }
 
-    const parsed = JSON.parse(response);
+    const parsed = safeJsonParse<Record<string, any>>(response, {}, {
+      context: 'content-quality.response',
+      dedupeKey: 'content-quality.response',
+    });
     
     return {
       score: parsed.score || 0,
@@ -416,7 +423,10 @@ Sadece JSON döndür, başka açıklama yapma.`;
       throw new Error('No response from OpenAI');
     }
 
-    const parsed = JSON.parse(response);
+    const parsed = safeJsonParse<Record<string, any>>(response, {}, {
+      context: 'content-quality.response',
+      dedupeKey: 'content-quality.response',
+    });
     
     return {
       score: parsed.score || 0,

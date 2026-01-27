@@ -4,6 +4,7 @@
  */
 
 import type { CookieCategory } from './cookie-types';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 
 export interface CookiePreferences {
   necessary: boolean; // Always true, cannot be disabled
@@ -41,7 +42,17 @@ export function getCookiePreferences(): CookiePreferences {
       return DEFAULT_PREFERENCES;
     }
 
-    const parsed = JSON.parse(stored);
+    const parsed = safeJsonParse<{
+      version?: string;
+      preferences?: Partial<CookiePreferences>;
+      timestamp?: number;
+    } | null>(stored, null, {
+      context: 'cookie-consent',
+      dedupeKey: 'cookie-consent',
+    });
+    if (!parsed) {
+      return DEFAULT_PREFERENCES;
+    }
     
     // Check version compatibility
     if (parsed.version !== COOKIE_CONSENT_VERSION) {

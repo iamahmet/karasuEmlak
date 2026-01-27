@@ -4,6 +4,7 @@
  */
 
 import { createServiceClient } from '@karasu/lib/supabase/service';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 
 /**
  * Get cached listings from localStorage as fallback
@@ -14,7 +15,12 @@ export function getCachedListings(): any[] {
   try {
     const cached = localStorage.getItem('listings-cache');
     if (cached) {
-      const { data, timestamp } = JSON.parse(cached);
+      const parsed = safeJsonParse(cached, null, {
+        context: 'fallback.listings-cache',
+        dedupeKey: 'fallback.listings-cache',
+      });
+      if (!parsed) return [];
+      const { data, timestamp } = parsed as { data: any[]; timestamp: number };
       // Cache valid for 5 minutes
       if (Date.now() - timestamp < 5 * 60 * 1000) {
         return data;
@@ -136,10 +142,16 @@ export async function getDataWithFallback<T>(
       try {
         const cached = localStorage.getItem(`cache-${cacheKey}`);
         if (cached) {
-          const { data, timestamp } = JSON.parse(cached);
-          // Cache valid for 10 minutes
-          if (Date.now() - timestamp < 10 * 60 * 1000) {
-            return data;
+          const parsed = safeJsonParse(cached, null, {
+            context: 'fallback.cache',
+            dedupeKey: 'fallback.cache',
+          });
+          if (parsed) {
+            const { data, timestamp } = parsed as { data: any; timestamp: number };
+            // Cache valid for 10 minutes
+            if (Date.now() - timestamp < 10 * 60 * 1000) {
+              return data;
+            }
           }
         }
       } catch {

@@ -14,7 +14,8 @@ export const routing = defineRouting({
   // All supported locales (for future use)
   // locales: ["tr", "en", "et", "ru", "ar"],
   defaultLocale: "tr",
-  // Use "as-needed" to avoid /tr prefix in URLs for default locale
+  // Use "as-needed" but we'll handle routing manually in middleware
+  // This allows /satilik to work without /tr prefix
   localePrefix: "as-needed",
 });
 

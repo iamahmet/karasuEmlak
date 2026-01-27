@@ -79,6 +79,15 @@ export function ListingsClient({
   const limit = 18;
   const totalPages = Math.ceil(total / limit);
 
+  // Debug: Log received props
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[ListingsClient] Received props:', {
+      listingsCount: listings?.length || 0,
+      total,
+      searchParams,
+    });
+  }
+
   const handleRefresh = async () => {
     router.refresh();
   };
@@ -142,6 +151,15 @@ export function ListingsClient({
             <p className="text-slate-600 text-[15px] font-normal tracking-[-0.011em]">
               {total > 0 ? 'Filtreleri kullanarak arama sonuçlarını daraltabilirsiniz' : 'Farklı kriterlerle tekrar deneyin'}
             </p>
+            {/* Debug info in development */}
+            {process.env.NODE_ENV === 'development' && (
+              <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-xs">
+                <p><strong>Debug Info:</strong></p>
+                <p>Listings count: {listings?.length || 0}</p>
+                <p>Total: {total}</p>
+                <p>Filters: {JSON.stringify(listingFilters, null, 2)}</p>
+              </div>
+            )}
           </div>
           
           {/* Toolbar - Corporate Style */}

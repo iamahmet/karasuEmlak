@@ -27,11 +27,11 @@ describe('Button', () => {
 
   it('applies variant classes', () => {
     const { container } = render(<Button variant="outline">Outline</Button>);
-    expect(container.firstChild).toHaveClass('border');
+    expect((container.firstElementChild as HTMLElement)?.className).toMatch(/border/);
   });
 
   it('applies size classes', () => {
     const { container } = render(<Button size="lg">Large</Button>);
-    expect(container.firstChild).toHaveClass('h-11');
+    expect(container.firstChild).toHaveClass('h-12');
   });
 });

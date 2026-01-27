@@ -2,6 +2,7 @@
  * Performance Monitoring
  * Track and report performance metrics
  */
+import { reportWebVitalToApi } from "@/lib/analytics/report-web-vital";
 
 interface PerformanceMetric {
   name: string;
@@ -32,21 +33,8 @@ export function trackWebVitals(metric: {
     });
   }
   
-  // Send to API endpoint
   if (process.env.NODE_ENV === 'production') {
-    fetch('/api/analytics/web-vitals', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: metric.name,
-        value: metric.value,
-        id: metric.id,
-        delta: metric.delta,
-      }),
-      keepalive: true,
-    }).catch(() => {
-      // Silently fail
-    });
+    reportWebVitalToApi({ name: metric.name, value: metric.value, id: metric.id, delta: metric.delta });
   }
 }
 

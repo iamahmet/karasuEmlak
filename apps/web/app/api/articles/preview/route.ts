@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import crypto from "crypto";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 
 /**
  * Preview Token API
@@ -121,7 +122,14 @@ export function verifyPreviewToken(token: string): {
 } {
   try {
     const decoded = Buffer.from(token, "base64url").toString("utf-8");
-    const tokenData = JSON.parse(decoded);
+    const PARSE_FAILED = "__SAFE_JSON_PARSE_FAILED__";
+    const tokenData = safeJsonParse(decoded, PARSE_FAILED as any, {
+      context: "articles.preview.token",
+      dedupeKey: "articles.preview.token",
+    });
+    if (tokenData === PARSE_FAILED) {
+      return { valid: false, error: "Invalid token payload" };
+    }
 
     // Check expiry
     if (tokenData.expiresAt < Math.floor(Date.now() / 1000)) {

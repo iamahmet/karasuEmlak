@@ -18,6 +18,7 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  productionBrowserSourceMaps: true,
   
   // Remove console.log in production
   compiler: {
@@ -85,6 +86,8 @@ const nextConfig = {
 
   // Experimental features for better performance
   experimental: {
+    instrumentationHook: true,
+    serverSourceMaps: true,
     optimizePackageImports: ['@karasu/ui', '@karasu/lib', 'lucide-react'],
     // Optimize CSS
     optimizeCss: true,
@@ -163,6 +166,7 @@ const nextConfig = {
 
   // Webpack optimizations
   webpack: (config, { isServer, dev }) => {
+    config.devtool = 'source-map';
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,

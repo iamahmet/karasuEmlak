@@ -15,6 +15,7 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateFAQSchema, generateBreadcrumbSchema } from '@/lib/seo/structured-data';
 import { generatePlaceSchema } from '@/lib/seo/local-seo-schemas';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import dynamicImport from 'next/dynamic';
@@ -161,11 +162,10 @@ export default async function SapancaPage({
       const allArticles = (allArticlesResult?.articles || []).map((article: any) => {
         // Safely handle keywords field (can be array, string, or malformed JSON)
         if (article.keywords && typeof article.keywords === 'string') {
-          try {
-            const parsed = JSON.parse(article.keywords);
-            article.keywords = Array.isArray(parsed) ? parsed : [];
-          } catch {
-            // If not valid JSON, try comma-separated
+          const parsed = safeJsonParse(article.keywords, [], 'sapanca.page.keywords');
+          article.keywords = Array.isArray(parsed) ? parsed : [];
+          // If parsing failed and it's a string, try comma-separated
+          if (article.keywords.length === 0 && typeof article.keywords === 'string') {
             article.keywords = article.keywords.split(',').map((k: string) => k.trim()).filter(Boolean);
           }
         }
@@ -188,12 +188,8 @@ export default async function SapancaPage({
         if (Array.isArray(article.keywords)) {
           keywords = article.keywords.join(' ').toLowerCase();
         } else if (typeof article.keywords === 'string') {
-          try {
-            const parsed = JSON.parse(article.keywords);
-            keywords = Array.isArray(parsed) ? parsed.join(' ').toLowerCase() : article.keywords.toLowerCase();
-          } catch {
-            keywords = article.keywords.toLowerCase();
-          }
+          const parsed = safeJsonParse(article.keywords, [], 'sapanca.page.keywords-search');
+          keywords = Array.isArray(parsed) ? parsed.join(' ').toLowerCase() : article.keywords.toLowerCase();
         }
       } catch {
         keywords = '';

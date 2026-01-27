@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { createServiceClient } from "@karasu/lib/supabase/service";
 import { withErrorHandling, createSuccessResponse, createErrorResponse } from "@/lib/admin/api/error-handler";
 import { getRequestId } from "@/lib/admin/api/middleware";
+import { serializeListings } from "@/lib/serialize/toSerializable";
 
 /**
  * Listings API
@@ -11,7 +12,11 @@ import { getRequestId } from "@/lib/admin/api/middleware";
 async function handleGet(request: NextRequest) {
   const requestId = getRequestId(request);
   const { searchParams } = new URL(request.url);
-  const status = searchParams.get("status");
+  const statusParam = searchParams.get("status");
+  const typeParam = searchParams.get("type") || searchParams.get("purpose");
+  const status =
+    statusParam ||
+    (typeParam === "rent" ? "kiralik" : typeParam === "sale" ? "satilik" : typeParam);
   const propertyType = searchParams.get("property_type");
   const neighborhood = searchParams.get("neighborhood");
   const published = searchParams.get("published");
@@ -74,8 +79,11 @@ async function handleGet(request: NextRequest) {
     throw error;
   }
 
+  // Serialize listings to ensure safe JSON response
+  const serializedListings = data ? serializeListings(data) : [];
+
   return createSuccessResponse(requestId, {
-    listings: data || [],
+    listings: serializedListings,
     total: count || 0,
   });
 }

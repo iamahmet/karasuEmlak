@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@karasu/ui";
 import { Badge } from "@karasu/ui";
 import { createClient } from "@karasu/lib/supabase/client";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 import {
   FileText,
   User,
@@ -71,7 +72,10 @@ export function RecentActivity() {
                       try {
                         const details = payload.new.details || payload.new.metadata;
                         if (typeof details === 'string') {
-                          return JSON.parse(details);
+                          return safeJsonParse(details, {}, {
+                            context: 'recent-activity.details',
+                            dedupeKey: 'recent-activity.details',
+                          });
                         }
                         return details || {};
                       } catch {
@@ -100,7 +104,10 @@ export function RecentActivity() {
                       try {
                         const details = payload.new.details || payload.new.metadata;
                         if (typeof details === 'string') {
-                          return JSON.parse(details);
+                          return safeJsonParse(details, {}, {
+                            context: 'recent-activity.details',
+                            dedupeKey: 'recent-activity.details',
+                          });
                         }
                         return details || {};
                       } catch {
@@ -191,7 +198,10 @@ export function RecentActivity() {
         try {
           const details = log.details || log.metadata;
           if (typeof details === 'string') {
-            metadata = JSON.parse(details);
+            metadata = safeJsonParse(details, {}, {
+              context: 'recent-activity.details',
+              dedupeKey: 'recent-activity.details',
+            });
           } else if (details && typeof details === 'object') {
             metadata = details;
           }

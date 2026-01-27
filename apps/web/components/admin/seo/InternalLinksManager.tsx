@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { generateText } from "@karasu/lib/openai";
 import { createClient } from "@karasu/lib/supabase/client";
 import { cn } from "@karasu/lib";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 
 interface InternalLinksManagerProps {
   articles: Array<{
@@ -73,10 +74,13 @@ Return as JSON array:
         temperature: 0.7,
       });
 
-      try {
-        const parsed = JSON.parse(response);
-        setSuggestions(Array.isArray(parsed) ? parsed : []);
-      } catch {
+      const parsed = safeJsonParse(response, [], {
+        context: "internal-links.suggestions",
+        dedupeKey: "internal-links.suggestions",
+      });
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        setSuggestions(parsed);
+      } else {
         // Fallback: create simple suggestions based on keyword matching
         const suggestions = otherArticles.slice(0, 3).map(article => ({
           anchor: article.title.split(' ').slice(0, 3).join(' '),

@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { HeroImage, ExternalImage } from '@/components/images';
 import Link from 'next/link';
 import { cn } from '@karasu/lib';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 
 interface EnhancedArticleHeroProps {
   article: {
@@ -42,12 +43,20 @@ export function EnhancedArticleHero({
 
   // Check bookmark status on mount
   useEffect(() => {
-    const bookmarks = JSON.parse(localStorage.getItem('articleBookmarks') || '[]');
+    const bookmarks = safeJsonParse<string[]>(
+      localStorage.getItem('articleBookmarks') || '[]',
+      [],
+      { context: 'article-bookmarks', dedupeKey: 'article-bookmarks' }
+    );
     setIsBookmarked(bookmarks.includes(article.id));
   }, [article.id]);
 
   const toggleBookmark = () => {
-    const bookmarks = JSON.parse(localStorage.getItem('articleBookmarks') || '[]');
+    const bookmarks = safeJsonParse<string[]>(
+      localStorage.getItem('articleBookmarks') || '[]',
+      [],
+      { context: 'article-bookmarks', dedupeKey: 'article-bookmarks' }
+    );
     let newBookmarks: string[];
 
     if (isBookmarked) {

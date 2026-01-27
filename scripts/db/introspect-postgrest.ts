@@ -72,6 +72,7 @@ const REQUIRED_TABLES = [
   "workflow_reviews",
   "content_versions",
   "audit_logs",
+  "seo_events",
 ] as const;
 
 const REQUIRED_VIEWS = [

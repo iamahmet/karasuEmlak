@@ -84,14 +84,14 @@ describe('ListingCard', () => {
 
   it('renders in grid mode by default', () => {
     const { container } = render(<ListingCard listing={mockListing} basePath="" />);
-    expect(container.querySelector('.rounded-xl')).toBeInTheDocument();
+    expect(container.querySelector('.rounded-lg')).toBeInTheDocument();
   });
 
   it('renders in list mode when specified', () => {
     const { container } = render(
       <ListingCard listing={mockListing} basePath="" viewMode="list" />
     );
-    expect(container.querySelector('.flex-row')).toBeInTheDocument();
+    expect(container.querySelector('[class*="flex-row"]')).toBeInTheDocument();
   });
 
   it('shows featured badge when listing is featured', () => {

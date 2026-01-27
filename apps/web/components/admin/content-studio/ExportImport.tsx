@@ -6,6 +6,7 @@ import { Button } from "@karasu/ui";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@karasu/ui";
 import { Download, Upload, FileText, FileJson, FileSpreadsheet } from "lucide-react";
 import { toast } from "sonner";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 import { cn } from "@karasu/lib";
 
 interface ExportImportProps {
@@ -85,7 +86,15 @@ export function ExportImport({ contentItems, onImport, className }: ExportImport
       let items: any[] = [];
 
       if (file.name.endsWith(".json")) {
-        items = JSON.parse(text);
+        const PARSE_FAILED = "__SAFE_JSON_PARSE_FAILED__";
+        const parsed = safeJsonParse(text, PARSE_FAILED as any, {
+          context: "admin.content-studio.import.file",
+          dedupeKey: "admin.content-studio.import.file",
+        });
+        if (parsed === PARSE_FAILED) {
+          throw new Error("Geçersiz JSON dosyası");
+        }
+        items = parsed as any[];
       } else if (file.name.endsWith(".csv")) {
         const lines = text.split("\n");
         const headers = lines[0].split(",").map((h) => h.replace(/^"|"$/g, ""));

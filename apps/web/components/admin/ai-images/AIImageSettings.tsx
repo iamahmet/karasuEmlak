@@ -6,6 +6,7 @@ import { Button } from '@karasu/ui';
 import { Input } from '@karasu/ui';
 import { Label } from '@karasu/ui';
 import { toast } from 'sonner';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 import { Save, AlertCircle } from 'lucide-react';
 
 interface RateLimitConfig {
@@ -35,10 +36,12 @@ export function AIImageSettings() {
         // Fallback to localStorage if API fails
         const saved = localStorage.getItem('ai-image-rate-limit-config');
         if (saved) {
-          try {
-            setConfig(JSON.parse(saved));
-          } catch {
-            // Ignore
+          const parsed = safeJsonParse(saved, null, {
+            context: 'ai-image-rate-limit-config',
+            dedupeKey: 'ai-image-rate-limit-config',
+          });
+          if (parsed) {
+            setConfig(parsed);
           }
         }
       });

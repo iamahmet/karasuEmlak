@@ -3,6 +3,8 @@
  * Tracks all important link clicks for analytics and user behavior analysis
  */
 
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
+
 /**
  * Track link click with consent check
  */
@@ -19,12 +21,12 @@ export function trackLinkClick(
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  // Use safeJsonParse - localStorage can be corrupted
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   // Track with Google Analytics
   if (window.gtag) {
@@ -144,12 +146,13 @@ export function trackCTAClick(
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  // Use safeJsonParse - localStorage can be corrupted
+  const consent = safeJsonParse<{ analytics: boolean; marketing?: boolean; necessary?: boolean }>(
+    cookieConsent,
+    { analytics: false, marketing: false, necessary: true },
+    { context: 'cookie-consent', dedupeKey: 'cookie-consent' }
+  );
+  if (!consent.analytics) return;
 
   if (window.gtag) {
     window.gtag('event', 'cta_click', {

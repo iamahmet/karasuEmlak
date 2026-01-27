@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@karasu/lib/supabase/service";
 import { requireStaff } from "@/lib/auth/server";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 
 /**
  * Content Import API
@@ -27,7 +28,15 @@ export async function POST(request: NextRequest) {
 
     // Parse file based on format
     if (format === "json") {
-      items = JSON.parse(fileContent);
+      const PARSE_FAILED = "__SAFE_JSON_PARSE_FAILED__";
+      const parsed = safeJsonParse(fileContent, PARSE_FAILED as any, {
+        context: "content-studio.import.file",
+        dedupeKey: "content-studio.import.file",
+      });
+      if (parsed === PARSE_FAILED) {
+        return NextResponse.json({ error: "Invalid JSON file" }, { status: 400 });
+      }
+      items = parsed as any[];
     } else if (format === "csv") {
       items = parseCSV(fileContent);
     } else {

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 
 let openai: any = null;
 
@@ -173,18 +174,24 @@ SADECE JSON YANIT VER, BAŞKA AÇIKLAMA YAPMA.`;
     });
 
     const responseText = completion.choices[0]?.message?.content?.trim() || "{}";
-    let optimizedData;
-    
-    try {
-      optimizedData = JSON.parse(responseText);
-    } catch (parseError) {
-      // Fallback: try to extract JSON from response
+    const PARSE_FAILED = "__SAFE_JSON_PARSE_FAILED__";
+    let optimizedData = safeJsonParse(responseText, PARSE_FAILED as any, {
+      context: "seo.optimize-full.response",
+      dedupeKey: "seo.optimize-full.response",
+    });
+
+    if (optimizedData === PARSE_FAILED) {
       const jsonMatch = responseText.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
-        optimizedData = JSON.parse(jsonMatch[0]);
-      } else {
-        throw new Error("AI yanıtı parse edilemedi");
+        optimizedData = safeJsonParse(jsonMatch[0], PARSE_FAILED as any, {
+          context: "seo.optimize-full.response.extract",
+          dedupeKey: "seo.optimize-full.response.extract",
+        });
       }
+    }
+
+    if (optimizedData === PARSE_FAILED) {
+      throw new Error("AI yanıtı parse edilemedi");
     }
 
     // Calculate SEO score

@@ -4,6 +4,8 @@
  * Enhanced social sharing with analytics and optimization
  */
 
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
+
 export interface ShareAnalytics {
   platform: string;
   url: string;
@@ -77,7 +79,11 @@ export function trackShare(platform: string, url: string): void {
 
   // Store in localStorage for analytics
   try {
-    const shares = JSON.parse(localStorage.getItem('share_analytics') || '[]');
+    const shares = safeJsonParse<ShareAnalytics[]>(
+      localStorage.getItem('share_analytics') || '[]',
+      [],
+      { context: 'share-analytics', dedupeKey: 'share-analytics' }
+    );
     shares.push({
       platform,
       url,

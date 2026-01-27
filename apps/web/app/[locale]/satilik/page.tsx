@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 3600; // Revalidate every hour
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { getListings, getNeighborhoods, getListingStats, type Listing } from '@/lib/supabase/queries';
@@ -24,19 +23,14 @@ import { Suspense } from 'react';
 import { ListingGridSkeleton } from '@/components/listings/ListingCardSkeleton';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 
-export async function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
-}
-
-
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  // Since localePrefix is "as-needed", default locale doesn't need /tr prefix
-  const canonicalPath = locale === routing.defaultLocale ? '/satilik' : `/${locale}/satilik`;
+  // No locale prefix in URLs for single-language site
+  const canonicalPath = '/satilik';
   
   return {
     title: 'Satılık İlanlar | Karasu Emlak | Daire, Villa, Yazlık, Arsa',
@@ -120,11 +114,23 @@ export default async function ForSalePage({
   }>;
 }) {
   try {
-    const { locale } = await params;
+    const { locale: rawLocale } = await params;
+    // Ensure locale is valid - fallback to default if invalid
+    // This handles cases where next-intl rewrite doesn't properly set the locale param
+    const locale = routing.locales.includes(rawLocale as any) 
+      ? rawLocale 
+      : routing.defaultLocale;
+    
+    if (!routing.locales.includes(rawLocale as any)) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`[ForSalePage] Invalid locale "${rawLocale}", using "${locale}"`);
+      }
+    }
+    
     const paramsObj = await searchParams;
     const { page = '1', q, minPrice, maxPrice, minSize, maxSize, rooms, propertyType, neighborhood, balcony, parking, elevator, seaView, furnished, buildingAge, floor, sort } = paramsObj;
     
-    const basePath = locale === routing.defaultLocale ? "" : `/${locale}`;
+    const basePath = '';
     const currentPage = parseInt(page, 10) || 1;
     const limit = 18;
     const offset = (currentPage - 1) * limit;
@@ -164,11 +170,26 @@ export default async function ForSalePage({
     let qaEntries: QAEntry[] = [];
     let relatedArticles: Article[] = [];
     try {
+      // Debug: Log filters being used
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[satilik page] Filters:', JSON.stringify(filters, null, 2));
+      }
+      
       listingsResult = await withTimeout(
         getListings(filters, { field: sortField, order: sortOrder }, limit, offset),
-        3000,
+        10000, // Increased timeout to 10s for database queries
         { listings: [], total: 0 }
       );
+      
+      // Debug: Log results
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[satilik page] Listings result:', {
+          count: listingsResult?.listings?.length || 0,
+          total: listingsResult?.total || 0,
+          hasData: (listingsResult?.listings?.length || 0) > 0,
+        });
+      }
+      
       neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
       statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
       qaEntries = await withTimeout(getQAEntries('karasu', 'high'), 2000, []) ?? [];
@@ -186,6 +207,15 @@ export default async function ForSalePage({
     const { listings = [], total = 0 } = listingsResult || {};
     const neighborhoods = neighborhoodsResult || [];
     const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
+    
+    // Debug: Log final results in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[satilik page] Final results:', {
+        listingsCount: listings.length,
+        total,
+        statsSatilik: stats.satilik,
+      });
+    }
 
     // Fetch Q&A entries for FAQ section
     const faqs = (qaEntries || []).slice(0, 5).map(qa => ({
@@ -193,8 +223,9 @@ export default async function ForSalePage({
       answer: qa.answer,
     }));
 
-    // Fetch related content
-    const relatedNeighborhoods = neighborhoods.slice(0, 6).map(n => ({
+    // Fetch related content (ilan/mahalle olmasa da sayfa açılsın; undefined'dan kaçın)
+    const safeNeighborhoods = (neighborhoods || []).filter((n): n is string => typeof n === 'string' && n.length > 0);
+    const relatedNeighborhoods = safeNeighborhoods.slice(0, 6).map((n) => ({
       id: generateSlug(n),
       title: `${n} Mahallesi`,
       slug: generateSlug(n),

@@ -3,6 +3,8 @@
  * Enterprise-level tracking for blog interactions
  */
 
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
+
 // Extend Window interface for gtag
 declare global {
   interface Window {
@@ -29,12 +31,11 @@ export function trackArticleView(event: BlogEvent) {
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag('event', 'article_view', {
     event_category: 'Blog',
@@ -56,12 +57,11 @@ export function trackScrollDepth(event: BlogEvent, depth: 25 | 50 | 75 | 100) {
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag('event', 'article_scroll', {
     event_category: 'Blog',
@@ -80,12 +80,11 @@ export function trackArticleShare(event: BlogEvent, platform: string) {
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag('event', 'share', {
     method: platform,
@@ -105,12 +104,11 @@ export function trackNewsletterSignup(event: BlogEvent) {
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag('event', 'newsletter_signup', {
     event_category: 'Blog',
@@ -128,12 +126,11 @@ export function trackTOCClick(event: BlogEvent, heading: string) {
   const cookieConsent = localStorage.getItem('cookie-consent');
   if (!cookieConsent) return;
 
-  try {
-    const consent = JSON.parse(cookieConsent);
-    if (!consent.analytics) return;
-  } catch {
-    return;
-  }
+  const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+    context: 'cookie-consent',
+    dedupeKey: 'cookie-consent',
+  });
+  if (!consent.analytics) return;
 
   window.gtag('event', 'toc_click', {
     event_category: 'Blog',

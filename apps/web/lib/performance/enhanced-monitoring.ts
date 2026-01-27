@@ -1,8 +1,8 @@
 /**
  * Enhanced Performance Monitoring
- * 
  * Advanced performance tracking with detailed metrics and analytics
  */
+import { reportWebVitalToApi } from "@/lib/analytics/report-web-vital";
 
 export interface PerformanceMetric {
   name: string;
@@ -64,16 +64,8 @@ export function trackEnhancedWebVitals(metric: {
     });
   }
 
-  // Send to custom endpoint
   if (typeof window !== 'undefined') {
-    fetch('/api/analytics/web-vitals', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(enhancedMetric),
-      keepalive: true,
-    }).catch(() => {
-      // Silently fail
-    });
+    reportWebVitalToApi(enhancedMetric as unknown as Record<string, unknown>);
   }
 }
 

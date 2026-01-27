@@ -4,6 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 
 export interface OfflineStatus {
   isOnline: boolean;
@@ -119,7 +120,13 @@ export function getCachedData<T>(key: string): T | null {
     const cached = localStorage.getItem(`cache-${key}`);
     if (!cached) return null;
 
-    const cacheItem = JSON.parse(cached);
+    // Use safeJsonParse - localStorage can be corrupted by users/extensions
+    const cacheItem = safeJsonParse<{ data: T; timestamp: number; ttl: number } | null>(
+      cached,
+      null,
+      `offline-support.${key}`
+    );
+    if (!cacheItem) return null;
     const now = Date.now();
 
     // Check if cache is expired
@@ -150,7 +157,16 @@ export function clearExpiredCache(): void {
         try {
           const cached = localStorage.getItem(key);
           if (cached) {
-            const cacheItem = JSON.parse(cached);
+            // Use safeJsonParse - localStorage can be corrupted
+            const cacheItem = safeJsonParse<{ data: any; timestamp: number; ttl: number } | null>(
+              cached,
+              null,
+              `offline-support.cleanup.${key}`
+            );
+            if (!cacheItem) {
+              localStorage.removeItem(key);
+              return;
+            }
             if (now - cacheItem.timestamp > cacheItem.ttl) {
               localStorage.removeItem(key);
             }

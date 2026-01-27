@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import { onCLS, onFCP, onLCP, onTTFB, onINP, Metric } from "web-vitals";
+import { reportWebVitalToApi } from "@/lib/analytics/report-web-vital";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 
 interface WebVitalsProps {
   onReport?: (metric: Metric) => void;
@@ -24,19 +26,17 @@ export function WebVitals({ onReport }: WebVitalsProps) {
       if (typeof window !== "undefined" && window.gtag) {
         const cookieConsent = localStorage.getItem("cookie-consent");
         if (cookieConsent) {
-          try {
-            const consent = JSON.parse(cookieConsent);
-            if (consent.analytics) {
-              window.gtag("event", metric.name, {
-                event_category: "Web Vitals",
-                value: Math.round(metric.name === "CLS" ? metric.value * 1000 : metric.value),
-                event_label: metric.id,
-                non_interaction: true,
-              });
-            }
-          } catch {
-            // Ignore parse errors
-          }
+          const consent = safeJsonParse(cookieConsent, { analytics: false, marketing: false, necessary: true }, {
+            context: 'cookie-consent',
+            dedupeKey: 'cookie-consent',
+          });
+          if (!consent.analytics) return;
+          window.gtag("event", metric.name, {
+            event_category: "Web Vitals",
+            value: Math.round(metric.name === "CLS" ? metric.value * 1000 : metric.value),
+            event_label: metric.id,
+            non_interaction: true,
+          });
         }
       }
 
@@ -45,26 +45,14 @@ export function WebVitals({ onReport }: WebVitalsProps) {
         onReport(metric);
       }
 
-      // Send to Supabase for performance tracking (optional)
-      if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_SUPABASE_URL) {
-        fetch("/api/analytics/web-vitals", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: metric.name,
-            value: metric.value,
-            id: metric.id,
-            rating: metric.rating,
-            delta: metric.delta,
-            navigationType: metric.navigationType,
-          }),
-        }).catch((error) => {
-          // Silently fail - don't break the app if analytics fails
-          if (process.env.NODE_ENV === "development") {
-            console.warn("[Web Vitals] Failed to send metric:", error);
-          }
-        });
-      }
+      reportWebVitalToApi({
+        name: metric.name,
+        value: metric.value,
+        id: metric.id,
+        rating: metric.rating,
+        delta: metric.delta,
+        navigationType: metric.navigationType,
+      });
     };
 
     // Track Core Web Vitals

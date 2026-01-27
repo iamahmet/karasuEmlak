@@ -7,6 +7,7 @@
 
 import { Article } from '@/lib/supabase/queries/articles';
 import { createServiceClient } from '@/lib/supabase/clients';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 
 export interface RelatedContentOptions {
   keywords?: string[];
@@ -128,13 +129,12 @@ export async function getRelatedContent(
       if (Array.isArray(article.tags)) {
         articleTags = article.tags.map(t => String(t).toLowerCase());
       } else if (typeof article.tags === 'string') {
-        // Try to parse JSON string
-        try {
-          const parsed = JSON.parse(article.tags);
-          articleTags = Array.isArray(parsed) 
-            ? parsed.map(t => String(t).toLowerCase())
-            : [];
-        } catch {
+        // Use safeJsonParse instead of direct JSON.parse (can be malformed JSON from DB)
+        const parsed = safeJsonParse(article.tags, [], 'related-content.tags');
+        articleTags = Array.isArray(parsed) 
+          ? parsed.map(t => String(t).toLowerCase())
+          : [];
+        if (!Array.isArray(parsed) || parsed.length === 0) {
           // If not JSON, treat as comma-separated string
           const tagsString = String(article.tags);
           articleTags = tagsString.split(',').map(t => t.trim().toLowerCase());

@@ -84,11 +84,12 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
   const [showList, setShowList] = useState(true);
-  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<any>(null);
   const isInitializingRef = useRef(false);
   const mapInitializedRef = useRef(false);
   const mapKeyRef = useRef(`interactive-map-${Math.random().toString(36).substring(2, 11)}`);
+  const cleanupRef = useRef<(() => void) | null>(null);
 
   // Use demo listings if no real listings
   const allListings = listings.length > 0 ? listings : mapDemoListings;
@@ -113,16 +114,62 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
     }
 
     // Only allow map rendering if not already initialized (React Strict Mode protection)
-    // Use a more robust check that persists across re-renders
-    if (mounted && !mapInitializedRef.current) {
+    if (mounted && !mapInitializedRef.current && !isInitializingRef.current) {
       // Check if container exists and doesn't have a map yet
-      if (mapContainerRef.current && !mapContainerRef.current.querySelector('.leaflet-container')) {
-        // Use requestAnimationFrame to ensure DOM is ready and avoid double initialization
-        const rafId = requestAnimationFrame(() => {
-          // Double-check after RAF to ensure no race conditions
-          if (!mapInitializedRef.current && mapContainerRef.current && !mapContainerRef.current.querySelector('.leaflet-container')) {
+      if (mapContainerRef.current) {
+        // Check if container is already marked as having a map
+        const containerHasMap = (mapContainerRef.current as any).dataset?.mapInitialized === 'true';
+        if (containerHasMap) {
+          mapInitializedRef.current = true;
+          return;
+        }
+
+        // Check if Leaflet container already exists
+        const existingLeafletContainer = mapContainerRef.current.querySelector('.leaflet-container');
+        if (existingLeafletContainer) {
+          // Map already exists, don't initialize again
+          mapInitializedRef.current = true;
+          (mapContainerRef.current as any).dataset.mapInitialized = 'true';
+          return;
+        }
+
+        // Check if container has Leaflet map instance attached
+        if (typeof window !== 'undefined' && (window as any).L) {
+          const L = (window as any).L;
+          // Check if this container already has a map
+          const container = mapContainerRef.current;
+          if (container && (container as any)._leaflet_id) {
+            // Container already has a map instance
             mapInitializedRef.current = true;
-            setShouldRenderMap(true);
+            (container as any).dataset.mapInitialized = 'true';
+            return;
+          }
+        }
+
+        // Mark as initializing to prevent race conditions
+        isInitializingRef.current = true;
+        
+        // Use requestAnimationFrame to ensure DOM is ready
+        const rafId = requestAnimationFrame(() => {
+          // Final check before rendering
+          if (mapContainerRef.current) {
+            const hasLeafletContainer = mapContainerRef.current.querySelector('.leaflet-container');
+            const hasLeafletId = (mapContainerRef.current as any)._leaflet_id;
+            const isMarkedInitialized = (mapContainerRef.current as any).dataset?.mapInitialized === 'true';
+            
+            if (!hasLeafletContainer && !hasLeafletId && !isMarkedInitialized && !mapInitializedRef.current) {
+              // Mark container before rendering to prevent double initialization
+              (mapContainerRef.current as any).dataset.mapInitialized = 'true';
+              mapInitializedRef.current = true;
+              setShouldRenderMap(true);
+            } else {
+              // Map already exists, just mark as initialized
+              mapInitializedRef.current = true;
+              isInitializingRef.current = false;
+              if (mapContainerRef.current) {
+                (mapContainerRef.current as any).dataset.mapInitialized = 'true';
+              }
+            }
           }
         });
         
@@ -135,42 +182,10 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
     // Cleanup function to remove map instance on unmount
     return () => {
       // Only cleanup on actual unmount, not on Strict Mode re-renders
-      if (mapContainerRef.current) {
-        // Clear any existing map instances from the container
-        const container = mapContainerRef.current;
-        if (container) {
-          // Remove all Leaflet map instances
-          const leafletContainer = container.querySelector('.leaflet-container');
-          if (leafletContainer) {
-            try {
-              // @ts-ignore - Leaflet global
-              if (typeof window !== 'undefined' && window.L) {
-                const L = window.L;
-                const map = (leafletContainer as any)._leaflet_id ? L.Map.prototype.getContainer.call({ _container: leafletContainer }) : null;
-                if (map && typeof map.remove === 'function') {
-                  map.remove();
-                }
-              }
-            } catch (e) {
-              // Ignore cleanup errors
-            }
-          }
-        }
+      if (mapContainerRef.current && cleanupRef.current) {
+        cleanupRef.current();
+        cleanupRef.current = null;
       }
-      mapInstanceRef.current = null;
-      isInitializingRef.current = false;
-      // Reset mapInitializedRef only on actual unmount (not Strict Mode re-renders)
-      // We'll use a flag to track if this is a real unmount
-      const timeoutId = setTimeout(() => {
-        // Only reset if component is truly unmounted (after a delay)
-        if (!mounted) {
-          mapInitializedRef.current = false;
-        }
-      }, 100);
-      
-      return () => {
-        clearTimeout(timeoutId);
-      };
     };
   }, [mounted]);
 
@@ -306,26 +321,97 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
                 }
               >
                 <div 
-                  ref={mapContainerRef}
+                  ref={(node) => {
+                    if (node && !mapContainerRef.current) {
+                      mapContainerRef.current = node;
+                      // Mark container as ready for map initialization
+                      (node as any).dataset.mapReady = 'true';
+                    }
+                  }}
                   className="relative rounded-xl overflow-hidden border border-gray-200 shadow-lg" 
                   style={{ height }}
+                  data-map-container="true"
                 >
                   {shouldRenderMap && (() => {
                     // Final check before rendering - prevent double initialization
-                    if (mapContainerRef.current?.querySelector('.leaflet-container')) {
+                    if (!mapContainerRef.current) {
                       return null;
                     }
+
+                    // Check if container is marked as initialized
+                    const isMarkedInitialized = (mapContainerRef.current as any).dataset?.mapInitialized === 'true';
+                    if (isMarkedInitialized) {
+                      return null;
+                    }
+
+                    // Check if container already has a Leaflet map
+                    const hasLeafletContainer = mapContainerRef.current.querySelector('.leaflet-container');
+                    if (hasLeafletContainer) {
+                      // Mark as initialized to prevent future attempts
+                      (mapContainerRef.current as any).dataset.mapInitialized = 'true';
+                      return null;
+                    }
+
+                    // Check if container has Leaflet ID (map instance attached)
+                    if ((mapContainerRef.current as any)._leaflet_id) {
+                      // Mark as initialized to prevent future attempts
+                      (mapContainerRef.current as any).dataset.mapInitialized = 'true';
+                      return null;
+                    }
+
+                    // Check if window.L exists and container already has a map
+                    if (typeof window !== 'undefined' && (window as any).L) {
+                      const L = (window as any).L;
+                      // Try to find existing map instance
+                      try {
+                        const existingMap = (mapContainerRef.current as any)._leaflet_id 
+                          ? L.Map.prototype.getContainer?.call({ _container: mapContainerRef.current })
+                          : null;
+                        if (existingMap) {
+                          // Mark as initialized to prevent future attempts
+                          (mapContainerRef.current as any).dataset.mapInitialized = 'true';
+                          return null;
+                        }
+                      } catch (e) {
+                        // Ignore errors
+                      }
+                    }
+
                     try {
                       return (
                         <MapContainer
-                          key={`map-${mapKeyRef.current}-${shouldRenderMap ? '1' : '0'}`}
+                          key={`map-${mapKeyRef.current}`}
                           center={center}
                           zoom={13}
                           minZoom={11}
-                          whenCreated={(map) => {
-                            // Store map instance and mark as initialized
-                            mapInstanceRef.current = map;
+                          ref={mapInstanceRef}
+                          whenReady={() => {
                             mapInitializedRef.current = true;
+                            isInitializingRef.current = false;
+                            
+                            // Mark container as initialized
+                            if (mapContainerRef.current) {
+                              (mapContainerRef.current as any).dataset.mapInitialized = 'true';
+                            }
+                            
+                            // Setup cleanup function
+                            cleanupRef.current = () => {
+                              try {
+                                if (mapInstanceRef.current && typeof mapInstanceRef.current.remove === 'function') {
+                                  mapInstanceRef.current.remove();
+                                }
+                              } catch (e) {
+                                // Ignore cleanup errors
+                              }
+                              mapInstanceRef.current = null;
+                              mapInitializedRef.current = false;
+                              isInitializingRef.current = false;
+                              
+                              // Clear data attribute
+                              if (mapContainerRef.current) {
+                                delete (mapContainerRef.current as any).dataset.mapInitialized;
+                              }
+                            };
                           }}
                           maxZoom={18}
                           style={{ height: '100%', width: '100%' }}

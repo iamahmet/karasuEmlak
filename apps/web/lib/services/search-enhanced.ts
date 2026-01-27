@@ -4,6 +4,8 @@
  * Advanced search with suggestions, history, and analytics
  */
 
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
+
 export interface SearchSuggestion {
   text: string;
   type: 'query' | 'article' | 'category' | 'tag';
@@ -95,7 +97,10 @@ function getPopularQueries(): string[] {
   try {
     const stored = localStorage.getItem('search-popular-queries');
     if (stored) {
-      const queries = JSON.parse(stored);
+      const queries = safeJsonParse(stored, [], {
+        context: 'search-popular-queries',
+        dedupeKey: 'search-popular-queries',
+      });
       return queries.sort((a: any, b: any) => (b.count || 0) - (a.count || 0))
         .slice(0, 20)
         .map((q: any) => q.query);
@@ -159,7 +164,10 @@ export function getSearchHistory(): SearchHistoryItem[] {
   try {
     const stored = localStorage.getItem('search-history');
     if (stored) {
-      return JSON.parse(stored);
+      return safeJsonParse(stored, [], {
+        context: 'search-history',
+        dedupeKey: 'search-history',
+      });
     }
   } catch (error) {
     console.warn('Failed to get search history:', error);
@@ -193,7 +201,12 @@ function updatePopularQueries(query: string): void {
 
   try {
     const stored = localStorage.getItem('search-popular-queries');
-    const queries: Array<{ query: string; count: number }> = stored ? JSON.parse(stored) : [];
+    const queries: Array<{ query: string; count: number }> = stored
+      ? safeJsonParse(stored, [], {
+          context: 'search-popular-queries',
+          dedupeKey: 'search-popular-queries',
+        })
+      : [];
 
     const existing = queries.find(q => q.query.toLowerCase() === query.toLowerCase());
     if (existing) {

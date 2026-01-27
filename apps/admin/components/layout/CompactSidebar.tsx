@@ -37,7 +37,7 @@ export function CompactSidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const sidebarRef = useRef<HTMLAsideElement>(null);
+  const sidebarRef = useRef<HTMLElement>(null);
 
   // Load collapsed state from localStorage
   useEffect(() => {

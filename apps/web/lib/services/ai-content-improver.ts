@@ -5,6 +5,7 @@
 
 import OpenAI from 'openai';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 
 interface ContentAnalysis {
   humanLikeScore: number; // 0-100
@@ -116,7 +117,14 @@ JSON formatı:
       response_format: { type: 'json_object' },
     });
 
-    const result = JSON.parse(response.choices[0].message.content || '{}');
+    // Use safeJsonParse - AI responses can be malformed JSON
+    const result = safeJsonParse<{
+      humanLikeScore?: number;
+      aiProbability?: number;
+      issues?: any[];
+      strengths?: any[];
+      suggestions?: any[];
+    }>(response.choices[0].message.content || '{}', {}, 'ai-content-improver.response');
     return {
       humanLikeScore: result.humanLikeScore || 50,
       aiProbability: result.aiProbability || 0.5,
@@ -166,10 +174,16 @@ Sadece geçerli JSON formatında yanıt ver:
     const result = await model.generateContent(prompt);
     const response = result.response.text();
     
-    // Extract JSON from response
+    // Extract JSON from response - use safeJsonParse (AI responses can be malformed)
     const jsonMatch = response.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]);
+      const parsed = safeJsonParse<{
+        humanLikeScore?: number;
+        aiProbability?: number;
+        issues?: any[];
+        strengths?: any[];
+        suggestions?: any[];
+      }>(jsonMatch[0], {}, 'ai-content-improver.json-match');
       return {
         humanLikeScore: parsed.humanLikeScore || 50,
         aiProbability: parsed.aiProbability || 0.5,

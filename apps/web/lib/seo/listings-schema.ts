@@ -19,12 +19,40 @@ export function generateItemListSchema(
   
   // Safely process listings using utility functions
   const safeListings = listings.slice(0, 20).map((listing) => {
-    return {
-      ...listing,
-      images: safeParseImages(listing.images),
-      features: safeParseFeatures(listing.features),
-    };
-  });
+    try {
+      // Safely parse images and features
+      let parsedImages: any[] = [];
+      let parsedFeatures: any = {};
+      
+      try {
+        parsedImages = safeParseImages(listing.images);
+      } catch (imagesError: any) {
+        console.warn(`[generateItemListSchema] Error parsing images for listing ${listing.id}:`, imagesError?.message);
+        parsedImages = [];
+      }
+      
+      try {
+        parsedFeatures = safeParseFeatures(listing.features);
+      } catch (featuresError: any) {
+        console.warn(`[generateItemListSchema] Error parsing features for listing ${listing.id}:`, featuresError?.message);
+        parsedFeatures = {};
+      }
+      
+      return {
+        ...listing,
+        images: parsedImages,
+        features: parsedFeatures,
+      };
+    } catch (error: any) {
+      console.error(`[generateItemListSchema] Error processing listing ${listing?.id}:`, error?.message);
+      // Return listing with safe defaults
+      return {
+        ...listing,
+        images: [],
+        features: {},
+      };
+    }
+  }).filter(listing => listing !== null && listing !== undefined);
   
   return {
     '@context': 'https://schema.org',
@@ -39,9 +67,9 @@ export function generateItemListSchema(
         '@type': 'Product',
         name: listing.title || 'Emlak İlanı',
         description: listing.description_short || listing.title || 'Emlak ilanı',
-        image: listing.images?.[0]?.url || (listing.images?.[0]?.public_id 
+        image: listing.images?.[0]?.url || (listing.images?.[0]?.public_id
           ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${listing.images[0].public_id}.jpg`
-          : `${siteConfig.url}/og-image.jpg`),
+          : `${siteConfig?.url ?? 'https://karasuemlak.net'}/og-image.jpg`),
         offers: listing.price_amount ? {
           '@type': 'Offer',
           price: listing.price_amount,
@@ -51,7 +79,7 @@ export function generateItemListSchema(
         } : undefined,
         brand: {
           '@type': 'Brand',
-          name: siteConfig.name,
+          name: siteConfig?.name ?? 'Karasu Emlak',
         },
         aggregateRating: listing.featured ? {
           '@type': 'AggregateRating',

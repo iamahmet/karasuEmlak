@@ -5,6 +5,7 @@ import { logAuditEvent } from "@karasu/lib/audit";
 import { withErrorHandling, createSuccessResponse, createErrorResponse } from "@/lib/admin/api/error-handler";
 import { getRequestId } from "@/lib/admin/api/middleware";
 import OpenAI from "openai";
+import { safeJsonParse } from "@/lib/utils/safeJsonParse";
 import { FLAGSHIP_CONTENT_PROMPT, EDITORIAL_SYSTEM_PROMPT } from "@/lib/prompts/editorial-optimizer";
 // import { requireStaff } from "@/lib/auth/server";
 
@@ -204,7 +205,17 @@ Lütfen şu formatta JSON döndür:
   });
 
   const responseText = completion.choices[0]?.message?.content || "{}";
-  const parsed = JSON.parse(responseText);
+  const parsed = safeJsonParse<{
+    title?: string;
+    content?: string;
+    metaDescription?: string;
+    meta_description?: string;
+    excerpt?: string;
+    keywords?: string;
+  }>(responseText, {}, {
+    context: "content-studio.create.response",
+    dedupeKey: "content-studio.create.response",
+  });
 
   const generated = {
     title: parsed.title || topic,

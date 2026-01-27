@@ -4,6 +4,7 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
+import { safeJsonParse } from '@/lib/utils/safeJsonParse';
 
 const FAVORITES_STORAGE_KEY = 'karasu-emlak-favorites';
 
@@ -28,7 +29,11 @@ export function getLocalFavorites(): string[] {
   
   try {
     const stored = localStorage.getItem(FAVORITES_STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
+    if (!stored) return [];
+    return safeJsonParse(stored, [], {
+      context: 'favorites',
+      dedupeKey: 'favorites',
+    });
   } catch {
     return [];
   }

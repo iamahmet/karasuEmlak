@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 3600; // Revalidate every hour
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { getListings, getNeighborhoods, getListingStats, type Listing } from '@/lib/supabase/queries';
+import { serializeListings } from '@/lib/serialize/toSerializable';
 import { ListingsClient } from './ListingsClient';
 import { withTimeout } from '@/lib/utils/timeout';
 import { EnhancedKiralikHero } from '@/components/listings/EnhancedKiralikHero';
@@ -24,19 +24,14 @@ import dynamicImport from 'next/dynamic';
 import { Suspense } from 'react';
 import { ListingGridSkeleton } from '@/components/listings/ListingCardSkeleton';
 
-export async function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
-}
-
-
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  // Since localePrefix is "as-needed", default locale doesn't need /tr prefix
-  const canonicalPath = locale === routing.defaultLocale ? '/kiralik' : `/${locale}/kiralik`;
+  // No locale prefix in URLs for single-language site
+  const canonicalPath = '/kiralik';
   
   return {
     title: 'Kiralık İlanlar | Karasu Emlak | Daire, Villa, Yazlık',
@@ -119,19 +114,38 @@ export default async function ForRentPage({
   }>;
 }) {
   try {
-    const { locale } = await params;
+    // Wrap entire function body in try-catch to catch any JSON parsing errors
+    const { locale: rawLocale } = await params;
+    // Ensure locale is valid - fallback to default if invalid
+    // This handles cases where next-intl rewrite doesn't properly set the locale param
+    const locale = routing.locales.includes(rawLocale as any) 
+      ? rawLocale 
+      : routing.defaultLocale;
+    
+    if (!routing.locales.includes(rawLocale as any)) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`[ForRentPage] Invalid locale "${rawLocale}", using "${locale}"`);
+      }
+    }
+
+    
     const paramsObj = await searchParams;
     const { page = '1', q, minPrice, maxPrice, minSize, maxSize, rooms, propertyType, neighborhood, balcony, parking, elevator, seaView, furnished, buildingAge, floor, sort } = paramsObj;
     
-    const basePath = locale === routing.defaultLocale ? "" : `/${locale}`;
+    const basePath = '';
     const currentPage = parseInt(page, 10) || 1;
     const limit = 18;
     const offset = (currentPage - 1) * limit;
     
     // Build filters from URL params
     const filters: any = {
-      status: 'kiralik',
+      status: 'kiralik' as const,
     };
+    
+    // Debug: Log filters in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[kiralik page] Building filters:', filters);
+    }
 
     if (q) filters.query = q; // getListings expects 'query', not 'search'
     if (minPrice) filters.min_price = Number(minPrice);
@@ -163,11 +177,55 @@ export default async function ForRentPage({
     let qaEntries: QAEntry[] = [];
     let relatedArticles: Article[] = [];
     try {
-      listingsResult = await withTimeout(
-        getListings(filters, { field: sortField, order: sortOrder }, limit, offset),
-        3000,
-        { listings: [], total: 0 }
-      );
+      // Debug: Log filters being used
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[kiralik page] Filters:', JSON.stringify(filters, null, 2));
+      }
+      
+      try {
+        listingsResult = await withTimeout(
+          getListings(filters, { field: sortField, order: sortOrder }, limit, offset),
+          10000, // Increased timeout to 10s for database queries
+          { listings: [], total: 0 }
+        );
+        
+        // Validate and clean result
+        if (listingsResult && listingsResult.listings) {
+          // Test serialization of first listing to catch JSON errors early
+          if (listingsResult.listings.length > 0) {
+            try {
+              JSON.stringify(listingsResult.listings[0]);
+            } catch (serializeError: any) {
+              console.error('[kiralik page] Listing serialization error:', serializeError?.message);
+              // Filter out problematic listings
+              listingsResult.listings = listingsResult.listings.filter((listing: any) => {
+                try {
+                  JSON.stringify(listing);
+                  return true;
+                } catch {
+                  return false;
+                }
+              });
+            }
+          }
+        }
+      } catch (listingsError: any) {
+        console.error('[kiralik page] Error fetching listings:', listingsError?.message);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('[kiralik page] Listings error stack:', listingsError?.stack);
+        }
+        listingsResult = { listings: [], total: 0 };
+      }
+      
+      // Debug: Log results
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[kiralik page] Listings result:', {
+          count: listingsResult?.listings?.length || 0,
+          total: listingsResult?.total || 0,
+          hasData: (listingsResult?.listings?.length || 0) > 0,
+        });
+      }
+      
       neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
       statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
       qaEntries = await withTimeout(getQAEntries('karasu', 'high'), 2000, []) ?? [];
@@ -182,21 +240,31 @@ export default async function ForRentPage({
       relatedArticles = [];
     }
 
-    const { listings = [], total = 0 } = listingsResult || {};
+    const { listings: rawListings = [], total = 0 } = listingsResult || {};
     const neighborhoods = neighborhoodsResult || [];
     const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
+    
+    // Serialize listings to ensure safe Next.js serialization
+    const listings: Listing[] = serializeListings(rawListings);
+    
+    // Debug: Log final results in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[kiralik page] Final results:', {
+        listingsCount: listings.length,
+        total,
+        statsKiralik: stats.kiralik,
+      });
+    }
 
     // Fetch Q&A entries for FAQ section
-    const faqs = (qaEntries || [])
-      .filter(qa => qa.question.toLowerCase().includes('kiral') || qa.category === 'bilgi')
-      .slice(0, 5)
-      .map(qa => ({
-        question: qa.question,
-        answer: qa.answer,
-      }));
+    const faqs = (qaEntries || []).slice(0, 5).map(qa => ({
+      question: qa.question,
+      answer: qa.answer,
+    }));
 
-    // Fetch related content
-    const relatedNeighborhoods = neighborhoods.slice(0, 6).map(n => ({
+    // Fetch related content (ilan/mahalle olmasa da sayfa açılsın; undefined'dan kaçın)
+    const safeNeighborhoods = (neighborhoods || []).filter((n): n is string => typeof n === 'string' && n.length > 0);
+    const relatedNeighborhoods = safeNeighborhoods.slice(0, 6).map((n) => ({
       id: generateSlug(n),
       title: `${n} Mahallesi`,
       slug: generateSlug(n),
@@ -204,7 +272,8 @@ export default async function ForRentPage({
       type: 'neighborhood' as const,
     }));
 
-    let faqSchema, itemListSchema;
+    let faqSchema = null;
+    let itemListSchema = null;
     try {
       faqSchema = faqs.length > 0 ? generateFAQSchema(faqs) : null;
       itemListSchema = listings.length > 0
@@ -240,7 +309,7 @@ export default async function ForRentPage({
           <section className="mb-16">
             <Suspense fallback={<ListingGridSkeleton count={18} />}>
               <ListingsClient
-                initialListings={listings}
+                initialListings={listings.slice(0, 10)}
                 total={total}
                 basePath={basePath}
                 neighborhoods={neighborhoods}
@@ -565,16 +634,18 @@ export default async function ForRentPage({
           )}
 
           {/* Related Articles */}
-          {relatedArticles && relatedArticles.length > 0 && (
+          {(relatedArticles && relatedArticles.length > 0) && (
             <RelatedContent
-              items={relatedArticles.map(a => ({
-                id: a.id,
-                title: a.title,
-                slug: a.slug,
-                description: a.excerpt || a.meta_description || undefined,
-                image: a.featured_image || undefined,
-                type: 'article' as const,
-              }))}
+              items={(relatedArticles as Article[])
+                .filter((a): a is Article => a != null && typeof a?.id === 'string')
+                .map(a => ({
+                  id: a.id,
+                  title: a.title ?? '',
+                  slug: a.slug ?? '',
+                  description: a.excerpt || a.meta_description || undefined,
+                  image: a.featured_image || undefined,
+                  type: 'article' as const,
+                }))}
               title="İlgili Rehber Yazıları"
               type="articles"
               className="mt-12"
@@ -596,13 +667,19 @@ export default async function ForRentPage({
       <MobileBottomNav />
     </>
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error('Critical error in ForRentPage:', error);
+    console.error('Error message:', error?.message);
+    console.error('Error stack:', error?.stack);
+    // Return a simple page that doesn't require any data
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center p-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Karasu Emlak</h1>
           <p className="text-gray-600 mb-6">Sayfa yüklenirken bir sorun oluştu. Lütfen sayfayı yenileyin.</p>
+          <p className="text-sm text-gray-500 mb-4">
+            {process.env.NODE_ENV === 'development' && error?.message ? `Hata: ${error.message}` : ''}
+          </p>
           <a href="/" className="text-blue-600 hover:text-blue-800 underline">Ana Sayfaya Dön</a>
         </div>
       </div>

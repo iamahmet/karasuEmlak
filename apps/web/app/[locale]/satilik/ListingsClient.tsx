@@ -643,7 +643,22 @@ export function ListingsClient({
                 </div>
               )}
             </Fragment>
-          ) : null}
+          ) : (
+            <div className="py-12">
+              <EmptyState
+                icon={Building2}
+                title="Aradığınız kriterlere uygun ilan bulunamadı"
+                description="Şu anda aradığınız kriterlere uygun satılık ilan bulunmuyor. Filtreleri değiştirerek veya arama kriterlerinizi genişleterek tekrar deneyebilirsiniz."
+                action={{
+                  label: "Tüm İlanları Gör",
+                  onClick: () => {
+                    window.location.href = `${basePath}/satilik`;
+                  },
+                  variant: "default",
+                }}
+              />
+            </div>
+          )}
 
           {/* Pagination - Apple Quality */}
               {totalPages > 1 && (

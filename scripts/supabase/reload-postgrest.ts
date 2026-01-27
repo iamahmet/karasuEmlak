@@ -123,6 +123,14 @@ function sleep(ms: number): Promise<void> {
  * Reload PostgREST schema cache and verify
  */
 async function reloadPostgREST(): Promise<boolean> {
+  const isRemote = SUPABASE_URL.includes("supabase.co");
+  if (isRemote) {
+    console.log("Target: Supabase Hosted (remote).");
+    console.log("If RPC/NOTIFY below fails, run in Dashboard > SQL Editor:\n  NOTIFY pgrst, 'reload schema';\n");
+  } else {
+    console.log("Target: Local Supabase. To fully restart PostgREST: pnpm supabase:stop then pnpm supabase:start\n");
+  }
+
   console.log("🔄 Reloading PostgREST schema cache...\n");
 
   // Step 1: Call RPC function to trigger reload (with fallback to direct SQL)
@@ -213,6 +221,7 @@ async function reloadPostgREST(): Promise<boolean> {
     "listings",
     "news_articles",
     "notifications",
+    "seo_events",
   ];
 
   const results: VerificationResult[] = [];

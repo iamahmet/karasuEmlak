@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     // Fetch listings for trend analysis
     const { data: listings, error: listingsError } = await supabase
       .from("listings")
-      .select("id, title, created_at, updated_at, published, featured, status, price_amount, price, location_neighborhood")
+      .select("id, title, created_at, updated_at, published, featured, status, price_amount, location_neighborhood")
       .gte("created_at", startDate.toISOString())
       .is("deleted_at", null)
       .order("created_at", { ascending: false })
@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
       }
       const data = neighborhoodMap.get(neighborhood)!;
       data.listings++;
-      data.totalPrice += listing.price_amount || listing.price || 0;
+      data.totalPrice += listing.price_amount || 0;
     });
 
     const neighborhoods = Array.from(neighborhoodMap.entries())

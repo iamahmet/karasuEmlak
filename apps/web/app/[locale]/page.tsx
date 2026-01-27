@@ -169,13 +169,16 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const canonicalPath = locale === routing.defaultLocale ? '' : `/${locale}`;
-  
-  return {
+  try {
+    const { locale } = await params;
+    const base = siteConfig?.url ?? 'https://karasuemlak.net';
+    const name = siteConfig?.name ?? 'Karasu Emlak';
+    const canonicalPath = locale === routing.defaultLocale ? '' : `/${locale}`;
+
+    return {
     title: {
       default: 'Karasu Emlak | Satılık ve Kiralık Daire, Villa, Yazlık | Karasu Gayrimenkul',
-      template: `%s | ${siteConfig.name}`,
+      template: `%s | ${name}`,
     },
     description: 'Karasu\'da satılık ve kiralık emlak ilanları. Denize sıfır konumlar, modern yaşam alanları ve yatırım fırsatları. 15 yıllık deneyimli emlak danışmanları ile hayalinizdeki evi bulun.',
     keywords: [
@@ -191,25 +194,25 @@ export async function generateMetadata({
       'sakarya emlak',
     ],
     alternates: {
-      canonical: `${siteConfig.url}${canonicalPath || '/'}`,
+      canonical: `${base}${canonicalPath || '/'}`,
       languages: {
-        'tr': `${siteConfig.url}`,
-        'en': `${siteConfig.url}/en`,
-        'et': `${siteConfig.url}/et`,
-        'ru': `${siteConfig.url}/ru`,
-        'ar': `${siteConfig.url}/ar`,
+        'tr': base,
+        'en': `${base}/en`,
+        'et': `${base}/et`,
+        'ru': `${base}/ru`,
+        'ar': `${base}/ar`,
       },
     },
     openGraph: {
       type: 'website',
       locale: locale === 'tr' ? 'tr_TR' : locale,
-      url: `${siteConfig.url}${canonicalPath}`,
-      siteName: siteConfig.name,
+      url: `${base}${canonicalPath}`,
+      siteName: name,
       title: 'Karasu Emlak | Satılık ve Kiralık Daire, Villa, Yazlık',
       description: 'Karasu\'da satılık ve kiralık emlak ilanları. Denize sıfır konumlar, modern yaşam alanları ve yatırım fırsatları.',
       images: [
         {
-          url: `${siteConfig.url}/og-image.jpg`,
+          url: `${base}/og-image.jpg`,
           width: 1200,
           height: 630,
           alt: 'Karasu Emlak',
@@ -220,7 +223,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: 'Karasu Emlak | Satılık ve Kiralık Daire, Villa, Yazlık',
       description: 'Karasu\'da satılık ve kiralık emlak ilanları. Denize sıfır konumlar, modern yaşam alanları ve yatırım fırsatları.',
-      images: [`${siteConfig.url}/og-image.jpg`],
+      images: [`${base}/og-image.jpg`],
     },
     robots: {
       index: true,
@@ -234,6 +237,15 @@ export async function generateMetadata({
       },
     },
   };
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('[generateMetadata] home:', (e as Error)?.message);
+    }
+    return {
+      title: siteConfig?.name ?? 'Karasu Emlak',
+      description: 'Karasu satılık ve kiralık emlak.',
+    };
+  }
 }
 
 export default async function HomePage({
@@ -264,12 +276,29 @@ export default async function HomePage({
     // Use timeout to prevent blocking (3 seconds max)
     // If database is down, page still renders with empty data
     try {
-      const listingsResult = await withTimeout(getFeaturedListings(10), 3000, []);
-      const recentListingsResult = await withTimeout(getRecentListings(10), 3000, []);
+      // Wrap each data fetch in individual try-catch to prevent one failure from breaking the page
+      let listingsResult: any[] = [];
+      try {
+        const fetchedListings = await withTimeout(getFeaturedListings(10), 3000, [] as any[]);
+        listingsResult = Array.isArray(fetchedListings) ? fetchedListings : [];
+      } catch (listingsError: any) {
+        console.error('[HomePage] Error fetching featured listings:', listingsError.message);
+        listingsResult = [];
+      }
+      
+      let recentListingsResult: any[] = [];
+      try {
+        const fetchedRecent = await withTimeout(getRecentListings(10), 3000, [] as any[]);
+        recentListingsResult = Array.isArray(fetchedRecent) ? fetchedRecent : [];
+      } catch (recentError: any) {
+        console.error('[HomePage] Error fetching recent listings:', recentError.message);
+        recentListingsResult = [];
+      }
 
       // Separate satilik and kiralik listings
-      satilikListings = (listingsResult || []).filter(l => l.status === 'satilik');
-      kiralikListings = (listingsResult || []).filter(l => l.status === 'kiralik');
+      const safeListings = listingsResult ?? [];
+      satilikListings = safeListings.filter(l => l.status === 'satilik');
+      kiralikListings = safeListings.filter(l => l.status === 'kiralik');
       const statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
       const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
       const neighborhoodsImagesResult = await withTimeout(getNeighborhoodsWithImages(8), 3000, []);
@@ -287,11 +316,18 @@ export default async function HomePage({
       }
 
       // Fetch Karasu Gündem articles separately (with timeout, graceful degradation)
-      const gundemResult = await withTimeout(
-        getLatestGundemArticles(3),
-        3000,
-        []
-      );
+      let gundemResult: any[] = [];
+      try {
+        const fetchedGundem = await withTimeout(
+          getLatestGundemArticles(3),
+          3000,
+          [] as any[]
+        );
+        gundemResult = Array.isArray(fetchedGundem) ? fetchedGundem : [];
+      } catch (gundemError: any) {
+        console.error('[HomePage] Error fetching Gündem articles:', gundemError?.message);
+        gundemResult = [];
+      }
 
       // Assign results (null becomes empty array/object)
       featuredListings = listingsResult || [];
@@ -308,16 +344,19 @@ export default async function HomePage({
     }
     
     // Enhance Gündem articles with SEO metadata and filter real estate related
-    const enhancedGundemArticles = gundemArticles
+    const enhancedGundemArticles = (gundemArticles || [])
       .map(article => {
         try {
+          if (!article || typeof article !== 'object') {
+            return null;
+          }
           return enhanceArticleSEO(article, process.env.NEXT_PUBLIC_SITE_URL || 'https://www.karasuemlak.net');
-        } catch (error) {
-          console.error('Error enhancing article SEO:', error);
-          return { ...article, isRealEstateRelated: false };
+        } catch (error: any) {
+          console.error('[HomePage] Error enhancing article SEO:', error?.message);
+          return null;
         }
       })
-      .filter(article => article.isRealEstateRelated)
+      .filter((article): article is NonNullable<typeof article> => article !== null && article.isRealEstateRelated)
       .slice(0, 3);
 
     // Generate comprehensive local SEO schemas
