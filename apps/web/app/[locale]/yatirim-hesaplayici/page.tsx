@@ -12,8 +12,6 @@ import dynamicImport from 'next/dynamic';
 import { ContentSection } from '@/components/content/ContentSection';
 import { FAQBlock } from '@/components/content/FAQBlock';
 
-export const dynamic = 'force-dynamic';
-
 const CurrencyConverter = dynamicImport(() => import('@/components/services/CurrencyConverter').then(mod => ({ default: mod.CurrencyConverter })), {
   loading: () => null,
 });
