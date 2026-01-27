@@ -214,10 +214,10 @@ export function BulkImageOperations({ images, onUpdate, className }: BulkImageOp
         )}
 
         {/* Info */}
-        <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-800">
+        <div className="p-3 rounded-lg bg-muted/30 border border-border">
           <div className="flex items-start gap-2">
-            <AlertCircle className="h-4 w-4 text-gray-600 dark:text-gray-400 mt-0.5 flex-shrink-0" />
-            <div className="text-xs text-gray-700 dark:text-gray-300">
+            <AlertCircle className="h-4 w-4 text-foreground mt-0.5 flex-shrink-0" />
+            <div className="text-xs text-foreground">
               <p className="font-semibold mb-1">Not:</p>
               <ul className="space-y-1 list-disc list-inside">
                 <li>Toplu işlemler tüm görselleri etkiler</li>
