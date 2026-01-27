@@ -12,16 +12,24 @@ export function createClient() {
   if (typeof window === 'undefined') {
     // Return a mock client for SSR that won't cause errors
     // This should never be used, but prevents SSR errors
-    return {
+    const ssrClient = {
       auth: {
         getUser: () => Promise.resolve({ data: { user: null }, error: null }),
         signOut: () => Promise.resolve({ error: null }),
         signInWithOtp: () => Promise.resolve({ error: null }),
         signInWithPassword: () => Promise.resolve({ data: null, error: null }),
+        signUp: () => Promise.resolve({ data: null, error: null }),
         exchangeCodeForSession: () => Promise.resolve({ data: null, error: null }),
       },
       from: () => ({ select: () => ({ eq: () => Promise.resolve({ data: null, error: null }) }) }),
     } as any;
+    
+    // Ensure SSR client has auth
+    if (!ssrClient.auth) {
+      console.error('CRITICAL: SSR client missing auth property');
+    }
+    
+    return ssrClient;
   }
 
   // Read environment variables directly from process.env

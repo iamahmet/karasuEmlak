@@ -31,30 +31,71 @@ export default function SignupPage() {
   const supabase = useMemo(() => {
     try {
       const client = createClient();
-      if (!client || !client.auth) {
-        console.error("Supabase client is invalid");
-        return null;
+      // Double-check: client should never be null/undefined from createClient()
+      if (!client) {
+        console.error("CRITICAL: createClient returned null/undefined");
+        // Return a safe fallback instead of null
+        return {
+          auth: {
+            getUser: () => Promise.resolve({ data: { user: null }, error: { message: 'Client initialization failed' } }),
+            signOut: () => Promise.resolve({ error: { message: 'Client initialization failed' } }),
+            signInWithOtp: () => Promise.resolve({ error: { message: 'Client initialization failed' } }),
+            signInWithPassword: () => Promise.resolve({ data: null, error: { message: 'Client initialization failed' } }),
+            signUp: () => Promise.resolve({ data: null, error: { message: 'Client initialization failed' } }),
+            exchangeCodeForSession: () => Promise.resolve({ data: null, error: { message: 'Client initialization failed' } }),
+          },
+          from: () => ({ select: () => ({ eq: () => Promise.resolve({ data: null, error: { message: 'Client initialization failed' } }) }) }),
+        } as any;
+      }
+      if (!client.auth) {
+        console.error("CRITICAL: Supabase client missing auth property");
+        // Return a safe fallback instead of null
+        return {
+          auth: {
+            getUser: () => Promise.resolve({ data: { user: null }, error: { message: 'Client auth missing' } }),
+            signOut: () => Promise.resolve({ error: { message: 'Client auth missing' } }),
+            signInWithOtp: () => Promise.resolve({ error: { message: 'Client auth missing' } }),
+            signInWithPassword: () => Promise.resolve({ data: null, error: { message: 'Client auth missing' } }),
+            signUp: () => Promise.resolve({ data: null, error: { message: 'Client auth missing' } }),
+            exchangeCodeForSession: () => Promise.resolve({ data: null, error: { message: 'Client auth missing' } }),
+          },
+          from: () => ({ select: () => ({ eq: () => Promise.resolve({ data: null, error: { message: 'Client auth missing' } }) }) }),
+        } as any;
       }
       return client;
-    } catch (error) {
-      console.error("Error creating Supabase client:", error);
-      return null;
+    } catch (error: any) {
+      console.error("Error creating Supabase client:", error?.message || error);
+      // Return a safe fallback instead of null
+      return {
+        auth: {
+          getUser: () => Promise.resolve({ data: { user: null }, error: { message: 'Client creation error' } }),
+          signOut: () => Promise.resolve({ error: { message: 'Client creation error' } }),
+          signInWithOtp: () => Promise.resolve({ error: { message: 'Client creation error' } }),
+          signInWithPassword: () => Promise.resolve({ data: null, error: { message: 'Client creation error' } }),
+          signUp: () => Promise.resolve({ data: null, error: { message: 'Client creation error' } }),
+          exchangeCodeForSession: () => Promise.resolve({ data: null, error: { message: 'Client creation error' } }),
+        },
+        from: () => ({ select: () => ({ eq: () => Promise.resolve({ data: null, error: { message: 'Client creation error' } }) }) }),
+      } as any;
     }
   }, []);
 
   // Check if user is already logged in
   useEffect(() => {
     async function checkAuth() {
-      if (!isConfigured || !supabase) {
+      if (!isConfigured) {
+        setCheckingAuth(false);
+        return;
+      }
+
+      // supabase should never be null from useMemo, but check anyway
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid in checkAuth");
         setCheckingAuth(false);
         return;
       }
 
       try {
-        if (!supabase.auth) {
-          setCheckingAuth(false);
-          return;
-        }
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
           const redirectTo = searchParams.get("redirect") || "/tr/dashboard";
