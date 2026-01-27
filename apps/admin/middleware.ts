@@ -60,6 +60,11 @@ export async function middleware(request: NextRequest) {
       );
 
       // Refresh session - this updates cookies
+      if (!supabase || !supabase.auth) {
+        const loginUrl = new URL(`/tr/login`, request.url);
+        loginUrl.searchParams.set("redirect", pathname);
+        return NextResponse.redirect(loginUrl);
+      }
       const { data: { user }, error: authError } = await supabase.auth.getUser();
 
       if (!user || authError) {

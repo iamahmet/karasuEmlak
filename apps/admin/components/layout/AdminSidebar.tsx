@@ -79,6 +79,11 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
           return;
         }
         
+        if (!supabase.auth) {
+          console.error("Supabase client auth is undefined");
+          return;
+        }
+        
         const { data: { user }, error: authError } = await supabase.auth.getUser();
         
         if (authError) {
