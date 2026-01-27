@@ -95,7 +95,10 @@ export function BulkOperations({
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent 
+              align="end"
+              className="z-[100] bg-card border border-border shadow-xl rounded-lg backdrop-blur-xl"
+            >
               {operations.slice(4).map((operation) => {
                 const Icon = operation.icon;
                 return (

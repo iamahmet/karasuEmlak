@@ -128,7 +128,10 @@ export function BulkActions<T>({
               <MoreVertical className="h-3.5 w-3.5" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="rounded-lg">
+          <DropdownMenuContent 
+            align="end" 
+            className="rounded-lg z-[100] bg-card border border-border shadow-xl backdrop-blur-xl"
+          >
             <DropdownMenuItem className="font-ui text-sm">
               Export Selected
             </DropdownMenuItem>

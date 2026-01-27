@@ -711,7 +711,10 @@ export function UsersTable({
                       Kolonlar
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent 
+                    align="end"
+                    className="z-[100] bg-card border border-border shadow-xl rounded-lg backdrop-blur-xl"
+                  >
                     {Object.entries({
                       user: "Kullanıcı",
                       email: "E-posta",
@@ -760,7 +763,10 @@ export function UsersTable({
                 Dışa Aktar
               </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent 
+                  align="end"
+                  className="z-[100] bg-card border border-border shadow-xl rounded-lg backdrop-blur-xl"
+                >
                   <DropdownMenuItem onClick={() => handleExport("csv")}>
                     <FileText className="h-4 w-4 mr-2" />
                     CSV olarak dışa aktar
@@ -1053,7 +1059,10 @@ export function UsersTable({
                               <MoreVertical className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
+                          <DropdownMenuContent 
+                            align="end"
+                            className="z-[100] bg-card border border-border shadow-xl rounded-lg min-w-[200px] backdrop-blur-xl"
+                          >
                             <DropdownMenuItem onClick={(e) => {
                               e.stopPropagation();
                               onUserUpdate(user.id);
@@ -1346,7 +1355,11 @@ export function UsersTable({
                                 İşlemler
                               </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
+                            <DropdownMenuContent 
+                              align="end"
+                              className="z-[100] bg-card border border-border shadow-xl rounded-lg min-w-[200px] backdrop-blur-xl"
+                            className="z-[100] bg-card border border-border shadow-xl rounded-lg min-w-[200px] backdrop-blur-xl"
+                          >
                               <DropdownMenuItem
                                 onClick={(e) => {
                                   e.stopPropagation();

@@ -216,7 +216,10 @@ export function ArticleEditorHeader({
                   <MoreVertical className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent 
+                align="end" 
+                className="w-56 z-[100] bg-card border border-border shadow-xl rounded-lg backdrop-blur-xl"
+              >
                 <DropdownMenuItem onClick={onDistractionFree} className="gap-2">
                   <Focus className="h-4 w-4" />
                   Dikkat Dağıtmayan Mod

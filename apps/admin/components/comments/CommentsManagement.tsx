@@ -470,7 +470,10 @@ export function CommentsManagement({
                 <AlertCircle className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent 
+              align="end"
+              className="z-[100] bg-card border border-border shadow-xl rounded-lg backdrop-blur-xl"
+            >
               {comment.status !== "approved" && (
                 <DropdownMenuItem onClick={() => handleStatusChange(comment.id, "approved")}>
                   <CheckCircle2 className="h-4 w-4 mr-2" />
@@ -624,7 +627,10 @@ export function CommentsManagement({
                       Toplu İşlem ({selectedIds.length})
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent 
+              align="end"
+              className="z-[100] bg-card border border-border shadow-xl rounded-lg backdrop-blur-xl"
+            >
                     <DropdownMenuItem onClick={() => handleBulkAction("approved")}>
                       <CheckCircle2 className="h-4 w-4 mr-2" />
                       Onayla

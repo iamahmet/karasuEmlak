@@ -118,7 +118,10 @@ export function MediaBulkOperations({
                   Daha Fazla
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent 
+                align="end"
+                className="z-[100] bg-card border border-border shadow-xl rounded-lg backdrop-blur-xl"
+              >
                 <DropdownMenuItem onClick={() => handleBulkAction("copy")}>
                   <Copy className="h-4 w-4 mr-2" />
                   Kopyala

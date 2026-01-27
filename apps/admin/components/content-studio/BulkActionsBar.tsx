@@ -95,7 +95,10 @@ export function BulkActionsBar({
                 Daha Fazla
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="rounded-lg">
+            <DropdownMenuContent 
+              align="end" 
+              className="rounded-lg z-[100] bg-card border border-border shadow-xl backdrop-blur-xl"
+            >
               <DropdownMenuItem
                 onClick={() => handleAction("duplicate")}
                 className="flex items-center gap-2 cursor-pointer font-ui text-sm px-3 py-2"

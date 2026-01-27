@@ -148,7 +148,7 @@ export function NotificationCenter() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-96 p-0 rounded-lg border border-border/40 dark:border-border/40 shadow-xl"
+        className="w-96 p-0 rounded-lg border border-border shadow-xl z-[100] bg-card backdrop-blur-xl"
       >
         <div className="p-4 border-b border-border/40 dark:border-border/40">
           <div className="flex items-center justify-between mb-2">

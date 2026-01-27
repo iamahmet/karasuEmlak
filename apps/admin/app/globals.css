@@ -912,3 +912,22 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Dropdown Menu - Fix transparency and z-index issues */
+[data-radix-popper-content-wrapper] {
+  z-index: 100 !important;
+}
+
+[data-radix-dropdown-menu-content] {
+  background-color: hsl(var(--card)) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+  z-index: 100 !important;
+}
+
+.dark [data-radix-dropdown-menu-content] {
+  background-color: hsl(var(--card)) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}

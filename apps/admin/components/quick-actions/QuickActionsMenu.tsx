@@ -81,7 +81,10 @@ export function QuickActionsMenu() {
           Quick Actions
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 rounded-lg">
+      <DropdownMenuContent 
+        align="end" 
+        className="w-56 rounded-lg z-[100] bg-card border border-border shadow-xl backdrop-blur-xl"
+      >
         <DropdownMenuLabel className="text-xs font-ui font-semibold text-muted-foreground">
           Quick Actions
         </DropdownMenuLabel>

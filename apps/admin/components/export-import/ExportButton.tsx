@@ -119,7 +119,10 @@ export function ExportButton<T>({
           {exporting ? "Exporting..." : "Export"}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="rounded-lg">
+      <DropdownMenuContent 
+        align="end" 
+        className="rounded-lg z-[100] bg-card border border-border shadow-xl backdrop-blur-xl"
+      >
         <DropdownMenuItem
           onClick={exportToCSV}
           className="flex items-center gap-2 cursor-pointer font-ui text-sm px-3 py-2"
