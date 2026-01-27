@@ -8,7 +8,7 @@ import { Button } from "@karasu/ui";
 import { Input } from "@karasu/ui";
 import { Card, CardContent } from "@karasu/ui";
 import { NeighborhoodAutocomplete } from "@/components/search/NeighborhoodAutocomplete";
-import { CardImage } from "@/components/images";
+import { getOptimizedCloudinaryUrl } from "@/lib/cloudinary/optimization";
 import { FavoriteButton } from "@/components/listings/FavoriteButton";
 import { ComparisonButton } from "@/components/comparison/ComparisonButton";
 import { trackHomepageEvent } from "@/lib/analytics/events";
@@ -444,37 +444,79 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
                               >
                                 {/* Image with Aspect Ratio */}
                                 <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
-                                  {mainImage?.public_id || mainImage?.url ? (
-                                    mainImage.url ? (
-                                      <picture>
-                                        <source srcSet={mainImage.url.replace(/\.(jpg|jpeg|png)$/i, '.webp')} type="image/webp" />
+                                  {(() => {
+                                    const placeholderUrl = getPropertyPlaceholder(listing.property_type, listing.status, listing.location_neighborhood, 800, 600);
+                                    
+                                    // Priority: url > public_id > placeholder
+                                    if (mainImage?.url) {
+                                      return (
                                         <img
                                           src={mainImage.url}
                                           alt={imageAlt}
                                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                           loading={index === 0 ? "eager" : "lazy"}
                                           decoding="async"
+                                          onError={(e) => {
+                                            const target = e.target as HTMLImageElement;
+                                            target.src = placeholderUrl;
+                                          }}
                                         />
-                                      </picture>
-                                    ) : (
-                                      <CardImage
-                                        publicId={mainImage.public_id!}
+                                      );
+                                    }
+                                    
+                                    if (mainImage?.public_id) {
+                                      try {
+                                        // Generate optimized Cloudinary URL
+                                        const imageUrl = getOptimizedCloudinaryUrl(mainImage.public_id, {
+                                          width: 800,
+                                          height: 600,
+                                          quality: 'auto',
+                                          format: 'auto',
+                                        });
+                                        
+                                        if (!imageUrl || imageUrl.trim() === '') {
+                                          throw new Error('Invalid image URL');
+                                        }
+                                        
+                                        // Use standard img tag for reliability
+                                        return (
+                                          <img
+                                            src={imageUrl}
+                                            alt={imageAlt}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            loading={index === 0 ? "eager" : "lazy"}
+                                            decoding="async"
+                                            onError={(e) => {
+                                              const target = e.target as HTMLImageElement;
+                                              target.src = placeholderUrl;
+                                            }}
+                                          />
+                                        );
+                                      } catch (error) {
+                                        // Fallback to placeholder if URL generation fails
+                                        return (
+                                          <img
+                                            src={placeholderUrl}
+                                            alt={imageAlt}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            loading={index === 0 ? "eager" : "lazy"}
+                                            decoding="async"
+                                          />
+                                        );
+                                      }
+                                    }
+                                    
+                                    // Fallback placeholder
+                                    return (
+                                      <img
+                                        src={placeholderUrl}
                                         alt={imageAlt}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                        sizes="(max-width: 1024px) 100vw, 58vw"
-                                        priority={index === 0}
-                                        fallback={getPropertyPlaceholder(listing.property_type, listing.status, listing.location_neighborhood, 800, 600)}
+                                        loading={index === 0 ? "eager" : "lazy"}
+                                        decoding="async"
                                       />
-                                    )
-                                  ) : (
-                                    <img
-                                      src={getPropertyPlaceholder(listing.property_type, listing.status, listing.location_neighborhood, 800, 600)}
-                                      alt={imageAlt}
-                                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                      loading={index === 0 ? "eager" : "lazy"}
-                                      decoding="async"
-                                    />
-                                  )}
+                                    );
+                                  })()}
                                   
                                   {/* Badges */}
                                   <div className="absolute top-4 right-4 flex items-center gap-2 z-10">

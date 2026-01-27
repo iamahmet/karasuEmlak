@@ -30,7 +30,17 @@ export default function LoginPage() {
 
   // Use singleton client to prevent NavigatorLockAcquireTimeoutError
   const supabase = useMemo(() => {
-    return createClient();
+    try {
+      const client = createClient();
+      if (!client || !client.auth) {
+        console.error("Supabase client is invalid");
+        return null;
+      }
+      return client;
+    } catch (error) {
+      console.error("Error creating Supabase client:", error);
+      return null;
+    }
   }, []);
 
   // Fetch available users for login
@@ -71,8 +81,8 @@ export default function LoginPage() {
   // Check if user is already logged in or handle callback
   useEffect(() => {
     async function checkAuth() {
-      // Skip auth check if Supabase is not configured
-      if (!isConfigured) {
+      // Skip auth check if Supabase is not configured or client is null
+      if (!isConfigured || !supabase) {
         setCheckingAuth(false);
         return;
       }
@@ -119,7 +129,7 @@ export default function LoginPage() {
   const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!isConfigured) {
+    if (!isConfigured || !supabase) {
       setError("Supabase yapılandırması eksik. Lütfen environment variables'ları kontrol edin.");
       return;
     }
@@ -156,7 +166,7 @@ export default function LoginPage() {
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!isConfigured) {
+    if (!isConfigured || !supabase) {
       setError("Supabase yapılandırması eksik. Lütfen environment variables'ları kontrol edin.");
       return;
     }
