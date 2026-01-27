@@ -230,7 +230,8 @@ export function UsersManagement({
       total: allUsers.length,
       admin: allUsers.filter((u) => {
         const roles = Array.isArray(u?.roles) ? u.roles : [];
-        return roles.includes("admin");
+        // Include both super_admin and admin in admin count
+        return roles.includes("super_admin") || roles.includes("admin");
       }).length,
       staff: allUsers.filter((u) => {
         const roles = Array.isArray(u?.roles) ? u.roles : [];
