@@ -535,16 +535,27 @@ export default function LoginPage() {
                   ? "Magic link e-posta adresinize gönderilecektir. Link'e tıklayarak otomatik giriş yapabilirsiniz."
                   : "Hesabınız yok mu?"}
               </p>
-              {authMethod === "password" && (
-                <p className="text-sm text-center">
-                  <Link 
-                    href="/tr/signup" 
-                    className="text-primary hover:text-primary/80 font-semibold transition-colors inline-flex items-center gap-1"
-                  >
-                    Kayıt olun
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </p>
+                {authMethod === "password" && (
+                <div className="space-y-2">
+                  <p className="text-sm text-center">
+                    <Link 
+                      href="/tr/forgot-password" 
+                      className="text-muted-foreground hover:text-primary font-medium transition-colors"
+                    >
+                      Şifremi unuttum
+                    </Link>
+                  </p>
+                  <p className="text-sm text-center">
+                    <span className="text-muted-foreground">Hesabınız yok mu? </span>
+                    <Link 
+                      href="/tr/signup" 
+                      className="text-primary hover:text-primary/80 font-semibold transition-colors inline-flex items-center gap-1"
+                    >
+                      Kayıt olun
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </p>
+                </div>
               )}
 
               {/* Available Users List */}
