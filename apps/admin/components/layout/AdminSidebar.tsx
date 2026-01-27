@@ -66,14 +66,30 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
   const [expandedMenus, setExpandedMenus] = useState<string[]>(["contentManagement"]);
   const [poi369Expanded, setPoi369Expanded] = useState(false); // Collapsible Poi369 Studio
   const [user, setUser] = useState<any>(null);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const sidebarRef = useRef<HTMLElement>(null);
 
-  // Fetch current user
+  // Fetch current user and check if superadmin
   useEffect(() => {
-    const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    const fetchUserAndRole = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
-    });
+
+      if (user) {
+        // Check if user is superadmin
+        const { data: roles } = await supabase
+          .from("user_roles")
+          .select("roles(name)")
+          .eq("user_id", user.id);
+
+        const hasSuperAdmin = roles?.some(
+          (ur: any) => ur.roles?.name === "super_admin"
+        ) || false;
+        setIsSuperAdmin(hasSuperAdmin);
+      }
+    };
+    fetchUserAndRole();
   }, []);
 
   const handleLogout = async () => {
@@ -459,10 +475,13 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
               </div>
             </div>
 
-            {/* Divider */}
-            <div className="border-t border-border/40/60 dark:border-[#0a3d35]/60 my-3"></div>
+            {/* Divider - sadece superadmin için POI369 Studio varsa göster */}
+            {isSuperAdmin && (
+              <div className="border-t border-border/40/60 dark:border-[#0a3d35]/60 my-3"></div>
+            )}
 
-            {/* 🛠️ POI369 STUDIO SECTION - PREMIUM & ELEGANT */}
+            {/* 🛠️ POI369 STUDIO SECTION - PREMIUM & ELEGANT - SADECE SUPERADMIN */}
+            {isSuperAdmin && (
             <div>
               <button
                 onClick={() => {
@@ -534,6 +553,7 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
                 </div>
               )}
             </div>
+            )}
           </nav>
 
           {/* Footer - User Info & Version */}

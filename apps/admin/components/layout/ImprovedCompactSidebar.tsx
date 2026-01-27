@@ -27,6 +27,7 @@ import { cn } from "@karasu/lib";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@karasu/ui";
 import { Logo } from "@/components/branding/Logo";
 import { hapticButtonPress } from "@/lib/mobile/haptics";
+import { createClient } from "@karasu/lib/supabase/client";
 
 interface NavItem {
   href?: string;
@@ -45,11 +46,34 @@ export function ImprovedCompactSidebar() {
   const [expandedMenus, setExpandedMenus] = useState<string[]>(["içerikler"]);
   const [poi369Expanded, setPoi369Expanded] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const sidebarRef = useRef<HTMLElement>(null);
 
   // Animation mount state
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // Fetch user role and check if superadmin
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (user) {
+        // Check if user is superadmin
+        const { data: roles } = await supabase
+          .from("user_roles")
+          .select("roles(name)")
+          .eq("user_id", user.id);
+
+        const hasSuperAdmin = roles?.some(
+          (ur: any) => ur.roles?.name === "super_admin"
+        ) || false;
+        setIsSuperAdmin(hasSuperAdmin);
+      }
+    };
+    fetchUserRole();
   }, []);
 
   // Load collapsed state from localStorage
@@ -115,7 +139,8 @@ export function ImprovedCompactSidebar() {
         { href: "/comments", label: "Yorumlar", icon: MessageSquare },
       ],
     },
-    { href: "/settings", label: "Ayarlar", icon: Settings },
+    // Ayarlar sadece superadmin için
+    ...(isSuperAdmin ? [{ href: "/settings", label: "Ayarlar", icon: Settings }] : []),
   ], []);
 
   const poi369Items: NavItem[] = useMemo(() => [
@@ -363,16 +388,18 @@ export function ImprovedCompactSidebar() {
             {emlakciItems.map((item, index) => renderNavItem(item, 0, index))}
           </div>
 
-          {/* Section Divider */}
-          <div className={cn(
-            "my-4 mx-2 transition-all duration-300",
-            isExpanded
-              ? "h-px bg-gradient-to-r from-transparent via-border/60 to-transparent"
-              : "h-px bg-border/40"
-          )} />
+          {/* Section Divider - sadece superadmin için POI369 Studio varsa göster */}
+          {isSuperAdmin && (
+            <div className={cn(
+              "my-4 mx-2 transition-all duration-300",
+              isExpanded
+                ? "h-px bg-gradient-to-r from-transparent via-border/60 to-transparent"
+                : "h-px bg-border/40"
+            )} />
+          )}
 
-          {/* POI369 Studio Section */}
-          {isExpanded ? (
+          {/* POI369 Studio Section - SADECE SUPERADMIN */}
+          {isSuperAdmin && isExpanded ? (
             <div className="animate-in fade-in duration-300">
               <button
                 onClick={() => {
@@ -450,7 +477,7 @@ export function ImprovedCompactSidebar() {
                 </div>
               </div>
             </div>
-          ) : (
+          ) : isSuperAdmin ? (
             // Collapsed state - show icons only
             <div className="space-y-1">
               {poi369Items.map((item, index) => {
@@ -495,7 +522,7 @@ export function ImprovedCompactSidebar() {
                 );
               })}
             </div>
-          )}
+          ) : null}
         </nav>
 
         {/* Footer - User Info */}
