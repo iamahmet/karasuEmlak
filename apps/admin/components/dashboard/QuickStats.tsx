@@ -33,6 +33,12 @@ export function QuickStats() {
 
     // Set up real-time subscriptions
     const supabase = createClient();
+    
+    // Critical: Verify supabase client exists
+    if (!supabase || !supabase.auth) {
+      console.error("Supabase client is invalid in QuickStats");
+      return;
+    }
 
     // Subscribe to articles changes
     const articlesChannel = supabase
@@ -81,6 +87,13 @@ export function QuickStats() {
   const fetchStats = async () => {
     try {
       const supabase = createClient();
+      
+      // Critical: Verify supabase client exists
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid in fetchStats");
+        setLoading(false);
+        return;
+      }
       
       // Fetch multiple stats in parallel with error handling
       const [

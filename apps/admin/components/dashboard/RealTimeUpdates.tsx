@@ -21,6 +21,12 @@ export function RealTimeUpdates() {
 
   useEffect(() => {
     const supabase = createClient();
+    
+    // Critical: Verify supabase client exists
+    if (!supabase || !supabase.auth) {
+      console.error("Supabase client is invalid in RealTimeUpdates");
+      return;
+    }
 
     // Subscribe to articles changes
     const articlesChannel = supabase

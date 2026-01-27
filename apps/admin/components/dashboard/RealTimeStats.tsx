@@ -30,6 +30,12 @@ export function RealTimeStats({ initialStats }: RealTimeStatsProps) {
 
   useEffect(() => {
     const supabase = createClient();
+    
+    // Critical: Verify supabase client exists
+    if (!supabase || !supabase.auth) {
+      console.error("Supabase client is invalid in RealTimeStats");
+      return;
+    }
 
     // Subscribe to articles table changes
     const articlesChannel = supabase
@@ -82,6 +88,13 @@ export function RealTimeStats({ initialStats }: RealTimeStatsProps) {
     try {
       setLoading(true);
       const supabase = createClient();
+      
+      // Critical: Verify supabase client exists
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid in fetchStats");
+        setLoading(false);
+        return;
+      }
 
       const [
         articlesResult,

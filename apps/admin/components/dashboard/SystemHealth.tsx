@@ -38,6 +38,22 @@ export function SystemHealth() {
     try {
       const supabase = createClient();
       
+      // Critical: Verify supabase client exists and has auth property
+      if (!supabase || !supabase.auth) {
+        console.error("Supabase client is invalid in SystemHealth");
+        setHealth({
+          status: "error",
+          checks: [{
+            name: "Sistem",
+            status: "error",
+            message: "Supabase client initialization failed",
+            icon: Server,
+            lastChecked: new Date().toLocaleTimeString("tr-TR"),
+          }],
+        });
+        return;
+      }
+      
       const checks: HealthCheck[] = [];
 
       // Database connection check
@@ -83,6 +99,9 @@ export function SystemHealth() {
 
       // Authentication check
       try {
+        if (!supabase.auth) {
+          throw new Error("Auth property missing");
+        }
         const { data: { user: _user } } = await supabase.auth.getUser();
         checks.push({
           name: "Kimlik Doğrulama",
