@@ -138,7 +138,7 @@ export function BulkImageOperations({ images, onUpdate, className }: BulkImageOp
                 <Zap className="h-5 w-5" />
                 <div className="text-center">
                   <span className="text-xs font-semibold block">Tümünü Optimize Et</span>
-                  <span className="text-[10px] text-gray-500">Boyut ve kalite</span>
+                  <span className="text-[10px] text-muted-foreground">Boyut ve kalite</span>
                 </div>
               </>
             )}
@@ -161,7 +161,7 @@ export function BulkImageOperations({ images, onUpdate, className }: BulkImageOp
                 <Maximize2 className="h-5 w-5" />
                 <div className="text-center">
                   <span className="text-xs font-semibold block">Tümünü Boyutlandır</span>
-                  <span className="text-[10px] text-gray-500">1920x1080 standart</span>
+                  <span className="text-[10px] text-muted-foreground">1920x1080 standart</span>
                 </div>
               </>
             )}
@@ -184,7 +184,7 @@ export function BulkImageOperations({ images, onUpdate, className }: BulkImageOp
                 <Shield className="h-5 w-5" />
                 <div className="text-center">
                   <span className="text-xs font-semibold block">Watermark Ekle</span>
-                  <span className="text-[10px] text-gray-500">Telif koruması</span>
+                  <span className="text-[10px] text-muted-foreground">Telif koruması</span>
                 </div>
               </>
             )}
@@ -204,7 +204,7 @@ export function BulkImageOperations({ images, onUpdate, className }: BulkImageOp
                 {Math.round(progress)}%
               </span>
             </div>
-            <div className="h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+            <div className="h-2 bg-muted rounded-full overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-design-light to-design-dark transition-all duration-300"
                 style={{ width: `${progress}%` }}

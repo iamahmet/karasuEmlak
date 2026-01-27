@@ -144,7 +144,7 @@ export function ListingComparison({ currentListing, similarListings, className }
                     <span className="text-xs text-muted-foreground">
                       {formatCurrency(currentListing.price_amount)}
                     </span>
-                    <ArrowRight className="h-3 w-3 text-gray-400" />
+                    <ArrowRight className="h-3 w-3 text-muted-foreground" />
                     <span className="text-xs text-muted-foreground">
                       {formatCurrency(selected.price_amount)}
                     </span>
@@ -183,7 +183,7 @@ export function ListingComparison({ currentListing, similarListings, className }
                       <span className="text-xs text-muted-foreground">
                         {currentListing.area_sqm} m²
                       </span>
-                      <ArrowRight className="h-3 w-3 text-gray-400" />
+                      <ArrowRight className="h-3 w-3 text-muted-foreground" />
                       <span className="text-xs text-muted-foreground">
                         {selected.area_sqm} m²
                       </span>
@@ -223,7 +223,7 @@ export function ListingComparison({ currentListing, similarListings, className }
                       <span className="text-xs text-muted-foreground">
                         {currentListing.views.toLocaleString()}
                       </span>
-                      <ArrowRight className="h-3 w-3 text-gray-400" />
+                      <ArrowRight className="h-3 w-3 text-muted-foreground" />
                       <span className="text-xs text-muted-foreground">
                         {selected.views.toLocaleString()}
                       </span>
@@ -262,7 +262,7 @@ export function ListingComparison({ currentListing, similarListings, className }
                     <span className="text-xs text-muted-foreground">
                       {currentListing.images.length}
                     </span>
-                    <ArrowRight className="h-3 w-3 text-gray-400" />
+                    <ArrowRight className="h-3 w-3 text-muted-foreground" />
                     <span className="text-xs text-muted-foreground">
                       {selected.images.length}
                     </span>

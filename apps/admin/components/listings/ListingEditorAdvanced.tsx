@@ -3041,7 +3041,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                       <button
                         type="button"
                         onClick={() => setSidebarCollapsed(true)}
-                        className="lg:hidden p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+                        className="lg:hidden p-1 rounded hover:bg-muted"
                         title="Sidebar'ı Kapat"
                         aria-label="Sidebar'ı Kapat"
                       >
@@ -3139,7 +3139,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                           stroke="currentColor"
                           strokeWidth="8"
                           fill="none"
-                          className="text-gray-200 dark:text-gray-800"
+                          className="text-muted-foreground/50"
                         />
                         <circle
                           cx="50%"
@@ -3232,7 +3232,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                 <button
                   type="button"
                   onClick={() => setPreviewSide(previewSide === "right" ? "bottom" : "right")}
-                  className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  className="p-1.5 rounded hover:bg-muted transition-colors"
                   title={previewSide === "right" ? "Altına Taşı" : "Sağa Taşı"}
                 >
                   {previewSide === "right" ? (
@@ -3244,7 +3244,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                 <button
                   type="button"
                   onClick={() => setLivePreview(false)}
-                  className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  className="p-1.5 rounded hover:bg-muted transition-colors"
                   title="Kapat"
                 >
                   <X className="h-4 w-4" />
@@ -3281,7 +3281,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     className={`p-1.5 rounded ${
                       previewMode === "desktop" 
                         ? "bg-primary text-primary-foreground" 
-                        : "text-muted-foreground hover:bg-gray-100 dark:hover:bg-gray-800"
+                        : "text-muted-foreground hover:bg-muted"
                     }`}
                     title="Masaüstü Görünümü"
                     aria-label="Masaüstü Görünümü"
@@ -3294,7 +3294,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     className={`p-1.5 rounded ${
                       previewMode === "tablet" 
                         ? "bg-primary text-primary-foreground" 
-                        : "text-muted-foreground hover:bg-gray-100 dark:hover:bg-gray-800"
+                        : "text-muted-foreground hover:bg-muted"
                     }`}
                     title="Tablet Görünümü"
                     aria-label="Tablet Görünümü"
@@ -3307,7 +3307,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                     className={`p-1.5 rounded ${
                       previewMode === "mobile" 
                         ? "bg-primary text-primary-foreground" 
-                        : "text-muted-foreground hover:bg-gray-100 dark:hover:bg-gray-800"
+                        : "text-muted-foreground hover:bg-muted"
                     }`}
                     title="Mobil Görünümü"
                     aria-label="Mobil Görünümü"
@@ -3365,7 +3365,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                 className="p-2 rounded-lg bg-white/80 dark:bg-gray-900/80 hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110 border border-gray-200 dark:border-gray-800"
                 title="Kapat (Esc)"
               >
-                <X className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+                <X className="h-5 w-5 text-foreground" />
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-6">
@@ -3406,7 +3406,7 @@ ${listing.room_count ? `<p><strong>Oda Sayısı:</strong> ${listing.room_count}+
                 className="p-2 rounded-lg bg-white/80 dark:bg-gray-900/80 hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:scale-110 border border-gray-200 dark:border-gray-800"
                 title="Kapat (Esc)"
               >
-                <X className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+                <X className="h-5 w-5 text-foreground" />
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-6">
