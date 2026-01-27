@@ -55,33 +55,41 @@ export function createClient() {
   }
 
   // Always return a safe client - never return null or undefined
+  // Wrap everything in try-catch to ensure we always return a valid client
+  let client: any;
   try {
     // createSupabaseBrowserClient should always return a valid client instance
-    const client = createSupabaseBrowserClient(supabaseUrl, supabaseAnonKey);
-    
-    // Critical: Verify client exists and has auth property
-    if (!client) {
-      console.error('CRITICAL: createSupabaseBrowserClient returned null/undefined');
-      return createFallbackClient();
-    }
-    
-    if (!client.auth) {
-      console.error('CRITICAL: Supabase client missing auth property');
-      return createFallbackClient();
-    }
-    
-    // Additional safety check: verify auth has required methods
-    if (typeof client.auth.getUser !== 'function') {
-      console.error('CRITICAL: Supabase client.auth.getUser is not a function');
-      return createFallbackClient();
-    }
-    
-    return client;
+    // But we'll verify it anyway
+    client = createSupabaseBrowserClient(supabaseUrl, supabaseAnonKey);
   } catch (error: any) {
-    console.error('Error creating Supabase client:', error?.message || error);
-    // Return a safe fallback client - NEVER return null/undefined
+    console.error('Error calling createSupabaseBrowserClient:', error?.message || error);
     return createFallbackClient();
   }
+  
+  // Critical: Verify client exists and has auth property
+  if (!client) {
+    console.error('CRITICAL: createSupabaseBrowserClient returned null/undefined');
+    return createFallbackClient();
+  }
+  
+  if (!client.auth) {
+    console.error('CRITICAL: Supabase client missing auth property');
+    return createFallbackClient();
+  }
+  
+  // Additional safety check: verify auth has required methods
+  if (typeof client.auth.getUser !== 'function') {
+    console.error('CRITICAL: Supabase client.auth.getUser is not a function');
+    return createFallbackClient();
+  }
+  
+  // Final verification: ensure client is not null/undefined
+  if (client === null || client === undefined) {
+    console.error('CRITICAL: Client is null/undefined after all checks');
+    return createFallbackClient();
+  }
+  
+  return client;
 }
 
 /**
