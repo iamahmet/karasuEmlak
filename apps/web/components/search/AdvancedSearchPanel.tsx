@@ -5,12 +5,15 @@ import { Button } from "@karasu/ui";
 import { Search, SlidersHorizontal, X, MapPin, Home, DollarSign, Maximize2 } from "lucide-react";
 import { cn } from "@karasu/lib";
 import Link from "next/link";
+import { NeighborhoodAutocomplete } from "./NeighborhoodAutocomplete";
+import { trackHomepageEvent } from "@/lib/analytics/events";
 
 interface AdvancedSearchPanelProps {
   basePath?: string;
+  neighborhoods?: string[];
 }
 
-export function AdvancedSearchPanel({ basePath = "" }: AdvancedSearchPanelProps) {
+export function AdvancedSearchPanel({ basePath = "", neighborhoods = [] }: AdvancedSearchPanelProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [filters, setFilters] = useState({
     status: 'satilik',
@@ -30,9 +33,10 @@ export function AdvancedSearchPanel({ basePath = "" }: AdvancedSearchPanelProps)
     { value: 'arsa', label: 'Arsa', icon: '📐' },
   ];
 
-  const neighborhoods = [
-    'Merkez', 'Sahil', 'Liman', 'Çamlık', 'Yeni Mahalle',
-  ];
+  // Use neighborhoods from props, fallback to popular ones
+  const availableNeighborhoods = neighborhoods.length > 0 
+    ? neighborhoods 
+    : ['Merkez', 'Sahil', 'Liman', 'Çamlık', 'Yeni Mahalle'];
 
   const roomOptions = ['1+0', '1+1', '2+1', '3+1', '4+1', '5+1'];
 
@@ -91,6 +95,8 @@ export function AdvancedSearchPanel({ basePath = "" }: AdvancedSearchPanelProps)
                 ? "bg-[#006AFF] text-white"
                 : "bg-white text-gray-700 hover:bg-gray-50"
             )}
+            aria-label={isExpanded ? "Gelişmiş filtreleri kapat" : "Gelişmiş filtreleri aç"}
+            aria-expanded={isExpanded ? "true" : "false"}
           >
             <SlidersHorizontal className="h-5 w-5 stroke-[2]" />
           </button>
@@ -125,22 +131,22 @@ export function AdvancedSearchPanel({ basePath = "" }: AdvancedSearchPanelProps)
               </div>
             </div>
 
-            {/* Neighborhood */}
+            {/* Neighborhood with Autocomplete */}
             <div>
               <label className="block text-[13px] font-semibold text-gray-700 mb-2 uppercase tracking-wider">
                 <MapPin className="h-3.5 w-3.5 inline-block mr-1 stroke-[2]" />
                 Mahalle
               </label>
-              <select
+              <NeighborhoodAutocomplete
                 value={filters.neighborhood}
-                onChange={(e) => setFilters({ ...filters, neighborhood: e.target.value })}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-[15px] font-medium focus:border-[#006AFF] focus:outline-none transition-colors"
-              >
-                <option value="">Tüm Mahalleler</option>
-                {neighborhoods.map((n) => (
-                  <option key={n} value={n}>{n}</option>
-                ))}
-              </select>
+                onChange={(value) => {
+                  setFilters({ ...filters, neighborhood: value });
+                  if (value) {
+                    trackHomepageEvent.filterApplied(`neighborhood:${value}`);
+                  }
+                }}
+                neighborhoods={neighborhoods}
+              />
             </div>
 
             {/* Price Range */}

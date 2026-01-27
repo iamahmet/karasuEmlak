@@ -22,8 +22,8 @@ import { StructuredData } from '@/components/seo/StructuredData';
 import { generateRealEstateAgentLocalSchema, generateWebSiteSchema } from '@/lib/seo/local-seo-schemas';
 
 // Lazy load heavy components for better performance
-const CompactHeroSection = dynamicImport(() => import('@/components/home/CompactHeroSection').then(mod => ({ default: mod.CompactHeroSection })), {
-  loading: () => <div className="h-[500px] bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-50 animate-pulse" />,
+const Hero = dynamicImport(() => import('@/components/home/Hero').then(mod => ({ default: mod.Hero })), {
+  loading: () => <div className="h-[600px] bg-white animate-pulse" />,
 });
 
 const FeaturedListingsSection = dynamicImport(() => import('@/components/home/FeaturedListingsSection').then(mod => ({ default: mod.FeaturedListingsSection })), {
@@ -381,8 +381,8 @@ export default async function HomePage({
       <StructuredData data={realEstateAgentSchema} />
       <StructuredData data={websiteSchema} />
 
-      {/* Compact Hero Section with Recent Listings */}
-      <CompactHeroSection basePath={basePath} recentListings={recentListings} />
+      {/* Premium Hero Section */}
+      <Hero basePath={basePath} recentListings={recentListings} neighborhoods={neighborhoods} />
 
       {/* Son Eklenen İlanlar - Hero Section'ın Hemen Altında */}
       <SectionErrorBoundary sectionName="Son Eklenen İlanlar">

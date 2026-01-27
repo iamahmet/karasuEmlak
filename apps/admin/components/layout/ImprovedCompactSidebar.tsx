@@ -59,21 +59,41 @@ export function ImprovedCompactSidebar() {
   // Fetch user role and check if superadmin
   useEffect(() => {
     const fetchUserRole = async () => {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-      
-      if (user) {
-        // Check if user is superadmin
-        const { data: roles } = await supabase
-          .from("user_roles")
-          .select("roles(name)")
-          .eq("user_id", user.id);
+      try {
+        const supabase = createClient();
+        if (!supabase) {
+          console.error("Supabase client is undefined");
+          return;
+        }
+        
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        
+        if (authError) {
+          console.error("Auth error:", authError);
+          return;
+        }
+        
+        setUser(user);
+        
+        if (user) {
+          // Check if user is superadmin
+          const { data: roles, error: rolesError } = await supabase
+            .from("user_roles")
+            .select("roles(name)")
+            .eq("user_id", user.id);
 
-        const hasSuperAdmin = roles?.some(
-          (ur: any) => ur.roles?.name === "super_admin"
-        ) || false;
-        setIsSuperAdmin(hasSuperAdmin);
+          if (rolesError) {
+            console.error("Roles error:", rolesError);
+            return;
+          }
+
+          const hasSuperAdmin = roles?.some(
+            (ur: any) => ur.roles?.name === "super_admin"
+          ) || false;
+          setIsSuperAdmin(hasSuperAdmin);
+        }
+      } catch (error) {
+        console.error("Error fetching user role:", error);
       }
     };
     fetchUserRole();
@@ -564,10 +584,18 @@ export function ImprovedCompactSidebar() {
               {/* Logout Button */}
               <button
                 onClick={async () => {
-                  const supabase = createClient();
-                  await supabase.auth.signOut();
-                  const locale = window.location.pathname.split("/")[1] || "tr";
-                  router.push(`/${locale}/login`);
+                  try {
+                    const supabase = createClient();
+                    if (supabase) {
+                      await supabase.auth.signOut();
+                    }
+                    const locale = window.location.pathname.split("/")[1] || "tr";
+                    router.push(`/${locale}/login`);
+                  } catch (error) {
+                    console.error("Logout error:", error);
+                    const locale = window.location.pathname.split("/")[1] || "tr";
+                    router.push(`/${locale}/login`);
+                  }
                 }}
                 className="p-2 rounded-lg hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-all duration-300"
                 aria-label="Çıkış yap"
