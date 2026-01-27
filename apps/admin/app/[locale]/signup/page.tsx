@@ -137,6 +137,12 @@ export default function SignupPage() {
 
       // Step 4: If no session (email confirmation required), sign in with password
       // This will create a session even if email is not confirmed
+      if (!supabase) {
+        setError("Supabase client is not available");
+        setLoading(false);
+        return;
+      }
+      
       const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
