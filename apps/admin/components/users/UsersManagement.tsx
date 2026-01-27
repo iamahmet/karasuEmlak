@@ -54,16 +54,19 @@ export function UsersManagement({
       const data = await response.json();
       
       if (!response.ok || !data.success) {
-        const errorMessage = data.error || t("errors.fetchFailed");
+        const errorMessage = data.message || data.error || t("errors.fetchFailed");
         throw new Error(errorMessage);
       }
 
-      if (!data.users) {
+      // Handle both response formats: { success, data: { users } } and { success, users }
+      const users = data.data?.users || data.users || [];
+      
+      if (!Array.isArray(users)) {
         throw new Error(t("errors.invalidResponse"));
       }
       
       // Transform users data - store ALL users
-      const transformedUsers: User[] = (data.users || []).map((user: any) => {
+      const transformedUsers: User[] = (users || []).map((user: any) => {
         const transformed = {
           id: user.id,
           email: user.email || "",

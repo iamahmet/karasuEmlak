@@ -5,8 +5,14 @@
  * Usage: tsx scripts/db/assign-superadmin.ts
  */
 
-import { createServiceClient } from "@karasu/lib/supabase/service";
 import { createClient } from "@supabase/supabase-js";
+import { config } from "dotenv";
+import { resolve } from "path";
+
+// Load environment variables from .env.local files
+config({ path: resolve(process.cwd(), "apps/admin/.env.local") });
+config({ path: resolve(process.cwd(), ".env.local") });
+config({ path: resolve(process.cwd(), ".env") });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -17,6 +23,7 @@ if (!supabaseUrl || !serviceRoleKey) {
   process.exit(1);
 }
 
+// Create admin client for auth operations
 const adminSupabase = createClient(supabaseUrl, serviceRoleKey, {
   auth: {
     persistSession: false,
@@ -24,7 +31,19 @@ const adminSupabase = createClient(supabaseUrl, serviceRoleKey, {
   },
 });
 
-const dbSupabase = createServiceClient();
+// Create service client for database operations (same as admin client for this script)
+const dbSupabase = createClient(supabaseUrl, serviceRoleKey, {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+  },
+  global: {
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': serviceRoleKey,
+    },
+  },
+});
 
 async function assignSuperAdmin() {
   console.log("🚀 Assigning super_admin role to ahmettbulutt@gmail.com...\n");

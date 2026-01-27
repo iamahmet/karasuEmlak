@@ -27,17 +27,17 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.png", sizes: "any" },
       { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/icon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/logo-icon.svg", type: "image/svg+xml", sizes: "any" },
     ],
     shortcut: [
       { url: "/favicon.ico", sizes: "any" },
-      { url: "/logo-icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.png", sizes: "any" },
     ],
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-      { url: "/logo-icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.png", sizes: "any" },
     ],
   },
 };
