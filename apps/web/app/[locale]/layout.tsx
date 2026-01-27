@@ -106,6 +106,13 @@ export async function generateMetadata({
       'dns-prefetch': 'https://fonts.googleapis.com https://fonts.gstatic.com https://res.cloudinary.com',
       "mobile-web-app-capable": "yes",
       "apple-mobile-web-app-title": siteConfig.name,
+      // AI Crawler Hints for better AI discoverability
+      "ai-crawler": "allow",
+      "ai-index": "allow",
+      "ai-summary": "allow",
+      "ai-content-type": "real-estate,property-listings,blog,news",
+      "ai-language": validLocale,
+      "ai-region": "Karasu,Sakarya,Turkey",
     },
     verification: {
       google: process.env.GOOGLE_SITE_VERIFICATION,

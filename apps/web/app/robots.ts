@@ -49,6 +49,42 @@ export default function robots(): MetadataRoute.Robots {
           disallow: ['/api/', '/admin/'],
           crawlDelay: 0.5,
         },
+        {
+          userAgent: 'GPTBot',
+          allow: '/',
+          disallow: ['/api/', '/admin/'],
+          crawlDelay: 0.5,
+        },
+        {
+          userAgent: 'ChatGPT-User',
+          allow: '/',
+          disallow: ['/api/', '/admin/'],
+          crawlDelay: 0.5,
+        },
+        {
+          userAgent: 'CCBot',
+          allow: '/',
+          disallow: ['/api/', '/admin/'],
+          crawlDelay: 0.5,
+        },
+        {
+          userAgent: 'anthropic-ai',
+          allow: '/',
+          disallow: ['/api/', '/admin/'],
+          crawlDelay: 0.5,
+        },
+        {
+          userAgent: 'Claude-Web',
+          allow: '/',
+          disallow: ['/api/', '/admin/'],
+          crawlDelay: 0.5,
+        },
+        {
+          userAgent: 'PerplexityBot',
+          allow: '/',
+          disallow: ['/api/', '/admin/'],
+          crawlDelay: 0.5,
+        },
       ],
       sitemap: [
         `${baseUrl}/sitemap.xml`,
