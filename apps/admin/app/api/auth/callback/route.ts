@@ -28,11 +28,16 @@ export async function GET(request: NextRequest) {
   const code = requestUrl.searchParams.get("code");
   const redirectTo = requestUrl.searchParams.get("redirect") || "/tr/dashboard";
   const error = requestUrl.searchParams.get("error");
+  const errorCode = requestUrl.hash.includes("otp_expired") ? "otp_expired" : null;
 
-  if (error) {
+  // Handle OTP expired error - redirect to login with message
+  if (error || errorCode === "otp_expired") {
     const adminUrl = getAdminUrl();
+    const errorMessage = errorCode === "otp_expired" 
+      ? "Email link süresi dolmuş. Lütfen şifrenizle giriş yapın."
+      : error || "Bir hata oluştu";
     return NextResponse.redirect(
-      new URL(`/tr/login?error=${encodeURIComponent(error)}`, adminUrl)
+      new URL(`/tr/login?error=${encodeURIComponent(errorMessage)}`, adminUrl)
     );
   }
 

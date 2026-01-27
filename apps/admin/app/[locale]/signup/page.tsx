@@ -82,55 +82,72 @@ export default function SignupPage() {
       }
 
       const redirectTo = searchParams.get("redirect") || "/tr/dashboard";
-      const adminUrl = getAdminUrl();
-      const callbackUrl = `${adminUrl}/api/auth/callback?redirect=${encodeURIComponent(redirectTo)}`;
 
-      const { data, error: signUpError } = await supabase.auth.signUp({
+      // Step 1: Sign up the user
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: callbackUrl,
+          // Don't require email confirmation - auto login instead
+          emailRedirectTo: undefined,
         },
       });
 
       if (signUpError) throw signUpError;
 
-      if (data.user) {
+      if (!signUpData.user) {
+        throw new Error("Kullanıcı oluşturulamadı");
+      }
+
+      // Step 2: Auto-assign super_admin role for ahmettbulutt@gmail.com
+      if (email === "ahmettbulutt@gmail.com") {
+        try {
+          await fetch(`/api/users/${signUpData.user.id}/role`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              roleName: "super_admin",
+              action: "add",
+            }),
+          });
+        } catch (err) {
+          console.error("Failed to assign super_admin role:", err);
+        }
+      }
+
+      // Step 3: If session exists (email confirmation disabled), login directly
+      if (signUpData.session) {
         setSuccess(true);
-        
-        // Auto-assign super_admin role for ahmettbulutt@gmail.com
-        if (email === "ahmettbulutt@gmail.com") {
-          try {
-            await fetch(`/api/users/${data.user.id}/role`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                roleName: "super_admin",
-                action: "add",
-              }),
-            });
-          } catch (err) {
-            console.error("Failed to assign super_admin role:", err);
-          }
-        } else {
-          // In development, automatically assign admin role for other users
-          if (process.env.NODE_ENV === "development") {
-            try {
-              await fetch("/api/auth/assign-role", {
-                method: "POST",
-              });
-            } catch (err) {
-              console.error("Failed to assign role:", err);
-            }
-          }
-        }
-        
-        // Auto login after signup (if email confirmation not required)
-        if (data.session) {
-          setTimeout(() => {
-            router.push(redirectTo);
-          }, 2000);
-        }
+        // Redirect immediately to dashboard
+        setTimeout(() => {
+          router.push(redirectTo);
+        }, 1000);
+        return;
+      }
+
+      // Step 4: If no session (email confirmation required), sign in with password
+      // This will create a session even if email is not confirmed
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (signInError) {
+        // If sign in fails, still show success but redirect to login
+        console.warn("Auto-login failed, user needs to login manually:", signInError);
+        setSuccess(true);
+        setTimeout(() => {
+          router.push(`/tr/login?email=${encodeURIComponent(email)}&message=Kayıt başarılı. Lütfen giriş yapın.`);
+        }, 2000);
+        return;
+      }
+
+      // Step 5: Successfully logged in, redirect to dashboard
+      if (signInData.session) {
+        setSuccess(true);
+        setTimeout(() => {
+          router.push(redirectTo);
+        }, 1000);
       }
     } catch (err: any) {
       setError(err.message);
@@ -239,7 +256,7 @@ export default function SignupPage() {
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {email === "ahmettbulutt@gmail.com" 
                           ? "Superadmin rolü atandı. Dashboard'a yönlendiriliyorsunuz..."
-                          : "E-posta adresinize doğrulama linki gönderildi. Dashboard'a yönlendiriliyorsunuz..."}
+                          : "Hesabınız oluşturuldu. Dashboard'a yönlendiriliyorsunuz..."}
                       </p>
                     </div>
                   </div>

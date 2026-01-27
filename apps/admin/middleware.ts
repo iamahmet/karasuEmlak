@@ -90,13 +90,19 @@ export async function middleware(request: NextRequest) {
           (ur: any) => ur.roles?.name === "super_admin" || ur.roles?.name === "admin" || ur.roles?.name === "staff"
         );
 
+        // Allow access if:
+        // 1. User has staff/admin role, OR
+        // 2. User has no roles (new user - will be assigned role by superadmin), OR
+        // 3. In development mode
         if (!isStaff && roles && roles.length > 0) {
-          // User has roles but none are staff/admin
-          return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
-        } else if (!isStaff && (!roles || roles.length === 0) && !isDevelopment) {
-          // No roles found and not in development
-          return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
+          // User has roles but none are staff/admin (e.g., editor, viewer)
+          // Allow access - they can view dashboard but with limited permissions
+          console.log(`User ${user.email} has non-staff roles, allowing access`);
+        } else if (!isStaff && (!roles || roles.length === 0)) {
+          // No roles found - new user, allow access so superadmin can assign role
+          console.log(`User ${user.email} has no roles yet, allowing access for role assignment`);
         }
+        // If isStaff is true, user already has access, no need to check further
       }
     } catch (error) {
       console.error("Admin middleware auth error:", error);
