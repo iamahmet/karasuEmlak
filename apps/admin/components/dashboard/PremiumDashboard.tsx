@@ -677,8 +677,6 @@ export function PremiumDashboard() {
             icon={Home}
             change="+12%"
             changeType="positive"
-            gradient=""
-            iconBg=""
             delay={100}
           />
           <StatCard
@@ -688,8 +686,6 @@ export function PremiumDashboard() {
             change={`${stats.total > 0 ? Math.round((stats.published / stats.total) * 100) : 0}%`}
             changeType="positive"
             subtitle={`${stats.drafts} taslak`}
-            gradient=""
-            iconBg=""
             delay={200}
           />
           <StatCard
@@ -698,8 +694,6 @@ export function PremiumDashboard() {
             icon={Sparkles}
             change="+5%"
             changeType="positive"
-            gradient=""
-            iconBg=""
             delay={300}
           />
           <StatCard
@@ -710,8 +704,6 @@ export function PremiumDashboard() {
             change="+8%"
             changeType="positive"
             subtitle={`${stats.satilik} satılık, ${stats.kiralik} kiralık`}
-            gradient=""
-            iconBg=""
             delay={400}
           />
         </div>

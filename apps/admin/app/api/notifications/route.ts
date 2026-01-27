@@ -9,8 +9,29 @@ import { getRequestId } from "@/lib/api/middleware";
  */
 async function handleGet(request: NextRequest) {
   const requestId = getRequestId(request);
+  
   // Admin API: ALWAYS use service role client
-  const supabase = createServiceClient();
+  let supabase;
+  try {
+    supabase = createServiceClient();
+  } catch (error: any) {
+    // If Supabase client creation fails (e.g., missing env vars), return empty array
+    console.warn(`[${requestId}] Failed to create Supabase client:`, error.message);
+    return NextResponse.json(
+      { 
+        success: true, 
+        requestId,
+        notifications: [] 
+      },
+      {
+        status: 200,
+        headers: {
+          "x-request-id": requestId,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
 
   const { searchParams } = new URL(request.url);
   const type = searchParams.get("type") || "all";
@@ -110,8 +131,22 @@ export const GET = withErrorHandling(handleGet);
 
 async function handlePost(request: NextRequest) {
   const requestId = getRequestId(request);
+  
   // Admin API: ALWAYS use service role client
-  const supabase = createServiceClient();
+  let supabase;
+  try {
+    supabase = createServiceClient();
+  } catch (error: any) {
+    // If Supabase client creation fails (e.g., missing env vars), return error
+    console.warn(`[${requestId}] Failed to create Supabase client:`, error.message);
+    return createErrorResponse(
+      requestId,
+      "CONFIGURATION_ERROR",
+      "Supabase client configuration error. Please check environment variables.",
+      undefined,
+      500
+    );
+  }
   
   let body;
   try {
