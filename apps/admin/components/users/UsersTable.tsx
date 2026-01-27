@@ -544,10 +544,16 @@ export function UsersTable({
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
+      case "super_admin":
+        return "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400";
       case "admin":
         return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400";
       case "staff":
         return "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400";
+      case "editor":
+        return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400";
+      case "viewer":
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
       case "user":
         return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
       default:
@@ -577,8 +583,11 @@ export function UsersTable({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t("filters.all")}</SelectItem>
+                  <SelectItem value="super_admin">Super Admin</SelectItem>
                   <SelectItem value="admin">Admin</SelectItem>
                   <SelectItem value="staff">Staff</SelectItem>
+                  <SelectItem value="editor">Editor</SelectItem>
+                  <SelectItem value="viewer">Viewer</SelectItem>
                   <SelectItem value="user">User</SelectItem>
                 </SelectContent>
               </Select>
@@ -1062,6 +1071,29 @@ export function UsersTable({
                               </DropdownMenuItem>
                             )}
                             <DropdownMenuSeparator />
+                            {user.roles && user.roles.includes("super_admin") ? (
+                              <DropdownMenuItem
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onRoleChange(user.id, "super_admin", "remove");
+                                }}
+                                style={{ pointerEvents: 'auto' }}
+                              >
+                                <Shield className="h-4 w-4 mr-2" />
+                                Super Admin Yetkisini Kaldır
+                              </DropdownMenuItem>
+                            ) : (
+                              <DropdownMenuItem
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onRoleChange(user.id, "super_admin", "add");
+                                }}
+                                style={{ pointerEvents: 'auto' }}
+                              >
+                                <Shield className="h-4 w-4 mr-2" />
+                                Super Admin Yap
+                              </DropdownMenuItem>
+                            )}
                             {user.roles && user.roles.includes("admin") ? (
                               <DropdownMenuItem
                                 onClick={(e) => {
@@ -1533,9 +1565,11 @@ export function UsersTable({
                     <SelectValue placeholder="Rol seçin" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="super_admin">Super Admin</SelectItem>
                     <SelectItem value="admin">Admin</SelectItem>
                     <SelectItem value="staff">Staff</SelectItem>
-                    <SelectItem value="user">User</SelectItem>
+                    <SelectItem value="editor">Editor</SelectItem>
+                    <SelectItem value="viewer">Viewer</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

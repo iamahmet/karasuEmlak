@@ -48,6 +48,7 @@
     "scripts:create-balik-restoranlari-direct": "tsx scripts/create-karasu-balik-restoranlari-direct.ts",
     "scripts:generate-sapanca-cluster": "tsx scripts/content/generate-sapanca-cluster.ts",
     "scripts:seed-sapanca-authors": "tsx scripts/seed-sapanca-authors.ts",
+    "scripts:assign-superadmin": "tsx scripts/db/assign-superadmin.ts",
     "scripts:batch-improve-all-content": "tsx scripts/content/batch-improve-all-content.ts",
     "scripts:populate-sample-data": "tsx scripts/populate-sample-data.ts",
     "scripts:seo-audit": "tsx scripts/seo-audit.ts",

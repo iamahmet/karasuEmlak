@@ -22,9 +22,9 @@ export async function PUT(
     // Support both 'role' and 'roleName' for backward compatibility
     const roleToUse = roleName || role;
 
-    if (!roleToUse || !["admin", "staff", "editor", "viewer"].includes(roleToUse)) {
+    if (!roleToUse || !["super_admin", "admin", "staff", "editor", "viewer"].includes(roleToUse)) {
       return NextResponse.json(
-        { error: "Invalid role. Must be one of: admin, staff, editor, viewer" },
+        { error: "Invalid role. Must be one of: super_admin, admin, staff, editor, viewer" },
         { status: 400 }
       );
     }

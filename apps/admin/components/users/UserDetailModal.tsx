@@ -122,10 +122,16 @@ export function UserDetailModal({
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
+      case "super_admin":
+        return "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400";
       case "admin":
         return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400";
       case "staff":
         return "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400";
+      case "editor":
+        return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400";
+      case "viewer":
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
       case "user":
         return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
       default:
@@ -343,6 +349,9 @@ export function UserDetailModal({
                       <SelectValue placeholder={t("roles.selectPlaceholder")} />
                     </SelectTrigger>
                     <SelectContent>
+                      {!userRoles.includes("super_admin") && (
+                        <SelectItem value="super_admin">Super Admin</SelectItem>
+                      )}
                       {!userRoles.includes("admin") && (
                         <SelectItem value="admin">{t("roles.admin")}</SelectItem>
                       )}

@@ -406,8 +406,18 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
       >
         <div className="flex flex-col h-full">
           {/* Logo - Compact & Professional */}
-          <div className="relative px-4 py-4 border-b border-border/60 bg-gradient-to-r from-card/60 to-transparent">
-            <Logo variant="full" size="sm" href="/dashboard" />
+          <div className="relative px-4 py-4 border-b border-border/40 bg-card/95 backdrop-blur-xl">
+            <div className="flex items-center gap-3">
+              <Logo variant="icon" size="md" href="/dashboard" />
+              <div className="flex flex-col min-w-0 flex-1">
+                <span className="text-sm font-display font-bold text-foreground leading-tight truncate">
+                  Karasu Emlak
+                </span>
+                <span className="text-[10px] text-muted-foreground leading-tight font-medium">
+                  Admin Panel
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* Navigation - Compact */}

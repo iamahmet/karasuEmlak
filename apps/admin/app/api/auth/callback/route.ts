@@ -2,6 +2,27 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * Get admin URL for redirects
+ */
+function getAdminUrl(): string {
+  const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL;
+  if (adminUrl) {
+    return adminUrl;
+  }
+  
+  // Fallback: construct from site URL
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.karasuemlak.net";
+  if (siteUrl.includes("www.")) {
+    return siteUrl.replace("www.", "admin.");
+  }
+  if (siteUrl.includes("karasuemlak.net")) {
+    return "https://admin.karasuemlak.net";
+  }
+  
+  return "http://localhost:3001";
+}
+
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
@@ -9,8 +30,9 @@ export async function GET(request: NextRequest) {
   const error = requestUrl.searchParams.get("error");
 
   if (error) {
+    const adminUrl = getAdminUrl();
     return NextResponse.redirect(
-      new URL(`/tr/login?error=${encodeURIComponent(error)}`, requestUrl.origin)
+      new URL(`/tr/login?error=${encodeURIComponent(error)}`, adminUrl)
     );
   }
 
@@ -43,24 +65,30 @@ export async function GET(request: NextRequest) {
 
       if (exchangeError) {
         console.error("Exchange error:", exchangeError);
+        const adminUrl = getAdminUrl();
         return NextResponse.redirect(
-          new URL(`/tr/login?error=${encodeURIComponent(exchangeError.message)}`, requestUrl.origin)
+          new URL(`/tr/login?error=${encodeURIComponent(exchangeError.message)}`, adminUrl)
         );
       }
 
       if (data.user) {
         console.log("User authenticated:", data.user.email);
-        // Successfully authenticated, redirect to dashboard
-        return NextResponse.redirect(new URL(redirectTo, requestUrl.origin));
+        // Successfully authenticated, redirect to admin subdomain
+        const adminUrl = getAdminUrl();
+        const redirectUrl = new URL(redirectTo, adminUrl);
+        console.log("Redirecting to:", redirectUrl.toString());
+        return NextResponse.redirect(redirectUrl);
       }
     } catch (err: any) {
       console.error("Callback error:", err);
+      const adminUrl = getAdminUrl();
       return NextResponse.redirect(
-        new URL(`/tr/login?error=${encodeURIComponent(err.message)}`, requestUrl.origin)
+        new URL(`/tr/login?error=${encodeURIComponent(err.message)}`, adminUrl)
       );
     }
   }
 
   // No code, redirect to login
-  return NextResponse.redirect(new URL("/tr/login?error=no_code", requestUrl.origin));
+  const adminUrl = getAdminUrl();
+  return NextResponse.redirect(new URL("/tr/login?error=no_code", adminUrl));
 }

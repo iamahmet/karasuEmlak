@@ -177,9 +177,13 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
             </div>
           </Button>
 
-          {/* Logo - Compact */}
-          <div className="hidden sm:flex items-center">
+          {/* Logo - Compact with Brand Name */}
+          <div className="flex items-center gap-2.5 min-w-0">
             <Logo variant="icon" size="sm" href="/dashboard" />
+            <div className="hidden md:flex flex-col min-w-0">
+              <span className="text-sm font-bold text-foreground leading-tight truncate">Karasu Emlak</span>
+              <span className="text-[10px] text-muted-foreground leading-tight">Admin Panel</span>
+            </div>
           </div>
 
           {/* Page Title */}

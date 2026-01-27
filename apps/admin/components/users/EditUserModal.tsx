@@ -340,6 +340,9 @@ export function EditUserModal({ userId, open, onClose, onSuccess, onRoleChange }
                         <SelectValue placeholder={t("roles.selectPlaceholder")} />
                       </SelectTrigger>
                       <SelectContent>
+                        {!userRoles.includes("super_admin") && (
+                          <SelectItem value="super_admin">Super Admin</SelectItem>
+                        )}
                         {!userRoles.includes("admin") && (
                           <SelectItem value="admin">{t("roles.admin")}</SelectItem>
                         )}

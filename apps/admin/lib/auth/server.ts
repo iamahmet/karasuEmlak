@@ -77,7 +77,7 @@ export async function requireStaff(): Promise<User> {
   }
 
   const isStaff = roles?.some(
-    (ur: any) => ur.roles?.name === 'admin' || ur.roles?.name === 'staff'
+    (ur: any) => ur.roles?.name === 'super_admin' || ur.roles?.name === 'admin' || ur.roles?.name === 'staff'
   );
 
   if (!isStaff) {

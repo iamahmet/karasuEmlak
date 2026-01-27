@@ -38,7 +38,8 @@ export async function middleware(request: NextRequest) {
                    pathname.includes("/api/") ||
                    pathname.includes("/healthz");
 
-  if (!skipAuth && !isDevelopment) {
+  // Always check auth, even in development (but allow access if no user_roles table)
+  if (!skipAuth) {
     try {
       const supabase = createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -74,33 +75,33 @@ export async function middleware(request: NextRequest) {
         .select("roles(name)")
         .eq("user_id", user.id);
 
-      // If table doesn't exist, allow access in development
+      // If table doesn't exist, allow access in development only
       if (rolesError && (rolesError.code === "PGRST116" || rolesError.code === "42P01")) {
         if (isDevelopment) {
           console.warn("⚠️  user_roles table not found, allowing access in development");
+          // In development, allow authenticated users even without roles table
         } else {
           console.error("❌ user_roles table not found in production");
           return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
         }
-      }
+      } else {
+        // Check staff role only if roles table exists
+        const isStaff = roles?.some(
+          (ur: any) => ur.roles?.name === "super_admin" || ur.roles?.name === "admin" || ur.roles?.name === "staff"
+        );
 
-      const isStaff = roles?.some(
-        (ur: any) => ur.roles?.name === "super_admin" || ur.roles?.name === "admin" || ur.roles?.name === "staff"
-      );
-
-      if (!isStaff && roles && roles.length > 0) {
-        // User has roles but none are staff/admin
-        return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
-      } else if (!isStaff && (!roles || roles.length === 0) && !isDevelopment) {
-        // No roles found and not in development
-        return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
+        if (!isStaff && roles && roles.length > 0) {
+          // User has roles but none are staff/admin
+          return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
+        } else if (!isStaff && (!roles || roles.length === 0) && !isDevelopment) {
+          // No roles found and not in development
+          return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
+        }
       }
     } catch (error) {
       console.error("Admin middleware auth error:", error);
-      // In development, allow access even on error
-      if (!isDevelopment) {
-        return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
-      }
+      // Always redirect to login on error (even in development)
+      return NextResponse.redirect(new URL("/tr/login?error=auth_error", request.url));
     }
   }
 
