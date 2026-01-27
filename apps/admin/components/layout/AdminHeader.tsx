@@ -34,7 +34,13 @@ export function AdminHeader() {
         return;
       }
 
-      supabase.auth.getUser().then(({ data: { user } }: any) => {
+      supabase.auth.getUser().then((result: any) => {
+        // Safe destructuring with fallbacks
+        if (!result || !result.data) {
+          console.warn("getUser returned invalid result:", result);
+          return;
+        }
+        const user = result.data?.user || null;
         setUser(user);
       }).catch((error: any) => {
         console.error("Error fetching user:", error);

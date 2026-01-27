@@ -32,6 +32,14 @@ export async function GET(_request: NextRequest) {
 
     // Auth check
     try {
+      if (!supabase || !supabase.auth) {
+        health.checks.auth = {
+          status: "warning",
+          message: "Supabase client or auth is missing",
+        };
+        if (health.status === "healthy") health.status = "degraded";
+        return NextResponse.json(health);
+      }
       const { data: { user: _user }, error } = await supabase.auth.getUser();
       health.checks.auth = {
         status: error ? "warning" : "healthy",
