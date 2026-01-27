@@ -41,16 +41,14 @@ export function SystemHealth() {
       // Critical: Verify supabase client exists and has auth property
       if (!supabase || !supabase.auth) {
         console.error("Supabase client is invalid in SystemHealth");
-        setHealth({
+        setHealthChecks([{
+          name: "Sistem",
           status: "error",
-          checks: [{
-            name: "Sistem",
-            status: "error",
-            message: "Supabase client initialization failed",
-            icon: Server,
-            lastChecked: new Date().toLocaleTimeString("tr-TR"),
-          }],
-        });
+          message: "Supabase client initialization failed",
+          icon: Server,
+          lastChecked: new Date().toLocaleTimeString("tr-TR"),
+        }]);
+        setLoading(false);
         return;
       }
       
