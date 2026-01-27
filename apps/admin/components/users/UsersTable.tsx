@@ -1358,8 +1358,7 @@ export function UsersTable({
                             <DropdownMenuContent 
                               align="end"
                               className="z-[100] bg-card border border-border shadow-xl rounded-lg min-w-[200px] backdrop-blur-xl"
-                            className="z-[100] bg-card border border-border shadow-xl rounded-lg min-w-[200px] backdrop-blur-xl"
-                          >
+                            >
                               <DropdownMenuItem
                                 onClick={(e) => {
                                   e.stopPropagation();
