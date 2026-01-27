@@ -92,6 +92,11 @@ export default function LoginPage() {
         const code = searchParams.get("code");
         if (code) {
           // Exchange code for session (PKCE handled automatically by @supabase/ssr)
+          if (!supabase.auth) {
+            setError("Supabase yapılandırması eksik.");
+            setCheckingAuth(false);
+            return;
+          }
           const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
           
           if (exchangeError) {
@@ -109,6 +114,10 @@ export default function LoginPage() {
         }
         
         // Check if already logged in
+        if (!supabase.auth) {
+          setCheckingAuth(false);
+          return;
+        }
         const { data: { user } } = await supabase.auth.getUser();
         
         if (user) {
@@ -146,6 +155,11 @@ export default function LoginPage() {
       
       console.log("Magic link callback URL:", callbackUrl);
       
+      if (!supabase.auth) {
+        setError("Supabase yapılandırması eksik.");
+        setLoading(false);
+        return;
+      }
       const { error: otpError } = await supabase.auth.signInWithOtp({
         email,
         options: {
@@ -176,6 +190,11 @@ export default function LoginPage() {
     setSuccess(false);
 
     try {
+      if (!supabase.auth) {
+        setError("Supabase yapılandırması eksik.");
+        setLoading(false);
+        return;
+      }
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,

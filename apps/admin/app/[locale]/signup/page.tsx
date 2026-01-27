@@ -51,6 +51,10 @@ export default function SignupPage() {
       }
 
       try {
+        if (!supabase.auth) {
+          setCheckingAuth(false);
+          return;
+        }
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
           const redirectTo = searchParams.get("redirect") || "/tr/dashboard";
@@ -94,6 +98,11 @@ export default function SignupPage() {
       const redirectTo = searchParams.get("redirect") || "/tr/dashboard";
 
       // Step 1: Sign up the user
+      if (!supabase.auth) {
+        setError("Supabase yapılandırması eksik.");
+        setLoading(false);
+        return;
+      }
       const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
@@ -143,6 +152,11 @@ export default function SignupPage() {
         return;
       }
       
+      if (!supabase.auth) {
+        setError("Supabase yapılandırması eksik.");
+        setLoading(false);
+        return;
+      }
       const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
