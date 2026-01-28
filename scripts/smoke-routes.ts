@@ -19,9 +19,21 @@ const LEGACY_PATHS = [
   '/satilik-daire',
   '/karasu-kiralik-daire',
   '/karasu-satilik-daire',
+  '/satilik-ev',
+  '/satilik-villa',
+  '/satilik-yazlik',
+  '/satilik-arsa',
+  '/kiralik-ev',
+  '/kiralik-villa',
+  '/karasu',
+  '/karasu-satilik-ev',
+  '/karasu-kiralik-ev',
+  '/karasu-satilik-villa',
+  '/karasu-satilik-yazlik',
+  '/kocaali-satilik-ev',
 ];
 
-const KEY_PATHS = ['/', '/kiralik', '/satilik', '/blog', '/karasu', '/satilik-ev', '/kiralik-ev', '/satilik-villa', '/karasu-satilik-ev'];
+const KEY_PATHS = ['/', '/kiralik', '/satilik', '/blog'];
 
 const PATHS_TO_TEST = [...LEGACY_PATHS, ...KEY_PATHS];
 

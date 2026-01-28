@@ -21,22 +21,23 @@
 
 ## 3. Legacy Landing URLs (Indexed — Must Not 404)
 
-These URLs are in the sitemap and may be indexed. They must always return **200** with correct content:
+These URLs are in the sitemap and may be indexed. They must always return **200** with correct content. Each has an `app/tr/<path>/page.tsx` that delegates to `app/[locale]/<path>/page.tsx` with `locale=tr`.
 
-| Path | Purpose |
-|------|--------|
-| `/kiralik-daire` | Kiralık daire listing (propertyType=daire, status=kiralik) |
-| `/satilik-daire` | Satılık daire listing (propertyType=daire, status=satilik) |
-| `/karasu-kiralik-daire` | Karasu kiralık daire (Karasu + daire + kiralik) |
-| `/karasu-satilik-daire` | Karasu satılık daire (Karasu + daire + satilik) |
+**Property-type & location pages (ev, villa, yazlık, arsa, daire, Karasu, Kocaali):**
+
+- `/kiralik-daire`, `/satilik-daire`, `/kiralik-ev`, `/satilik-ev`, `/kiralik-villa`, `/satilik-villa`, `/satilik-yazlik`, `/satilik-arsa`
+- `/karasu`, `/karasu-satilik-ev`, `/karasu-kiralik-ev`, `/karasu-satilik-daire`, `/karasu-kiralik-daire`, `/karasu-satilik-villa`, `/karasu-satilik-yazlik`
+- `/karasu-satilik-ev-fiyatlari`, `/karasu-emlak-rehberi`, `/karasu-denize-yakin-satilik-ev`, `/karasu-yatirimlik-satilik-ev`, `/karasu-merkez-satilik-ev`, `/karasu-mustakil-satilik-ev`, `/karasu-emlak-ofisi`, `/karasu-vs-kocaali-satilik-ev`, `/karasu-vs-kocaali-yatirim`, `/karasu-vs-kocaali-yasam`, `/karasu-yatirimlik-gayrimenkul`, `/karasu-denize-sifir-satilik-daire`, `/karasu-asansorlu-satilik-daire`, `/karasu-ucuz-satilik-daire`, `/karasu-satilik-evler`, `/karasu-deprem`, `/karasu-mahalleler`, `/karasuspor`
+- `/kocaali-satilik-ev`, `/kocaali-satilik-ev-fiyatlari`, `/kocaali-emlak-rehberi`, `/kocaali-yatirimlik-gayrimenkul`
+- `/sakarya-emlak-yatirim-rehberi`
 
 - **Source of truth:** `apps/web/lib/seo/constants.ts` → `LEGACY_LANDING_PATHS`
-- **Implementation:** Middleware rewrites `/path` → `/tr/path`. The static segment `app/tr/` requires explicit pages for these paths; they live under `app/tr/kiralik-daire/`, `app/tr/satilik-daire/`, `app/tr/karasu-kiralik-daire/`, `app/tr/karasu-satilik-daire/` and delegate to `app/[locale]/...` with `locale=tr`.
+- **Implementation:** Middleware rewrites `/path` → `/tr/path`. The static segment `app/tr/` requires explicit pages; each lives under `app/tr/<path>/page.tsx` and delegates to `app/[locale]/<path>/page.tsx` with `locale=tr`.
 - **Guards:** `scripts/smoke-routes.ts` (CI), `pnpm smoke:web`
 
 ## Automated Checks
 
-- **SEO tags in build output:** `pnpm tsx scripts/check-seo-tags.ts` (run after `pnpm build:web`; checks built HTML for verification meta and GA id).
-- **Route regression (200 + tags in HTML):** `pnpm tsx scripts/smoke-routes.ts` (hits the 4 legacy URLs plus `/`, `/kiralik`, `/satilik`, `/blog` and asserts status 200 and required strings in body).
+- **SEO tags:** `pnpm tsx scripts/check-seo-tags.ts` (checks HTML for verification meta and GA id).
+- **Route regression:** `pnpm tsx scripts/smoke-routes.ts` (hits legacy URLs + `/`, `/kiralik`, `/satilik`, `/blog`; asserts 200 and SEO tags in body).
 
 Do not remove or rename the verification/analytics constants or the legacy landing page files. Refactors that touch `app/[locale]/layout.tsx` or head management must preserve these tags and must pass the above scripts.

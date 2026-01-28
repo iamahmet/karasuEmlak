@@ -16,10 +16,22 @@ export const GOOGLE_SITE_VERIFICATION =
 /** GA4 Measurement ID. Stream: https://www.karasuemlak.net, Name: Karasu Emlak */
 export const GA_MEASUREMENT_ID = 'G-EXFYWJWB5C';
 
-/** Legacy / indexed URLs that must always return 200. Used by smoke-routes and sitemap. */
+/** Legacy / indexed URLs that must always return 200. All have app/tr/<path> delegates. */
 export const LEGACY_LANDING_PATHS = [
   '/kiralik-daire',
   '/satilik-daire',
   '/karasu-kiralik-daire',
   '/karasu-satilik-daire',
+  '/satilik-ev',
+  '/satilik-villa',
+  '/satilik-yazlik',
+  '/satilik-arsa',
+  '/kiralik-ev',
+  '/kiralik-villa',
+  '/karasu',
+  '/karasu-satilik-ev',
+  '/karasu-kiralik-ev',
+  '/karasu-satilik-villa',
+  '/karasu-satilik-yazlik',
+  '/kocaali-satilik-ev',
 ] as const;
