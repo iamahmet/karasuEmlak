@@ -14,6 +14,22 @@ interface HomepageInternalLinksProps {
 export function HomepageInternalLinks({ basePath = "" }: HomepageInternalLinksProps) {
   const cornerstoneLinks = [
     {
+      href: `${basePath}/satilik-daire`,
+      anchor: 'Satılık daire',
+      title: 'Satılık Daire',
+      description: 'Satılık daire ilanları ve fiyatları',
+      icon: Home,
+      priority: 'high' as const,
+    },
+    {
+      href: `${basePath}/kiralik-daire`,
+      anchor: 'Kiralık daire',
+      title: 'Kiralık Daire',
+      description: 'Kiralık daire ilanları ve kira fiyatları',
+      icon: Home,
+      priority: 'high' as const,
+    },
+    {
       href: `${basePath}/karasu-satilik-daire`,
       anchor: 'Karasu satılık daire',
       title: 'Karasu Satılık Daire',

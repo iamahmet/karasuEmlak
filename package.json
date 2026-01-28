@@ -93,6 +93,8 @@
     "health:local": "tsx scripts/health/local.ts",
     "smoke:web": "tsx scripts/smoke.ts",
     "smoke": "tsx scripts/smoke.ts",
+    "smoke:routes": "tsx scripts/smoke-routes.ts",
+    "check:seo-tags": "tsx scripts/check-seo-tags.ts",
     "health:seo": "tsx scripts/health/seo.ts",
     "check:404": "tsx scripts/check-404-routes.ts",
     "check:vercel-env": "tsx scripts/check-vercel-env.ts",

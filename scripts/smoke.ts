@@ -63,6 +63,11 @@ const ENDPOINTS: Entry[] = [
   { name: 'tr/sapanca', method: 'GET', path: '/tr/sapanca', expectJson: false, callerPages: [] },
   { name: 'blog', method: 'GET', path: '/blog', expectJson: false, callerPages: [] },
   { name: 'haberler', method: 'GET', path: '/haberler', expectJson: false, callerPages: [] },
+  // Legacy indexed URLs (must not 404) — see docs/SEO_LOCK.md
+  { name: 'kiralik-daire', method: 'GET', path: '/kiralik-daire', expectJson: false, callerPages: [] },
+  { name: 'satilik-daire', method: 'GET', path: '/satilik-daire', expectJson: false, callerPages: [] },
+  { name: 'karasu-kiralik-daire', method: 'GET', path: '/karasu-kiralik-daire', expectJson: false, callerPages: [] },
+  { name: 'karasu-satilik-daire', method: 'GET', path: '/karasu-satilik-daire', expectJson: false, callerPages: [] },
   
   // SEO & Sitemap
   { name: 'sitemap.xml', method: 'GET', path: '/sitemap.xml', expectJson: false },

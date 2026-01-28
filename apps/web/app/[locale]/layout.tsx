@@ -20,6 +20,7 @@ import { getNonce } from "@/lib/security/nonce";
 import { Toaster } from "@/components/ui/Toaster";
 import { OfflineIndicator } from "@/components/mobile/OfflineIndicator";
 import type { Metadata, Viewport } from "next";
+import { GOOGLE_SITE_VERIFICATION, GA_MEASUREMENT_ID } from "@/lib/seo/constants";
 import "../globals.css";
 
 export async function generateMetadata({
@@ -115,7 +116,7 @@ export async function generateMetadata({
       "ai-region": "Karasu,Sakarya,Turkey",
     },
     verification: {
-      google: process.env.GOOGLE_SITE_VERIFICATION,
+      google: process.env.GOOGLE_SITE_VERIFICATION || GOOGLE_SITE_VERIFICATION,
     },
   };
   } catch (e) {
@@ -294,9 +295,9 @@ export default async function LocaleLayout({
           {/* Client-only components (ssr: false) */}
           <ClientOnlyComponents basePath={validLocale === routing.defaultLocale ? "" : `/${validLocale}`} />
           {/* Analytics - Only loads if consent given */}
-          {!analyticsDisabled && process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID && GoogleAnalyticsComponent && (
+          {!analyticsDisabled && (process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || GA_MEASUREMENT_ID) && GoogleAnalyticsComponent && (
             <Suspense fallback={null}>
-              <GoogleAnalyticsComponent measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID} nonce={nonce || undefined} />
+              <GoogleAnalyticsComponent measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || GA_MEASUREMENT_ID} nonce={nonce || undefined} />
             </Suspense>
           )}
           {/* Web Vitals - Always active (performance monitoring) */}
@@ -368,9 +369,9 @@ export default async function LocaleLayout({
           {/* Client-only components (ssr: false) */}
           <ClientOnlyComponents basePath="" />
           {/* Analytics - Only loads if consent given */}
-          {!analyticsDisabled && process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID && FallbackGoogleAnalytics && (
+          {!analyticsDisabled && (process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || GA_MEASUREMENT_ID) && FallbackGoogleAnalytics && (
             <Suspense fallback={null}>
-              <FallbackGoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID} nonce={nonce || undefined} />
+              <FallbackGoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || GA_MEASUREMENT_ID} nonce={nonce || undefined} />
             </Suspense>
           )}
           {/* Web Vitals - Always active (performance monitoring) */}

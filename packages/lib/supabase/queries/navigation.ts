@@ -70,12 +70,12 @@ export async function getNavigationMenu(position: string = 'header'): Promise<Na
     const rootItems: NavigationItem[] = [];
 
     // First pass: create map
-    items?.forEach((item) => {
+    items?.forEach((item: NavigationItem) => {
       itemsMap.set(item.id, { ...item, children: [] });
     });
 
     // Second pass: build hierarchy
-    items?.forEach((item) => {
+    items?.forEach((item: NavigationItem) => {
       const navItem = itemsMap.get(item.id);
       if (!navItem) return;
 
@@ -119,7 +119,7 @@ export async function getAllNavigationMenus(): Promise<NavigationMenu[]> {
     }
 
     // Get all items for all menus
-    const menuIds = menus.map(m => m.id);
+    const menuIds = menus.map((m: Pick<NavigationMenu, 'id'>) => m.id);
     const { data: allItems, error: itemsError } = await supabase
       .from('navigation_items')
       .select('*')
@@ -129,12 +129,12 @@ export async function getAllNavigationMenus(): Promise<NavigationMenu[]> {
 
     if (itemsError) {
       console.error('Error fetching navigation items:', itemsError);
-      return menus.map(menu => ({ ...menu, items: [] }));
+      return menus.map((menu: Pick<NavigationMenu, 'id'> & Record<string, unknown>) => ({ ...menu, items: [] }));
     }
 
     // Group items by menu_id
     const itemsByMenu = new Map<string, NavigationItem[]>();
-    allItems?.forEach((item) => {
+    allItems?.forEach((item: NavigationItem) => {
       if (!itemsByMenu.has(item.menu_id)) {
         itemsByMenu.set(item.menu_id, []);
       }
@@ -142,18 +142,18 @@ export async function getAllNavigationMenus(): Promise<NavigationMenu[]> {
     });
 
     // Build hierarchical structure for each menu
-    return menus.map((menu) => {
+    return menus.map((menu: Pick<NavigationMenu, 'id'> & Record<string, unknown>) => {
       const menuItems = itemsByMenu.get(menu.id) || [];
       const itemsMap = new Map<string, NavigationItem>();
       const rootItems: NavigationItem[] = [];
 
       // First pass: create map
-      menuItems.forEach((item) => {
+      menuItems.forEach((item: NavigationItem) => {
         itemsMap.set(item.id, { ...item, children: [] });
       });
 
       // Second pass: build hierarchy
-      menuItems.forEach((item) => {
+      menuItems.forEach((item: NavigationItem) => {
         const navItem = itemsMap.get(item.id);
         if (!navItem) return;
 

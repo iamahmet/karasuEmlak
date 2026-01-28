@@ -88,6 +88,10 @@ export function PremiumFooter() {
   const listingLinks = [
     { href: "/satilik", label: t("forSale"), icon: Home },
     { href: "/kiralik", label: t("forRent"), icon: Key },
+    { href: "/satilik-daire", label: "Satılık Daire", icon: Home },
+    { href: "/kiralik-daire", label: "Kiralık Daire", icon: Key },
+    { href: "/karasu-satilik-daire", label: "Karasu Satılık Daire", icon: Building },
+    { href: "/karasu-kiralik-daire", label: "Karasu Kiralık Daire", icon: Building },
     { href: "/ilan-ekle", label: "İlan Ekle", icon: Building },
   ];
 
