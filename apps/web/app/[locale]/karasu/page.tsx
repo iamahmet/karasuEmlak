@@ -17,6 +17,7 @@ import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import dynamicImport from 'next/dynamic';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
 });
@@ -77,13 +78,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu',
         'en': '/en/karasu',
         'et': '/et/karasu',
         'ru': '/ru/karasu',
         'ar': '/ar/karasu',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Emlak | Satılık ve Kiralık Gayrimenkul | Karasu, Sakarya',

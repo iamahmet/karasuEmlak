@@ -10,6 +10,7 @@ import { Home, Building2, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const propertyTypeLabels: Record<string, string> = {
   daire: 'Daire',
   villa: 'Villa',
@@ -61,13 +62,13 @@ export async function generateMetadata({
     description: `Karasu'da satılık ve kiralık ${typeLabel.toLowerCase()} ilanları. ${propertyTypeDescriptions[propertyType] || `${typeLabel} ilanları`} için en güncel fırsatları keşfedin.`,
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `/tip/${slug}`,
         'en': `/en/tip/${slug}`,
         'et': `/et/tip/${slug}`,
         'ru': `/ru/tip/${slug}`,
         'ar': `/ar/tip/${slug}`,
-      },
+      }),
     },
     openGraph: {
       title: `${typeLabel} İlanları | Karasu Emlak`,

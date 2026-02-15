@@ -8,6 +8,7 @@ import { Trophy, Users, Calendar, MapPin, Heart, Star, CheckCircle } from 'lucid
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -38,13 +39,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasuspor',
         'en': '/en/karasuspor',
         'et': '/et/karasuspor',
         'ru': '/ru/karasuspor',
         'ar': '/ar/karasuspor',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasuspor | Karasu Spor Kulübü',

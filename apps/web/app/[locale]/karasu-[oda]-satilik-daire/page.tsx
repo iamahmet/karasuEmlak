@@ -17,6 +17,7 @@ import { generateSlug } from '@/lib/utils';
 import dynamicImport from 'next/dynamic';
 import { notFound } from 'next/navigation';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
@@ -98,13 +99,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `/karasu-${oda}-satilik-daire`,
         'en': `/en/karasu-${oda}-satilik-daire`,
         'et': `/et/karasu-${oda}-satilik-daire`,
         'ru': `/ru/karasu-${oda}-satilik-daire`,
         'ar': `/ar/karasu-${oda}-satilik-daire`,
-      },
+      }),
     },
     openGraph: {
       title: `Karasu ${roomInfo.label} Satılık Daire | ${roomInfo.label} Daire İlanları 2025`,

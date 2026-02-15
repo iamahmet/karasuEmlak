@@ -8,6 +8,7 @@ import { FileSearch, CheckCircle, AlertCircle, Clock, DollarSign, Shield } from 
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -38,13 +39,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehberler/ekspertiz-sureci',
         'en': '/en/rehberler/ekspertiz-sureci',
         'et': '/et/rehberler/ekspertiz-sureci',
         'ru': '/ru/rehberler/ekspertiz-sureci',
         'ar': '/ar/rehberler/ekspertiz-sureci',
-      },
+      }),
     },
     openGraph: {
       title: 'Ekspertiz Süreci Rehberi | Emlak Değerleme',

@@ -1,5 +1,6 @@
 import { Button } from '@karasu/ui';
 import type { Metadata } from 'next';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 1800; // Revalidate every 30 minutes (homepage shows dynamic content)
 import Link from 'next/link';
 import { routing } from '@/i18n/routing';
@@ -165,13 +166,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${base}${canonicalPath || '/'}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': base,
         'en': `${base}/en`,
         'et': `${base}/et`,
         'ru': `${base}/ru`,
         'ar': `${base}/ar`,
-      },
+      }),
     },
     openGraph: {
       type: 'website',

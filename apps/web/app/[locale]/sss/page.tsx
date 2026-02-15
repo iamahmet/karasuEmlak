@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 // This page reads request cookies via Supabase SSR helpers (see getQAEntries).
 // Mark as dynamic to avoid build-time static generation errors.
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour
 import { siteConfig } from '@karasu-emlak/config';
@@ -68,13 +69,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteUrl}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteUrl}/sss`,
         'en': `${siteUrl}/en/sss`,
         'et': `${siteUrl}/et/sss`,
         'ru': `${siteUrl}/ru/sss`,
         'ar': `${siteUrl}/ar/sss`,
-      },
+      }),
     },
     openGraph: {
       title: `Sıkça Sorulan Sorular (SSS) | Karasu Emlak | ${faqCount}+ Soru`,

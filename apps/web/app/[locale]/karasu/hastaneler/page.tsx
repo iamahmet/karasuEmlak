@@ -13,6 +13,7 @@ import { HospitalsPageClient } from './HospitalsPageClient';
 import { RelatedBlogSection } from '@/components/hospitals/RelatedBlogSection';
 import { HealthInfoSection } from '@/components/hospitals/HealthInfoSection';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 interface SearchPageProps {
   params: Promise<{ locale: string }>;
 }
@@ -62,13 +63,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${basePath}/karasu/hastaneler`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu/hastaneler',
         'en': '/en/karasu/hastaneler',
         'et': '/et/karasu/hastaneler',
         'ru': '/ru/karasu/hastaneler',
         'ar': '/ar/karasu/hastaneler',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Hastaneler ve Sağlık Kuruluşları',

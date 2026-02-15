@@ -8,6 +8,7 @@ import { FileText, CheckCircle, AlertCircle, Clock, DollarSign, Shield } from 'l
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -38,13 +39,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehberler/ev-nasil-satilir',
         'en': '/en/rehberler/ev-nasil-satilir',
         'et': '/et/rehberler/ev-nasil-satilir',
         'ru': '/ru/rehberler/ev-nasil-satilir',
         'ar': '/ar/rehberler/ev-nasil-satilir',
-      },
+      }),
     },
     openGraph: {
       title: 'Ev Nasıl Satılır? | Adım Adım Emlak Satış Rehberi',

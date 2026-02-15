@@ -12,6 +12,7 @@ import { getListings } from '@/lib/supabase/queries';
 import { ListingCard } from '@/components/listings/ListingCard';
 import dynamicImport from 'next/dynamic';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
 });
@@ -43,13 +44,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/kocaali-emlak-rehberi',
         'en': '/en/kocaali-emlak-rehberi',
         'et': '/et/kocaali-emlak-rehberi',
         'ru': '/ru/kocaali-emlak-rehberi',
         'ar': '/ar/kocaali-emlak-rehberi',
-      },
+      }),
     },
     openGraph: {
       title: 'Kocaali Emlak Rehberi | Kapsamlı Emlak Bilgileri',

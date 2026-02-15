@@ -21,6 +21,7 @@ import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 
 // Performance: Revalidate every hour for ISR
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
@@ -52,13 +53,13 @@ export async function generateMetadata({
     keywords: ["satılık villa","satılık villalar","satılık villa ilanları","satılık villa fiyatları"],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/satilik-villa',
         'en': '/en/satilik-villa',
         'et': '/et/satilik-villa',
         'ru': '/ru/satilik-villa',
         'ar': '/ar/satilik-villa',
-      },
+      }),
     },
     openGraph: {
       title: 'Satılık Villa | En Güncel İlanlar ve Fiyatlar 2025',

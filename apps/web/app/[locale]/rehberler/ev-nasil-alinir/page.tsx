@@ -9,6 +9,7 @@ import { Home, CheckCircle, AlertCircle, Shield, FileText, DollarSign, Search, K
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -39,13 +40,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehberler/ev-nasil-alinir',
         'en': '/en/rehberler/ev-nasil-alinir',
         'et': '/et/rehberler/ev-nasil-alinir',
         'ru': '/ru/rehberler/ev-nasil-alinir',
         'ar': '/ar/rehberler/ev-nasil-alinir',
-      },
+      }),
     },
     openGraph: {
       title: 'Ev Nasıl Alınır? | Adım Adım Emlak Alım Rehberi',

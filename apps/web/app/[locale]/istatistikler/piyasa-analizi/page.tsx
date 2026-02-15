@@ -5,6 +5,7 @@ import { routing } from '@/i18n/routing';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -68,13 +69,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteConfig.url}/istatistikler/piyasa-analizi`,
         'en': `${siteConfig.url}/en/istatistikler/piyasa-analizi`,
         'et': `${siteConfig.url}/et/istatistikler/piyasa-analizi`,
         'ru': `${siteConfig.url}/ru/istatistikler/piyasa-analizi`,
         'ar': `${siteConfig.url}/ar/istatistikler/piyasa-analizi`,
-      },
+      }),
     },
     openGraph: {
       title: 'Piyasa Analizi | Karasu Emlak',

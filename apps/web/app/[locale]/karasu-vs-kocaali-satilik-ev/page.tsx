@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { Home, TrendingUp, MapPin, Waves, Building2, DollarSign, CheckCircle2, XCircle } from 'lucide-react';
 import dynamicImport from 'next/dynamic';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
 });
@@ -45,13 +46,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-vs-kocaali-satilik-ev',
         'en': '/en/karasu-vs-kocaali-satilik-ev',
         'et': '/et/karasu-vs-kocaali-satilik-ev',
         'ru': '/ru/karasu-vs-kocaali-satilik-ev',
         'ar': '/ar/karasu-vs-kocaali-satilik-ev',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu vs Kocaali Satılık Ev | Karşılaştırma Rehberi',

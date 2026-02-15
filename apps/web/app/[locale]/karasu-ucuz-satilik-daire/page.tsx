@@ -17,6 +17,7 @@ import dynamicImport from 'next/dynamic';
 import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticles';
 import { getRelatedContent } from '@/lib/content/related-content';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
@@ -53,13 +54,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-ucuz-satilik-daire',
         'en': '/en/karasu-ucuz-satilik-daire',
         'et': '/et/karasu-ucuz-satilik-daire',
         'ru': '/ru/karasu-ucuz-satilik-daire',
         'ar': '/ar/karasu-ucuz-satilik-daire',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Ucuz Satılık Daire | 1 Milyon TL Altı Daire İlanları 2025',

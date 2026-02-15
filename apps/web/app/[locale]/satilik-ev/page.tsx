@@ -21,6 +21,7 @@ import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 
 // Performance: Revalidate every hour for ISR
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
@@ -52,13 +53,13 @@ export async function generateMetadata({
     keywords: ["satılık ev","satılık evler","satılık konut","satılık müstakil ev"],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/satilik-ev',
         'en': '/en/satilik-ev',
         'et': '/et/satilik-ev',
         'ru': '/ru/satilik-ev',
         'ar': '/ar/satilik-ev',
-      },
+      }),
     },
     openGraph: {
       title: 'Satılık Ev | En Güncel İlanlar ve Fiyatlar 2025',

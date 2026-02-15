@@ -11,6 +11,7 @@ import { generateFAQSchema } from '@/lib/seo/structured-data';
 import { ContentSection } from '@/components/content/ContentSection';
 import { FAQBlock } from '@/components/content/FAQBlock';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -31,10 +32,10 @@ export async function generateMetadata({
     description: 'Profesyonel emlak değerleme hizmeti. Gayrimenkulünüzün gerçek piyasa değerini öğrenin. Uzman değerleme raporları ile yatırım kararlarınızı güvenle alın.',
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteConfig.url}/hizmetler/emlak-degerleme`,
         'en': `${siteConfig.url}/en/hizmetler/emlak-degerleme`,
-      },
+      }),
     },
     openGraph: {
       title: 'Emlak Değerleme Hizmeti | Karasu Emlak',

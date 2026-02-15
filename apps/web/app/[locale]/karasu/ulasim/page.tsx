@@ -10,6 +10,7 @@ import { KARASU_ULASIM_YOLLARI, KARASU_ULASIM_BILGILERI } from '@/lib/local-info
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateFAQSchema } from '@/lib/seo/structured-data';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 interface SearchPageProps {
   params: Promise<{ locale: string }>;
 }
@@ -82,13 +83,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${basePath}/karasu/ulasim`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu/ulasim',
         'en': '/en/karasu/ulasim',
         'et': '/et/karasu/ulasim',
         'ru': '/ru/karasu/ulasim',
         'ar': '/ar/karasu/ulasim',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Ulaşım Bilgileri | Nasıl Gidilir?',

@@ -6,6 +6,7 @@ import { routing } from '@/i18n/routing';
 import Link from 'next/link';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 import { 
   Shield, 
   Lock, 
@@ -67,13 +68,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteConfig.url}/gizlilik-politikasi`,
         'en': `${siteConfig.url}/en/gizlilik-politikasi`,
         'et': `${siteConfig.url}/et/gizlilik-politikasi`,
         'ru': `${siteConfig.url}/ru/gizlilik-politikasi`,
         'ar': `${siteConfig.url}/ar/gizlilik-politikasi`,
-      },
+      }),
     },
     openGraph: {
       title: 'Gizlilik Politikası | Karasu Emlak',

@@ -24,6 +24,7 @@ import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticl
 import { getRelatedContent } from '@/lib/content/related-content';
 
 // Performance: Revalidate every hour for ISR
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
@@ -60,13 +61,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-satilik-villa',
         'en': '/en/karasu-satilik-villa',
         'et': '/et/karasu-satilik-villa',
         'ru': '/ru/karasu-satilik-villa',
         'ar': '/ar/karasu-satilik-villa',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Satılık Villa | Denize Sıfır Lüks Villalar 2025',

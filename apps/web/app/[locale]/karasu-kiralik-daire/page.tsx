@@ -24,6 +24,7 @@ import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticl
 import { getRelatedContent } from '@/lib/content/related-content';
 
 // Performance: Revalidate every hour for ISR
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
@@ -60,13 +61,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-kiralik-daire',
         'en': '/en/karasu-kiralik-daire',
         'et': '/et/karasu-kiralik-daire',
         'ru': '/ru/karasu-kiralik-daire',
         'ar': '/ar/karasu-kiralik-daire',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Kiralık Daire | En Güncel İlanlar ve Aylık Kira Fiyatları 2025',

@@ -13,6 +13,7 @@ import { HospitalsPageClient } from './HospitalsPageClient';
 import { RelatedBlogSection } from '@/components/hospitals/RelatedBlogSection';
 import { HealthInfoSection } from '@/components/hospitals/HealthInfoSection';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 interface SearchPageProps {
   params: Promise<{ locale: string }>;
 }
@@ -62,13 +63,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${basePath}/kocaali/hastaneler`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/kocaali/hastaneler',
         'en': '/en/kocaali/hastaneler',
         'et': '/et/kocaali/hastaneler',
         'ru': '/ru/kocaali/hastaneler',
         'ar': '/ar/kocaali/hastaneler',
-      },
+      }),
     },
     openGraph: {
       title: 'Kocaali Hastaneler ve Sağlık Kuruluşları | Karasu Emlak',

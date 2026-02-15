@@ -10,6 +10,7 @@ import { AramaClient } from './AramaClient';
 import { TrustSignalsBar } from '@/components/trust/TrustSignalsBar';
 import { withTimeout } from '@/lib/utils/timeout';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 interface SearchPageProps {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{
@@ -54,13 +55,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${basePath}/arama`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/arama',
         'en': '/en/arama',
         'et': '/et/arama',
         'ru': '/ru/arama',
         'ar': '/ar/arama',
-      },
+      }),
     },
     robots: {
       index: !query, // Index base page, noindex when query params exist

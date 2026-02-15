@@ -13,18 +13,24 @@ import { notFound } from 'next/navigation';
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string; author: string }>;
+  searchParams?: Promise<{ page?: string }>;
 }): Promise<Metadata> {
   const { locale, author } = await params;
+  const sp = (await searchParams) ?? {};
+  const pageNum = Math.max(1, parseInt(sp.page ?? '1', 10) || 1);
   const decodedAuthor = decodeURIComponent(author);
-  const canonicalPath = locale === routing.defaultLocale 
+  const canonicalBasePath = locale === routing.defaultLocale 
     ? `/blog/yazar/${author}` 
     : `/${locale}/blog/yazar/${author}`;
+  const canonicalPath = pageNum > 1 ? `${canonicalBasePath}?page=${pageNum}` : canonicalBasePath;
+  const titleSuffix = pageNum > 1 ? ` (Sayfa ${pageNum})` : '';
   
   return {
-    title: `${decodedAuthor} | Blog Yazarı | Karasu Emlak`,
-    description: `${decodedAuthor} tarafından yazılan blog makaleleri. Emlak, yatırım ve bölge hakkında uzman görüşler.`,
+    title: `${decodedAuthor} | Blog Yazarı | Karasu Emlak${titleSuffix}`,
+    description: `${decodedAuthor} tarafından yazılan blog makaleleri. Emlak, yatırım ve bölge hakkında uzman görüşleri ve notlar.`,
     keywords: [
       `${decodedAuthor} emlak`,
       `${decodedAuthor} blog`,
@@ -35,10 +41,24 @@ export async function generateMetadata({
       canonical: canonicalPath,
     },
     openGraph: {
-      title: `${decodedAuthor} | Blog Yazarı | Karasu Emlak`,
+      title: `${decodedAuthor} | Blog Yazarı | Karasu Emlak${titleSuffix}`,
       description: `${decodedAuthor} tarafından yazılan blog makaleleri`,
       url: `${siteConfig.url}${canonicalPath}`,
       type: 'profile',
+      images: [
+        {
+          url: `${siteConfig.url}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: `${decodedAuthor} - Karasu Emlak Blog Yazıları`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${decodedAuthor} | Blog Yazarı${titleSuffix}`,
+      description: `${decodedAuthor} tarafından yazılan blog makaleleri`,
+      images: [`${siteConfig.url}/og-image.jpg`],
     },
   };
 }
@@ -184,4 +204,3 @@ export default async function BlogAuthorPage({
     </>
   );
 }
-

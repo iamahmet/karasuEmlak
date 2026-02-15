@@ -13,6 +13,7 @@ import { PlaceImage } from '@/components/images/PlaceImage';
 import { getArticles } from '@/lib/supabase/queries/articles';
 import { getNewsArticles } from '@/lib/supabase/queries/news';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 interface SearchPageProps {
   params: Promise<{ locale: string }>;
 }
@@ -77,13 +78,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${basePath}/karasu/restoranlar`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu/restoranlar',
         'en': '/en/karasu/restoranlar',
         'et': '/et/karasu/restoranlar',
         'ru': '/ru/karasu/restoranlar',
         'ar': '/ar/karasu/restoranlar',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Restoranlar ve Yeme-İçme | En İyi Restoranlar',

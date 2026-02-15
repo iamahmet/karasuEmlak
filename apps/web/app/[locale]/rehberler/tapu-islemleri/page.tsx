@@ -8,6 +8,7 @@ import { FileText, CheckCircle, AlertCircle, Clock, Shield, DollarSign } from 'l
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -38,13 +39,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehberler/tapu-islemleri',
         'en': '/en/rehberler/tapu-islemleri',
         'et': '/et/rehberler/tapu-islemleri',
         'ru': '/ru/rehberler/tapu-islemleri',
         'ar': '/ar/rehberler/tapu-islemleri',
-      },
+      }),
     },
     openGraph: {
       title: 'Tapu İşlemleri Rehberi | Tapu Devir ve Masraflar',

@@ -7,6 +7,7 @@ import { generateFAQSchema } from '@/lib/seo/structured-data';
 import { ScrollReveal } from '@/components/animations/ScrollReveal';
 import { Phone, Building2, Shield, Heart, GraduationCap, Flame, Car, ArrowRight } from 'lucide-react';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 interface SearchPageProps {
   params: Promise<{ locale: string }>;
 }
@@ -36,13 +37,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${basePath}/karasu/onemli-telefonlar`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu/onemli-telefonlar',
         'en': '/en/karasu/onemli-telefonlar',
         'et': '/et/karasu/onemli-telefonlar',
         'ru': '/ru/karasu/onemli-telefonlar',
         'ar': '/ar/karasu/onemli-telefonlar',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Önemli Telefonlar | Acil Durum ve Hizmet Numaraları',

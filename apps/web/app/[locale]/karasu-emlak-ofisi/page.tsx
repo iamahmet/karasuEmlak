@@ -10,6 +10,7 @@ import { generateLocalBusinessSchema, generateFAQSchema } from '@/lib/seo/struct
 import dynamicImport from 'next/dynamic';
 
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
 });
@@ -43,13 +44,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-emlak-ofisi',
         'en': '/en/karasu-emlak-ofisi',
         'et': '/et/karasu-emlak-ofisi',
         'ru': '/ru/karasu-emlak-ofisi',
         'ar': '/ar/karasu-emlak-ofisi',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Emlak Ofisi | Profesyonel Emlak Danışmanlığı',

@@ -8,6 +8,7 @@ import { StructuredData } from '@/components/seo/StructuredData';
 import { COOKIE_INVENTORY, COOKIE_CATEGORY_DESCRIPTIONS, getThirdPartyCookies } from '@/lib/cookies/cookie-types';
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 import { 
   Cookie, 
   Shield, 
@@ -56,10 +57,10 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${basePath}/cerez-politikasi`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/cerez-politikasi',
         'en': '/en/cerez-politikasi',
-      },
+      }),
     },
     openGraph: {
       title: 'Çerez Politikası | KVKK ve GDPR Uyumlu | Karasu Emlak',

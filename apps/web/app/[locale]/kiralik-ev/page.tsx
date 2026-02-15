@@ -20,6 +20,7 @@ import { Suspense } from 'react';
 import { Ramadan2026PromoBlock } from '@/components/seasonal/Ramadan2026PromoBlock';
 
 // Performance: ISR with cache tags for better performance
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour - regenerate every hour
 export const dynamicParams = true; // Allow dynamic params
 
@@ -62,13 +63,13 @@ export async function generateMetadata({
     keywords: ["kiralık ev","kiralık evler","kiralık konut","kiralık müstakil ev"],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/kiralik-ev',
         'en': '/en/kiralik-ev',
         'et': '/et/kiralik-ev',
         'ru': '/ru/kiralik-ev',
         'ar': '/ar/kiralik-ev',
-      },
+      }),
     },
     openGraph: {
       title: 'Kiralık Ev | En Güncel İlanlar ve Fiyatlar 2025',

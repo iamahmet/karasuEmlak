@@ -22,6 +22,7 @@ import { getIntelligentRecommendations } from '@/lib/services/article-recommenda
 import { getPopularArticles } from '@/lib/supabase/queries/blog-sidebar';
 import { getQAEntries } from '@/lib/supabase/queries/qa';
 import { getAIQuestionsForPage } from '@/lib/supabase/queries/ai-questions';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 import {
   generateBlogArticleSchema,
   generateBreadcrumbSchema,
@@ -153,13 +154,13 @@ export async function generateMetadata({
     ...lastModifiedMeta,
     alternates: {
       canonical: articleUrl,
-      languages: {
+      languages: pruneHreflangLanguages({
         tr: `/blog/${slug}`,
         en: `/en/blog/${slug}`,
         et: `/et/blog/${slug}`,
         ru: `/ru/blog/${slug}`,
         ar: `/ar/blog/${slug}`,
-      },
+      }),
     },
     openGraph: {
       title: article.title,

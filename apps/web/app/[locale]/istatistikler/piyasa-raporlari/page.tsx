@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateFAQSchema } from '@/lib/seo/structured-data';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -43,13 +44,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteConfig.url}/istatistikler/piyasa-raporlari`,
         'en': `${siteConfig.url}/en/istatistikler/piyasa-raporlari`,
         'et': `${siteConfig.url}/et/istatistikler/piyasa-raporlari`,
         'ru': `${siteConfig.url}/ru/istatistikler/piyasa-raporlari`,
         'ar': `${siteConfig.url}/ar/istatistikler/piyasa-raporlari`,
-      },
+      }),
     },
     openGraph: {
       title: 'Piyasa Raporları | Karasu Emlak',

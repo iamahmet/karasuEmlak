@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateFAQSchema } from '@/lib/seo/structured-data';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -42,13 +43,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteConfig.url}/istatistikler/fiyat-trendleri`,
         'en': `${siteConfig.url}/en/istatistikler/fiyat-trendleri`,
         'et': `${siteConfig.url}/et/istatistikler/fiyat-trendleri`,
         'ru': `${siteConfig.url}/ru/istatistikler/fiyat-trendleri`,
         'ar': `${siteConfig.url}/ar/istatistikler/fiyat-trendleri`,
-      },
+      }),
     },
     openGraph: {
       title: 'Fiyat Trendleri | Karasu Emlak',

@@ -13,6 +13,7 @@ import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import dynamicImport from 'next/dynamic';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
 });
@@ -43,13 +44,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/kocaali-satilik-ev-fiyatlari',
         'en': '/en/kocaali-satilik-ev-fiyatlari',
         'et': '/et/kocaali-satilik-ev-fiyatlari',
         'ru': '/ru/kocaali-satilik-ev-fiyatlari',
         'ar': '/ar/kocaali-satilik-ev-fiyatlari',
-      },
+      }),
     },
     openGraph: {
       title: 'Kocaali Satılık Ev Fiyatları | Güncel Analiz',

@@ -18,6 +18,7 @@ import dynamicImport from 'next/dynamic';
 import { Suspense } from 'react';
 
 // Performance: ISR with cache tags for better performance
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour - regenerate every hour
 export const dynamicParams = true; // Allow dynamic params
 
@@ -64,13 +65,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-kiralik-ev',
         'en': '/en/karasu-kiralik-ev',
         'et': '/et/karasu-kiralik-ev',
         'ru': '/ru/karasu-kiralik-ev',
         'ar': '/ar/karasu-kiralik-ev',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Kiralık Ev | Kapsamlı Rehber | Karasu Emlak',

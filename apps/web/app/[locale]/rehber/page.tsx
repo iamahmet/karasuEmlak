@@ -8,6 +8,7 @@ import { BookOpen, FileText, HelpCircle, Info, CheckCircle, ArrowRight, Calculat
 import { GuidePageHero } from '@/components/guides/GuidePageHero';
 import dynamicImport from 'next/dynamic';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const TrustSignalsBar = dynamicImport(() => import('@/components/trust/TrustSignalsBar').then(mod => ({ default: mod.TrustSignalsBar })), {
   loading: () => null,
 });
@@ -39,13 +40,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehber',
         'en': '/en/rehber',
         'et': '/et/rehber',
         'ru': '/ru/rehber',
         'ar': '/ar/rehber',
-      },
+      }),
     },
     openGraph: {
       title: 'Emlak Rehberi | Kapsamlı Emlak Bilgileri ve Uzman Tavsiyeleri',

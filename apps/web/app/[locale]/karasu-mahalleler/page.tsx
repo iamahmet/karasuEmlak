@@ -9,6 +9,7 @@ import { MapPin, Home, Building2, TrendingUp, ArrowRight } from 'lucide-react';
 import { getNeighborhoods } from '@/lib/supabase/queries';
 import { withTimeout } from '@/lib/utils/timeout';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 interface SearchPageProps {
   params: Promise<{ locale: string }>;
 }
@@ -38,13 +39,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${basePath}/karasu-mahalleler`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-mahalleler',
         'en': '/en/karasu-mahalleler',
         'et': '/et/karasu-mahalleler',
         'ru': '/ru/karasu-mahalleler',
         'ar': '/ar/karasu-mahalleler',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Mahalleler | Tüm Mahalleler ve Özellikleri',

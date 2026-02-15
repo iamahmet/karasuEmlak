@@ -21,6 +21,7 @@ import { ListingCard } from '@/components/listings/ListingCard';
 import dynamicImport from 'next/dynamic';
 
 // Lazy load map component
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const InteractiveMap = dynamicImport(
   () => import('@/components/map/InteractiveMap').then(mod => ({ default: mod.InteractiveMap })),
   { loading: () => null }
@@ -97,13 +98,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `/mahalle/${slug}`,
         'en': `/en/mahalle/${slug}`,
         'et': `/et/mahalle/${slug}`,
         'ru': `/ru/mahalle/${slug}`,
         'ar': `/ar/mahalle/${slug}`,
-      },
+      }),
     },
     openGraph: {
       title: `${neighborhood} Mahallesi Satılık Ev | Karasu Emlak`,

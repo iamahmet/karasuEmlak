@@ -12,6 +12,7 @@ import dynamicImport from 'next/dynamic';
 import { ContentSection } from '@/components/content/ContentSection';
 import { FAQBlock } from '@/components/content/FAQBlock';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const CurrencyConverter = dynamicImport(() => import('@/components/services/CurrencyConverter').then(mod => ({ default: mod.CurrencyConverter })), {
   loading: () => null,
 });
@@ -42,13 +43,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${basePath}/yatirim-hesaplayici`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/yatirim-hesaplayici',
         'en': '/en/yatirim-hesaplayici',
         'et': '/et/yatirim-hesaplayici',
         'ru': '/ru/yatirim-hesaplayici',
         'ar': '/ar/yatirim-hesaplayici',
-      },
+      }),
     },
     openGraph: {
       title: 'Yatırım Hesaplayıcı | Kira Getirisi ve ROI Hesaplama',

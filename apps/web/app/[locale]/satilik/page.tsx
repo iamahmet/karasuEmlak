@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const dynamic = 'force-dynamic';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
@@ -25,15 +26,48 @@ import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams?: Promise<{
+    page?: string;
+    q?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    minSize?: string;
+    maxSize?: string;
+    rooms?: string;
+    propertyType?: string;
+    neighborhood?: string;
+    balcony?: string;
+    parking?: string;
+    elevator?: string;
+    seaView?: string;
+    furnished?: string;
+    buildingAge?: string;
+    floor?: string;
+    sort?: string;
+  }>;
 }): Promise<Metadata> {
   const { locale } = await params;
   // No locale prefix in URLs for single-language site
-  const canonicalPath = '/satilik';
+  const sp = (await searchParams) ?? {};
+  const pageNum = Math.max(1, parseInt(sp.page ?? '1', 10) || 1);
+  const hasFilters = Object.entries(sp).some(([key, value]) => {
+    if (key === 'page') return false;
+    if (value == null || value === '') return false;
+    if (key === 'sort') return value !== 'created_at-desc';
+    return true;
+  });
+
+  const canonicalBasePath = '/satilik';
+  const canonicalPath =
+    !hasFilters && pageNum > 1 ? `${canonicalBasePath}?page=${pageNum}` : canonicalBasePath;
+  const titleSuffix = !hasFilters && pageNum > 1 ? ` (Sayfa ${pageNum})` : '';
+  const shouldIndex = !hasFilters;
   
   return {
-    title: 'Satılık İlanlar | Karasu Emlak | Daire, Villa, Yazlık, Arsa',
+    title: `Satılık İlanlar | Karasu Emlak | Daire, Villa, Yazlık, Arsa${titleSuffix}`,
     description: 'Karasu ve çevresinde satılık emlak ilanları. Denize sıfır konumlarda satılık daire, villa, yazlık ve arsa seçenekleri. 15 yıllık deneyimli emlak danışmanları ile hayalinizdeki evi bulun.',
     keywords: [
       'karasu satılık',
@@ -47,13 +81,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
-        'tr': '/satilik',
+      languages: pruneHreflangLanguages({
+        'tr': !hasFilters && pageNum > 1 ? `/satilik?page=${pageNum}` : '/satilik',
         'en': '/en/satilik',
         'et': '/et/satilik',
         'ru': '/ru/satilik',
         'ar': '/ar/satilik',
-      },
+      }),
     },
     openGraph: {
       title: 'Satılık İlanlar | Karasu Emlak',
@@ -73,12 +107,13 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: 'Satılık İlanlar | Karasu Emlak',
       description: 'Karasu ve çevresinde satılık emlak ilanları. Denize sıfır konumlarda satılık daire, villa, yazlık ve arsa seçenekleri.',
+      images: [`${siteConfig.url}/og-image.jpg`],
     },
     robots: {
-      index: true,
+      index: shouldIndex,
       follow: true,
       googleBot: {
-        index: true,
+        index: shouldIndex,
         follow: true,
         'max-video-preview': -1,
         'max-image-preview': 'large',
@@ -977,4 +1012,3 @@ export default async function ForSalePage({
     );
   }
 }
-

@@ -14,7 +14,7 @@ export default function RootLayout({
   // Next.js requires root layout to have <html> and <body>
   // The [locale]/layout.tsx will provide the actual HTML structure
   return (
-    <html suppressHydrationWarning>
+    <html lang="tr" dir="ltr" suppressHydrationWarning>
       <head>
         {/* Performance: Preconnect to Google Fonts for faster font loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -100,4 +100,3 @@ export default function RootLayout({
     </html>
   );
 }
-

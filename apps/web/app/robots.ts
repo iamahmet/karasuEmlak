@@ -28,7 +28,6 @@ export default function robots(): MetadataRoute.Robots {
             '/aramalarim',
             '/yorumlar',
             '/*?*sort=*', // Disallow sorted/filtered URLs to prevent duplicate content
-            '/*?*page=*', // Disallow pagination URLs (use canonical instead)
           ],
           crawlDelay: 0.5, // Respectful crawl delay (500ms)
         },
@@ -103,4 +102,3 @@ export default function robots(): MetadataRoute.Robots {
     };
   }
 }
-

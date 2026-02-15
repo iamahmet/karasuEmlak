@@ -13,6 +13,7 @@ import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import dynamicImport from 'next/dynamic';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
 });
@@ -43,13 +44,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-satilik-ev-fiyatlari',
         'en': '/en/karasu-satilik-ev-fiyatlari',
         'et': '/et/karasu-satilik-ev-fiyatlari',
         'ru': '/ru/karasu-satilik-ev-fiyatlari',
         'ar': '/ar/karasu-satilik-ev-fiyatlari',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Satılık Ev Fiyatları | Güncel Analiz',

@@ -15,6 +15,7 @@ import { calculateReadingTime } from '@/lib/utils/reading-time';
 import { AIChecker } from '@/components/content/AIChecker';
 import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -45,13 +46,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehber/yatirim',
         'en': '/en/rehber/yatirim',
         'et': '/et/rehber/yatirim',
         'ru': '/ru/rehber/yatirim',
         'ar': '/ar/rehber/yatirim',
-      },
+      }),
     },
     openGraph: {
       title: 'Emlak Yatırım Rehberi | Kapsamlı Yatırım Stratejileri',

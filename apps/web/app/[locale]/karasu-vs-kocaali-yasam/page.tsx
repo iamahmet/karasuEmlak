@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { Home, Waves, Building2, School, ShoppingCart, Heart, CheckCircle2, ArrowRight } from 'lucide-react';
 import dynamicImport from 'next/dynamic';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
 });
@@ -43,13 +44,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-vs-kocaali-yasam',
         'en': '/en/karasu-vs-kocaali-yasam',
         'et': '/et/karasu-vs-kocaali-yasam',
         'ru': '/ru/karasu-vs-kocaali-yasam',
         'ar': '/ar/karasu-vs-kocaali-yasam',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu vs Kocaali Yaşam | Karşılaştırma Rehberi',

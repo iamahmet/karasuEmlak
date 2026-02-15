@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 import { 
   Phone, 
   Mail, 
@@ -55,13 +56,13 @@ export async function generateMetadata({
     description: `${member.name}, ${member.role}. ${member.experience} deneyim. ${member.speciality.join(', ')} konularında uzman. ${member.bio}`,
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `/hakkimizda/ekibimiz/${slug}`,
         'en': `/en/hakkimizda/ekibimiz/${slug}`,
         'et': `/et/hakkimizda/ekibimiz/${slug}`,
         'ru': `/ru/hakkimizda/ekibimiz/${slug}`,
         'ar': `/ar/hakkimizda/ekibimiz/${slug}`,
-      },
+      }),
     },
     openGraph: {
       title: `${member.name} - ${member.role} | Karasu Emlak`,

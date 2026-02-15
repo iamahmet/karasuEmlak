@@ -17,6 +17,7 @@ import dynamicImport from 'next/dynamic';
 import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticles';
 import { getRelatedContent } from '@/lib/content/related-content';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
@@ -51,13 +52,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-denize-sifir-satilik-daire',
         'en': '/en/karasu-denize-sifir-satilik-daire',
         'et': '/et/karasu-denize-sifir-satilik-daire',
         'ru': '/ru/karasu-denize-sifir-satilik-daire',
         'ar': '/ar/karasu-denize-sifir-satilik-daire',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Denize Sıfır Satılık Daire | Deniz Manzaralı Daire İlanları 2025',

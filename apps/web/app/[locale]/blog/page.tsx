@@ -30,6 +30,7 @@ import { generateFAQSchema } from '@/lib/seo/structured-data';
 import { generateBlogCollectionPageSchema } from '@/lib/seo/blog-structured-data';
 import dynamicImport from 'next/dynamic';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // Revalidate every hour
 
 const TrustSignalsBarDynamic = dynamicImport(() => import('@/components/trust/TrustSignalsBar').then(mod => ({ default: mod.TrustSignalsBar })), {
@@ -43,14 +44,28 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ page?: string; q?: string; category?: string; sort?: string; tag?: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const canonicalPath = locale === routing.defaultLocale ? '/blog' : `/${locale}/blog`;
+  const sp = (await searchParams) ?? {};
+  const pageNum = Math.max(1, parseInt(sp.page ?? '1', 10) || 1);
+  const hasFilters =
+    Boolean(sp.q) ||
+    Boolean(sp.category) ||
+    Boolean(sp.tag) ||
+    (Boolean(sp.sort) && sp.sort !== 'newest');
+
+  const canonicalBasePath = locale === routing.defaultLocale ? '/blog' : `/${locale}/blog`;
+  const canonicalPath =
+    !hasFilters && pageNum > 1 ? `${canonicalBasePath}?page=${pageNum}` : canonicalBasePath;
+  const titleSuffix = !hasFilters && pageNum > 1 ? ` (Sayfa ${pageNum})` : '';
+  const shouldIndex = !hasFilters;
   
   return {
-    title: 'Blog | Emlak Rehberleri ve Yatırım Analizleri', // Template will add site name automatically
+    title: `Blog | Emlak Rehberleri ve Yatırım Analizleri${titleSuffix}`, // Template will add site name automatically
     description: 'Karasu emlak blog: Emlak alım-satım rehberleri, yatırım analizleri, mahalle rehberleri ve piyasa trendleri. Uzman görüşleri ve güncel içerikler ile emlak yatırımınızı bilinçli yapın.',
     keywords: [
       'karasu emlak blog',
@@ -63,13 +78,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
-        'tr': '/blog',
+      languages: pruneHreflangLanguages({
+        'tr': !hasFilters && pageNum > 1 ? `/blog?page=${pageNum}` : '/blog',
         'en': '/en/blog',
         'et': '/et/blog',
         'ru': '/ru/blog',
         'ar': '/ar/blog',
-      },
+      }),
     },
     openGraph: {
       title: 'Blog | Karasu Emlak',
@@ -89,12 +104,13 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: 'Blog | Karasu Emlak',
       description: 'Emlak, yatırım ve Karasu hakkında güncel içerikler, rehberler ve uzman görüşleri.',
+      images: [`${siteConfig.url}/og-image.jpg`],
     },
     robots: {
-      index: true,
+      index: shouldIndex,
       follow: true,
       googleBot: {
-        index: true,
+        index: shouldIndex,
         follow: true,
         'max-video-preview': -1,
         'max-image-preview': 'large',

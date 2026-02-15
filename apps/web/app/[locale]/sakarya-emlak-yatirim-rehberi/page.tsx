@@ -15,6 +15,7 @@ import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import dynamicImport from 'next/dynamic';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
 });
@@ -52,13 +53,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/sakarya-emlak-yatirim-rehberi',
         'en': '/en/sakarya-emlak-yatirim-rehberi',
         'et': '/et/sakarya-emlak-yatirim-rehberi',
         'ru': '/ru/sakarya-emlak-yatirim-rehberi',
         'ar': '/ar/sakarya-emlak-yatirim-rehberi',
-      },
+      }),
     },
     openGraph: {
       title: 'Sakarya Emlak Yatırım Rehberi | Yatırım Fırsatları',

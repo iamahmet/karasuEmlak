@@ -23,6 +23,7 @@ import type { Metadata, Viewport } from "next";
 import { GOOGLE_SITE_VERIFICATION, GA_MEASUREMENT_ID } from "@/lib/seo/constants";
 import "../globals.css";
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateMetadata({
   params,
 }: {
@@ -35,90 +36,107 @@ export async function generateMetadata({
       ? locale 
       : routing.defaultLocale;
     const baseUrl = siteConfig?.url ?? '';
+    const resolvedBaseUrl = baseUrl || 'https://karasuemlak.net';
     const canonicalPath = validLocale === routing.defaultLocale ? '' : `/${validLocale}`;
 
     return {
-    title: {
-      default: siteConfig.name,
-      template: `%s | ${siteConfig.name}`,
-    },
-    description: siteConfig.description,
-    metadataBase: new URL(baseUrl || 'https://karasuemlak.net'),
-    alternates: {
-      canonical: canonicalPath || '/',
-      languages: {
-        'tr': `${baseUrl}`,
-        'en': `${baseUrl}/en`,
-        'et': `${baseUrl}/et`,
-        'ru': `${baseUrl}/ru`,
-        'ar': `${baseUrl}/ar`,
+      title: {
+        default: siteConfig.name,
+        template: `%s | ${siteConfig.name}`,
       },
-    },
-    openGraph: {
-      type: "website",
-      locale: validLocale === 'tr' ? 'tr_TR' : validLocale,
-      url: `${baseUrl}${canonicalPath}`,
-      siteName: siteConfig.name,
-      title: siteConfig.name,
       description: siteConfig.description,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: siteConfig.name,
-      description: siteConfig.description,
-    },
-    // Performance: Preconnect to critical domains
-    icons: {
-      icon: [
-        { url: "/favicon.ico", sizes: "any" },
-        { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
-        { url: "/icon-32x32.png", sizes: "32x32", type: "image/png" },
-        { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
-        { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
-        { url: "/logo-icon.png", sizes: "any", type: "image/png" },
-        { url: "/logo-icon.svg", type: "image/svg+xml", sizes: "any" },
-      ],
-      shortcut: [
-        { url: "/favicon.ico", sizes: "any" },
-        { url: "/logo-icon.png", sizes: "any", type: "image/png" },
-        { url: "/logo-icon.svg", type: "image/svg+xml" },
-      ],
-      apple: [
-        { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-        { url: "/logo-icon.png", sizes: "180x180", type: "image/png" },
-      ],
-      other: [
-        {
-          rel: "mask-icon",
-          url: "/safari-pinned-tab.svg",
-          color: "#006AFF",
+      metadataBase: new URL(resolvedBaseUrl),
+      alternates: {
+        canonical: canonicalPath || '/',
+        languages: pruneHreflangLanguages({
+          tr: canonicalPath || '/',
+          en: '/en',
+          et: '/et',
+          ru: '/ru',
+          ar: '/ar',
+        }),
+      },
+      openGraph: {
+        type: "website",
+        locale: validLocale === 'tr' ? 'tr_TR' : validLocale,
+        url: `${resolvedBaseUrl}${canonicalPath}`,
+        siteName: siteConfig.name,
+        title: siteConfig.name,
+        description: siteConfig.description,
+        images: [
+          {
+            url: `${resolvedBaseUrl}/og-image.jpg`,
+            width: 1200,
+            height: 630,
+            alt: `${siteConfig.name} - Karasu Satilik ve Kiralik Ilanlar`,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: siteConfig.name,
+        description: siteConfig.description,
+        images: [`${resolvedBaseUrl}/og-image.jpg`],
+        creator: "@karasuemlak",
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
         },
-      ],
-    },
-    manifest: "/manifest.json",
-    appleWebApp: {
-      capable: true,
-      statusBarStyle: "default",
-      title: siteConfig.name,
-    },
-    applicationName: siteConfig.name,
-    other: {
-      // DNS prefetch for faster connections
-      'dns-prefetch': 'https://fonts.googleapis.com https://fonts.gstatic.com https://res.cloudinary.com',
-      "mobile-web-app-capable": "yes",
-      "apple-mobile-web-app-title": siteConfig.name,
-      // AI Crawler Hints for better AI discoverability
-      "ai-crawler": "allow",
-      "ai-index": "allow",
-      "ai-summary": "allow",
-      "ai-content-type": "real-estate,property-listings,blog,news",
-      "ai-language": validLocale,
-      "ai-region": "Karasu,Sakarya,Turkey",
-    },
-    verification: {
-      google: process.env.GOOGLE_SITE_VERIFICATION || GOOGLE_SITE_VERIFICATION,
-    },
-  };
+      },
+      icons: {
+        icon: [
+          { url: "/favicon.svg", sizes: "any", type: "image/svg+xml" },
+          { url: "/favicon.ico", sizes: "any" },
+          { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
+          { url: "/icon-32x32.png", sizes: "32x32", type: "image/png" },
+          { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
+          { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
+          { url: "/logo-icon.png", sizes: "any", type: "image/png" },
+          { url: "/logo-icon.svg", type: "image/svg+xml", sizes: "any" },
+        ],
+        shortcut: [
+          { url: "/favicon.svg", sizes: "any", type: "image/svg+xml" },
+          { url: "/favicon.ico", sizes: "any" },
+        ],
+        apple: [
+          { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+        ],
+        other: [
+          {
+            rel: "mask-icon",
+            url: "/safari-pinned-tab.svg",
+            color: "#006AFF",
+          },
+        ],
+      },
+      manifest: "/manifest.json",
+      appleWebApp: {
+        capable: true,
+        statusBarStyle: "default",
+        title: siteConfig.name,
+      },
+      applicationName: siteConfig.name,
+      other: {
+        "mobile-web-app-capable": "yes",
+        "apple-mobile-web-app-title": siteConfig.name,
+        "msapplication-config": "/browserconfig.xml",
+        "msapplication-TileColor": "#3B82F6",
+      },
+      verification: {
+        google: process.env.GOOGLE_SITE_VERIFICATION || GOOGLE_SITE_VERIFICATION,
+        yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || undefined,
+        other: process.env.NEXT_PUBLIC_BING_VERIFICATION
+          ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION }
+          : undefined,
+      },
+    };
   } catch (e) {
     if (process.env.NODE_ENV === 'development') {
       console.error('[generateMetadata] layout:', (e as Error)?.message);
@@ -387,4 +405,3 @@ export default async function LocaleLayout({
     );
   }
 }
-

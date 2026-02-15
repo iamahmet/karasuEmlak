@@ -14,6 +14,7 @@ import { StructuredData } from '@/components/seo/StructuredData';
 import { generateReviewCollectionSchema } from '@/lib/seo/local-seo-schemas';
 import { getLastModified, generateLastModifiedMeta } from '@/lib/seo/content-freshness';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 interface SearchPageProps {
   params: Promise<{ locale: string }>;
 }
@@ -53,13 +54,13 @@ export async function generateMetadata({
     ...lastModifiedMeta,
     alternates: {
       canonical: `${basePath}/yorumlar`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/yorumlar',
         'en': '/en/yorumlar',
         'et': '/et/yorumlar',
         'ru': '/ru/yorumlar',
         'ar': '/ar/yorumlar',
-      },
+      }),
     },
     openGraph: {
       title: 'Müşteri Yorumları ve Değerlendirmeleri | Karasu Emlak',

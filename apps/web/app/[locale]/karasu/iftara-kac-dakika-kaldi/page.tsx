@@ -11,6 +11,7 @@ import { getOptimizedCloudinaryUrl } from '@/lib/cloudinary/optimization';
 import { Button } from '@karasu/ui';
 import { ArrowRight, Calendar, FileText } from 'lucide-react';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 60;
 
 const KARASU_DISTRICT_ID = 9803;
@@ -70,13 +71,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         tr: '/karasu/iftara-kac-dakika-kaldi',
         en: '/en/karasu/iftara-kac-dakika-kaldi',
         et: '/et/karasu/iftara-kac-dakika-kaldi',
         ru: '/ru/karasu/iftara-kac-dakika-kaldi',
         ar: '/ar/karasu/iftara-kac-dakika-kaldi',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu İftara Kaç Dakika Kaldı?',

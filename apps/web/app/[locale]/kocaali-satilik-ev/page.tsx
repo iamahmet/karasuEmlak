@@ -16,6 +16,7 @@ import { withTimeout } from '@/lib/utils/timeout';
 import dynamicImport from 'next/dynamic';
 
 // Performance: Revalidate every hour for ISR
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
@@ -51,13 +52,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/kocaali-satilik-ev',
         'en': '/en/kocaali-satilik-ev',
         'et': '/et/kocaali-satilik-ev',
         'ru': '/ru/kocaali-satilik-ev',
         'ar': '/ar/kocaali-satilik-ev',
-      },
+      }),
     },
     openGraph: {
       title: 'Kocaali Satılık Ev | Kapsamlı Rehber | Karasu Emlak',

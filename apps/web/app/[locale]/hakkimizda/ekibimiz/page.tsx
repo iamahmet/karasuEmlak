@@ -10,6 +10,7 @@ import { getAllTeamMembers, getTeamStats } from '@/lib/data/team';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateOrganizationSchema } from '@/lib/seo/structured-data';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -30,13 +31,13 @@ export async function generateMetadata({
     description: 'Karasu Emlak profesyonel ekibi. 8 deneyimli emlak danışmanımız ile Karasu emlak piyasasında güvenilir hizmet. 15+ yıllık deneyim, 1000+ başarılı işlem.',
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/hakkimizda/ekibimiz',
         'en': '/en/hakkimizda/ekibimiz',
         'et': '/et/hakkimizda/ekibimiz',
         'ru': '/ru/hakkimizda/ekibimiz',
         'ar': '/ar/hakkimizda/ekibimiz',
-      },
+      }),
     },
     openGraph: {
       title: 'Ekibimiz | Karasu Emlak - Profesyonel Emlak Danışmanları',

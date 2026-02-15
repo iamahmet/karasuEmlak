@@ -12,6 +12,7 @@ import { StructuredData } from '@/components/seo/StructuredData';
 import { generateArticleSchema } from '@/lib/seo/structured-data';
 
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const mahalleLabels: Record<string, { name: string; description: string }> = {
   merkez: {
     name: 'Karasu Merkez',
@@ -90,13 +91,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `/karasu/${mahalle}`,
         'en': `/en/karasu/${mahalle}`,
         'et': `/et/karasu/${mahalle}`,
         'ru': `/ru/karasu/${mahalle}`,
         'ar': `/ar/karasu/${mahalle}`,
-      },
+      }),
     },
     openGraph: {
       title: `${mahalleInfo.name} | Karasu Emlak`,

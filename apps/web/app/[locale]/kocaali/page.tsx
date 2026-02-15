@@ -17,6 +17,7 @@ import { withTimeout } from '@/lib/utils/timeout';
 import { filterListingsByRegion } from '@/lib/utils/region-filter';
 import dynamicImport from 'next/dynamic';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
 });
@@ -76,13 +77,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/kocaali',
         'en': '/en/kocaali',
         'et': '/et/kocaali',
         'ru': '/ru/kocaali',
         'ar': '/ar/kocaali',
-      },
+      }),
     },
     openGraph: {
       title: 'Kocaali Emlak | Satılık ve Kiralık Gayrimenkul | Kocaali, Sakarya',

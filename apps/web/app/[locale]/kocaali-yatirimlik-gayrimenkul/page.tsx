@@ -13,6 +13,7 @@ import { ListingCard } from '@/components/listings/ListingCard';
 import { withTimeout } from '@/lib/utils/timeout';
 import dynamicImport from 'next/dynamic';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
 });
@@ -47,13 +48,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/kocaali-yatirimlik-gayrimenkul',
         'en': '/en/kocaali-yatirimlik-gayrimenkul',
         'et': '/et/kocaali-yatirimlik-gayrimenkul',
         'ru': '/ru/kocaali-yatirimlik-gayrimenkul',
         'ar': '/ar/kocaali-yatirimlik-gayrimenkul',
-      },
+      }),
     },
     openGraph: {
       title: 'Kocaali Yatırımlık Gayrimenkul | Yatırım Fırsatları | Karasu Emlak',

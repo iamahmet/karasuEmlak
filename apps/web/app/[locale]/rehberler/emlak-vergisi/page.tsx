@@ -8,6 +8,7 @@ import { Receipt, CheckCircle, AlertCircle, Calculator, DollarSign, Calendar } f
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -38,13 +39,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehberler/emlak-vergisi',
         'en': '/en/rehberler/emlak-vergisi',
         'et': '/et/rehberler/emlak-vergisi',
         'ru': '/ru/rehberler/emlak-vergisi',
         'ar': '/ar/rehberler/emlak-vergisi',
-      },
+      }),
     },
     openGraph: {
       title: 'Emlak Vergisi Rehberi | Hesaplama ve Ödeme',

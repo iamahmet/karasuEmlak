@@ -8,6 +8,7 @@ import { Home, CheckCircle, AlertCircle, FileText, DollarSign, Search, Key, Cale
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -38,13 +39,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehberler/ev-nasil-kiralanir',
         'en': '/en/rehberler/ev-nasil-kiralanir',
         'et': '/et/rehberler/ev-nasil-kiralanir',
         'ru': '/ru/rehberler/ev-nasil-kiralanir',
         'ar': '/ar/rehberler/ev-nasil-kiralanir',
-      },
+      }),
     },
     openGraph: {
       title: 'Ev Nasıl Kiralanır? | Adım Adım Kiralama Rehberi',

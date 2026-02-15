@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Monochrome SVG used by Safari pinned tabs (mask-icon). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <path
+    fill="#000"
+    d="M50 16 L80 40 V84 H64 V58 H36 V84 H20 V40 Z"
+  />
+</svg>
+

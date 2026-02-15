@@ -15,6 +15,7 @@ import { StructuredData } from '@/components/seo/StructuredData';
 import { generateFAQSchema } from '@/lib/seo/structured-data';
 import { generateSlug } from '@/lib/utils';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -43,13 +44,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteConfig.url}/istatistikler/bolge-analizi`,
         'en': `${siteConfig.url}/en/istatistikler/bolge-analizi`,
         'et': `${siteConfig.url}/et/istatistikler/bolge-analizi`,
         'ru': `${siteConfig.url}/ru/istatistikler/bolge-analizi`,
         'ar': `${siteConfig.url}/ar/istatistikler/bolge-analizi`,
-      },
+      }),
     },
     openGraph: {
       title: 'Bölge Analizi | Karasu Emlak',

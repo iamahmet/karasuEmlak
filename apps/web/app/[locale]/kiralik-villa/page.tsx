@@ -19,6 +19,7 @@ import { optimizeMetaDescription } from '@/lib/seo/meta-description-optimizer';
 import { Suspense } from 'react';
 
 // Performance: ISR with cache tags for better performance
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour - regenerate every hour
 export const dynamicParams = true; // Allow dynamic params
 
@@ -61,13 +62,13 @@ export async function generateMetadata({
     keywords: ["kiralık villa","kiralık villalar","kiralık villa ilanları","kiralık villa fiyatları"],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/kiralik-villa',
         'en': '/en/kiralik-villa',
         'et': '/et/kiralik-villa',
         'ru': '/ru/kiralik-villa',
         'ar': '/ar/kiralik-villa',
-      },
+      }),
     },
     openGraph: {
       title: 'Kiralık Villa | En Güncel İlanlar ve Fiyatlar 2025',

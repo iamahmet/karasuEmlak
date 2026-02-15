@@ -11,6 +11,7 @@ import { generateFAQSchema } from '@/lib/seo/structured-data';
 import { getArticles } from '@/lib/supabase/queries/articles';
 import { getNewsArticles } from '@/lib/supabase/queries/news';
 import { PlaceImage } from '@/components/images/PlaceImage';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 import { 
   MapPin, 
   Camera, 
@@ -157,13 +158,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${basePath}/karasu/gezilecek-yerler`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu/gezilecek-yerler',
         'en': '/en/karasu/gezilecek-yerler',
         'et': '/et/karasu/gezilecek-yerler',
         'ru': '/ru/karasu/gezilecek-yerler',
         'ar': '/ar/karasu/gezilecek-yerler',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Gezilecek Yerler | Turistik Yerler ve Doğal Güzellikler',

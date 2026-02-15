@@ -12,20 +12,27 @@ import { slugToCategoryName, categoryToSlug, normalizeCategoryName, categoriesMa
 // Schema will be generated inline
 import { notFound } from 'next/navigation';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string; category: string }>;
+  searchParams?: Promise<{ page?: string }>;
 }): Promise<Metadata> {
   const { locale, category } = await params;
+  const sp = (await searchParams) ?? {};
+  const pageNum = Math.max(1, parseInt(sp.page ?? '1', 10) || 1);
   const decodedCategorySlug = decodeURIComponent(category);
   const categoryName = slugToCategoryName(decodedCategorySlug) || decodedCategorySlug;
-  const canonicalPath = locale === routing.defaultLocale 
+  const canonicalBasePath = locale === routing.defaultLocale 
     ? `/blog/kategori/${category}` 
     : `/${locale}/blog/kategori/${category}`;
+  const canonicalPath = pageNum > 1 ? `${canonicalBasePath}?page=${pageNum}` : canonicalBasePath;
+  const titleSuffix = pageNum > 1 ? ` (Sayfa ${pageNum})` : '';
   
   return {
-    title: `${categoryName} Kategorisi | Blog | Karasu Emlak`,
+    title: `${categoryName} Kategorisi | Blog | Karasu Emlak${titleSuffix}`,
     description: `Karasu Emlak blogunda ${categoryName} kategorisindeki tüm makaleler. Emlak, yatırım ve bölge hakkında güncel içerikler.`,
     keywords: [
       `${categoryName} emlak`,
@@ -36,24 +43,25 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
-        'tr': `/blog/kategori/${category}`,
+      languages: pruneHreflangLanguages({
+        'tr': pageNum > 1 ? `/blog/kategori/${category}?page=${pageNum}` : `/blog/kategori/${category}`,
         'en': `/en/blog/kategori/${category}`,
         'et': `/et/blog/kategori/${category}`,
         'ru': `/ru/blog/kategori/${category}`,
         'ar': `/ar/blog/kategori/${category}`,
-      },
+      }),
     },
     openGraph: {
-      title: `${categoryName} Kategorisi | Blog | Karasu Emlak`,
+      title: `${categoryName} Kategorisi | Blog | Karasu Emlak${titleSuffix}`,
       description: `Karasu Emlak blogunda ${categoryName} kategorisindeki makaleler`,
       url: `${siteConfig.url}${canonicalPath}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${categoryName} Kategorisi | Blog | Karasu Emlak`,
+      title: `${categoryName} Kategorisi | Blog | Karasu Emlak${titleSuffix}`,
       description: `Karasu Emlak blogunda ${categoryName} kategorisindeki makaleler`,
+      images: [`${siteConfig.url}/og-image.jpg`],
     },
   };
 }
@@ -218,4 +226,3 @@ export default async function BlogCategoryPage({
     </>
   );
 }
-

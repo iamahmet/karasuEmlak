@@ -10,6 +10,7 @@ import { Button } from '@karasu/ui';
 import Link from 'next/link';
 import { Calculator, CheckCircle, Info, DollarSign, FileText, Phone, Mail, Clock, Award, Target, Zap, Star, ChevronRight, Lightbulb, Users, Shield, ArrowRight, Percent, Calendar, TrendingUp, BarChart3, CreditCard, Building2 } from 'lucide-react';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -36,13 +37,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${basePath}/kredi-hesaplayici`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/kredi-hesaplayici',
         'en': '/en/kredi-hesaplayici',
         'et': '/et/kredi-hesaplayici',
         'ru': '/ru/kredi-hesaplayici',
         'ar': '/ar/kredi-hesaplayici',
-      },
+      }),
     },
     openGraph: {
       title: 'Kredi Hesaplayıcı | Konut Kredisi Hesaplama',

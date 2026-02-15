@@ -19,6 +19,7 @@ import { optimizeMetaDescription } from '@/lib/seo/meta-description-optimizer';
 import { Suspense } from 'react';
 
 // Performance: ISR with cache tags for better performance
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour - regenerate every hour
 export const dynamicParams = true; // Allow dynamic params
 
@@ -61,13 +62,13 @@ export async function generateMetadata({
     keywords: ["satılık arsa","satılık arsalar","satılık arsa ilanları","imarlı arsa"],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/satilik-arsa',
         'en': '/en/satilik-arsa',
         'et': '/et/satilik-arsa',
         'ru': '/ru/satilik-arsa',
         'ar': '/ar/satilik-arsa',
-      },
+      }),
     },
     openGraph: {
       title: 'Satılık Arsa | En Güncel İlanlar ve Fiyatlar 2025',

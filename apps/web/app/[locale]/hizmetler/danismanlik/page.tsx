@@ -12,6 +12,7 @@ import { PageIntro } from '@/components/content/PageIntro';
 import { ContentSection } from '@/components/content/ContentSection';
 import { FAQBlock } from '@/components/content/FAQBlock';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -40,13 +41,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteConfig.url}/hizmetler/danismanlik`,
         'en': `${siteConfig.url}/en/hizmetler/danismanlik`,
         'et': `${siteConfig.url}/et/hizmetler/danismanlik`,
         'ru': `${siteConfig.url}/ru/hizmetler/danismanlik`,
         'ar': `${siteConfig.url}/ar/hizmetler/danismanlik`,
-      },
+      }),
     },
     openGraph: {
       title: 'Emlak Danışmanlığı | Karasu Emlak',

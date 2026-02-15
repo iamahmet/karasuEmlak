@@ -17,6 +17,7 @@ import { normalizeNewsContent, normalizeNewsMetadata } from '@/lib/utils/news-co
 import { ContentRenderer } from '@/components/content/ContentRenderer';
 
 // Performance: Revalidate every hour for ISR
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour
 
 // Generate static params for popular news articles
@@ -61,13 +62,13 @@ export async function generateMetadata({
     description: article.seo_description || article.original_summary || article.title,
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `/haberler/${slug}`,
         'en': `/en/haberler/${slug}`,
         'et': `/et/haberler/${slug}`,
         'ru': `/ru/haberler/${slug}`,
         'ar': `/ar/haberler/${slug}`,
-      },
+      }),
     },
     openGraph: {
       title: article.seo_title || article.title,

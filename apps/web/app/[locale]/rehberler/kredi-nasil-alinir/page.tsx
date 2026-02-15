@@ -8,6 +8,7 @@ import { CreditCard, FileCheck, Calculator, AlertCircle, CheckCircle, TrendingUp
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -38,13 +39,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehberler/kredi-nasil-alinir',
         'en': '/en/rehberler/kredi-nasil-alinir',
         'et': '/et/rehberler/kredi-nasil-alinir',
         'ru': '/ru/rehberler/kredi-nasil-alinir',
         'ar': '/ar/rehberler/kredi-nasil-alinir',
-      },
+      }),
     },
     openGraph: {
       title: 'Konut Kredisi Nasıl Alınır? | Kredi Başvuru Rehberi',

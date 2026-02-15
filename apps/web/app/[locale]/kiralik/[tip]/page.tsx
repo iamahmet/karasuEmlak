@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { Button } from '@karasu/ui';
 
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const propertyTypeLabels: Record<string, string> = {
   daire: 'Daire',
   villa: 'Villa',
@@ -50,13 +51,13 @@ export async function generateMetadata({
     description: `Karasu'da kiralık ${typeLabel.toLowerCase()} ilanları. Denize sıfır konumlarda kiralık ${typeLabel.toLowerCase()} seçenekleri. En güncel fırsatları keşfedin.`,
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `/kiralik/${tip}`,
         'en': `/en/kiralik/${tip}`,
         'et': `/et/kiralik/${tip}`,
         'ru': `/ru/kiralik/${tip}`,
         'ar': `/ar/kiralik/${tip}`,
-      },
+      }),
     },
     openGraph: {
       title: `Kiralık ${typeLabel} İlanları | Karasu Emlak`,

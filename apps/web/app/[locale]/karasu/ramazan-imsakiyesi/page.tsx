@@ -11,6 +11,7 @@ import { getOptimizedCloudinaryUrl } from '@/lib/cloudinary/optimization';
 import { Button } from '@karasu/ui';
 import { Calendar, ArrowRight, MapPin, FileText } from 'lucide-react';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 300;
 
 const KARASU_DISTRICT_ID = 9803;
@@ -80,13 +81,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         tr: '/karasu/ramazan-imsakiyesi',
         en: '/en/karasu/ramazan-imsakiyesi',
         et: '/et/karasu/ramazan-imsakiyesi',
         ru: '/ru/karasu/ramazan-imsakiyesi',
         ar: '/ar/karasu/ramazan-imsakiyesi',
-      },
+      }),
     },
     openGraph: {
       title: 'Sakarya Karasu Ramazan İmsakiyesi 2026',

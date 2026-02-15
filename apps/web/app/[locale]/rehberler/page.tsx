@@ -7,6 +7,7 @@ import type { Metadata } from 'next';
  * /rehberler redirects to /rehber for consistency
  * This maintains compatibility with production site URLs
  */
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -33,13 +34,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehberler',
         'en': '/en/rehberler',
         'et': '/et/rehberler',
         'ru': '/ru/rehberler',
         'ar': '/ar/rehberler',
-      },
+      }),
     },
     openGraph: {
       title: 'Emlak Rehberleri | Detaylı Rehber Yazıları ve Uzman Tavsiyeleri',

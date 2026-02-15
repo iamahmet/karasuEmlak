@@ -70,6 +70,16 @@ export default async function proxy(request: NextRequest) {
     return response;
   }
 
+  // Single-locale canonicalization:
+  // - Public URLs should not include `/tr` prefix when only Turkish is enabled.
+  // - Keep `/tr/...` working for legacy/old indexed URLs, but permanently redirect to the canonical no-prefix URL.
+  if (routing.locales.length === 1 && (pathname === '/tr' || pathname.startsWith('/tr/'))) {
+    const url = request.nextUrl.clone();
+    const newPath = pathname.replace(/^\/tr(?=\/|$)/, '') || '/';
+    url.pathname = newPath;
+    return NextResponse.redirect(url, 308);
+  }
+
   // Skip middleware for API routes, static files, and Next.js internals
   if (pathname.startsWith('/api') ||
     pathname.startsWith('/_next') ||

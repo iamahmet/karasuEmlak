@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 import { 
   TrendingUp, 
   Target, 
@@ -58,10 +59,10 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteConfig.url}/yatirim/kapsamli-rehber`,
         'en': `${siteConfig.url}/en/yatirim/kapsamli-rehber`,
-      },
+      }),
     },
     openGraph: {
       title: 'Kapsamlı Yatırım Rehberi | Karasu Emlak',

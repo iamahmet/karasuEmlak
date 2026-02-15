@@ -8,6 +8,7 @@ import { TrendingUp, CheckCircle, AlertCircle, DollarSign, Target, BarChart3, Sh
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -38,13 +39,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehberler/yatirim-yapma',
         'en': '/en/rehberler/yatirim-yapma',
         'et': '/et/rehberler/yatirim-yapma',
         'ru': '/ru/rehberler/yatirim-yapma',
         'ar': '/ar/rehberler/yatirim-yapma',
-      },
+      }),
     },
     openGraph: {
       title: 'Emlak Yatırımı Nasıl Yapılır? | Yatırım Stratejileri Rehberi',

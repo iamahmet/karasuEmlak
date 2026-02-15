@@ -15,6 +15,7 @@ import { ScrollReveal } from '@/components/animations/ScrollReveal';
 import { AIChecker } from '@/components/content/AIChecker';
 import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -33,13 +34,13 @@ export async function generateMetadata({
     description: 'Ev kiralama sürecinde dikkat edilmesi gerekenler, kira sözleşmesi hazırlama ve kiracı hakları hakkında kapsamlı rehber.',
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehber/kiralama',
         'en': '/en/rehber/kiralama',
         'et': '/et/rehber/kiralama',
         'ru': '/ru/rehber/kiralama',
         'ar': '/ar/rehber/kiralama',
-      },
+      }),
     },
     openGraph: {
       title: 'Kiralama Rehberi | Karasu Emlak',

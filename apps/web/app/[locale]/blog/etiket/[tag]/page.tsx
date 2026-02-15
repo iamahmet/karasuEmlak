@@ -11,6 +11,7 @@ import { ArticleCard } from '@/components/blog/ArticleCard';
 import { getArticlesByTag } from '@/lib/supabase/queries';
 import { generateBreadcrumbSchema, generateFAQPageSchema, generateBlogItemListSchema } from '@/lib/seo/blog-structured-data';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600;
 
 function normalizeTagSlug(value: string) {
@@ -19,42 +20,49 @@ function normalizeTagSlug(value: string) {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string; tag: string }>;
+  searchParams?: Promise<{ page?: string }>;
 }): Promise<Metadata> {
   const { locale, tag } = await params;
+  const sp = (await searchParams) ?? {};
+  const pageNum = Math.max(1, parseInt(sp.page ?? '1', 10) || 1);
   const decoded = decodeURIComponent(tag);
   const normalized = normalizeTagSlug(decoded);
 
-  const canonicalPath = locale === routing.defaultLocale
+  const canonicalBasePath = locale === routing.defaultLocale
     ? `/blog/etiket/${normalized}`
     : `/${locale}/blog/etiket/${normalized}`;
+  const canonicalPath = pageNum > 1 ? `${canonicalBasePath}?page=${pageNum}` : canonicalBasePath;
+  const titleSuffix = pageNum > 1 ? ` (Sayfa ${pageNum})` : '';
 
   const titleTag = normalized.charAt(0).toUpperCase() + normalized.slice(1);
 
   return {
-    title: `${titleTag} Etiketi | Blog | Karasu Emlak`,
+    title: `${titleTag} Etiketi | Blog | Karasu Emlak${titleSuffix}`,
     description: `Karasu Emlak blogunda "${titleTag}" etiketi ile ilişkili tüm yazılar. Rehberler, analizler ve güncel içerikler.`,
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
-        tr: `/blog/etiket/${normalized}`,
+      languages: pruneHreflangLanguages({
+        tr: pageNum > 1 ? `/blog/etiket/${normalized}?page=${pageNum}` : `/blog/etiket/${normalized}`,
         en: `/en/blog/etiket/${normalized}`,
         et: `/et/blog/etiket/${normalized}`,
         ru: `/ru/blog/etiket/${normalized}`,
         ar: `/ar/blog/etiket/${normalized}`,
-      },
+      }),
     },
     openGraph: {
-      title: `${titleTag} Etiketi | Blog`,
+      title: `${titleTag} Etiketi | Blog${titleSuffix}`,
       description: `"${titleTag}" etiketi ile ilişkili blog yazıları`,
       url: `${siteConfig.url}${canonicalPath}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${titleTag} Etiketi | Blog`,
+      title: `${titleTag} Etiketi | Blog${titleSuffix}`,
       description: `"${titleTag}" etiketi ile ilişkili blog yazıları`,
+      images: [`${siteConfig.url}/og-image.jpg`],
     },
   };
 }

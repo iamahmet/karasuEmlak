@@ -12,6 +12,7 @@ import { PageIntro } from '@/components/content/PageIntro';
 import { ContentSection } from '@/components/content/ContentSection';
 import { FAQBlock } from '@/components/content/FAQBlock';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -40,13 +41,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteConfig.url}/hizmetler/hukuki-destek`,
         'en': `${siteConfig.url}/en/hizmetler/hukuki-destek`,
         'et': `${siteConfig.url}/et/hizmetler/hukuki-destek`,
         'ru': `${siteConfig.url}/ru/hizmetler/hukuki-destek`,
         'ar': `${siteConfig.url}/ar/hizmetler/hukuki-destek`,
-      },
+      }),
     },
     openGraph: {
       title: 'Hukuki Destek | Karasu Emlak',

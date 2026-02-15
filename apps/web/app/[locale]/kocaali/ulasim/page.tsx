@@ -9,6 +9,7 @@ import { KOCAALI_ULASIM_YOLLARI, KOCAALI_ULASIM_BILGILERI } from '@/lib/local-in
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateFAQSchema } from '@/lib/seo/structured-data';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 interface SearchPageProps {
   params: Promise<{ locale: string }>;
 }
@@ -69,13 +70,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${basePath}/kocaali/ulasim`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/kocaali/ulasim',
         'en': '/en/kocaali/ulasim',
         'et': '/et/kocaali/ulasim',
         'ru': '/ru/kocaali/ulasim',
         'ar': '/ar/kocaali/ulasim',
-      },
+      }),
     },
     openGraph: {
       title: 'Kocaali Ulaşım Bilgileri | Nasıl Gidilir?',

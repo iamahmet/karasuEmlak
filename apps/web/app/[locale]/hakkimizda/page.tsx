@@ -6,6 +6,7 @@ import { napData } from '@karasu-emlak/config/nap';
 import { routing } from '@/i18n/routing';
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 import {
   Building2,
   Users,
@@ -54,13 +55,13 @@ export async function generateMetadata({
     description: 'Karasu Emlak olarak 2010\'dan beri Karasu ve çevresinde emlak hizmetleri sunuyoruz. 15+ yıllık deneyim, 500+ mutlu müşteri, %98 memnuniyet oranı. Satılık ve kiralık emlak, danışmanlık, değerleme hizmetleri. Güvenilir, profesyonel ve müşteri odaklı hizmet anlayışımızla yanınızdayız.',
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/hakkimizda',
         'en': '/en/hakkimizda',
         'et': '/et/hakkimizda',
         'ru': '/ru/hakkimizda',
         'ar': '/ar/hakkimizda',
-      },
+      }),
     },
     openGraph: {
       title: 'Hakkımızda | Karasu Emlak - 15+ Yıllık Deneyim, Güvenilir Emlak Danışmanlığı',

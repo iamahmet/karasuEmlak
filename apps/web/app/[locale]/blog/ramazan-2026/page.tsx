@@ -11,6 +11,7 @@ import { getOptimizedCloudinaryUrl } from '@/lib/cloudinary/optimization';
 import { Button } from '@karasu/ui';
 import { ArrowLeft, Calendar, FileText, MapPin } from 'lucide-react';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600;
 
 const RAMADAN_2026_SLUGS = [
@@ -58,13 +59,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         tr: '/blog/ramazan-2026',
         en: '/en/blog/ramazan-2026',
         et: '/et/blog/ramazan-2026',
         ru: '/ru/blog/ramazan-2026',
         ar: '/ar/blog/ramazan-2026',
-      },
+      }),
     },
     openGraph: {
       title: 'Ramazan 2026 Karasu Rehberleri',

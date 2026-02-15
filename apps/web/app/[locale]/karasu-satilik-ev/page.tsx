@@ -22,6 +22,7 @@ import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticl
 import { getRelatedContent } from '@/lib/content/related-content';
 
 // Performance: Revalidate every hour for ISR
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
@@ -57,13 +58,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-satilik-ev',
         'en': '/en/karasu-satilik-ev',
         'et': '/et/karasu-satilik-ev',
         'ru': '/ru/karasu-satilik-ev',
         'ar': '/ar/karasu-satilik-ev',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Satılık Ev | Kapsamlı Rehber | Karasu Emlak',

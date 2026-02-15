@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 import { 
   LineChart, 
   TrendingUp, 
@@ -50,10 +51,10 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteConfig.url}/istatistikler/fiyat-analizi-dashboard`,
         'en': `${siteConfig.url}/en/istatistikler/fiyat-analizi-dashboard`,
-      },
+      }),
     },
     openGraph: {
       title: 'Fiyat Analizi Dashboard | Karasu Emlak',

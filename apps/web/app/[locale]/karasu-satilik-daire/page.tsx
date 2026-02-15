@@ -25,6 +25,7 @@ import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticl
 import { getRelatedContent } from '@/lib/content/related-content';
 
 // Performance: Revalidate every hour for ISR
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
@@ -62,13 +63,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-satilik-daire',
         'en': '/en/karasu-satilik-daire',
         'et': '/et/karasu-satilik-daire',
         'ru': '/ru/karasu-satilik-daire',
         'ar': '/ar/karasu-satilik-daire',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Satılık Daire | En Güncel İlanlar ve Fiyatlar 2025',

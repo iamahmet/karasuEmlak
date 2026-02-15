@@ -8,6 +8,7 @@ import { AlertTriangle, Shield, Home, TrendingDown, CheckCircle, Info } from 'lu
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -38,13 +39,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-deprem',
         'en': '/en/karasu-deprem',
         'et': '/et/karasu-deprem',
         'ru': '/ru/karasu-deprem',
         'ar': '/ar/karasu-deprem',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Deprem | Deprem Sonrası Emlak Piyasası',

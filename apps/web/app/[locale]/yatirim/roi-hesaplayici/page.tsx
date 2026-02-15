@@ -11,6 +11,7 @@ import { TrendingUp, Calculator, Info, Percent, DollarSign, Clock, AlertCircle, 
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -41,13 +42,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/yatirim/roi-hesaplayici',
         'en': '/en/yatirim/roi-hesaplayici',
         'et': '/et/yatirim/roi-hesaplayici',
         'ru': '/ru/yatirim/roi-hesaplayici',
         'ar': '/ar/yatirim/roi-hesaplayici',
-      },
+      }),
     },
     openGraph: {
       title: 'ROI Hesaplayıcı | Yatırım Getirisi Hesaplama',

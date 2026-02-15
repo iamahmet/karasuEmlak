@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const dynamic = 'force-dynamic';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
@@ -27,15 +28,48 @@ import { ListingGridSkeleton } from '@/components/listings/ListingCardSkeleton';
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams?: Promise<{
+    page?: string;
+    q?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    minSize?: string;
+    maxSize?: string;
+    rooms?: string;
+    propertyType?: string;
+    neighborhood?: string;
+    balcony?: string;
+    parking?: string;
+    elevator?: string;
+    seaView?: string;
+    furnished?: string;
+    buildingAge?: string;
+    floor?: string;
+    sort?: string;
+  }>;
 }): Promise<Metadata> {
   const { locale } = await params;
   // No locale prefix in URLs for single-language site
-  const canonicalPath = '/kiralik';
+  const sp = (await searchParams) ?? {};
+  const pageNum = Math.max(1, parseInt(sp.page ?? '1', 10) || 1);
+  const hasFilters = Object.entries(sp).some(([key, value]) => {
+    if (key === 'page') return false;
+    if (value == null || value === '') return false;
+    if (key === 'sort') return value !== 'created_at-desc';
+    return true;
+  });
+
+  const canonicalBasePath = '/kiralik';
+  const canonicalPath =
+    !hasFilters && pageNum > 1 ? `${canonicalBasePath}?page=${pageNum}` : canonicalBasePath;
+  const titleSuffix = !hasFilters && pageNum > 1 ? ` (Sayfa ${pageNum})` : '';
+  const shouldIndex = !hasFilters;
   
   return {
-    title: 'Kiralık İlanlar | Karasu Emlak | Daire, Villa, Yazlık',
+    title: `Kiralık İlanlar | Karasu Emlak | Daire, Villa, Yazlık${titleSuffix}`,
     description: 'Karasu ve çevresinde kiralık emlak ilanları. Denize sıfır konumlarda kiralık daire, villa ve yazlık evler. Hemen taşınmaya hazır, modern ve konforlu yaşam alanları.',
     keywords: [
       'karasu kiralık',
@@ -48,13 +82,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
-        'tr': '/kiralik',
+      languages: pruneHreflangLanguages({
+        'tr': !hasFilters && pageNum > 1 ? `/kiralik?page=${pageNum}` : '/kiralik',
         'en': '/en/kiralik',
         'et': '/et/kiralik',
         'ru': '/ru/kiralik',
         'ar': '/ar/kiralik',
-      },
+      }),
     },
     openGraph: {
       title: 'Kiralık İlanlar | Karasu Emlak',
@@ -74,12 +108,13 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: 'Kiralık İlanlar | Karasu Emlak',
       description: 'Karasu ve çevresinde kiralık emlak ilanları. Denize sıfır konumlarda kiralık daire, villa ve yazlık evler.',
+      images: [`${siteConfig.url}/og-image.jpg`],
     },
     robots: {
-      index: true,
+      index: shouldIndex,
       follow: true,
       googleBot: {
-        index: true,
+        index: shouldIndex,
         follow: true,
         'max-video-preview': -1,
         'max-image-preview': 'large',

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 import { 
   Award, 
   TrendingUp, 
@@ -48,10 +49,10 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteConfig.url}/hakkimizda/basari-hikayeleri`,
         'en': `${siteConfig.url}/en/hakkimizda/basari-hikayeleri`,
-      },
+      }),
     },
     openGraph: {
       title: 'Başarı Hikayeleri | Karasu Emlak',

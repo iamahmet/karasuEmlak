@@ -4,6 +4,7 @@ import { routing } from '@/i18n/routing';
 import { Calendar, User, ExternalLink, MapPin, FileText } from 'lucide-react';
 import type { Metadata } from 'next';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 1800; // Revalidate every 30 minutes (news changes frequently)
 import { getNewsArticles } from '@/lib/supabase/queries';
 import { getLatestGundemArticles } from '@/lib/rss/gundem-parser';
@@ -25,14 +26,20 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ page?: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const canonicalPath = locale === routing.defaultLocale ? '/haberler' : `/${locale}/haberler`;
+  const sp = (await searchParams) ?? {};
+  const pageNum = Math.max(1, parseInt(sp.page ?? '1', 10) || 1);
+  const canonicalBasePath = locale === routing.defaultLocale ? '/haberler' : `/${locale}/haberler`;
+  const canonicalPath = pageNum > 1 ? `${canonicalBasePath}?page=${pageNum}` : canonicalBasePath;
+  const titleSuffix = pageNum > 1 ? ` (Sayfa ${pageNum})` : '';
   
   return {
-    title: 'Haberler | Karasu Emlak | Güncel Emlak Haberleri ve Piyasa Analizleri',
+    title: `Haberler | Karasu Emlak | Güncel Emlak Haberleri ve Piyasa Analizleri${titleSuffix}`,
     description: 'Karasu emlak haberleri: Güncel piyasa analizleri, yeni projeler, bölge gelişmeleri ve yatırım haberleri. Emlak sektöründeki son gelişmeleri takip edin.',
     keywords: [
       'karasu emlak haberleri',
@@ -43,14 +50,14 @@ export async function generateMetadata({
       'bölge gelişmeleri',
     ],
     alternates: {
-      canonical: canonicalPath,
-      languages: {
-        'tr': '/haberler',
+      canonical: `${siteConfig.url}${canonicalPath}`,
+      languages: pruneHreflangLanguages({
+        'tr': pageNum > 1 ? `/haberler?page=${pageNum}` : '/haberler',
         'en': '/en/haberler',
         'et': '/et/haberler',
         'ru': '/ru/haberler',
         'ar': '/ar/haberler',
-      },
+      }),
     },
     openGraph: {
       title: 'Haberler | Karasu Emlak',
@@ -70,6 +77,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: 'Haberler | Karasu Emlak',
       description: 'Karasu ve çevresinden emlak sektörü, yatırım, bölge gelişmeleri ve piyasa haberleri.',
+      images: [`${siteConfig.url}/og-image.jpg`],
     },
     robots: {
       index: true,
@@ -416,4 +424,3 @@ export default async function NewsPage({
     </>
   );
 }
-

@@ -19,6 +19,7 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { GoogleMapsLoader } from '@/components/maps/GoogleMapsLoader';
 import { getNonce } from '@/lib/security/nonce';
 import { PropertyMap } from '@/components/maps/PropertyMap';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 import { 
   MapPin, 
   Bed, 
@@ -261,13 +262,13 @@ export async function generateMetadata({
     ...lastModifiedMeta,
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': locale === routing.defaultLocale ? `/ilan/${slug}` : `/tr/ilan/${slug}`,
         'en': `/en/ilan/${slug}`,
         'et': `/et/ilan/${slug}`,
         'ru': `/ru/ilan/${slug}`,
         'ar': `/ar/ilan/${slug}`,
-      },
+      }),
     },
     openGraph: {
       title: listing.title,

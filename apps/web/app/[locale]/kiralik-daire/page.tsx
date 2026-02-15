@@ -20,6 +20,7 @@ import { Suspense } from 'react';
 import { Ramadan2026PromoBlock } from '@/components/seasonal/Ramadan2026PromoBlock';
 
 // Performance: ISR with cache tags for better performance
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour - regenerate every hour
 export const dynamicParams = true; // Allow dynamic params
 
@@ -62,13 +63,13 @@ export async function generateMetadata({
     keywords: ["kiralık daire","kiralık daireler","kiralık daire ilanları","kiralık daire fiyatları"],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/kiralik-daire',
         'en': '/en/kiralik-daire',
         'et': '/et/kiralik-daire',
         'ru': '/ru/kiralik-daire',
         'ar': '/ar/kiralik-daire',
-      },
+      }),
     },
     openGraph: {
       title: 'Kiralık Daire | En Güncel İlanlar ve Fiyatlar 2025',

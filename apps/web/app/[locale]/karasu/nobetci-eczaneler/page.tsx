@@ -10,6 +10,7 @@ import { Clock, Phone, MapPin, AlertCircle, ArrowRight } from 'lucide-react';
 import { PharmacyList } from '@/components/services/PharmacyList';
 import { HealthArticlesSection } from '@/components/services/HealthArticlesSection';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 interface SearchPageProps {
   params: Promise<{ locale: string }>;
 }
@@ -46,13 +47,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${basePath}/karasu/nobetci-eczaneler`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu/nobetci-eczaneler',
         'en': '/en/karasu/nobetci-eczaneler',
         'et': '/et/karasu/nobetci-eczaneler',
         'ru': '/ru/karasu/nobetci-eczaneler',
         'ar': '/ar/karasu/nobetci-eczaneler',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Nöbetçi Eczaneler | 7/24 Eczane Bilgileri | Sağlık Rehberi',

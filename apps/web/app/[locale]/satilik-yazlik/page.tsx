@@ -19,6 +19,7 @@ import { optimizeMetaDescription } from '@/lib/seo/meta-description-optimizer';
 import { Suspense } from 'react';
 
 // Performance: ISR with cache tags for better performance
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour - regenerate every hour
 export const dynamicParams = true; // Allow dynamic params
 
@@ -61,13 +62,13 @@ export async function generateMetadata({
     keywords: ["satılık yazlık","satılık yazlık ev","satılık yazlık ilanları","satılık yazlık fiyatları"],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/satilik-yazlik',
         'en': '/en/satilik-yazlik',
         'et': '/et/satilik-yazlik',
         'ru': '/ru/satilik-yazlik',
         'ar': '/ar/satilik-yazlik',
-      },
+      }),
     },
     openGraph: {
       title: 'Satılık Yazlık | En Güncel İlanlar ve Fiyatlar 2025',

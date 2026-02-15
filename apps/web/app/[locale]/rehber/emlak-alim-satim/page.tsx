@@ -15,6 +15,7 @@ import { ScrollReveal } from '@/components/animations/ScrollReveal';
 import { AIChecker } from '@/components/content/AIChecker';
 import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -33,13 +34,13 @@ export async function generateMetadata({
     description: 'Emlak alım-satım sürecinde bilmeniz gerekenler, dikkat edilmesi gereken noktalar ve yasal süreçler hakkında kapsamlı rehber.',
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/rehber/emlak-alim-satim',
         'en': '/en/rehber/emlak-alim-satim',
         'et': '/et/rehber/emlak-alim-satim',
         'ru': '/ru/rehber/emlak-alim-satim',
         'ar': '/ar/rehber/emlak-alim-satim',
-      },
+      }),
     },
     openGraph: {
       title: 'Emlak Alım-Satım Rehberi | Karasu Emlak',

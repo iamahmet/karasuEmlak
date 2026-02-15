@@ -19,6 +19,7 @@ import { getNonce } from '@/lib/security/nonce';
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -37,13 +38,13 @@ export async function generateMetadata({
     description: 'Karasu Emlak ile iletişime geçin. Telefon, e-posta veya form üzerinden bize ulaşabilirsiniz.',
     alternates: {
       canonical: canonicalPath,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/iletisim',
         'en': '/en/iletisim',
         'et': '/et/iletisim',
         'ru': '/ru/iletisim',
         'ar': '/ar/iletisim',
-      },
+      }),
     },
     openGraph: {
       title: 'İletişim | Karasu Emlak',

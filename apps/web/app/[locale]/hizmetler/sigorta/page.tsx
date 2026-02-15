@@ -13,6 +13,7 @@ import { Button } from '@karasu/ui';
 import Link from 'next/link';
 import InsuranceQuoteForm from '@/components/insurance/InsuranceQuoteForm';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -41,13 +42,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': `${siteConfig.url}/hizmetler/sigorta`,
         'en': `${siteConfig.url}/en/hizmetler/sigorta`,
         'et': `${siteConfig.url}/et/hizmetler/sigorta`,
         'ru': `${siteConfig.url}/ru/hizmetler/sigorta`,
         'ar': `${siteConfig.url}/ar/hizmetler/sigorta`,
-      },
+      }),
     },
     openGraph: {
       title: 'Sigorta Danışmanlığı | Karasu Emlak',

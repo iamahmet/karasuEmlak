@@ -16,6 +16,7 @@ import { StructuredData } from '@/components/seo/StructuredData';
 import { generateBreadcrumbSchema } from '@/lib/seo/structured-data';
 import dynamicImport from 'next/dynamic';
 
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
 });
@@ -27,14 +28,21 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ page?: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const canonicalPath = locale === routing.defaultLocale ? '/haberler/karasu-emlak' : `/${locale}/haberler/karasu-emlak`;
+  const sp = (await searchParams) ?? {};
+  const pageNum = Math.max(1, parseInt(sp.page ?? '1', 10) || 1);
+  const canonicalBasePath =
+    locale === routing.defaultLocale ? '/haberler/karasu-emlak' : `/${locale}/haberler/karasu-emlak`;
+  const canonicalPath = pageNum > 1 ? `${canonicalBasePath}?page=${pageNum}` : canonicalBasePath;
+  const titleSuffix = pageNum > 1 ? ` (Sayfa ${pageNum})` : '';
   
   return {
-    title: 'Karasu Emlak Haberleri | Güncel Emlak Gündemi | Karasu Emlak',
+    title: `Karasu Emlak Haberleri | Güncel Emlak Gündemi | Karasu Emlak${titleSuffix}`,
     description: 'Karasu emlak piyasası, yeni projeler, altyapı gelişmeleri ve emlak sektöründen güncel haberler. Karasu Gündem kaynaklı, emlak odaklı haberler.',
     keywords: [
       'karasu emlak haberleri',
@@ -46,13 +54,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: canonicalPath,
-      languages: {
-        'tr': '/haberler/karasu-emlak',
+      languages: pruneHreflangLanguages({
+        'tr': pageNum > 1 ? `/haberler/karasu-emlak?page=${pageNum}` : '/haberler/karasu-emlak',
         'en': '/en/haberler/karasu-emlak',
         'et': '/et/haberler/karasu-emlak',
         'ru': '/ru/haberler/karasu-emlak',
         'ar': '/ar/haberler/karasu-emlak',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Emlak Haberleri | Güncel Emlak Gündemi',
@@ -72,6 +80,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: 'Karasu Emlak Haberleri',
       description: 'Karasu emlak piyasası ve sektöründen güncel haberler.',
+      images: [`${siteConfig.url}/og-image.jpg`],
     },
   };
 }

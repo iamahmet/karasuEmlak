@@ -22,6 +22,7 @@ import { getRelatedContent } from '@/lib/content/related-content';
 import { calculateReadingTime } from '@/lib/utils/reading-time';
 
 // Performance: ISR with cache tags for better performance
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour - regenerate every hour
 export const dynamicParams = true; // Allow dynamic params
 
@@ -80,13 +81,13 @@ export async function generateMetadata({
     ],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
-      languages: {
+      languages: pruneHreflangLanguages({
         'tr': '/karasu-satilik-yazlik',
         'en': '/en/karasu-satilik-yazlik',
         'et': '/et/karasu-satilik-yazlik',
         'ru': '/ru/karasu-satilik-yazlik',
         'ar': '/ar/karasu-satilik-yazlik',
-      },
+      }),
     },
     openGraph: {
       title: 'Karasu Satılık Yazlık | Denize Yakın Yazlık Evler 2025',
