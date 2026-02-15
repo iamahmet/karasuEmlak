@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
-    "build": "SKIP_ENV_VALIDATION=true next build",
+    "build": "rm -rf .next && SKIP_ENV_VALIDATION=true next build",
     "build:check": "node ../../scripts/check-env.js && SKIP_ENV_VALIDATION=true next build",
     "start": "next start -p 3000",
     "lint": "eslint \"app\" \"components\" \"lib\" \"scripts\" \"proxy.ts\" \"sentry.*.ts\"",
