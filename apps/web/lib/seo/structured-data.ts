@@ -50,6 +50,9 @@ export interface PersonSchema {
   email?: string;
   telephone?: string;
   url?: string;
+  sameAs?: string[];
+  knowsAbout?: string[];
+  areaServed?: string[];
   worksFor?: {
     '@type': string;
     name: string;
@@ -207,6 +210,9 @@ export function generatePersonSchema({
   email,
   telephone,
   url,
+  sameAs,
+  knowsAbout,
+  areaServed,
   worksFor,
 }: {
   name: string;
@@ -215,6 +221,9 @@ export function generatePersonSchema({
   email?: string;
   telephone?: string;
   url?: string;
+  sameAs?: string[];
+  knowsAbout?: string[];
+  areaServed?: string[];
   worksFor?: {
     name: string;
     url?: string;
@@ -229,6 +238,9 @@ export function generatePersonSchema({
     ...(email && { email }),
     ...(telephone && { telephone }),
     ...(url && { url }),
+    ...(sameAs && sameAs.length > 0 && { sameAs }),
+    ...(knowsAbout && knowsAbout.length > 0 && { knowsAbout }),
+    ...(areaServed && areaServed.length > 0 && { areaServed }),
     ...(worksFor && {
       worksFor: {
         '@type': 'Organization',
@@ -569,4 +581,3 @@ export function generateLocalBusinessSchema(
     currenciesAccepted: 'TRY',
   };
 }
-

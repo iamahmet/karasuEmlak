@@ -28,7 +28,8 @@ export async function generateMetadata({
 
   return {
     title: 'Ekibimiz | Karasu Emlak - Profesyonel Emlak Danışmanları',
-    description: 'Karasu Emlak profesyonel ekibi. 8 deneyimli emlak danışmanımız ile Karasu emlak piyasasında güvenilir hizmet. 15+ yıllık deneyim, 1000+ başarılı işlem.',
+    description:
+      'Karasu Emlak ekibi: Karasu, Kocaali ve Sakarya çevresinde satılık-kiralık danışmanlığı, değerleme ve işlem takibi. Evinizi ararken net, ölçülü ve planlı ilerleyen bir ekip.',
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
       languages: pruneHreflangLanguages({
@@ -66,9 +67,9 @@ export default async function TeamPage({
   // Generate organization schema for team
   const organizationSchema = generateOrganizationSchema({
     name: 'Karasu Emlak',
-    description: 'Karasu ve çevresinde 15+ yıllık deneyimle emlak hizmetleri sunan profesyonel ekip',
+    description: 'Karasu, Kocaali ve Sakarya çevresinde emlak danışmanlığı sunan ekip',
     url: `${siteConfig.url}${basePath}/hakkimizda/ekibimiz`,
-    logo: `${siteConfig.url}/logo.png`,
+    logo: `${siteConfig.url}/logo-icon.png`,
     employees: teamMembers.map(member => ({
       name: member.name,
       jobTitle: member.role,
@@ -110,8 +111,8 @@ export default async function TeamPage({
                 </div>
                 <div className="h-8 w-px bg-slate-300" />
                 <div className="flex items-center gap-2 text-sm sm:text-base text-slate-600">
-                  <span className="text-2xl sm:text-3xl font-bold text-[#006AFF]">{teamStats.totalExperience}</span>
-                  <span>Toplam Deneyim</span>
+                  <span className="text-2xl sm:text-3xl font-bold text-[#006AFF]">{teamStats.totalExperience}+</span>
+                  <span>Yıl Toplam Deneyim</span>
                 </div>
                 <div className="h-8 w-px bg-slate-300" />
                 <div className="flex items-center gap-2 text-sm sm:text-base text-slate-600">
@@ -136,17 +137,30 @@ export default async function TeamPage({
               <div className="max-w-4xl mx-auto">
                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-slate-900">Karasu Emlak Ekibi</h2>
                 <p className="text-base sm:text-lg text-slate-700 leading-relaxed mb-6">
-                  Karasu Emlak olarak, bölgenin emlak piyasasını yakından tanıyan, deneyimli ve profesyonel bir ekiple çalışıyoruz. 
-                  Her ekip üyemiz, kendi uzmanlık alanında derinlemesine bilgi sahibi ve müşteri memnuniyetini ön planda tutuyor.
+                  Karasu Emlak olarak, Karasu ve Kocaali başta olmak üzere Sakarya çevresinde ev arayanların en çok sorduğu sorulara net cevap veren bir ekiple çalışıyoruz.
+                  Bizim için “iyi danışmanlık”, gereksiz süs değil: doğru bilgi, gerçekçi beklenti ve planlı bir süreç demek.
                 </p>
                 <p className="text-base sm:text-lg text-slate-700 leading-relaxed mb-6">
-                  Ekibimiz, satılık ve kiralık emlak danışmanlığından, değerleme ve yatırım danışmanlığına, 
-                  yasal işlemlerden müşteri ilişkilerine kadar geniş bir yelpazede hizmet sunmaktadır. 
-                  Karasu'nun her mahallesini yakından tanıyan ekibimiz, müşterilerimize en doğru rehberliği sağlamaktadır. 
+                  Ekibimiz; satılık ve kiralık danışmanlığından değerlemeye, işlem ve sözleşme takibinden portföy hazırlığına kadar farklı başlıklarda birlikte çalışır.
+                  İlk görüşmede kısa bir ihtiyaç listesi çıkarır, sonra kısa liste ve randevu planı ile ilerleriz. Böylece arama süreci uzayıp yorucu hale gelmez.
                   <Link href={`${basePath}/hakkimizda`} className="text-[#006AFF] hover:text-[#0052CC] font-semibold underline">
                     Hakkımızda
                   </Link> sayfasında şirketimizin hikayesini ve değerlerimizi öğrenebilirsiniz.
                 </p>
+
+                <div className="flex flex-wrap gap-2 mt-6">
+                  <Link href={`${basePath}/karasu`} className="text-sm font-semibold text-[#006AFF] hover:text-[#0052CC] underline">
+                    Karasu Rehberi
+                  </Link>
+                  <span className="text-slate-300">•</span>
+                  <Link href={`${basePath}/kocaali`} className="text-sm font-semibold text-[#006AFF] hover:text-[#0052CC] underline">
+                    Kocaali Rehberi
+                  </Link>
+                  <span className="text-slate-300">•</span>
+                  <Link href={`${basePath}/sakarya-emlak-yatirim-rehberi`} className="text-sm font-semibold text-[#006AFF] hover:text-[#0052CC] underline">
+                    Sakarya Yatırım Rehberi
+                  </Link>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
                   <div className="bg-white rounded-xl p-4 border border-slate-200">
                     <div className="flex items-center gap-3 mb-2">
@@ -160,14 +174,14 @@ export default async function TeamPage({
                       <TrendingUp className="h-5 w-5 text-emerald-600" />
                       <h3 className="font-bold text-slate-900">Başarılar</h3>
                     </div>
-                    <p className="text-sm text-slate-600">1000+ başarılı işlem ve %98 müşteri memnuniyeti</p>
+                    <p className="text-sm text-slate-600">Ölçülü ve planlı süreç: kısa liste, randevu planı, net bilgilendirme</p>
                   </div>
                   <div className="bg-white rounded-xl p-4 border border-slate-200">
                     <div className="flex items-center gap-3 mb-2">
                       <MapPin className="h-5 w-5 text-[#006AFF]" />
                       <h3 className="font-bold text-slate-900">Bölge Bilgisi</h3>
                     </div>
-                    <p className="text-sm text-slate-600">Karasu'nun her mahallesini yakından tanıyoruz</p>
+                    <p className="text-sm text-slate-600">Karasu, Kocaali ve Sakarya çevresinde güncel saha bilgisi</p>
                   </div>
                 </div>
               </div>

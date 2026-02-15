@@ -4,6 +4,7 @@ import { routing } from '@/i18n/routing';
 import { createServiceClient } from '@karasu/lib/supabase/service';
 import { generateSlug } from '@/lib/utils';
 import { calculatePriority, getChangeFrequency, sortSitemapEntries } from '@/lib/seo/sitemap-optimizer';
+import { getAllTeamMembers } from '@/lib/data/team';
 
 /**
  * Professional Sitemap Generator
@@ -162,6 +163,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/sss', priority: 0.6, changeFrequency: 'monthly' },
     { path: '/yorumlar', priority: 0.7, changeFrequency: 'weekly' },
     { path: '/hakkimizda', priority: 0.5, changeFrequency: 'monthly' },
+    { path: '/hakkimizda/ekibimiz', priority: 0.55, changeFrequency: 'monthly' },
     { path: '/hakkimizda/basari-hikayeleri', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/is-ortagi-programi', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/iletisim', priority: 0.5, changeFrequency: 'monthly' },
@@ -177,6 +179,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/karasu-mahalleler', priority: 0.8, changeFrequency: 'weekly' },
     { path: '/sakarya-emlak-yatirim-rehberi', priority: 0.7, changeFrequency: 'monthly' },
   ];
+
+  // Team profile pages (static, but useful for discovery and entity signals)
+  try {
+    const members = getAllTeamMembers();
+    members.forEach((m) => {
+      staticRoutes.push({
+        path: `/hakkimizda/ekibimiz/${m.slug}`,
+        priority: 0.35,
+        changeFrequency: 'monthly',
+      });
+    });
+  } catch {
+    // Non-fatal; sitemap should still generate.
+  }
 
   // Get current date for static pages (could be improved with file system timestamps)
   const staticLastModified = new Date();

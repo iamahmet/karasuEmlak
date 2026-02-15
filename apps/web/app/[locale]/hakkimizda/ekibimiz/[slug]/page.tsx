@@ -12,6 +12,7 @@ import {
   GraduationCap, 
   Languages, 
   MapPin, 
+  Home,
   Briefcase,
   TrendingUp,
   CheckCircle,
@@ -25,6 +26,7 @@ import { Button } from '@karasu/ui';
 import { getTeamMemberBySlug, getAllTeamMembers } from '@/lib/data/team';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generatePersonSchema } from '@/lib/seo/structured-data';
+import { generateSlug } from '@/lib/utils';
 
 export async function generateStaticParams() {
   const members = getAllTeamMembers();
@@ -53,7 +55,7 @@ export async function generateMetadata({
 
   return {
     title: `${member.name} - ${member.role} | Karasu Emlak`,
-    description: `${member.name}, ${member.role}. ${member.experience} deneyim. ${member.speciality.join(', ')} konularında uzman. ${member.bio}`,
+    description: `${member.name}, ${member.role}. Karasu ve Kocaali çevresinde ${member.speciality.join(', ')} konularında danışmanlık. ${member.bio}`,
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
       languages: pruneHreflangLanguages({
@@ -66,9 +68,23 @@ export async function generateMetadata({
     },
     openGraph: {
       title: `${member.name} - ${member.role} | Karasu Emlak`,
-      description: `${member.bio} ${member.experience} deneyim. ${member.speciality.join(', ')} konularında uzman.`,
+      description: `${member.bio} ${member.experience} deneyim. Karasu ve Kocaali çevresinde danışmanlık.`,
       url: `${siteConfig.url}${canonicalPath}`,
       type: 'profile',
+      images: [
+        {
+          url: `${siteConfig.url}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: `${member.name} - Karasu Emlak`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${member.name} - ${member.role} | Karasu Emlak`,
+      description: `${member.bio}`,
+      images: [`${siteConfig.url}/og-image.jpg`],
     },
   };
 }
@@ -105,6 +121,12 @@ export default async function TeamMemberPage({
     email: member.email,
     telephone: member.phone,
     url: `${siteConfig.url}${basePath}/hakkimizda/ekibimiz/${slug}`,
+    sameAs: [
+      member.social?.linkedin,
+      member.social?.instagram,
+    ].filter((x): x is string => typeof x === 'string' && x.length > 0),
+    knowsAbout: Array.from(new Set([...(member.expertise || []), ...(member.speciality || [])])).slice(0, 12),
+    areaServed: member.serviceAreas && member.serviceAreas.length > 0 ? member.serviceAreas : ['Karasu', 'Sakarya'],
     worksFor: {
       name: 'Karasu Emlak',
       url: `${siteConfig.url}${basePath}/hakkimizda`,
@@ -239,7 +261,7 @@ export default async function TeamMemberPage({
                     {member.neighborhoods.map((neighborhood, idx) => (
                       <Link
                         key={idx}
-                        href={`${basePath}/karasu/${neighborhood.toLowerCase()}`}
+                        href={`${basePath}/karasu/${generateSlug(neighborhood)}`}
                         className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-slate-200 rounded-xl hover:border-[#006AFF]/40 hover:bg-[#006AFF]/5 transition-all"
                       >
                         <MapPin className="h-4 w-4 text-[#006AFF]" />
@@ -249,6 +271,62 @@ export default async function TeamMemberPage({
                   </div>
                 </section>
               )}
+
+              {/* Service Areas */}
+              <section className="mb-12">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-slate-900">Çalıştığı Bölgeler</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Link
+                    href={`${basePath}/karasu`}
+                    className="flex items-center gap-2 bg-white border-2 border-slate-200 rounded-xl p-4 hover:border-[#006AFF]/40 transition-colors"
+                  >
+                    <MapPin className="h-5 w-5 text-[#006AFF]" />
+                    <span className="text-sm font-medium text-slate-700">Karasu</span>
+                  </Link>
+                  <Link
+                    href={`${basePath}/kocaali`}
+                    className="flex items-center gap-2 bg-white border-2 border-slate-200 rounded-xl p-4 hover:border-[#006AFF]/40 transition-colors"
+                  >
+                    <MapPin className="h-5 w-5 text-[#006AFF]" />
+                    <span className="text-sm font-medium text-slate-700">Kocaali</span>
+                  </Link>
+                </div>
+              </section>
+
+              {/* Helpful Links */}
+              <section className="mb-12">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-slate-900">Hızlı Linkler</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Link
+                    href={`${basePath}/satilik`}
+                    className="flex items-center gap-2 bg-white border-2 border-slate-200 rounded-xl p-4 hover:border-[#006AFF]/40 transition-colors"
+                  >
+                    <Home className="h-5 w-5 text-[#006AFF]" />
+                    <span className="text-sm font-medium text-slate-700">Satılık İlanlar</span>
+                  </Link>
+                  <Link
+                    href={`${basePath}/kiralik`}
+                    className="flex items-center gap-2 bg-white border-2 border-slate-200 rounded-xl p-4 hover:border-[#006AFF]/40 transition-colors"
+                  >
+                    <Briefcase className="h-5 w-5 text-[#006AFF]" />
+                    <span className="text-sm font-medium text-slate-700">Kiralık İlanlar</span>
+                  </Link>
+                  <Link
+                    href={`${basePath}/iletisim`}
+                    className="flex items-center gap-2 bg-white border-2 border-slate-200 rounded-xl p-4 hover:border-[#006AFF]/40 transition-colors"
+                  >
+                    <Mail className="h-5 w-5 text-[#006AFF]" />
+                    <span className="text-sm font-medium text-slate-700">İletişim</span>
+                  </Link>
+                  <Link
+                    href={`${basePath}/blog`}
+                    className="flex items-center gap-2 bg-white border-2 border-slate-200 rounded-xl p-4 hover:border-[#006AFF]/40 transition-colors"
+                  >
+                    <ArrowRight className="h-5 w-5 text-[#006AFF]" />
+                    <span className="text-sm font-medium text-slate-700">Blog</span>
+                  </Link>
+                </div>
+              </section>
             </div>
 
             {/* Sidebar */}
