@@ -181,9 +181,9 @@ function buildCornerstoneKarasuRamadanGuide(): ArticleInput {
     p(
       "Evet, mantıklı olabilir. Randevuları doğru saatlere koyup (iftar öncesi sıkışıklığı azaltarak) karar süreçlerini aceleye getirmeden yönetmek yeterli."
     ),
-    `<h2>Sonuç: Ramazan’da Karasu’da Daha Rahat Bir Ay İçin Plan</h2>`,
+    `<h2>İki küçük hatırlatma</h2>`,
     p(
-      "Ramazan 2026 için Karasu’da iyi bir ay geçirmek; takvimi netleştirmek, günlük rutini sadeleştirmek ve yoğun saatleri doğru yönetmekle mümkün. İster kiralık ev arıyor olun ister yazlık planlıyor olun, küçük hazırlıklar büyük stres azaltır. İhtiyacınıza göre ilanlara bakmak veya soru sormak için bizimle iletişime geçebilirsiniz: <a href=\"/iletisim\">İletişim</a>."
+      "Ramazan’da Karasu’da gün biraz farklı akıyor: iftara yakın saatler hızlanıyor, akşamları sahil hattı canlanıyor. Takvimi bir kez netleştirip (alışveriş, randevu, ulaşım) kendinize sade bir akış kurduğunuzda ay daha rahat geçiyor. Ev bakıyorsanız görüşmeleri iftar öncesi son saate bırakmamaya çalışın; yazlık düşünüyorsanız bayram haftası için birkaç alternatif tarih çıkarın. Aklınıza takılan bir şey olursa <a href=\"/iletisim\">iletişim</a> sayfasından yazabilirsiniz."
     ),
     `<h2>Ramazan 2026 İçerik Merkezi</h2>`,
     ul([
@@ -263,9 +263,9 @@ function buildCornerstoneEidGuide(): ArticleInput {
       `<a href="/blog">Blog rehberleri</a>`,
       `<a href="/iletisim">İletişim</a>`,
     ]),
-    `<h2>Sonuç</h2>`,
+    `<h2>Bir cümleyle</h2>`,
     p(
-      "Ramazan Bayramı 2026 için Karasu planı yaparken amaç; çok şey sığdırmak değil, doğru sırayla sakin bir tatil akışı kurmak. Ulaşım ve konaklamayı erken netleştirmek, bayramın yoğun saatlerinde stresi belirgin şekilde azaltır."
+      "Karasu’da bayramı keyifli yapan şey programı doldurmak değil; ulaşımı ve konaklamayı önceden netleştirip günü akışına bırakmak. Sahil yürüyüşünü daha sakin saatlere çekmek, park işini baştan planlamak ve market gibi küçük işleri zamana yaymak, bayramın en yoğun anlarında bile işleri epey kolaylaştırır."
     ),
     `<h2>Ramazan 2026 İçerik Merkezi</h2>`,
     ul([
