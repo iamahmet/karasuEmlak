@@ -166,6 +166,44 @@ export async function getFeaturedArticles(limit = 3): Promise<Article[]> {
 }
 
 /**
+ * Fetch published articles by a list of slugs.
+ * Preserves the input order (useful for curated internal-link blocks).
+ */
+export async function getArticlesBySlugs(slugs: string[], limit = 12): Promise<Article[]> {
+  const unique = Array.from(
+    new Set((slugs || []).map((s) => (s || '').trim()).filter(Boolean))
+  );
+
+  if (unique.length === 0) return [];
+
+  let supabase;
+  try {
+    supabase = createServiceClient();
+  } catch (error: any) {
+    console.error('Error creating service client for getArticlesBySlugs:', error.message);
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*')
+    .eq('status', 'published')
+    .in('slug', unique)
+    .limit(Math.max(1, Math.min(200, unique.length)));
+
+  if (error) {
+    console.error('Error fetching articles by slugs:', error);
+    return [];
+  }
+
+  const rows = ((data as Article[]) || []).slice();
+  const order = new Map<string, number>(unique.map((s, i) => [s, i]));
+  rows.sort((a, b) => (order.get(a.slug) ?? 1e9) - (order.get(b.slug) ?? 1e9));
+
+  return rows.slice(0, Math.max(1, limit));
+}
+
+/**
  * Get latest articles by publish date (useful for homepage freshness).
  */
 export async function getLatestArticles(limit = 3): Promise<Article[]> {

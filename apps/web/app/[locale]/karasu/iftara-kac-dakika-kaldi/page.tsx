@@ -6,15 +6,25 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateFAQSchema, generateBreadcrumbSchema } from '@/lib/seo/structured-data';
 import { getPrayerTimesByDate } from '@/lib/supabase/queries/prayer-times';
+import { getArticlesBySlugs, getArticlesByTag } from '@/lib/supabase/queries/articles';
 import { IftarCountdown } from '@/components/ramadan/IftarCountdown';
 import { getOptimizedCloudinaryUrl } from '@/lib/cloudinary/optimization';
 import { Button } from '@karasu/ui';
-import { ArrowRight, Calendar, FileText } from 'lucide-react';
+import { ArrowRight, Calendar, FileText, MapPin, Home } from 'lucide-react';
+import { RelatedContent } from '@/components/content';
 
 import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 60;
 
 const KARASU_DISTRICT_ID = 9803;
+const RECOMMENDED_ARTICLE_SLUGS = [
+  'ramazan-2026-karasu-rehberi',
+  'sakarya-karasu-ramazan-imsakiyesi-2026',
+  'ramazan-bayrami-2026-karasu-tatil-yazlik-rehberi',
+  'ramazan-2026-karasu-kiralik-ev-ipuclari',
+  'ramazan-oncesi-tasinma-checklist-karasu',
+  'karasu-ramazan-sahil-aksam-plani',
+];
 
 function getTodayTurkeyYmd(): string {
   return new Intl.DateTimeFormat('en-CA', {
@@ -148,6 +158,11 @@ export default async function KarasuIftaraKacDakikaKaldiPage({
         'Sayfadaki geri sayım, Sakarya Karasu için bugünün iftar (akşam) saatine göre hesaplanır. İftar geçtiyse otomatik olarak yarının iftarına döner.',
     },
     {
+      question: 'Kocaali’de iftar saati Karasu ile aynı mı?',
+      answer:
+        'Genelde birkaç dakika fark olabilir. Bu sayfadaki geri sayım Karasu merkezli vakte göre çalışır; Kocaali ve çevresi için saatleri resmî takvimden kontrol etmek en doğrusudur.',
+    },
+    {
       question: 'Sakarya Karasu iftara kaç dk kaldı bilgisi doğru mu?',
       answer:
         'Geri sayım Karasu iftar vakti üzerinden otomatik hesaplanır. Yine de resmi takvimlerde küçük farklılıklar olabileceği için son kontrolü resmî kaynaklardan yapmak iyi olur.',
@@ -164,10 +179,43 @@ export default async function KarasuIftaraKacDakikaKaldiPage({
   const targetUtcMs = iftarTimeText ? turkeyLocalToUtcMs(today, iftarTimeText) : 0;
   const nextUtcMs = tomorrowTimes?.aksam ? turkeyLocalToUtcMs(tomorrow, toHHMM(tomorrowTimes.aksam)) : undefined;
 
+  const recommendedArticles = await (async () => {
+    // Prefer curated slugs; fall back to tag-based list if DB doesn't have them yet.
+    const curated = await getArticlesBySlugs(RECOMMENDED_ARTICLE_SLUGS, 6);
+    if (curated.length > 0) return curated;
+    const { articles } = await getArticlesByTag('ramazan', 6, 0);
+    return articles;
+  })();
+
+  const recommendedItems = (recommendedArticles || []).slice(0, 6).map((a: any) => ({
+    id: String(a.id ?? a.slug),
+    title: a.title,
+    slug: a.slug,
+    description: a.excerpt || a.meta_description || undefined,
+    image: a.featured_image || undefined,
+    type: 'article' as const,
+  }));
+
+  const relatedListSchema =
+    recommendedItems.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          name: 'Karasu ve Çevresi: Ramazan Rehberleri',
+          itemListElement: recommendedItems.map((item, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            url: `${siteConfig.url}${basePath}/blog/${item.slug}`,
+            name: item.title,
+          })),
+        }
+      : null;
+
   return (
     <>
       {breadcrumbSchema && <StructuredData data={breadcrumbSchema} />}
       {faqSchema && <StructuredData data={faqSchema} />}
+      {relatedListSchema && <StructuredData data={relatedListSchema as any} />}
 
       <Breadcrumbs items={breadcrumbs} />
 
@@ -178,8 +226,8 @@ export default async function KarasuIftaraKacDakikaKaldiPage({
               Karasu İftara Kaç Dakika Kaldı?
             </h1>
             <p className="text-base md:text-lg text-gray-700 max-w-3xl leading-relaxed">
-              “<strong>Karasu iftara kaç dakika kaldı</strong>” ve “<strong>Sakarya Karasu iftara kaç dk kaldı</strong>” diye arayanlar için canlı geri sayım.
-              Aşağıda ayrıca bugünün Karasu iftar vakti ve diğer vakitleri de var.
+              Bu sayaç, <strong>Karasu</strong> için bugünün iftar saatine göre anlık geri sayım gösterir.
+              Karasu, <strong>Kocaali</strong> ve Sakarya çevresinde saatler genelde çok yakın olsa da birkaç dakika fark edebilir; en doğru referans her zaman resmî takvimdir.
             </p>
 
             <div className="flex flex-wrap gap-2.5 mt-6">
@@ -193,6 +241,12 @@ export default async function KarasuIftaraKacDakikaKaldiPage({
                 <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
                   <FileText className="h-4 w-4 mr-2" />
                   Ramazan 2026 Rehberi
+                </Button>
+              </Link>
+              <Link href={`${basePath}/kocaali`}>
+                <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Kocaali Rehberi
                 </Button>
               </Link>
             </div>
@@ -221,6 +275,66 @@ export default async function KarasuIftaraKacDakikaKaldiPage({
               </div>
             </div>
           )}
+
+          <section className="rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm mb-8">
+            <div className="flex items-start justify-between gap-6 flex-wrap">
+              <div className="max-w-3xl">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">İftardan Sonra Ne Yapmalı? Karasu ve Çevresi İçin Kısa Rehber</h2>
+                <p className="text-gray-700 leading-relaxed">
+                  İftara yakın saatlerde plan sıkışabiliyor. Bu yüzden aşağıya, Karasu merkezli vakit araçlarını ve Karasu, Kocaali ve çevresi için işine yarayacak birkaç pratik rehberi bıraktık:
+                  sahil yürüyüşü rotası, bayram haftası yoğun saatler, kiralık ev bakarken sorulacak sorular gibi.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Link href={`${basePath}/kiralik`}>
+                  <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+                    <Home className="h-4 w-4 mr-2" />
+                    Kiralık İlanlar
+                  </Button>
+                </Link>
+                <Link href={`${basePath}/satilik`}>
+                  <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+                    <Home className="h-4 w-4 mr-2" />
+                    Satılık İlanlar
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {recommendedItems.length > 0 && (
+              <div className="mt-8">
+                <RelatedContent
+                  items={recommendedItems as any}
+                  title="İlgili Yazılar"
+                  type="articles"
+                />
+              </div>
+            )}
+
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Link
+                href={`${basePath}/karasu/ramazan-imsakiyesi`}
+                className="rounded-xl border border-gray-200 bg-gray-50 p-4 hover:bg-white hover:border-primary/30 hover:shadow-sm transition-all"
+              >
+                <div className="font-semibold text-gray-900 mb-1">Karasu İmsak ve İftar Saatleri (Gün Gün)</div>
+                <div className="text-sm text-gray-700">Ramazan boyunca imsak, iftar ve diğer vakitleri tek tabloda takip et.</div>
+              </Link>
+              <Link
+                href={`${basePath}/karasu`}
+                className="rounded-xl border border-gray-200 bg-gray-50 p-4 hover:bg-white hover:border-primary/30 hover:shadow-sm transition-all"
+              >
+                <div className="font-semibold text-gray-900 mb-1">Karasu Rehberi</div>
+                <div className="text-sm text-gray-700">Mahalleler, yaşam, ulaşım ve bölge notları.</div>
+              </Link>
+              <Link
+                href={`${basePath}/kocaali`}
+                className="rounded-xl border border-gray-200 bg-gray-50 p-4 hover:bg-white hover:border-primary/30 hover:shadow-sm transition-all"
+              >
+                <div className="font-semibold text-gray-900 mb-1">Kocaali Rehberi</div>
+                <div className="text-sm text-gray-700">Kocaali’de yaşam ve emlak hareketi: hızlı bir başlangıç.</div>
+              </Link>
+            </div>
+          </section>
 
           <section className="rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Bugünün Karasu Vakitleri</h2>
