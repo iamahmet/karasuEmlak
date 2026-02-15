@@ -66,7 +66,7 @@ export default function Error({
               <RefreshCw className="mr-2 h-4 w-4" />
               Tekrar Dene
             </Button>
-            <Link href="/tr/dashboard">
+            <Link href="/dashboard">
               <Button size="lg" variant="outline" className="flex-1 sm:flex-initial">
                 <Home className="mr-2 h-4 w-4" />
                 Dashboard'a Dön

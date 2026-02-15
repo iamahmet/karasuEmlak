@@ -97,7 +97,7 @@ function ErrorFallback({ error, onReset }: { error: Error | null; onReset: () =>
               Yeniden Dene
             </Button>
             <Button
-              onClick={() => router.push("/tr/dashboard")}
+              onClick={() => router.push("/dashboard")}
               className="flex-1 bg-gradient-to-r from-design-light to-green-600 hover:from-design-dark hover:to-green-700 text-white shadow-lg hover:shadow-xl hover-scale micro-bounce rounded-xl"
             >
               <Home className="h-4 w-4 mr-2" />

@@ -2,6 +2,14 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
+function safeRedirectPath(raw: string | null): string {
+  if (!raw) return "/dashboard";
+  if (!raw.startsWith("/") || raw.startsWith("//")) return "/dashboard";
+  if (raw === "/tr") return "/";
+  if (raw.startsWith("/tr/")) return raw.slice(3) || "/";
+  return raw;
+}
+
 /**
  * Get admin URL for redirects
  */
@@ -26,7 +34,7 @@ function getAdminUrl(): string {
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
-  const redirectTo = requestUrl.searchParams.get("redirect") || "/tr/dashboard";
+  const redirectTo = safeRedirectPath(requestUrl.searchParams.get("redirect"));
   const error = requestUrl.searchParams.get("error");
   const errorCode = requestUrl.hash.includes("otp_expired") ? "otp_expired" : null;
 
@@ -37,7 +45,7 @@ export async function GET(request: NextRequest) {
       ? "Email link süresi dolmuş. Lütfen şifrenizle giriş yapın."
       : error || "Bir hata oluştu";
     return NextResponse.redirect(
-      new URL(`/tr/login?error=${encodeURIComponent(errorMessage)}`, adminUrl)
+      new URL(`/login?error=${encodeURIComponent(errorMessage)}`, adminUrl)
     );
   }
 
@@ -82,7 +90,7 @@ export async function GET(request: NextRequest) {
         }
         
         return NextResponse.redirect(
-          new URL(`/tr/login?error=${encodeURIComponent(errorMessage)}`, adminUrl)
+          new URL(`/login?error=${encodeURIComponent(errorMessage)}`, adminUrl)
         );
       }
 
@@ -98,12 +106,12 @@ export async function GET(request: NextRequest) {
       console.error("Callback error:", err);
       const adminUrl = getAdminUrl();
       return NextResponse.redirect(
-        new URL(`/tr/login?error=${encodeURIComponent(err.message)}`, adminUrl)
+        new URL(`/login?error=${encodeURIComponent(err.message)}`, adminUrl)
       );
     }
   }
 
   // No code, redirect to login
   const adminUrl = getAdminUrl();
-  return NextResponse.redirect(new URL("/tr/login?error=no_code", adminUrl));
+  return NextResponse.redirect(new URL("/login?error=no_code", adminUrl));
 }

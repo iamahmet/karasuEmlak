@@ -7,10 +7,9 @@ export default async function AdminPage({
 }) {
   try {
     const { locale } = await params;
-    redirect(`/${locale}/dashboard`);
+    redirect(locale === "tr" ? "/dashboard" : `/${locale}/dashboard`);
   } catch (error: any) {
     console.error("Error in AdminPage:", error);
-    redirect("/tr/dashboard");
+    redirect("/dashboard");
   }
 }
-

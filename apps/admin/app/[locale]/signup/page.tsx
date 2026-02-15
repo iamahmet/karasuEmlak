@@ -98,7 +98,7 @@ export default function SignupPage() {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          const redirectTo = searchParams.get("redirect") || "/tr/dashboard";
+          const redirectTo = searchParams.get("redirect") || "/dashboard";
           router.replace(redirectTo);
         }
       } catch (err: any) {
@@ -136,7 +136,7 @@ export default function SignupPage() {
         return;
       }
 
-      const redirectTo = searchParams.get("redirect") || "/tr/dashboard";
+      const redirectTo = searchParams.get("redirect") || "/dashboard";
 
       // Step 1: Sign up the user
       if (!supabase.auth) {
@@ -208,7 +208,7 @@ export default function SignupPage() {
         console.warn("Auto-login failed, user needs to login manually:", signInError);
         setSuccess(true);
         setTimeout(() => {
-          router.push(`/tr/login?email=${encodeURIComponent(email)}&message=Kayıt başarılı. Lütfen giriş yapın.`);
+          router.push(`/login?email=${encodeURIComponent(email)}&message=Kayıt başarılı. Lütfen giriş yapın.`);
         }, 2000);
         return;
       }
@@ -428,7 +428,7 @@ export default function SignupPage() {
               <p className="text-sm text-center text-muted-foreground">
                 Zaten hesabınız var mı?{" "}
                 <Link 
-                  href="/tr/login" 
+                  href="/login" 
                   className="text-primary hover:text-primary/80 font-semibold transition-colors inline-flex items-center gap-1"
                 >
                   Giriş yapın
@@ -447,4 +447,3 @@ export default function SignupPage() {
     </div>
   );
 }
-

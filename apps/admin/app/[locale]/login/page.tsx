@@ -151,7 +151,7 @@ export default function LoginPage() {
           }
           
           if (data.user) {
-            const redirectTo = searchParams.get("redirect") || "/tr/dashboard";
+            const redirectTo = searchParams.get("redirect") || "/dashboard";
             window.history.replaceState({}, "", redirectTo);
             router.replace(redirectTo);
             return;
@@ -166,7 +166,7 @@ export default function LoginPage() {
         const { data: { user } } = await supabase.auth.getUser();
         
         if (user) {
-          const redirectTo = searchParams.get("redirect") || "/tr/dashboard";
+          const redirectTo = searchParams.get("redirect") || "/dashboard";
           router.replace(redirectTo);
         }
       } catch (err: any) {
@@ -193,7 +193,7 @@ export default function LoginPage() {
     setSuccess(false);
 
     try {
-      const redirectTo = searchParams.get("redirect") || "/tr/dashboard";
+      const redirectTo = searchParams.get("redirect") || "/dashboard";
       // Use admin URL instead of window.location.origin to ensure correct subdomain
       const adminUrl = getAdminUrl();
       const callbackUrl = `${adminUrl}/api/auth/callback?redirect=${encodeURIComponent(redirectTo)}`;
@@ -248,7 +248,7 @@ export default function LoginPage() {
       if (signInError) throw signInError;
 
       if (data.user) {
-        const redirectTo = searchParams.get("redirect") || "/tr/dashboard";
+        const redirectTo = searchParams.get("redirect") || "/dashboard";
         router.replace(redirectTo);
       }
     } catch (err: any) {

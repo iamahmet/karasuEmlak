@@ -169,7 +169,7 @@ export default function ForgotPasswordPage() {
                     Yeni E-posta Gönder
                   </Button>
                   <Button asChild variant="ghost" className="w-full h-11">
-                    <Link href="/tr/login">
+                    <Link href="/login">
                       <ArrowLeft className="h-4 w-4 mr-2" />
                       Giriş Sayfasına Dön
                     </Link>
@@ -227,7 +227,7 @@ export default function ForgotPasswordPage() {
 
                 <div className="pt-4 border-t border-border/40">
                   <Button asChild variant="ghost" className="w-full h-11">
-                    <Link href="/tr/login">
+                    <Link href="/login">
                       <ArrowLeft className="h-4 w-4 mr-2" />
                       Giriş Sayfasına Dön
                     </Link>

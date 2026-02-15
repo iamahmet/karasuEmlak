@@ -133,7 +133,7 @@ export default function ResetPasswordPage() {
       
       // Redirect to dashboard after 3 seconds
       setTimeout(() => {
-        router.replace("/tr/dashboard");
+        router.replace("/dashboard");
       }, 3000);
     } catch (err: any) {
       setError(err.message || "Şifre güncellenirken bir hata oluştu.");
@@ -251,7 +251,7 @@ export default function ResetPasswordPage() {
                   </Link>
                 </Button>
                 <Button asChild variant="outline" className="w-full h-11">
-                  <Link href="/tr/login">Giriş Sayfasına Dön</Link>
+                  <Link href="/login">Giriş Sayfasına Dön</Link>
                 </Button>
               </div>
             ) : success ? (
@@ -272,7 +272,7 @@ export default function ResetPasswordPage() {
                   </div>
                 </div>
                 <Button asChild className="w-full h-11 font-semibold">
-                  <Link href="/tr/dashboard">Dashboard'a Git</Link>
+                  <Link href="/dashboard">Dashboard'a Git</Link>
                 </Button>
               </div>
             ) : (

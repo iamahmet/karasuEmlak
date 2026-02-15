@@ -53,7 +53,7 @@ export default function LogoutPage() {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(interval);
-          router.replace("/tr/login");
+          router.replace("/login");
           return 0;
         }
         return prev - 1;
@@ -133,7 +133,7 @@ export default function LogoutPage() {
                   {countdown} saniye içinde giriş sayfasına yönlendirileceksiniz...
                 </p>
                 <Button asChild variant="outline" className="w-full">
-                  <Link href="/tr/login">
+                  <Link href="/login">
                     <LogOut className="h-4 w-4 mr-2" />
                     Hemen Giriş Sayfasına Git
                   </Link>
@@ -155,7 +155,7 @@ export default function LogoutPage() {
               </p>
               <div className="pt-4 space-y-3">
                 <Button asChild className="w-full">
-                  <Link href="/tr/login">
+                  <Link href="/login">
                     <LogOut className="h-4 w-4 mr-2" />
                     Giriş Sayfasına Git
                   </Link>

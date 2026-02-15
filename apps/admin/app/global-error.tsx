@@ -46,13 +46,13 @@ export default function GlobalError({
               Tekrar Dene
             </button>
             <a
-              href="/tr/dashboard"
+              href="/dashboard"
               style={{ padding: '0.5rem 1rem', background: '#eee', color: '#333', borderRadius: '6px', textDecoration: 'none', fontWeight: 500 }}
             >
               Dashboard'a Dön
             </a>
             <a
-              href="/tr/login"
+              href="/login"
               style={{ padding: '0.5rem 1rem', background: '#f3f4f6', color: '#333', borderRadius: '6px', textDecoration: 'none', fontWeight: 500 }}
             >
               Giriş Yap
