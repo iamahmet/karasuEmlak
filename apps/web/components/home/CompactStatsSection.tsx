@@ -1,43 +1,12 @@
-"use client";
-
 import { Building2, Home, Heart, Users } from "lucide-react";
-import { useEffect, useState } from "react";
 
-interface Stats {
-  total: number;
-  satilik: number;
-  kiralik: number;
-}
-
-export function CompactStatsSection() {
-  const [stats, setStats] = useState<Stats>({ total: 500, satilik: 300, kiralik: 200 });
-
-  useEffect(() => {
-    // Fetch real stats from API
-    async function fetchStats() {
-      try {
-        const response = await fetch('/api/stats/listings');
-        const data = await response.json();
-        if (data.success && data.data) {
-          setStats({
-            total: data.data.total || 500,
-            satilik: data.data.satilik || 300,
-            kiralik: data.data.kiralik || 200,
-          });
-        }
-      } catch (error) {
-        // Keep default values on error
-        console.error('Error fetching stats:', error);
-      }
-    }
-
-    fetchStats();
-  }, []);
+export function CompactStatsSection({ total }: { total?: number }) {
+  const safeTotal = typeof total === "number" && total > 0 ? total : 500;
 
   const statItems = [
     {
       icon: Building2,
-      value: stats.total > 0 ? `${stats.total}+` : "500+",
+      value: `${safeTotal}+`,
       label: "Aktif İlan",
       color: "text-blue-600",
       bgColor: "bg-blue-50",

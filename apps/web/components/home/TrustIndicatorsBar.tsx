@@ -1,5 +1,3 @@
-"use client";
-
 import { Shield, Award, CheckCircle2, Lock, Star, Users } from "lucide-react";
 
 export function TrustIndicatorsBar() {
@@ -63,4 +61,3 @@ export function TrustIndicatorsBar() {
     </section>
   );
 }
-

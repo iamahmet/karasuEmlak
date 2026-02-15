@@ -9,12 +9,20 @@ import { revalidatePath, revalidateTag } from 'next/cache';
 export async function POST(request: NextRequest) {
   try {
     // Verify request is from admin panel (in production, add authentication)
-    const secret = request.headers.get('x-revalidate-secret');
-    const expectedSecret = process.env.REVALIDATE_SECRET || 'change-me-in-production';
+    const normalizeSecret = (value: string | null | undefined) =>
+      (value || '').trim().replace(/\\n/g, '');
+    const secret = normalizeSecret(request.headers.get('x-revalidate-secret'));
+    const configuredSecret = normalizeSecret(process.env.REVALIDATE_SECRET);
     
     // In production, verify secret
-    if (process.env.NODE_ENV === 'production' && secret !== expectedSecret) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (process.env.NODE_ENV === 'production') {
+      if (!configuredSecret) {
+        console.error('[api/admin/sync] REVALIDATE_SECRET is not set in production');
+        return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 });
+      }
+      if (secret !== configuredSecret) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
     }
 
     const body = await request.json();
@@ -121,4 +129,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

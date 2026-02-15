@@ -58,7 +58,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
   const canonicalPath = `${basePath}/karasu/ramazan-imsakiyesi`;
-  const ogImageUrl = getOptimizedCloudinaryUrl('og/ramazan-2026/karasu-ramazan-imsakiyesi', {
+  const ogImageUrl = getOptimizedCloudinaryUrl('articles/ramazan-2026/sakarya-karasu-ramazan-imsakiyesi-2026', {
     width: 1200,
     height: 630,
     crop: 'fill',

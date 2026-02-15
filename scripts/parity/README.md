@@ -148,7 +148,7 @@ export default {
 };
 ```
 
-2. Or use middleware for dynamic redirects (see `apps/web/middleware.ts`)
+2. Or use proxy for dynamic redirects (see `apps/web/proxy.ts`)
 
 ### Sitemap Updates
 

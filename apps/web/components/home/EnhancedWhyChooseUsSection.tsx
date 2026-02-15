@@ -1,5 +1,3 @@
-"use client";
-
 import { Shield, Clock, MapPin, TrendingUp, Users, Zap, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@karasu/ui";
 import Link from "next/link";

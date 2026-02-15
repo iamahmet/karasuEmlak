@@ -33,7 +33,8 @@ async function logSEOEvent(eventType: string, details: any) {
   try {
     await supabase.from('seo_events').insert({
       event_type: eventType,
-      event_details: details,
+      event_data: details,
+      status: 'success',
       created_at: new Date().toISOString(),
     });
   } catch (error) {

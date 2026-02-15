@@ -48,13 +48,11 @@ export function getOfflineStatus(): OfflineStatus {
  * React hook for offline status
  */
 export function useOfflineStatus() {
-  if (typeof window === 'undefined') {
-    return getOfflineStatus();
-  }
-
-  const [status, setStatus] = useState<OfflineStatus>(getOfflineStatus());
+  const [status, setStatus] = useState<OfflineStatus>(() => getOfflineStatus());
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const updateStatus = () => {
       const isOnline = navigator.onLine;
       

@@ -242,7 +242,7 @@ const nextConfig = {
   // Output configuration
   output: 'standalone',
   
-  // Security headers are now set in middleware.ts for better control and nonce support
+  // Security headers are now set in proxy.ts for better control and nonce support
   // async headers() removed to avoid conflicts
 };
 
@@ -341,4 +341,3 @@ const pwaConfig = process.env.NODE_ENV === 'development'
 
 // Apply PWA, then bundle analyzer
 export default withBundleAnalyzer(pwaConfig(configWithSentry));
-

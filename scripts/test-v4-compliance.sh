@@ -116,7 +116,7 @@ else
 fi
 
 # Check middleware
-if grep -q "fetch\|createServiceClient\|createClient\|supabase\|auth\|log" apps/web/middleware.ts 2>/dev/null; then
+if grep -q "fetch\|createServiceClient\|createClient\|supabase\|auth\|log" apps/web/proxy.ts 2>/dev/null; then
     echo -e "${RED}✗ Middleware contains blocking operations${NC}"
     ((FAILED++))
 else
@@ -194,4 +194,3 @@ else
     echo -e "${RED}❌ Some tests failed. Please review the issues above.${NC}"
     exit 1
 fi
-

@@ -49,7 +49,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
   const canonicalPath = `${basePath}/karasu/iftara-kac-dakika-kaldi`;
-  const ogImageUrl = getOptimizedCloudinaryUrl('og/ramazan-2026/karasu-iftara-kac-dakika-kaldi', {
+  const ogImageUrl = getOptimizedCloudinaryUrl('articles/ramazan-2026/karasu-iftara-kac-dakika-kaldi', {
     width: 1200,
     height: 630,
     crop: 'fill',

@@ -9,7 +9,7 @@ import type { ReactElement, ComponentType } from 'react';
 /**
  * Lazy load components with loading fallback
  */
-export function createLazyComponent<P = {}>(
+export function createLazyComponent<P = object>(
   importFn: () => Promise<{ default: ComponentType<P> }>,
   options: {
     loading?: () => ReactElement | null;

@@ -35,7 +35,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const canonicalPath = locale === routing.defaultLocale ? '/blog/ramazan-2026' : `/${locale}/blog/ramazan-2026`;
-  const ogImageUrl = getOptimizedCloudinaryUrl('og/ramazan-2026/hub', {
+  const ogImageUrl = getOptimizedCloudinaryUrl('articles/ramazan-2026/ramazan-2026-karasu-rehberi', {
     width: 1200,
     height: 630,
     crop: 'fill',

@@ -100,6 +100,50 @@ export function generateContextualLinks({ content, basePath }: GenerateContextua
     });
   }
 
+  // Ramadan / Eid seasonal internal linking (content cluster)
+  if (contentLower.includes('ramazan') || contentLower.includes('bayram') || contentLower.includes('iftar') || contentLower.includes('sahur')) {
+    pushUnique({
+      href: `${basePath}/blog/ramazan-2026`,
+      label: 'Ramazan 2026 İçerik Merkezi',
+      description: 'Ramazan ve bayram dönemine özel Karasu rehberleri ve kontrol listeleri.',
+      intent: 'guide',
+    });
+    if (contentLower.includes('imsak') || contentLower.includes('imsakiye') || contentLower.includes('vakit')) {
+      pushUnique({
+        href: `${basePath}/karasu/ramazan-imsakiyesi`,
+        label: 'Sakarya Karasu Ramazan İmsakiyesi',
+        description: 'Karasu için imsak ve iftar vakitleri (gün gün tablo).',
+        intent: 'tool',
+      });
+    }
+    if (
+      contentLower.includes('iftar') ||
+      contentLower.includes('kaç dakika') ||
+      contentLower.includes('kac dakika') ||
+      contentLower.includes('iftara kaç') ||
+      contentLower.includes('iftara kac')
+    ) {
+      pushUnique({
+        href: `${basePath}/karasu/iftara-kac-dakika-kaldi`,
+        label: 'Karasu İftara Kaç Dakika Kaldı?',
+        description: 'Karasu iftar saatine göre canlı geri sayım.',
+        intent: 'tool',
+      });
+    }
+    pushUnique({
+      href: `${basePath}/blog/ramazan-2026-karasu-rehberi`,
+      label: 'Ramazan 2026 Karasu Rehberi',
+      description: 'İftar-sahur planı, sosyal hayat ve yazlık/kiralık planlaması.',
+      intent: 'guide',
+    });
+    pushUnique({
+      href: `${basePath}/blog/ramazan-bayrami-2026-karasu-tatil-yazlik-rehberi`,
+      label: 'Ramazan Bayramı 2026 Karasu Rehberi',
+      description: 'Tatil planı, ulaşım, konaklama ve yazlık rehberi.',
+      intent: 'guide',
+    });
+  }
+
   if (contentLower.includes('kredi') || contentLower.includes('mortgage')) {
     pushUnique({
       href: `${basePath}/rehberler/kredi-nasil-alinir`,

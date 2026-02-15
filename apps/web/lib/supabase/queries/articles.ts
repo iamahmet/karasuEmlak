@@ -46,6 +46,41 @@ export async function getArticles(limit = 50, offset = 0): Promise<{ articles: A
 }
 
 /**
+ * Get published articles by tag.
+ * Uses `tags` text[] column on articles.
+ */
+export async function getArticlesByTag(
+  tag: string,
+  limit = 12,
+  offset = 0
+): Promise<{ articles: Article[]; total: number }> {
+  const supabase = createServiceClient();
+  const normalized = (tag || '').trim().toLowerCase();
+
+  if (!normalized) return { articles: [], total: 0 };
+
+  const { data, error, count } = await supabase
+    .from('articles')
+    .select('*', { count: 'exact' })
+    .eq('status', 'published')
+    // Supabase translates to Postgres `@>` for array/json containment.
+    .contains('tags', [normalized])
+    .order('published_at', { ascending: false, nullsFirst: false })
+    .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1);
+
+  if (error) {
+    console.error('Error fetching articles by tag:', { tag: normalized, error });
+    return { articles: [], total: 0 };
+  }
+
+  return {
+    articles: (data as Article[]) || [],
+    total: count || 0,
+  };
+}
+
+/**
  * Get a single article by slug with author information
  */
 export async function getArticleBySlug(slug: string): Promise<(Article & { author_data?: any }) | null> {
@@ -124,6 +159,34 @@ export async function getFeaturedArticles(limit = 3): Promise<Article[]> {
 
   if (error) {
     console.error('Error fetching featured articles:', error);
+    return [];
+  }
+
+  return (data as Article[]) || [];
+}
+
+/**
+ * Get latest articles by publish date (useful for homepage freshness).
+ */
+export async function getLatestArticles(limit = 3): Promise<Article[]> {
+  let supabase;
+  try {
+    supabase = createServiceClient();
+  } catch (error: any) {
+    console.error('Error creating service client for getLatestArticles:', error.message);
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*')
+    .eq('status', 'published')
+    .order('published_at', { ascending: false, nullsFirst: false })
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching latest articles:', error);
     return [];
   }
 
@@ -230,4 +293,3 @@ export async function incrementArticleViews(articleId: string): Promise<void> {
 
   await supabase.rpc('increment_article_views', { article_id: articleId });
 }
-

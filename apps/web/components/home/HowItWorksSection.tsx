@@ -1,5 +1,3 @@
-"use client";
-
 import { Search, FileCheck, Key, CheckCircle2, ArrowRight } from "lucide-react";
 
 export function HowItWorksSection() {

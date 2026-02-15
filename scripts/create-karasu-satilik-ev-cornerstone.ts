@@ -83,7 +83,8 @@ async function logSEOEvent(
       event_type: eventType,
       entity_type: entityType,
       entity_id: entityId,
-      metadata,
+      event_data: metadata,
+      status: 'success',
       created_at: new Date().toISOString(),
     });
   } catch (error) {

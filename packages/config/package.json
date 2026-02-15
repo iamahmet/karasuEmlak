@@ -12,8 +12,6 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
-    "@types/minimatch": "^6.0.0",
     "typescript": "^5.4.0"
   }
 }
-

@@ -29,7 +29,7 @@ fi
 
 # Check middleware
 echo -n "Middleware check... "
-if grep -qE "fetch|createServiceClient|createClient|supabase|auth|log" apps/web/middleware.ts 2>/dev/null; then
+if grep -qE "fetch|createServiceClient|createClient|supabase|auth|log" apps/web/proxy.ts 2>/dev/null; then
     echo -e "${RED}✗ FAILED${NC}"
     ((FAILED++))
 else
@@ -112,4 +112,3 @@ else
     echo -e "${RED}❌ Some checks failed${NC}"
     exit 1
 fi
-

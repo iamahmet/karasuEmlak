@@ -11,7 +11,7 @@
 - ❌ NO database queries
 - ✅ ONLY: `<html>`, `<body>`, fonts, theme classes
 
-### Middleware (`apps/web/middleware.ts`)
+### Proxy (`apps/web/proxy.ts`)
 - ❌ NO fetch
 - ❌ NO database
 - ❌ NO auth
@@ -179,4 +179,3 @@ npm run dev:clean        # Both
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - System architecture
 - [RUNBOOK.md](./RUNBOOK.md) - Operations guide
 - [SEO_SYSTEM.md](./SEO_SYSTEM.md) - SEO implementation
-

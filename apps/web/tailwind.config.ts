@@ -6,7 +6,9 @@ const config: Config = {
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
-    '../../packages/ui/**/*.{ts,tsx}',
+    // Avoid globbing into pnpm-linked node_modules by targeting only ui source files.
+    '../../packages/ui/components/**/*.{ts,tsx}',
+    '../../packages/ui/*.{ts,tsx}',
   ],
   theme: {
     container: {
@@ -251,4 +253,3 @@ const config: Config = {
 };
 
 export default config;
-

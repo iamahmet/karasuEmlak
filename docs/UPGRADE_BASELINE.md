@@ -425,7 +425,7 @@ This document provides a complete baseline of the KarasuEmlak platform before sy
 ### Current Structure
 - **Base URL:** `/admin` or `/[locale]` (admin app)
 - **Auth:** Supabase Auth + Staff Profiles (RBAC)
-- **Middleware:** `apps/admin/middleware.ts` - Staff check
+- **Proxy:** `apps/admin/proxy.ts` - Staff check
 
 ### Known Errors
 1. **500 on `/api/content-studio`** - Needs investigation

@@ -21,7 +21,7 @@ This project implements a **nonce-based Content Security Policy (CSP)** for enha
 ## 🏗️ Architecture
 
 ### Single Source of Truth
-- **Location:** `apps/web/middleware.ts` (CSP header generation)
+- **Location:** `apps/web/proxy.ts` (CSP header generation)
 - **Utility:** `apps/web/lib/security/csp.ts` (CSP builder)
 - **Nonce Access:** `apps/web/lib/security/nonce.ts` (server component helper)
 - **Removed from:** `next.config.mjs` (to avoid conflicts)
@@ -54,7 +54,7 @@ const csp = buildCSP({
 ### Middleware Integration
 
 ```typescript
-// apps/web/middleware.ts
+// apps/web/proxy.ts
 import { buildCSP, generateNonce } from './lib/security/csp';
 
 export default function middleware(request: NextRequest) {

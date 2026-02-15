@@ -28,7 +28,7 @@ export function Ramadan2026PromoBlock({
             Ramazan 2026: İmsakiye, İftar Vakitleri ve Pratik Rehber
           </div>
           <p className="text-gray-700 mt-2 leading-relaxed">
-            Sakarya Karasu Ramazan imsakiyesi ve iftar vakitleri için güncel tabloya bakın; “Karasu iftara kaç dakika kaldı” geri sayımını da buradan takip edin.
+            Sakarya Karasu Ramazan imsakiyesi ve iftar vakitleri için güncel tabloya bakın; “Karasu iftara kaç dakika (kaç dk) kaldı” geri sayımını da buradan takip edin.
           </p>
 
           <div className="flex flex-wrap gap-2.5 mt-5">
@@ -57,4 +57,3 @@ export function Ramadan2026PromoBlock({
     </aside>
   );
 }
-

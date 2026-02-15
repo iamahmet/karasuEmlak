@@ -1,24 +1,8 @@
-/**
- * API Middleware Utilities
- * Lightweight middleware for API routes (no fetch/db in middleware)
- */
+import type { NextRequest } from "next/server";
+import { getRequestId as getRequestIdFromErrorHandler } from "./error-handler";
 
-import { NextRequest } from "next/server";
-import { generateRequestId } from "./error-handler";
-
-/**
- * Get request ID from headers or generate new one
- */
+// Compatibility shim: older routes import getRequestId from this module.
 export function getRequestId(request: NextRequest): string {
-  return request.headers.get("x-request-id") || generateRequestId();
+  return getRequestIdFromErrorHandler(request);
 }
 
-/**
- * Add request correlation headers to response
- */
-export function addRequestHeaders(requestId: string): Record<string, string> {
-  return {
-    "x-request-id": requestId,
-    "Content-Type": "application/json",
-  };
-}

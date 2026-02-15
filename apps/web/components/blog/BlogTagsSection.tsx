@@ -29,7 +29,8 @@ export function BlogTagsSection({ tags, basePath = '', className }: BlogTagsSect
         {tags.map((tag) => (
           <Link
             key={tag.slug}
-            href={`${basePath}/blog?tag=${encodeURIComponent(tag.slug)}`}
+            // Prefer SEO-friendly tag archive route. Blog page still supports ?tag=... for backwards compatibility.
+            href={`${basePath}/blog/etiket/${encodeURIComponent(tag.slug)}`}
             className="group inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 hover:bg-primary/10 border border-gray-200 hover:border-primary rounded-lg transition-all"
           >
             <Hash className="h-3.5 w-3.5 text-gray-500 group-hover:text-primary transition-colors" />

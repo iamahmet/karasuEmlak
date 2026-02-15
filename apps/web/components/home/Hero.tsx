@@ -40,10 +40,57 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [activeViewers, setActiveViewers] = useState(Math.floor(Math.random() * 15) + 10);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const [isTabVisible, setIsTabVisible] = useState(true);
+  const [isInView, setIsInView] = useState(true);
   
   // Fade-in animation on mount
   useEffect(() => {
     setIsLoaded(true);
+  }, []);
+
+  // Respect prefers-reduced-motion and pause animation-heavy work.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const apply = () => setReduceMotion(!!mq.matches);
+    apply();
+    // Safari < 14 uses addListener/removeListener
+    // eslint-disable-next-line deprecation/deprecation
+    if (typeof mq.addEventListener === 'function') mq.addEventListener('change', apply);
+    // eslint-disable-next-line deprecation/deprecation
+    else mq.addListener(apply);
+    return () => {
+      // eslint-disable-next-line deprecation/deprecation
+      if (typeof mq.removeEventListener === 'function') mq.removeEventListener('change', apply);
+      // eslint-disable-next-line deprecation/deprecation
+      else mq.removeListener(apply);
+    };
+  }, []);
+
+  // Pause timers when tab is hidden.
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const onVis = () => setIsTabVisible(document.visibilityState === 'visible');
+    onVis();
+    document.addEventListener('visibilitychange', onVis);
+    return () => document.removeEventListener('visibilitychange', onVis);
+  }, []);
+
+  // Only run autoplay/progress when the hero is in the viewport.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const el = sliderRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        setIsInView(!!entry?.isIntersecting);
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   const stats = [
@@ -65,7 +112,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
 
   // Progress bar
   useEffect(() => {
-    if (displayListings.length <= 1 || isHovered) {
+    if (reduceMotion || !isTabVisible || !isInView || displayListings.length <= 1 || isHovered) {
       setProgress(0);
       return;
     }
@@ -86,7 +133,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
 
   // Auto-play slider
   useEffect(() => {
-    if (displayListings.length <= 1 || isHovered) return;
+    if (reduceMotion || !isTabVisible || !isInView || displayListings.length <= 1 || isHovered) return;
     
     autoPlayRef.current = setInterval(() => {
       setCurrentSlide((prev) => {
@@ -102,7 +149,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
     return () => {
       if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     };
-  }, [displayListings.length, isHovered]);
+  }, [displayListings.length, isHovered, reduceMotion, isTabVisible, isInView]);
 
   // Active viewers simulation
   useEffect(() => {
@@ -126,7 +173,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
     if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     if (progressRef.current) clearInterval(progressRef.current);
     setProgress(0);
-    if (!isHovered && displayListings.length > 1) {
+    if (!reduceMotion && isTabVisible && isInView && !isHovered && displayListings.length > 1) {
       autoPlayRef.current = setInterval(() => {
         setCurrentSlide((prev) => {
           const next = (prev + 1) % displayListings.length;
@@ -136,7 +183,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
         setProgress(0);
       }, 5000);
     }
-  }, [isHovered, displayListings.length, updateURL]);
+  }, [reduceMotion, isTabVisible, isInView, isHovered, displayListings.length, updateURL]);
 
   const handlePrev = useCallback(() => {
     const prev = currentSlide === 0 ? displayListings.length - 1 : currentSlide - 1;

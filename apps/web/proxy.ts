@@ -1,17 +1,31 @@
 import createMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
-import { NextResponse, NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 import { buildCSP, generateNonce } from './lib/security/csp';
-import { createServerClient } from '@supabase/ssr';
 
 const intlMiddleware = createMiddleware(routing);
 
-export default async function middleware(request: NextRequest) {
+// Locale prefix'ler: sadece tr aktif; en, et, ru, ar 404 vermesin diye varsayılana yönlendir
+const INACTIVE_LOCALE_PREFIX = /^\/(en|et|ru|ar)(\/|$)/;
+// Root-level, locale'siz çalışması gereken yollar
+const NON_LOCALIZED_PATHS = ['/healthz', '/offline'];
+
+// Next.js v16+ uses the `proxy.ts` convention (node runtime). Keep name as `proxy`.
+export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hostname = request.headers.get('host') || '';
 
   // Generate nonce for CSP (per-request, cryptographically secure)
   const nonce = generateNonce();
+
+  // Aktif olmayan locale ile başlayan yolları varsayılan locale path'ine yönlendir (404 önleme)
+  if (routing.locales.length === 1 && INACTIVE_LOCALE_PREFIX.test(pathname)) {
+    const newPath = pathname.replace(INACTIVE_LOCALE_PREFIX, '/') || '/';
+    const url = request.nextUrl.clone();
+    url.pathname = newPath;
+    return NextResponse.redirect(url, 307);
+  }
 
   // Check if request is coming from admin subdomain
   // If yes, redirect to admin subdomain (admin app handles it)
@@ -58,10 +72,17 @@ export default async function middleware(request: NextRequest) {
 
   // Skip middleware for API routes, static files, and Next.js internals
   if (pathname.startsWith('/api') ||
-    pathname.startsWith('/healthz') ||
     pathname.startsWith('/_next') ||
     pathname.startsWith('/_vercel') ||
     pathname.match(/\.(ico|png|jpg|jpeg|svg|css|js|woff|woff2|ttf|eot)$/)) {
+    return NextResponse.next();
+  }
+
+  // healthz/offline gibi locale'siz servis yolları
+  const isNonLocalizedPath = NON_LOCALIZED_PATHS.some((path) =>
+    pathname === path || pathname.startsWith(`${path}/`)
+  );
+  if (isNonLocalizedPath) {
     return NextResponse.next();
   }
 
@@ -73,7 +94,7 @@ export default async function middleware(request: NextRequest) {
     // Rewrite to /tr/... for internal routing
     // This bypasses next-intl middleware to avoid conflicts
     const url = request.nextUrl.clone();
-    url.pathname = `/tr${pathname}`;
+    url.pathname = `/tr${pathname === '/' ? '' : pathname}`;
 
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set('x-nonce', nonce);
@@ -86,24 +107,6 @@ export default async function middleware(request: NextRequest) {
     });
 
     rewrite.cookies.set('NEXT_LOCALE', 'tr');
-
-    const csp = buildCSP({
-      nonce,
-      isDev: process.env.NODE_ENV === 'development',
-    });
-
-    rewrite.headers.set('Content-Security-Policy', csp);
-    rewrite.headers.set('X-Frame-Options', 'DENY');
-    rewrite.headers.set('X-Content-Type-Options', 'nosniff');
-    rewrite.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-
-    if (process.env.NODE_ENV === 'production') {
-      rewrite.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-    }
-
-    rewrite.headers.set('X-DNS-Prefetch-Control', 'on');
-    rewrite.headers.set('X-XSS-Protection', '1; mode=block');
-    rewrite.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
     return rewrite;
   }
@@ -119,41 +122,27 @@ export default async function middleware(request: NextRequest) {
           intlResponse.headers.get('x-nextjs-rewrite') !== null);
       const isRedirect = intlResponse.status >= 300 && intlResponse.status < 400;
 
-      const response = isRewrite ? intlResponse : intlResponse.clone();
-
-      const csp = buildCSP({
-        nonce,
-        isDev: process.env.NODE_ENV === 'development',
-      });
-
-      if (!response.headers.has('Content-Security-Policy')) {
+      // Redirect: güvenlik başlıkları ekle; rewrite/next ise DOKUNMA (bazı durumlarda route match'i bozuyor).
+      if (isRedirect) {
+        const response = intlResponse.clone();
+        const csp = buildCSP({
+          nonce,
+          isDev: process.env.NODE_ENV === 'development',
+        });
         response.headers.set('Content-Security-Policy', csp);
-      }
-      if (!response.headers.has('X-Frame-Options')) {
         response.headers.set('X-Frame-Options', 'DENY');
-      }
-      if (!response.headers.has('X-Content-Type-Options')) {
         response.headers.set('X-Content-Type-Options', 'nosniff');
-      }
-      if (!response.headers.has('Referrer-Policy')) {
         response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-      }
-
-      if (process.env.NODE_ENV === 'production' && !response.headers.has('Strict-Transport-Security')) {
-        response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-      }
-
-      if (!response.headers.has('X-DNS-Prefetch-Control')) {
+        if (process.env.NODE_ENV === 'production') {
+          response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+        }
         response.headers.set('X-DNS-Prefetch-Control', 'on');
-      }
-      if (!response.headers.has('X-XSS-Protection')) {
         response.headers.set('X-XSS-Protection', '1; mode=block');
-      }
-      if (!response.headers.has('Permissions-Policy')) {
         response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+        return response;
       }
 
-      return response;
+      return intlResponse;
     }
   }
 
@@ -199,4 +188,3 @@ export const config = {
     '/((?!api|_next|_vercel|.*\\..*).*)'
   ]
 };
-

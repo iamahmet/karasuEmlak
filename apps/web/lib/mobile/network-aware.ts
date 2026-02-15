@@ -147,13 +147,11 @@ export function shouldPrefetch(networkStatus?: NetworkStatus): boolean {
  * React hook for network status
  */
 export function useNetworkStatus() {
-  if (typeof window === 'undefined') {
-    return getNetworkStatus();
-  }
-
-  const [status, setStatus] = useState<NetworkStatus>(getNetworkStatus());
+  const [status, setStatus] = useState<NetworkStatus>(() => getNetworkStatus());
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const updateStatus = () => {
       setStatus(getNetworkStatus());
     };

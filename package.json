@@ -109,6 +109,7 @@
     "content:inventory": "tsx scripts/content/route-inventory.ts",
     "content:fill": "tsx scripts/content/fill-all-pages.ts",
     "content:fill:force": "tsx scripts/content/fill-all-pages.ts --force",
+    "content:ramadan-2026": "tsx scripts/create-ramadan-2026-articles.ts",
     "content:audit": "tsx scripts/content/comprehensive-content-audit.ts",
     "content:improve": "tsx scripts/content/improve-content-quality.ts",
     "pages:audit": "tsx scripts/content/audit-empty-pages.ts",
@@ -135,6 +136,8 @@
     "security:csp:check": "tsx scripts/security/csp-check.ts"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.17.0",
     "@playwright/test": "^1.57.0",
     "@sentry/nextjs": "^10.32.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -142,7 +145,6 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/dompurify": "^3.2.0",
     "@types/he": "^1.2.3",
-    "@types/minimatch": "^6.0.0",
     "@types/node": "^20.11.0",
     "@types/xml2js": "^0.4.14",
     "@upstash/ratelimit": "^2.0.7",
@@ -153,6 +155,7 @@
     "critters": "^0.0.25",
     "dompurify": "^3.3.1",
     "dotenv": "^17.2.3",
+    "eslint-plugin-deprecation": "^3.0.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "jsdom": "^27.3.0",
     "playwright": "^1.57.0",

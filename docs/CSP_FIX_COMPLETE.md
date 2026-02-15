@@ -20,7 +20,7 @@ All CSP violations have been fixed:
 ## 📋 Changes Summary
 
 ### PHASE 1: Single Source of Truth ✅
-- **CSP set only in:** `apps/web/middleware.ts`
+- **CSP set only in:** `apps/web/proxy.ts`
 - **Removed from:** `next.config.mjs` (commented out)
 - **Utility:** `apps/web/lib/security/csp.ts` (single builder)
 
@@ -78,7 +78,7 @@ Added domains:
 ## 🔧 Files Modified
 
 ### Core CSP Files
-1. `apps/web/middleware.ts` - CSP header generation with nonce
+1. `apps/web/proxy.ts` - CSP header generation with nonce
 2. `apps/web/lib/security/csp.ts` - CSP builder with comprehensive domains
 3. `apps/web/lib/security/nonce.ts` - Nonce access helper (NEW)
 

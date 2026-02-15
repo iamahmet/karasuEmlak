@@ -83,7 +83,6 @@ const MapBoundsFitter = dynamic(
           if (bounds.length === 1) {
             map.setView(bounds[0] as [number, number], 15);
           } else {
-            // @ts-ignore - Leaflet types
             const L = require('leaflet');
             const boundsObj = L.latLngBounds(bounds);
             map.fitBounds(boundsObj, { padding: [50, 50], maxZoom: 16 });
@@ -156,7 +155,6 @@ export function HospitalsMapLeaflet({
         const leafletContainer = container.querySelector('.leaflet-container');
         if (leafletContainer) {
           try {
-            // @ts-ignore - Leaflet global
             if (typeof window !== 'undefined' && window.L) {
               const L = window.L;
               const map = (leafletContainer as any)._leaflet_id ? L.Map.prototype.getContainer.call({ _container: leafletContainer }) : null;

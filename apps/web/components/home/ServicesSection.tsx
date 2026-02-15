@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { FileText, Calculator, TrendingUp, Shield, Users, Award, ArrowRight } from "lucide-react";
 import { Button } from "@karasu/ui";

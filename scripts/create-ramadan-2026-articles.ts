@@ -126,7 +126,7 @@ function buildCornerstoneKarasuRamadanGuide(): ArticleInput {
   const contentHtml = ensureRamadanToolsBlock([
     `<h2>Ramazan 2026 Ne Zaman? (Türkiye Takvimi)</h2>`,
     p(
-      `Türkiye’de Ramazan 2026, Diyanet takvimine gore ${RAMADAN_2026.startText} tarihinde baslar; ${RAMADAN_2026.endText} ile tamamlanir. Ramazan Bayrami ise ${RAMADAN_2026.eidStartText} ile ${RAMADAN_2026.eidEndText} tarihleri arasindadir. Imsak ve iftar saatleri gun gun degisir; Karasu icin guncel saatleri resmi takvimlerden kontrol etmek en sagliklisidir.`
+      `Türkiye'de Ramazan 2026, Diyanet takvimine göre ${RAMADAN_2026.startText} tarihinde başlar; ${RAMADAN_2026.endText} ile tamamlanır. Ramazan Bayramı ise ${RAMADAN_2026.eidStartText} ile ${RAMADAN_2026.eidEndText} tarihleri arasındadır. İmsak ve iftar saatleri gün gün değişir; Karasu için güncel saatleri resmî takvimlerden kontrol etmek en sağlıklısıdır.`
     ),
     `<h2>Karasu’da Ramazan’da Gün Planı: İftar ve Sahur İçin Pratik Rutin</h2>`,
     p(
@@ -232,7 +232,7 @@ function buildCornerstoneEidGuide(): ArticleInput {
   const contentHtml = ensureRamadanToolsBlock([
     `<h2>Ramazan Bayramı 2026 Tarihleri</h2>`,
     p(
-      `Ramazan Bayrami 2026, Turkiye takvimine gore ${RAMADAN_2026.eidStartText} ile ${RAMADAN_2026.eidEndText} tarihleri arasindadir. Bayram oncesi ve bayramin ilk gunu, ulasim ve sahil yogunlugu artabilecegi icin plani bir gun onceden netlestirmek faydali olur.`
+      `Ramazan Bayramı 2026, Türkiye takvimine göre ${RAMADAN_2026.eidStartText} ile ${RAMADAN_2026.eidEndText} tarihleri arasındadır. Bayram öncesi ve bayramın ilk günü, ulaşım ve sahil yoğunluğu artabileceği için planı bir gün önceden netleştirmek faydalı olur.`
     ),
     `<h2>Karasu’da Bayram Planı: 3 Parça Kontrol Listesi</h2>`,
     `<h3>1) Ulaşım</h3>`,

@@ -1,8 +1,5 @@
-"use client";
-
 import Link from "next/link";
 import { Home, Building2, TreePine, Key, ArrowRight } from "lucide-react";
-import { Button } from "@karasu/ui";
 
 interface QuickAccessSectionProps {
   basePath?: string;

@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 
+// This page reads request cookies via Supabase SSR helpers (see getQAEntries).
+// Mark as dynamic to avoid build-time static generation errors.
+export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
@@ -45,7 +48,8 @@ export async function generateMetadata({
   
   return {
     title: `Sıkça Sorulan Sorular (SSS) | Karasu Emlak | ${faqCount}+ Emlak Soruları ve Cevapları`,
-    description: 'Karasu ve Kocaali bölgesinde emlak alım-satım, kiralama, yatırım, tapu işlemleri, kredi başvurusu, noter masrafları ve diğer tüm konularda merak ettikleriniz için kapsamlı SSS rehberi. Uzman cevaplar ve güncel bilgiler. 2024 yılı güncel emlak bilgileri.',
+    description:
+      'Karasu ve Kocaali bölgesinde emlak alım-satım, kiralama, yatırım, tapu işlemleri, kredi başvurusu, noter masrafları ve diğer tüm konularda merak ettikleriniz için kapsamlı SSS rehberi. Uzman cevaplar ve güncel bilgiler.',
     keywords: [
       'karasu emlak sss',
       'emlak sık sorulan sorular',

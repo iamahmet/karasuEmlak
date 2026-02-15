@@ -110,16 +110,20 @@ BEGIN
   -- Migrate from featured_image (text) to featured_image_id if possible
   -- This is a best-effort migration, may not match all cases
   UPDATE public.articles a
-  SET featured_image_id = ma.id
-  FROM public.media_assets ma
-  WHERE a.featured_image IS NOT NULL
-    AND a.featured_image_id IS NULL
-    AND (
-      ma.cloudinary_public_id = a.featured_image
-      OR ma.cloudinary_secure_url = a.featured_image
-      OR ma.secure_url = a.featured_image
+  SET featured_image_id = (
+    SELECT m.id
+    FROM public.media_assets m
+    WHERE (
+      m.public_id = a.featured_image
+      OR m.secure_url = a.featured_image
+      OR m.cloudinary_public_id = a.featured_image
+      OR m.cloudinary_secure_url = a.featured_image
     )
-  LIMIT 1; -- Only update first match per article
+    ORDER BY m.id DESC
+    LIMIT 1
+  )
+  WHERE a.featured_image IS NOT NULL
+    AND a.featured_image_id IS NULL;
 END $$;
 
 -- 5. Add schema_json to articles if not exists
