@@ -226,8 +226,8 @@ export default async function KarasuIftaraKacDakikaKaldiPage({
               Karasu İftara Kaç Dakika Kaldı?
             </h1>
             <p className="text-base md:text-lg text-gray-700 max-w-3xl leading-relaxed">
-              Bu sayaç, <strong>Karasu</strong> için bugünün iftar saatine göre anlık geri sayım gösterir.
-              Karasu, <strong>Kocaali</strong> ve Sakarya çevresinde saatler genelde çok yakın olsa da birkaç dakika fark edebilir; en doğru referans her zaman resmî takvimdir.
+              <strong>Karasu iftara kaç dakika kaldı?</strong> ve “<strong>Sakarya Karasu iftara kaç dk kaldı</strong>” diye arayanlar için canlı geri sayım.
+              Sayaç Karasu’nun bugünkü iftar saatine göre çalışır; <strong>Kocaali</strong> ve Sakarya çevresinde ise saatler genelde çok yakın olsa da birkaç dakika fark edebilir. En doğru referans her zaman resmî takvimdir.
             </p>
 
             <div className="flex flex-wrap gap-2.5 mt-6">
