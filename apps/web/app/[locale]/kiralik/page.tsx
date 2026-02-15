@@ -17,6 +17,7 @@ import { generateFAQSchema } from '@/lib/seo/structured-data';
 import { generateItemListSchema } from '@/lib/seo/listings-schema';
 import { ContactInfoBar } from '@/components/layout/ContactInfoBar';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
+import { Ramadan2026PromoBlock } from '@/components/seasonal/Ramadan2026PromoBlock';
 import Link from 'next/link';
 import { Button } from '@karasu/ui';
 import { Home, FileText, MapPin, ArrowRight, Search, DollarSign, Building2, Phone, Mail, MessageCircle, TrendingUp, Shield, CheckCircle2, Clock, Users, Award, BarChart3, Info, Lightbulb, Target, Zap, Eye, Calculator, Calendar, Key } from 'lucide-react';
@@ -305,6 +306,8 @@ export default async function ForRentPage({
         <ContactInfoBar />
 
         <div className="container mx-auto px-4 lg:px-6 py-8 lg:py-12">
+          <Ramadan2026PromoBlock basePath={basePath} className="mb-10" />
+
           {/* Listings Content - IMMEDIATE ACCESS */}
           <section className="mb-16">
             <Suspense fallback={<ListingGridSkeleton count={18} />}>
@@ -686,4 +689,3 @@ export default async function ForRentPage({
     );
   }
 }
-

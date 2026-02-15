@@ -1,32 +1,32 @@
 import { Button } from '@karasu/ui';
 import type { Metadata } from 'next';
-
 export const revalidate = 1800; // Revalidate every 30 minutes (homepage shows dynamic content)
 import Link from 'next/link';
 import { routing } from '@/i18n/routing';
 import { siteConfig } from '@karasu-emlak/config';
-import { Home, Building2, MapPin, Calendar, User, Square, Heart, Search, TrendingUp, FileText, Sun, ArrowRight } from 'lucide-react';
+import { Home, Building2, MapPin, Calendar, User, Square, Heart, Search, TrendingUp, FileText, Sun, ArrowRight, ExternalLink } from 'lucide-react';
 import { getFeaturedListings, getRecentListings, getListingStats, getNeighborhoods } from '@/lib/supabase/queries';
 import { getNeighborhoodsWithImages, getNeighborhoodImageUrl } from '@/lib/supabase/queries/neighborhoods';
-import { getFeaturedArticles } from '@/lib/supabase/queries/articles';
+import { getLatestArticles } from '@/lib/supabase/queries/articles';
 import { generateSlug } from '@/lib/utils';
 import { getFeaturedNewsArticles } from '@/lib/supabase/queries/news';
 import { getLatestGundemArticles } from '@/lib/rss/gundem-parser';
 import { enhanceArticleSEO } from '@/lib/rss/gundem-integration';
-import { CardImage, ListingImage, ExternalImage } from '@/components/images';
-import { AdvancedHomeSearch } from '@/components/search/AdvancedHomeSearch';
+import { CardImage, ExternalImage } from '@/components/images';
 import dynamicImport from 'next/dynamic';
 import TestimonialsWithSchema from '@/components/testimonials/TestimonialsWithSchema';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateRealEstateAgentLocalSchema, generateWebSiteSchema } from '@/lib/seo/local-seo-schemas';
+import { TrustIndicatorsBar } from '@/components/home/TrustIndicatorsBar';
+import { QuickAccessSection } from '@/components/home/QuickAccessSection';
+import { ServicesSection } from '@/components/home/ServicesSection';
+import { EnhancedWhyChooseUsSection } from '@/components/home/EnhancedWhyChooseUsSection';
+import { HowItWorksSection } from '@/components/home/HowItWorksSection';
+import { Ramadan2026PromoBlock } from '@/components/seasonal/Ramadan2026PromoBlock';
 
 // Lazy load heavy components for better performance
 const Hero = dynamicImport(() => import('@/components/home/Hero').then(mod => ({ default: mod.Hero })), {
   loading: () => <div className="h-[600px] bg-white animate-pulse" />,
-});
-
-const FeaturedListingsSection = dynamicImport(() => import('@/components/home/FeaturedListingsSection').then(mod => ({ default: mod.FeaturedListingsSection })), {
-  loading: () => <div className="h-96 bg-white animate-pulse" />,
 });
 
 const NeighborhoodsSection = dynamicImport(() => import('@/components/home/NeighborhoodsSection').then(mod => ({ default: mod.NeighborhoodsSection })), {
@@ -44,10 +44,6 @@ const CTASection = dynamicImport(() => import('@/components/home/CTASection').th
 // Removed: WhyChooseUsSection (replaced by EnhancedWhyChooseUsSection)
 // Removed: TrustBadgesSection (replaced by TrustIndicatorsBar)
 
-const HowItWorksSection = dynamicImport(() => import('@/components/home/HowItWorksSection').then(mod => ({ default: mod.HowItWorksSection })), {
-  loading: () => <div className="h-96 bg-white animate-pulse" />,
-});
-
 const HomepageFAQ = dynamicImport(() => import('@/components/home/HomepageFAQ').then(mod => ({ default: mod.HomepageFAQ })), {
   loading: () => <div className="h-96 bg-white animate-pulse" />,
 });
@@ -56,15 +52,7 @@ const InteractiveMap = dynamicImport(() => import('@/components/map/InteractiveM
   loading: () => <div className="h-[600px] bg-gray-100 rounded-2xl animate-pulse" />,
 });
 
-const RecentActivityFeed = dynamicImport(() => import('@/components/home/RecentActivityFeed').then(mod => ({ default: mod.RecentActivityFeed })), {
-  loading: () => <div className="h-96 bg-white animate-pulse" />,
-});
-
 // Removed: PriceComparisonWidget (consolidated into CompactMarketTrends)
-
-const NeighborhoodsCarousel = dynamicImport(() => import('@/components/home/NeighborhoodsCarousel').then(mod => ({ default: mod.NeighborhoodsCarousel })), {
-  loading: () => <div className="h-96 bg-gray-50 animate-pulse" />,
-});
 
 const AgentTeamSection = dynamicImport(() => import('@/components/home/AgentTeamSection').then(mod => ({ default: mod.AgentTeamSection })), {
   loading: () => <div className="h-96 bg-white animate-pulse" />,
@@ -76,10 +64,6 @@ const AgentTeamSection = dynamicImport(() => import('@/components/home/AgentTeam
 // Compact & Combined Sections
 const CompactStatsSection = dynamicImport(() => import('@/components/home/CompactStatsSection').then(mod => ({ default: mod.CompactStatsSection })), {
   loading: () => <div className="h-32 bg-white animate-pulse" />,
-});
-
-const EnhancedWhyChooseUsSection = dynamicImport(() => import('@/components/home/EnhancedWhyChooseUsSection').then(mod => ({ default: mod.EnhancedWhyChooseUsSection })), {
-  loading: () => <div className="h-96 bg-white animate-pulse" />,
 });
 
 const QuickToolsSection = dynamicImport(() => import('@/components/home/QuickToolsSection').then(mod => ({ default: mod.QuickToolsSection })), {
@@ -104,10 +88,6 @@ const PropertyTypeShowcase = dynamicImport(() => import('@/components/home/Prope
   loading: () => <div className="h-96 bg-white animate-pulse" />,
 });
 
-const QuickAccessSection = dynamicImport(() => import('@/components/home/QuickAccessSection').then(mod => ({ default: mod.QuickAccessSection })), {
-  loading: () => <div className="h-96 bg-white animate-pulse" />,
-});
-
 const SEOContentSection = dynamicImport(() => import('@/components/home/SEOContentSection').then(mod => ({ default: mod.SEOContentSection })), {
   loading: () => <div className="h-96 bg-white animate-pulse" />,
 });
@@ -129,22 +109,13 @@ const CurrentPricesSection = dynamicImport(() => import('@/components/home/Curre
   loading: () => <div className="h-96 bg-white animate-pulse" />,
 });
 
-const ServicesSection = dynamicImport(() => import('@/components/home/ServicesSection').then(mod => ({ default: mod.ServicesSection })), {
-  loading: () => <div className="h-96 bg-white animate-pulse" />,
-});
-
 // Removed: FirstTimeBuyerGuide, InvestmentOpportunitiesSection, InvestorsGuideSection, SummerPropertyMarketSection
 // Consolidated into a single "Guides Hub" section on homepage
-
-const TrustIndicatorsBar = dynamicImport(() => import('@/components/home/TrustIndicatorsBar').then(mod => ({ default: mod.TrustIndicatorsBar })), {
-  loading: () => <div className="h-32 bg-gray-50 animate-pulse" />,
-});
 
 // Removed: LocalAreaGuideSection (consolidated into NeighborhoodsSection)
 
 import { withTimeout } from '@/lib/utils/timeout';
 import { SectionErrorBoundary } from '@/components/errors/SectionErrorBoundary';
-import { ExternalLink } from 'lucide-react';
 // Removed: StatsSection (replaced by CompactStatsSection)
 
 /**
@@ -267,7 +238,7 @@ export default async function HomePage({
     let stats: Awaited<ReturnType<typeof getListingStats>> = { total: 0, satilik: 0, kiralik: 0, byType: {} };
     let neighborhoods: string[] = [];
     let neighborhoodsWithImages: Awaited<ReturnType<typeof getNeighborhoodsWithImages>> = [];
-    let featuredArticles: Awaited<ReturnType<typeof getFeaturedArticles>> = [];
+    let featuredArticles: Awaited<ReturnType<typeof getLatestArticles>> = [];
     let featuredNews: Awaited<ReturnType<typeof getFeaturedNewsArticles>> = [];
     let gundemArticles: Awaited<ReturnType<typeof getLatestGundemArticles>> = [];
     let neighborhoodStats: any[] = [];
@@ -275,68 +246,60 @@ export default async function HomePage({
     // Use timeout to prevent blocking (3 seconds max)
     // If database is down, page still renders with empty data
     try {
-      // Wrap each data fetch in individual try-catch to prevent one failure from breaking the page
-      let listingsResult: any[] = [];
-      try {
-        const fetchedListings = await withTimeout(getFeaturedListings(10), 3000, [] as any[]);
-        listingsResult = Array.isArray(fetchedListings) ? fetchedListings : [];
-      } catch (listingsError: any) {
-        console.error('[HomePage] Error fetching featured listings:', listingsError.message);
-        listingsResult = [];
-      }
-      
-      let recentListingsResult: any[] = [];
-      try {
-        const fetchedRecent = await withTimeout(getRecentListings(10), 3000, [] as any[]);
-        recentListingsResult = Array.isArray(fetchedRecent) ? fetchedRecent : [];
-      } catch (recentError: any) {
-        console.error('[HomePage] Error fetching recent listings:', recentError.message);
-        recentListingsResult = [];
-      }
+      const defaultStats = { total: 0, satilik: 0, kiralik: 0, byType: {} as Record<string, number> };
+      const defaultArr: any[] = [];
 
-      // Separate satilik and kiralik listings
-      const safeListings = listingsResult ?? [];
-      satilikListings = safeListings.filter(l => l.status === 'satilik');
-      kiralikListings = safeListings.filter(l => l.status === 'kiralik');
-      const statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
-      const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
-      const neighborhoodsImagesResult = await withTimeout(getNeighborhoodsWithImages(8), 3000, []);
-      const articlesResult = await withTimeout(getFeaturedArticles(3), 3000, []);
-      const newsResult = await withTimeout(getFeaturedNewsArticles(3), 3000, []);
-      
-      // Get neighborhood stats for enhanced display
-      try {
-        const { getNeighborhoodStats } = await import('@/lib/supabase/queries/neighborhood-stats');
-        const neighborhoodStatsResult = await withTimeout(getNeighborhoodStats(), 3000, []);
-        neighborhoodStats = neighborhoodStatsResult || [];
-      } catch (error) {
-        console.error('Error loading neighborhood stats:', error);
-        neighborhoodStats = [];
-      }
+      const results = await Promise.allSettled([
+        withTimeout(getFeaturedListings(10), 3000, defaultArr),
+        withTimeout(getRecentListings(10), 3000, defaultArr),
+        withTimeout(getListingStats(), 3000, defaultStats),
+        withTimeout(getNeighborhoods(), 3000, [] as string[]),
+        withTimeout(getNeighborhoodsWithImages(8), 3000, defaultArr),
+        withTimeout(getLatestArticles(3), 3000, defaultArr),
+        withTimeout(getFeaturedNewsArticles(3), 3000, defaultArr),
+        (async () => {
+          try {
+            const { getNeighborhoodStats } = await import('@/lib/supabase/queries/neighborhood-stats');
+            return await withTimeout(getNeighborhoodStats(), 3000, defaultArr);
+          } catch (error) {
+            if (process.env.NODE_ENV === 'development') {
+              console.error('[HomePage] Error loading neighborhood stats:', (error as any)?.message || error);
+            }
+            return defaultArr;
+          }
+        })(),
+        withTimeout(getLatestGundemArticles(3), 3000, defaultArr),
+      ]);
 
-      // Fetch Karasu Gündem articles separately (with timeout, graceful degradation)
-      let gundemResult: any[] = [];
-      try {
-        const fetchedGundem = await withTimeout(
-          getLatestGundemArticles(3),
-          3000,
-          [] as any[]
-        );
-        gundemResult = Array.isArray(fetchedGundem) ? fetchedGundem : [];
-      } catch (gundemError: any) {
-        console.error('[HomePage] Error fetching Gündem articles:', gundemError?.message);
-        gundemResult = [];
-      }
+      const unwrap = <T,>(r: PromiseSettledResult<T>, fallback: T, label: string): T => {
+        if (r.status === 'fulfilled') return (r.value ?? fallback) as T;
+        console.error(`[HomePage] Error fetching ${label}:`, (r.reason as any)?.message || r.reason);
+        return fallback;
+      };
 
-      // Assign results (null becomes empty array/object)
-      featuredListings = listingsResult || [];
-      recentListings = recentListingsResult || [];
-      stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
-      neighborhoods = neighborhoodsResult || [];
-      neighborhoodsWithImages = neighborhoodsImagesResult || [];
-      featuredArticles = articlesResult || [];
-      featuredNews = newsResult || [];
-      gundemArticles = gundemResult || [];
+      const listingsResult = unwrap(results[0] as PromiseSettledResult<any>, defaultArr, 'featured listings');
+      const recentListingsResult = unwrap(results[1] as PromiseSettledResult<any>, defaultArr, 'recent listings');
+      const statsResult = unwrap(results[2] as PromiseSettledResult<any>, defaultStats, 'listing stats');
+      const neighborhoodsResult = unwrap(results[3] as PromiseSettledResult<any>, [] as string[], 'neighborhoods');
+      const neighborhoodsImagesResult = unwrap(results[4] as PromiseSettledResult<any>, defaultArr, 'neighborhood images');
+      const articlesResult = unwrap(results[5] as PromiseSettledResult<any>, defaultArr, 'latest articles');
+      const newsResult = unwrap(results[6] as PromiseSettledResult<any>, defaultArr, 'featured news');
+      const neighborhoodStatsResult = unwrap(results[7] as PromiseSettledResult<any>, defaultArr, 'neighborhood stats');
+      const gundemResult = unwrap(results[8] as PromiseSettledResult<any>, defaultArr, 'gundem RSS');
+
+      const safeListings = Array.isArray(listingsResult) ? listingsResult : defaultArr;
+      satilikListings = safeListings.filter((l) => l?.status === 'satilik');
+      kiralikListings = safeListings.filter((l) => l?.status === 'kiralik');
+
+      featuredListings = safeListings;
+      recentListings = Array.isArray(recentListingsResult) ? recentListingsResult : defaultArr;
+      stats = statsResult || defaultStats;
+      neighborhoods = Array.isArray(neighborhoodsResult) ? neighborhoodsResult : [];
+      neighborhoodsWithImages = Array.isArray(neighborhoodsImagesResult) ? neighborhoodsImagesResult : defaultArr;
+      featuredArticles = Array.isArray(articlesResult) ? articlesResult : defaultArr;
+      featuredNews = Array.isArray(newsResult) ? newsResult : defaultArr;
+      neighborhoodStats = Array.isArray(neighborhoodStatsResult) ? neighborhoodStatsResult : defaultArr;
+      gundemArticles = Array.isArray(gundemResult) ? gundemResult : defaultArr;
     } catch (error) {
       console.error('Error fetching homepage data:', error);
       // Continue with empty data - page will still render
@@ -392,7 +355,7 @@ export default async function HomePage({
       </SectionErrorBoundary>
 
       {/* Compact Stats Section */}
-      <CompactStatsSection />
+      <CompactStatsSection total={stats?.total} />
 
       {/* Trust Indicators Bar */}
       <SectionErrorBoundary sectionName="Güven Göstergeleri">
@@ -413,6 +376,17 @@ export default async function HomePage({
       {/* Quick Access Section - Hızlı Erişim */}
       <SectionErrorBoundary sectionName="Hızlı Erişim">
         <QuickAccessSection basePath={basePath} />
+      </SectionErrorBoundary>
+
+      {/* Seasonal: Ramazan 2026 cluster booster (high intent queries) */}
+      <SectionErrorBoundary sectionName="Ramazan 2026">
+        <section className="py-10 lg:py-12 bg-white">
+          <div className="container mx-auto px-4 lg:px-6">
+            <div className="max-w-7xl mx-auto">
+              <Ramadan2026PromoBlock basePath={basePath} />
+            </div>
+          </div>
+        </section>
       </SectionErrorBoundary>
 
       {/* Current Prices Section */}
@@ -593,10 +567,11 @@ export default async function HomePage({
       <SectionErrorBoundary sectionName="Blog & Haberler">
         <BlogNewsSection 
           articles={featuredArticles} 
-          news={[...featuredNews, ...enhancedGundemArticles.map(g => ({
+          news={[...featuredNews, ...enhancedGundemArticles.map((g) => ({
             ...g,
-            id: g.slug || `gundem-${Date.now()}`,
-            category: Array.isArray(g.category) ? g.category[0] : g.category,
+            // Keep ids deterministic to avoid cache/hydration churn.
+            id: (g as any)?.guid || (g as any)?.slug || (g as any)?.link || `${(g as any)?.pubDate || ''}-${(g as any)?.title || ''}`,
+            category: Array.isArray((g as any)?.category) ? (g as any).category[0] : (g as any)?.category,
           }))]} 
           basePath={basePath} 
         />
@@ -642,7 +617,7 @@ export default async function HomePage({
             {enhancedGundemArticles.map((article) => {
               return (
                 <a 
-                  key={article.guid || article.slug} 
+                  key={article.guid || article.link || article.slug} 
                   href={article.link}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -814,4 +789,3 @@ export default async function HomePage({
     );
   }
 }
-

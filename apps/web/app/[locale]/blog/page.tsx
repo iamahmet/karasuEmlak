@@ -419,19 +419,21 @@ export default async function BlogPage({
     }
   }
   
-  // Debug logging (always log to help diagnose)
-  console.log('[Blog Page Debug]', {
-    realEstateNewsCount: realEstateNews.length,
-    gundemArticlesCount: gundemArticles.length,
-    realEstateGundemCount: realEstateGundemArticles.length,
-    allArticlesForNewsCount: allArticlesForNews.length,
-    articlesCount: articles.length,
-    total,
-    searchQuery,
-    category,
-    tag,
-    firstArticleTitle: articles[0]?.title || 'none',
-  });
+  // Debug logging (dev only)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[Blog Page Debug]', {
+      realEstateNewsCount: realEstateNews.length,
+      gundemArticlesCount: gundemArticles.length,
+      realEstateGundemCount: realEstateGundemArticles.length,
+      allArticlesForNewsCount: allArticlesForNews.length,
+      articlesCount: articles.length,
+      total,
+      searchQuery,
+      category,
+      tag,
+      firstArticleTitle: articles[0]?.title || 'none',
+    });
+  }
   
   
   const totalPages = Math.ceil(total / limit);
@@ -450,15 +452,17 @@ export default async function BlogPage({
   const featuredIds = new Set(featuredArticles.map(a => a.id));
   const latestArticles = (articles || []).filter(a => !featuredIds.has(a.id)).filter(Boolean);
   
-  // Additional debug logging after processing
-  console.log('[Blog Page] After processing:', {
-    articlesCount: articles.length,
-    featuredArticlesCount: featuredArticles.length,
-    latestArticlesCount: latestArticles.length,
-    articlesWithImagesCount: articlesWithImages.length,
-    articlesWithoutImagesCount: articlesWithoutImages.length,
-    willShowEmptyState: articles.length === 0,
-  });
+  // Additional debug logging after processing (dev only)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[Blog Page] After processing:', {
+      articlesCount: articles.length,
+      featuredArticlesCount: featuredArticles.length,
+      latestArticlesCount: latestArticles.length,
+      articlesWithImagesCount: articlesWithImages.length,
+      articlesWithoutImagesCount: articlesWithoutImages.length,
+      willShowEmptyState: articles.length === 0,
+    });
+  }
   
   // Get popular articles for stats
   const totalViews = (articles || []).reduce((sum, a) => sum + (a.views || 0), 0);
@@ -640,6 +644,42 @@ export default async function BlogPage({
                 basePath={basePath}
               />
             )}
+
+            {/* Seasonal Hub Link (Ramazan 2026) */}
+            <div className="mb-6">
+              <Link
+                href={`${basePath}/blog/ramazan-2026`}
+                className="block rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 via-white to-blue-50/70 p-6 hover:shadow-lg transition-all"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
+                    <Calendar className="h-6 w-6 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between gap-3">
+                      <h2 className="text-xl md:text-2xl font-bold text-gray-900">
+                        Ramazan 2026 İçerik Merkezi
+                      </h2>
+                      <span className="text-xs font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
+                        SEO Hub
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-700 mt-2 max-w-3xl">
+                      Ramazan ve bayram dönemine özel Karasu rehberleri: kiralık ev arama ipuçları, taşınma checklist’i,
+                      sahil akşam planı ve bayram haftası yazlık önerileri.
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                      <span className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-700">
+                        /blog/ramazan-2026
+                      </span>
+                      <span className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-700">
+                        /blog/etiket/ramazan
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
 
             {/* Filters Section */}
             <BlogFilters 
@@ -913,4 +953,3 @@ export default async function BlogPage({
     </div>
   );
 }
-

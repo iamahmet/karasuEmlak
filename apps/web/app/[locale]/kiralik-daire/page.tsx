@@ -17,6 +17,7 @@ import { generatePageContentInfo } from '@/lib/content/ai-checker-helper';
 import dynamicImport from 'next/dynamic';
 import { optimizeMetaDescription } from '@/lib/seo/meta-description-optimizer';
 import { Suspense } from 'react';
+import { Ramadan2026PromoBlock } from '@/components/seasonal/Ramadan2026PromoBlock';
 
 // Performance: ISR with cache tags for better performance
 export const revalidate = 3600; // 1 hour - regenerate every hour
@@ -297,6 +298,9 @@ export default async function KiralikDairePage({
       
       {/* AI Checker Badge - Admin Only (Hidden from public) */}
 
+      <div className="container mx-auto px-4 pt-6">
+        <Ramadan2026PromoBlock basePath={basePath} />
+      </div>
 
       <main className="min-h-screen bg-white">
         {/* Hero Section */}

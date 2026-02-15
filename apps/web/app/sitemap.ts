@@ -96,6 +96,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/karasu/restoranlar', priority: 0.6, changeFrequency: 'monthly' },
     { path: '/karasu/ulasim', priority: 0.6, changeFrequency: 'monthly' },
     { path: '/karasu/onemli-telefonlar', priority: 0.6, changeFrequency: 'monthly' },
+    { path: '/karasu/ramazan-imsakiyesi', priority: 0.7, changeFrequency: 'daily' },
+    { path: '/karasu/iftara-kac-dakika-kaldi', priority: 0.7, changeFrequency: 'hourly' },
     { path: '/karasu/mahalle-karsilastirma', priority: 0.7, changeFrequency: 'weekly' },
     { path: '/karasu/mahalleler', priority: 0.8, changeFrequency: 'weekly' },
     
@@ -130,6 +132,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     
     // Content pages
     { path: '/blog', priority: 0.8, changeFrequency: 'daily' },
+    { path: '/blog/ramazan-2026', priority: 0.75, changeFrequency: 'daily' },
+    { path: '/blog/etiket/ramazan', priority: 0.6, changeFrequency: 'weekly' },
+    { path: '/blog/etiket/bayram', priority: 0.55, changeFrequency: 'weekly' },
     { path: '/haberler', priority: 0.8, changeFrequency: 'daily' },
     { path: '/haberler/karasu-emlak', priority: 0.7, changeFrequency: 'weekly' },
     { path: '/yorumlar', priority: 0.7, changeFrequency: 'weekly' },
