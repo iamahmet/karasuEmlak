@@ -187,37 +187,37 @@ export default async function KarasuRamazanImsakiyePage({
 
       <Breadcrumbs items={breadcrumbs} />
 
-      <div className="min-h-screen bg-white">
-        <div className="container mx-auto px-4 py-8 lg:py-12 max-w-7xl">
-          <header className="rounded-2xl border border-gray-200 bg-gradient-to-br from-primary/5 via-white to-blue-50/60 p-6 md:p-10 shadow-sm mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 lg:py-12 max-w-7xl">
+          <header className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-gradient-to-br from-primary/5 via-white to-blue-50/60 dark:from-primary/10 dark:via-gray-900 dark:to-gray-800 p-4 sm:p-6 md:p-10 shadow-sm mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center flex-shrink-0">
                 <Calendar className="h-6 w-6 text-primary" />
               </div>
-              <h1 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight">
                 Sakarya Karasu Ramazan İmsakiyesi 2026
               </h1>
             </div>
-            <p className="text-base md:text-lg text-gray-700 max-w-3xl leading-relaxed">
+            <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-3xl leading-relaxed mt-4">
               Bu sayfada <strong>Sakarya Karasu Ramazan imsakiyesi</strong> ve <strong>Karasu iftar vakitleri</strong> için gün gün tabloyu bulabilirsiniz.
               Ayrıca “<strong>Karasu iftara kaç dakika kaldı</strong>” sorusu için pratik bir geri sayım da ekledik.
             </p>
 
-            <div className="flex flex-wrap gap-2.5 mt-6">
-              <Link href={`${basePath}/karasu/iftara-kac-dakika-kaldi`}>
-                <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2.5 mt-6">
+              <Link href={`${basePath}/karasu/iftara-kac-dakika-kaldi`} className="w-full sm:w-auto">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[44px] border-2 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10">
                   <ArrowRight className="h-4 w-4 mr-2" />
                   İftara Kaç Dakika Kaldı?
                 </Button>
               </Link>
-              <Link href={`${basePath}/blog/ramazan-2026`}>
-                <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+              <Link href={`${basePath}/blog/ramazan-2026`} className="w-full sm:w-auto">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[44px] border-2 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10">
                   <FileText className="h-4 w-4 mr-2" />
                   Ramazan 2026 Rehberleri
                 </Button>
               </Link>
-              <Link href={`${basePath}/kiralik`}>
-                <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+              <Link href={`${basePath}/kiralik`} className="w-full sm:w-auto">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[44px] border-2 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10">
                   <MapPin className="h-4 w-4 mr-2" />
                   Kiralık İlanlar
                 </Button>
@@ -235,18 +235,18 @@ export default async function KarasuRamazanImsakiyePage({
               className="mb-8"
             />
           ) : (
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Bugünün Vakitleri Bulunamadı</h2>
-              <p className="text-gray-700">
+            <div className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-6 md:p-8 shadow-sm mb-6 sm:mb-8">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Bugünün Vakitleri Bulunamadı</h2>
+              <p className="text-gray-700 dark:text-gray-300">
                 Veritabanında <strong>{today}</strong> tarihi için kayıt yok. Import sonrası otomatik görünecek.
               </p>
             </div>
           )}
 
-          <section className="rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Bugünün Karasu Vakitleri</h2>
+          <section className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-6 md:p-8 shadow-sm mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">Bugünün Karasu Vakitleri</h2>
             {todayTimes ? (
-              <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
                 {[
                   ['İmsak', toHHMM(todayTimes.imsak)],
                   ['Güneş', toHHMM(todayTimes.gunes)],
@@ -255,71 +255,71 @@ export default async function KarasuRamazanImsakiyePage({
                   ['İftar', toHHMM(todayTimes.aksam)],
                   ['Yatsı', toHHMM(todayTimes.yatsi)],
                 ].map(([label, val]) => (
-                  <div key={label} className="rounded-xl border border-gray-200 bg-gray-50 p-3">
-                    <div className="text-xs font-semibold text-gray-600">{label}</div>
-                    <div className="text-lg font-bold text-gray-900 tabular-nums">{val}</div>
+                  <div key={label} className="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 p-3 min-h-[72px] flex flex-col justify-center">
+                    <div className="text-xs font-semibold text-gray-600 dark:text-gray-400">{label}</div>
+                    <div className="text-base sm:text-lg font-bold text-gray-900 dark:text-white tabular-nums">{val}</div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-gray-700">Bugün için veri yok.</p>
+              <p className="text-gray-700 dark:text-gray-300">Bugün için veri yok.</p>
             )}
-            <p className="text-xs text-gray-500 mt-4">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-4">
               Not: Saatler kaynak veriye göre listelenir. Resmi takvimlerle küçük farklılıklar olabilir.
             </p>
           </section>
 
-          <section className="rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Ramazan 2026 Karasu İmsakiyesi (Gün Gün)</h2>
-            <p className="text-gray-700 mb-5">
+          <section className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-6 md:p-8 shadow-sm">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Ramazan 2026 Karasu İmsakiyesi (Gün Gün)</h2>
+            <p className="text-gray-700 dark:text-gray-300 mb-5">
               Ramazan 2026 için Karasu’da imsak ve iftar saatleri <strong>{formatTurkeyDate(RAMADAN_2026_FROM)}</strong> ile{' '}
               <strong>{formatTurkeyDate(RAMADAN_2026_TO)}</strong> arasında gün gün aşağıda.
             </p>
 
             {ramadanRange.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="min-w-full text-sm border border-gray-200 rounded-xl overflow-hidden">
-                  <thead className="bg-gray-50">
-                    <tr className="text-left text-gray-700">
-                      <th className="px-4 py-3 font-semibold">Tarih</th>
-                      <th className="px-4 py-3 font-semibold">İmsak</th>
-                      <th className="px-4 py-3 font-semibold">Güneş</th>
-                      <th className="px-4 py-3 font-semibold">Öğle</th>
-                      <th className="px-4 py-3 font-semibold">İkindi</th>
-                      <th className="px-4 py-3 font-semibold">İftar</th>
-                      <th className="px-4 py-3 font-semibold">Yatsı</th>
+              <div className="overflow-x-auto -mx-4 sm:mx-0 sm:rounded-xl" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <table className="min-w-[640px] sm:min-w-full text-sm border border-gray-200 dark:border-gray-600 rounded-xl overflow-hidden">
+                  <thead className="bg-gray-50 dark:bg-gray-700/50">
+                    <tr className="text-left text-gray-700 dark:text-gray-300">
+                      <th className="px-3 sm:px-4 py-3 font-semibold sticky left-0 bg-gray-50 dark:bg-gray-700/50 z-10">Tarih</th>
+                      <th className="px-3 sm:px-4 py-3 font-semibold">İmsak</th>
+                      <th className="px-3 sm:px-4 py-3 font-semibold">Güneş</th>
+                      <th className="px-3 sm:px-4 py-3 font-semibold">Öğle</th>
+                      <th className="px-3 sm:px-4 py-3 font-semibold">İkindi</th>
+                      <th className="px-3 sm:px-4 py-3 font-semibold">İftar</th>
+                      <th className="px-3 sm:px-4 py-3 font-semibold">Yatsı</th>
                     </tr>
                   </thead>
                   <tbody>
                     {ramadanRange.map((row) => (
-                      <tr key={row.date} className="border-t border-gray-200">
-                        <td className="px-4 py-3 whitespace-nowrap">{formatTurkeyDate(row.date)}</td>
-                        <td className="px-4 py-3 tabular-nums">{toHHMM(row.imsak)}</td>
-                        <td className="px-4 py-3 tabular-nums">{toHHMM(row.gunes)}</td>
-                        <td className="px-4 py-3 tabular-nums">{toHHMM(row.ogle)}</td>
-                        <td className="px-4 py-3 tabular-nums">{toHHMM(row.ikindi)}</td>
-                        <td className="px-4 py-3 tabular-nums font-semibold text-gray-900">{toHHMM(row.aksam)}</td>
-                        <td className="px-4 py-3 tabular-nums">{toHHMM(row.yatsi)}</td>
+                      <tr key={row.date} className="border-t border-gray-200 dark:border-gray-600">
+                        <td className="px-3 sm:px-4 py-3 whitespace-nowrap sticky left-0 bg-white dark:bg-gray-800 z-10 font-medium">{formatTurkeyDate(row.date)}</td>
+                        <td className="px-3 sm:px-4 py-3 tabular-nums text-gray-900 dark:text-gray-100">{toHHMM(row.imsak)}</td>
+                        <td className="px-3 sm:px-4 py-3 tabular-nums text-gray-900 dark:text-gray-100">{toHHMM(row.gunes)}</td>
+                        <td className="px-3 sm:px-4 py-3 tabular-nums text-gray-900 dark:text-gray-100">{toHHMM(row.ogle)}</td>
+                        <td className="px-3 sm:px-4 py-3 tabular-nums text-gray-900 dark:text-gray-100">{toHHMM(row.ikindi)}</td>
+                        <td className="px-3 sm:px-4 py-3 tabular-nums font-semibold text-gray-900 dark:text-white">{toHHMM(row.aksam)}</td>
+                        <td className="px-3 sm:px-4 py-3 tabular-nums text-gray-900 dark:text-gray-100">{toHHMM(row.yatsi)}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             ) : (
-              <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-gray-700">
+              <div className="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 p-4 text-gray-700 dark:text-gray-300">
                 Ramazan 2026 aralığı için veri bulunamadı. Önce import scriptini çalıştırın.
               </div>
             )}
 
-            <div className="mt-6 flex flex-wrap gap-2.5">
-              <Link href={`${basePath}/karasu/iftara-kac-dakika-kaldi`}>
-                <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+            <div className="mt-6 flex flex-col sm:flex-row sm:flex-wrap gap-2.5">
+              <Link href={`${basePath}/karasu/iftara-kac-dakika-kaldi`} className="w-full sm:w-auto">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[44px] border-2 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10">
                   <ArrowRight className="h-4 w-4 mr-2" />
                   Karasu İftara Kaç Dakika Kaldı
                 </Button>
               </Link>
-              <Link href={`${basePath}/blog/etiket/ramazan`}>
-                <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+              <Link href={`${basePath}/blog/etiket/ramazan`} className="w-full sm:w-auto">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[44px] border-2 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10">
                   <FileText className="h-4 w-4 mr-2" />
                   Ramazan Blog Yazıları
                 </Button>

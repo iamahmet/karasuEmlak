@@ -71,12 +71,12 @@ export function RelatedContent({
   return (
     <section className={`mb-8 md:mb-12 ${className}`}>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white">
           {title || defaultTitle}
         </h2>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {items.map((item) => {
           const Icon = getIcon(item.type);
           const href = getHref(item);
@@ -101,11 +101,11 @@ export function RelatedContent({
                         {item.type === 'listing' ? 'İlan' : item.type === 'article' ? 'Yazı' : 'Mahalle'}
                       </span>
                     </div>
-                    <h3 className="text-lg font-semibold mb-2 text-gray-900 group-hover:text-primary transition-colors line-clamp-2">
+                    <h3 className="text-base sm:text-lg font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-primary transition-colors line-clamp-2">
                       {item.title}
                     </h3>
                     {item.description && (
-                      <p className="text-sm text-gray-600 line-clamp-2 mb-4">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-4">
                         {item.description}
                       </p>
                     )}

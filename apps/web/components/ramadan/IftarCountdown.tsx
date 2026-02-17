@@ -61,46 +61,46 @@ export function IftarCountdown({
   return (
     <section
       className={cn(
-        'rounded-2xl border border-gray-200 bg-gradient-to-br from-primary/5 via-white to-blue-50/60 p-6 md:p-8 shadow-sm',
+        'rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-gradient-to-br from-primary/5 via-white to-blue-50/60 dark:from-primary/10 dark:via-gray-900 dark:to-gray-800 p-4 sm:p-6 md:p-8 shadow-sm',
         className
       )}
       aria-label="İftar geri sayımı"
     >
-      <div className="flex items-start gap-4">
-        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+      <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+        <div className="w-12 h-12 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center flex-shrink-0">
           <Timer className="h-6 w-6 text-primary" />
         </div>
-        <div className="flex-1">
-          <div className="text-xs font-semibold tracking-wide uppercase text-primary/80 mb-1">{districtLabel}</div>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">{headline}</h2>
-          <p className="text-gray-700 mt-2">
+        <div className="flex-1 min-w-0">
+          <div className="text-xs font-semibold tracking-wide uppercase text-primary/80 dark:text-primary/70 mb-1">{districtLabel}</div>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">{headline}</h2>
+          <p className="text-gray-700 dark:text-gray-300 mt-2">
             {targetLabel} saati: <span className="font-semibold">{targetTimeText}</span>
-            <span className="text-gray-500"> (Karasu)</span>
+            <span className="text-gray-500 dark:text-gray-400"> (Karasu)</span>
           </p>
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <div className="text-sm text-gray-600 mb-1">Geri Sayım</div>
-          <div className="text-3xl font-bold text-gray-900 tabular-nums">{isPassed ? '00:00:00' : d.text}</div>
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+        <div className="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 min-h-[72px] flex flex-col justify-center">
+          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">Geri Sayım</div>
+          <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tabular-nums">{isPassed ? '00:00:00' : d.text}</div>
         </div>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <div className="text-sm text-gray-600 mb-1">Dakika</div>
-          <div className="text-3xl font-bold text-gray-900 tabular-nums">
+        <div className="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 min-h-[72px] flex flex-col justify-center">
+          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">Dakika</div>
+          <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tabular-nums">
             {minuteOnly === null ? '-' : `${minuteOnly} dk`}
           </div>
-          <div className="text-xs text-gray-500 mt-1">Karasu iftara kaç dakika kaldı</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">Karasu iftara kaç dakika kaldı</div>
         </div>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <div className="text-sm text-gray-600 mb-1">Not</div>
-          <div className="text-sm text-gray-700 leading-relaxed">
+        <div className="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:col-span-2 md:col-span-1">
+          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">Not</div>
+          <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
             Saatler gün gün değişir. Bu sayfada Sakarya Karasu iftar vakitleri ve geri sayım aynı kaynaktan hesaplanır.
           </div>
-          <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
-            <Clock className="h-4 w-4" />
+          <div className="mt-2 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+            <Clock className="h-4 w-4 flex-shrink-0" />
             <span>Sakarya Karasu iftara kaç dk kaldı</span>
           </div>
         </div>

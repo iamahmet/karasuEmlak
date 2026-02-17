@@ -136,24 +136,26 @@ export default async function BlogTagPage({
       <StructuredData data={collectionSchema as any} />
       {faqSchema && <StructuredData data={faqSchema as any} />}
 
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white dark:bg-gray-950">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
           <Breadcrumbs items={breadcrumbs} className="mb-5" />
 
-          <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-14 rounded-2xl mb-8">
+          <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-14 rounded-2xl mb-8">
             <div className="px-6 md:px-10">
               <Link
                 href={`${basePath}/blog`}
-                className="inline-flex items-center gap-2 text-gray-200 hover:text-white mb-6 transition-colors"
+                className="inline-flex items-center gap-2 text-gray-300 hover:text-white mb-6 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Blog&apos;a Dön
               </Link>
               <div className="flex items-center gap-3 mb-3">
-                <Hash className="w-6 h-6 text-primary-300" />
-                <h1 className="text-3xl md:text-5xl font-bold">#{normalized}</h1>
+                <Hash className="w-6 h-6 text-primary-400" aria-hidden />
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-sm">
+                  #{normalized}
+                </h1>
               </div>
-              <p className="text-base text-gray-200">{total} yazı bulundu</p>
+              <p className="text-base text-gray-300">{total} yazı bulundu</p>
               {normalized === 'ramazan' && (
                 <div className="mt-5">
                   <Link href={`${basePath}/blog/ramazan-2026`}>

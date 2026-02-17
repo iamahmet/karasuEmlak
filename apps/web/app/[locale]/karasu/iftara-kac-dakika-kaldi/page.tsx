@@ -219,32 +219,32 @@ export default async function KarasuIftaraKacDakikaKaldiPage({
 
       <Breadcrumbs items={breadcrumbs} />
 
-      <div className="min-h-screen bg-white">
-        <div className="container mx-auto px-4 py-8 lg:py-12 max-w-7xl">
-          <header className="rounded-2xl border border-gray-200 bg-gradient-to-br from-primary/5 via-white to-blue-50/60 p-6 md:p-10 shadow-sm mb-8">
-            <h1 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight mb-3">
+      <div className="min-h-screen bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 lg:py-12 max-w-7xl">
+          <header className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-gradient-to-br from-primary/5 via-white to-blue-50/60 dark:from-primary/10 dark:via-gray-900 dark:to-gray-800 p-4 sm:p-6 md:p-10 shadow-sm mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight mb-3">
               Karasu İftara Kaç Dakika Kaldı?
             </h1>
-            <p className="text-base md:text-lg text-gray-700 max-w-3xl leading-relaxed">
+            <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-3xl leading-relaxed">
               <strong>Karasu iftara kaç dakika kaldı?</strong> ve “<strong>Sakarya Karasu iftara kaç dk kaldı</strong>” diye arayanlar için canlı geri sayım.
               Sayaç Karasu’nun bugünkü iftar saatine göre çalışır; <strong>Kocaali</strong> ve Sakarya çevresinde ise saatler genelde çok yakın olsa da birkaç dakika fark edebilir. En doğru referans her zaman resmî takvimdir.
             </p>
 
-            <div className="flex flex-wrap gap-2.5 mt-6">
-              <Link href={`${basePath}/karasu/ramazan-imsakiyesi`}>
-                <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2.5 mt-6">
+              <Link href={`${basePath}/karasu/ramazan-imsakiyesi`} className="w-full sm:w-auto">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[44px] border-2 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10">
                   <Calendar className="h-4 w-4 mr-2" />
                   Karasu Ramazan İmsakiyesi
                 </Button>
               </Link>
-              <Link href={`${basePath}/blog/ramazan-2026`}>
-                <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+              <Link href={`${basePath}/blog/ramazan-2026`} className="w-full sm:w-auto">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[44px] border-2 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10">
                   <FileText className="h-4 w-4 mr-2" />
                   Ramazan 2026 Rehberi
                 </Button>
               </Link>
-              <Link href={`${basePath}/kocaali`}>
-                <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+              <Link href={`${basePath}/kocaali`} className="w-full sm:w-auto">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[44px] border-2 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10">
                   <MapPin className="h-4 w-4 mr-2" />
                   Kocaali Rehberi
                 </Button>
@@ -262,9 +262,9 @@ export default async function KarasuIftaraKacDakikaKaldiPage({
               className="mb-8"
             />
           ) : (
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Bugünün İftar Saati Bulunamadı</h2>
-              <p className="text-gray-700">
+            <div className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-6 md:p-8 shadow-sm mb-6 sm:mb-8">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Bugünün İftar Saati Bulunamadı</h2>
+              <p className="text-gray-700 dark:text-gray-300">
                 Veritabanında <strong>{today}</strong> tarihi için kayıt yok. Import sonrası otomatik görünecek.
               </p>
               <div className="mt-4">
@@ -276,24 +276,24 @@ export default async function KarasuIftaraKacDakikaKaldiPage({
             </div>
           )}
 
-          <section className="rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm mb-8">
-            <div className="flex items-start justify-between gap-6 flex-wrap">
+          <section className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-6 md:p-8 shadow-sm mb-6 sm:mb-8">
+            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
               <div className="max-w-3xl">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">İftardan Sonra Ne Yapmalı? Karasu ve Çevresi İçin Kısa Rehber</h2>
-                <p className="text-gray-700 leading-relaxed">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">İftardan Sonra Ne Yapmalı? Karasu ve Çevresi İçin Kısa Rehber</h2>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                   İftara yakın saatlerde plan sıkışabiliyor. Bu yüzden aşağıya, Karasu merkezli vakit araçlarını ve Karasu, Kocaali ve çevresi için işine yarayacak birkaç pratik rehberi bıraktık:
                   sahil yürüyüşü rotası, bayram haftası yoğun saatler, kiralık ev bakarken sorulacak sorular gibi.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-2">
-                <Link href={`${basePath}/kiralik`}>
-                  <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2">
+                <Link href={`${basePath}/kiralik`} className="w-full sm:w-auto">
+                  <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[44px] border-2 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10">
                     <Home className="h-4 w-4 mr-2" />
                     Kiralık İlanlar
                   </Button>
                 </Link>
-                <Link href={`${basePath}/satilik`}>
-                  <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+                <Link href={`${basePath}/satilik`} className="w-full sm:w-auto">
+                  <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[44px] border-2 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10">
                     <Home className="h-4 w-4 mr-2" />
                     Satılık İlanlar
                   </Button>
@@ -311,35 +311,35 @@ export default async function KarasuIftaraKacDakikaKaldiPage({
               </div>
             )}
 
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
               <Link
                 href={`${basePath}/karasu/ramazan-imsakiyesi`}
-                className="rounded-xl border border-gray-200 bg-gray-50 p-4 hover:bg-white hover:border-primary/30 hover:shadow-sm transition-all"
+                className="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 p-4 hover:bg-white dark:hover:bg-gray-800 hover:border-primary/30 hover:shadow-sm transition-all min-h-[88px] flex flex-col justify-center"
               >
-                <div className="font-semibold text-gray-900 mb-1">Karasu İmsak ve İftar Saatleri (Gün Gün)</div>
-                <div className="text-sm text-gray-700">Ramazan boyunca imsak, iftar ve diğer vakitleri tek tabloda takip et.</div>
+                <div className="font-semibold text-gray-900 dark:text-white mb-1">Karasu İmsak ve İftar Saatleri (Gün Gün)</div>
+                <div className="text-sm text-gray-700 dark:text-gray-300">Ramazan boyunca imsak, iftar ve diğer vakitleri tek tabloda takip et.</div>
               </Link>
               <Link
                 href={`${basePath}/karasu`}
-                className="rounded-xl border border-gray-200 bg-gray-50 p-4 hover:bg-white hover:border-primary/30 hover:shadow-sm transition-all"
+                className="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 p-4 hover:bg-white dark:hover:bg-gray-800 hover:border-primary/30 hover:shadow-sm transition-all min-h-[88px] flex flex-col justify-center"
               >
-                <div className="font-semibold text-gray-900 mb-1">Karasu Rehberi</div>
-                <div className="text-sm text-gray-700">Mahalleler, yaşam, ulaşım ve bölge notları.</div>
+                <div className="font-semibold text-gray-900 dark:text-white mb-1">Karasu Rehberi</div>
+                <div className="text-sm text-gray-700 dark:text-gray-300">Mahalleler, yaşam, ulaşım ve bölge notları.</div>
               </Link>
               <Link
                 href={`${basePath}/kocaali`}
-                className="rounded-xl border border-gray-200 bg-gray-50 p-4 hover:bg-white hover:border-primary/30 hover:shadow-sm transition-all"
+                className="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 p-4 hover:bg-white dark:hover:bg-gray-800 hover:border-primary/30 hover:shadow-sm transition-all min-h-[88px] flex flex-col justify-center"
               >
-                <div className="font-semibold text-gray-900 mb-1">Kocaali Rehberi</div>
-                <div className="text-sm text-gray-700">Kocaali’de yaşam ve emlak hareketi: hızlı bir başlangıç.</div>
+                <div className="font-semibold text-gray-900 dark:text-white mb-1">Kocaali Rehberi</div>
+                <div className="text-sm text-gray-700 dark:text-gray-300">Kocaali’de yaşam ve emlak hareketi: hızlı bir başlangıç.</div>
               </Link>
             </div>
           </section>
 
-          <section className="rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Bugünün Karasu Vakitleri</h2>
+          <section className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-6 md:p-8 shadow-sm">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">Bugünün Karasu Vakitleri</h2>
             {todayTimes ? (
-              <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
                 {[
                   ['İmsak', toHHMM(todayTimes.imsak)],
                   ['Güneş', toHHMM(todayTimes.gunes)],
@@ -348,18 +348,18 @@ export default async function KarasuIftaraKacDakikaKaldiPage({
                   ['İftar', toHHMM(todayTimes.aksam)],
                   ['Yatsı', toHHMM(todayTimes.yatsi)],
                 ].map(([label, val]) => (
-                  <div key={label} className="rounded-xl border border-gray-200 bg-gray-50 p-3">
-                    <div className="text-xs font-semibold text-gray-600">{label}</div>
-                    <div className="text-lg font-bold text-gray-900 tabular-nums">{val}</div>
+                  <div key={label} className="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 p-3 min-h-[72px] flex flex-col justify-center">
+                    <div className="text-xs font-semibold text-gray-600 dark:text-gray-400">{label}</div>
+                    <div className="text-base sm:text-lg font-bold text-gray-900 dark:text-white tabular-nums">{val}</div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-gray-700">Bugün için veri yok.</p>
+              <p className="text-gray-700 dark:text-gray-300">Bugün için veri yok.</p>
             )}
             <div className="mt-6">
-              <Link href={`${basePath}/karasu/ramazan-imsakiyesi`}>
-                <Button variant="outline" className="border-2 hover:border-primary hover:bg-primary/5">
+              <Link href={`${basePath}/karasu/ramazan-imsakiyesi`} className="block w-full sm:w-auto">
+                <Button variant="outline" className="w-full sm:w-auto min-h-[44px] border-2 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10">
                   <ArrowRight className="h-4 w-4 mr-2" />
                   Ramazan İmsakiyesi ve İftar Vakitleri Tablosu
                 </Button>

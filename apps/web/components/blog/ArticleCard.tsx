@@ -95,8 +95,8 @@ export function ArticleCard({ article, basePath }: ArticleCardProps) {
           
           {/* Category Badge */}
           {article.category && (
-            <div className="absolute top-4 left-4 z-10">
-              <span className="inline-flex items-center px-3 py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm text-primary rounded-lg text-xs font-bold shadow-lg border border-primary/20">
+            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10">
+              <span className="inline-flex items-center px-2.5 sm:px-3 py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm text-primary rounded-lg text-xs sm:text-sm font-bold shadow-lg border border-primary/20">
                 {article.category}
               </span>
             </div>
@@ -104,9 +104,9 @@ export function ArticleCard({ article, basePath }: ArticleCardProps) {
           
           {/* Reading Time Badge */}
           {readingTime > 0 && (
-            <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-sm text-white rounded-lg text-xs font-medium">
-                <Clock className="h-3 w-3" />
+            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 flex flex-col gap-2">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-black/60 backdrop-blur-sm text-white rounded-lg text-xs sm:text-sm font-medium">
+                <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 {readingTime} dk
               </span>
               {/* AI Check Badge - Admin Only (Hidden from public) */}
@@ -115,13 +115,13 @@ export function ArticleCard({ article, basePath }: ArticleCardProps) {
         </div>
 
         {/* Content */}
-        <div className="p-5 md:p-6 flex-1 flex flex-col">
-          <h3 className="text-xl md:text-2xl font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors text-gray-900 dark:text-white leading-tight">
+        <div className="p-4 sm:p-5 md:p-6 flex-1 flex flex-col">
+          <h3 className="text-xl sm:text-2xl md:text-2xl font-bold mb-2 sm:mb-3 line-clamp-2 group-hover:text-primary transition-colors text-gray-900 dark:text-white leading-tight">
             {article.title}
           </h3>
           
           {article.excerpt && (
-            <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-5 line-clamp-3 leading-relaxed flex-1">
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-5 line-clamp-3 leading-relaxed flex-1">
               {article.excerpt}
             </p>
           )}
