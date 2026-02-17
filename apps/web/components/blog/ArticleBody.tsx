@@ -167,12 +167,19 @@ function ArticleBodyComponent({
         </Suspense>
       </div>
 
-      {/* TL;DR / Özet Kutusu - Excerpt summary */}
+      {/* TL;DR / Özet Kutusu - Premium excerpt summary */}
       {(article.excerpt || article.meta_description) && (
-        <div className="mb-8 p-6 bg-gradient-to-br from-slate-50 to-blue-50/50 dark:from-slate-800/50 dark:to-blue-900/20 rounded-2xl border-l-4 border-primary dark:border-primary-light">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-primary-light mb-3">
-            Özet
-          </h3>
+        <div className="mb-8 p-6 md:p-8 bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 dark:from-slate-800/60 dark:via-blue-900/20 dark:to-slate-800/60 rounded-2xl border-2 border-gray-200 dark:border-gray-700 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-xl">
+              <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-primary-light">
+              Özet
+            </h3>
+          </div>
           <p className="text-base md:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
             {article.excerpt || article.meta_description}
           </p>
@@ -207,7 +214,7 @@ function ArticleBodyComponent({
               <Link
                 key={cta.href}
                 href={cta.href}
-                className="group flex items-center justify-between p-5 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl hover:border-emerald-400 dark:hover:border-emerald-500/50 hover:shadow-xl transition-all duration-300"
+                className="group flex items-center justify-between gap-4 p-5 md:p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl hover:border-emerald-400 dark:hover:border-emerald-500/50 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
               >
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-lg text-gray-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors mb-2">
@@ -215,7 +222,7 @@ function ArticleBodyComponent({
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{cta.description}</p>
                 </div>
-                <ArrowRight className="h-6 w-6 text-gray-400 dark:text-gray-500 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-all duration-300 group-hover:translate-x-1 flex-shrink-0 ml-4" />
+                <ArrowRight className="h-6 w-6 text-gray-400 dark:text-gray-500 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-all duration-300 group-hover:translate-x-1 flex-shrink-0" />
               </Link>
             ))}
           </div>

@@ -423,6 +423,41 @@
     line-height: 1.6;
   }
 
+  /* Article Prose - Karasu Ramazan Araçları & İlgili Yazılar kart tasarımı */
+  .article-prose h2 + ul,
+  .article-prose h2 + p + ul {
+    @apply list-none p-0 m-0 mt-4 mb-8;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .article-prose h2 + ul li,
+  .article-prose h2 + p + ul li {
+    @apply m-0 p-0;
+  }
+  .article-prose h2 + ul li a,
+  .article-prose h2 + p + ul li a {
+    @apply flex items-center gap-3 px-5 py-4 rounded-xl border-2 border-gray-200 dark:border-gray-700
+      bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900
+      text-gray-900 dark:text-white font-semibold no-underline
+      transition-all duration-300;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  .article-prose h2 + ul li a:hover,
+  .article-prose h2 + p + ul li a:hover {
+    @apply border-primary dark:border-primary/50 bg-primary/5 dark:bg-primary/10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+  .article-prose h2 + ul li a::after,
+  .article-prose h2 + p + ul li a::after {
+    content: '→';
+    @apply ml-auto text-primary text-lg font-bold opacity-70;
+  }
+  .article-prose h2:has(+ ul),
+  .article-prose h2:has(+ p + ul) {
+    @apply mt-12 mb-4 text-2xl md:text-3xl font-bold;
+  }
+
   /* Editorial Blog Content - Premium Real Estate Quality */
   .blog-content-editorial {
     @apply text-gray-900 dark:text-gray-100;

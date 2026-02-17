@@ -4,8 +4,6 @@ import { useState, useMemo, memo, useEffect } from 'react';
 import {
   Share2,
   Printer,
-  ChevronDown,
-  ChevronUp,
   Lightbulb,
   Hash,
   ArrowUpRight,
@@ -14,6 +12,7 @@ import {
   Copy,
   Check,
 } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@karasu/ui';
 import dynamic from 'next/dynamic';
 import { siteConfig } from '@karasu-emlak/config';
 import Link from 'next/link';
@@ -44,7 +43,6 @@ interface ArticleContentProps {
 }
 
 function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: ArticleContentProps) {
-  const [expandedFaqs, setExpandedFaqs] = useState<Set<number>>(new Set());
   const [copied, setCopied] = useState(false);
 
   const articleUrl = useMemo(
@@ -80,18 +78,6 @@ function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: A
       }
     }
   }, [article.content, article.title]);
-
-  const toggleFaq = (index: number) => {
-    setExpandedFaqs((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(index)) {
-        newSet.delete(index);
-      } else {
-        newSet.add(index);
-      }
-      return newSet;
-    });
-  };
 
   const handlePrint = () => {
     window.print();
@@ -282,7 +268,7 @@ function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: A
         </section>
       )}
 
-      {/* FAQ Section - Modern Accordion */}
+      {/* FAQ Section - Modern Accordion (tek açık) */}
       {faqs.length > 0 && (
         <section className="mt-12 md:mt-16 pt-10 border-t-2 border-gray-200 dark:border-gray-700 print:hidden" id="sss">
           <div className="flex items-center gap-3 mb-8">
@@ -295,59 +281,32 @@ function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: A
             </div>
           </div>
 
-          <div className="space-y-4">
-            {faqs.map((faq, index) => {
-              const isExpanded = expandedFaqs.has(index);
-              return (
-                <div
-                  key={index}
-                  className={cn(
-                    'bg-white dark:bg-gray-800 border-2 rounded-2xl overflow-hidden transition-all duration-300 shadow-sm',
-                    isExpanded ? 'border-primary dark:border-primary/50 shadow-lg' : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
-                  )}
-                >
-                  <button
-                    type="button"
-                    onClick={() => toggleFaq(index)}
-                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
-                    aria-expanded={isExpanded ? 'true' : 'false'}
-                  >
-                    <span
-                      className={cn(
-                        'text-base md:text-lg font-bold leading-snug transition-colors',
-                        isExpanded ? 'text-primary dark:text-primary' : 'text-gray-900 dark:text-white'
-                      )}
-                    >
-                      {faq.question}
-                    </span>
-                    <div
-                      className={cn(
-                        'flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300',
-                        isExpanded
-                          ? 'bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary rotate-180'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
-                      )}
-                    >
-                      <ChevronDown className="h-5 w-5 transition-transform duration-300" />
-                    </div>
-                  </button>
-                  {isExpanded && (
-                    <div className="px-6 pb-6">
-                      <div className="p-5 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800/50 dark:to-gray-900/50 rounded-xl border border-gray-200 dark:border-gray-700">
-                        <ContentRenderer
-                          content={faq.answer}
-                          format="auto"
-                          sanitize={true}
-                          prose={false}
-                          className="text-base leading-relaxed text-gray-700 dark:text-gray-300"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+          <Accordion type="single" collapsible className="space-y-3">
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                value={`faq-${index}`}
+                className="border-b-0 border-2 border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden bg-white dark:bg-gray-800 data-[state=open]:border-primary dark:data-[state=open]:border-primary/50 data-[state=open]:shadow-lg transition-all duration-300"
+              >
+                <AccordionTrigger className="px-6 py-5 hover:no-underline [&[data-state=open]]:text-primary">
+                  <span className="text-base md:text-lg font-bold leading-snug text-left pr-4">
+                    {faq.question}
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="px-6 pb-6 pt-0">
+                  <div className="p-5 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800/50 dark:to-gray-900/50 rounded-xl border border-gray-200 dark:border-gray-700">
+                    <ContentRenderer
+                      content={faq.answer}
+                      format="auto"
+                      sanitize={true}
+                      prose={false}
+                      className="text-base leading-relaxed text-gray-700 dark:text-gray-300"
+                    />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </section>
       )}
 
