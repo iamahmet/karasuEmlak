@@ -167,6 +167,18 @@ function ArticleBodyComponent({
         </Suspense>
       </div>
 
+      {/* TL;DR / Özet Kutusu - Excerpt summary */}
+      {(article.excerpt || article.meta_description) && (
+        <div className="mb-8 p-6 bg-gradient-to-br from-slate-50 to-blue-50/50 dark:from-slate-800/50 dark:to-blue-900/20 rounded-2xl border-l-4 border-primary dark:border-primary-light">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-primary-light mb-3">
+            Özet
+          </h3>
+          <p className="text-base md:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+            {article.excerpt || article.meta_description}
+          </p>
+        </div>
+      )}
+
       {/* Main Article Content */}
       <ArticleContent
         article={article}

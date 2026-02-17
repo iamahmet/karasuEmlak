@@ -161,7 +161,7 @@ function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: A
         prose-h2:text-3xl prose-h2:md:text-4xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:scroll-mt-24
         prose-h3:text-2xl prose-h3:md:text-3xl prose-h3:mt-10 prose-h3:mb-4
         prose-h4:text-xl prose-h4:md:text-2xl prose-h4:mt-8 prose-h4:mb-3
-        prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-base md:prose-p:text-lg
+        prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-[1.75] prose-p:mb-6 prose-p:text-base md:prose-p:text-lg prose-p:antialiased hyphens-auto
         prose-a:text-primary prose-a:font-semibold prose-a:no-underline hover:prose-a:underline prose-a:transition-all
         prose-strong:text-gray-900 dark:prose-strong:text-white prose-strong:font-bold
         prose-ul:my-6 prose-ol:my-6

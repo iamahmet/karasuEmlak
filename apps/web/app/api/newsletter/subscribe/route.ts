@@ -40,52 +40,29 @@ export async function POST(request: NextRequest) {
 
     const supabase = createServiceClient();
 
-    // Check if already subscribed
+    // Check if already subscribed (newsletter_subscribers table)
     const { data: existing } = await supabase
-      .from('newsletter_subscriptions')
-      .select('id, status')
+      .from('newsletter_subscribers')
+      .select('id, email')
       .eq('email', email.toLowerCase())
       .single();
 
     if (existing) {
-      if (existing.status === 'active') {
-        return NextResponse.json(
-          { error: 'Bu e-posta adresi zaten abone' },
-          { status: 400 }
-        );
-      } else {
-        // Reactivate subscription
-        const { error: updateError } = await supabase
-          .from('newsletter_subscriptions')
-          .update({
-            status: 'active',
-            name: name || null,
-            source: source || 'unknown',
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', existing.id);
-
-        if (updateError) {
-          throw updateError;
-        }
-
-        return NextResponse.json({
-          success: true,
-          message: 'Aboneliğiniz yeniden aktifleştirildi',
-        });
-      }
+      return NextResponse.json(
+        { error: 'Bu e-posta adresi zaten abone' },
+        { status: 400 }
+      );
     }
 
     // Create new subscription
     const { data, error } = await supabase
-      .from('newsletter_subscriptions')
+      .from('newsletter_subscribers')
       .insert({
         email: email.toLowerCase(),
         name: name || null,
         source: source || 'unknown',
-        status: 'active',
-        subscribed_at: new Date().toISOString(),
-        created_at: new Date().toISOString(),
+        consent_kvkk: true,
+        consent_version: '1.0',
       })
       .select()
       .single();

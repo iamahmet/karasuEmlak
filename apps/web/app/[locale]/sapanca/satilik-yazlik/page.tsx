@@ -4,19 +4,18 @@ import { routing } from '@/i18n/routing';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateFAQSchema, generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo/structured-data';
-import { getListings } from '@/lib/supabase/queries';
-import { ListingCard } from '@/components/listings/ListingCard';
-import { withTimeout } from '@/lib/utils/timeout';
-import { Button } from '@karasu/ui';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticles';
 import { getRelatedContent } from '@/lib/content/related-content';
+import { getListings } from '@/lib/supabase/queries';
+import { withTimeout } from '@/lib/utils/timeout';
+import { ListingCard } from '@/components/listings/ListingCard';
+import Link from 'next/link';
+import { Button } from '@karasu/ui';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
-
 
 export async function generateMetadata({
   params,
@@ -27,33 +26,42 @@ export async function generateMetadata({
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
 
   return {
-    title: 'Sapanca Satılık Yazlık | Göl Kenarı Yazlık Evler ve Yatırım Fırsatları',
-    description: 'Sapanca\'da satılık yazlık evler. Göl kenarı yazlıklar, yatırım potansiyeli ve güncel fiyatlar. Yaz sezonu kira getirisi ve yatırım analizi.',
+    title: 'Sapanca Satılık Yazlık | Göl Kenarı Yazlık Ev İlanları 2025',
+    description: 'Sapanca\'da satılık yazlık ev ilanları. Sapanca Gölü çevresinde yazlık evler, fiyatlar ve yatırım fırsatları. Güncel ilanlar.',
     keywords: [
       'sapanca satılık yazlık',
-      'sapanca gölü satılık yazlık',
-      'sapanca yazlık ev',
-      'sapanca satılık yazlık fiyatları',
-      'sapanca yazlık yatırım',
+      'sapanca satılık yazlık ev',
+      'sapanca göl kenarı yazlık',
+      'sapanca yazlık fiyatları',
+      'sakarya sapanca yazlık',
     ],
     alternates: {
       canonical: `${siteConfig.url}${basePath}/sapanca/satilik-yazlik`,
+      languages: pruneHreflangLanguages({
+        tr: '/sapanca/satilik-yazlik',
+        en: '/en/sapanca/satilik-yazlik',
+        et: '/et/sapanca/satilik-yazlik',
+        ru: '/ru/sapanca/satilik-yazlik',
+        ar: '/ar/sapanca/satilik-yazlik',
+      }),
+    },
+    openGraph: {
+      title: 'Sapanca Satılık Yazlık | Göl Kenarı Yazlık Ev İlanları',
+      description: 'Sapanca\'da satılık yazlık ev ilanları. Göl kenarı ve doğa içinde yazlık seçenekleri.',
+      url: `${siteConfig.url}${basePath}/sapanca/satilik-yazlik`,
+      type: 'website',
     },
   };
 }
 
-const yazlikFAQs = [
+const satilikYazlikFAQs = [
   {
     question: 'Sapanca\'da satılık yazlık fiyatları ne kadar?',
-    answer: 'Sapanca\'da satılık yazlık fiyatları konum ve özelliklere göre değişmektedir. Göl kenarı yazlıklar 1-2.5 milyon TL, merkez yazlıklar 600 bin - 1.5 milyon TL arasında değişmektedir. Yaz sezonunda yüksek kira getirisi potansiyeli vardır.',
+    answer: 'Sapanca\'da satılık yazlık fiyatları 1-4 milyon TL arasında değişmektedir. Göl kenarı yazlıklar 2-4 milyon TL, merkez ve çevre mahallelerde 1-2 milyon TL bandındadır. Bahçeli ve havuzlu yazlıklar premium fiyatla satılmaktadır.',
   },
   {
-    question: 'Sapanca\'da yazlık yatırım mantıklı mı?',
-    answer: 'Evet, Sapanca\'da yazlık yatırım mantıklıdır. Özellikle göl kenarı yazlıklar yaz sezonunda yüksek kira getirisi sağlar. Ancak kış sezonunda talep düşük olduğu için yıl boyu kira geliri beklemek gerçekçi değildir.',
-  },
-  {
-    question: 'Sapanca\'da yazlık mı daire mi alınmalı?',
-    answer: 'Sapanca\'da yazlık mı daire mi sorusu kullanım amacına bağlıdır. Yazlık yatırım için ideal, yaz sezonunda yüksek kira getirisi. Daire ise oturumluk için daha uygun, yıl boyu kira geliri sağlar.',
+    question: 'Sapanca yazlık yatırım için uygun mu?',
+    answer: 'Evet, Sapanca yazlık yatırımı günlük kiralık potansiyeli yüksek bir seçenektir. Yaz sezonunda haftalık ve günlük kiralama talebi yoğundur. İstanbul\'a yakınlık ile hafta sonu kaçamakları için tercih edilmektedir.',
   },
 ];
 
@@ -65,47 +73,40 @@ export default async function SapancaSatilikYazlikPage({
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
 
-  // Fetch related articles for SEO and engagement
-  const relatedArticles = await getRelatedContent({
-    keywords: [
-      'sapanca',
-      'yazlık',
-      'satılık yazlık',
-      'göl kenarı',
-      'yatırım',
-      'sapanca gölü',
-      'yazlık ev',
-      'yaz sezonu',
-    ],
-    location: 'Sapanca',
-    category: 'Rehber',
-    tags: ['Sapanca', 'Yazlık', 'Yatırım', 'Göl Kenarı'],
-    limit: 6,
-  });
-
-  // Fetch yazlık listings for Sapanca
-  const listingsResult = await withTimeout(
-    getListings({ status: 'satilik', property_type: ['yazlik', 'ev'] }, { field: 'created_at', order: 'desc' }, 20, 0),
+  const { listings } = await withTimeout(
+    getListings({ status: 'satilik', property_type: ['yazlik', 'ev'] }, { field: 'created_at', order: 'desc' }, 12, 0),
     3000,
     { listings: [], total: 0 }
   );
 
-  const sapancaYazlikListings = (listingsResult?.listings || []).filter(l =>
-    (l.location_district?.toLowerCase().includes('sapanca') ||
-     l.location_neighborhood?.toLowerCase().includes('sapanca')) &&
-    (l.property_type === 'yazlik' || l.title?.toLowerCase().includes('yazlık'))
+  const sapancaYazlikListings = (listings || []).filter(
+    (l) =>
+      (l.location_district?.toLowerCase().includes('sapanca') ||
+        l.location_neighborhood?.toLowerCase().includes('sapanca')) &&
+      (l.title?.toLowerCase().includes('yazlık') ||
+        l.description_short?.toLowerCase().includes('yazlık') ||
+        l.description_long?.toLowerCase().includes('yazlık') ||
+        l.property_type === 'yazlik')
   );
 
+  const relatedArticles = await getRelatedContent({
+    keywords: ['sapanca', 'satılık yazlık', 'sapanca gölü', 'yazlık ev'],
+    location: 'Sapanca',
+    category: 'Rehber',
+    tags: ['Sapanca', 'Yazlık'],
+    limit: 6,
+  });
+
   const articleSchema = generateArticleSchema({
-    headline: 'Sapanca Satılık Yazlık | Göl Kenarı Yazlık Evler ve Yatırım Fırsatları',
-    description: 'Sapanca\'da satılık yazlık evler. Göl kenarı yazlıklar ve yatırım potansiyeli.',
+    headline: 'Sapanca Satılık Yazlık | Göl Kenarı Yazlık Ev İlanları 2025',
+    description: 'Sapanca\'da satılık yazlık ev ilanları. Göl kenarı ve doğa içinde yazlık seçenekleri.',
     image: [`${siteConfig.url}/og-image.jpg`],
     datePublished: new Date().toISOString(),
     dateModified: new Date().toISOString(),
     author: 'Karasu Emlak',
   });
 
-  const faqSchema = generateFAQSchema(yazlikFAQs);
+  const faqSchema = generateFAQSchema(satilikYazlikFAQs);
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Ana Sayfa', url: `${siteConfig.url}${basePath}/` },
     { name: 'Sapanca', url: `${siteConfig.url}${basePath}/sapanca` },
@@ -132,57 +133,77 @@ export default async function SapancaSatilikYazlikPage({
             Sapanca Satılık Yazlık
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl">
-            Sapanca'da satılık yazlık evler. Göl kenarı yazlıklar ve yatırım fırsatları.
+            Sapanca Gölü çevresinde satılık yazlık ev ilanları. Doğa içinde, göl manzaralı yazlık
+            seçenekleri ve yatırım fırsatları.
           </p>
         </div>
 
-        {/* Listings Grid */}
+        <div className="prose prose-lg max-w-none dark:prose-invert mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
+            Sapanca&apos;da Yazlık Ev Seçenekleri
+          </h2>
+          <p>
+            Sapanca, yazlık ev arayanlar için ideal bir bölgedir. Sapanca Gölü çevresinde bahçeli,
+            havuzlu ve göl manzaralı yazlık evler hem tatil hem yatırım amaçlı tercih edilmektedir.
+            İstanbul&apos;a 1.5 saat mesafede hafta sonu kaçamakları için mükemmel konumdadır.
+          </p>
+        </div>
+
         {sapancaYazlikListings.length > 0 && (
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              Güncel İlanlar
+              Sapanca Satılık Yazlık İlanları
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sapancaYazlikListings.map((listing) => (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {sapancaYazlikListings.slice(0, 6).map((listing) => (
                 <ListingCard key={listing.id} listing={listing} basePath={basePath} />
               ))}
             </div>
-            <div className="text-center mt-8">
-              <Button asChild>
-                <Link href={`${basePath}/satilik?location=sapanca&property_type=yazlik`}>
-                  Tüm İlanları Görüntüle <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </Button>
+            <div className="mt-6 text-center">
+              <Link href={`${basePath}/satilik?lokasyon=sapanca&tip=yazlik`}>
+                <Button variant="outline" size="lg">
+                  Tüm Sapanca Satılık Yazlık İlanları
+                </Button>
+              </Link>
             </div>
           </section>
         )}
 
-        {/* FAQ Section */}
-        <section className="mt-12">
+        <section className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
             Sıkça Sorulan Sorular
           </h2>
           <div className="space-y-4">
-            {yazlikFAQs.map((faq, index) => (
-              <div key={index} className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  {faq.question}
-                </h3>
-                <p className="text-gray-700 dark:text-gray-300">
-                  {faq.answer}
-                </p>
+            {satilikYazlikFAQs.map((faq, index) => (
+              <div
+                key={index}
+                className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700"
+              >
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{faq.question}</h3>
+                <p className="text-gray-700 dark:text-gray-300">{faq.answer}</p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Related Articles Section - SEO & Engagement */}
+        <div className="flex flex-wrap gap-4 mb-12">
+          <Link href={`${basePath}/sapanca`}>
+            <Button variant="outline">Sapanca Ana Sayfa</Button>
+          </Link>
+          <Link href={`${basePath}/sapanca/satilik-daire`}>
+            <Button variant="outline">Sapanca Satılık Daire</Button>
+          </Link>
+          <Link href={`${basePath}/sapanca/satilik-bungalov`}>
+            <Button variant="outline">Sapanca Satılık Bungalov</Button>
+          </Link>
+        </div>
+
         {relatedArticles.length > 0 && (
-          <section className="mt-16">
+          <section>
             <EnhancedRelatedArticles
               articles={relatedArticles}
               basePath={basePath}
-              title="Sapanca Yazlık ve Yatırım Hakkında Makaleler"
+              title="Sapanca ve Yazlık Hakkında Makaleler"
               limit={6}
             />
           </section>

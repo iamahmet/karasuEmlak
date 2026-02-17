@@ -98,8 +98,8 @@ export default async function OnemliTelefonlarPage({
       title: 'Sağlık',
       icon: Heart,
       telefonlar: [
-        { ad: 'Karasu Devlet Hastanesi', numara: '(0264) XXX XX XX', aciklama: 'Ana Santral' },
-        { ad: 'Acil Servis', numara: '(0264) XXX XX XX', aciklama: '7/24 Hizmet' },
+        { ad: 'Karasu Devlet Hastanesi', numara: '(0264) 718 11 43', aciklama: 'Ana Santral (4 Hat)' },
+        { ad: 'Sağlık Hattı Randevu', numara: '182', aciklama: 'MHRS Randevu Sistemi' },
         { ad: 'Nöbetçi Eczane', numara: '444 0 332', aciklama: 'Türk Eczacıları Birliği' },
       ],
     },
@@ -108,8 +108,9 @@ export default async function OnemliTelefonlarPage({
       title: 'Belediye ve Kamu',
       icon: Building2,
       telefonlar: [
-        { ad: 'Karasu Belediyesi', numara: '(0264) XXX XX XX', aciklama: 'Ana Santral' },
-        { ad: 'Zabıta', numara: '(0264) XXX XX XX', aciklama: 'Zabıta Müdürlüğü' },
+        { ad: 'Karasu Belediyesi', numara: '(0264) 718 12 00', aciklama: 'Ana Santral' },
+        { ad: 'Karasu Kaymakamlığı', numara: '(0264) 718 11 01', aciklama: 'Genel Hattı' },
+        { ad: 'Zabıta', numara: '(0264) 718 12 00', aciklama: 'Belediye üzerinden' },
       ],
     },
     {
@@ -118,7 +119,9 @@ export default async function OnemliTelefonlarPage({
       icon: Shield,
       telefonlar: [
         { ad: 'Polis İmdat', numara: '155', aciklama: 'Acil Durum' },
-        { ad: 'Karasu İlçe Emniyet Müdürlüğü', numara: '(0264) XXX XX XX', aciklama: 'Ana Santral' },
+        { ad: 'Karasu İlçe Emniyet Müdürlüğü', numara: '(0264) 718 11 52', aciklama: 'Ana Santral' },
+        { ad: 'Jandarma', numara: '156', aciklama: 'Jandarma İmdat' },
+        { ad: 'Karasu Jandarma Komutanlığı', numara: '(0264) 718 11 56', aciklama: 'İlçe Komutanlığı' },
       ],
     },
     {
@@ -127,7 +130,7 @@ export default async function OnemliTelefonlarPage({
       icon: Flame,
       telefonlar: [
         { ad: 'İtfaiye İmdat', numara: '110', aciklama: 'Acil Durum' },
-        { ad: 'Karasu İtfaiye', numara: '(0264) XXX XX XX', aciklama: 'Ana Santral' },
+        { ad: 'Karasu İtfaiye', numara: '(0264) 718 12 00', aciklama: 'Belediye İtfaiye Müdürlüğü' },
       ],
     },
     {
@@ -135,7 +138,7 @@ export default async function OnemliTelefonlarPage({
       title: 'Eğitim',
       icon: GraduationCap,
       telefonlar: [
-        { ad: 'İlçe Milli Eğitim Müdürlüğü', numara: '(0264) XXX XX XX', aciklama: 'Ana Santral' },
+        { ad: 'İlçe Milli Eğitim Müdürlüğü', numara: '(0264) 718 11 26', aciklama: 'Ana Santral' },
       ],
     },
     {
@@ -143,8 +146,8 @@ export default async function OnemliTelefonlarPage({
       title: 'Ulaşım',
       icon: Car,
       telefonlar: [
-        { ad: 'Otobüs Firmaları', numara: '(0264) XXX XX XX', aciklama: 'Yerel Ulaşım' },
-        { ad: 'Taksi Durağı', numara: '(0264) XXX XX XX', aciklama: 'Merkez Taksi' },
+        { ad: 'Karasu Belediyesi', numara: '(0264) 718 12 00', aciklama: 'Ulaşım ve taksi bilgisi için' },
+        { ad: 'Karasu Kaymakamlığı', numara: '(0264) 718 11 01', aciklama: 'İlçe ulaşım bilgisi' },
       ],
     },
   ];

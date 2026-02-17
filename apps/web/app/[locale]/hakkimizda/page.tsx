@@ -83,17 +83,27 @@ export default async function AboutPage({
   const teamMembers = getAllTeamMembers().slice(0, 4); // İlk 4 üyeyi göster
   const teamStats = getTeamStats();
 
-  // Fetch Q&A entries for FAQ section
+  // Fetch Q&A entries for FAQ section, fallback to static FAQ if empty
   const qaEntries = await withTimeout(getQAEntries('karasu', 'high'), 2000, []);
-  const faqs = (qaEntries || [])
+  let faqs = (qaEntries || [])
     .filter(qa => qa.question.toLowerCase().includes('emlak') ||
       qa.question.toLowerCase().includes('süreç') ||
-      qa.question.toLowerCase().includes('komisyon'))
+      qa.question.toLowerCase().includes('komisyon') ||
+      qa.question.toLowerCase().includes('deneyim'))
     .slice(0, 5)
     .map(qa => ({
       question: qa.question,
       answer: qa.answer,
     }));
+
+  const fallbackFaqs = [
+    { question: 'Karasu Emlak ne zaman kuruldu?', answer: 'Karasu Emlak 2010 yılından bu yana Karasu ve çevresinde emlak hizmetleri sunmaktadır. 15+ yıllık deneyimimizle satılık, kiralık emlak danışmanlığı, değerleme ve yatırım danışmanlığı hizmetleri veriyoruz.' },
+    { question: 'Hangi bölgelerde hizmet veriyorsunuz?', answer: 'Karasu merkez, Kocaali, Sapanca ve Sakarya genelinde satılık daire, villa, yazlık, arsa ve kiralık emlak ilanları yönetiyoruz. Denize sıfır konumlardan merkez mahallelere kadar geniş bir coğrafyada hizmet veriyoruz.' },
+    { question: 'Komisyon oranınız nedir?', answer: 'Komisyon oranlarımız işlem türüne ve emlak değerine göre değişir. Detaylı bilgi için bizi arayabilir veya iletişim formu üzerinden sorularınızı iletebilirsiniz. Şeffaf ve rekabetçi fiyatlandırma sunuyoruz.' },
+    { question: 'Emlak değerlemesi yapıyor musunuz?', answer: 'Evet. Satış öncesi veya yatırım kararı için ücretsiz keşif ve değerleme hizmeti sunuyoruz. Uzman ekibimiz bölge piyasasını analiz ederek gerçekçi değerleme raporu hazırlar.' },
+    { question: 'Nasıl iletişime geçebilirim?', answer: 'Telefon, WhatsApp, e-posta veya web sitemizdeki iletişim formu üzerinden bize ulaşabilirsiniz. Çalışma saatlerimiz içinde en kısa sürede size dönüş yapacağız.' },
+  ];
+  if (faqs.length === 0) faqs = fallbackFaqs;
 
   const faqSchema = faqs.length > 0 ? generateFAQSchema(faqs) : null;
 

@@ -190,6 +190,8 @@ export const commonValidations = {
  */
 export function generateSlug(title: string, maxLength: number = 100): string {
   let slug = title
+    .replace(/İ/g, 'i')
+    .replace(/I/g, 'i')
     .toLowerCase()
     .trim()
     // Turkish character replacements

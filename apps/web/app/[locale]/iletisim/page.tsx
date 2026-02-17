@@ -62,9 +62,9 @@ export default async function ContactPage({
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? "" : `/${locale}`;
 
-  // Fetch Q&A entries for FAQ section
+  // Fetch Q&A entries for FAQ section, fallback to static FAQ if empty
   const qaEntries = await withTimeout(getQAEntries('karasu', 'high'), 2000, []);
-  const faqs = (qaEntries || [])
+  let faqs = (qaEntries || [])
     .filter(qa => qa.question.toLowerCase().includes('iletişim') || 
                    qa.question.toLowerCase().includes('ulaş') ||
                    qa.question.toLowerCase().includes('komisyon'))
@@ -73,6 +73,15 @@ export default async function ContactPage({
       question: qa.question,
       answer: qa.answer,
     }));
+
+  // Fallback FAQ for SEO when DB returns no matching Q&As
+  const fallbackFaqs = [
+    { question: 'Karasu Emlak ile nasıl iletişime geçebilirim?', answer: 'Telefon, e-posta, WhatsApp veya web sitemizdeki iletişim formu üzerinden bize ulaşabilirsiniz. Çalışma saatlerimiz içinde en kısa sürede size dönüş yapacağız.' },
+    { question: 'Emlak danışmanınıza ücretsiz danışabilir miyim?', answer: 'Evet. Satılık veya kiralık emlak arayışınız, yatırım danışmanlığı veya genel sorularınız için ücretsiz danışmanlık hizmeti sunuyoruz. Bizi arayın veya mesaj gönderin.' },
+    { question: 'Çalışma saatleriniz nedir?', answer: 'Pazartesi-Cuma 09:00-18:00, Cumartesi 09:00-14:00 arası hizmetinizdeyiz. Pazar günü kapalıyız. Acil durumlar için WhatsApp üzerinden mesaj bırakabilirsiniz.' },
+    { question: 'İlan vermek veya emlak değerlemesi için ne yapmalıyım?', answer: 'Telefon veya WhatsApp ile bizi arayarak randevu alabilirsiniz. Ücretsiz keşif ve değerleme hizmeti sunuyoruz. İlan ekle sayfamızdan da online ilan oluşturabilirsiniz.' },
+  ];
+  if (faqs.length === 0) faqs = fallbackFaqs;
 
   const faqSchema = faqs.length > 0 ? generateFAQSchema(faqs) : null;
   const nonce = await getNonce();

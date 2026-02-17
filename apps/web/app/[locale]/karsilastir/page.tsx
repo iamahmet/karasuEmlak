@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
+import Link from 'next/link';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { ComparisonTable } from '@/components/comparison/ComparisonTable';
 import { EnhancedComparisonTable } from '@/components/comparison/EnhancedComparisonTable';
 import { ComparisonBar } from '@/components/comparison/ComparisonBar';
 import { getListings } from '@/lib/supabase/queries';
+import { ArrowRight, Home, MapPin } from 'lucide-react';
 
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -105,6 +106,57 @@ export default async function ComparisonPage({
                 Karşılaştırma sonuçlarına göre en uygun seçeneği belirleyin
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* Internal Links - İlgili Sayfalar */}
+        <section className="mb-12 pt-8 border-t">
+          <h2 className="text-2xl font-bold mb-6">İlgili Sayfalar</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Link
+              href={`${basePath}/satilik`}
+              className="flex items-center gap-3 p-4 rounded-xl border hover:border-primary hover:bg-primary/5 transition-colors"
+            >
+              <Home className="h-6 w-6 text-primary shrink-0" />
+              <div>
+                <span className="font-semibold">Satılık İlanlar</span>
+                <p className="text-sm text-muted-foreground">Tüm satılık emlak ilanları</p>
+              </div>
+              <ArrowRight className="h-4 w-4 ml-auto text-muted-foreground" />
+            </Link>
+            <Link
+              href={`${basePath}/kiralik`}
+              className="flex items-center gap-3 p-4 rounded-xl border hover:border-primary hover:bg-primary/5 transition-colors"
+            >
+              <Home className="h-6 w-6 text-primary shrink-0" />
+              <div>
+                <span className="font-semibold">Kiralık İlanlar</span>
+                <p className="text-sm text-muted-foreground">Tüm kiralık emlak ilanları</p>
+              </div>
+              <ArrowRight className="h-4 w-4 ml-auto text-muted-foreground" />
+            </Link>
+            <Link
+              href={`${basePath}/karasu`}
+              className="flex items-center gap-3 p-4 rounded-xl border hover:border-primary hover:bg-primary/5 transition-colors"
+            >
+              <MapPin className="h-6 w-6 text-primary shrink-0" />
+              <div>
+                <span className="font-semibold">Karasu Rehberi</span>
+                <p className="text-sm text-muted-foreground">Bölge ve mahalle bilgileri</p>
+              </div>
+              <ArrowRight className="h-4 w-4 ml-auto text-muted-foreground" />
+            </Link>
+            <Link
+              href={`${basePath}/karsilastirma/karasu-vs-sapanca`}
+              className="flex items-center gap-3 p-4 rounded-xl border hover:border-primary hover:bg-primary/5 transition-colors"
+            >
+              <MapPin className="h-6 w-6 text-primary shrink-0" />
+              <div>
+                <span className="font-semibold">Karasu vs Sapanca</span>
+                <p className="text-sm text-muted-foreground">Bölge karşılaştırması</p>
+              </div>
+              <ArrowRight className="h-4 w-4 ml-auto text-muted-foreground" />
+            </Link>
           </div>
         </section>
       </div>

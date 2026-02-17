@@ -136,9 +136,11 @@ export function ArticleEditor({ article: initialArticle, categories, locale }: A
     }
   }, [article, isDirty, debouncedSave]);
 
-  // Generate slug from title
+  // Generate slug from title (Turkish İ must be replaced before toLowerCase)
   const generateSlug = useCallback((title: string) => {
     return title
+      .replace(/İ/g, "i")
+      .replace(/I/g, "i")
       .toLowerCase()
       .replace(/ğ/g, "g")
       .replace(/ü/g, "u")

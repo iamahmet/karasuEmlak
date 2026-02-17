@@ -8,9 +8,12 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * Generate URL-friendly slug from Turkish text
  * Improved: Truncates at word boundaries to avoid cutting words in half
+ * Turkish İ (uppercase I with dot) must be replaced BEFORE toLowerCase - JS toLowerCase() doesn't handle it correctly
  */
 export function generateSlug(text: string, maxLength: number = 100): string {
   let slug = text
+    .replace(/İ/g, 'i')
+    .replace(/I/g, 'i')
     .toLowerCase()
     .replace(/ğ/g, 'g')
     .replace(/ü/g, 'u')

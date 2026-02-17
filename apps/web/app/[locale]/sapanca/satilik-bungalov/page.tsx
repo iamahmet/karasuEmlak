@@ -4,19 +4,18 @@ import { routing } from '@/i18n/routing';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateFAQSchema, generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo/structured-data';
-import { getListings } from '@/lib/supabase/queries';
-import { ListingCard } from '@/components/listings/ListingCard';
-import { withTimeout } from '@/lib/utils/timeout';
-import { Button } from '@karasu/ui';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import { EnhancedRelatedArticles } from '@/components/blog/EnhancedRelatedArticles';
 import { getRelatedContent } from '@/lib/content/related-content';
+import { getListings } from '@/lib/supabase/queries';
+import { withTimeout } from '@/lib/utils/timeout';
+import { ListingCard } from '@/components/listings/ListingCard';
+import Link from 'next/link';
+import { Button } from '@karasu/ui';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
-
 
 export async function generateMetadata({
   params,
@@ -27,33 +26,42 @@ export async function generateMetadata({
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
 
   return {
-    title: 'Sapanca Satılık Bungalov | Göl Kenarı Bungalovlar ve Yatırım Fırsatları',
-    description: 'Sapanca\'da satılık bungalov seçenekleri. Göl kenarı bungalovlar, ruhsat durumu, fiyatlar ve yatırım potansiyeli. Bungalov alırken dikkat edilmesi gerekenler.',
+    title: 'Sapanca Satılık Bungalov | Göl Kenarı Bungalov İlanları 2025',
+    description: 'Sapanca\'da satılık bungalov ilanları. Sapanca Gölü kenarında bungalov seçenekleri, fiyatlar ve günlük kiralık yatırım potansiyeli.',
     keywords: [
       'sapanca satılık bungalov',
-      'sapanca gölü satılık bungalov',
-      'sapanca bungalov yatırım',
-      'sapanca satılık bungalov fiyatları',
-      'sapanca bungalov ruhsat',
+      'sapanca bungalov satılık',
+      'sapanca göl kenarı bungalov',
+      'sapanca bungalov fiyatları',
+      'sakarya sapanca bungalov',
     ],
     alternates: {
       canonical: `${siteConfig.url}${basePath}/sapanca/satilik-bungalov`,
+      languages: pruneHreflangLanguages({
+        tr: '/sapanca/satilik-bungalov',
+        en: '/en/sapanca/satilik-bungalov',
+        et: '/et/sapanca/satilik-bungalov',
+        ru: '/ru/sapanca/satilik-bungalov',
+        ar: '/ar/sapanca/satilik-bungalov',
+      }),
+    },
+    openGraph: {
+      title: 'Sapanca Satılık Bungalov | Göl Kenarı Bungalov İlanları',
+      description: 'Sapanca\'da satılık bungalov ilanları. Göl kenarı bungalov seçenekleri.',
+      url: `${siteConfig.url}${basePath}/sapanca/satilik-bungalov`,
+      type: 'website',
     },
   };
 }
 
-const bungalovFAQs = [
+const satilikBungalovFAQs = [
   {
     question: 'Sapanca\'da satılık bungalov fiyatları ne kadar?',
-    answer: 'Sapanca\'da satılık bungalov fiyatları konum ve özelliklere göre değişmektedir. Göl kenarı bungalovlar 1.5-3 milyon TL, merkez bungalovlar 800 bin - 1.5 milyon TL arasında değişmektedir. Yeni yapılar ve göl manzaralı bungalovlar daha yüksek fiyatlıdır.',
+    answer: 'Sapanca\'da satılık bungalov fiyatları 800 bin - 3 milyon TL arasında değişmektedir. Göl kenarı bungalovlar 1.5-3 milyon TL, merkez bungalovlar 800 bin - 1.5 milyon TL bandındadır. Ahşap ve betonarme bungalovlar farklı fiyat aralıklarında sunulmaktadır.',
   },
   {
-    question: 'Sapanca\'da bungalov alırken ruhsat durumu önemli mi?',
-    answer: 'Evet, Sapanca\'da bungalov alırken ruhsat durumu çok önemlidir. Özellikle göl kenarı bungalovlarda imar sorunları olabilir. Tapu ve ruhsat belgeleri mutlaka kontrol edilmelidir. Ruhsatsız bungalovlar ileride sorun çıkarabilir.',
-  },
-  {
-    question: 'Sapanca\'da bungalov yatırımı mantıklı mı?',
-    answer: 'Evet, Sapanca\'da bungalov yatırımı mantıklıdır. Özellikle göl kenarı bungalovlar yaz sezonunda yüksek günlük kiralık getirisi sağlar. Ancak mevsimsellik ve bakım maliyetlerini de hesaba katmak gerekiyor.',
+    question: 'Sapanca bungalov günlük kiralık yatırımı karlı mı?',
+    answer: 'Evet, Sapanca bungalov günlük kiralık yatırımı yüksek getiri potansiyeli sunmaktadır. Yaz sezonunda (Haziran-Eylül) günlük kiralama talebi yoğundur. Göl kenarı bungalovlar özellikle yüksek doluluk oranına sahiptir.',
   },
 ];
 
@@ -65,48 +73,39 @@ export default async function SapancaSatilikBungalovPage({
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
 
-  // Fetch related articles for SEO and engagement
-  const relatedArticles = await getRelatedContent({
-    keywords: [
-      'sapanca',
-      'bungalov',
-      'satılık bungalov',
-      'göl kenarı',
-      'yatırım',
-      'sapanca gölü',
-      'bungalov fiyatları',
-    ],
-    location: 'Sapanca',
-    category: 'Rehber',
-    tags: ['Sapanca', 'Bungalov', 'Yatırım', 'Göl Kenarı'],
-    limit: 6,
-  });
-
-  // Fetch bungalov listings
-  const listingsResult = await withTimeout(
-    getListings({ status: 'satilik' }, { field: 'created_at', order: 'desc' }, 20, 0),
+  const { listings } = await withTimeout(
+    getListings({ status: 'satilik', property_type: ['yazlik', 'ev'] }, { field: 'created_at', order: 'desc' }, 12, 0),
     3000,
     { listings: [], total: 0 }
   );
 
-  const sapancaBungalovListings = (listingsResult?.listings || []).filter(l =>
-    (l.location_district?.toLowerCase().includes('sapanca') ||
-     l.location_neighborhood?.toLowerCase().includes('sapanca')) &&
-    (l.title?.toLowerCase().includes('bungalov') ||
-     l.description_short?.toLowerCase().includes('bungalov') ||
-     l.description_long?.toLowerCase().includes('bungalov'))
+  const sapancaBungalovListings = (listings || []).filter(
+    (l) =>
+      (l.location_district?.toLowerCase().includes('sapanca') ||
+        l.location_neighborhood?.toLowerCase().includes('sapanca')) &&
+      (l.title?.toLowerCase().includes('bungalov') ||
+        l.description_short?.toLowerCase().includes('bungalov') ||
+        l.description_long?.toLowerCase().includes('bungalov'))
   );
 
+  const relatedArticles = await getRelatedContent({
+    keywords: ['sapanca', 'bungalov', 'satılık bungalov', 'sapanca gölü'],
+    location: 'Sapanca',
+    category: 'Rehber',
+    tags: ['Sapanca', 'Bungalov'],
+    limit: 6,
+  });
+
   const articleSchema = generateArticleSchema({
-    headline: 'Sapanca Satılık Bungalov | Göl Kenarı Bungalovlar ve Yatırım Fırsatları',
-    description: 'Sapanca\'da satılık bungalov seçenekleri. Göl kenarı bungalovlar ve yatırım potansiyeli.',
+    headline: 'Sapanca Satılık Bungalov | Göl Kenarı Bungalov İlanları 2025',
+    description: 'Sapanca\'da satılık bungalov ilanları. Göl kenarı bungalov seçenekleri ve yatırım potansiyeli.',
     image: [`${siteConfig.url}/og-image.jpg`],
     datePublished: new Date().toISOString(),
     dateModified: new Date().toISOString(),
     author: 'Karasu Emlak',
   });
 
-  const faqSchema = generateFAQSchema(bungalovFAQs);
+  const faqSchema = generateFAQSchema(satilikBungalovFAQs);
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Ana Sayfa', url: `${siteConfig.url}${basePath}/` },
     { name: 'Sapanca', url: `${siteConfig.url}${basePath}/sapanca` },
@@ -133,57 +132,77 @@ export default async function SapancaSatilikBungalovPage({
             Sapanca Satılık Bungalov
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl">
-            Sapanca'da satılık bungalov seçenekleri. Göl kenarı bungalovlar ve yatırım fırsatları.
+            Sapanca Gölü kenarında satılık bungalov ilanları. Günlük kiralık yatırım potansiyeli
+            yüksek bungalov seçenekleri.
           </p>
         </div>
 
-        {/* Listings Grid */}
+        <div className="prose prose-lg max-w-none dark:prose-invert mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
+            Sapanca&apos;da Bungalov Seçenekleri
+          </h2>
+          <p>
+            Sapanca, bungalov kültürünün Türkiye&apos;deki merkezlerinden biridir. Göl kenarı ahşap ve
+            betonarme bungalovlar hem tatil hem yatırım amaçlı tercih edilmektedir. Günlük kiralık
+            talebi yüksek olduğundan yatırımcılar için cazip bir seçenektir.
+          </p>
+        </div>
+
         {sapancaBungalovListings.length > 0 && (
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              Güncel İlanlar
+              Sapanca Satılık Bungalov İlanları
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sapancaBungalovListings.map((listing) => (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {sapancaBungalovListings.slice(0, 6).map((listing) => (
                 <ListingCard key={listing.id} listing={listing} basePath={basePath} />
               ))}
             </div>
-            <div className="text-center mt-8">
-              <Button asChild>
-                <Link href={`${basePath}/satilik?location=sapanca`}>
-                  Tüm İlanları Görüntüle <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </Button>
+            <div className="mt-6 text-center">
+              <Link href={`${basePath}/satilik?lokasyon=sapanca`}>
+                <Button variant="outline" size="lg">
+                  Tüm Sapanca Satılık Bungalov İlanları
+                </Button>
+              </Link>
             </div>
           </section>
         )}
 
-        {/* FAQ Section */}
-        <section className="mt-12">
+        <section className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
             Sıkça Sorulan Sorular
           </h2>
           <div className="space-y-4">
-            {bungalovFAQs.map((faq, index) => (
-              <div key={index} className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  {faq.question}
-                </h3>
-                <p className="text-gray-700 dark:text-gray-300">
-                  {faq.answer}
-                </p>
+            {satilikBungalovFAQs.map((faq, index) => (
+              <div
+                key={index}
+                className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700"
+              >
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{faq.question}</h3>
+                <p className="text-gray-700 dark:text-gray-300">{faq.answer}</p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Related Articles Section - SEO & Engagement */}
+        <div className="flex flex-wrap gap-4 mb-12">
+          <Link href={`${basePath}/sapanca`}>
+            <Button variant="outline">Sapanca Ana Sayfa</Button>
+          </Link>
+          <Link href={`${basePath}/sapanca/bungalov`}>
+            <Button variant="outline">Sapanca Bungalov (Genel)</Button>
+          </Link>
+          <Link href={`${basePath}/sapanca/gunluk-kiralik`}>
+            <Button variant="outline">Sapanca Günlük Kiralık</Button>
+          </Link>
+        </div>
+
         {relatedArticles.length > 0 && (
-          <section className="mt-16">
+          <section>
             <EnhancedRelatedArticles
               articles={relatedArticles}
               basePath={basePath}
-              title="Sapanca Bungalov ve Yatırım Hakkında Makaleler"
+              title="Sapanca ve Bungalov Hakkında Makaleler"
               limit={6}
             />
           </section>

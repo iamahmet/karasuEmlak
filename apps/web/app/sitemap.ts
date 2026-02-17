@@ -83,6 +83,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/karasu-vs-kocaali-satilik-ev', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/karasu-vs-kocaali-yatirim', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/karasu-vs-kocaali-yasam', priority: 0.7, changeFrequency: 'monthly' },
+    { path: '/karsilastirma/karasu-vs-sapanca', priority: 0.75, changeFrequency: 'monthly' },
+    { path: '/karsilastirma/sapanca-vs-kocaali', priority: 0.75, changeFrequency: 'monthly' },
     
     // Location-specific pages
     { path: '/karasu-merkez-satilik-ev', priority: 0.8, changeFrequency: 'weekly' },
