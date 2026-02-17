@@ -43,6 +43,7 @@
     "scripts:migrate-blog-articles": "tsx scripts/migrate-blog-articles.ts",
     "scripts:migrate-blog-manual": "tsx scripts/manual-blog-migration.ts",
     "scripts:generate-karasu-daire-content": "tsx scripts/generate-karasu-satilik-daire-content.ts",
+    "scripts:create-karasu-satilik-daire-4-makale": "tsx scripts/create-karasu-satilik-daire-4-makale.ts",
     "scripts:create-balik-restoranlari-content": "tsx scripts/create-karasu-balik-restoranlari-content.ts",
     "scripts:create-balik-restoranlari-content-api": "tsx scripts/create-karasu-balik-restoranlari-content-via-api.ts",
     "scripts:create-balik-restoranlari-direct": "tsx scripts/create-karasu-balik-restoranlari-direct.ts",
