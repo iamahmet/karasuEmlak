@@ -268,7 +268,9 @@ async function createArticle(
       keywords: generated.keywords,
       author: "Karasu Emlak",
       status: "draft",
-      category: isCornerstone ? "Cornerstone" : "Blog",
+      category: isCornerstone
+        ? ((item as CornerstonePlan).primaryKeyword || "Rehber").replace(/\b\w/g, (c) => c.toUpperCase())
+        : "Blog",
       seo_score: 80,
     })
     .select("id")

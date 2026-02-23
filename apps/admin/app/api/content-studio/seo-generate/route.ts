@@ -247,7 +247,9 @@ async function handlePost(request: NextRequest) {
       keywords: parsed.keywords.length > 0 ? parsed.keywords : null,
       author: "Karasu Emlak",
       status: "draft",
-      category: pageType === "cornerstone" ? "Cornerstone" : "Blog",
+      category: pageType === "cornerstone"
+        ? (primaryKeyword || "Rehber").replace(/\b\w/g, (c) => c.toUpperCase())
+        : "Blog",
     })
     .select()
     .single();

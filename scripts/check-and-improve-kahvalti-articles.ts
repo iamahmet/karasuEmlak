@@ -94,7 +94,7 @@ async function checkContentQuality(article: Article): Promise<QualityReport> {
   let score = article.seo_score || 70;
 
   // Check word count
-  if (wordCount < 1000 && article.category === 'Cornerstone') {
+  if (wordCount < 1000 && (article.category === 'Rehber' || article.category?.toLowerCase().includes('rehber'))) {
     issues.push({
       type: 'word-count',
       severity: 'high',
@@ -236,7 +236,7 @@ ${article.content.substring(0, 3000)}${article.content.length > 3000 ? '...' : '
 Gereksinimler:
 1. AI pattern'leri kaldır ("sonuç olarak", "özetlemek gerekirse" gibi)
 2. İçeriği daha doğal ve özgün hale getir
-3. ${article.category === 'Cornerstone' ? 'Minimum 2000 kelime' : 'Minimum 1000 kelime'} olacak şekilde genişlet
+3. ${article.category === 'Rehber' || article.category?.toLowerCase().includes('rehber') ? 'Minimum 2000 kelime' : 'Minimum 1000 kelime'} olacak şekilde genişlet
 4. Yerel bilgiler ekle (Karasu, Kocaali)
 5. Karasu Emlak ile mantıklı bağlantılar kur
 
@@ -244,13 +244,13 @@ Sadece iyileştirilmiş içeriği HTML formatında döndür (başlıklar, paragr
 
     try {
       const completion = await openai.chat.completions.create({
-        model: article.category === 'Cornerstone' ? 'gpt-4o' : 'gpt-4o-mini',
+        model: article.category === 'Rehber' || article.category?.toLowerCase().includes('rehber') ? 'gpt-4o' : 'gpt-4o-mini',
         messages: [
           { role: 'system', content: 'Sen Karasu\'da 15 yıldır hizmet veren profesyonel bir emlak danışmanısın. İçerikleri iyileştiriyorsun.' },
           { role: 'user', content: prompt },
         ],
         temperature: 0.7,
-        max_tokens: article.category === 'Cornerstone' ? 8000 : 4000,
+        max_tokens: article.category === 'Rehber' || article.category?.toLowerCase().includes('rehber') ? 8000 : 4000,
       });
 
       improvements.content = completion.choices[0]?.message?.content?.trim() || article.content;

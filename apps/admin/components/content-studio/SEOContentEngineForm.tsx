@@ -57,7 +57,7 @@ export function SEOContentEngineForm({ locale }: SEOContentEngineFormProps) {
       const data = await res.json();
       if (data.success && data.data?.suggestions) {
         setCoverageMap(data.data.suggestions);
-        toast.success("Coverage map yüklendi: 1 cornerstone + 5 blog");
+        toast.success("Coverage map yüklendi: 1 rehber + 5 blog");
       }
     } catch (e) {
       toast.error("Coverage map yüklenemedi");
@@ -168,7 +168,7 @@ export function SEOContentEngineForm({ locale }: SEOContentEngineFormProps) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="blog">Blog</SelectItem>
-                <SelectItem value="cornerstone">Cornerstone</SelectItem>
+                <SelectItem value="cornerstone">Rehber</SelectItem>
               </SelectContent>
             </Select>
           </div>

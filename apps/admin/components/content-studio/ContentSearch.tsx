@@ -173,7 +173,7 @@ export function ContentSearch({ locale, onSelect }: ContentSearchProps) {
                 <SelectContent>
                   <SelectItem value="all">Tüm Tipler</SelectItem>
                   <SelectItem value="normal">Normal</SelectItem>
-                  <SelectItem value="cornerstone">Cornerstone</SelectItem>
+                  <SelectItem value="cornerstone">Rehber</SelectItem>
                   <SelectItem value="breaking">Breaking</SelectItem>
                   <SelectItem value="programmatic">Programmatic</SelectItem>
                 </SelectContent>

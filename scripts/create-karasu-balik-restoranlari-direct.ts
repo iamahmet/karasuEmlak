@@ -312,7 +312,7 @@ async function createArticle(article: ArticlePlan): Promise<void> {
       keywords: article.targetKeywords,
       author: "Karasu Emlak",
       status: "draft", // Draft olarak oluştur, admin panelden yayınlanabilir
-      category: article.type === 'cornerstone' ? 'Cornerstone' : 'Blog',
+      category: article.type === 'cornerstone' ? 'Rehber' : 'Blog',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       views: 0,

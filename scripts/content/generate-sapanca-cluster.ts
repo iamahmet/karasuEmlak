@@ -514,7 +514,9 @@ async function createArticle(article: ArticlePlan): Promise<void> {
       keywords: generated.keywords.length > 0 ? generated.keywords : article.targetKeywords,
       author: "Karasu Emlak",
       status: "published",
-      category: article.type === 'cornerstone' ? 'Cornerstone' : 'Blog',
+      category: article.type === 'cornerstone'
+        ? (article.targetKeywords?.[0] || 'Sapanca Rehber').replace(/\b\w/g, (c) => c.toUpperCase())
+        : 'Blog',
       published_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),

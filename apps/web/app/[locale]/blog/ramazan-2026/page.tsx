@@ -257,7 +257,7 @@ export default async function Ramadan2026HubPage({
 
           {pinned.length > 0 && (
             <section className="mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-5">Cornerstone Rehberler</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-5">Rehberler</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {pinned.map((article: any) => (
                   <ArticleCard key={article.id} article={article} basePath={basePath} />

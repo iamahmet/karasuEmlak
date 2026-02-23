@@ -104,7 +104,7 @@ export function ContentStudioOverview({
             className="h-8 px-3 text-xs font-ui border border-[#E7E7E7] dark:border-[#062F28] rounded-lg hover-scale"
           >
             <Plus className="h-3.5 w-3.5 mr-1.5" />
-            Cornerstone
+            Rehber
           </Button>
           <Button 
             variant="outline" 

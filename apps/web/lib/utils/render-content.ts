@@ -129,8 +129,33 @@ export function markdownToHTML(content: string): string {
     return `<ol>${match}</ol>`;
   });
 
+  // Markdown tables: | A | B | \n|---|---|\n| 1 | 2 |
+  const tableRegex = /(\|[^\n]+\|\n\|[-:\s|]+\|\n(?:\|[^\n]+\|\n?)+)/g;
+  html = html.replace(tableRegex, (tableBlock) => {
+    const rows = tableBlock.trim().split('\n').filter(Boolean);
+    if (rows.length < 2) return tableBlock;
+    const headerCells = rows[0].split('|').filter(Boolean).map((c) => c.trim());
+    const separator = rows[1];
+    const dataRows = rows.slice(2);
+    let tableHtml = '<table class="w-full border-collapse my-6"><thead><tr>';
+    headerCells.forEach((cell) => {
+      tableHtml += `<th class="border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-3 text-left font-bold">${cell}</th>`;
+    });
+    tableHtml += '</tr></thead><tbody>';
+    dataRows.forEach((row) => {
+      const cells = row.split('|').filter(Boolean).map((c) => c.trim());
+      tableHtml += '<tr>';
+      cells.forEach((cell) => {
+        tableHtml += `<td class="border border-gray-300 dark:border-gray-700 p-3">${cell}</td>`;
+      });
+      tableHtml += '</tr>';
+    });
+    tableHtml += '</tbody></table>';
+    return tableHtml;
+  });
+
   // Paragraphs (lines that don't start with HTML tags)
-  html = html.split('\n').map(line => {
+  html = html.split('\n').map((line) => {
     const trimmed = line.trim();
     if (!trimmed) return '';
     if (trimmed.startsWith('<')) return trimmed; // Already HTML
@@ -153,14 +178,22 @@ export function renderContent(
   }
 
   let processed = content.trim();
+
+  // Step 0: Decode HTML entities first (fixes &lt;strong&gt; showing as literal)
+  if (processed.includes('&lt;') || processed.includes('&gt;') || processed.includes('&amp;')) {
+    processed = decodeHTMLEntities(processed);
+  }
+
+  // Remove redundant ** around <strong> (AI sometimes outputs **<strong>X</strong>**)
+  processed = processed.replace(/\*\*<strong>(.*?)<\/strong>\*\*/g, '<strong>$1</strong>');
+  processed = processed.replace(/__<strong>(.*?)<\/strong>__/g, '<strong>$1</strong>');
+
   const format = options.format || detectContentFormat(processed);
 
   // Step 1: Handle format-specific conversion
   switch (format) {
     case 'html-escaped':
-      // Decode HTML entities
-      processed = decodeHTMLEntities(processed);
-      // Fall through to HTML processing
+      // Already decoded above; ensure no double-encoding
       break;
 
     case 'markdown':

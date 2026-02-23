@@ -1,0 +1,10 @@
+{
+  "description": "Legacy indexed URLs - 301 redirect targets. Never delete; add new entries when URLs change.",
+  "redirects": [
+    { "from": "/kiralik-daire", "to": "/kiralik", "reason": "Category consolidation" },
+    { "from": "/satilik-daire", "to": "/satilik", "reason": "Category consolidation" },
+    { "from": "/karasu-kiralik-daire", "to": "/kiralik?location=karasu", "reason": "Location filter" },
+    { "from": "/karasu-satilik-daire", "to": "/satilik?location=karasu", "reason": "Location filter" }
+  ],
+  "canonicalAliases": []
+}

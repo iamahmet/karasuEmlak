@@ -340,9 +340,12 @@ export default async function BlogDetailPage({
     const isKocaali =
       article.title.toLowerCase().includes('kocaali') ||
       article.content?.toLowerCase().includes('kocaali');
+    const isSapanca =
+      article.title.toLowerCase().includes('sapanca') ||
+      article.content?.toLowerCase().includes('sapanca');
 
-    if (isKarasu || isKocaali) {
-      const region = isKarasu ? 'karasu' : 'kocaali';
+    if (isKarasu || isKocaali || isSapanca) {
+      const region = isKarasu ? 'karasu' : isKocaali ? 'kocaali' : 'global';
 
       // AI-generated questions (preferred)
       try {
@@ -363,18 +366,30 @@ export default async function BlogDetailPage({
         // Continue to legacy QA entries
       }
 
-      // Legacy QA entries as fallback
-      const existingQuestions = new Set(faqs.map((f) => f.question.toLowerCase()));
-      const qaEntries = await withTimeout(getQAEntries(region, 'high'), 2000, []);
-      if (qaEntries && qaEntries.length > 0) {
-        qaEntries.forEach((qa) => {
-          if (!existingQuestions.has(qa.question.toLowerCase()) && faqs.length < 6) {
-            faqs.push({
-              question: qa.question,
-              answer: qa.answer,
-            });
-          }
-        });
+      // Legacy QA entries as fallback (Karasu/Kocaali only)
+      if ((isKarasu || isKocaali) && faqs.length < 6) {
+        const regionForQA = isKarasu ? 'karasu' : 'kocaali';
+        const existingQuestions = new Set(faqs.map((f) => f.question.toLowerCase()));
+        const qaEntries = await withTimeout(getQAEntries(regionForQA, 'high'), 2000, []);
+        if (qaEntries && qaEntries.length > 0) {
+          qaEntries.forEach((qa) => {
+            if (!existingQuestions.has(qa.question.toLowerCase()) && faqs.length < 6) {
+              faqs.push({
+                question: qa.question,
+                answer: qa.answer,
+              });
+            }
+          });
+        }
+      }
+    }
+
+    // Fallback: extract FAQs from article content (e.g. "Sık Sorulan Sorular" section)
+    if (faqs.length === 0 && article.content) {
+      const { extractFaqsFromContent } = await import('@/lib/utils/extract-faq-from-content');
+      const extracted = extractFaqsFromContent(article.content);
+      if (extracted.length > 0) {
+        faqs = extracted;
       }
     }
   } catch (error) {

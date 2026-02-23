@@ -32,7 +32,7 @@ export function QuickActionsMenu() {
       shortcut: "⌘P",
     },
     {
-      label: "Create Cornerstone",
+      label: "Rehber Oluştur",
       icon: Sparkles,
       action: () => router.push(`/${locale}/seo/content-studio?tab=create&type=cornerstone`),
     },

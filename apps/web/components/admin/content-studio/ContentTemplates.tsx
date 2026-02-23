@@ -169,7 +169,7 @@ const defaultTemplates: Template[] = [
   },
   {
     id: "cornerstone-guide",
-    name: "⭐ Cornerstone Rehber",
+    name: "⭐ Rehber (karasu satılık daire vb.)",
     description: "Kapsamlı, derinlemesine içerik (2000+ kelime)",
     type: "cornerstone",
     category: "rehber",
@@ -239,7 +239,7 @@ export function ContentTemplates({ onSelectTemplate, className }: ContentTemplat
           <SelectContent className="rounded-lg">
             <SelectItem value="all" className="text-sm font-ui">Tümü</SelectItem>
             <SelectItem value="normal" className="text-sm font-ui">Normal</SelectItem>
-            <SelectItem value="cornerstone" className="text-sm font-ui">Cornerstone</SelectItem>
+            <SelectItem value="cornerstone" className="text-sm font-ui">Rehber</SelectItem>
             <SelectItem value="programmatic" className="text-sm font-ui">Programmatic</SelectItem>
           </SelectContent>
         </Select>

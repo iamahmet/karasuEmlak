@@ -59,11 +59,11 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
       {article.category && (
         <div className="mb-6">
           <Link
-            href={`${basePath}/blog/kategori/${article.category.toLowerCase().replace(/\s+/g, '-')}`}
+            href={`${basePath}/blog/kategori/${(article.category === 'Cornerstone' ? 'Rehber' : article.category).toLowerCase().replace(/\s+/g, '-')}`}
             className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 text-primary text-sm font-bold rounded-xl hover:from-primary/15 hover:to-primary/10 dark:hover:from-primary/30 dark:hover:to-primary/20 transition-all border border-primary/20 dark:border-primary/30 shadow-sm"
           >
             <TrendingUp className="h-4 w-4" />
-            {article.category}
+            {article.category === 'Cornerstone' ? 'Rehber' : article.category}
           </Link>
         </div>
       )}

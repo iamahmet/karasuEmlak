@@ -136,12 +136,12 @@ export function CreateTab({ locale, defaultType }: CreateTabProps) {
               </SelectTrigger>
               <SelectContent className="rounded-lg border border-border/40 dark:border-border/40">
                 <SelectItem value="normal" className="text-sm font-ui">📄 Standart İçerik (800-1200 kelime)</SelectItem>
-                <SelectItem value="cornerstone" className="text-sm font-ui">⭐ Cornerstone İçerik (2000+ kelime, detaylı rehber)</SelectItem>
+                <SelectItem value="cornerstone" className="text-sm font-ui">⭐ Rehber İçerik (2000+ kelime, karasu satılık daire vb.)</SelectItem>
                 <SelectItem value="programmatic" className="text-sm font-ui">🔄 Programmatik SEO (Otomatik sayfalar)</SelectItem>
               </SelectContent>
             </Select>
             <p className="text-[11px] text-muted-foreground mt-1.5 font-ui">
-              {formData.type === "cornerstone" && "💡 Cornerstone: Kapsamlı, derinlemesine içerik (mahalle rehberleri, kapsamlı analizler)"}
+              {formData.type === "cornerstone" && "💡 Rehber: Kapsamlı içerik (karasu satılık daire, sapanca bungalov vb. anahtar kelime odaklı)"}
               {formData.type === "normal" && "💡 Standart: Günlük blog yazıları, haberler, kısa rehberler"}
               {formData.type === "programmatic" && "💡 Programmatik: Otomatik oluşturulan sayfalar için"}
             </p>

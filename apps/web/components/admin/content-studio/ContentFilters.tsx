@@ -131,7 +131,7 @@ export function ContentFilters({ onFiltersChange }: ContentFiltersProps) {
                 <SelectItem value="blog">Blog</SelectItem>
                 <SelectItem value="news">Haber</SelectItem>
                 <SelectItem value="howto">Nasıl Yapılır</SelectItem>
-                <SelectItem value="cornerstone">Cornerstone</SelectItem>
+                <SelectItem value="cornerstone">Rehber</SelectItem>
               </SelectContent>
             </Select>
           </div>
