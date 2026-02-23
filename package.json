@@ -155,7 +155,7 @@
     "@upstash/redis": "^1.36.0",
     "@vitejs/plugin-react": "^5.1.2",
     "@vitest/coverage-v8": "^4.0.16",
-    "cheerio": "^1.1.2",
+    "cheerio": "^1.2.0",
     "critters": "^0.0.25",
     "dompurify": "^3.3.1",
     "dotenv": "^17.2.3",
@@ -178,6 +178,6 @@
   },
   "dependencies": {
     "he": "^1.2.0",
-    "isomorphic-dompurify": "^2.35.0"
+    "isomorphic-dompurify": "^3.0.0"
   }
 }
