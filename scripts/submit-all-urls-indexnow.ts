@@ -88,38 +88,52 @@ async function main() {
 
   console.log(`Total URLs to submit: ${absoluteUrls.length}`);
 
-  // 3. Submit to IndexNow (max 10000 per batch)
-  console.log("\n[2/4] Submitting to IndexNow...");
+  // 3. Submit to IndexNow endpoints (multiple search engines)
+  console.log("\n[2/4] Submitting to IndexNow endpoints...");
   const host = new URL(SITE_URL).hostname;
   const batchSize = 500;
 
-  let totalSubmitted = 0;
-  for (let i = 0; i < absoluteUrls.length; i += batchSize) {
-    const batch = absoluteUrls.slice(i, i + batchSize);
-    try {
-      const res = await fetch("https://api.indexnow.org/IndexNow", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          host,
-          key: INDEXNOW_KEY,
-          keyLocation: `${SITE_URL.replace(/\/$/, "")}/${INDEXNOW_KEY}.txt`,
-          urlList: batch,
-        }),
-      });
+  const indexNowEndpoints = [
+    { name: "IndexNow (generic)", url: "https://api.indexnow.org/IndexNow" },
+    { name: "Yandex", url: "https://yandex.com/indexnow" },
+    { name: "Bing", url: "https://www.bing.com/IndexNow" },
+  ];
 
-      if (res.ok || res.status === 200 || res.status === 202) {
-        totalSubmitted += batch.length;
-        console.log(`  Batch ${Math.floor(i / batchSize) + 1}: ${batch.length} URLs submitted (${res.status})`);
-      } else {
-        const text = await res.text();
-        console.warn(`  Batch ${Math.floor(i / batchSize) + 1}: Failed (${res.status}) - ${text}`);
+  let totalSubmitted = 0;
+  for (const endpoint of indexNowEndpoints) {
+    console.log(`\n  --- ${endpoint.name} ---`);
+    let epSubmitted = 0;
+
+    for (let i = 0; i < absoluteUrls.length; i += batchSize) {
+      const batch = absoluteUrls.slice(i, i + batchSize);
+      try {
+        const res = await fetch(endpoint.url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            host,
+            key: INDEXNOW_KEY,
+            keyLocation: `${SITE_URL.replace(/\/$/, "")}/${INDEXNOW_KEY}.txt`,
+            urlList: batch,
+          }),
+        });
+
+        if (res.ok || res.status === 200 || res.status === 202) {
+          epSubmitted += batch.length;
+          console.log(`  Batch ${Math.floor(i / batchSize) + 1}: ${batch.length} URLs submitted (${res.status})`);
+        } else {
+          const text = await res.text();
+          console.warn(`  Batch ${Math.floor(i / batchSize) + 1}: Failed (${res.status}) - ${text.substring(0, 150)}`);
+        }
+      } catch (err: any) {
+        console.warn(`  Batch ${Math.floor(i / batchSize) + 1}: Error -`, err.message);
       }
-    } catch (err: any) {
-      console.warn(`  Batch ${Math.floor(i / batchSize) + 1}: Error -`, err.message);
     }
+
+    if (epSubmitted > totalSubmitted) totalSubmitted = epSubmitted;
+    console.log(`  ${endpoint.name}: ${epSubmitted}/${absoluteUrls.length} URLs`);
   }
-  console.log(`IndexNow: ${totalSubmitted}/${absoluteUrls.length} URLs submitted`);
+  console.log(`\nBest result: ${totalSubmitted}/${absoluteUrls.length} URLs accepted`);
 
   // 4. Ping sitemap to Google and Bing
   console.log("\n[3/4] Pinging sitemap to search engines...");
