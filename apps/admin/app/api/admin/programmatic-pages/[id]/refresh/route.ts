@@ -1,12 +1,16 @@
 /**
  * Refresh Programmatic Page API
  * POST: Manually refresh/update a programmatic page
+ * Triggers actual data refresh based on page type (pharmacy, weather, prayer_times, imsakiye, iftar)
  */
 
 import { NextRequest } from "next/server";
 import { createServiceClient } from "@karasu/lib/supabase/service";
+import { refreshPrayerTimes } from "@karasu/lib/prayer-times-refresh";
 import { withErrorHandling, createSuccessResponse, createErrorResponse } from "@/lib/api/error-handler";
 import { getRequestId } from "@/lib/api/middleware";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || "https://karasuemlak.net";
 
 async function handlePost(
   request: NextRequest,
@@ -17,7 +21,6 @@ async function handlePost(
   const supabase = createServiceClient();
 
   try {
-    // Get page info
     const { data: page, error: fetchError } = await supabase
       .from("programmatic_pages")
       .select("*")
@@ -34,7 +37,44 @@ async function handlePost(
       );
     }
 
-    // Update last_updated timestamp
+    const pageType = (page.type || "").toLowerCase();
+    const config = (page.config || {}) as Record<string, string>;
+    const city = config.city || "Sakarya";
+    const district = config.district || "Karasu";
+
+    let refreshResult: { success: boolean; message?: string; rowsUpserted?: number } = {
+      success: true,
+      message: "Zaman damgası güncellendi",
+    };
+
+    if (["prayer_times", "imsakiye", "iftar"].includes(pageType)) {
+      const result = await refreshPrayerTimes({
+        year: new Date().getFullYear(),
+        districtId: config.district_id ? Number(config.district_id) : 9803,
+      });
+      refreshResult = {
+        success: result.success,
+        message: result.success
+          ? `${result.rowsUpserted ?? 0} vakit kaydı güncellendi`
+          : result.error,
+        rowsUpserted: result.rowsUpserted,
+      };
+    } else if (pageType === "pharmacy") {
+      try {
+        const res = await fetch(
+          `${SITE_URL}/api/services/pharmacy?city=${encodeURIComponent(city)}&district=${encodeURIComponent(district)}&cache=false`
+        );
+        const json = await res.json();
+        refreshResult = {
+          success: json.success === true,
+          message: json.success ? "Nöbetçi eczane verisi yenilendi" : json.error || "Yenileme başarısız",
+        };
+      } catch (err: any) {
+        refreshResult = { success: false, message: err?.message || "Eczane API hatası" };
+      }
+    }
+    // weather, jobs, obituary, other: no persistent data to refresh, just update timestamp
+
     const { data: updatedPage, error: updateError } = await supabase
       .from("programmatic_pages")
       .update({
@@ -49,17 +89,11 @@ async function handlePost(
       throw updateError;
     }
 
-    // TODO: Implement actual data refresh logic based on page type
-    // For now, we just update the timestamp
-    // In the future, this could:
-    // - Fetch prayer times from API
-    // - Update weather data
-    // - Refresh job listings
-    // - etc.
-
     return createSuccessResponse(requestId, {
       page: updatedPage,
-      message: "Sayfa güncellendi",
+      message: refreshResult.message || "Sayfa güncellendi",
+      refreshSuccess: refreshResult.success,
+      ...(refreshResult.rowsUpserted != null && { rowsUpserted: refreshResult.rowsUpserted }),
     });
   } catch (error: any) {
     console.error("Programmatic page refresh error:", error);

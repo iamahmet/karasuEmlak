@@ -7,7 +7,8 @@
  * Usage:
  *   pnpm tsx scripts/import-karasu-prayer-times.ts
  *   pnpm tsx scripts/import-karasu-prayer-times.ts --apply
- *   pnpm tsx scripts/import-karasu-prayer-times.ts --apply --year=2026 --district=9803
+ *   pnpm tsx scripts/import-karasu-prayer-times.ts --apply --year=2026 --district=9803   # Karasu
+ *   pnpm tsx scripts/import-karasu-prayer-times.ts --apply --year=2026 --district=9805   # Kocaali
  */
 
 import { createClient } from '@supabase/supabase-js';

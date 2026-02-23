@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     // For now, return success response
 
     const INDEXNOW_API_KEY = process.env.INDEXNOW_API_KEY;
-    const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://karasuradyo.com";
+    const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.karasuemlak.net";
 
     if (!INDEXNOW_API_KEY) {
       console.warn("INDEXNOW_API_KEY not configured, skipping actual submission");

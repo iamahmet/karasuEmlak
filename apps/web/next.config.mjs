@@ -32,7 +32,7 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   
   images: {
@@ -299,6 +299,9 @@ const pwaConfig = process.env.NODE_ENV === 'development'
       register: true,
       skipWaiting: true,
       sw: 'sw.js',
+      fallbacks: {
+        document: '/offline.html',
+      },
   // Custom service worker for push notifications
   importScripts: ['/sw-custom.js'],
   runtimeCaching: [

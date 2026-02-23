@@ -358,6 +358,17 @@ async function handlePut(
     // Note: error check removed - if we reach here, update was successful
     // The error variable from retry loop is already handled above
 
+    // Notify search engines when publishing (async, don't wait)
+    if (isPublished && data?.slug) {
+      const webUrl = process.env.NEXT_PUBLIC_WEB_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://www.karasuemlak.net";
+      const blogPath = `/blog/${data.slug}`;
+      fetch(`${webUrl.replace(/\/$/, "")}/api/seo/notify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ urls: [blogPath] }),
+      }).catch((err) => console.warn("[Articles API] SEO notify failed:", err));
+    }
+
     // Automatically generate images from content suggestions (async, don't wait)
     if (content && data?.id) {
       const { extractImageSuggestions } = await import('@/lib/utils/extract-image-suggestions');

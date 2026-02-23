@@ -277,10 +277,11 @@ export async function sendSavedSearchMatchNotification({
       };
     });
 
-    // Generate search URL
-    const searchUrl = `/ilanlar?${new URLSearchParams(
-      savedSearch.search_params as Record<string, string>
-    ).toString()}`;
+    // Generate search URL from filters
+    const params = (savedSearch.filters || savedSearch.search_params) as Record<string, string>;
+    const searchUrl = params && Object.keys(params).length > 0
+      ? `/satilik?${new URLSearchParams(params).toString()}`
+      : "/satilik";
 
     // Render email template
     const html = renderToStaticMarkup(
@@ -298,8 +299,8 @@ export async function sendSavedSearchMatchNotification({
       html,
     });
 
-    // Log notification
-    if (result.success) {
+    // Log notification (only if user_id provided - notifications table requires it)
+    if (result.success && userId) {
       await supabase.from("notifications").insert({
         user_id: userId,
         type: "saved_search_match",

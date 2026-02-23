@@ -15,12 +15,24 @@
       "schedule": "0 * * * *"
     },
     {
+      "path": "/api/cron/check-price-alerts",
+      "schedule": "0 * * * *"
+    },
+    {
       "path": "/api/cron/check-price-changes",
       "schedule": "0 9 * * *"
     },
     {
       "path": "/api/cron/check-saved-searches",
       "schedule": "0 10 * * *"
+    },
+    {
+      "path": "/api/cron/update-pharmacies",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/refresh-prayer-times",
+      "schedule": "0 5 1 * *"
     }
   ]
 }

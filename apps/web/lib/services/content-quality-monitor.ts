@@ -206,25 +206,35 @@ export async function getQualityTrends(): Promise<QualityTrend[]> {
 }
 
 /**
- * Send quality alerts (to be implemented with notification system)
+ * Send quality alerts - stores in content_quality_alerts for admin review
  */
 export async function sendQualityAlerts(alerts: QualityAlert[]): Promise<void> {
-  // TODO: Implement notification system
-  // This could send emails, Slack messages, or create admin notifications
-  console.log(`[Content Quality Monitor] ${alerts.length} alerts generated`);
-  
-  // Group by severity
-  const highSeverity = alerts.filter(a => a.severity === 'high');
-  const mediumSeverity = alerts.filter(a => a.severity === 'medium');
-  const lowSeverity = alerts.filter(a => a.severity === 'low');
+  if (alerts.length === 0) return;
 
-  if (highSeverity.length > 0) {
-    console.warn(`[Content Quality Monitor] ${highSeverity.length} high severity alerts`);
-  }
-  if (mediumSeverity.length > 0) {
-    console.info(`[Content Quality Monitor] ${mediumSeverity.length} medium severity alerts`);
-  }
-  if (lowSeverity.length > 0) {
-    console.info(`[Content Quality Monitor] ${lowSeverity.length} low severity alerts`);
+  try {
+    const { createServiceClient } = await import('@karasu/lib/supabase/service');
+    const supabase = createServiceClient();
+
+    const rows = alerts.map((a) => ({
+      type: a.type,
+      severity: a.severity,
+      article_id: a.articleId,
+      article_title: a.articleTitle,
+      article_slug: a.articleSlug,
+      article_type: a.articleType,
+      message: a.message,
+      score: a.score,
+      metadata: { timestamp: a.timestamp },
+    }));
+
+    const { error } = await supabase.from('content_quality_alerts').insert(rows);
+
+    if (error) {
+      console.error('[Content Quality Monitor] Failed to store alerts:', error.message);
+    } else {
+      console.log(`[Content Quality Monitor] ${alerts.length} alerts stored for admin review`);
+    }
+  } catch (err: any) {
+    console.error('[Content Quality Monitor] sendQualityAlerts error:', err.message);
   }
 }

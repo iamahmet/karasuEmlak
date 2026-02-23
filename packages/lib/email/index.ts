@@ -8,6 +8,7 @@ export {
 export {
   sendNewListingNotification,
   sendPriceChangeNotification,
+  sendPriceAlertNotification,
   sendSavedSearchMatchNotification,
 } from "./notifications.server";
 

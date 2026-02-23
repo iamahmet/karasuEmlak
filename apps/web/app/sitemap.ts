@@ -123,6 +123,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/kocaali-satilik-ev-fiyatlari', priority: 0.7, changeFrequency: 'weekly' },
     { path: '/kocaali-emlak-rehberi', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/kocaali/mahalleler', priority: 0.7, changeFrequency: 'weekly' },
+    { path: '/kocaali/ramazan-imsakiyesi', priority: 0.7, changeFrequency: 'daily' },
+    { path: '/kocaali/iftara-kac-dakika-kaldi', priority: 0.7, changeFrequency: 'hourly' },
     
     // Sapanca pages
     { path: '/sapanca', priority: 0.9, changeFrequency: 'weekly' },

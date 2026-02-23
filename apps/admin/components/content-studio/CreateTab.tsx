@@ -18,6 +18,7 @@ import { useRouter } from "../../i18n/routing";
 import { toast } from "sonner";
 import { ContentTemplates } from "./ContentTemplates";
 import { KeywordBasedContentGenerator } from "./KeywordBasedContentGenerator";
+import { SEOContentEngineForm } from "./SEOContentEngineForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@karasu/ui";
 
 interface CreateTabProps {
@@ -28,7 +29,7 @@ interface CreateTabProps {
 export function CreateTab({ locale, defaultType }: CreateTabProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"form" | "templates" | "keywords">("form");
+  const [activeTab, setActiveTab] = useState<"form" | "templates" | "keywords" | "seo">("form");
   const [formData, setFormData] = useState({
     type: defaultType || "normal",
     template: "blog",
@@ -102,11 +103,15 @@ export function CreateTab({ locale, defaultType }: CreateTabProps) {
         </CardTitle>
       </CardHeader>
       <CardContent className="px-5 pb-5">
-        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "form" | "templates" | "keywords")} className="space-y-4">
-          <TabsList className="grid w-full grid-cols-3 rounded-xl bg-[#E7E7E7]/30 dark:bg-muted/30 p-1">
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "form" | "templates" | "keywords" | "seo")} className="space-y-4">
+          <TabsList className="grid w-full grid-cols-4 rounded-xl bg-[#E7E7E7]/30 dark:bg-muted/30 p-1">
             <TabsTrigger value="form" className="rounded-lg font-ui text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-card">
               <Sparkles className="h-4 w-4 mr-2" />
               AI ile Oluştur
+            </TabsTrigger>
+            <TabsTrigger value="seo" className="rounded-lg font-ui text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-card">
+              <Sparkles className="h-4 w-4 mr-2" />
+              SEO Engine
             </TabsTrigger>
             <TabsTrigger value="keywords" className="rounded-lg font-ui text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-card">
               <Sparkles className="h-4 w-4 mr-2" />
@@ -239,6 +244,10 @@ export function CreateTab({ locale, defaultType }: CreateTabProps) {
             )}
           </Button>
         </div>
+          </TabsContent>
+
+          <TabsContent value="seo" className="mt-4">
+            <SEOContentEngineForm locale={locale} />
           </TabsContent>
 
           <TabsContent value="keywords" className="mt-4">

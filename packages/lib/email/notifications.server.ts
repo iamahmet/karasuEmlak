@@ -220,6 +220,64 @@ export async function sendPriceChangeNotification({
 }
 
 /**
+ * Send price alert notification email (new listings matching filters)
+ */
+export async function sendPriceAlertNotification({
+  alertId,
+  email,
+  matches,
+}: {
+  alertId: string;
+  email: string;
+  matches: Array<{
+    id: string;
+    title: string;
+    slug: string;
+    price_amount?: number | null;
+    price_currency?: string;
+    location_neighborhood?: string;
+    images?: Array<{ url?: string }>;
+  }>;
+}): Promise<{ success: boolean; error?: string }> {
+  try {
+    const formattedMatches = matches.map((match) => {
+      const price = match.price_amount
+        ? `${new Intl.NumberFormat("tr-TR", {
+            style: "currency",
+            currency: match.price_currency || "TRY",
+            minimumFractionDigits: 0,
+          }).format(match.price_amount)}`
+        : undefined;
+      const imageUrl = match.images?.[0]?.url;
+      return {
+        title: match.title,
+        url: `/ilan/${match.slug}`,
+        price,
+        location: match.location_neighborhood,
+        imageUrl,
+      };
+    });
+
+    const html = await renderTemplate(
+      SavedSearchMatchEmailTemplate({
+        searchName: "Fiyat Uyarısı",
+        matches: formattedMatches,
+        searchUrl: "/satilik",
+      })
+    );
+
+    return await sendEmail({
+      to: email,
+      subject: `Fiyat Uyarısı: ${matches.length} yeni ilan bulundu`,
+      html,
+    });
+  } catch (error: any) {
+    console.error("Price alert notification error:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
  * Send saved search match notification email
  */
 export async function sendSavedSearchMatchNotification({
@@ -229,7 +287,7 @@ export async function sendSavedSearchMatchNotification({
   matches,
 }: {
   searchId: string;
-  userId: string;
+  userId?: string;
   email: string;
   matches: Array<{
     id: string;
@@ -283,10 +341,11 @@ export async function sendSavedSearchMatchNotification({
       };
     });
 
-    // Generate search URL
-    const searchUrl = `/ilanlar?${new URLSearchParams(
-      savedSearch.search_params as Record<string, string>
-    ).toString()}`;
+    // Generate search URL from filters
+    const params = (savedSearch.filters || savedSearch.search_params) as Record<string, string>;
+    const searchUrl = params && Object.keys(params).length > 0
+      ? `/satilik?${new URLSearchParams(params).toString()}`
+      : "/satilik";
 
     // Render email template
     const html = await renderTemplate(
@@ -304,8 +363,8 @@ export async function sendSavedSearchMatchNotification({
       html,
     });
 
-    // Log notification
-    if (result.success) {
+    // Log notification (only if user_id provided - notifications requires user_id)
+    if (result.success && userId) {
       await supabase.from("notifications").insert({
         user_id: userId,
         type: "saved_search_match",

@@ -59,6 +59,7 @@ const DEFAULT_PAGES: ProgrammaticPage[] = [
       district: "Karasu",
       province: "Sakarya",
       timezone: "Europe/Istanbul",
+      district_id: 9803,
     },
   },
   {
@@ -75,6 +76,7 @@ const DEFAULT_PAGES: ProgrammaticPage[] = [
       city: "Karasu",
       district: "Karasu",
       province: "Sakarya",
+      district_id: 9803,
     },
   },
   {
@@ -91,6 +93,7 @@ const DEFAULT_PAGES: ProgrammaticPage[] = [
       city: "Karasu",
       district: "Karasu",
       province: "Sakarya",
+      district_id: 9803,
     },
   },
   {

@@ -14,9 +14,7 @@ import { Calendar, ArrowRight, MapPin, FileText } from 'lucide-react';
 import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 300;
 
-const KARASU_DISTRICT_ID = 9803;
-const RAMADAN_2026_FROM = '2026-02-19';
-const RAMADAN_2026_TO = '2026-03-19';
+import { DISTRICT_IDS, RAMADAN_2026 } from '@/lib/ramadan/constants';
 
 function formatTurkeyDate(date: string) {
   const d = new Date(`${date}T00:00:00+03:00`);
@@ -135,12 +133,12 @@ export default async function KarasuRamazanImsakiyePage({
   const tomorrow = addDaysYmd(today, 1);
 
   const [todayTimes, tomorrowTimes, ramadanRange] = await Promise.all([
-    getPrayerTimesByDate({ districtId: KARASU_DISTRICT_ID, date: today }),
-    getPrayerTimesByDate({ districtId: KARASU_DISTRICT_ID, date: tomorrow }),
+    getPrayerTimesByDate({ districtId: DISTRICT_IDS.KARASU, date: today }),
+    getPrayerTimesByDate({ districtId: DISTRICT_IDS.KARASU, date: tomorrow }),
     getPrayerTimesRange({
-      districtId: KARASU_DISTRICT_ID,
-      from: RAMADAN_2026_FROM,
-      to: RAMADAN_2026_TO,
+      districtId: DISTRICT_IDS.KARASU,
+      from: RAMADAN_2026.FROM,
+      to: RAMADAN_2026.TO,
       limit: 45,
     }),
   ]);
@@ -272,8 +270,8 @@ export default async function KarasuRamazanImsakiyePage({
           <section className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-6 md:p-8 shadow-sm">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Ramazan 2026 Karasu İmsakiyesi (Gün Gün)</h2>
             <p className="text-gray-700 dark:text-gray-300 mb-5">
-              Ramazan 2026 için Karasu’da imsak ve iftar saatleri <strong>{formatTurkeyDate(RAMADAN_2026_FROM)}</strong> ile{' '}
-              <strong>{formatTurkeyDate(RAMADAN_2026_TO)}</strong> arasında gün gün aşağıda.
+              Ramazan 2026 için Karasu’da imsak ve iftar saatleri <strong>{formatTurkeyDate(RAMADAN_2026.FROM)}</strong> ile{' '}
+              <strong>{formatTurkeyDate(RAMADAN_2026.TO)}</strong> arasında gün gün aşağıda.
             </p>
 
             {ramadanRange.length > 0 ? (
@@ -292,8 +290,14 @@ export default async function KarasuRamazanImsakiyePage({
                   </thead>
                   <tbody>
                     {ramadanRange.map((row) => (
-                      <tr key={row.date} className="border-t border-gray-200 dark:border-gray-600">
-                        <td className="px-3 sm:px-4 py-3 whitespace-nowrap sticky left-0 bg-white dark:bg-gray-800 z-10 font-medium">{formatTurkeyDate(row.date)}</td>
+                      <tr
+                        key={row.date}
+                        className={`border-t border-gray-200 dark:border-gray-600 ${row.date === today ? 'bg-primary/5 dark:bg-primary/10' : ''}`}
+                      >
+                        <td className="px-3 sm:px-4 py-3 whitespace-nowrap sticky left-0 bg-inherit z-10 font-medium">
+                          {formatTurkeyDate(row.date)}
+                          {row.date === today && <span className="ml-2 text-xs text-primary font-semibold">(Bugün)</span>}
+                        </td>
                         <td className="px-3 sm:px-4 py-3 tabular-nums text-gray-900 dark:text-gray-100">{toHHMM(row.imsak)}</td>
                         <td className="px-3 sm:px-4 py-3 tabular-nums text-gray-900 dark:text-gray-100">{toHHMM(row.gunes)}</td>
                         <td className="px-3 sm:px-4 py-3 tabular-nums text-gray-900 dark:text-gray-100">{toHHMM(row.ogle)}</td>

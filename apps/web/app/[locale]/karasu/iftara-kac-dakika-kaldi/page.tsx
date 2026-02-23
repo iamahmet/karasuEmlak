@@ -16,7 +16,7 @@ import { RelatedContent } from '@/components/content';
 import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 60;
 
-const KARASU_DISTRICT_ID = 9803;
+import { DISTRICT_IDS } from '@/lib/ramadan/constants';
 const RECOMMENDED_ARTICLE_SLUGS = [
   'ramazan-2026-karasu-rehberi',
   'sakarya-karasu-ramazan-imsakiyesi-2026',
@@ -135,8 +135,8 @@ export default async function KarasuIftaraKacDakikaKaldiPage({
   const tomorrow = addDaysYmd(today, 1);
 
   const [todayTimes, tomorrowTimes] = await Promise.all([
-    getPrayerTimesByDate({ districtId: KARASU_DISTRICT_ID, date: today }),
-    getPrayerTimesByDate({ districtId: KARASU_DISTRICT_ID, date: tomorrow }),
+    getPrayerTimesByDate({ districtId: DISTRICT_IDS.KARASU, date: today }),
+    getPrayerTimesByDate({ districtId: DISTRICT_IDS.KARASU, date: tomorrow }),
   ]);
 
   const breadcrumbs = [

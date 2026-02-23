@@ -1,15 +1,15 @@
 # DEBUG_ERROR_MAP.md
 
-Generated: 2026-01-27T11:55:35.557Z
+Generated: 2026-02-17T13:41:24.496Z
 Base URL: http://localhost:3000
 
 ## Summary
 
-- Total endpoints tested: 23
-- ✅ Passed: 23
+- Total endpoints tested: 27
+- ✅ Passed: 27
 - ❌ Failed: 0
 - 🔴 JSON Parse Errors: 0
-- ⚠️  Non-JSON Responses: 12
+- ⚠️  Non-JSON Responses: 14
 
 ## 📋 All Test Results
 
@@ -29,10 +29,14 @@ Base URL: http://localhost:3000
 | `karasu` | 200 | text/html; charset=utf-8 | - | - |
 | `kocaali` | 200 | text/html; charset=utf-8 | - | - |
 | `sapanca` | 200 | text/html; charset=utf-8 | - | - |
-| `tr/kocaali` | 200 | text/html; charset=utf-8 | - | - |
-| `tr/sapanca` | 200 | text/html; charset=utf-8 | - | - |
+| `tr/kocaali` | 308 |  | - | - |
+| `tr/sapanca` | 308 |  | - | - |
 | `blog` | 200 | text/html; charset=utf-8 | - | - |
 | `haberler` | 200 | text/html; charset=utf-8 | - | - |
+| `kiralik-daire` | 200 | text/html; charset=utf-8 | - | - |
+| `satilik-daire` | 200 | text/html; charset=utf-8 | - | - |
+| `karasu-kiralik-daire` | 200 | text/html; charset=utf-8 | - | - |
+| `karasu-satilik-daire` | 200 | text/html; charset=utf-8 | - | - |
 | `sitemap.xml` | 200 | application/xml | - | - |
 | `robots.txt` | 200 | text/plain | - | - |
 | `api/dashboard/stats` | 200 | application/json | ✅ | - |

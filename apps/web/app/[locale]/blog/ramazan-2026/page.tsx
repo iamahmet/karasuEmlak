@@ -9,7 +9,7 @@ import { createServiceClient } from '@karasu/lib/supabase/service';
 import { generateBreadcrumbSchema, generateFAQPageSchema, generateBlogItemListSchema } from '@/lib/seo/blog-structured-data';
 import { getOptimizedCloudinaryUrl } from '@/lib/cloudinary/optimization';
 import { Button } from '@karasu/ui';
-import { ArrowLeft, Calendar, FileText, MapPin } from 'lucide-react';
+import { ArrowLeft, Calendar, FileText, MapPin, Pill } from 'lucide-react';
 
 import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600;
@@ -210,10 +210,22 @@ export default async function Ramadan2026HubPage({
                   Karasu İmsakiyesi
                 </Button>
               </Link>
+              <Link href={`${basePath}/kocaali/ramazan-imsakiyesi`}>
+                <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+                  <Calendar className="h-4 w-4 mr-2" />
+                  Kocaali İmsakiyesi
+                </Button>
+              </Link>
               <Link href={`${basePath}/karasu/iftara-kac-dakika-kaldi`}>
                 <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
                   <Calendar className="h-4 w-4 mr-2" />
-                  İftara Kaç Dakika?
+                  Karasu İftara Kaç Dakika?
+                </Button>
+              </Link>
+              <Link href={`${basePath}/kocaali/iftara-kac-dakika-kaldi`}>
+                <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+                  <Calendar className="h-4 w-4 mr-2" />
+                  Kocaali İftara Kaç Dakika?
                 </Button>
               </Link>
               <Link href={`${basePath}/kiralik`}>
@@ -232,6 +244,12 @@ export default async function Ramadan2026HubPage({
                 <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
                   <Calendar className="h-4 w-4 mr-2" />
                   Ramazan Etiketi
+                </Button>
+              </Link>
+              <Link href={`${basePath}/karasu/nobetci-eczaneler`}>
+                <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5">
+                  <Pill className="h-4 w-4 mr-2" />
+                  Nöbetçi Eczaneler
                 </Button>
               </Link>
             </div>

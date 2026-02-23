@@ -118,6 +118,18 @@ export default async function proxy(request: NextRequest) {
 
     rewrite.cookies.set('NEXT_LOCALE', 'tr');
 
+    const cspRewrite = buildCSP({ nonce, isDev: process.env.NODE_ENV === 'development' });
+    rewrite.headers.set('Content-Security-Policy', cspRewrite);
+    rewrite.headers.set('X-Frame-Options', 'DENY');
+    rewrite.headers.set('X-Content-Type-Options', 'nosniff');
+    rewrite.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+    if (process.env.NODE_ENV === 'production') {
+      rewrite.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+    }
+    rewrite.headers.set('X-DNS-Prefetch-Control', 'on');
+    rewrite.headers.set('X-XSS-Protection', '1; mode=block');
+    rewrite.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+
     return rewrite;
   }
 

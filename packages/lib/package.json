@@ -20,6 +20,7 @@
     "./openai/image-search": "./openai/image-search.ts",
     "./openai/image-reference": "./openai/image-reference.ts",
     "./seo/metadata": "./seo/metadata.ts",
+    "./seo/index-notify": "./seo/index-notify.ts",
     "./email": "./email/index.ts",
     "./email/client": "./email/client.ts",
     "./email/notifications": "./email/notifications.ts",
@@ -28,7 +29,8 @@
     "./supabase/queries/content": "./supabase/queries/content.ts",
     "./integrations/google-oauth": "./integrations/google-oauth.ts",
     "./project-bot": "./project-bot/index.ts",
-    "./design-system": "./design-system.ts"
+    "./design-system": "./design-system.ts",
+    "./prayer-times-refresh": "./prayer-times-refresh.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 import Link from 'next/link';
 import { AddListingForm } from '@/components/listings/AddListingForm';
 import { PageIntro, FAQBlock } from '@/components/content';
@@ -27,15 +28,27 @@ export async function generateMetadata({
 
   return {
     title: 'İlan Ekle | Karasu Emlak',
-    description: 'Karasu Emlak\'a ilan ekleyin. Satılık veya kiralık emlak ilanınızı kolayca yayınlayın.',
+    description: 'Karasu Emlak\'a ücretsiz ilan ekleyin. Satılık veya kiralık emlak ilanınızı kolayca yayınlayın. Daire, villa, yazlık, arsa ilanları.',
+    keywords: ['ilan ekle', 'karasu ilan ekle', 'emlak ilanı yayınla', 'ücretsiz ilan'],
     alternates: {
       canonical: canonicalPath,
+      languages: pruneHreflangLanguages({
+        'tr': '/ilan-ekle',
+        'en': '/en/ilan-ekle',
+        'et': '/et/ilan-ekle',
+        'ru': '/ru/ilan-ekle',
+        'ar': '/ar/ilan-ekle',
+      }),
     },
+    robots: { index: true, follow: true },
     openGraph: {
       title: 'İlan Ekle | Karasu Emlak',
-      description: 'Emlak ilanınızı ekleyin - Karasu Emlak',
+      description: 'Karasu Emlak\'a ücretsiz ilan ekleyin. Satılık veya kiralık emlak ilanınızı yayınlayın.',
       url: `${siteConfig.url}${canonicalPath}`,
+      type: 'website',
+      images: [{ url: `${siteConfig.url}/og-image.jpg`, width: 1200, height: 630, alt: 'Karasu Emlak İlan Ekle' }],
     },
+    twitter: { card: 'summary_large_image', title: 'İlan Ekle | Karasu Emlak', description: 'Ücretsiz emlak ilanı ekleyin.' },
   };
 }
 

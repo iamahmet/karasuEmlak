@@ -32,8 +32,7 @@ export async function GET(request: NextRequest) {
       const { data, error: searchesError } = await supabase
         .from("saved_searches")
         .select("*")
-        .eq("active", true)
-        .is("deleted_at", null);
+        .eq("is_active", true);
 
       if (searchesError) {
         console.error("Error fetching saved searches:", searchesError);
@@ -68,13 +67,13 @@ export async function GET(request: NextRequest) {
 
     for (const savedSearch of savedSearches) {
       try {
-        // Parse search parameters
-        const searchParams = savedSearch.search_params as Record<string, any>;
+        // Parse filters (saved_searches uses "filters" column)
+        const searchParams = (savedSearch.filters || savedSearch.search_params) as Record<string, any>;
         if (!searchParams) {
           continue;
         }
 
-        // Convert search params to ListingFilters format
+        // Convert to ListingFilters format
         const filters: any = {};
         if (searchParams.status) filters.status = searchParams.status;
         if (searchParams.property_type) {
@@ -83,9 +82,7 @@ export async function GET(request: NextRequest) {
             : [searchParams.property_type];
         }
         if (searchParams.location_neighborhood) {
-          filters.location_neighborhood = Array.isArray(
-            searchParams.location_neighborhood
-          )
+          filters.location_neighborhood = Array.isArray(searchParams.location_neighborhood)
             ? searchParams.location_neighborhood
             : [searchParams.location_neighborhood];
         }
@@ -131,14 +128,9 @@ export async function GET(request: NextRequest) {
           images: listing.images,
         }));
 
-        // Get user email
-        const { data: user } = await supabase
-          .from("users")
-          .select("email")
-          .eq("id", savedSearch.user_id)
-          .single();
-
-        if (!user || !user.email) {
+        // Get user email (saved_searches has email column for non-auth users)
+        const email = savedSearch.email;
+        if (!email) {
           errors.push({
             searchId: savedSearch.id,
             error: "User email not found",
@@ -150,14 +142,14 @@ export async function GET(request: NextRequest) {
         const emailResult = await sendSavedSearchMatchNotification({
           searchId: savedSearch.id,
           userId: savedSearch.user_id,
-          email: user.email,
+          email,
           matches: formattedMatches,
         });
 
         // Send push notification
         const pushResult = await sendPushNotificationToUser(
           savedSearch.user_id || null,
-          user.email || null,
+          email || null,
           {
             title: "🔔 Yeni İlan Eşleşmesi",
             body: `Kayıtlı aramanız için ${formattedMatches.length} yeni ilan bulundu!`,

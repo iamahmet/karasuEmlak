@@ -7,8 +7,9 @@ import { siteConfig } from '@karasu-emlak/config';
  * Features:
  * - Proper crawl directives for search engines
  * - Sitemap references for all sitemap types
- * - Crawl-delay for respectful crawling
  * - Allow/disallow rules for optimal indexing
+ * - Personal pages (favorilerim, karsilastir, aramalarim) disallowed
+ * - Google ignores crawl-delay; AI bots use it where supported
  */
 export default function robots(): MetadataRoute.Robots {
   try {
@@ -26,27 +27,24 @@ export default function robots(): MetadataRoute.Robots {
             '/favorilerim',
             '/karsilastir',
             '/aramalarim',
-            '/yorumlar',
+            '/listings/new',
             '/*?*sort=*', // Disallow sorted/filtered URLs to prevent duplicate content
           ],
-          crawlDelay: 0.5, // Respectful crawl delay (500ms)
         },
         {
           userAgent: 'Googlebot',
           allow: '/',
-          disallow: ['/api/', '/admin/'],
-          crawlDelay: 0.1, // Faster for Googlebot
+          disallow: ['/api/', '/admin/', '/favorilerim', '/karsilastir', '/aramalarim', '/listings/new'],
         },
         {
           userAgent: 'Googlebot-Image',
           allow: '/',
-          disallow: ['/api/', '/admin/'],
+          disallow: ['/api/', '/admin/', '/favorilerim', '/karsilastir', '/aramalarim'],
         },
         {
           userAgent: 'Bingbot',
           allow: '/',
-          disallow: ['/api/', '/admin/'],
-          crawlDelay: 0.5,
+          disallow: ['/api/', '/admin/', '/favorilerim', '/karsilastir', '/aramalarim', '/listings/new'],
         },
         {
           userAgent: 'GPTBot',

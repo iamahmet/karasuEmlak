@@ -254,11 +254,12 @@ export default async function LocaleLayout({
     let StructuredDataComponent: ComponentType<{ data: any }> | null = null;
     let realEstateAgentSchema = null;
     let googleBusinessSchema = null;
+    let webSiteSchema = null;
 
     if (!seoDisabled) {
       const { StructuredData } = await import("@/components/seo/StructuredData");
       const { getCachedOrganizationSchema } = await import("@/lib/seo/structured-data-cache");
-      const { generateRealEstateAgentLocalSchema } = await import("@/lib/seo/local-seo-schemas");
+      const { generateRealEstateAgentLocalSchema, generateWebSiteSchema } = await import("@/lib/seo/local-seo-schemas");
       const { generateGoogleBusinessProfileSchema } = await import("@/lib/seo/local-seo-google-business");
 
       StructuredDataComponent = StructuredData;
@@ -271,10 +272,13 @@ export default async function LocaleLayout({
           includeAreaServed: true,
         });
         googleBusinessSchema = generateGoogleBusinessProfileSchema();
+        // WebSite schema with SearchAction for sitelinks search box in Google SERP
+        webSiteSchema = generateWebSiteSchema('/arama');
       } catch (error) {
         console.error('Error generating SEO schemas:', error);
         realEstateAgentSchema = null;
         googleBusinessSchema = null;
+        webSiteSchema = null;
       }
     }
 
@@ -294,6 +298,9 @@ export default async function LocaleLayout({
     return (
       <>
         {/* Structured Data - Rendered in body (Next.js handles head automatically) */}
+        {StructuredDataComponent && webSiteSchema && (
+          <StructuredDataComponent data={webSiteSchema} />
+        )}
         {StructuredDataComponent && realEstateAgentSchema && (
           <StructuredDataComponent data={realEstateAgentSchema} />
         )}
@@ -336,16 +343,18 @@ export default async function LocaleLayout({
     const fallbackMessages = {};
     let FallbackStructuredData: ComponentType<{ data: any }> | null = null;
     let fallbackRealEstateAgentSchema = null;
+    let fallbackWebSiteSchema = null;
     if (!seoDisabled) {
       try {
         const { StructuredData } = await import("@/components/seo/StructuredData");
-        const { generateRealEstateAgentLocalSchema } = await import("@/lib/seo/local-seo-schemas");
+        const { generateRealEstateAgentLocalSchema, generateWebSiteSchema } = await import("@/lib/seo/local-seo-schemas");
         FallbackStructuredData = StructuredData;
         fallbackRealEstateAgentSchema = generateRealEstateAgentLocalSchema({
           includeRating: true,
           includeServices: true,
           includeAreaServed: true,
         });
+        fallbackWebSiteSchema = generateWebSiteSchema('/arama');
       } catch (schemaError: any) {
         console.error("[LocaleLayout] Schema generation failed:", schemaError?.message);
         fallbackRealEstateAgentSchema = null;
@@ -372,6 +381,9 @@ export default async function LocaleLayout({
     return (
       <>
         {/* Structured Data - Rendered in body (Next.js handles head automatically) */}
+        {FallbackStructuredData && fallbackWebSiteSchema && (
+          <FallbackStructuredData data={fallbackWebSiteSchema} />
+        )}
         {FallbackStructuredData && fallbackRealEstateAgentSchema && (
           <FallbackStructuredData data={fallbackRealEstateAgentSchema} />
         )}

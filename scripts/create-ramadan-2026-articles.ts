@@ -598,22 +598,88 @@ function buildSupportingArticles(): ArticleInput[] {
       slug: "ramazanda-kiraci-mutfak-duzeni-iftar-sahur",
       category: "Yaşam",
       tags: ["ramazan", "mutfak", "kiraci", "yasam"],
-      keywords: ["ramazan mutfak", "iftar hazırlık", "sahur pratik", "kiracı ipuçları"],
+      keywords: ["ramazan mutfak", "iftar hazırlık", "sahur pratik", "kiracı ipuçları", "karasu ramazan"],
       meta_description:
-        "Ramazan’da kiracı olarak mutfak düzeni: iftar-sahur hazırlığını hızlandıran pratik yerleşim, alışveriş ve ön hazırlık önerileri.",
+        "Ramazan’da kiracı olarak mutfak düzeni: iftar-sahur hazırlığını hızlandıran pratik yerleşim, sessiz sahur planı, ön hazırlık stratejileri ve komşuluk hassasiyeti. Delme-kırma gerektirmeyen profesyonel öneriler.",
       excerpt:
-        "Küçük düzen değişiklikleri, sahurda sessiz ve hızlı hazırlık yapmanızı kolaylaştırır. Kiracılar için delme-kırma gerektirmeyen pratik mutfak düzeni önerileri.",
+        "Kiralık evde Ramazan geçirirken mutfak düzeni kritik önem taşır. Sahurda sessiz ve hızlı hazırlık, iftar öncesi ön hazırlık ve komşuluk hassasiyeti için delme-kırma gerektirmeyen profesyonel mutfak düzeni rehberi.",
       contentHtml: [
-        `<h2>Pratik Düzen</h2>`,
+        p(
+          "Ramazan ayında kiralık evde yaşayanlar için mutfak düzeni, hem sahurda sessiz ve verimli hazırlık hem de iftar sofrasını stressiz kurmak açısından belirleyici olur. Apartman yaşamında komşuluk hassasiyeti, sınırlı mutfak alanı ve kiralık evde delme-kırma yapamama kısıtı, doğru planlamayı daha da önemli kılar. Bu rehberde Karasu ve çevresinde kiracı olarak Ramazan geçirenler için pratik, uygulanabilir mutfak düzeni önerilerini adım adım ele alıyoruz."
+        ),
+        `<h2>Sahur Rafı: Tek Bölgede Toplama Stratejisi</h2>`,
+        p(
+          "Sahurda mutfakta geçirilen süreyi azaltmanın en etkili yolu, hızlı tüketilecek ürünleri tek bir rafa veya dolap bölgesine toplamaktır. Böylece buzdolabı ve dolap kapaklarını gereksiz yere açıp kapatmaz, sessiz ve odaklı bir hazırlık yaparsınız."
+        ),
+        `<h3>Hangi Ürünler Sahur Rafında Olmalı?</h3>`,
         ul([
-          "Sahur rafı: yoğurt, yulaf, kahvaltılık, su şişesi gibi hızlı ürünleri tek bölgede toplayın.",
-          "Ön hazırlık: haşlanmış yumurta, doğranmış sebze, çorba bazları ile süreyi kısaltın.",
-          "Sessiz plan: blender vb. gürültülü işleri iftar öncesine alın.",
+          "Yoğurt, ayran, süt (hazır tüketim)",
+          "Yulaf, müsli, kahvaltılık gevrek",
+          "Peynir, zeytin, reçel (kapalı saklama)",
+          "Haşlanmış yumurta (önceki gün hazırlanmış)",
+          "Su şişeleri ve sade maden suyu",
+          "Kuru meyve, ceviz, badem (küçük porsiyonlarda)",
         ]),
+        p(
+          "Bu ürünleri tek rafta tutarak sahurda 5–10 dakikada hafif ve doyurucu bir öğün hazırlayabilirsiniz. Özellikle apartman yaşamında gece sessizliğini bozmamak için blender, mikser veya gürültülü aletlerden kaçının."
+        ),
+        `<h2>Ön Hazırlık: İftar ve Sahur İçin Zaman Kazandıran Adımlar</h2>`,
+        p(
+          "Ramazan'da mutfakta en çok zaman alan işler, doğrama, haşlama ve pişirme süreçleridir. Bu işleri iftar öncesi veya hafta sonu bloklarında yaparak hem sahur hem iftar hazırlığını hızlandırabilirsiniz."
+        ),
+        `<h3>Haftalık Ön Hazırlık Listesi</h3>`,
+        ul([
+          "Haşlanmış yumurta: 3–4 günlük porsiyon buzdolabında saklanabilir.",
+          "Doğranmış sebze: salatalık, domates, biber; hava almayan kaplarda 2–3 gün taze kalır.",
+          "Çorba bazları: mercimek, tarhana vb. önceden porsiyonlanıp dondurulabilir.",
+          "Salata yeşillikleri: yıkanıp kurutulmuş, streç film veya saklama kabında.",
+          "Pilav/makarna: 1–2 gün önceden yapılıp buzdolabında saklanabilir.",
+        ]),
+        `<h3>İftar Öncesi Sessiz Plan</h3>`,
+        p(
+          "Blender, mikser, bulaşık makinesi gibi gürültülü işleri iftar öncesi saatlere alın. Sahurda sadece sessiz, hızlı tüketim odaklı bir menü planlayın. Komşularınızı rahatsız etmeden kendi ritminizi korumak, Ramazan ayını daha huzurlu geçirmenizi sağlar."
+        ),
+        `<h2>Kiracı Dostu Düzen: Delme-Kırma Gerektirmeyen Çözümler</h2>`,
+        p(
+          "Kiralık evde duvara vida çakmak, raf monte etmek veya dolap içi sabit sistemler kurmak genelde sözleşmeye aykırıdır. Bunun yerine taşınabilir, geri alınabilir çözümler kullanın."
+        ),
+        ul([
+          "Tezgah üstü raf sistemleri (vida gerektirmeyen, baskı ile sabitlenen)",
+          "Buzdolabı içi organizatörler ve çekmeceli kutular",
+          "Tezgah üstü baharatlık ve küçük malzeme kutuları",
+          "Dolap kapaklarına takılabilir askılık (yapışkan veya kancalı)",
+          "Çekmece bölücüler (taşınırken kolayca sökülür)",
+        ]),
+        `<h2>İftar Sofrası İçin Hızlı Menü Fikirleri</h2>`,
+        p(
+          "Yoğun iş temposunda iftar sofrasını kurmak zor olabilir. Ön hazırlık yaptığınız malzemelerle 15–20 dakikada sofraya oturabileceğiniz pratik menü örnekleri:"
+        ),
+        ul([
+          "Çorba + hazır salata + pide/simit",
+          "Haşlanmış sebze + pilav + yoğurt",
+          "Zeytinyağlı yemek (önceki gün yapılmış) + ekmek + ayran",
+          "Mevsim salata + peynir + kuru meyve (hafif iftar)",
+        ]),
+        `<h2>Sık Sorulan Sorular</h2>`,
+        `<h3>Sahurda komşuları rahatsız etmeden nasıl hazırlık yapabilirim?</h3>`,
+        p(
+          "Blender, mikser ve bulaşık makinesi gibi gürültülü aletleri kullanmayın. Önceden hazırlanmış yoğurt, yulaf, haşlanmış yumurta ve meyve ile sessiz bir sahur yapın. Tezgah üstü ocak kullanımını kısıtlayın; mümkünse mikrodalga veya sessiz ısıtma yöntemlerini tercih edin."
+        ),
+        `<h3>Kiralık evde mutfak düzenini değiştirmek sözleşmeye aykırı mı?</h3>`,
+        p(
+          "Duvar delme, raf monte etme ve kalıcı değişiklikler genelde kira sözleşmesinde yasaktır. Tezgah üstü organizatörler, buzdolabı içi kutular ve taşınabilir raflar ise izin gerektirmez; taşınırken kolayca geri alınabilir."
+        ),
+        `<h3>Ön hazırlık yapılan yemekler kaç gün saklanabilir?</h3>`,
+        p(
+          "Haşlanmış yumurta 3–4 gün, doğranmış sebze 2–3 gün, çorba 2–3 gün buzdolabında saklanabilir. Dondurulmuş çorba bazları 1–2 ay dayanır. Her zaman taze görünüm ve koku kontrolü yapın."
+        ),
+        ramadanToolsBlockHtml("h2"),
         `<h2>İlgili Yazılar</h2>`,
         ul([
           `<a href="/blog/ramazan-2026">Ramazan 2026 içerik merkezi</a>`,
-          `<a href="/blog/karasu-ramazan-sahil-aksam-plani">Sahil akşam planı</a>`,
+          `<a href="/blog/ramazan-2026-karasu-rehberi">Ramazan 2026 Karasu rehberi</a>`,
+          `<a href="/blog/karasu-ramazan-sahil-aksam-plani">Karasu Ramazan sahil akşam planı</a>`,
+          `<a href="/blog/ramazan-2026-karasu-kiralik-ev-ipuclari">Ramazan'da kiralık ev arama ipuçları</a>`,
         ]),
       ].join("\n"),
       published_at: new Date("2026-02-15T09:15:00+03:00").toISOString(),
