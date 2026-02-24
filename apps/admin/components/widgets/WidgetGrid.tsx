@@ -1,6 +1,6 @@
 "use client";
 
-// import { useState } from "react"; // TODO: Will be used for widget management
+// import { useState } from "react"; // Reserved for future widget management
 import { DashboardWidget } from "./DashboardWidget";
 import { Button } from "@karasu/ui";
 import { Plus } from "lucide-react";
@@ -63,4 +63,3 @@ export function WidgetGrid({
     </div>
   );
 }
-

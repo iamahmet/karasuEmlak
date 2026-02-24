@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { generateRealEstateListingSchema, generateFAQSchema } from '@/lib/seo/structured-data';
 import { generatePropertyImageAlt } from '@/lib/seo/image-alt-generator';
+import { getOgLocale, getSchemaLanguage, getSiteUrl, isValidHttpUrl, toAbsoluteSiteUrl } from '@/lib/seo/url';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { GoogleMapsLoader } from '@/components/maps/GoogleMapsLoader';
 import { getNonce } from '@/lib/security/nonce';
@@ -192,11 +193,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, slug } = await params;
   const listing = await withTimeout(getListingBySlug(slug), 2000, null);
+  const siteUrl = getSiteUrl(siteConfig.url);
   
   if (!listing) {
     return {
       title: 'İlan Bulunamadı | Karasu Emlak',
       description: 'Aradığınız ilan bulunamadı. Karasu\'da satılık ve kiralık emlak ilanlarımıza göz atın.',
+      robots: { index: false, follow: true },
     };
   }
 
@@ -204,12 +207,13 @@ export async function generateMetadata({
     ? `/ilan/${slug}` 
     : `/${locale}/ilan/${slug}`;
   
+  const canonicalUrl = toAbsoluteSiteUrl(canonicalPath, siteUrl);
   const mainImage = listing.images?.[0];
-  const ogImage = mainImage?.url 
+  const ogImage = isValidHttpUrl(mainImage?.url)
     ? mainImage.url
     : mainImage?.public_id
     ? getOptimizedCloudinaryUrl(mainImage.public_id, { width: 1200, height: 630, crop: 'fill', quality: 90, format: 'auto' })
-    : `${siteConfig.url}/og-image.jpg`;
+    : toAbsoluteSiteUrl('/og-image.jpg', siteUrl);
 
   // Enhanced SEO title and description
   const statusLabel = listing.status === 'satilik' ? 'Satılık' : 'Kiralık';
@@ -232,8 +236,16 @@ export async function generateMetadata({
   ].filter(Boolean).join(', ');
 
   const seoTitle = `${statusLabel} ${propertyTypeLabel} ${listing.location_neighborhood} ${priceText ? `- ${priceText}` : ''} | Karasu Emlak`;
-  const seoDescription = listing.description_short 
-    || `${listing.location_neighborhood}, Karasu'da ${statusLabel.toLowerCase()} ${propertyTypeLabel.toLowerCase()}. ${featuresText}. ${listing.description_long?.substring(0, 100) || 'Detaylı bilgi ve görüntüleme için iletişime geçin.'}`;
+  const cleanedLongDescription = cleanDescription(listing.description_long || '')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const seoDescriptionSource = listing.description_short?.trim()
+    || cleanedLongDescription
+    || `${listing.location_neighborhood}, Karasu'da ${statusLabel.toLowerCase()} ${propertyTypeLabel.toLowerCase()}. ${featuresText}. Detaylı bilgi ve görüntüleme için iletişime geçin.`;
+  const seoDescription = seoDescriptionSource.length > 180
+    ? `${seoDescriptionSource.slice(0, 177).trim()}...`
+    : seoDescriptionSource;
 
   // Generate keywords
   const keywords = [
@@ -256,12 +268,13 @@ export async function generateMetadata({
   const lastModifiedMeta = generateLastModifiedMeta(lastModified);
 
   return {
+    metadataBase: new URL(siteUrl),
     title: seoTitle,
     description: seoDescription,
     keywords,
     ...lastModifiedMeta,
     alternates: {
-      canonical: canonicalPath,
+      canonical: canonicalUrl,
       languages: pruneHreflangLanguages({
         'tr': locale === routing.defaultLocale ? `/ilan/${slug}` : `/tr/ilan/${slug}`,
         'en': `/en/ilan/${slug}`,
@@ -271,9 +284,9 @@ export async function generateMetadata({
       }),
     },
     openGraph: {
-      title: listing.title,
+      title: seoTitle,
       description: seoDescription,
-      url: `${siteConfig.url}${canonicalPath}`,
+      url: canonicalUrl,
       images: [
         {
           url: ogImage,
@@ -296,11 +309,11 @@ export async function generateMetadata({
       ],
       type: 'website',
       siteName: 'Karasu Emlak',
-      locale: 'tr_TR',
+      locale: getOgLocale(locale),
     },
     twitter: {
       card: 'summary_large_image',
-      title: listing.title,
+      title: seoTitle,
       description: seoDescription,
       images: [ogImage],
       creator: '@karasuemlak',
@@ -334,6 +347,10 @@ export default async function ListingDetailPage({
   }
 
   const basePath = locale === routing.defaultLocale ? "" : `/${locale}`;
+  const siteUrl = getSiteUrl(siteConfig.url);
+  const listingPath = `${basePath}/ilan/${listing.slug}`;
+  const listingUrl = toAbsoluteSiteUrl(listingPath, siteUrl);
+  const statusUrl = toAbsoluteSiteUrl(`${basePath}/${listing.status}`, siteUrl);
   const nonce = await getNonce();
   
   // Get similar listings from the same neighborhood (with timeout)
@@ -358,11 +375,40 @@ export default async function ListingDetailPage({
     features: listing.features,
   });
 
+  const schemaImages = Array.from(
+    new Set(
+      (listing.images || [])
+        .map((img) => {
+          if (isValidHttpUrl(img.url)) {
+            return img.url;
+          }
+          if (img.public_id) {
+            return getOptimizedCloudinaryUrl(img.public_id, {
+              width: 1200,
+              height: 630,
+              quality: 90,
+              format: 'auto',
+            });
+          }
+          return null;
+        })
+        .filter((imgUrl): imgUrl is string => Boolean(imgUrl && isValidHttpUrl(imgUrl)))
+    )
+  );
+  const primarySchemaImage = schemaImages[0] || toAbsoluteSiteUrl('/og-image.jpg', siteUrl);
+  const schemaDescription = (listing.description_short?.trim()
+    || cleanDescription(listing.description_long || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+    || listing.title)
+    .slice(0, 500);
+  const agentName = listing.agent_name?.trim() || 'Karasu Emlak';
+  const agentPhone = listing.agent_phone?.trim() || listing.agent_whatsapp?.trim() || undefined;
+  const agentEmail = listing.agent_email?.trim() || undefined;
+
   // Generate enhanced structured data with additional properties
   const listingSchema = generateRealEstateListingSchema({
     name: listing.title,
-    description: listing.description_short || listing.description_long,
-    image: listing.images?.map(img => img.url || (img.public_id ? getOptimizedCloudinaryUrl(img.public_id, { width: 1200, height: 630, quality: 90, format: 'auto' }) : '')) || [],
+    description: schemaDescription,
+    image: schemaImages,
     address: {
       locality: listing.location_neighborhood,
       region: listing.location_district || 'Sakarya',
@@ -376,12 +422,28 @@ export default async function ListingDetailPage({
     price: listing.price_amount,
     priceCurrency: listing.price_currency || 'TRY',
     availability: listing.available ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-    url: `${siteConfig.url}${basePath}/ilan/${listing.slug}`,
+    url: listingUrl,
     propertyType: listing.property_type,
     numberOfRooms: listing.features.rooms,
     numberOfBathrooms: listing.features.bathrooms,
     floorSize: listing.features.sizeM2,
     yearBuilt: listing.features.buildingAge ? new Date().getFullYear() - listing.features.buildingAge : undefined,
+    identifier: listing.id,
+    datePosted: listing.created_at || undefined,
+    dateModified: listing.updated_at || listing.created_at || undefined,
+    inLanguage: getSchemaLanguage(locale),
+    broker: {
+      name: agentName,
+      url: siteUrl,
+      telephone: agentPhone,
+      email: agentEmail,
+    },
+    provider: {
+      name: 'Karasu Emlak',
+      url: siteUrl,
+      telephone: agentPhone,
+      email: agentEmail,
+    },
     additionalProperty: [
       ...(listing.features.heating ? [{ '@type': 'PropertyValue', name: 'Isıtma', value: listing.features.heating }] : []),
       ...(listing.features.furnished !== undefined ? [{ '@type': 'PropertyValue', name: 'Eşyalı', value: listing.features.furnished ? 'Evet' : 'Hayır' }] : []),
@@ -393,37 +455,58 @@ export default async function ListingDetailPage({
     ],
   });
 
-  // Schema is already enhanced in generateRealEstateListingSchema
-  const enhancedSchema = listingSchema;
+  const enhancedSchema = {
+    ...listingSchema,
+    image: schemaImages.length > 0 ? schemaImages : [primarySchemaImage],
+    category: `${listing.status === 'satilik' ? 'Satılık' : 'Kiralık'} ${listing.property_type}`,
+    seller: {
+      '@type': 'RealEstateAgent',
+      name: agentName,
+      url: siteUrl,
+      ...(agentPhone ? { telephone: agentPhone } : {}),
+      ...(agentEmail ? { email: agentEmail } : {}),
+    },
+    areaServed: {
+      '@type': 'City',
+      name: listing.location_city || 'Karasu',
+    },
+  };
 
   // BreadcrumbList schema for better SERP display
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    "@id": `${listingUrl}#breadcrumb`,
     "itemListElement": [
       {
         "@type": "ListItem",
         position: 1,
-        name: listing.status === 'satilik' ? 'Satılık' : 'Kiralık',
-        item: `${siteConfig.url}${basePath}/${listing.status}`,
+        name: 'Ana Sayfa',
+        item: siteUrl,
       },
       {
         "@type": "ListItem",
         position: 2,
+        name: listing.status === 'satilik' ? 'Satılık' : 'Kiralık',
+        item: statusUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
         name: listing.title,
-        item: `${siteConfig.url}${basePath}/ilan/${listing.slug}`,
+        item: listingUrl,
       },
     ],
   };
 
   // VideoObject schema for virtual/video tours when available
   const videos: Array<{ url: string; name: string; description: string; thumbnailUrl?: string }> = [];
-  const thumb = listing.images?.[0]?.url || (listing.images?.[0]?.public_id
+  const thumb = (isValidHttpUrl(listing.images?.[0]?.url) ? listing.images?.[0]?.url : undefined) || (listing.images?.[0]?.public_id
     ? getOptimizedCloudinaryUrl(listing.images[0].public_id, { width: 1200, height: 630, format: 'auto', quality: 85 })
     : undefined);
 
   const virtualUrl = (listing as any).virtual_tour_url;
-  if (virtualUrl) {
+  if (isValidHttpUrl(virtualUrl)) {
     videos.push({
       url: virtualUrl,
       name: `${listing.title} Sanal Tur`,
@@ -433,7 +516,7 @@ export default async function ListingDetailPage({
   }
 
   const videoUrl = (listing as any).video_tour_url;
-  if (videoUrl) {
+  if (isValidHttpUrl(videoUrl)) {
     videos.push({
       url: videoUrl,
       name: `${listing.title} Video Tur`,
@@ -445,16 +528,28 @@ export default async function ListingDetailPage({
   const videoSchemas = videos.map((video) => ({
     "@context": "https://schema.org",
     "@type": "VideoObject",
+    "@id": `${listingUrl}#video-${video.name.toLowerCase().replace(/\s+/g, '-')}`,
     name: video.name,
     description: video.description,
     thumbnailUrl: video.thumbnailUrl,
     uploadDate: new Date(listing.created_at).toISOString(),
     contentUrl: video.url,
+    ...(video.thumbnailUrl ? { image: video.thumbnailUrl } : {}),
+    publisher: {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Karasu Emlak",
+      url: siteUrl,
+    },
   }));
 
   // Generate FAQ schema for SEO
   const faqSchema = listingFAQs && listingFAQs.length > 0 
-    ? generateFAQSchema(listingFAQs)
+    ? {
+        ...generateFAQSchema(listingFAQs),
+        "@id": `${listingUrl}#faq`,
+        inLanguage: getSchemaLanguage(locale),
+      }
     : null;
 
   // Render the listing detail page
@@ -1288,4 +1383,3 @@ export default async function ListingDetailPage({
     </div>
   );
 }
-

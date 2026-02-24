@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { HeroImage, ExternalImage } from '@/components/images';
 import { generateBlogImageAlt } from '@/lib/seo/image-alt-generator';
 import { cn } from '@karasu/lib';
+import { ContentRenderer } from '@/components/content/ContentRenderer';
 
 interface ArticleHeroProps {
   article: {
@@ -75,9 +76,17 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
 
       {/* Excerpt - Clean Introduction */}
       {article.excerpt && (
-        <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed mb-8 max-w-4xl font-medium">
-          {article.excerpt}
-        </p>
+        <div className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed mb-8 max-w-4xl font-medium [&_p]:m-0 [&_p]:text-inherit [&_p]:leading-inherit [&_strong]:text-gray-800 dark:[&_strong]:text-gray-100">
+          <ContentRenderer
+            content={article.excerpt}
+            format="auto"
+            sanitize={true}
+            allowImages={false}
+            allowTables={false}
+            allowCode={false}
+            prose={false}
+          />
+        </div>
       )}
 
       {/* Meta Information Row - Enhanced */}

@@ -50,7 +50,8 @@ export function ProgrammaticPagesManagement({ locale }: { locale: string }) {
       const result = await response.json();
 
       if (result.success) {
-        setPages(result.data || []);
+        const pagesData = result.data?.pages || result.data || [];
+        setPages(Array.isArray(pagesData) ? pagesData : []);
       } else {
         toast.error("Sayfalar yüklenirken bir hata oluştu");
       }
@@ -69,10 +70,19 @@ export function ProgrammaticPagesManagement({ locale }: { locale: string }) {
 
   const handleRefresh = async (id: string) => {
     try {
-      // TODO: Implement refresh logic (call update API)
-      toast.success("Sayfa güncellendi");
-      await fetchPages();
-    } catch (error) {
+      const response = await fetch(`/api/admin/programmatic-pages/${id}/refresh`, {
+        method: "POST",
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success(result.data?.message || "Sayfa güncellendi");
+        await fetchPages();
+        return;
+      }
+
+      toast.error(result.message || result.error?.message || "Güncelleme başarısız");
+    } catch (_error) {
       toast.error("Güncelleme başarısız");
     }
   };
@@ -260,4 +270,3 @@ export function ProgrammaticPagesManagement({ locale }: { locale: string }) {
     </div>
   );
 }
-

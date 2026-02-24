@@ -6,6 +6,7 @@ import { Suspense, memo } from 'react';
 import { ArrowRight, User, Building2, MessageCircle } from 'lucide-react';
 import { ArticleContent } from './ArticleContent';
 import type { ContextualLink } from './contextual-links';
+import { ContentRenderer } from '@/components/content/ContentRenderer';
 
 const TableOfContents = dynamic(
   () => import('./EnhancedTableOfContents').then((mod) => ({ default: mod.EnhancedTableOfContents })),
@@ -180,9 +181,18 @@ function ArticleBodyComponent({
               Özet
             </h3>
           </div>
-          <p className="text-base md:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-            {article.excerpt || article.meta_description}
-          </p>
+          <div className="text-base md:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+            <ContentRenderer
+              content={article.excerpt || article.meta_description}
+              format="auto"
+              sanitize={true}
+              allowImages={false}
+              allowTables={false}
+              allowCode={false}
+              prose={false}
+              className="[&_p]:m-0 [&_p]:text-inherit [&_p]:leading-inherit [&_strong]:font-semibold"
+            />
+          </div>
         </div>
       )}
 

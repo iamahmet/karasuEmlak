@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { Button } from '@karasu/ui';
-import { AlertCircle, RefreshCw, Home, AlertTriangle } from 'lucide-react';
+import { RefreshCw, Home, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@karasu/ui';
 
@@ -19,10 +19,16 @@ export default function Error({
       console.error('Admin panel error:', error);
     }
     
-    // TODO: Send to error tracking service in production
-    // if (process.env.NODE_ENV === 'production') {
-    //   trackError(error, { digest: error.digest });
-    // }
+    if (process.env.NODE_ENV === 'production') {
+      void import('@sentry/nextjs')
+        .then((Sentry) => {
+          Sentry.captureException(error, {
+            tags: { surface: 'admin-global-error' },
+            extra: error.digest ? { digest: error.digest } : undefined,
+          });
+        })
+        .catch(() => undefined);
+    }
   }, [error]);
 
   return (

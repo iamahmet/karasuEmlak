@@ -52,7 +52,8 @@ export function detectContentFormat(content: string | null | undefined): Content
     trimmed.match(/^\*\s+/m) || // Unordered lists
     trimmed.match(/^\d+\.\s+/m) || // Ordered lists
     trimmed.match(/\*\*.*\*\*/) || // Bold
-    trimmed.match(/\[.*\]\(.*\)/) // Links
+    trimmed.match(/\[.*\]\(.*\)/) || // Links
+    (trimmed.match(/^\s*\|.*\|\s*$/m) && trimmed.match(/^\s*\|[\s:|-]+\|\s*$/m)) // Tables
   ) {
     return 'markdown';
   }
@@ -97,6 +98,38 @@ export function plainTextToHTML(content: string): string {
 export function markdownToHTML(content: string): string {
   let html = content;
 
+  // Markdown tables: | A | B | \n|---|---|\n| 1 | 2 |
+  // Run before generic list/paragraph transforms to preserve table rows.
+  const tableRegex = /(^\s*\|.*\|\s*\n^\s*\|[\s:|-]+\|\s*\n(?:^\s*\|.*\|\s*(?:\n|$))+)/gm;
+  html = html.replace(tableRegex, (tableBlock) => {
+    const rows = tableBlock
+      .trim()
+      .split('\n')
+      .map((row) => row.trim())
+      .filter(Boolean);
+    if (rows.length < 2) return tableBlock;
+
+    const headerCells = rows[0].split('|').slice(1, -1).map((c) => c.trim());
+    const dataRows = rows.slice(2);
+
+    let tableHtml = '<table><thead><tr>';
+    headerCells.forEach((cell) => {
+      tableHtml += `<th>${cell}</th>`;
+    });
+    tableHtml += '</tr></thead><tbody>';
+    dataRows.forEach((row) => {
+      const cells = row.split('|').slice(1, -1).map((c) => c.trim());
+      if (cells.length === 0) return;
+      tableHtml += '<tr>';
+      cells.forEach((cell) => {
+        tableHtml += `<td>${cell}</td>`;
+      });
+      tableHtml += '</tr>';
+    });
+    tableHtml += '</tbody></table>';
+    return tableHtml;
+  });
+
   // Headings
   html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
   html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
@@ -129,31 +162,6 @@ export function markdownToHTML(content: string): string {
     return `<ol>${match}</ol>`;
   });
 
-  // Markdown tables: | A | B | \n|---|---|\n| 1 | 2 |
-  const tableRegex = /(\|[^\n]+\|\n\|[-:\s|]+\|\n(?:\|[^\n]+\|\n?)+)/g;
-  html = html.replace(tableRegex, (tableBlock) => {
-    const rows = tableBlock.trim().split('\n').filter(Boolean);
-    if (rows.length < 2) return tableBlock;
-    const headerCells = rows[0].split('|').filter(Boolean).map((c) => c.trim());
-    const separator = rows[1];
-    const dataRows = rows.slice(2);
-    let tableHtml = '<table class="w-full border-collapse my-6"><thead><tr>';
-    headerCells.forEach((cell) => {
-      tableHtml += `<th class="border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-3 text-left font-bold">${cell}</th>`;
-    });
-    tableHtml += '</tr></thead><tbody>';
-    dataRows.forEach((row) => {
-      const cells = row.split('|').filter(Boolean).map((c) => c.trim());
-      tableHtml += '<tr>';
-      cells.forEach((cell) => {
-        tableHtml += `<td class="border border-gray-300 dark:border-gray-700 p-3">${cell}</td>`;
-      });
-      tableHtml += '</tr>';
-    });
-    tableHtml += '</tbody></table>';
-    return tableHtml;
-  });
-
   // Paragraphs (lines that don't start with HTML tags)
   html = html.split('\n').map((line) => {
     const trimmed = line.trim();
@@ -163,6 +171,32 @@ export function markdownToHTML(content: string): string {
   }).join('\n');
 
   return html;
+}
+
+function wrapTablesForResponsiveScroll(html: string): string {
+  if (!html || !html.includes('<table')) {
+    return html;
+  }
+
+  return html.replace(/<table\b([^>]*)>([\s\S]*?)<\/table>/gi, (_match, attrs, inner) => {
+    const attrsText = typeof attrs === 'string' ? attrs : '';
+    const classMatch = attrsText.match(/\bclass=(["'])(.*?)\1/i);
+    const existingClasses = classMatch?.[2] || '';
+    const mergedClasses = Array.from(
+      new Set(
+        `${existingClasses} min-w-full border-collapse`
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean)
+      )
+    ).join(' ');
+
+    const tableAttrs = classMatch
+      ? attrsText.replace(/\bclass=(["'])(.*?)\1/i, `class="${mergedClasses}"`)
+      : `${attrsText} class="${mergedClasses}"`;
+
+    return `<div data-table-scroll="true" class="my-8 overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700"><table${tableAttrs}>${inner}</table></div>`;
+  });
 }
 
 /**
@@ -219,6 +253,10 @@ export function renderContent(
       allowTables: options.allowTables !== false,
       allowCode: options.allowCode !== false,
     });
+  }
+
+  if (options.allowTables !== false) {
+    processed = wrapTablesForResponsiveScroll(processed);
   }
 
   return processed;

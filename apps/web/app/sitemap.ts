@@ -5,6 +5,7 @@ import { createServiceClient } from '@karasu/lib/supabase/service';
 import { generateSlug } from '@/lib/utils';
 import { calculatePriority, getChangeFrequency, sortSitemapEntries } from '@/lib/seo/sitemap-optimizer';
 import { getAllTeamMembers } from '@/lib/data/team';
+import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 
 /**
  * Professional Sitemap Generator
@@ -490,9 +491,75 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error fetching property types for sitemap:', error);
   }
 
+  // De-duplicate same URLs before sorting (some static routes can be repeated in source lists)
+  const dedupedByUrl = new Map<string, MetadataRoute.Sitemap[number]>();
+  for (const entry of sitemapEntries) {
+    const existing = dedupedByUrl.get(entry.url);
+    if (!existing) {
+      dedupedByUrl.set(entry.url, entry);
+      continue;
+    }
+
+    const existingDate = existing.lastModified ? new Date(existing.lastModified) : new Date(0);
+    const nextDate = entry.lastModified ? new Date(entry.lastModified) : new Date(0);
+    dedupedByUrl.set(entry.url, {
+      ...existing,
+      lastModified: nextDate > existingDate ? entry.lastModified : existing.lastModified,
+      priority: Math.max(existing.priority || 0.5, entry.priority || 0.5),
+      changeFrequency: existing.changeFrequency || entry.changeFrequency,
+    });
+  }
+
+  const dedupedEntries = Array.from(dedupedByUrl.values());
+
+  // Build hreflang alternates from locale variants in sitemap URLs
+  const normalizedPathToLanguages = new Map<string, Record<string, string>>();
+
+  for (const entry of dedupedEntries) {
+    try {
+      const parsed = new URL(entry.url);
+      const pathname = parsed.pathname || '/';
+      const normalized = normalizeLocalePath(pathname);
+      const locale = extractLocaleFromPathname(pathname);
+      const pathForLocale = normalized === '/' ? '' : normalized;
+
+      const localizedUrl =
+        locale === routing.defaultLocale
+          ? `${baseUrl}${pathForLocale}`
+          : `${baseUrl}/${locale}${pathForLocale}`;
+
+      const languages = normalizedPathToLanguages.get(normalized) || {};
+      languages[locale] = localizedUrl;
+      normalizedPathToLanguages.set(normalized, languages);
+    } catch {
+      // Non-fatal: keep sitemap entry even if alternates can't be computed
+    }
+  }
+
+  const entriesWithAlternates = dedupedEntries.map((entry) => {
+    try {
+      const parsed = new URL(entry.url);
+      const normalized = normalizeLocalePath(parsed.pathname || '/');
+      const languages = normalizedPathToLanguages.get(normalized);
+
+      if (!languages) return entry;
+
+      return {
+        ...entry,
+        alternates: {
+          languages: pruneHreflangLanguages({
+            ...languages,
+            'x-default': languages[routing.defaultLocale] || entry.url,
+          }),
+        },
+      };
+    } catch {
+      return entry;
+    }
+  });
+
   // Sort entries by priority (highest first) for better SEO
-  // Convert to SitemapEntry format for sorting
-  const entriesForSorting = sitemapEntries.map(entry => ({
+  const entriesForSorting = entriesWithAlternates.map(entry => ({
     url: entry.url,
     lastModified: entry.lastModified ? new Date(entry.lastModified) : new Date(),
     changeFrequency: entry.changeFrequency || 'weekly',
@@ -500,14 +567,50 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
   const sortedEntries = sortSitemapEntries(entriesForSorting);
 
+  // Rehydrate sorted entries with alternates and other metadata
+  const fullEntryMap = new Map(entriesWithAlternates.map((entry) => [entry.url, entry]));
+  const sortedSitemap = sortedEntries.map((entry) => {
+    const full = fullEntryMap.get(entry.url);
+    return {
+      ...(full || {}),
+      url: entry.url,
+      lastModified: entry.lastModified,
+      changeFrequency: entry.changeFrequency,
+      priority: entry.priority,
+    };
+  });
+
   // If sitemap exceeds 50,000 URLs, split it (Next.js handles this automatically, but we can optimize)
   // For now, return sorted entries
-  return sortedEntries;
+  return sortedSitemap;
   } catch (error: any) {
     console.error('[sitemap] Error generating sitemap:', error);
     // Return minimal sitemap on error
     return getStaticSitemap(siteConfig.url || 'https://karasuemlak.net');
   }
+}
+
+function extractLocaleFromPathname(pathname: string): string {
+  const segments = pathname.split('/').filter(Boolean);
+  const first = segments[0];
+
+  if (first && routing.locales.includes(first as any) && first !== routing.defaultLocale) {
+    return first;
+  }
+
+  return routing.defaultLocale;
+}
+
+function normalizeLocalePath(pathname: string): string {
+  const segments = pathname.split('/').filter(Boolean);
+  const first = segments[0];
+
+  if (first && routing.locales.includes(first as any) && first !== routing.defaultLocale) {
+    const stripped = `/${segments.slice(1).join('/')}`.replace(/\/+$/, '');
+    return stripped || '/';
+  }
+
+  return pathname.replace(/\/+$/, '') || '/';
 }
 
 /**

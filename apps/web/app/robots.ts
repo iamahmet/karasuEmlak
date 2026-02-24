@@ -14,6 +14,13 @@ import { siteConfig } from '@karasu-emlak/config';
 export default function robots(): MetadataRoute.Robots {
   try {
     const baseUrl = siteConfig.url || 'https://karasuemlak.net';
+    const privatePaths = [
+      '/favorilerim',
+      '/karsilastir',
+      '/aramalarim',
+      '/listings/new',
+    ];
+    const localePrefixedPrivatePaths = privatePaths.map((path) => `/*${path}`);
     
     return {
       rules: [
@@ -24,27 +31,33 @@ export default function robots(): MetadataRoute.Robots {
             '/api/',
             '/admin/',
             '/_next/',
-            '/favorilerim',
-            '/karsilastir',
-            '/aramalarim',
-            '/listings/new',
+            ...privatePaths,
+            ...localePrefixedPrivatePaths,
+            '/*/admin/',
+            '/arama',
+            '/*/arama',
+            '/search',
+            '/*/search',
             '/*?*sort=*', // Disallow sorted/filtered URLs to prevent duplicate content
+            '/*?*utm_*',
+            '/*?*fbclid=*',
+            '/*?*gclid=*',
           ],
         },
         {
           userAgent: 'Googlebot',
           allow: '/',
-          disallow: ['/api/', '/admin/', '/favorilerim', '/karsilastir', '/aramalarim', '/listings/new'],
+          disallow: ['/api/', '/admin/', '/*/admin/', ...privatePaths, ...localePrefixedPrivatePaths, '/arama', '/*/arama', '/search', '/*/search'],
         },
         {
           userAgent: 'Googlebot-Image',
           allow: '/',
-          disallow: ['/api/', '/admin/', '/favorilerim', '/karsilastir', '/aramalarim'],
+          disallow: ['/api/', '/admin/', '/*/admin/', '/favorilerim', '/karsilastir', '/aramalarim', '/*/favorilerim', '/*/karsilastir', '/*/aramalarim'],
         },
         {
           userAgent: 'Bingbot',
           allow: '/',
-          disallow: ['/api/', '/admin/', '/favorilerim', '/karsilastir', '/aramalarim', '/listings/new'],
+          disallow: ['/api/', '/admin/', '/*/admin/', ...privatePaths, ...localePrefixedPrivatePaths, '/arama', '/*/arama', '/search', '/*/search'],
         },
         {
           userAgent: 'GPTBot',

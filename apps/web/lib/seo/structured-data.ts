@@ -1,4 +1,5 @@
 import { siteConfig } from '@karasu-emlak/config';
+import { getSiteUrl, isValidHttpUrl, toAbsoluteSiteUrl } from '@/lib/seo/url';
 
 export interface OrganizationSchema {
   '@context': string;
@@ -107,9 +108,15 @@ export interface NewsArticleSchema {
 export interface RealEstateListingSchema {
   '@context': string;
   '@type': string | string[];
+  '@id'?: string;
   name: string;
   description?: string;
   image?: string[];
+  url?: string;
+  mainEntityOfPage?: {
+    '@type': string;
+    '@id': string;
+  };
   address?: {
     '@type': string;
     addressLocality: string;
@@ -142,6 +149,28 @@ export interface RealEstateListingSchema {
     name: string;
     value: string | number | boolean;
   }>;
+  datePosted?: string;
+  dateModified?: string;
+  inLanguage?: string;
+  identifier?: {
+    '@type': string;
+    name: string;
+    value: string;
+  };
+  broker?: {
+    '@type': string;
+    name: string;
+    url?: string;
+    telephone?: string;
+    email?: string;
+  };
+  provider?: {
+    '@type': string;
+    name: string;
+    url?: string;
+    telephone?: string;
+    email?: string;
+  };
 }
 
 /**
@@ -372,6 +401,12 @@ export function generateRealEstateListingSchema({
   floorSize,
   yearBuilt,
   additionalProperty,
+  identifier,
+  datePosted,
+  dateModified,
+  inLanguage,
+  broker,
+  provider,
 }: {
   name: string;
   description?: string;
@@ -396,13 +431,32 @@ export function generateRealEstateListingSchema({
   floorSize?: number;
   yearBuilt?: number;
   additionalProperty?: Array<{ '@type': string; name: string; value: string | number | boolean }>;
+  identifier?: string;
+  datePosted?: string;
+  dateModified?: string;
+  inLanguage?: string;
+  broker?: { name: string; url?: string; telephone?: string; email?: string };
+  provider?: { name: string; url?: string; telephone?: string; email?: string };
 }): RealEstateListingSchema {
+  const siteUrl = getSiteUrl(siteConfig.url);
+  const validImages = (image || []).filter((value): value is string => isValidHttpUrl(value));
+  const uniqueImages = Array.from(new Set(validImages));
+  const safeImages = uniqueImages.length > 0 ? uniqueImages : [toAbsoluteSiteUrl('/og-image.jpg', siteUrl)];
+
   const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'RealEstateListing',
+    ...(url && { '@id': `${url}#listing` }),
     name,
     ...(description && { description }),
-    image: image || [`${siteConfig.url}/og-image.jpg`],
+    image: safeImages,
+    ...(url && {
+      url,
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': url,
+      },
+    }),
     ...(address && {
       address: {
         '@type': 'PostalAddress',
@@ -419,7 +473,7 @@ export function generateRealEstateListingSchema({
         longitude: geo.longitude,
       },
     }),
-    ...(price && {
+    ...(typeof price === 'number' && Number.isFinite(price) && {
       offers: {
         '@type': 'Offer',
         price: price.toString(),
@@ -442,6 +496,34 @@ export function generateRealEstateListingSchema({
     }),
     ...(yearBuilt && { yearBuilt }),
     ...(additionalProperty && additionalProperty.length > 0 && { additionalProperty }),
+    ...(identifier && {
+      identifier: {
+        '@type': 'PropertyValue',
+        name: 'Listing ID',
+        value: identifier,
+      },
+    }),
+    ...(datePosted && { datePosted }),
+    ...(dateModified && { dateModified }),
+    ...(inLanguage && { inLanguage }),
+    ...(broker && {
+      broker: {
+        '@type': 'RealEstateAgent',
+        name: broker.name,
+        ...(broker.url && { url: broker.url }),
+        ...(broker.telephone && { telephone: broker.telephone }),
+        ...(broker.email && { email: broker.email }),
+      },
+    }),
+    ...(provider && {
+      provider: {
+        '@type': 'RealEstateAgent',
+        name: provider.name,
+        ...(provider.url && { url: provider.url }),
+        ...(provider.telephone && { telephone: provider.telephone }),
+        ...(provider.email && { email: provider.email }),
+      },
+    }),
   };
 
   return schema;

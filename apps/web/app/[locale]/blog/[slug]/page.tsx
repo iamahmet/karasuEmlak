@@ -31,6 +31,7 @@ import {
   generateRelatedArticlesSchema,
 } from '@/lib/seo/blog-structured-data';
 import { getLastModified, generateLastModifiedMeta } from '@/lib/seo/content-freshness';
+import { getOgLocale, getSchemaLanguage, getSiteUrl, isValidHttpUrl, toAbsoluteSiteUrl } from '@/lib/seo/url';
 
 // Critical components - Static imports for above-the-fold content
 import { ReadingProgress } from '@/components/blog/ReadingProgress';
@@ -73,6 +74,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
+  const siteUrl = getSiteUrl(siteConfig.url);
   
   // Fetch article with timeout to prevent hanging
   const rawArticle = await withTimeout(getArticleBySlug(slug), 2000, null);
@@ -100,11 +102,11 @@ export async function generateMetadata({
   };
 
   const canonicalPath = locale === routing.defaultLocale ? `/blog/${slug}` : `/${locale}/blog/${slug}`;
-  const articleUrl = `${siteConfig.url}${canonicalPath}`;
+  const articleUrl = toAbsoluteSiteUrl(canonicalPath, siteUrl);
 
   // Optimize OG image with fallback strategy (use normalized featured_image)
   const articleFeaturedImage = article.featured_image || normalized.featured_image;
-  let ogImageUrl = `${siteConfig.url}/og-image.jpg`;
+  let ogImageUrl = toAbsoluteSiteUrl('/og-image.jpg', siteUrl);
   if (articleFeaturedImage && isValidCloudinaryId(articleFeaturedImage)) {
     ogImageUrl = getOptimizedCloudinaryUrl(articleFeaturedImage, {
       width: 1200,
@@ -113,7 +115,7 @@ export async function generateMetadata({
       quality: 90,
       format: 'auto',
     });
-  } else if (articleFeaturedImage) {
+  } else if (isValidHttpUrl(articleFeaturedImage)) {
     ogImageUrl = articleFeaturedImage;
   } else {
     const freeImage = await withTimeout(getFreeImageForArticleServer({
@@ -122,7 +124,7 @@ export async function generateMetadata({
       category: article.category || undefined,
       content: article.content || undefined,
     }), 1500, null);
-    if (freeImage) {
+    if (isValidHttpUrl(freeImage)) {
       ogImageUrl = freeImage;
     }
   }
@@ -146,7 +148,23 @@ export async function generateMetadata({
   );
   const lastModifiedMeta = generateLastModifiedMeta(lastModified);
 
+  const ogDescription = article.excerpt || description;
+  const otherMeta: Record<string, string> = {
+    'article:author': author,
+    'article:section': article.category || 'Emlak',
+  };
+  if (article.published_at) {
+    otherMeta['article:published_time'] = article.published_at;
+  }
+  if (article.updated_at || article.published_at) {
+    otherMeta['article:modified_time'] = article.updated_at || article.published_at || '';
+  }
+  if (article.tags?.length) {
+    otherMeta['article:tag'] = article.tags.join(',');
+  }
+
   return {
+    metadataBase: new URL(siteUrl),
     title: article.title, // Template will add site name automatically
     description,
     keywords,
@@ -164,7 +182,7 @@ export async function generateMetadata({
     },
     openGraph: {
       title: article.title,
-      description: article.excerpt || description,
+      description: ogDescription,
       url: articleUrl,
       siteName: 'Karasu Emlak',
       images: [
@@ -181,12 +199,12 @@ export async function generateMetadata({
       authors: [author],
       section: article.category || 'Emlak',
       tags: article.tags || [],
-      locale: locale === 'tr' ? 'tr_TR' : locale,
+      locale: getOgLocale(locale),
     },
     twitter: {
       card: 'summary_large_image',
       title: article.title,
-      description: article.excerpt || description,
+      description: ogDescription,
       images: [ogImageUrl],
       creator: '@karasuemlak',
     },
@@ -204,13 +222,7 @@ export async function generateMetadata({
         'max-video-preview': -1,
       },
     },
-    other: {
-      'article:author': author,
-      'article:published_time': article.published_at || '',
-      'article:modified_time': article.updated_at || article.published_at || '',
-      'article:section': article.category || 'Emlak',
-      'article:tag': article.tags?.join(',') || '',
-    },
+    other: otherMeta,
   };
 }
 
@@ -262,7 +274,8 @@ export default async function BlogDetailPage({
   }
 
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
-  const articleUrl = `${siteConfig.url}${basePath}/blog/${slug}`;
+  const siteUrl = getSiteUrl(siteConfig.url);
+  const articleUrl = toAbsoluteSiteUrl(`${basePath}/blog/${slug}`, siteUrl);
 
   // Parallel data fetching for optimal performance
   // Get intelligent recommendations
@@ -304,14 +317,9 @@ export default async function BlogDetailPage({
   // Step 2: If no Cloudinary image, try external URL validation
   if (!imageUrl && featuredImage) {
     const url = featuredImage.trim();
-    if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
-      try {
-        new URL(url);
-        imageUrl = url;
-        imageType = 'external';
-      } catch {
-        imageUrl = null;
-      }
+    if (isValidHttpUrl(url)) {
+      imageUrl = url;
+      imageType = 'external';
     }
   }
   
@@ -319,7 +327,7 @@ export default async function BlogDetailPage({
   if (!imageUrl) {
     try {
       const freeImage = await withTimeout(getFreeImageForArticleServer(article), 3000, null);
-      if (freeImage && freeImage.trim() !== '' && freeImage.startsWith('http')) {
+      if (isValidHttpUrl(freeImage)) {
         imageUrl = freeImage;
         imageType = 'external';
       }
@@ -330,6 +338,7 @@ export default async function BlogDetailPage({
   
   // Step 4: Final fallback - use placeholder (will be handled by ArticleHero component)
   // imageUrl remains null, ArticleHero will handle the fallback
+  const schemaImageUrl = isValidHttpUrl(imageUrl) ? imageUrl : toAbsoluteSiteUrl('/og-image.jpg', siteUrl);
 
   // Fetch FAQs based on article content (optional, non-blocking)
   let faqs: Array<{ question: string; answer: string }> = [];
@@ -416,21 +425,23 @@ export default async function BlogDetailPage({
     author_data: (article as any).author_data || undefined,
     publishedAt: article.published_at,
     updatedAt: article.updated_at,
-    imageUrl,
+    imageUrl: schemaImageUrl,
     category: article.category,
     tags: article.tags,
     wordCount,
     readingTime,
+    url: articleUrl,
+    inLanguage: getSchemaLanguage(locale),
   });
 
   const breadcrumbsForSchema = [
-    { name: 'Ana Sayfa', url: siteConfig.url },
-    { name: 'Blog', url: `${siteConfig.url}${basePath}/blog` },
+    { name: 'Ana Sayfa', url: siteUrl },
+    { name: 'Blog', url: `${siteUrl}${basePath}/blog` },
     ...(article.category
       ? [
           {
             name: article.category,
-            url: `${siteConfig.url}${basePath}/blog/kategori/${article.category.toLowerCase().replace(/\s+/g, '-')}`,
+            url: `${siteUrl}${basePath}/blog/kategori/${article.category.toLowerCase().replace(/\s+/g, '-')}`,
           },
         ]
       : []),
@@ -445,10 +456,11 @@ export default async function BlogDetailPage({
     url: articleUrl,
     datePublished: article.published_at,
     dateModified: article.updated_at,
+    inLanguage: getSchemaLanguage(locale),
   });
   // Generate Related Articles schema
   const relatedArticlesSchema = relatedArticles && relatedArticles.length > 0
-    ? generateRelatedArticlesSchema(relatedArticles, `${siteConfig.url}${basePath}`)
+    ? generateRelatedArticlesSchema(relatedArticles, `${siteUrl}${basePath}`)
     : null;
 
   return (

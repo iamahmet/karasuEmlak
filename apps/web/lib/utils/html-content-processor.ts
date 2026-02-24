@@ -351,8 +351,6 @@ function cleanupHTML(html: string): string {
   
   // Fix spacing around tags
   cleaned = cleaned.replace(/>\s+</g, '><');
-  cleaned = cleaned.replace(/>\s+/g, '>');
-  cleaned = cleaned.replace(/\s+</g, '<');
 
   // Restore necessary spacing
   cleaned = cleaned.replace(/><(p|h[1-6]|div|ul|ol|li)/gi, '>\n<$1');

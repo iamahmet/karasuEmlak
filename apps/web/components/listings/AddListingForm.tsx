@@ -8,9 +8,8 @@ import { Textarea } from '@karasu/ui';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@karasu/ui';
 import { Checkbox } from '@karasu/ui';
 import { Upload, X, Loader2, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
-import { generateSlug } from '@/lib/utils';
 import { cn } from '@/lib/utils';
-import { generateListingImage } from '@/lib/ai/image-generator';
+import { generateAIImage } from '@/lib/ai/image-generator';
 
 interface ImageUpload {
   public_id: string;
@@ -169,6 +168,73 @@ export function AddListingForm() {
 
   const handleRemoveImage = (index: number) => {
     setImages((prev) => prev.filter((_, i) => i !== index).map((img, i) => ({ ...img, order: i })));
+  };
+
+  const handleGenerateAIImage = async () => {
+    if (!formData.title || !formData.property_type || !formData.location_neighborhood) {
+      setError('AI görsel üretimi için başlık, emlak tipi ve mahalle bilgisi gerekli');
+      return;
+    }
+
+    if (images.length >= 10) {
+      setError('En fazla 10 görsel ekleyebilirsiniz');
+      return;
+    }
+
+    setGeneratingAI(true);
+    setError(null);
+
+    try {
+      const result = await generateAIImage({
+        type: 'listing',
+        context: {
+          title: formData.title,
+          propertyType: formData.property_type,
+          location: `${formData.location_neighborhood}, ${formData.location_district || 'Karasu'}, ${formData.location_city || 'Sakarya'}`,
+          status: formData.status || undefined,
+          features: {
+            rooms: formData.rooms || undefined,
+            bathrooms: formData.bathrooms || undefined,
+            sizeM2: formData.sizeM2 || undefined,
+            floor: formData.floor || undefined,
+            heating: formData.heating || undefined,
+            furnished: formData.furnished,
+            balcony: formData.balcony,
+            parking: formData.parking,
+            elevator: formData.elevator,
+            seaView: formData.seaView,
+          },
+        },
+        options: {
+          size: '1792x1024',
+          quality: 'hd',
+          style: 'natural',
+        },
+        upload: {
+          folder: 'listings',
+          entityType: 'listing',
+          alt: `${formData.title} - ${formData.location_neighborhood}`,
+          tags: [formData.property_type, formData.status || 'taslak'].filter(Boolean),
+        },
+      });
+
+      if (!result.success || !result.url) {
+        throw new Error(result.error || 'AI görsel üretilemedi');
+      }
+
+      setImages((prev) => [
+        ...prev,
+        {
+          public_id: result.public_id || `ai-generated-${Date.now()}`,
+          url: result.url,
+          order: prev.length,
+        },
+      ]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'AI görsel oluşturulurken bir hata oluştu');
+    } finally {
+      setGeneratingAI(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -659,10 +725,7 @@ export function AddListingForm() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => {
-                    // TODO: Implement AI image generation
-                    console.log('AI image generation not implemented yet');
-                  }}
+                  onClick={handleGenerateAIImage}
                   disabled={generatingAI || uploadingImages || !formData.title || !formData.property_type || !formData.location_neighborhood}
                   className="w-full"
                 >
@@ -802,4 +865,3 @@ export function AddListingForm() {
     </form>
   );
 }
-

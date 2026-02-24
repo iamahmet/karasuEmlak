@@ -37,8 +37,17 @@ export class ErrorBoundary extends Component<Props, State> {
 
     // Log to error tracking service in production
     if (process.env.NODE_ENV === "production") {
-      // TODO: Send to error tracking service (e.g., Sentry)
-      // Sentry.captureException(error, { contexts: { react: errorInfo } });
+      void import("@sentry/nextjs")
+        .then((Sentry) => {
+          Sentry.captureException(error, {
+            contexts: {
+              react: {
+                componentStack: errorInfo.componentStack,
+              },
+            },
+          });
+        })
+        .catch(() => undefined);
     }
   }
 
@@ -114,7 +123,7 @@ function ErrorFallback({ error, onReset }: { error: Error | null; onReset: () =>
  * Hook for programmatic error throwing
  */
 export function useErrorHandler() {
-  return (error: Error, errorInfo?: ErrorInfo) => {
+  return (error: Error, _errorInfo?: ErrorInfo) => {
     throw error;
   };
 }

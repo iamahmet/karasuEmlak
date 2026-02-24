@@ -1,4 +1,5 @@
 import { siteConfig } from '@karasu-emlak/config';
+import { getSiteUrl, isValidHttpUrl, toAbsoluteSiteUrl } from '@/lib/seo/url';
 
 interface ArticleSchemaInput {
   title: string;
@@ -28,6 +29,8 @@ interface ArticleSchemaInput {
   tags?: string[] | null;
   wordCount: number;
   readingTime: number;
+  url?: string;
+  inLanguage?: string;
 }
 
 interface FAQItem {
@@ -60,7 +63,8 @@ export function generateBlogArticleSchema(input: ArticleSchemaInput) {
     readingTime,
   } = input;
 
-  const articleUrl = `${siteConfig.url}/blog/${slug}`;
+  const siteUrl = getSiteUrl(siteConfig.url);
+  const articleUrl = input.url || `${siteUrl}/blog/${slug}`;
   const authorName = input.author_data?.full_name || author || 'Karasu Emlak';
 
   // Build author schema - use author_data if available, otherwise fallback
@@ -70,65 +74,78 @@ export function generateBlogArticleSchema(input: ArticleSchemaInput) {
   };
 
   if (input.author_data) {
+    const sameAs = [
+      input.author_data.social_json?.linkedin && `https://linkedin.com/in/${input.author_data.social_json.linkedin}`,
+      input.author_data.social_json?.instagram && `https://instagram.com/${input.author_data.social_json.instagram}`,
+      input.author_data.social_json?.x && `https://x.com/${input.author_data.social_json.x}`,
+      input.author_data.social_json?.email && `mailto:${input.author_data.social_json.email}`,
+    ].filter(Boolean);
+
     authorSchema = {
       '@type': 'Person',
       name: input.author_data.full_name,
       jobTitle: input.author_data.title,
-      url: `${siteConfig.url}/yazarlar/${input.author_data.slug}`,
-      image: input.author_data.avatar?.secure_url,
-      description: input.author_data.bio,
+      url: `${siteUrl}/yazarlar/${input.author_data.slug}`,
+      ...(isValidHttpUrl(input.author_data.avatar?.secure_url) && { image: input.author_data.avatar.secure_url }),
+      ...(input.author_data.bio && { description: input.author_data.bio }),
       worksFor: {
         '@type': 'Organization',
         name: 'Karasu Emlak',
-        url: siteConfig.url,
+        url: siteUrl,
       },
-      sameAs: [
-        input.author_data.social_json?.linkedin && `https://linkedin.com/in/${input.author_data.social_json.linkedin}`,
-        input.author_data.social_json?.instagram && `https://instagram.com/${input.author_data.social_json.instagram}`,
-        input.author_data.social_json?.x && `https://x.com/${input.author_data.social_json.x}`,
-        input.author_data.social_json?.email && `mailto:${input.author_data.social_json.email}`,
-      ].filter(Boolean),
+      ...(sameAs.length > 0 && { sameAs }),
     };
   } else {
-    authorSchema.url = `${siteConfig.url}/hakkimizda`;
+    authorSchema.url = `${siteUrl}/hakkimizda`;
   }
+
+  const schemaImageUrl = isValidHttpUrl(imageUrl)
+    ? imageUrl
+    : toAbsoluteSiteUrl('/og-image.jpg', siteUrl);
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     '@id': `${articleUrl}#article`,
+    url: articleUrl,
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': articleUrl,
     },
     headline: title,
     description: description || excerpt || content.substring(0, 160).replace(/<[^>]*>/g, ''),
-    image: imageUrl
-      ? {
-          '@type': 'ImageObject',
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-        }
-      : undefined,
+    image: {
+      '@type': 'ImageObject',
+      url: schemaImageUrl,
+      width: 1200,
+      height: 630,
+    },
     datePublished: publishedAt || undefined,
     dateModified: updatedAt || publishedAt || undefined,
     author: authorSchema,
     publisher: {
       '@type': 'Organization',
+      '@id': `${siteUrl}/#organization`,
       name: 'Karasu Emlak',
+      url: siteUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteConfig.url}/logo.png`,
+        url: `${siteUrl}/logo.png`,
         width: 200,
         height: 60,
       },
+    },
+    isPartOf: {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      name: 'Karasu Emlak',
+      url: siteUrl,
     },
     articleSection: category || 'Emlak',
     keywords: tags?.join(', ') || undefined,
     wordCount,
     timeRequired: `PT${readingTime}M`,
-    inLanguage: 'tr-TR',
+    inLanguage: input.inLanguage || 'tr-TR',
     isAccessibleForFree: true,
     speakable: {
       '@type': 'SpeakableSpecification',
@@ -182,7 +199,9 @@ export function generateWebPageSchema(input: {
   url: string;
   datePublished?: string | null;
   dateModified?: string | null;
+  inLanguage?: string;
 }) {
+  const siteUrl = getSiteUrl(siteConfig.url);
   return {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
@@ -192,13 +211,13 @@ export function generateWebPageSchema(input: {
     description: input.description,
     isPartOf: {
       '@type': 'WebSite',
-      '@id': `${siteConfig.url}/#website`,
+      '@id': `${siteUrl}/#website`,
       name: 'Karasu Emlak',
-      url: siteConfig.url,
+      url: siteUrl,
     },
     datePublished: input.datePublished || undefined,
     dateModified: input.dateModified || undefined,
-    inLanguage: 'tr-TR',
+    inLanguage: input.inLanguage || 'tr-TR',
     potentialAction: [
       {
         '@type': 'ReadAction',
