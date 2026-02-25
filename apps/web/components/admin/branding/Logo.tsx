@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@karasu-emlak/config";
@@ -78,9 +79,10 @@ export function Logo({
   logoSrc,
   iconSrc,
 }: LogoProps) {
+  const [imageError, setImageError] = useState(false);
   const sizes = sizeMap[size];
-  const logoPath = logoSrc || "/logo.png";
-  const iconPath = iconSrc || "/logo-icon.png";
+  const logoPath = logoSrc || "/logo.svg";
+  const iconPath = iconSrc || "/logo-icon.svg";
 
   // Calculate logo dimensions based on size
   // Based on provided images: full logo is ~301x73 (4.12:1 aspect ratio)
@@ -110,33 +112,60 @@ export function Logo({
       {variant === "icon" ? (
         // Icon only variant
         <div className="relative flex-shrink-0">
-          <Image
-            src={iconPath}
-            alt={`${siteConfig.name} Logo`}
-            width={sizes.icon}
-            height={sizes.icon}
-            className="transition-transform duration-200 group-hover:scale-105"
-            priority
-            unoptimized={iconPath.endsWith(".svg")}
-          />
+          {imageError ? (
+            <div
+              className={cn(
+                "rounded-lg bg-primary/10 flex items-center justify-center",
+                "transition-transform duration-200 group-hover:scale-105"
+              )}
+              style={{ width: sizes.icon, height: sizes.icon }}
+            >
+              <span className="text-primary font-bold text-xs">KE</span>
+            </div>
+          ) : (
+            <Image
+              src={iconPath}
+              alt={`${siteConfig.name} Logo`}
+              width={sizes.icon}
+              height={sizes.icon}
+              className="transition-transform duration-200 group-hover:scale-105 object-contain"
+              priority
+              unoptimized={iconPath.endsWith(".svg")}
+              onError={() => setImageError(true)}
+            />
+          )}
         </div>
       ) : (
         // Full logo variant - show the complete logo image
         <div className="relative flex-shrink-0" style={{ minWidth: `${logoWidth}px` }}>
-          <Image
-            src={logoPath}
-            alt={`${siteConfig.name} Logo`}
-            width={logoWidth}
-            height={logoHeight}
-            className="transition-transform duration-200 group-hover:scale-105 object-contain"
-            priority
-            unoptimized={logoPath.endsWith(".svg")}
-            style={{
-              height: `${logoHeight}px`,
-              width: `${logoWidth}px`,
-              maxWidth: "none",
-            }}
-          />
+          {imageError ? (
+            <div
+              className={cn(
+                "flex items-center gap-2 rounded-lg px-3 py-1.5 bg-primary/10",
+                "transition-transform duration-200 group-hover:scale-105"
+              )}
+              style={{ height: `${logoHeight}px` }}
+            >
+              <span className="text-primary font-bold text-sm">KE</span>
+              <span className="text-foreground font-semibold text-sm">{siteConfig.name}</span>
+            </div>
+          ) : (
+            <Image
+              src={logoPath}
+              alt={`${siteConfig.name} Logo`}
+              width={logoWidth}
+              height={logoHeight}
+              className="transition-transform duration-200 group-hover:scale-105 object-contain"
+              priority
+              unoptimized={logoPath.endsWith(".svg")}
+              onError={() => setImageError(true)}
+              style={{
+                height: `${logoHeight}px`,
+                width: `${logoWidth}px`,
+                maxWidth: "none",
+              }}
+            />
+          )}
         </div>
       )}
     </div>

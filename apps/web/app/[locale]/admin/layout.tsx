@@ -1,20 +1,36 @@
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
-import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { isRTL } from "@karasu/lib/i18n";
+import { siteConfig } from "@karasu-emlak/config";
 import { AdminLayout } from "@/components/admin/layout/AdminLayout";
 import { Toaster } from "@/components/admin/providers/Toaster";
 import { ErrorBoundary } from "@/components/admin/errors/ErrorBoundary";
 import type { Metadata, Viewport } from "next";
 import "../../globals.css";
 
+const webAdminBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url;
+const webAdminTitle = "Karasu Emlak Yönetim Paneli";
+const webAdminDescription =
+  "Karasu Emlak yönetim araçları: ilan, içerik, medya ve SEO operasyonları için yönetim paneli.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(webAdminBaseUrl),
   title: {
-    default: "Admin Panel - Karasu Emlak",
-    template: "%s | Admin Panel - Karasu Emlak",
+    default: webAdminTitle,
+    template: `%s | ${webAdminTitle}`,
   },
-  description: "Karasu Emlak Admin Panel - İçerik yönetimi, SEO araçları ve site yönetimi",
+  description: webAdminDescription,
+  applicationName: webAdminTitle,
+  manifest: "/manifest.json",
+  category: "business",
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   robots: {
     index: false,
     follow: false,
@@ -23,21 +39,54 @@ export const metadata: Metadata = {
       follow: false,
     },
   },
+  openGraph: {
+    type: "website",
+    url: webAdminBaseUrl,
+    siteName: webAdminTitle,
+    title: webAdminTitle,
+    description: webAdminDescription,
+    locale: "tr_TR",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} Admin`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: webAdminTitle,
+    description: webAdminDescription,
+    images: ["/og-image.png"],
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml", sizes: "any" },
       { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/icon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
       { url: "/logo-icon.svg", type: "image/svg+xml", sizes: "any" },
     ],
     shortcut: [
       { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/logo-icon.svg", type: "image/svg+xml" },
     ],
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
       { url: "/logo-icon.svg", type: "image/svg+xml" },
     ],
+    other: [
+      { rel: "mask-icon", url: "/safari-pinned-tab.svg" },
+    ],
+  },
+  other: {
+    "msapplication-config": "/browserconfig.xml",
+    "msapplication-TileColor": "#3B82F6",
   },
 };
 
@@ -45,6 +94,11 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#E7E7E7" },
+    { media: "(prefers-color-scheme: dark)", color: "#062F28" },
+  ],
 };
 
 // Admin sayfaları dinamik - statik üretim yok

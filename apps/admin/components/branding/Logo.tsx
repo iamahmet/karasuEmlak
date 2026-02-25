@@ -81,8 +81,8 @@ export function Logo({
 }: LogoProps) {
   const [imageError, setImageError] = useState(false);
   const sizes = sizeMap[size];
-  const logoPath = logoSrc || "/logo.png";
-  const iconPath = iconSrc || "/logo-icon.png";
+  const logoPath = logoSrc || "/logo.svg";
+  const iconPath = iconSrc || "/logo-icon.svg";
 
   // Calculate logo dimensions based on size
   // Based on provided images: full logo is ~301x73 (4.12:1 aspect ratio)

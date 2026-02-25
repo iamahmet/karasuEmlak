@@ -3,6 +3,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "../../i18n/routing";
 import { isRTL } from "@karasu/lib/i18n";
+import { siteConfig } from "@karasu-emlak/config";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Toaster } from "@/components/providers/Toaster";
 import { ErrorBoundary } from "@/components/errors/ErrorBoundary";
@@ -10,12 +11,28 @@ import { QueryProvider } from "@/lib/providers/QueryProvider";
 import type { Metadata, Viewport } from "next";
 import "../globals.css";
 
+const adminBaseUrl = process.env.NEXT_PUBLIC_ADMIN_URL || "https://admin.karasuemlak.net";
+const adminTitle = "Karasu Emlak Yönetim Paneli";
+const adminDescription =
+  "Karasu Emlak yönetim paneli: ilan, içerik, medya, kullanıcı ve SEO yönetim araçları.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(adminBaseUrl),
   title: {
-    default: "Admin Panel - Karasu Emlak",
-    template: "%s | Admin Panel - Karasu Emlak",
+    default: adminTitle,
+    template: `%s | ${adminTitle}`,
   },
-  description: "Karasu Emlak Admin Panel - İçerik yönetimi, SEO araçları ve site yönetimi",
+  description: adminDescription,
+  applicationName: adminTitle,
+  manifest: "/manifest.json",
+  category: "business",
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   robots: {
     index: false,
     follow: false,
@@ -24,21 +41,57 @@ export const metadata: Metadata = {
       follow: false,
     },
   },
+  openGraph: {
+    type: "website",
+    url: adminBaseUrl,
+    siteName: adminTitle,
+    title: adminTitle,
+    description: adminDescription,
+    locale: "tr_TR",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} Admin`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: adminTitle,
+    description: adminDescription,
+    images: ["/logo.png"],
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml", sizes: "any" },
       { url: "/favicon.png", sizes: "any" },
       { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/icon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
+      { url: "/logo-icon.svg", type: "image/svg+xml", sizes: "any" },
     ],
     shortcut: [
       { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon.png", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
     ],
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-      { url: "/favicon.png", sizes: "any" },
+      { url: "/logo-icon.svg", type: "image/svg+xml" },
     ],
+    other: [
+      { rel: "mask-icon", url: "/safari-pinned-tab.svg" },
+    ],
+  },
+  other: {
+    "msapplication-config": "/browserconfig.xml",
+    "msapplication-TileColor": "#006AFF",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
   },
 };
 
@@ -46,6 +99,11 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#062F28" },
+  ],
 };
 
 export function generateStaticParams() {

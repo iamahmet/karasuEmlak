@@ -30,7 +30,7 @@ interface LogoIconProps {
 export function LogoIcon({
   size = 40,
   className,
-  iconSrc = "/logo-icon.png",
+  iconSrc = "/logo-icon.svg",
   alt = "Logo",
 }: LogoIconProps) {
   return (
@@ -40,7 +40,7 @@ export function LogoIcon({
         alt={alt}
         width={size}
         height={size}
-        className="transition-transform duration-200 hover:scale-105"
+        className="transition-transform duration-200 hover:scale-105 object-contain"
         priority
         unoptimized={iconSrc.endsWith(".svg")}
       />

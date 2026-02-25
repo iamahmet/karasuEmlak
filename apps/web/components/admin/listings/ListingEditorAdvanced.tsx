@@ -225,6 +225,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showMediaLibrary, setShowMediaLibrary] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
+  const [isReverseGeocoding, setIsReverseGeocoding] = useState(false);
   const [listingStats, setListingStats] = useState<ListingStats>({
     images: 0,
     words: 0,
@@ -292,6 +293,47 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
       toast.error(error instanceof Error ? error.message : "Adres koordinata çevrilemedi");
     } finally {
       setIsGeocoding(false);
+    }
+  };
+
+  const handleReverseGeocodeLocation = async () => {
+    if (!hasCoordinates) {
+      toast.info("Önce geçerli koordinat girin");
+      return;
+    }
+
+    try {
+      setIsReverseGeocoding(true);
+      const response = await fetch(
+        `/api/services/geocoding?lat=${encodeURIComponent(String(listing.coordinates_lat))}&lng=${encodeURIComponent(String(listing.coordinates_lng))}`,
+        { cache: "no-store" }
+      );
+
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || !result?.success || !result?.data) {
+        throw new Error(result?.error || "Adres çözümlenemedi");
+      }
+
+      const nextAddress =
+        typeof result.data.address === "string" && result.data.address.trim()
+          ? result.data.address.trim()
+          : listing.location_address || "";
+      const nextNeighborhood =
+        typeof result.data.neighborhood === "string" && result.data.neighborhood.trim()
+          ? result.data.neighborhood.trim()
+          : listing.location_neighborhood;
+
+      updateListing({
+        location_address: nextAddress,
+        location_neighborhood: nextNeighborhood,
+      });
+
+      toast.success("Adres bilgisi koordinatlardan dolduruldu");
+    } catch (error) {
+      console.error("Reverse geocoding error:", error);
+      toast.error(error instanceof Error ? error.message : "Koordinatlar adrese çevrilemedi");
+    } finally {
+      setIsReverseGeocoding(false);
     }
   };
 
@@ -1850,6 +1892,22 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                           <Search className="h-3 w-3 mr-1" />
                         )}
                         Adresten Bul
+                      </Button>
+
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-8 text-xs"
+                        onClick={handleReverseGeocodeLocation}
+                        disabled={isReverseGeocoding || !hasCoordinates}
+                      >
+                        {isReverseGeocoding ? (
+                          <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                        ) : (
+                          <RotateCw className="h-3 w-3 mr-1" />
+                        )}
+                        Koordinattan Adres
                       </Button>
 
                       <Button

@@ -27,6 +27,78 @@ interface StaticPage {
   updated_at: string;
 }
 
+type StaticPageTemplateKey = "career" | "references";
+
+const STATIC_PAGE_TEMPLATES: Record<
+  StaticPageTemplateKey,
+  {
+    slug: string;
+    title: string;
+    meta_title: string;
+    meta_description: string;
+    meta_keywords: string;
+    content: string;
+  }
+> = {
+  career: {
+    slug: "hakkimizda/kariyer",
+    title: "Kariyer",
+    meta_title: "Kariyer | Karasu Emlak",
+    meta_description:
+      "Karasu Emlak kariyer fırsatları, açık pozisyonlar ve başvuru süreci hakkında bilgiler.",
+    meta_keywords: "karasu emlak kariyer, emlak danışmanı iş ilanı, sakarya emlak kariyer",
+    content: `
+<h2>Karasu Emlak'ta Kariyer</h2>
+<p>Gayrimenkul sektöründe büyüyen ekibimize katılmak isteyen adaylarla tanışmak istiyoruz.</p>
+<h3>Neden Biz?</h3>
+<ul>
+  <li>Bölgesel uzmanlık ve güçlü marka bilinirliği</li>
+  <li>Sürekli eğitim ve mentorluk desteği</li>
+  <li>Performans odaklı, şeffaf çalışma kültürü</li>
+</ul>
+<h3>Başvuru Süreci</h3>
+<p>Özgeçmişinizi ve kısa ön yazınızı <strong>info@karasuemlak.net</strong> adresine iletebilirsiniz.</p>
+<p>Başvurular değerlendirme sırasına göre dönüş yapılacaktır.</p>
+`.trim(),
+  },
+  references: {
+    slug: "hakkimizda/referanslar",
+    title: "Referanslar",
+    meta_title: "Referanslar | Karasu Emlak",
+    meta_description:
+      "Karasu Emlak müşteri deneyimleri, tamamlanan işlemler ve hizmet referansları.",
+    meta_keywords: "karasu emlak referanslar, emlak müşteri yorumları, sakarya emlak danışmanlığı",
+    content: `
+<h2>Referanslarımız</h2>
+<p>Karasu ve çevresinde satış, kiralama ve yatırım danışmanlığı süreçlerinde destek verdiğimiz müşterilerimizin memnuniyeti önceliğimizdir.</p>
+<h3>Hizmet Verdiğimiz Alanlar</h3>
+<ul>
+  <li>Satılık daire ve villa danışmanlığı</li>
+  <li>Arsa ve yatırım fırsatı analizi</li>
+  <li>Kiralama ve portföy yönetimi desteği</li>
+</ul>
+<h3>Kurumsal İş Birlikleri</h3>
+<p>Kurumsal ve bireysel müşterilerimizle yürüttüğümüz çalışmalar için detaylı referans listesi talep üzerine paylaşılabilir.</p>
+`.trim(),
+  },
+};
+
+function createEmptyStaticPage(locale: string): StaticPage {
+  return {
+    id: "",
+    slug: "",
+    title: "",
+    locale,
+    content: "",
+    meta_title: "",
+    meta_description: "",
+    meta_keywords: "",
+    is_published: true,
+    created_at: "",
+    updated_at: "",
+  };
+}
+
 export function StaticPagesEditor({ locale }: { locale: string }) {
   const router = useRouter();
   const [pages, setPages] = useState<StaticPage[]>([]);
@@ -97,6 +169,7 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
       setShowEditor(false);
       setEditingPage(null);
       await fetchPages();
+      router.refresh();
     } catch (error: any) {
       toast.error(error.message || "Sayfa kaydedilemedi");
     } finally {
@@ -122,22 +195,42 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
 
   const handleNew = () => {
     try {
-      setEditingPage({
-        id: "",
-        slug: "",
-        title: "",
-        locale: locale,
-        content: "",
-        meta_title: "",
-        meta_description: "",
-        meta_keywords: "",
-        is_published: true,
-        created_at: "",
-        updated_at: "",
-      });
+      setEditingPage(createEmptyStaticPage(locale));
       setShowEditor(true);
     } catch (error) {
       // New handler error, continue silently
+    }
+  };
+
+  const handleCreateFromTemplate = (templateKey: StaticPageTemplateKey) => {
+    try {
+      const template = STATIC_PAGE_TEMPLATES[templateKey];
+      const existingPage = pages.find((page) => page.locale === locale && page.slug === template.slug);
+
+      if (existingPage) {
+        handleEdit(existingPage);
+        toast.info(`${template.title} sayfası zaten var, düzenleme ekranı açıldı`);
+        return;
+      }
+
+      setEditingPage({
+        ...createEmptyStaticPage(locale),
+        slug: template.slug,
+        title: template.title,
+        meta_title: template.meta_title,
+        meta_description: template.meta_description,
+        meta_keywords: template.meta_keywords,
+        content: template.content,
+      });
+      setShowEditor(true);
+      setTimeout(() => {
+        const editor = document.querySelector('[data-editor="static-page-editor"]');
+        if (editor) {
+          editor.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+    } catch (error) {
+      toast.error("Şablon hazırlanamadı");
     }
   };
 
@@ -156,23 +249,43 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
       {/* Pages List */}
       <Card className="card-professional">
         <CardHeader className="pb-4 px-5 pt-5">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <CardTitle className="text-base font-display font-bold text-foreground flex items-center gap-2">
               <FileText className="h-5 w-5 text-primary" />
               Statik Sayfalar
             </CardTitle>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleNew();
-              }}
-              className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-lg hover:shadow-xl hover-scale micro-bounce rounded-xl inline-flex items-center justify-center px-4 py-2 font-medium transition-all duration-200 relative z-10"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Yeni Sayfa
-            </button>
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => handleCreateFromTemplate("career")}
+                className="h-9 rounded-xl"
+              >
+                Kariyer Şablonu
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => handleCreateFromTemplate("references")}
+                className="h-9 rounded-xl"
+              >
+                Referanslar Şablonu
+              </Button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleNew();
+                }}
+                className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-lg hover:shadow-xl hover-scale micro-bounce rounded-xl inline-flex items-center justify-center px-4 py-2 font-medium transition-all duration-200 relative z-10"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Yeni Sayfa
+              </button>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="px-5 pb-5">
@@ -422,4 +535,3 @@ export function StaticPagesEditor({ locale }: { locale: string }) {
     </div>
   );
 }
-
