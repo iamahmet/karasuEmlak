@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { brandAssetUrl, isSvgAssetUrl } from "@/lib/branding/assets";
+import { brandAssetPath, isSvgAssetUrl } from "@/lib/branding/assets";
 
 interface LogoIconProps {
   /**
@@ -31,7 +31,7 @@ interface LogoIconProps {
 export function LogoIcon({
   size = 40,
   className,
-  iconSrc = brandAssetUrl("/logo-icon.svg"),
+  iconSrc = brandAssetPath("/logo-icon.png"),
   alt = "Logo",
 }: LogoIconProps) {
   return (

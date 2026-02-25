@@ -124,3 +124,4 @@ VERCEL_*.md
 !docs/**/*.md
 !ARCHITECTURE.md
 VERCEL_ENV_SETUP.md
+1x/desktop.ini

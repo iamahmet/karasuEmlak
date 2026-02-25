@@ -7,10 +7,10 @@ import Image from "next/image";
 import { LogOut, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@karasu/ui";
 import Link from "next/link";
-import { brandAssetUrl } from "@/lib/branding/assets";
+import { brandAssetPath } from "@/lib/branding/assets";
 
 export default function LogoutPage() {
-  const faviconImageSrc = brandAssetUrl("/favicon.png");
+  const faviconImageSrc = brandAssetPath("/favicon.png");
   const router = useRouter();
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
   const [error, setError] = useState<string | null>(null);

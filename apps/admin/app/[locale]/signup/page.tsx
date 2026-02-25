@@ -7,14 +7,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Mail, ArrowRight, UserPlus, Lock, AlertCircle, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { brandAssetUrl } from "@/lib/branding/assets";
+import { brandAssetPath } from "@/lib/branding/assets";
 import { getAdminUrl } from "@/lib/utils/get-admin-url";
 
 // Force dynamic rendering - this page requires runtime environment variables
 export const dynamic = 'force-dynamic';
 
 export default function SignupPage() {
-  const faviconImageSrc = brandAssetUrl("/favicon.png");
+  const faviconImageSrc = brandAssetPath("/favicon.png");
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");

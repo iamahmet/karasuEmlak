@@ -8,11 +8,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { LayoutDashboard, Mail, ArrowRight, Lock, AlertCircle, ExternalLink, Users, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { brandAssetUrl } from "@/lib/branding/assets";
+import { brandAssetPath } from "@/lib/branding/assets";
 import { getAdminUrl } from "@/lib/utils/get-admin-url";
 
 export default function LoginPage() {
-  const faviconImageSrc = brandAssetUrl("/favicon.png");
+  const faviconImageSrc = brandAssetPath("/favicon.png");
   const t = useTranslations("auth");
   const router = useRouter();
   const searchParams = useSearchParams();

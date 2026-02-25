@@ -2,7 +2,7 @@
 /**
  * Asset Setup Script
  * 
- * Copies logo, favicon, and icon files from gorseller/ to apps/web/public and apps/admin/public
+ * Copies logo, favicon, and icon files from 1x/ to apps/web/public and apps/admin/public
  * Generates all required icon sizes for PWA and favicon support
  * 
  * Usage: pnpm tsx scripts/setup-assets.ts
@@ -12,7 +12,7 @@ import { readdir, copyFile, mkdir, access } from "fs/promises";
 import { join, extname, basename } from "path";
 import { existsSync } from "fs";
 
-const GORSELLER_DIR = join(process.cwd(), "gorseller");
+const ASSETS_SOURCE_DIR = join(process.cwd(), "1x");
 const WEB_PUBLIC_DIR = join(process.cwd(), "apps", "web", "public");
 const ADMIN_PUBLIC_DIR = join(process.cwd(), "apps", "admin", "public");
 
@@ -53,28 +53,28 @@ function shouldCopyFile(filename: string): boolean {
  * Copy asset files to public directories
  */
 async function copyAssets() {
-  console.log("🎨 Setting up assets from gorseller/ directory...\n");
+  console.log("🎨 Setting up assets from 1x/ directory...\n");
 
-  // Check if gorseller directory exists
+  // Check if 1x directory exists
   try {
-    await access(GORSELLER_DIR);
+    await access(ASSETS_SOURCE_DIR);
   } catch {
-    console.log("⚠️  gorseller/ directory not found. Skipping asset setup.");
-    console.log("💡 Tip: Add your logo, favicon, and icon files to the gorseller/ directory.");
+    console.log("⚠️  1x/ directory not found. Skipping asset setup.");
+    console.log("💡 Tip: Add your logo, favicon, and icon files to the 1x/ directory.");
     return;
   }
 
-  // Read files from gorseller directory
+  // Read files from 1x directory
   let files: string[];
   try {
-    files = await readdir(GORSELLER_DIR);
+    files = await readdir(ASSETS_SOURCE_DIR);
   } catch (error) {
-    console.error("❌ Error reading gorseller directory:", error);
+    console.error("❌ Error reading 1x directory:", error);
     return;
   }
 
   if (files.length === 0) {
-    console.log("⚠️  gorseller/ directory is empty. No assets to copy.");
+    console.log("⚠️  1x/ directory is empty. No assets to copy.");
     return;
   }
 
@@ -83,12 +83,12 @@ async function copyAssets() {
     .filter(shouldCopyFile)
     .map((file) => ({
       name: file,
-      path: join(GORSELLER_DIR, file),
+      path: join(ASSETS_SOURCE_DIR, file),
       type: detectAssetType(file),
     }));
 
   if (assetFiles.length === 0) {
-    console.log("⚠️  No valid asset files found in gorseller/ directory.");
+    console.log("⚠️  No valid asset files found in 1x/ directory.");
     console.log("💡 Supported formats: .svg, .png, .jpg, .jpeg, .ico, .webp");
     return;
   }

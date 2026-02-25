@@ -11,7 +11,7 @@ import { copyFile, mkdir, access } from "fs/promises";
 import { join } from "path";
 import { existsSync } from "fs";
 
-const GORSELLER_DIR = join(process.cwd(), "gorseller");
+const ASSETS_SOURCE_DIR = join(process.cwd(), "1x");
 const WEB_PUBLIC_DIR = join(process.cwd(), "apps", "web", "public");
 const ADMIN_PUBLIC_DIR = join(process.cwd(), "apps", "admin", "public");
 
@@ -115,11 +115,11 @@ async function createIconSizes(logoPath: string, baseName: string): Promise<void
 async function convertAssets() {
   console.log("🔄 Converting assets...\n");
 
-  // Check if gorseller directory exists
+  // Check if 1x directory exists
   try {
-    await access(GORSELLER_DIR);
+    await access(ASSETS_SOURCE_DIR);
   } catch {
-    console.log("❌ gorseller/ directory not found.");
+    console.log("❌ 1x/ directory not found.");
     return;
   }
 
@@ -131,9 +131,9 @@ async function convertAssets() {
     await mkdir(ADMIN_PUBLIC_DIR, { recursive: true });
   }
 
-  const logo1Path = join(GORSELLER_DIR, "logo-1.png");
-  const logo2Path = join(GORSELLER_DIR, "logo-2.png");
-  const faviconPath = join(GORSELLER_DIR, "favicon.png");
+  const logo1Path = join(ASSETS_SOURCE_DIR, "logo-1.png");
+  const logo2Path = join(ASSETS_SOURCE_DIR, "logo-2.png");
+  const faviconPath = join(ASSETS_SOURCE_DIR, "favicon.png");
 
   // Determine which logo to use for what
   // logo-1: full logo (192x40)
@@ -167,13 +167,17 @@ async function convertAssets() {
   console.log("\n📐 Creating icon sizes...\n");
   await createIconSizes(iconSource, "logo-icon");
 
-  // Create favicon.ico from favicon.png
-  console.log("\n🎯 Creating favicon.ico...\n");
+  // Create favicon.ico and copy favicon.png
+  console.log("\n🎯 Creating favicon...\n");
   if (existsSync(faviconPath)) {
     const webFavicon = join(WEB_PUBLIC_DIR, "favicon.ico");
     const adminFavicon = join(ADMIN_PUBLIC_DIR, "favicon.ico");
     await convertToICO(faviconPath, webFavicon, 32);
     await convertToICO(faviconPath, adminFavicon, 32);
+    // Copy favicon.png for Image components (login, signup, etc.)
+    await copyFile(faviconPath, join(WEB_PUBLIC_DIR, "favicon.png"));
+    await copyFile(faviconPath, join(ADMIN_PUBLIC_DIR, "favicon.png"));
+    console.log("✅ Copied favicon.png");
   } else {
     // Use logo as favicon if no favicon.png
     console.log("⚠️  favicon.png not found, using logo for favicon");

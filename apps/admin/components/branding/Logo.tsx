@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@karasu-emlak/config";
 import { cn } from "@karasu/lib";
-import { brandAssetUrl, isSvgAssetUrl } from "@/lib/branding/assets";
+import { brandAssetPath, isSvgAssetUrl } from "@/lib/branding/assets";
 
 interface LogoProps {
   /**
@@ -82,8 +82,8 @@ export function Logo({
 }: LogoProps) {
   const [imageError, setImageError] = useState(false);
   const sizes = sizeMap[size];
-  const logoPath = logoSrc || brandAssetUrl("/logo.svg");
-  const iconPath = iconSrc || brandAssetUrl("/logo-icon.svg");
+  const logoPath = logoSrc || brandAssetPath("/logo.png");
+  const iconPath = iconSrc || brandAssetPath("/logo-icon.png");
 
   // Calculate logo dimensions based on size
   // Updated brand assets use a wider wordmark and square icon

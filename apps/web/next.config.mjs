@@ -37,9 +37,7 @@ const nextConfig = {
   
   images: {
     localPatterns: [
-      {
-        pathname: '/**',
-      },
+      { pathname: '/**' },
     ],
     remotePatterns: [
       {

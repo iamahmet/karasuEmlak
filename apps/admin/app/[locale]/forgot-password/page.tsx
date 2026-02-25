@@ -7,11 +7,11 @@ import { createClient, isSupabaseConfigured } from "@karasu/lib/supabase/client"
 import { Mail, ArrowRight, ArrowLeft, CheckCircle, AlertCircle, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { brandAssetUrl } from "@/lib/branding/assets";
+import { brandAssetPath } from "@/lib/branding/assets";
 import { getAdminUrl } from "@/lib/utils/get-admin-url";
 
 export default function ForgotPasswordPage() {
-  const faviconImageSrc = brandAssetUrl("/favicon.png");
+  const faviconImageSrc = brandAssetPath("/favicon.png");
   const t = useTranslations("auth");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
