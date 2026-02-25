@@ -65,14 +65,14 @@ export async function proxy(request: NextRequest) {
 
       // Refresh session - this updates cookies
       if (!supabase || !supabase.auth) {
-        const loginUrl = new URL(`/login`, request.url);
+        const loginUrl = new URL(`/tr/login`, request.url);
         loginUrl.searchParams.set("redirect", requestedFullPath);
         return NextResponse.redirect(loginUrl);
       }
       const { data: { user }, error: authError } = await supabase.auth.getUser();
 
       if (!user || authError) {
-        const loginUrl = new URL(`/login`, request.url);
+        const loginUrl = new URL(`/tr/login`, request.url);
         loginUrl.searchParams.set("redirect", requestedFullPath);
         return NextResponse.redirect(loginUrl);
       }
@@ -91,7 +91,7 @@ export async function proxy(request: NextRequest) {
           // In development, allow authenticated users even without roles table
         } else {
           console.error("❌ user_roles table not found in production");
-          return NextResponse.redirect(new URL("/login?error=unauthorized", request.url));
+          return NextResponse.redirect(new URL("/tr/login?error=unauthorized", request.url));
         }
       } else {
         // Check staff role only if roles table exists
@@ -116,7 +116,7 @@ export async function proxy(request: NextRequest) {
     } catch (error) {
       console.error("Admin middleware auth error:", error);
       // Always redirect to login on error (even in development)
-      return NextResponse.redirect(new URL("/login?error=auth_error", request.url));
+      return NextResponse.redirect(new URL("/tr/login?error=auth_error", request.url));
     }
   }
 

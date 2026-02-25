@@ -37,8 +37,6 @@ import { getOgLocale, getSchemaLanguage, getSiteUrl, isValidHttpUrl, toAbsoluteS
 import { ReadingProgress } from '@/components/blog/ReadingProgress';
 import { KeyboardShortcuts } from '@/components/blog/KeyboardShortcuts';
 import { ArticleAnalytics } from '@/components/blog/ArticleAnalytics';
-import { AIChecker } from '@/components/content/AIChecker';
-import { AICheckerBadge } from '@/components/content/AICheckerBadge';
 
 // Dynamic imports for code splitting - below-the-fold content
 const ArticleNavigation = dynamic(
@@ -244,7 +242,7 @@ export default async function BlogDetailPage({
 }) {
   const { locale, slug } = await params;
 
-  // Fetch article with timeout
+  // Fetch article with timeout (withTimeout returns null on any error including JSON parse)
   const rawArticle = await withTimeout(getArticleBySlug(slug), 3000, null);
 
   if (!rawArticle) {
@@ -394,17 +392,26 @@ export default async function BlogDetailPage({
     }
 
     // Fallback: extract FAQs from article content (e.g. "Sık Sorulan Sorular" section)
-    if (faqs.length === 0 && article.content) {
+    if (faqs.length === 0) {
       const { extractFaqsFromContent } = await import('@/lib/utils/extract-faq-from-content');
-      const extracted = extractFaqsFromContent(article.content);
-      if (extracted.length > 0) {
-        faqs = extracted;
+      const contentToExtract = normalized.content || article.content;
+      if (contentToExtract) {
+        const extracted = extractFaqsFromContent(contentToExtract);
+        if (extracted.length > 0) {
+          faqs = extracted;
+        }
       }
     }
   } catch (error) {
     // FAQs are optional, continue without them
-    console.warn('[Blog Detail] Failed to fetch FAQs:', error);
+    console.warn('[Blog Detail] Failed to fetch FAQs:', (error as Error)?.message);
   }
+
+  // Remove FAQ section from content ONLY when we have FAQs to show in accordion
+  // Otherwise keep content as-is so user at least sees plain text
+  const { removeFaqSectionFromContent } = await import('@/lib/utils/extract-faq-from-content');
+  const contentWithoutFaq =
+    faqs.length > 0 ? removeFaqSectionFromContent(normalized.content) : normalized.content;
 
   // Calculate reading metrics (use normalized content)
   const readingTime = calculateReadingTime(normalized.content);
@@ -479,15 +486,6 @@ export default async function BlogDetailPage({
       {/* Keyboard Shortcuts */}
       <KeyboardShortcuts basePath={basePath} articleId={article.id} />
 
-      {/* AI Checker Badge - Admin Only (Hidden from public) */}
-      {process.env.NODE_ENV === 'development' && (
-        <AICheckerBadge
-          content={normalized.content}
-          title={article.title}
-          position="top-right"
-        />
-      )}
-
       {/* Analytics */}
       <ArticleAnalytics
         event={{
@@ -525,25 +523,13 @@ export default async function BlogDetailPage({
                 basePath={basePath}
               />
 
-              {/* AI Checker - Admin Only (Hidden from public) */}
-              {process.env.NODE_ENV === 'development' && (
-                <div id="ai-checker" className="mb-8">
-                  <AIChecker
-                    content={normalized.content}
-                    title={article.title}
-                    contentType="blog"
-                    showDetails={true}
-                  />
-                </div>
-              )}
-
               {/* Article Body - Clean, No Nested Container */}
               <ArticleBody
                 article={{
                   id: article.id,
                   title: article.title,
                   slug: article.slug,
-                  content: normalized.content,
+                  content: contentWithoutFaq,
                   excerpt: normalized.excerpt,
                   meta_description: normalized.meta_description,
                   tags: normalized.tags,

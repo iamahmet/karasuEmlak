@@ -25,6 +25,8 @@ export function extractFaqsFromContent(content: string | null | undefined): Extr
     'sss',
     '<h2>sık sorulan sorular</h2>',
     '<h3>sık sorulan sorular</h3>',
+    '<h4>sık sorulan sorular</h4>',
+    '<p>sık sorulan sorular</p>',
     '## sık sorulan sorular',
     '### sık sorulan sorular',
   ];
@@ -38,26 +40,48 @@ export function extractFaqsFromContent(content: string | null | undefined): Extr
     }
   }
 
-  if (startIndex === -1) return [];
-
-  const faqSection = content.substring(startIndex);
+  const faqSection = startIndex >= 0 ? content.substring(startIndex) : content;
 
   // Pattern: bold text (question) followed by non-bold (answer)
   // <p><strong>Question?</strong> Answer</p> or **Question?** Answer
+  // Also: plain "Question? Answer" (AI output without HTML)
   const qaPatterns = [
     /<p>\s*<strong>([^<]+)<\/strong>\s*([^<]*)<\/p>/gi,
     /<p>\s*<b>([^<]+)<\/b>\s*([^<]*)<\/p>/gi,
     /\*\*([^*]+)\*\*\s*([^\n*]+)/g,
     /<h[34]>([^<]+)<\/h[34]>\s*<p>([^<]*)<\/p>/gi,
+    // Plain text: "Question? Answer" per line (AI output)
+    /([^.!?\n]+[?])\s+([^\n]+)/g,
   ];
+
+  const stripHtml = (s: string) => s.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 
   for (const pattern of qaPatterns) {
     let match;
     const regex = new RegExp(pattern.source, pattern.flags);
     while ((match = regex.exec(faqSection)) !== null) {
-      const question = match[1].trim();
-      const answer = (match[2] || '').trim();
-      if (question.length > 5 && question.length < 200 && !faqs.some((f) => f.question === question)) {
+      let question = stripHtml(match[1].trim());
+      let answer = stripHtml((match[2] || '').trim());
+      if (
+        question.length > 8 &&
+        question.length < 200 &&
+        question.includes('?') &&
+        !faqs.some((f) => f.question === question)
+      ) {
+        faqs.push({ question, answer: answer || 'Detaylı bilgi için yazının devamını okuyun.' });
+      }
+    }
+  }
+
+  // Fallback: plain text "Question? Answer" when HTML patterns fail
+  if (faqs.length === 0) {
+    const plain = stripHtml(faqSection);
+    const qaRe = /([^.!?\n]{12,}[?])\s+([^.!?\n]+(?:[.!?][^.!?\n]*)*)/g;
+    let m;
+    while ((m = qaRe.exec(plain)) !== null) {
+      const question = m[1].trim();
+      const answer = (m[2] || '').trim();
+      if (answer.length > 5 && !faqs.some((f) => f.question === question)) {
         faqs.push({ question, answer: answer || 'Detaylı bilgi için yazının devamını okuyun.' });
       }
     }
@@ -75,13 +99,25 @@ export function removeFaqSectionFromContent(content: string | null | undefined):
   const markers = [
     /<h2[^>]*>sık sorulan sorular<\/h2>[\s\S]*/i,
     /<h3[^>]*>sık sorulan sorular<\/h3>[\s\S]*/i,
+    /<h4[^>]*>sık sorulan sorular<\/h4>[\s\S]*/i,
+    /<p[^>]*>\s*<strong>sık sorulan sorular<\/strong>\s*<\/p>[\s\S]*/i,
+    /<p[^>]*>\s*sık sorulan sorular\s*<\/p>[\s\S]*/i,
     /##\s*sık sorulan sorular[\s\S]*/i,
     /###\s*sık sorulan sorular[\s\S]*/i,
+    /####\s*sık sorulan sorular[\s\S]*/i,
+    // Plain text "Sık Sorulan Sorular" at start of line (common in AI output)
+    /\n\s*sık sorulan sorular\s*\n[\s\S]*/i,
   ];
 
   let result = content;
   for (const marker of markers) {
     result = result.replace(marker, '').trim();
+  }
+
+  // Fallback: remove from "Sık Sorulan Sorular" or "SSS" to end (catches plain text AI output)
+  const faqStart = result.toLowerCase().search(/\b(sık sorulan sorular|sss)\b/);
+  if (faqStart !== -1) {
+    result = result.substring(0, faqStart).trim();
   }
 
   return result;
