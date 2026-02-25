@@ -177,6 +177,16 @@ export function ImprovedCompactSidebar() {
     },
   ], []);
 
+  // Some POI369 items are section parents (no href). Flatten to leaf links for
+  // the mini link list UI below so we never pass an undefined href to <Link>.
+  const poi369LeafItems = useMemo(
+    () =>
+      poi369Items.flatMap((item) =>
+        item.href ? [item] : (item.children ?? []).filter((child): child is NavItem & { href: string } => Boolean(child.href))
+      ),
+    [poi369Items]
+  );
+
   const isExpanded = !collapsed || hovered;
   const sidebarWidth = isExpanded ? 260 : 72;
 
@@ -470,7 +480,7 @@ export function ImprovedCompactSidebar() {
                 poi369Expanded ? "max-h-96 opacity-100 mt-1" : "max-h-0 opacity-0"
               )}>
                 <div className="pl-2 space-y-0.5 border-l-2 border-indigo-500/30 ml-6">
-                  {poi369Items.map((item, index) => {
+                  {poi369LeafItems.map((item, index) => {
                     const Icon = item.icon;
                     const active = item.href ? isActive(item.href) : false;
 
@@ -508,7 +518,7 @@ export function ImprovedCompactSidebar() {
           ) : isSuperAdmin ? (
             // Collapsed state - show icons only
             <div className="space-y-1">
-              {poi369Items.map((item, index) => {
+              {poi369LeafItems.map((item, index) => {
                 const Icon = item.icon;
                 const active = item.href ? isActive(item.href) : false;
 
