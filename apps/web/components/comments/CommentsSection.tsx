@@ -57,7 +57,10 @@ export function CommentsSection({ contentId, listingId, locale = "tr" }: Comment
       const response = await fetchWithRetry<{ success: boolean; comments?: any[]; error?: string }>(`/api/comments?${params.toString()}`);
 
       if (response.success) {
-        setComments((response as any).comments || []);
+        const payload = (response as any).data && typeof (response as any).data === 'object'
+          ? (response as any).data
+          : response;
+        setComments(Array.isArray(payload.comments) ? payload.comments : []);
       } else {
         // Handle error gracefully - set empty array
         setComments([]);

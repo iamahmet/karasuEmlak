@@ -12,8 +12,18 @@ async function handleGet(request: NextRequest) {
   const requestId = getRequestId(request);
   const { searchParams } = new URL(request.url);
   const status = searchParams.get("status") || "all";
+  const contentId = searchParams.get("content_id");
+  const listingId = searchParams.get("listing_id");
   const limit = Math.min(parseInt(searchParams.get("limit") || "50"), 100);
   const offset = Math.max(parseInt(searchParams.get("offset") || "0"), 0);
+  const isPublicScopedApprovedRead =
+    status === "approved" && (!!contentId || !!listingId);
+  const createEmptyCommentsResponse = (degradedReason?: string) =>
+    createSuccessResponse(requestId, {
+      comments: [],
+      total: 0,
+      ...(degradedReason ? { degraded: true, degradedReason } : {}),
+    });
 
   // Use service client like other APIs (articles, listings, news)
   const supabase = createServiceClient();
@@ -26,6 +36,12 @@ async function handleGet(request: NextRequest) {
 
   if (status && status !== "all") {
     query = query.eq("status", status);
+  }
+  if (contentId) {
+    query = query.eq("content_id", contentId);
+  }
+  if (listingId) {
+    query = query.eq("listing_id", listingId);
   }
 
   query = query.range(offset, offset + limit - 1);
@@ -69,6 +85,9 @@ async function handleGet(request: NextRequest) {
     if (isSchemaCacheStale) {
       console.warn(`[${requestId}] ⚠️  PostgREST schema cache is stale (${error.code}).`);
       console.warn(`[${requestId}] Table exists in database but not visible via PostgREST.`);
+      if (isPublicScopedApprovedRead) {
+        return createEmptyCommentsResponse("postgrest_schema_stale");
+      }
       
       // Return diagnostic response with clear instructions
       return createErrorResponse(
@@ -86,6 +105,9 @@ async function handleGet(request: NextRequest) {
 
     if (tableDoesNotExist) {
       console.warn(`[${requestId}] ⚠️  Table does not exist: content_comments`);
+      if (isPublicScopedApprovedRead) {
+        return createEmptyCommentsResponse("table_not_found");
+      }
       return createErrorResponse(
         requestId,
         "TABLE_NOT_FOUND",
@@ -96,6 +118,14 @@ async function handleGet(request: NextRequest) {
         },
         404
       );
+    }
+
+    if (isPublicScopedApprovedRead) {
+      console.warn(`[${requestId}] Falling back to empty comments for public read`, {
+        code: error.code,
+        message: error.message,
+      });
+      return createEmptyCommentsResponse("comments_query_failed");
     }
 
     // Other errors - throw to be handled by withErrorHandling

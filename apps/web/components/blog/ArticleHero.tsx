@@ -1,6 +1,6 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Calendar, Clock, User, Eye, TrendingUp, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { HeroImage, ExternalImage } from '@/components/images';
@@ -27,7 +27,12 @@ interface ArticleHeroProps {
 
 const formatDate = (value?: string | null) =>
   value
-    ? new Date(value).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
+    ? new Date(value).toLocaleDateString('tr-TR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'Europe/Istanbul',
+      })
     : null;
 
 const formatRelativeDate = (value?: string | null) => {
@@ -46,12 +51,19 @@ const formatRelativeDate = (value?: string | null) => {
 };
 
 function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, basePath }: ArticleHeroProps) {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   const publishedDate = formatDate(article.published_at);
-  const relativeDate = formatRelativeDate(article.published_at);
+  const relativeDate = hasMounted ? formatRelativeDate(article.published_at) : null;
   const updatedDate = article.updated_at && article.updated_at !== article.published_at
     ? formatDate(article.updated_at)
     : null;
-  const isRecent = article.published_at &&
+  const isRecent = hasMounted &&
+    !!article.published_at &&
     (new Date().getTime() - new Date(article.published_at).getTime()) < 7 * 24 * 60 * 60 * 1000;
 
   return (
@@ -156,7 +168,7 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
         {/* Updated Badge */}
         {updatedDate && (
           <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-lg border border-amber-200 dark:border-amber-800">
-            <span className="text-xs font-semibold">Güncellendi: {updatedDate}</span>
+            <span className="text-xs font-semibold" suppressHydrationWarning>Güncellendi: {updatedDate}</span>
           </div>
         )}
       </div>
