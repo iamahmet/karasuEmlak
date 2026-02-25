@@ -1,20 +1,30 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Search, Building2, Phone, MessageCircle } from 'lucide-react';
 import { cn } from '@karasu/lib';
 import { hapticButtonPress } from '@/lib/mobile/haptics';
 
-interface NavItem {
+interface NavLinkItem {
   label: string;
-  href?: string;
+  href: string;
   icon: typeof Home;
   exact?: boolean;
-  action?: 'whatsapp' | 'call';
-  color?: string;
+  action?: never;
+  color?: never;
 }
+
+interface NavActionItem {
+  label: string;
+  href?: never;
+  icon: typeof Home;
+  exact?: never;
+  action: 'whatsapp' | 'call';
+  color: string;
+}
+
+type NavItem = NavLinkItem | NavActionItem;
 
 const navItems: NavItem[] = [
   { label: 'Ana Sayfa', href: '/', icon: Home, exact: true },
@@ -31,14 +41,15 @@ interface MobileBottomNavProps {
 export function MobileBottomNav({ className }: MobileBottomNavProps) {
   const pathname = usePathname();
 
+  const isActionItem = (item: NavItem): item is NavActionItem => 'action' in item;
+
   // Check if we're on a listing detail page (has StickyMobileCTAs)
   const isListingPage = pathname.includes('/ilan/') && !pathname.endsWith('/ilan');
 
   // Don't show on listing detail pages (StickyMobileCTAs handles CTAs there)
   if (isListingPage) return null;
 
-  const isActive = (item: NavItem) => {
-    if (!item.href) return false;
+  const isActive = (item: NavLinkItem) => {
     if (item.exact) {
       // Check if pathname is exactly "/" or starts with locale prefix only
       const cleanPath = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/';
@@ -47,7 +58,7 @@ export function MobileBottomNav({ className }: MobileBottomNavProps) {
     return pathname.includes(item.href);
   };
 
-  const handleAction = (action: string) => {
+  const handleAction = (action: NavActionItem['action']) => {
     hapticButtonPress();
     if (action === 'call') {
       window.location.href = 'tel:+905325933854';
@@ -69,17 +80,17 @@ export function MobileBottomNav({ className }: MobileBottomNavProps) {
       }}
     >
       <div className="flex items-stretch h-14">
-        {navItems.map((item, index) => {
+        {navItems.map((item) => {
           const Icon = item.icon;
-          const active = isActive(item);
-          const isAction = !!item.action;
+          const isAction = isActionItem(item);
+          const active = !isAction && isActive(item);
 
           // Action buttons (Call & WhatsApp)
           if (isAction) {
             return (
               <button
                 key={item.label}
-                onClick={() => handleAction(item.action!)}
+                onClick={() => handleAction(item.action)}
                 className={cn(
                   'flex-1 flex flex-col items-center justify-center gap-0.5',
                   'transition-all duration-150 active:scale-95 active:opacity-80',
@@ -101,7 +112,7 @@ export function MobileBottomNav({ className }: MobileBottomNavProps) {
           return (
             <Link
               key={item.href}
-              href={item.href!}
+              href={item.href}
               className={cn(
                 'flex-1 flex flex-col items-center justify-center gap-0.5',
                 'transition-all duration-150 active:scale-95',

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { usePathname, Link, useRouter } from "../../i18n/routing";
 import {
   LayoutDashboard,
@@ -46,15 +46,9 @@ export function ImprovedCompactSidebar() {
   const [hovered, setHovered] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<string[]>(["içerikler"]);
   const [poi369Expanded, setPoi369Expanded] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [user, setUser] = useState<any>(null);
   const sidebarRef = useRef<HTMLElement>(null);
-
-  // Animation mount state
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Fetch user role and check if superadmin
   useEffect(() => {
@@ -107,12 +101,14 @@ export function ImprovedCompactSidebar() {
   }, []);
 
   // Save collapsed state to localStorage
-  const toggleCollapse = () => {
+  const toggleCollapse = useCallback(() => {
     hapticButtonPress();
-    const newState = !collapsed;
-    setCollapsed(newState);
-    localStorage.setItem(SIDEBAR_STORAGE_KEY, String(newState));
-  };
+    setCollapsed((prev) => {
+      const next = !prev;
+      localStorage.setItem(SIDEBAR_STORAGE_KEY, String(next));
+      return next;
+    });
+  }, []);
 
   // Keyboard shortcut: Cmd+B / Ctrl+B
   useEffect(() => {
@@ -124,7 +120,7 @@ export function ImprovedCompactSidebar() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [collapsed]);
+  }, [toggleCollapse]);
 
   const isActive = (href?: string) => {
     if (!href) return false;
@@ -480,7 +476,7 @@ export function ImprovedCompactSidebar() {
                 poi369Expanded ? "max-h-96 opacity-100 mt-1" : "max-h-0 opacity-0"
               )}>
                 <div className="pl-2 space-y-0.5 border-l-2 border-indigo-500/30 ml-6">
-                  {poi369LeafItems.map((item, index) => {
+                  {poi369LeafItems.map((item) => {
                     const Icon = item.icon;
                     const active = item.href ? isActive(item.href) : false;
 
@@ -518,7 +514,7 @@ export function ImprovedCompactSidebar() {
           ) : isSuperAdmin ? (
             // Collapsed state - show icons only
             <div className="space-y-1">
-              {poi369LeafItems.map((item, index) => {
+              {poi369LeafItems.map((item) => {
                 const Icon = item.icon;
                 const active = item.href ? isActive(item.href) : false;
 

@@ -37,6 +37,18 @@ function normalizeSections(input: HomepageSection[]): HomepageSection[] {
     }));
 }
 
+function serializeSettings(settings?: Record<string, unknown>) {
+  if (!settings || typeof settings !== 'object' || Array.isArray(settings)) {
+    return '{}';
+  }
+
+  try {
+    return JSON.stringify(settings, null, 2);
+  } catch {
+    return '{}';
+  }
+}
+
 export function HomepageManager() {
   const [sections, setSections] = useState<HomepageSection[]>(DEFAULT_SECTIONS);
   const [loading, setLoading] = useState(false); // save state
@@ -44,6 +56,10 @@ export function HomepageManager() {
   const [saved, setSaved] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
+  const [editingName, setEditingName] = useState('');
+  const [editingSettings, setEditingSettings] = useState('{}');
+  const [settingsEditorError, setSettingsEditorError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -177,6 +193,57 @@ export function HomepageManager() {
     }
   };
 
+  const openSettingsEditor = (section: HomepageSection) => {
+    if (editingSectionId === section.id) {
+      setEditingSectionId(null);
+      setSettingsEditorError(null);
+      return;
+    }
+
+    setEditingSectionId(section.id);
+    setEditingName(section.name);
+    setEditingSettings(serializeSettings(section.settings));
+    setSettingsEditorError(null);
+  };
+
+  const applySectionSettings = () => {
+    if (!editingSectionId) return;
+
+    const trimmedName = editingName.trim();
+    if (!trimmedName) {
+      setSettingsEditorError('Bölüm adı boş olamaz');
+      return;
+    }
+
+    let parsedSettings: Record<string, unknown> = {};
+    try {
+      const parsed = JSON.parse(editingSettings.trim() || '{}');
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        throw new Error('JSON nesne olmalı');
+      }
+      parsedSettings = parsed as Record<string, unknown>;
+    } catch (error) {
+      console.error('Invalid section settings JSON:', error);
+      setSettingsEditorError('Ayarlar JSON formatında geçerli bir nesne olmalı');
+      return;
+    }
+
+    setSections((prev) =>
+      prev.map((section) =>
+        section.id === editingSectionId
+          ? {
+              ...section,
+              name: trimmedName,
+              settings: parsedSettings,
+            }
+          : section
+      )
+    );
+    setSaved(false);
+    setSettingsEditorError(null);
+    setEditingSectionId(null);
+  };
+
   return (
     <div className="space-y-6">
       {/* Save Button */}
@@ -203,60 +270,124 @@ export function HomepageManager() {
       {/* Sections List */}
       <div className="space-y-3">
         {sections.map((section) => (
-          <div
-            key={section.id}
-            draggable
-            onDragStart={() => setDraggingId(section.id)}
-            onDragEnd={() => setDraggingId(null)}
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => {
-              e.preventDefault();
-              if (draggingId) {
-                reorderSections(draggingId, section.id);
-              }
-              setDraggingId(null);
-            }}
-            className={`flex items-center gap-4 p-4 bg-white border-2 rounded-lg transition-colors ${
-              draggingId === section.id
-                ? 'border-primary/60 opacity-70'
-                : 'border-gray-200 hover:border-primary'
-            }`}
-          >
-            {/* Drag Handle */}
-            <GripVertical className="h-5 w-5 text-gray-400 cursor-grab" />
+          <div key={section.id} className="space-y-2">
+            <div
+              draggable
+              onDragStart={() => setDraggingId(section.id)}
+              onDragEnd={() => setDraggingId(null)}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => {
+                e.preventDefault();
+                if (draggingId) {
+                  reorderSections(draggingId, section.id);
+                }
+                setDraggingId(null);
+              }}
+              className={`flex items-center gap-4 p-4 bg-white border-2 rounded-lg transition-colors ${
+                draggingId === section.id
+                  ? 'border-primary/60 opacity-70'
+                  : 'border-gray-200 hover:border-primary'
+              }`}
+            >
+              {/* Drag Handle */}
+              <GripVertical className="h-5 w-5 text-gray-400 cursor-grab" />
 
-            {/* Section Info */}
-            <div className="flex-1">
-              <div className="font-semibold text-sm">{section.name}</div>
-              <div className="text-xs text-muted-foreground">
-                Sıra: {section.display_order}
+              {/* Section Info */}
+              <div className="flex-1 min-w-0">
+                <div className="font-semibold text-sm truncate">{section.name}</div>
+                <div className="text-xs text-muted-foreground">
+                  Sıra: {section.display_order} · Slug: <code>{section.slug}</code>
+                </div>
               </div>
+
+              {/* Visibility Toggle */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleVisibility(section.id)}
+                className={section.is_visible ? 'text-green-600' : 'text-gray-400'}
+              >
+                {section.is_visible ? (
+                  <>
+                    <Eye className="h-4 w-4 mr-2" />
+                    Görünür
+                  </>
+                ) : (
+                  <>
+                    <EyeOff className="h-4 w-4 mr-2" />
+                    Gizli
+                  </>
+                )}
+              </Button>
+
+              {/* Settings Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => openSettingsEditor(section)}
+                title="Bölüm ayarlarını düzenle"
+                aria-expanded={editingSectionId === section.id}
+                aria-controls={`homepage-section-settings-${section.id}`}
+              >
+                <Settings className="h-4 w-4" />
+              </Button>
             </div>
 
-            {/* Visibility Toggle */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => toggleVisibility(section.id)}
-              className={section.is_visible ? 'text-green-600' : 'text-gray-400'}
-            >
-              {section.is_visible ? (
-                <>
-                  <Eye className="h-4 w-4 mr-2" />
-                  Görünür
-                </>
-              ) : (
-                <>
-                  <EyeOff className="h-4 w-4 mr-2" />
-                  Gizli
-                </>
-              )}
-            </Button>
+            {editingSectionId === section.id ? (
+              <div
+                id={`homepage-section-settings-${section.id}`}
+                className="rounded-lg border border-gray-200 bg-white p-4 space-y-3"
+              >
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                    Bölüm Adı
+                  </label>
+                  <input
+                    type="text"
+                    value={editingName}
+                    onChange={(e) => setEditingName(e.target.value)}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    placeholder="Bölüm adı"
+                  />
+                </div>
 
-            {/* Settings Button */}
-            <Button variant="ghost" size="icon" disabled title="Bölüm ayarları yakında">
-              <Settings className="h-4 w-4" />
-            </Button>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                    Bölüm Ayarları (JSON)
+                  </label>
+                  <textarea
+                    value={editingSettings}
+                    onChange={(e) => setEditingSettings(e.target.value)}
+                    rows={8}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-xs font-mono leading-5 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    placeholder='{"title":"Öne Çıkan İlanlar","limit":6}'
+                  />
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Örnek: <code>{'{"title":"Başlık","subtitle":"Açıklama","limit":6}'}</code>
+                  </p>
+                </div>
+
+                {settingsEditorError ? (
+                  <p className="text-xs text-red-600">{settingsEditorError}</p>
+                ) : null}
+
+                <div className="flex items-center justify-end gap-2">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => {
+                      setEditingSectionId(null);
+                      setSettingsEditorError(null);
+                    }}
+                  >
+                    Vazgeç
+                  </Button>
+                  <Button type="button" onClick={applySectionSettings}>
+                    Ayarları Uygula
+                  </Button>
+                </div>
+              </div>
+            ) : null}
           </div>
         ))}
       </div>
