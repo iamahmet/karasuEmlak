@@ -125,7 +125,9 @@ function ArticleSidebarComponent({
                   </div>
                   <span className="font-medium">Yayın Tarihi</span>
                 </div>
-                <span className="text-sm font-bold text-gray-900 dark:text-white">{publishedDate}</span>
+                <span className="text-sm font-bold text-gray-900 dark:text-white" suppressHydrationWarning>
+                  {publishedDate}
+                </span>
               </div>
             )}
 
