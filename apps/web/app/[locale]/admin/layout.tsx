@@ -9,7 +9,29 @@ import { ErrorBoundary } from "@/components/admin/errors/ErrorBoundary";
 import type { Metadata, Viewport } from "next";
 import "../../globals.css";
 
-const webAdminBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url;
+function normalizeAbsoluteUrl(value: string | undefined, fallback: string): string {
+  const raw = (value || "").trim();
+  const candidate = raw
+    ? /^https?:\/\//i.test(raw)
+      ? raw
+      : `https://${raw}`
+    : fallback;
+
+  try {
+    const parsed = new URL(candidate);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return fallback;
+    }
+    return parsed.toString().replace(/\/+$/, "");
+  } catch {
+    return fallback;
+  }
+}
+
+const webAdminBaseUrl = normalizeAbsoluteUrl(
+  process.env.NEXT_PUBLIC_SITE_URL,
+  siteConfig.url
+);
 const webAdminTitle = "Karasu Emlak Yönetim Paneli";
 const webAdminDescription =
   "Karasu Emlak yönetim araçları: ilan, içerik, medya ve SEO operasyonları için yönetim paneli.";

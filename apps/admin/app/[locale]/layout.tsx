@@ -11,7 +11,29 @@ import { QueryProvider } from "@/lib/providers/QueryProvider";
 import type { Metadata, Viewport } from "next";
 import "../globals.css";
 
-const adminBaseUrl = process.env.NEXT_PUBLIC_ADMIN_URL || "https://admin.karasuemlak.net";
+function normalizeAbsoluteUrl(value: string | undefined, fallback: string): string {
+  const raw = (value || "").trim();
+  const candidate = raw
+    ? /^https?:\/\//i.test(raw)
+      ? raw
+      : `https://${raw}`
+    : fallback;
+
+  try {
+    const parsed = new URL(candidate);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return fallback;
+    }
+    return parsed.toString().replace(/\/+$/, "");
+  } catch {
+    return fallback;
+  }
+}
+
+const adminBaseUrl = normalizeAbsoluteUrl(
+  process.env.NEXT_PUBLIC_ADMIN_URL,
+  "https://admin.karasuemlak.net"
+);
 const adminTitle = "Karasu Emlak Yönetim Paneli";
 const adminDescription =
   "Karasu Emlak yönetim paneli: ilan, içerik, medya, kullanıcı ve SEO yönetim araçları.";
