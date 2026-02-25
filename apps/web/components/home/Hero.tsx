@@ -38,7 +38,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
   const [progress, setProgress] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const [activeViewers, setActiveViewers] = useState(Math.floor(Math.random() * 15) + 10);
+  const [activeViewers, setActiveViewers] = useState(18);
   const [isLoaded, setIsLoaded] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [isTabVisible, setIsTabVisible] = useState(true);
@@ -153,6 +153,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
 
   // Active viewers simulation
   useEffect(() => {
+    setActiveViewers(Math.floor(Math.random() * 15) + 10);
     const interval = setInterval(() => {
       setActiveViewers((prev) => {
         const change = Math.floor(Math.random() * 5) - 2;

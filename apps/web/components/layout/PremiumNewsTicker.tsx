@@ -73,7 +73,6 @@ export function PremiumNewsTicker({ basePath = "" }: NewsTickerProps) {
       url: `${basePath}/haberler/karasu-yeni-konut-projeleri`,
       type: 'breaking',
       category: 'Haber',
-      publishedAt: new Date().toISOString(),
     },
     {
       id: '2',
@@ -81,7 +80,6 @@ export function PremiumNewsTicker({ basePath = "" }: NewsTickerProps) {
       url: `${basePath}/satilik?deniz_manzarasi=true`,
       type: 'listing',
       category: 'Satılık',
-      publishedAt: new Date(Date.now() - 3600000).toISOString(),
     },
     {
       id: '3',
@@ -89,7 +87,6 @@ export function PremiumNewsTicker({ basePath = "" }: NewsTickerProps) {
       url: `${basePath}/blog/2025-emlak-piyasasi`,
       type: 'featured',
       category: 'Blog',
-      publishedAt: new Date(Date.now() - 7200000).toISOString(),
     },
   ];
 
@@ -296,7 +293,7 @@ export function PremiumNewsTicker({ basePath = "" }: NewsTickerProps) {
                   {item.publishedAt && (
                     <div className="flex items-center gap-1 text-[11px] text-white/60 group-hover:text-white/80 transition-colors">
                       <Clock className="h-3 w-3" />
-                      <span>{formatRelativeTime(item.publishedAt)}</span>
+                      <span suppressHydrationWarning>{formatRelativeTime(item.publishedAt)}</span>
                     </div>
                   )}
                 </Link>
@@ -335,4 +332,3 @@ export function PremiumNewsTicker({ basePath = "" }: NewsTickerProps) {
     </div>
   );
 }
-

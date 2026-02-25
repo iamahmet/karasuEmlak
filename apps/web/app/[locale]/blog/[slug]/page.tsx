@@ -47,6 +47,20 @@ const ArticleNavigation = dynamic(
 // ISR: Revalidate every hour for fresh content
 export const revalidate = 3600;
 
+function toMetaPlainText(value?: string | null): string {
+  if (!value) return '';
+
+  return value
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&lt;\/?[^&]+&gt;/gi, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 // Generate static params for popular articles to improve performance
 export async function generateStaticParams() {
   try {
@@ -128,9 +142,10 @@ export async function generateMetadata({
   }
 
   // Extract clean description (use normalized metadata)
-  const description = normalized.meta_description || 
-    normalized.excerpt || 
-    normalized.content.substring(0, 160).replace(/<[^>]*>/g, '').trim();
+  const description =
+    toMetaPlainText(normalized.meta_description) ||
+    toMetaPlainText(normalized.excerpt) ||
+    toMetaPlainText(normalized.content).slice(0, 160);
   
   const keywords = article.tags?.join(', ') || 
     article.keywords?.join(', ') || 
@@ -146,7 +161,7 @@ export async function generateMetadata({
   );
   const lastModifiedMeta = generateLastModifiedMeta(lastModified);
 
-  const ogDescription = article.excerpt || description;
+  const ogDescription = toMetaPlainText(article.excerpt) || description;
   const otherMeta: Record<string, string> = {
     'article:author': author,
     'article:section': article.category || 'Emlak',

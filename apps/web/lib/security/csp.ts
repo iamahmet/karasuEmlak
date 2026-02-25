@@ -33,7 +33,9 @@ export function buildCSP(options: CSPOptions = {}): string {
       "'sha256-qQkJVfk6J5BW+yPPN0N8zNfBqw4NLyb8RtnR7gQ62yg='",
       // Hash for inline script in satilik page (Next.js hydration script)
       "'sha256-SURB9hFJRD2BFib2KvfXjlVDfwAYHPeX+4bAJAa3PT0='",
-      // Hash for scroll fix script (app/layout.tsx) - forces scroll to work (optimized version)
+      // Hash for scroll fix script (app/layout.tsx) - forces scroll to work
+      "'sha256-3za79s4VB5pJh5ZrqpdEi6rlumO4F7eOhvbRCZQzRXg='",
+      // Legacy scroll-fix hash kept temporarily for backward compatibility during rollout
       "'sha256-6artMuKIJM7xPFv6EYq/cZVByswTntyP7ksoX0bbe1I='",
     ] : []),
     // Required third-parties

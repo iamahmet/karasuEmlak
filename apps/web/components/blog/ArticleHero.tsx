@@ -113,7 +113,9 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
             <div>
               <div className="text-xs text-gray-500 dark:text-gray-400">Yayın Tarihi</div>
               <time dateTime={article.published_at || undefined} className="text-sm font-semibold text-gray-900 dark:text-white">
+                <span suppressHydrationWarning>
                 {relativeDate || publishedDate}
+                </span>
               </time>
             </div>
           </div>
