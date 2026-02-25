@@ -74,13 +74,7 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
     const fetchUserAndRole = async () => {
       try {
         const supabase = createClient();
-        if (!supabase) {
-          console.error("Supabase client is undefined");
-          return;
-        }
-        
-        if (!supabase.auth) {
-          console.error("Supabase client auth is undefined");
+        if (!supabase || typeof supabase?.auth !== 'object') {
           return;
         }
         

@@ -55,8 +55,7 @@ export function AdminHeaderEnhanced({ onMenuToggle, isMobileMenuOpen }: AdminHea
     const fetchUserAndRole = async () => {
       try {
         const supabase = createClient();
-        if (!supabase || !supabase.auth) {
-          console.error("Supabase client is invalid");
+        if (!supabase || typeof supabase?.auth !== 'object') {
           return;
         }
         

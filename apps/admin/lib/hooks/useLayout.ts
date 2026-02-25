@@ -65,8 +65,16 @@ export function useCommandPalette() {
 
 /**
  * Hook for checking if current page is auth page
+ * Includes login, signup, forgot-password, reset-password to avoid
+ * rendering layout components (sidebar/header) that use createClient
+ * before auth is ready - prevents "Cannot destructure property 'auth'" error
  */
 export function useIsAuthPage() {
   const pathname = usePathname();
-  return pathname?.includes("/login") || pathname?.includes("/signup");
+  return !!(
+    pathname?.includes("/login") ||
+    pathname?.includes("/signup") ||
+    pathname?.includes("/forgot-password") ||
+    pathname?.includes("/reset-password")
+  );
 }

@@ -41,8 +41,7 @@ export function CompactHeader({ onMenuToggle }: CompactHeaderProps) {
     const fetchUserAndRole = async () => {
       try {
         const supabase = createClient();
-        if (!supabase || !supabase.auth) {
-          console.error("Supabase client is invalid");
+        if (!supabase || typeof supabase?.auth !== 'object') {
           return;
         }
         
@@ -97,7 +96,7 @@ export function CompactHeader({ onMenuToggle }: CompactHeaderProps) {
   const handleLogout = async () => {
     try {
       const supabase = createClient();
-      if (!supabase || !supabase.auth) {
+      if (!supabase || typeof supabase?.auth !== 'object') {
         console.error("Supabase client is invalid");
         const locale = window.location.pathname.split("/")[1] || "tr";
         router.push(`/${locale}/login`);

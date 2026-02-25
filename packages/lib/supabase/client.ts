@@ -63,77 +63,58 @@ function createFallbackClient() {
 }
 
 export function createClient() {
-  // Only create client on client-side
-  if (typeof window === 'undefined') {
-    // Return a mock client for SSR that won't cause errors
-    return createFallbackClient();
-  }
-
-  // Return cached client if it exists and is valid
-  if (browserClient?.auth) {
-    return browserClient;
-  }
-  if (browserClient && !browserClient.auth) {
-    browserClient = null;
-  }
-
-  // Read environment variables
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  // If env vars are missing, return fallback client
-  if (!supabaseUrl || !supabaseAnonKey) {
-    console.warn(
-      '⚠️ Supabase environment variables are missing!\n' +
-      'Required: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY\n' +
-      'Please add them in Vercel Dashboard → Settings → Environment Variables'
-    );
-    return createFallbackClient();
-  }
-
-  // Validate URL format
   try {
-    new URL(supabaseUrl);
-  } catch {
-    console.error('CRITICAL: Invalid NEXT_PUBLIC_SUPABASE_URL format');
-    return createFallbackClient();
-  }
+    // Only create client on client-side
+    if (typeof window === 'undefined') {
+      return createFallbackClient();
+    }
 
-  // Create the client using @supabase/ssr for PKCE support
-  // This stores code verifier in cookies, required for OAuth/magic link flows
-  try {
+    // Return cached client if it exists and is valid
+    if (browserClient && typeof browserClient.auth === 'object') {
+      return browserClient;
+    }
+    if (browserClient && !browserClient.auth) {
+      browserClient = null;
+    }
+
+    // Read environment variables
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    // If env vars are missing, return fallback client
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.warn(
+        '⚠️ Supabase environment variables are missing!\n' +
+        'Required: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY\n' +
+        'Please add them in Vercel Dashboard → Settings → Environment Variables'
+      );
+      return createFallbackClient();
+    }
+
+    // Validate URL format
+    try {
+      new URL(supabaseUrl);
+    } catch {
+      console.error('CRITICAL: Invalid NEXT_PUBLIC_SUPABASE_URL format');
+      return createFallbackClient();
+    }
+
+    // Create the client using @supabase/ssr for PKCE support
     browserClient = createSupabaseBrowserClient(supabaseUrl, supabaseAnonKey);
     
     // Verify client was created successfully with comprehensive checks
-    if (!browserClient) {
-      console.error('CRITICAL: createSupabaseBrowserClient returned null/undefined');
-      browserClient = null;
-      return createFallbackClient();
-    }
-    
-    // Check if auth property exists and is valid
-    if (!browserClient.auth) {
-      console.error('CRITICAL: Supabase client missing auth property');
-      browserClient = null;
-      return createFallbackClient();
-    }
-    
-    // Verify auth methods exist
-    if (typeof browserClient.auth.getUser !== 'function') {
-      console.error('CRITICAL: Supabase client.auth.getUser is not a function');
+    if (!browserClient || typeof browserClient?.auth !== 'object') {
+      console.error('CRITICAL: Supabase client invalid or missing auth');
       browserClient = null;
       return createFallbackClient();
     }
     
     return browserClient;
-  } catch (error: any) {
-    console.error('Error creating Supabase client:', error?.message || error);
+  } catch (error: unknown) {
+    console.error('Error creating Supabase client:', error instanceof Error ? error.message : error);
     browserClient = null;
     return createFallbackClient();
   }
-
-  // Final safety - never return undefined
-  return createFallbackClient();
 }
 
 /**
