@@ -34,7 +34,9 @@ export function GoogleMapsLoader({ children, nonce, onLoad }: GoogleMapsLoaderPr
   }, [onLoad]);
 
   if (!apiKey) {
-    console.warn('Google Maps API key is not configured');
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Google Maps API key is not configured');
+    }
     return <>{children}</>;
   }
 
@@ -91,4 +93,3 @@ export function GoogleMapsLoader({ children, nonce, onLoad }: GoogleMapsLoaderPr
     </>
   );
 }
-
