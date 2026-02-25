@@ -16,6 +16,7 @@ import { isValidCloudinaryId } from '@/lib/images/free-image-fallback';
 import { sanitizeAndRepairHTML, validateHTML } from '@/lib/utils/html-content-processor';
 import { cleanContent } from '@/lib/utils/content-cleaner';
 import { detectLowQualityContent } from '@/lib/utils/content-quality-checker';
+import { safeParseJSON } from '@/lib/utils/safe-json';
 
 /**
  * Validate image URL
@@ -72,6 +73,18 @@ export function normalizeArticleContent(
   // If content is empty after trimming
   if (normalized.length === 0) {
     return '<p>Bu yazının içeriği henüz eklenmemiş.</p>';
+  }
+
+  // Step 0: Fix content accidentally stored as raw AI JSON response (Gemini/OpenAI)
+  // e.g. {"title":"...","content":"<p>...</p>...","excerpt":"...","meta_description":"...","seo_keywords":"..."}
+  if (normalized.startsWith('{') && normalized.includes('"content"')) {
+    const parsed = safeParseJSON<{ content?: string }>(normalized, null, 'article-content-normalizer');
+    if (parsed && typeof parsed.content === 'string' && parsed.content.trim().length > 0) {
+      normalized = parsed.content.trim();
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('[Content Normalizer] Extracted HTML from raw AI JSON response');
+      }
+    }
   }
 
   // Step 1: Clean AI placeholders and repetitive content (if enabled)

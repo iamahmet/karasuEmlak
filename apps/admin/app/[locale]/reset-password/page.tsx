@@ -26,17 +26,25 @@ export default function ResetPasswordPage() {
   // Check if Supabase is configured
   const isConfigured = useMemo(() => isSupabaseConfigured(), []);
 
-  // Use singleton client
+  // Use singleton client - always return a safe object with auth
   const supabase = useMemo(() => {
+    const noop = (msg: string) => Promise.resolve({ data: null, error: { message: msg } });
+    const fallback = {
+      auth: {
+        getUser: () => noop('Client not ready'),
+        getSession: () => noop('Client not ready'),
+        updateUser: () => noop('Client not ready'),
+      },
+    } as any;
     try {
       const client = createClient();
       if (!client || !client.auth) {
-        return null;
+        return fallback;
       }
       return client;
     } catch (error) {
       console.error("Error creating Supabase client:", error);
-      return null;
+      return fallback;
     }
   }, []);
 

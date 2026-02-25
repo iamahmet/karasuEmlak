@@ -221,6 +221,7 @@ export const ContentRenderer = memo(function ContentRenderer({
     <div
       className={cn(proseClasses, className)}
       dangerouslySetInnerHTML={{ __html: renderedContent }}
+      suppressHydrationWarning
     />
   );
 });

@@ -259,7 +259,20 @@ export function renderContent(
     processed = wrapTablesForResponsiveScroll(processed);
   }
 
-  return processed;
+  // Normalize for consistent server/client hydration (DOMPurify can differ between JSDOM and browser)
+  return normalizeHtmlForHydration(processed);
+}
+
+/**
+ * Normalize HTML to ensure identical server/client output and avoid hydration mismatch.
+ * DOMPurify with JSDOM (server) vs browser DOM (client) can produce subtle differences.
+ */
+function normalizeHtmlForHydration(html: string): string {
+  return html
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
 }
 
 /**
