@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Download, X } from 'lucide-react';
 import { Button } from '@karasu/ui';
 import { toast } from 'sonner';
+import { brandAssetUrl } from '@/lib/branding/assets';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -11,6 +12,7 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export function PWAInstallPrompt() {
+  const promptFaviconUrl = brandAssetUrl('/favicon.ico');
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
@@ -111,7 +113,7 @@ export function PWAInstallPrompt() {
           <div className="flex-shrink-0">
             <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg ring-2 ring-blue-200 dark:ring-blue-800 overflow-hidden p-1.5">
               <img 
-                src="/favicon.ico" 
+                src={promptFaviconUrl}
                 alt="Karasu Emlak" 
                 className="w-11 h-11 object-contain"
                 onError={(e) => {

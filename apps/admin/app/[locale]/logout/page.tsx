@@ -7,8 +7,10 @@ import Image from "next/image";
 import { LogOut, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@karasu/ui";
 import Link from "next/link";
+import { brandAssetUrl } from "@/lib/branding/assets";
 
 export default function LogoutPage() {
+  const faviconImageSrc = brandAssetUrl("/favicon.png");
   const router = useRouter();
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
   const [error, setError] = useState<string | null>(null);
@@ -82,7 +84,7 @@ export default function LogoutPage() {
           <div className="flex items-center gap-4 px-6 py-4 rounded-2xl bg-card/95 backdrop-blur-xl border border-border/40 shadow-xl">
             <div className="relative w-14 h-14 flex-shrink-0">
               <Image
-                src="/favicon.png"
+                src={faviconImageSrc}
                 alt="Karasu Emlak Logo"
                 width={56}
                 height={56}

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { brandAssetUrl, isSvgAssetUrl } from "@/lib/branding/assets";
 
 interface LogoIconProps {
   /**
@@ -30,7 +31,7 @@ interface LogoIconProps {
 export function LogoIcon({
   size = 40,
   className,
-  iconSrc = "/logo-icon.svg",
+  iconSrc = brandAssetUrl("/logo-icon.svg"),
   alt = "Logo",
 }: LogoIconProps) {
   return (
@@ -42,7 +43,7 @@ export function LogoIcon({
         height={size}
         className="transition-transform duration-200 hover:scale-105 object-contain"
         priority
-        unoptimized={iconSrc.endsWith(".svg")}
+        unoptimized={isSvgAssetUrl(iconSrc)}
       />
     </div>
   );

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@karasu-emlak/config";
 import { cn } from "@karasu/lib";
+import { brandAssetUrl, isSvgAssetUrl } from "@/lib/branding/assets";
 
 interface LogoProps {
   /**
@@ -75,18 +76,18 @@ export function Logo({
   size = "md",
   href = "/",
   className,
-  hideTextOnMobile = false,
+  hideTextOnMobile: _hideTextOnMobile = false,
   logoSrc,
   iconSrc,
 }: LogoProps) {
   const [imageError, setImageError] = useState(false);
   const sizes = sizeMap[size];
-  const logoPath = logoSrc || "/logo.svg";
-  const iconPath = iconSrc || "/logo-icon.svg";
+  const logoPath = logoSrc || brandAssetUrl("/logo.svg");
+  const iconPath = iconSrc || brandAssetUrl("/logo-icon.svg");
 
   // Calculate logo dimensions based on size
   // Updated brand assets use a wider wordmark and square icon
-  const logoAspectRatio = 4.6;
+  const logoAspectRatio = 320 / 58;
   const iconAspectRatio = 1;
   
   // Logo heights - more generous sizing
@@ -129,7 +130,7 @@ export function Logo({
               height={sizes.icon}
               className="transition-transform duration-200 group-hover:scale-105 object-contain"
               priority
-              unoptimized={iconPath.endsWith(".svg")}
+              unoptimized={isSvgAssetUrl(iconPath)}
               onError={() => setImageError(true)}
             />
           )}
@@ -156,7 +157,7 @@ export function Logo({
               height={logoHeight}
               className="transition-transform duration-200 group-hover:scale-105 object-contain"
               priority
-              unoptimized={logoPath.endsWith(".svg")}
+              unoptimized={isSvgAssetUrl(logoPath)}
               onError={() => setImageError(true)}
               style={{
                 height: `${logoHeight}px`,

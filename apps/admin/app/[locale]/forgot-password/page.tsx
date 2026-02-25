@@ -7,9 +7,11 @@ import { createClient, isSupabaseConfigured } from "@karasu/lib/supabase/client"
 import { Mail, ArrowRight, ArrowLeft, CheckCircle, AlertCircle, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { brandAssetUrl } from "@/lib/branding/assets";
 import { getAdminUrl } from "@/lib/utils/get-admin-url";
 
 export default function ForgotPasswordPage() {
+  const faviconImageSrc = brandAssetUrl("/favicon.png");
   const t = useTranslations("auth");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -90,7 +92,7 @@ export default function ForgotPasswordPage() {
             <div className="flex items-center gap-4 px-6 py-4 rounded-2xl bg-card/95 backdrop-blur-xl border border-border/40 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
               <div className="relative w-14 h-14 flex-shrink-0">
                 <Image
-                  src="/favicon.png"
+                  src={faviconImageSrc}
                   alt="Karasu Emlak Logo"
                   width={56}
                   height={56}

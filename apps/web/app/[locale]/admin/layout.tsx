@@ -6,6 +6,7 @@ import { siteConfig } from "@karasu-emlak/config";
 import { AdminLayout } from "@/components/admin/layout/AdminLayout";
 import { Toaster } from "@/components/admin/providers/Toaster";
 import { ErrorBoundary } from "@/components/admin/errors/ErrorBoundary";
+import { BRAND_PRIMARY_COLOR, brandAssetUrl } from "@/lib/branding/assets";
 import type { Metadata, Viewport } from "next";
 import "../../globals.css";
 
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
   },
   description: webAdminDescription,
   applicationName: webAdminTitle,
-  manifest: "/manifest.json",
+  manifest: brandAssetUrl("/manifest.json"),
   category: "business",
   creator: siteConfig.name,
   publisher: siteConfig.name,
@@ -85,30 +86,30 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon.svg", type: "image/svg+xml", sizes: "any" },
-      { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/icon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
-      { url: "/logo-icon.svg", type: "image/svg+xml", sizes: "any" },
+      { url: brandAssetUrl("/favicon.ico"), sizes: "any" },
+      { url: brandAssetUrl("/favicon.svg"), type: "image/svg+xml", sizes: "any" },
+      { url: brandAssetUrl("/icon-16x16.png"), sizes: "16x16", type: "image/png" },
+      { url: brandAssetUrl("/icon-32x32.png"), sizes: "32x32", type: "image/png" },
+      { url: brandAssetUrl("/icon-192x192.png"), sizes: "192x192", type: "image/png" },
+      { url: brandAssetUrl("/icon-512x512.png"), sizes: "512x512", type: "image/png" },
+      { url: brandAssetUrl("/logo-icon.svg"), type: "image/svg+xml", sizes: "any" },
     ],
     shortcut: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/logo-icon.svg", type: "image/svg+xml" },
+      { url: brandAssetUrl("/favicon.ico"), sizes: "any" },
+      { url: brandAssetUrl("/favicon.svg"), type: "image/svg+xml" },
+      { url: brandAssetUrl("/logo-icon.svg"), type: "image/svg+xml" },
     ],
     apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-      { url: "/logo-icon.svg", type: "image/svg+xml" },
+      { url: brandAssetUrl("/apple-touch-icon.png"), sizes: "180x180", type: "image/png" },
+      { url: brandAssetUrl("/logo-icon.svg"), type: "image/svg+xml" },
     ],
     other: [
-      { rel: "mask-icon", url: "/safari-pinned-tab.svg" },
+      { rel: "mask-icon", url: brandAssetUrl("/safari-pinned-tab.svg"), color: BRAND_PRIMARY_COLOR },
     ],
   },
   other: {
-    "msapplication-config": "/browserconfig.xml",
-    "msapplication-TileColor": "#3B82F6",
+    "msapplication-config": brandAssetUrl("/browserconfig.xml"),
+    "msapplication-TileColor": BRAND_PRIMARY_COLOR,
   },
 };
 

@@ -5,6 +5,7 @@
 
 import webpush from 'web-push';
 import { createServiceClient } from '@karasu/lib/supabase/service';
+import { brandAssetUrl } from '@/lib/branding/assets';
 
 interface PushNotificationPayload {
   title: string;
@@ -62,8 +63,8 @@ export async function sendPushNotification(
     const notificationPayload = JSON.stringify({
       title: payload.title,
       body: payload.body,
-      icon: payload.icon || '/logo-icon.svg',
-      badge: payload.badge || '/logo-icon.svg',
+      icon: payload.icon || brandAssetUrl('/logo-icon.svg'),
+      badge: payload.badge || brandAssetUrl('/logo-icon.svg'),
       tag: payload.tag || 'karasu-emlak-notification',
       requireInteraction: payload.requireInteraction || false,
       data: {

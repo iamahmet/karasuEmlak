@@ -13,34 +13,34 @@
   "dir": "ltr",
   "icons": [
     {
-      "src": "/favicon.ico",
+      "src": "/favicon.ico?v=20260225b",
       "sizes": "32x32",
       "type": "image/x-icon"
     },
     {
-      "src": "/icon-16x16.png",
+      "src": "/icon-16x16.png?v=20260225b",
       "sizes": "16x16",
       "type": "image/png"
     },
     {
-      "src": "/icon-32x32.png",
+      "src": "/icon-32x32.png?v=20260225b",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/icon-192x192.png",
+      "src": "/icon-192x192.png?v=20260225b",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512x512.png",
+      "src": "/icon-512x512.png?v=20260225b",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/logo-icon.svg",
+      "src": "/logo-icon.svg?v=20260225b",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

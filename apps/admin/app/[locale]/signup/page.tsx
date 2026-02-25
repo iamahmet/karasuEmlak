@@ -7,12 +7,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Mail, ArrowRight, UserPlus, Lock, AlertCircle, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { brandAssetUrl } from "@/lib/branding/assets";
 import { getAdminUrl } from "@/lib/utils/get-admin-url";
 
 // Force dynamic rendering - this page requires runtime environment variables
 export const dynamic = 'force-dynamic';
 
 export default function SignupPage() {
+  const faviconImageSrc = brandAssetUrl("/favicon.png");
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
@@ -235,7 +237,7 @@ export default function SignupPage() {
             <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-card/95 backdrop-blur-xl border border-border/40 shadow-lg animate-pulse">
               <div className="relative w-10 h-10 flex-shrink-0">
                 <Image
-                  src="/favicon.png"
+                  src={faviconImageSrc}
                   alt="Karasu Emlak"
                   width={40}
                   height={40}
@@ -277,7 +279,7 @@ export default function SignupPage() {
               {/* Favicon as Logo Icon */}
               <div className="relative w-14 h-14 flex-shrink-0">
                 <Image
-                  src="/favicon.png"
+                  src={faviconImageSrc}
                   alt="Karasu Emlak Logo"
                   width={56}
                   height={56}

@@ -21,6 +21,7 @@ import { Toaster } from "@/components/ui/Toaster";
 import { OfflineIndicator } from "@/components/mobile/OfflineIndicator";
 import type { Metadata, Viewport } from "next";
 import { GOOGLE_SITE_VERIFICATION, GA_MEASUREMENT_ID } from "@/lib/seo/constants";
+import { BRAND_PRIMARY_COLOR, brandAssetUrl } from "@/lib/branding/assets";
 import "../globals.css";
 
 import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
@@ -92,31 +93,31 @@ export async function generateMetadata({
       },
       icons: {
         icon: [
-          { url: "/favicon.svg", sizes: "any", type: "image/svg+xml" },
-          { url: "/favicon.ico", sizes: "any" },
-          { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
-          { url: "/icon-32x32.png", sizes: "32x32", type: "image/png" },
-          { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
-          { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
-          { url: "/logo-icon.png", sizes: "any", type: "image/png" },
-          { url: "/logo-icon.svg", type: "image/svg+xml", sizes: "any" },
+          { url: brandAssetUrl("/favicon.svg"), sizes: "any", type: "image/svg+xml" },
+          { url: brandAssetUrl("/favicon.ico"), sizes: "any" },
+          { url: brandAssetUrl("/icon-16x16.png"), sizes: "16x16", type: "image/png" },
+          { url: brandAssetUrl("/icon-32x32.png"), sizes: "32x32", type: "image/png" },
+          { url: brandAssetUrl("/icon-192x192.png"), sizes: "192x192", type: "image/png" },
+          { url: brandAssetUrl("/icon-512x512.png"), sizes: "512x512", type: "image/png" },
+          { url: brandAssetUrl("/logo-icon.png"), sizes: "any", type: "image/png" },
+          { url: brandAssetUrl("/logo-icon.svg"), type: "image/svg+xml", sizes: "any" },
         ],
         shortcut: [
-          { url: "/favicon.svg", sizes: "any", type: "image/svg+xml" },
-          { url: "/favicon.ico", sizes: "any" },
+          { url: brandAssetUrl("/favicon.svg"), sizes: "any", type: "image/svg+xml" },
+          { url: brandAssetUrl("/favicon.ico"), sizes: "any" },
         ],
         apple: [
-          { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+          { url: brandAssetUrl("/apple-touch-icon.png"), sizes: "180x180", type: "image/png" },
         ],
         other: [
           {
             rel: "mask-icon",
-            url: "/safari-pinned-tab.svg",
-            color: "#006AFF",
+            url: brandAssetUrl("/safari-pinned-tab.svg"),
+            color: BRAND_PRIMARY_COLOR,
           },
         ],
       },
-      manifest: "/manifest.json",
+      manifest: brandAssetUrl("/manifest.json"),
       appleWebApp: {
         capable: true,
         statusBarStyle: "default",
@@ -126,8 +127,8 @@ export async function generateMetadata({
       other: {
         "mobile-web-app-capable": "yes",
         "apple-mobile-web-app-title": siteConfig.name,
-        "msapplication-config": "/browserconfig.xml",
-        "msapplication-TileColor": "#3B82F6",
+        "msapplication-config": brandAssetUrl("/browserconfig.xml"),
+        "msapplication-TileColor": BRAND_PRIMARY_COLOR,
       },
       verification: {
         google: process.env.GOOGLE_SITE_VERIFICATION || GOOGLE_SITE_VERIFICATION,
@@ -150,7 +151,7 @@ export async function generateMetadata({
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#3B82F6" },
+    { media: "(prefers-color-scheme: light)", color: BRAND_PRIMARY_COLOR },
     { media: "(prefers-color-scheme: dark)", color: "#1E40AF" },
   ],
   width: "device-width",

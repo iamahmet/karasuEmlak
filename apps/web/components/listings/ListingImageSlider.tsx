@@ -33,7 +33,7 @@ interface HeroOverlayData {
   shareDescription: string;
 }
 
-interface ListingImageSliderProps {
+export interface ListingImageSliderProps {
   images: ImageItem[];
   title: string;
   initialIndex?: number;

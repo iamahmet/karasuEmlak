@@ -33,6 +33,7 @@ import {
 import { ComparisonButton } from '@/components/comparison/ComparisonButton';
 import { FAQBlock } from '@/components/content/FAQBlock';
 import dynamic from 'next/dynamic';
+import { ListingImageSliderNoSSR as ListingImageSlider } from '@/components/listings/ListingImageSliderNoSSR';
 import './print.css';
 
 // Lazy load client components
@@ -48,15 +49,6 @@ const ShareButtons = dynamic(() => import('@/components/share/ShareButtons').the
   loading: () => null,
 });
 
-const ListingImageSlider = dynamic(
-  () => import('@/components/listings/ListingImageSlider').then(mod => ({ default: mod.ListingImageSlider })),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="relative w-full h-[50vh] sm:h-[55vh] min-h-[350px] sm:min-h-[450px] md:min-h-[500px] max-h-[600px] md:max-h-[700px] rounded-xl md:rounded-2xl overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 animate-pulse" />
-    ),
-  }
-);
 // Lazy load conversion components
 const StickyCTABar = dynamic(() => import('@/components/conversion/StickyCTABar').then(mod => ({ default: mod.default })), {
   loading: () => null,
