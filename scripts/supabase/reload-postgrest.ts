@@ -69,10 +69,11 @@ interface VerificationResult {
  */
 async function verifyTable(tableName: string): Promise<VerificationResult> {
   try {
+    // Avoid HEAD+limit(0): PostgREST can return a false-positive 200 for missing tables.
     const { data, error, count } = await supabase
       .from(tableName)
-      .select("*", { count: "exact", head: true })
-      .limit(0);
+      .select("id", { count: "exact" })
+      .limit(1);
 
     if (error) {
       // PGRST205 = table not in schema cache
@@ -101,7 +102,7 @@ async function verifyTable(tableName: string): Promise<VerificationResult> {
     return {
       table: tableName,
       visible: true,
-      count: count || 0,
+      count: count ?? data?.length ?? 0,
     };
   } catch (err: any) {
     return {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Share2, Copy, Check } from 'lucide-react';
 import { Button } from '@karasu/ui';
 import { cn } from '@karasu/lib';
@@ -34,6 +34,11 @@ export default function ShareButtons({
   image,
 }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
+  const [canNativeShare, setCanNativeShare] = useState(false);
+
+  useEffect(() => {
+    setCanNativeShare(typeof navigator !== 'undefined' && 'share' in navigator);
+  }, []);
 
   // Use enhanced version for listings
   if (variant === 'enhanced' || listingId) {
@@ -104,7 +109,7 @@ export default function ShareButtons({
   return (
     <div className={cn("flex flex-wrap items-center gap-2", className)}>
       {/* Native Share */}
-      {typeof window !== 'undefined' && 'share' in navigator && (
+      {canNativeShare && (
         <Button
           onClick={handleShare}
           size="icon"
@@ -218,4 +223,3 @@ export default function ShareButtons({
     </div>
   );
 }
-

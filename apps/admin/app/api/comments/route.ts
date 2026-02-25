@@ -183,7 +183,7 @@ async function handlePost(request: NextRequest) {
   
   try {
     const body = await request.json();
-    const { content_id, listing_id, author_name, author_email, content, parent_id } = body;
+    const { content_id, listing_id, author_name, author_email, author_website, content, parent_id } = body;
 
     if (!content_id && !listing_id) {
       return createErrorResponse(
@@ -210,6 +210,7 @@ async function handlePost(request: NextRequest) {
     const commentData: any = {
       author_name,
       author_email: author_email || null,
+      author_website: author_website || null,
       content,
       status: "pending",
       parent_id: parent_id || null,

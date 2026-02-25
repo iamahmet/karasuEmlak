@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from 'react';
 import { Phone, MessageCircle, Download, Calendar } from 'lucide-react';
 import { Button } from '@karasu/ui';
 import { cn } from '@karasu/lib';
@@ -24,6 +25,13 @@ export function QuickActions({
   propertyDescription,
   className
 }: QuickActionsProps) {
+  const [shareUrl, setShareUrl] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setShareUrl(window.location.href);
+    }
+  }, []);
 
   const handleDownload = () => {
     // In production, generate PDF brochure
@@ -66,7 +74,7 @@ export function QuickActions({
       {/* Share Button - Enhanced (only on desktop, compact on mobile) */}
       <div className="hidden md:block">
         <EnhancedShareButtons
-          url={typeof window !== 'undefined' ? window.location.href : ''}
+          url={shareUrl}
           title={propertyTitle}
           description={propertyDescription || `Bu ilanı inceleyin: ${propertyTitle}`}
           image={propertyImage}
@@ -100,4 +108,3 @@ export function QuickActions({
 }
 
 export default QuickActions;
-

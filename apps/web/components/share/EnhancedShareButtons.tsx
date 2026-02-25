@@ -94,6 +94,11 @@ export function EnhancedShareButtons({
   const [copied, setCopied] = useState(false);
   const [showQR, setShowQR] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [canNativeShare, setCanNativeShare] = useState(false);
+
+  useEffect(() => {
+    setCanNativeShare(typeof navigator !== 'undefined' && 'share' in navigator);
+  }, []);
 
   const shareData = {
     title,
@@ -155,7 +160,7 @@ export function EnhancedShareButtons({
     return (
       <div className={cn("flex items-center gap-2", className)}>
         {/* Native Share */}
-        {typeof window !== 'undefined' && 'share' in navigator && (
+        {canNativeShare && (
           <Button
             onClick={handleNativeShare}
             size="sm"
@@ -238,7 +243,7 @@ export function EnhancedShareButtons({
       {/* Main Share Buttons */}
       <div className="flex flex-wrap items-center gap-2">
         {/* Native Share */}
-        {typeof window !== 'undefined' && 'share' in navigator && (
+        {canNativeShare && (
           <Button
             onClick={handleNativeShare}
             size="icon"

@@ -39,6 +39,7 @@ const CRITICAL = [
   "news_articles",
   "neighborhoods",
   "seo_events",
+  "content_comments",
   "pharmacies",
   "notifications",
   "categories",
