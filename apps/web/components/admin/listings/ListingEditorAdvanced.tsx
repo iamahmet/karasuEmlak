@@ -224,6 +224,7 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showMediaLibrary, setShowMediaLibrary] = useState(false);
+  const [isGeocoding, setIsGeocoding] = useState(false);
   const [listingStats, setListingStats] = useState<ListingStats>({
     images: 0,
     words: 0,
@@ -252,6 +253,47 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
   ]
     .filter(Boolean)
     .join(", ");
+
+  const handleGeocodeLocation = async () => {
+    const addressQuery = mapSearchQuery.trim();
+    if (!addressQuery) {
+      toast.info("Önce mahalle veya adres bilgisi girin");
+      return;
+    }
+
+    try {
+      setIsGeocoding(true);
+      const response = await fetch(
+        `/api/services/geocoding?address=${encodeURIComponent(addressQuery)}`,
+        { cache: "no-store" }
+      );
+
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || !result?.success || !result?.data) {
+        throw new Error(result?.error || "Konum çözümlenemedi");
+      }
+
+      const latitude = Number(result.data.latitude);
+      const longitude = Number(result.data.longitude);
+
+      if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+        throw new Error("Geçersiz koordinat sonucu");
+      }
+
+      updateListing({
+        coordinates_lat: latitude,
+        coordinates_lng: longitude,
+        ...(listing.location_address ? {} : { location_address: result.data.formatted || listing.location_address || "" }),
+      });
+
+      toast.success("Koordinatlar adres bilgisinden dolduruldu");
+    } catch (error) {
+      console.error("Geocoding error:", error);
+      toast.error(error instanceof Error ? error.message : "Adres koordinata çevrilemedi");
+    } finally {
+      setIsGeocoding(false);
+    }
+  };
 
   // Additional state declarations
   const [distractionFree, setDistractionFree] = useState(false);
@@ -1794,6 +1836,22 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-8 text-xs"
+                        onClick={handleGeocodeLocation}
+                        disabled={isGeocoding}
+                      >
+                        {isGeocoding ? (
+                          <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                        ) : (
+                          <Search className="h-3 w-3 mr-1" />
+                        )}
+                        Adresten Bul
+                      </Button>
+
                       <Button
                         type="button"
                         variant="outline"
