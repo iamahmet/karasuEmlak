@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: "Giriş | Karasu Emlak Yönetim Paneli",
+  title: "Giriş",
   description: "Karasu Emlak yönetim paneli giriş ekranı.",
   robots: {
     index: false,
