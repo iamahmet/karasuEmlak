@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Sparkles, TrendingUp, Clock, Calendar } from 'lucide-react';
 import { Article } from '@/lib/supabase/queries/articles';
@@ -34,6 +34,12 @@ export function EnhancedRelatedArticles({
   limit = 6,
   showTrending = false,
 }: EnhancedRelatedArticlesProps) {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   const filteredArticles = useMemo(() => {
     return articles
       .filter(article => article.id !== currentArticleId)
@@ -88,7 +94,7 @@ export function EnhancedRelatedArticles({
         {filteredArticles.map((article) => {
           const readingTime = calculateReadingTime(article.content || '');
           const publishedDate = formatDate(article.published_at);
-          const recent = isRecent(article.published_at);
+          const recent = hasMounted && isRecent(article.published_at);
           const isCloudinary = isValidCloudinaryId(article.featured_image);
 
           return (
@@ -157,7 +163,9 @@ export function EnhancedRelatedArticles({
                       {publishedDate && (
                         <div className="flex items-center gap-1.5">
                           <Calendar className="h-3.5 w-3.5" />
-                          <span className="font-medium">{publishedDate}</span>
+                          <span className="font-medium" suppressHydrationWarning>
+                            {publishedDate}
+                          </span>
                         </div>
                       )}
                       <div className="flex items-center gap-1.5">
