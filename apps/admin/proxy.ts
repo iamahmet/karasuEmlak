@@ -45,9 +45,20 @@ export async function proxy(request: NextRequest) {
   // Always check auth, even in development (but allow access if no user_roles table)
   if (!skipAuth) {
     try {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+      if (!supabaseUrl || !supabaseAnonKey) {
+        console.error("Admin proxy: Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY");
+        const loginUrl = new URL(`/tr/login`, request.url);
+        loginUrl.searchParams.set("redirect", requestedFullPath);
+        loginUrl.searchParams.set("error", "config");
+        return NextResponse.redirect(loginUrl);
+      }
+
       const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        supabaseUrl,
+        supabaseAnonKey,
         {
           cookies: {
             getAll() {

@@ -27,6 +27,7 @@ export default function LoginPage() {
 
   // Check if Supabase is configured
   const isConfigured = useMemo(() => isSupabaseConfigured(), []);
+  const isConfigError = searchParams.get("error") === "config";
 
   // Use singleton client to prevent NavigatorLockAcquireTimeoutError
   const supabase = useMemo(() => {
@@ -346,7 +347,7 @@ export default function LoginPage() {
           </CardHeader>
           <CardContent>
             {/* Environment Variables Warning */}
-            {!isConfigured && (
+            {(!isConfigured || isConfigError) && (
               <div className="mb-6 p-5 rounded-xl bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
                 <div className="flex items-start gap-3">
                   <div className="p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900/30 flex-shrink-0">

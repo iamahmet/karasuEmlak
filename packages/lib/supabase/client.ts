@@ -70,8 +70,11 @@ export function createClient() {
   }
 
   // Return cached client if it exists and is valid
-  if (browserClient) {
+  if (browserClient?.auth) {
     return browserClient;
+  }
+  if (browserClient && !browserClient.auth) {
+    browserClient = null;
   }
 
   // Read environment variables
@@ -128,6 +131,9 @@ export function createClient() {
     browserClient = null;
     return createFallbackClient();
   }
+
+  // Final safety - never return undefined
+  return createFallbackClient();
 }
 
 /**
