@@ -7,6 +7,15 @@ import { Eye, TrendingUp, Clock, ThumbsUp, Share2, Link2 } from "lucide-react";
 import { createClient } from "@karasu/lib/supabase/client";
 import { formatDateTime } from "@karasu/ui";
 import { cn } from "@karasu/lib";
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+} from "recharts";
 
 interface ContentAnalyticsProps {
   contentItemId: string;
@@ -24,37 +33,133 @@ interface AnalyticsData {
   trendPercentage: number;
 }
 
+interface TrendPoint {
+  dateLabel: string;
+  views: number;
+  engagement: number;
+  shares: number;
+}
+
+function formatTrendDateLabel(input: string | null | undefined) {
+  if (!input) return "";
+  const date = new Date(input);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("tr-TR", { day: "numeric", month: "short" });
+}
+
+function buildFallbackTrendData(analytics: Pick<AnalyticsData, "views" | "engagement" | "shares">): TrendPoint[] {
+  const days = 7;
+  const result: TrendPoint[] = [];
+
+  for (let i = days - 1; i >= 0; i -= 1) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const progress = (days - i) / days;
+    const jitter = 0.92 + ((i % 3) * 0.04);
+
+    result.push({
+      dateLabel: date.toLocaleDateString("tr-TR", { day: "numeric", month: "short" }),
+      views: Math.max(0, Math.round(analytics.views * progress * jitter)),
+      engagement: Math.max(0, Math.round(analytics.engagement * progress * (0.9 + ((i + 1) % 2) * 0.06))),
+      shares: Math.max(0, Math.round(analytics.shares * progress * (0.88 + (i % 2) * 0.08))),
+    });
+  }
+
+  return result;
+}
+
 export function ContentAnalytics({ contentItemId, locale }: ContentAnalyticsProps) {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [trendData, setTrendData] = useState<TrendPoint[]>([]);
+  const [trendDataSource, setTrendDataSource] = useState<"content_metrics" | "estimated">("estimated");
 
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
         const supabase = createClient();
-        
-        // Get article by content_item_id (via slug mapping or direct relation)
-        const { data: article } = await supabase
-          .from("articles")
-          .select("views, reading_time, updated_at")
-          .eq("slug", contentItemId) // Assuming slug matches or we need to add content_item_id to articles
-          .single();
+        if (!supabase || typeof supabase?.from !== "function") {
+          throw new Error("Supabase client unavailable");
+        }
 
-        if (article) {
-          // Mock analytics data (in production, fetch from analytics table)
-          setAnalytics({
-            views: article.views || 0,
-            avgReadingTime: article.reading_time || 0,
-            engagement: Math.floor((article.views || 0) * 0.15), // Mock calculation
-            shares: Math.floor((article.views || 0) * 0.05), // Mock calculation
-            backlinks: 0,
-            lastUpdated: article.updated_at || new Date().toISOString(),
-            trend: "up",
-            trendPercentage: 12.5,
-          });
+        const [{ data: article }, { data: metricsRowsRaw }] = await Promise.all([
+          supabase
+            .from("articles")
+            .select("views, reading_time, updated_at")
+            .eq("slug", contentItemId)
+            .maybeSingle(),
+          supabase
+            .from("content_metrics")
+            .select("*")
+            .eq("content_slug", contentItemId)
+            .order("date", { ascending: false })
+            .limit(14),
+        ]);
+
+        const metricsRows = Array.isArray(metricsRowsRaw)
+          ? metricsRowsRaw.filter((row: any) => !row?.locale || row.locale === locale)
+          : [];
+
+        const latestMetric = metricsRows[0];
+        const previousMetric = metricsRows[1];
+
+        const views = Number(article?.views ?? latestMetric?.views ?? 0) || 0;
+        const avgReadingTime = Math.max(
+          0,
+          Math.round(
+            Number(article?.reading_time ?? (latestMetric?.avg_time_on_page ? latestMetric.avg_time_on_page / 60 : 0)) || 0
+          )
+        );
+        const engagement = Number(
+          latestMetric?.engagement ??
+            latestMetric?.engagement_count ??
+            latestMetric?.interactions ??
+            Math.floor(views * 0.15)
+        ) || 0;
+        const shares = Number(latestMetric?.shares ?? latestMetric?.share_count ?? Math.floor(views * 0.05)) || 0;
+        const backlinks = Number(latestMetric?.backlinks ?? latestMetric?.backlink_count ?? 0) || 0;
+
+        const previousViews = Number(previousMetric?.views ?? 0) || 0;
+        const trendPercentage = previousViews > 0 ? ((views - previousViews) / previousViews) * 100 : 0;
+        const trend: AnalyticsData["trend"] =
+          Math.abs(trendPercentage) < 0.5 ? "stable" : trendPercentage > 0 ? "up" : "down";
+
+        const nextAnalytics: AnalyticsData = {
+          views,
+          avgReadingTime,
+          engagement,
+          shares,
+          backlinks,
+          lastUpdated: article?.updated_at || latestMetric?.date || new Date().toISOString(),
+          trend,
+          trendPercentage: Number.isFinite(trendPercentage) ? Math.round(trendPercentage * 10) / 10 : 0,
+        };
+
+        setAnalytics(nextAnalytics);
+
+        const realTrend = metricsRows
+          .filter((row: any) => row?.date)
+          .slice(0, 14)
+          .reverse()
+          .map((row: any) => ({
+            dateLabel: formatTrendDateLabel(row.date),
+            views: Number(row.views ?? 0) || 0,
+            engagement:
+              Number(row.engagement ?? row.engagement_count ?? row.interactions ?? Math.floor((Number(row.views ?? 0) || 0) * 0.15)) || 0,
+            shares: Number(row.shares ?? row.share_count ?? 0) || 0,
+          }))
+          .filter((row: TrendPoint) => Boolean(row.dateLabel));
+
+        if (realTrend.length > 0) {
+          setTrendData(realTrend);
+          setTrendDataSource("content_metrics");
+        } else {
+          setTrendData(buildFallbackTrendData(nextAnalytics));
+          setTrendDataSource("estimated");
         }
       } catch (error) {
         console.error("Failed to fetch analytics:", error);
+        setTrendData([]);
       } finally {
         setLoading(false);
       }
@@ -181,19 +286,85 @@ export function ContentAnalytics({ contentItemId, locale }: ContentAnalyticsProp
       {/* Performance Chart Placeholder */}
       <Card className="card-professional">
         <CardHeader className="pb-3 px-5 pt-5">
-          <CardTitle className="text-base font-display font-bold text-foreground">
-            Performans Trendi
-          </CardTitle>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <CardTitle className="text-base font-display font-bold text-foreground">
+              Performans Trendi
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="text-[10px] px-2 py-0.5">
+                {trendDataSource === "content_metrics" ? "Gerçek Veri" : "Tahmini Trend"}
+              </Badge>
+              <span className="text-xs text-muted-foreground">
+                {trendData.length || 0} nokta
+              </span>
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="px-5 pb-5">
-          <div className="h-48 flex items-center justify-center bg-gradient-to-br from-[#E7E7E7]/30 to-transparent dark:from-[#062F28]/30 dark:to-transparent rounded-xl">
-            <p className="text-sm text-muted-foreground font-ui">
-              Grafik yakında eklenecek
-            </p>
-          </div>
+          {trendData.length > 0 ? (
+            <div className="h-56 rounded-xl border border-border/50 bg-gradient-to-br from-[#E7E7E7]/20 to-transparent dark:from-[#062F28]/20 dark:to-transparent p-2">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={trendData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#E7E7E7" opacity={0.45} />
+                  <XAxis dataKey="dateLabel" tick={{ fontSize: 11 }} stroke="#7B7B7B" />
+                  <YAxis
+                    tick={{ fontSize: 11 }}
+                    stroke="#7B7B7B"
+                    width={42}
+                    tickFormatter={(value: number) =>
+                      value >= 1000 ? `${(value / 1000).toFixed(1)}k` : `${value}`
+                    }
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "white",
+                      border: "1px solid #E7E7E7",
+                      borderRadius: "8px",
+                    }}
+                    formatter={(value: number, name: string) => [
+                      Number(value || 0).toLocaleString("tr-TR"),
+                      name === "views" ? "Görüntülenme" : name === "engagement" ? "Etkileşim" : "Paylaşım",
+                    ]}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="views"
+                    name="views"
+                    stroke="#3b82f6"
+                    fill="#3b82f6"
+                    fillOpacity={0.18}
+                    strokeWidth={2}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="engagement"
+                    name="engagement"
+                    stroke="#8b5cf6"
+                    fill="#8b5cf6"
+                    fillOpacity={0.12}
+                    strokeWidth={2}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="shares"
+                    name="shares"
+                    stroke="#f59e0b"
+                    fill="#f59e0b"
+                    fillOpacity={0.1}
+                    strokeWidth={1.5}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          ) : (
+            <div className="h-48 flex items-center justify-center bg-gradient-to-br from-[#E7E7E7]/30 to-transparent dark:from-[#062F28]/30 dark:to-transparent rounded-xl">
+              <p className="text-sm text-muted-foreground font-ui">
+                Trend verisi bulunamadı
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
   );
 }
-

@@ -58,7 +58,7 @@ export async function PUT(
     try {
       const user = await requireStaff();
       userId = user.id;
-    } catch (error) {
+    } catch (_error) {
       // If auth fails, continue without version tracking
       console.warn("[Listing API] Could not get user for version tracking");
     }
@@ -126,6 +126,8 @@ export async function PUT(
   }
 }
 
+export const PATCH = PUT;
+
 export async function DELETE(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -161,4 +163,3 @@ export async function DELETE(
     );
   }
 }
-

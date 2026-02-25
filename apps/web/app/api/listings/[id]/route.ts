@@ -145,6 +145,8 @@ export async function PUT(
   }
 }
 
+export const PATCH = PUT;
+
 export async function DELETE(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -180,4 +182,3 @@ export async function DELETE(
     );
   }
 }
-

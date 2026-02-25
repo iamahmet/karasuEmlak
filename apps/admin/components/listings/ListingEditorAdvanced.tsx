@@ -134,6 +134,8 @@ interface Listing {
   property_type: string;
   location_neighborhood: string;
   location_address?: string;
+  coordinates_lat?: number | null;
+  coordinates_lng?: number | null;
   price_amount: number | null;
   price_currency: string;
   area_sqm?: number;
@@ -181,6 +183,36 @@ const PROPERTY_TYPES = [
   { value: "yazlik", label: "Yazlık", icon: Home },
 ];
 
+const KARASU_MAP_PRESETS = [
+  { label: "Karasu Merkez", lat: 41.0982, lng: 30.6898 },
+  { label: "Sahil", lat: 41.1051, lng: 30.6928 },
+  { label: "Yeni Mahalle", lat: 41.095, lng: 30.6832 },
+] as const;
+
+function isValidCoordinate(lat?: number | null, lng?: number | null) {
+  return (
+    typeof lat === "number" &&
+    Number.isFinite(lat) &&
+    lat >= -90 &&
+    lat <= 90 &&
+    typeof lng === "number" &&
+    Number.isFinite(lng) &&
+    lng >= -180 &&
+    lng <= 180
+  );
+}
+
+function buildOsmEmbedUrl(lat: number, lng: number) {
+  const deltaLat = 0.01;
+  const deltaLng = 0.015;
+  const left = (lng - deltaLng).toFixed(6);
+  const right = (lng + deltaLng).toFixed(6);
+  const top = (lat + deltaLat).toFixed(6);
+  const bottom = (lat - deltaLat).toFixed(6);
+
+  return `https://www.openstreetmap.org/export/embed.html?bbox=${left}%2C${bottom}%2C${right}%2C${top}&layer=mapnik&marker=${lat.toFixed(6)}%2C${lng.toFixed(6)}`;
+}
+
 export function ListingEditorAdvanced({ listing: initialListing, locale }: ListingEditorProps) {
   const router = useRouter();
   const [listing, setListing] = useState<Listing>(initialListing);
@@ -208,6 +240,19 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
     price: false,
     issues: [],
   });
+
+  const hasCoordinates = isValidCoordinate(listing.coordinates_lat, listing.coordinates_lng);
+  const mapPreviewUrl = hasCoordinates
+    ? buildOsmEmbedUrl(listing.coordinates_lat as number, listing.coordinates_lng as number)
+    : null;
+  const mapSearchQuery = [
+    listing.location_address?.trim(),
+    listing.location_neighborhood?.trim(),
+    "Karasu",
+    "Sakarya",
+  ]
+    .filter(Boolean)
+    .join(", ");
 
   // Additional state declarations
   const [distractionFree, setDistractionFree] = useState(false);
@@ -1672,11 +1717,155 @@ export function ListingEditorAdvanced({ listing: initialListing, locale }: Listi
                     )}
                   </div>
 
-                  {/* Map Integration Placeholder */}
-                  <div className="p-4 bg-muted/30 rounded-lg border border-border">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <MapPin className="h-4 w-4" />
-                      <span>Harita entegrasyonu yakında eklenecek</span>
+                  {/* Map Integration */}
+                  <div className="space-y-3 p-4 bg-muted/30 rounded-lg border border-border">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                        <MapPin className="h-4 w-4 text-primary" />
+                        <span>Harita ve Koordinatlar</span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        {KARASU_MAP_PRESETS.map((preset) => (
+                          <Button
+                            key={preset.label}
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="h-8 text-xs"
+                            onClick={() =>
+                              updateListing({
+                                coordinates_lat: preset.lat,
+                                coordinates_lng: preset.lng,
+                              })
+                            }
+                          >
+                            <Target className="h-3 w-3 mr-1" />
+                            {preset.label}
+                          </Button>
+                        ))}
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 text-xs"
+                          onClick={() =>
+                            updateListing({
+                              coordinates_lat: null,
+                              coordinates_lng: null,
+                            })
+                          }
+                        >
+                          <XCircle className="h-3 w-3 mr-1" />
+                          Temizle
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="coordinates_lat" className="text-xs font-medium text-muted-foreground">
+                          Enlem (Latitude)
+                        </Label>
+                        <Input
+                          id="coordinates_lat"
+                          type="number"
+                          step="0.000001"
+                          value={listing.coordinates_lat ?? ""}
+                          onChange={(e) =>
+                            updateListing({
+                              coordinates_lat: e.target.value === "" ? null : Number(e.target.value),
+                            })
+                          }
+                          placeholder="41.098200"
+                          className="h-10"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="coordinates_lng" className="text-xs font-medium text-muted-foreground">
+                          Boylam (Longitude)
+                        </Label>
+                        <Input
+                          id="coordinates_lng"
+                          type="number"
+                          step="0.000001"
+                          value={listing.coordinates_lng ?? ""}
+                          onChange={(e) =>
+                            updateListing({
+                              coordinates_lng: e.target.value === "" ? null : Number(e.target.value),
+                            })
+                          }
+                          placeholder="30.689800"
+                          className="h-10"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-8 text-xs"
+                        onClick={() => {
+                          if (hasCoordinates) {
+                            window.open(
+                              `https://www.google.com/maps?q=${listing.coordinates_lat},${listing.coordinates_lng}`,
+                              "_blank",
+                              "noopener,noreferrer"
+                            );
+                            return;
+                          }
+
+                          if (mapSearchQuery) {
+                            window.open(
+                              `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapSearchQuery)}`,
+                              "_blank",
+                              "noopener,noreferrer"
+                            );
+                            return;
+                          }
+
+                          toast.info("Önce adres veya koordinat bilgisi girin");
+                        }}
+                      >
+                        <ExternalLink className="h-3 w-3 mr-1" />
+                        Google Maps'te Aç
+                      </Button>
+
+                      {hasCoordinates ? (
+                        <span className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
+                          <CheckCircle2 className="h-3 w-3" />
+                          Koordinatlar kaydedilmeye hazır
+                        </span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">
+                          Koordinat girerseniz ilan detay sayfasında harita gösterilir.
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="overflow-hidden rounded-lg border border-border bg-background">
+                      {mapPreviewUrl ? (
+                        <iframe
+                          title="İlan konum önizleme haritası"
+                          src={mapPreviewUrl}
+                          className="w-full h-56"
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                        />
+                      ) : (
+                        <div className="h-56 flex flex-col items-center justify-center gap-2 text-center px-4 bg-gradient-to-br from-muted/40 to-transparent">
+                          <MapPin className="h-6 w-6 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground">
+                            Koordinat girildiğinde harita önizlemesi burada görünür.
+                          </p>
+                          {mapSearchQuery ? (
+                            <p className="text-xs text-muted-foreground/80 max-w-md">
+                              Arama sorgusu hazır: {mapSearchQuery}
+                            </p>
+                          ) : null}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </CardContent>
