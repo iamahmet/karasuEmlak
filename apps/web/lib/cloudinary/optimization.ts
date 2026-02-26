@@ -67,11 +67,11 @@ export function generateSrcSet(
   // Responsive sizes
   for (const bp of breakpoints) {
     if (bp.width <= baseWidth) continue; // Skip smaller sizes
-    
+
     const transform = baseHeight
       ? `w_${bp.width},h_${Math.round((bp.width / baseWidth) * (baseHeight || baseWidth))},c_fill,q_auto,f_auto`
       : `w_${bp.width},c_fill,q_auto,f_auto`;
-    
+
     srcSetParts.push(
       `https://res.cloudinary.com/${cloudName}/image/upload/${transform}/${publicId} ${bp.width}w`
     );
@@ -90,7 +90,7 @@ export function generateSizes(
   if (!breakpoints) return defaultSize;
 
   const sizesParts: string[] = [];
-  
+
   // Sort breakpoints by size (smallest first)
   const sorted = Object.entries(breakpoints).sort((a, b) => {
     const aSize = parseInt(a[0].replace(/\D/g, ''));
@@ -101,7 +101,7 @@ export function generateSizes(
   for (const [breakpoint, size] of sorted) {
     sizesParts.push(`(max-width: ${breakpoint}) ${size}`);
   }
-  
+
   sizesParts.push(defaultSize);
   return sizesParts.join(', ');
 }
@@ -118,7 +118,7 @@ export function generateBlurPlaceholder(
   const transform = height
     ? `w_${width},h_${height},c_fill,q_auto:low,e_blur:1000`
     : `w_${width},c_fill,q_auto:low,e_blur:1000`;
-  
+
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transform}/${publicId}`;
 }
 
@@ -171,12 +171,12 @@ export function getOptimizedCloudinaryUrl(
     return '';
   }
 
-  // Check if it's a placeholder URL or direct URL
-  const isPlaceholderUrl = publicId.startsWith('placeholder:') || publicId.startsWith('http://') || publicId.startsWith('https://');
-  
+  // Check if it's a placeholder URL, direct URL, or local URL (starts with /)
+  const isPlaceholderUrl = publicId.startsWith('placeholder:') || publicId.startsWith('http://') || publicId.startsWith('https://') || publicId.startsWith('/');
+
   if (isPlaceholderUrl) {
     // Return direct URL for placeholders (remove placeholder: prefix if exists)
-    return publicId.replace('placeholder:', '');
+    return publicId.startsWith('placeholder:') ? publicId.replace('placeholder:', '') : publicId;
   }
 
   // Validate Cloudinary public_id format (should not contain http:// or https://)
@@ -221,7 +221,7 @@ export function getAutoFormat(publicId: string): 'auto' | 'webp' | 'avif' | 'jpg
   // Check if it's a photo (jpg) or graphic (png)
   // This is a simple heuristic - in production, you might want to analyze the image
   const isPhoto = !publicId.includes('logo') && !publicId.includes('icon');
-  
+
   // Prefer WebP for photos, AVIF for modern browsers
   // Cloudinary's 'auto' format will handle this automatically
   return 'auto';
@@ -246,7 +246,7 @@ export function getResponsiveImageUrls(
   } = {}
 ): Array<{ width: number; url: string }> {
   const { baseWidth = 800, breakpoints = [640, 768, 1024, 1280, 1536], aspectRatio } = options;
-  
+
   return breakpoints.map((width) => ({
     width,
     url: getOptimizedCloudinaryUrl(publicId, {

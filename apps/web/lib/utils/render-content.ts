@@ -194,13 +194,16 @@ function fixSvgPathSpaces(html: string): string {
   // Pattern: a digit or command letter, then a period, then a space, then digit(s)
   // e.g., "h. 586" -> "h.586"  |  "M13. 172" -> "M13.172"
   return html.replace(/\bd="([^"]*)"/g, (_match, pathData: string) => {
-    const fixed = pathData
-      // Fix: letter/digit + ". " + digit → remove space after dot
-      .replace(/(\d)\.\s+(\d)/g, '$1.$2')
-      // Fix: SVG command letter + ". " + digit  e.g. "h. 586" → "h.586"
-      .replace(/([MmLlHhVvCcSsQqTtAaZz])\.\s+(\d)/g, '$1.$2')
-      // Fix: leading space before decimal number in path  e.g. "0 .707" stays but "h. 582" → "h.582"
-      .replace(/([a-zA-Z])\s+\.\s*(\d)/g, '$1.$2');
+    let fixed = pathData
+      // Fix space after decimal point: e.g. "h. 586" -> "h.586", "h-. 003" -> "h-.003"
+      .replace(/\.\s+(\d+)/g, '.$1')
+      // Fix missing `ry` in Arc commands where compressed to `0 01x y`: e.g. "A1.994 0 013 12" -> "A1.994 1.994 0 013 12"
+      .replace(/([Aa])(\d+(?:\.\d+)?)\s+0\s+01/g, '$1$2 $2 0 01')
+      // Fix missing `y` coordinate in Arc commands: e.g. "a1 1 0 01.414a" -> "a1 1 0 01 .414 .414 a"
+      .replace(/([Aa]\d+(?:\.\d+)?\s+\d+(?:\.\d+)?\s+\d+\s+[01][01])(\.\d+)(?=[a-zA-Z])/g, '$1 $2 $2')
+      // Also fix "01.707V" -> "01 .707 .707 V"
+      .replace(/([Aa]\d+(?:\.\d+)?\s+\d+(?:\.\d+)?\s+\d+\s+[01][01])(\.\d+)(?=[A-Z])/gi, '$1 $2 $2 ');
+
     return `d="${fixed}"`;
   });
 }
