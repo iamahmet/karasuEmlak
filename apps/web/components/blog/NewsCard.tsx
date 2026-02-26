@@ -26,8 +26,8 @@ export function NewsCard({ news, basePath, variant = 'default' }: NewsCardProps)
   // Generate proper link
   // If slug is a full URL (Gündem articles), use it directly
   // Otherwise, use internal news page
-  const newsLink = news.slug.startsWith('http') 
-    ? news.slug 
+  const newsLink = news.slug.startsWith('http')
+    ? news.slug
     : `${basePath}/haberler/${news.slug}`;
 
   return (
@@ -49,21 +49,23 @@ export function NewsCard({ news, basePath, variant = 'default' }: NewsCardProps)
         )}>
           <TrendingUp className={cn('text-primary', isCompact ? 'h-5 w-5' : 'h-6 w-6')} />
         </div>
-        
+
         <div className="flex-1 min-w-0">
-          <h3 className={cn(
-            'font-bold text-gray-900 line-clamp-2 group-hover:text-primary transition-colors',
-            isCompact ? 'text-sm mb-1' : 'text-base mb-2'
-          )}>
-            {news.title}
-          </h3>
-          
+          <h3
+            className={cn(
+              'font-bold text-gray-900 line-clamp-2 group-hover:text-primary transition-colors',
+              isCompact ? 'text-sm mb-1' : 'text-base mb-2'
+            )}
+            dangerouslySetInnerHTML={{ __html: news.title }}
+          />
+
           {!isCompact && truncatedSummary && (
-            <p className="text-sm text-gray-600 line-clamp-2 mb-3 leading-relaxed">
-              {truncatedSummary}
-            </p>
+            <p
+              className="text-sm text-gray-600 line-clamp-2 mb-3 leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: truncatedSummary }}
+            />
           )}
-          
+
           <div className="flex items-center gap-3 text-xs text-gray-500">
             {news.published_at && (
               <div className="flex items-center gap-1.5">

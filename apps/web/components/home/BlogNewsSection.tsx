@@ -28,7 +28,7 @@ interface BlogNewsSectionProps {
 
 export function BlogNewsSection({ articles, news, basePath = "" }: BlogNewsSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("Tümü");
-  
+
   const categories = [
     "Tümü",
     "Analiz",
@@ -48,14 +48,14 @@ export function BlogNewsSection({ articles, news, basePath = "" }: BlogNewsSecti
     "Yaşam Rehberi",
     "Yeme-İçme",
   ];
-  
+
   // Filter articles by category
-  const filteredArticles = selectedCategory === "Tümü" 
-    ? articles 
-    : articles.filter(article => 
-        article.category?.toLowerCase() === selectedCategory.toLowerCase() ||
-        article.title.toLowerCase().includes(selectedCategory.toLowerCase())
-      );
+  const filteredArticles = selectedCategory === "Tümü"
+    ? articles
+    : articles.filter(article =>
+      article.category?.toLowerCase() === selectedCategory.toLowerCase() ||
+      article.title.toLowerCase().includes(selectedCategory.toLowerCase())
+    );
   const formatDate = (date?: string) => {
     if (!date) return '';
     return new Date(date).toLocaleDateString('tr-TR', {
@@ -117,7 +117,7 @@ export function BlogNewsSection({ articles, news, basePath = "" }: BlogNewsSecti
                 </div>
               </div>
             )}
-            
+
             {/* Category Badge */}
             {item.category && (
               <div className="absolute top-3 left-3">
@@ -130,16 +130,17 @@ export function BlogNewsSection({ articles, news, basePath = "" }: BlogNewsSecti
 
           {/* Content */}
           <div className="p-6">
-            {/* Title */}
-            <h3 className="text-lg font-bold mb-3 line-clamp-2 text-gray-900 leading-[1.3] tracking-tight group-hover:text-[#006AFF] transition-colors duration-200">
-              {item.title}
-            </h3>
+            <h3
+              className="text-lg font-bold mb-3 line-clamp-2 text-gray-900 leading-[1.3] tracking-tight group-hover:text-[#006AFF] transition-colors duration-200"
+              dangerouslySetInnerHTML={{ __html: item.title }}
+            />
 
             {/* Excerpt */}
             {item.excerpt && (
-              <p className="text-[15px] text-gray-600 mb-4 line-clamp-2 leading-relaxed">
-                {item.excerpt}
-              </p>
+              <p
+                className="text-[15px] text-gray-600 mb-4 line-clamp-2 leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: item.excerpt }}
+              />
             )}
 
             {/* Meta Info */}

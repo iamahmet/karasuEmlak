@@ -77,7 +77,7 @@ function extractImage(item: any, content: string, description: string, link: str
   // 4. Try to find img tag in content (before stripping HTML)
   const imgTagPattern = /<img[^>]+src=["']([^"']+)["'][^>]*>/i;
   const imgMatch = content.match(imgTagPattern) || description.match(imgTagPattern);
-  
+
   if (imgMatch && imgMatch[1]) {
     let imageUrl = imgMatch[1];
     // Handle relative URLs
@@ -127,7 +127,7 @@ async function fetchOpenGraphImage(articleUrl: string): Promise<string | undefin
     }
 
     const html = await response.text();
-    
+
     // Try Open Graph image
     const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
     if (ogImageMatch && ogImageMatch[1]) {
@@ -153,19 +153,17 @@ async function fetchOpenGraphImage(articleUrl: string): Promise<string | undefin
   }
 }
 
+import { decodeHtmlEntities } from '../entities';
+
 /**
  * Clean HTML tags from text
  */
 function stripHtml(html: string): string {
-  return html
-    .replace(/<[^>]*>/g, '')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .trim();
+  if (!html) return '';
+  // First remove tags
+  const text = html.replace(/<[^>]*>/g, '').trim();
+  // Then decode entities
+  return decodeHtmlEntities(text);
 }
 
 /**
@@ -185,7 +183,7 @@ export async function parseGundemRSS(rssUrl: string): Promise<ParsedRSSFeed> {
     }
 
     const xmlText = await response.text();
-    
+
     // Parse XML using fast-xml-parser (server-side compatible)
     const { XMLParser } = await import('fast-xml-parser');
     const parser = new XMLParser({
@@ -206,7 +204,7 @@ export async function parseGundemRSS(rssUrl: string): Promise<ParsedRSSFeed> {
       console.error('[Gundem RSS] XML preview:', xmlText?.substring(0, 500));
       throw parseError;
     }
-    
+
     // Extract channel data
     const channel = json.rss?.channel || json.feed;
     if (!channel) {
@@ -219,7 +217,7 @@ export async function parseGundemRSS(rssUrl: string): Promise<ParsedRSSFeed> {
     if (!Array.isArray(items)) {
       items = [items];
     }
-    
+
     if (items.length === 0) {
       console.warn('[Gundem RSS] No items found in RSS feed');
       return {
@@ -230,7 +228,7 @@ export async function parseGundemRSS(rssUrl: string): Promise<ParsedRSSFeed> {
         articles: [],
       };
     }
-    
+
     // Extract images for all articles (parallel processing for better performance)
     const articles: GundemArticle[] = await Promise.all(
       items.map(async (item: any) => {
@@ -241,15 +239,15 @@ export async function parseGundemRSS(rssUrl: string): Promise<ParsedRSSFeed> {
         const pubDate = item.pubDate || item.published || item.updated || new Date().toISOString();
         const guid = item.guid?.['#text'] || item.guid || item.id || link;
         const author = item['dc:creator'] || item.author?.name || item.author || 'Karasu Gündem';
-        const categories = item.category 
-          ? (Array.isArray(item.category) 
-              ? item.category.map((c: any) => c['#text'] || c) 
-              : [item.category['#text'] || item.category])
+        const categories = item.category
+          ? (Array.isArray(item.category)
+            ? item.category.map((c: any) => c['#text'] || c)
+            : [item.category['#text'] || item.category])
           : [];
 
         // Extract image from multiple sources
         let image = extractImage(item, content, description, link);
-        
+
         // Fallback: Try to fetch Open Graph image if no image found in RSS
         // Only do this for first few articles to avoid rate limiting
         if (!image && link) {
@@ -303,7 +301,7 @@ export async function parseGundemRSS(rssUrl: string): Promise<ParsedRSSFeed> {
  */
 export async function getLatestGundemArticles(limit = 10): Promise<GundemArticle[]> {
   const rssUrl = process.env.KARASU_GUNDEM_RSS_URL || 'https://karasugundem.com/feed';
-  
+
   try {
     const feed = await parseGundemRSS(rssUrl);
     return feed.articles.slice(0, limit);

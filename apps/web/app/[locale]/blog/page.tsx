@@ -1,7 +1,7 @@
 import { Button } from '@karasu/ui';
 import Link from 'next/link';
 import { routing } from '@/i18n/routing';
-import { MapPin, FileText, BookOpen, TrendingUp, Search, BarChart3, Users, Calendar } from 'lucide-react';
+import { MapPin, FileText, BookOpen, TrendingUp, Search, BarChart3, Users, Calendar, Sparkles, ArrowRight } from 'lucide-react';
 import { getArticles } from '@/lib/supabase/queries';
 import { getNewsArticles } from '@/lib/supabase/queries/news';
 import { getLatestGundemArticles } from '@/lib/rss/gundem-parser';
@@ -29,6 +29,7 @@ import { getQAEntries } from '@/lib/supabase/queries/qa';
 import { generateFAQSchema } from '@/lib/seo/structured-data';
 import { generateBlogCollectionPageSchema } from '@/lib/seo/blog-structured-data';
 import dynamicImport from 'next/dynamic';
+import { decodeHtmlEntities } from '@/lib/entities';
 
 import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // Revalidate every hour
@@ -396,10 +397,10 @@ export default async function BlogPage({
 
         return {
           id: `gundem-${idx}-${Date.now()}`,
-          title: article.title,
+          title: decodeHtmlEntities(article.title),
           slug: externalLink, // Use full URL as slug for Gündem articles
-          original_summary: article.description || article.content?.substring(0, 200) || '',
-          emlak_analysis: article.description || article.content?.substring(0, 200) || '',
+          original_summary: decodeHtmlEntities(article.description || article.content?.substring(0, 200) || ''),
+          emlak_analysis: decodeHtmlEntities(article.description || article.content?.substring(0, 200) || ''),
           published_at: article.pubDate || new Date().toISOString(),
           source_domain: 'karasugundem.com',
         };
@@ -425,10 +426,10 @@ export default async function BlogPage({
 
       realEstateNews = articlesToShow.slice(0, 6).map((article, idx) => ({
         id: article.id || `blog-${idx}`,
-        title: article.title,
+        title: decodeHtmlEntities(article.title),
         slug: article.slug,
-        original_summary: article.excerpt || article.meta_description || '',
-        emlak_analysis: article.excerpt || article.meta_description || '',
+        original_summary: decodeHtmlEntities(article.excerpt || article.meta_description || ''),
+        emlak_analysis: decodeHtmlEntities(article.excerpt || article.meta_description || ''),
         published_at: article.published_at || article.created_at || new Date().toISOString(),
         source_domain: 'karasuemlak.com',
       }));
@@ -528,6 +529,109 @@ export default async function BlogPage({
           {/* Breadcrumbs */}
           <Breadcrumbs items={breadcrumbs} className="mb-5" />
 
+          {/* Stats and Quick Links Toolbar */}
+          <section className="mb-8">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-6 p-4 md:p-6 bg-white/70 dark:bg-gray-800/50 backdrop-blur-md rounded-3xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm">
+              {/* Stats */}
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300 bg-white/60 dark:bg-gray-800/40 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
+                  <div className="p-1.5 bg-primary/10 rounded-lg">
+                    <FileText className="h-4 w-4 text-primary" />
+                  </div>
+                  <span className="font-bold text-gray-900 dark:text-white text-base">{total}</span>
+                  <span className="hidden sm:inline">Yazı</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300 bg-white/60 dark:bg-gray-800/40 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
+                  <div className="p-1.5 bg-primary/10 rounded-lg">
+                    <BookOpen className="h-4 w-4 text-primary" />
+                  </div>
+                  <span className="font-bold text-gray-900 dark:text-white text-base">{categories?.length || 0}</span>
+                  <span className="hidden sm:inline">Kategori</span>
+                </div>
+                {totalViews > 0 && (
+                  <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300 bg-white/60 dark:bg-gray-800/40 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
+                    <div className="p-1.5 bg-primary/10 rounded-lg">
+                      <BarChart3 className="h-4 w-4 text-primary" />
+                    </div>
+                    <span className="font-bold text-gray-900 dark:text-white text-base">{totalViews.toLocaleString('tr-TR')}</span>
+                    <span className="hidden sm:inline">Görüntülenme</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Quick Links */}
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <Link href={`${basePath}/karasu-satilik-ev`}>
+                  <Button variant="outline" size="sm" className="border-2 rounded-xl hover:border-primary hover:bg-primary/5 transition-all font-medium py-2">
+                    <MapPin className="h-4 w-4 mr-2 text-primary" />
+                    Karasu Rehberi
+                  </Button>
+                </Link>
+                <Link href={`${basePath}/satilik`}>
+                  <Button variant="outline" size="sm" className="border-2 rounded-xl hover:border-primary hover:bg-primary/5 transition-all font-medium py-2">
+                    <FileText className="h-4 w-4 mr-2 text-primary" />
+                    Satılık İlanlar
+                  </Button>
+                </Link>
+                <Link href={`${basePath}/rehber/yatirim`}>
+                  <Button variant="outline" size="sm" className="border-2 rounded-xl hover:border-primary hover:bg-primary/5 transition-all font-medium py-2">
+                    <TrendingUp className="h-4 w-4 mr-2 text-primary" />
+                    Yatırım Rehberi
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </section>
+
+          {/* Featured Articles Section */}
+          {featuredArticles.length > 0 && (
+            <section className="mb-12">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 rounded-xl border border-primary/20">
+                    <TrendingUp className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Öne Çıkan Yazılar</h2>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">En popüler içerikler</p>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
+                {/* Main Hero Article */}
+                <div className="lg:col-span-8">
+                  {featuredArticles[0] && (
+                    <ArticleCard article={featuredArticles[0]} basePath={basePath} variant="hero" />
+                  )}
+                </div>
+
+                {/* Secondary Column */}
+                <div className="lg:col-span-4 flex flex-col gap-6">
+                  {featuredArticles.slice(1, 3).map((article) => (
+                    <ArticleCard key={article.id} article={article} basePath={basePath} variant="compact" />
+                  ))}
+
+                  {/* Join Community Card */}
+                  <div className="bg-gradient-to-br from-[#006AFF] to-[#0052CC] rounded-3xl p-6 text-white shadow-xl flex flex-col justify-center gap-4 group hover:scale-[1.02] transition-all duration-300">
+                    <div className="h-12 w-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md">
+                      <Sparkles className="h-6 w-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold">Karasu'dan Haberdar Olun</h3>
+                    <p className="text-sm text-blue-50 leading-relaxed">
+                      En yeni ilanlar ve bölge rehberleri her hafta e-posta kutunuzda.
+                    </p>
+                    <Link href={`${basePath}/iletisim`}>
+                      <Button className="bg-white text-[#006AFF] hover:bg-white/90 border-0 rounded-xl font-bold w-full">
+                        Abone Ol
+                        <ArrowRight className="h-4 w-4 ml-2" />
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
           {/* Real Estate News Section - First Load */}
           {/* Always show this section on first load, even if empty initially */}
           <section className="mb-10 bg-white/70 dark:bg-gray-800/50 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-gray-200/50 dark:border-gray-700/50 shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
@@ -573,137 +677,74 @@ export default async function BlogPage({
             )}
           </section>
 
-          {/* Header Section with Stats */}
-          <section className="mb-8">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
-              <div className="flex-1">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
-                  Karasu Emlak Blog
-                </h1>
-                <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mb-6 leading-relaxed">
-                  Karasu ve çevresinde emlak, yatırım, bölge rehberleri ve uzman görüşleri. Satılık ev fiyatları, mahalle analizleri, yatırım ipuçları ve daha fazlası.
-                </p>
-
-                {/* Stats */}
-                <div className="flex flex-wrap items-center gap-3 mb-6">
-                  <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300 bg-white/60 dark:bg-gray-800/40 backdrop-blur-md px-5 py-3 rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
-                    <div className="p-1.5 bg-primary/10 rounded-lg">
-                      <FileText className="h-4 w-4 text-primary" />
-                    </div>
-                    <span className="font-bold text-gray-900 dark:text-white text-base">{total}</span>
-                    <span>Yazı</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300 bg-white/60 dark:bg-gray-800/40 backdrop-blur-md px-5 py-3 rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
-                    <div className="p-1.5 bg-primary/10 rounded-lg">
-                      <BookOpen className="h-4 w-4 text-primary" />
-                    </div>
-                    <span className="font-bold text-gray-900 dark:text-white text-base">{categories?.length || 0}</span>
-                    <span>Kategori</span>
-                  </div>
-                  {totalViews > 0 && (
-                    <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300 bg-white/60 dark:bg-gray-800/40 backdrop-blur-md px-5 py-3 rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
-                      <div className="p-1.5 bg-primary/10 rounded-lg">
-                        <BarChart3 className="h-4 w-4 text-primary" />
-                      </div>
-                      <span className="font-bold text-gray-900 dark:text-white text-base">{totalViews.toLocaleString('tr-TR')}</span>
-                      <span>Görüntülenme</span>
-                    </div>
-                  )}
+          {/* Search Section */}
+          <div className="bg-white/60 dark:bg-gray-800/40 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-gray-200/50 dark:border-gray-700/50 mb-10 shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
+            <div className="max-w-3xl mx-auto">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-xl">
+                  <Search className="h-5 w-5 text-primary" />
                 </div>
-
-                {/* Quick Links */}
-                <div className="flex flex-wrap gap-3">
-                  <Link href={`${basePath}/karasu-satilik-ev`}>
-                    <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5 transition-all">
-                      <MapPin className="h-4 w-4 mr-2" />
-                      Karasu Rehberi
-                    </Button>
-                  </Link>
-                  <Link href={`${basePath}/satilik`}>
-                    <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5 transition-all">
-                      <FileText className="h-4 w-4 mr-2" />
-                      Satılık İlanlar
-                    </Button>
-                  </Link>
-                  <Link href={`${basePath}/rehber/yatirim`}>
-                    <Button variant="outline" size="sm" className="border-2 hover:border-primary hover:bg-primary/5 transition-all">
-                      <TrendingUp className="h-4 w-4 mr-2" />
-                      Yatırım Rehberi
-                    </Button>
-                  </Link>
-                </div>
+                <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Blog Yazılarında Ara</h2>
               </div>
-            </div>
-
-            {/* Search Section */}
-            <div className="bg-white/60 dark:bg-gray-800/40 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-gray-200/50 dark:border-gray-700/50 mb-10 shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
-              <div className="max-w-3xl mx-auto">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-xl">
-                    <Search className="h-5 w-5 text-primary" />
-                  </div>
-                  <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Blog Yazılarında Ara</h2>
+              <BlogSearch basePath={basePath} />
+              {searchQuery && (
+                <div className="mt-4 text-sm text-gray-600 dark:text-gray-400 bg-white/50 dark:bg-gray-800/50 rounded-lg px-4 py-2 inline-block">
+                  <span>"<strong className="text-gray-900 dark:text-white">{searchQuery}</strong>" için <strong className="text-primary">{total}</strong> sonuç bulundu</span>
                 </div>
-                <BlogSearch basePath={basePath} />
-                {searchQuery && (
-                  <div className="mt-4 text-sm text-gray-600 dark:text-gray-400 bg-white/50 dark:bg-gray-800/50 rounded-lg px-4 py-2 inline-block">
-                    <span>"<strong className="text-gray-900 dark:text-white">{searchQuery}</strong>" için <strong className="text-primary">{total}</strong> sonuç bulundu</span>
-                  </div>
-                )}
-              </div>
+              )}
             </div>
+          </div>
 
-            {/* Categories Section */}
-            {categories && categories.length > 0 && (
-              <BlogCategoriesSection
-                categories={categories}
-                basePath={basePath}
-              />
-            )}
-
-            {/* Seasonal Hub Link (Ramazan 2026) */}
-            <div className="mb-6">
-              <Link
-                href={`${basePath}/blog/ramazan-2026`}
-                className="block rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 via-white to-blue-50/70 p-6 hover:shadow-lg transition-all"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
-                    <Calendar className="h-6 w-6 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between gap-3">
-                      <h2 className="text-xl md:text-2xl font-bold text-gray-900">
-                        Ramazan 2026 İçerik Merkezi
-                      </h2>
-                      <span className="text-xs font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
-                        SEO Hub
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-700 mt-2 max-w-3xl">
-                      Ramazan ve bayram dönemine özel Karasu rehberleri: kiralık ev arama ipuçları, taşınma checklist’i,
-                      sahil akşam planı ve bayram haftası yazlık önerileri.
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                      <span className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-700">
-                        /blog/ramazan-2026
-                      </span>
-                      <span className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-700">
-                        /blog/etiket/ramazan
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </div>
-
-            {/* Filters Section */}
-            <BlogFilters
-              basePath={basePath}
+          {/* Categories Section */}
+          {categories && categories.length > 0 && (
+            <BlogCategoriesSection
               categories={categories}
-              className="mb-6"
+              basePath={basePath}
             />
-          </section>
+          )}
+
+          {/* Seasonal Hub Link (Ramazan 2026) */}
+          <div className="mb-6">
+            <Link
+              href={`${basePath}/blog/ramazan-2026`}
+              className="block rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 via-white to-blue-50/70 p-6 hover:shadow-lg transition-all"
+            >
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
+                  <Calendar className="h-6 w-6 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-3">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-900">
+                      Ramazan 2026 İçerik Merkezi
+                    </h2>
+                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
+                      SEO Hub
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mt-2 max-w-3xl">
+                    Ramazan ve bayram dönemine özel Karasu rehberleri: kiralık ev arama ipuçları, taşınma checklist’i,
+                    sahil akşam planı ve bayram haftası yazlık önerileri.
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                    <span className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-700">
+                      /blog/ramazan-2026
+                    </span>
+                    <span className="px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-gray-700">
+                      /blog/etiket/ramazan
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          {/* Filters Section */}
+          <BlogFilters
+            basePath={basePath}
+            categories={categories}
+            className="mb-6"
+          />
 
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 lg:gap-8">
@@ -712,28 +753,6 @@ export default async function BlogPage({
               {/* Show articles if any exist */}
               {articles.length > 0 ? (
                 <>
-                  {/* Featured Articles Section */}
-                  {featuredArticles.length > 0 && (
-                    <section className="mb-12">
-                      <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 rounded-xl border border-primary/20">
-                            <TrendingUp className="h-6 w-6 text-primary" />
-                          </div>
-                          <div>
-                            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Öne Çıkan Yazılar</h2>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">En popüler içerikler</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                        {featuredArticles.map((article) => (
-                          <ArticleCard key={article.id} article={article} basePath={basePath} />
-                        ))}
-                      </div>
-                    </section>
-                  )}
-
                   {/* Latest Articles Section */}
                   {latestArticles.length > 0 && (
                     <section className="mb-12">
