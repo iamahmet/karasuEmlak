@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@karasu/ui';
-import { Plus, Edit, Trash2, Eye, EyeOff, Star, StarOff, Search, Filter, MapPin, Home, Key } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, EyeOff, Star, StarOff, Search, Filter, MapPin, Home, Key, Bot } from 'lucide-react';
 import { createClient } from '@karasu/lib/supabase/client';
 import { useRouter } from '@/i18n/routing';
 import Link from 'next/link';
@@ -25,6 +25,7 @@ export function ListingsManager() {
   const router = useRouter();
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isScraping, setIsScraping] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [featuredFilter, setFeaturedFilter] = useState<boolean | null>(null);
@@ -65,7 +66,7 @@ export function ListingsManager() {
 
   async function toggleFeatured(id: string, currentFeatured: boolean) {
     const supabase = createClient();
-    
+
     try {
       const { error } = await supabase
         .from('listings')
@@ -81,7 +82,7 @@ export function ListingsManager() {
 
   async function togglePublished(id: string, currentPublished: boolean) {
     const supabase = createClient();
-    
+
     try {
       const { error } = await supabase
         .from('listings')
@@ -99,7 +100,7 @@ export function ListingsManager() {
     if (!confirm('Bu ilanı silmek istediğinizden emin misiniz?')) return;
 
     const supabase = createClient();
-    
+
     try {
       const { error } = await supabase
         .from('listings')
@@ -113,7 +114,28 @@ export function ListingsManager() {
     }
   }
 
-  const filteredListings = listings.filter(listing => 
+  const handleScrape = async () => {
+    if (!confirm('Karasusatilikev.com sitesinden eksik ilanlar taranıp sisteme eklensin mi? Bu işlem biraz zaman alabilir.')) return;
+    setIsScraping(true);
+    try {
+      const res = await fetch('/api/scrape-listings', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(data.message);
+        fetchListings();
+      } else {
+        alert('Hata: ' + data.error);
+      }
+    } catch (err) {
+      alert('Sistemsel bir hata oluştu');
+    } finally {
+      setIsScraping(false);
+    }
+  };
+
+  const filteredListings = listings.filter(listing =>
     listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     listing.location_neighborhood.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -148,19 +170,27 @@ export function ListingsManager() {
 
           <button
             onClick={() => setFeaturedFilter(featuredFilter === true ? null : true)}
-            className={`px-4 py-2 rounded-lg font-semibold text-sm transition-colors ${
-              featuredFilter === true
-                ? 'bg-yellow-500 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+            className={`px-4 py-2 rounded-lg font-semibold text-sm transition-colors ${featuredFilter === true
+              ? 'bg-yellow-500 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
           >
             <Star className="h-4 w-4 inline-block mr-1" />
             Öne Çıkanlar
           </button>
 
-          <Button onClick={fetchListings} variant="outline">
+          <Button onClick={fetchListings} variant="outline" disabled={isScraping}>
             <Filter className="h-4 w-4 mr-2" />
             Yenile
+          </Button>
+
+          <Button onClick={handleScrape} disabled={isScraping} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            {isScraping ? (
+              <Bot className="h-4 w-4 mr-2 animate-bounce" />
+            ) : (
+              <Bot className="h-4 w-4 mr-2" />
+            )}
+            {isScraping ? 'Taranıyor...' : 'İlan Çek'}
           </Button>
 
           <Button onClick={() => router.push('/listings/new')}>
@@ -228,11 +258,10 @@ export function ListingsManager() {
                     </div>
                   </td>
                   <td className="px-4 py-4">
-                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold ${
-                      listing.status === 'satilik'
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'bg-green-100 text-green-700'
-                    }`}>
+                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold ${listing.status === 'satilik'
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'bg-green-100 text-green-700'
+                      }`}>
                       {listing.status === 'satilik' ? <Home className="h-3 w-3" /> : <Key className="h-3 w-3" />}
                       {listing.status === 'satilik' ? 'Satılık' : 'Kiralık'}
                     </span>
@@ -245,11 +274,10 @@ export function ListingsManager() {
                   <td className="px-4 py-4">
                     <button
                       onClick={() => toggleFeatured(listing.id, listing.featured)}
-                      className={`p-2 rounded-lg transition-colors ${
-                        listing.featured
-                          ? 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'
-                          : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                      }`}
+                      className={`p-2 rounded-lg transition-colors ${listing.featured
+                        ? 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'
+                        : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                        }`}
                       title={listing.featured ? 'Öne çıkandan kaldır' : 'Öne çıkar'}
                     >
                       {listing.featured ? <Star className="h-4 w-4 fill-current" /> : <StarOff className="h-4 w-4" />}
@@ -259,11 +287,10 @@ export function ListingsManager() {
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => togglePublished(listing.id, listing.published)}
-                        className={`p-2 rounded-lg transition-colors ${
-                          listing.published
-                            ? 'bg-green-100 text-green-600 hover:bg-green-200'
-                            : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                        }`}
+                        className={`p-2 rounded-lg transition-colors ${listing.published
+                          ? 'bg-green-100 text-green-600 hover:bg-green-200'
+                          : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                          }`}
                         title={listing.published ? 'Yayından kaldır' : 'Yayınla'}
                       >
                         {listing.published ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
@@ -305,7 +332,7 @@ export function ListingsManager() {
           💡 İpucu: Öne Çıkan İlanlar
         </h4>
         <p className="text-sm text-blue-700">
-          Yıldız ikonuna tıklayarak ilanları "Öne Çıkan" olarak işaretleyin. 
+          Yıldız ikonuna tıklayarak ilanları "Öne Çıkan" olarak işaretleyin.
           Öne çıkan ilanlar homepage'de otomatik olarak gösterilir.
         </p>
       </div>
