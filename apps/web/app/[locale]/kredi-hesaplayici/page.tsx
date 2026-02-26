@@ -391,19 +391,19 @@ export default async function MortgageCalculatorPage({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Link href={`${basePath}/rehberler/kredi-nasil-alinir`} className="group bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-[#006AFF] dark:hover:border-[#006AFF]/50 hover:shadow-lg transition-all">
+              <Link href={`${basePath}/blog/karasu-satilik-daire-alirken-konut-kredisi-rehberi-2026`} className="group bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-[#006AFF] dark:hover:border-[#006AFF]/50 hover:shadow-lg transition-all">
                 <div className="flex items-center gap-2 mb-3">
                   <CreditCard className="h-5 w-5 text-[#006AFF] group-hover:scale-110 transition-transform" />
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-[#006AFF] transition-colors">Konut Kredisi Nasıl Alınır?</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-[#006AFF] transition-colors">Karasu Satılık Daire: Konut Kredisi Rehberi 2026</h3>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Kredi başvuru süreci ve gerekli belgeler hakkında detaylı rehber</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Karasu'da satılık daire yatırımı yaparken uygun ev kredisi ve emlak kredisi fırsatlarını keşfedin.</p>
               </Link>
-              <Link href={`${basePath}/rehberler/ev-nasil-alinir`} className="group bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-[#006AFF] dark:hover:border-[#006AFF]/50 hover:shadow-lg transition-all">
+              <Link href={`${basePath}/blog/karasu-kiralik-daire-ev-kredisi-karsilastirma`} className="group bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-[#006AFF] dark:hover:border-[#006AFF]/50 hover:shadow-lg transition-all">
                 <div className="flex items-center gap-2 mb-3">
                   <Building2 className="h-5 w-5 text-[#006AFF] group-hover:scale-110 transition-transform" />
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-[#006AFF] transition-colors">Ev Nasıl Alınır?</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-[#006AFF] transition-colors">Karasu Kiralık Daire mi, Ev Kredisi mi?</h3>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Ev alma süreci ve dikkat edilmesi gerekenler</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Karasu kiralık daire fiyatları ile kira öder gibi konut kredisi ödeyerek kendi evinize sahip olmanın analizi.</p>
               </Link>
             </div>
           </div>
