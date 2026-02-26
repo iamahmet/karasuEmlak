@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import type { Metadata } from 'next';
@@ -16,7 +16,7 @@ import { ArticleBody } from '@/components/blog/ArticleBody';
 import { ArticleSidebar } from '@/components/blog/ArticleSidebar';
 import { ArticleFooter } from '@/components/blog/ArticleFooter';
 import { generateContextualLinks } from '@/components/blog/contextual-links';
-import { getArticleBySlug, getRelatedArticles, getAdjacentArticles } from '@/lib/supabase/queries';
+import { getArticleBySlug, getRelatedArticles, getAdjacentArticles, findArticleByLegacySlug } from '@/lib/supabase/queries';
 import type { Article } from '@/lib/supabase/queries/articles';
 import { getIntelligentRecommendations } from '@/lib/services/article-recommendations';
 import { getPopularArticles } from '@/lib/supabase/queries/blog-sidebar';
@@ -87,11 +87,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, slug } = await params;
   const siteUrl = getSiteUrl(siteConfig.url);
-  
+
   // Fetch article with timeout to prevent hanging
   const rawArticle = await withTimeout(getArticleBySlug(slug), 2000, null);
 
   if (!rawArticle) {
+    const fallback = await withTimeout(findArticleByLegacySlug(slug), 1500, null);
+    if (fallback && fallback.slug) {
+      const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+      permanentRedirect(`${basePath}/blog/${fallback.slug}`);
+    }
+
     return {
       title: 'Yazı Bulunamadı | Karasu Emlak Blog',
       description: 'Aradığınız blog yazısı bulunamadı.',
@@ -146,11 +152,11 @@ export async function generateMetadata({
     toMetaPlainText(normalized.meta_description) ||
     toMetaPlainText(normalized.excerpt) ||
     toMetaPlainText(normalized.content).slice(0, 160);
-  
-  const keywords = article.tags?.join(', ') || 
-    article.keywords?.join(', ') || 
+
+  const keywords = article.tags?.join(', ') ||
+    article.keywords?.join(', ') ||
     'karasu emlak, gayrimenkul, ev satın alma';
-  
+
   const author = article.author || 'Karasu Emlak';
 
   // Get lastModified date for content freshness
@@ -261,6 +267,11 @@ export default async function BlogDetailPage({
   const rawArticle = await withTimeout(getArticleBySlug(slug), 3000, null);
 
   if (!rawArticle) {
+    const fallback = await withTimeout(findArticleByLegacySlug(slug), 1500, null);
+    if (fallback && fallback.slug) {
+      const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
+      permanentRedirect(`${basePath}/blog/${fallback.slug}`);
+    }
     notFound();
   }
 
@@ -274,7 +285,7 @@ export default async function BlogDetailPage({
       checkQuality: process.env.NODE_ENV === 'development',
     }
   );
-  
+
   // Merge normalized metadata with original article
   const article: Article = {
     ...rawArticle,
@@ -294,9 +305,9 @@ export default async function BlogDetailPage({
   // Get intelligent recommendations
   const [relatedArticles, adjacentArticles] = await Promise.all([
     withTimeout(getRelatedArticles(article, 6), 2000, []),
-    withTimeout(getAdjacentArticles(article.id, article.published_at), 2000, { 
-      previous: null, 
-      next: null 
+    withTimeout(getAdjacentArticles(article.id, article.published_at), 2000, {
+      previous: null,
+      next: null
     }),
   ]);
 
@@ -326,7 +337,7 @@ export default async function BlogDetailPage({
       imageUrl = null;
     }
   }
-  
+
   // Step 2: If no Cloudinary image, try external URL validation
   if (!imageUrl && featuredImage) {
     const url = featuredImage.trim();
@@ -335,7 +346,7 @@ export default async function BlogDetailPage({
       imageType = 'external';
     }
   }
-  
+
   // Step 3: If still no image, try free image service
   if (!imageUrl) {
     try {
@@ -348,7 +359,7 @@ export default async function BlogDetailPage({
       console.warn('[Blog Detail] Failed to get free image:', error);
     }
   }
-  
+
   // Step 4: Final fallback - use placeholder (will be handled by ArticleHero component)
   // imageUrl remains null, ArticleHero will handle the fallback
   const schemaImageUrl = isValidHttpUrl(imageUrl) ? imageUrl : toAbsoluteSiteUrl('/og-image.jpg', siteUrl);
@@ -461,11 +472,11 @@ export default async function BlogDetailPage({
     { name: 'Blog', url: `${siteUrl}${basePath}/blog` },
     ...(article.category
       ? [
-          {
-            name: article.category,
-            url: `${siteUrl}${basePath}/blog/kategori/${article.category.toLowerCase().replace(/\s+/g, '-')}`,
-          },
-        ]
+        {
+          name: article.category,
+          url: `${siteUrl}${basePath}/blog/kategori/${article.category.toLowerCase().replace(/\s+/g, '-')}`,
+        },
+      ]
       : []),
     { name: article.title, url: articleUrl },
   ];

@@ -103,7 +103,7 @@ export async function getArticleBySlug(slug: string): Promise<(Article & { autho
   }
 
   const article = data as any;
-  
+
   // Try to fetch author separately if primary_author_id exists
   if (article.primary_author_id) {
     try {
@@ -112,7 +112,7 @@ export async function getArticleBySlug(slug: string): Promise<(Article & { autho
         .select('id, slug, full_name, title, bio, social_json')
         .eq('id', article.primary_author_id)
         .single();
-      
+
       if (authorData) {
         article.author_data = {
           id: authorData.id,
@@ -136,6 +136,54 @@ export async function getArticleBySlug(slug: string): Promise<(Article & { autho
   }
 
   return article as Article & { author_data?: any };
+}
+
+/**
+ * Fallback to find articles by legacy slug or broken URL
+ * Performs fuzzy search on the title or slug parts
+ */
+export async function findArticleByLegacySlug(slug: string): Promise<Article | null> {
+  const supabase = createServiceClient();
+  const parts = slug.replace(/(-\d+)$/, '').split('-').filter(p => p.length > 3 && !['icin', 'nasil', 'nedir', 'hangi'].includes(p));
+
+  if (parts.length === 0) return null;
+
+  try {
+    let query = supabase.from('articles').select('*').eq('status', 'published');
+
+    parts.forEach(part => {
+      query = query.ilike('slug', `%${part}%`);
+    });
+
+    const { data } = await query.limit(1);
+    if (data && data.length > 0) return data[0] as Article;
+
+    // Turkish title full text search
+    const titleQuery = parts.join(' | ');
+    const { data: textData } = await supabase
+      .from('articles')
+      .select('*')
+      .eq('status', 'published')
+      .textSearch('title', titleQuery, { type: 'websearch', config: 'turkish' })
+      .limit(1);
+
+    if (textData && textData.length > 0) return textData[0] as Article;
+
+    // Fallback ilike of the first 2 important parts
+    if (parts.length > 1) {
+      let fallbackQuery = supabase.from('articles').select('*').eq('status', 'published')
+        .ilike('slug', `%${parts[0]}%`)
+        .ilike('slug', `%${parts[1]}%`)
+        .limit(1);
+      const { data: fallbackData } = await fallbackQuery;
+      if (fallbackData && fallbackData.length > 0) return fallbackData[0] as Article;
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Error finding legacy fallback article:', error);
+    return null;
+  }
 }
 
 /**
