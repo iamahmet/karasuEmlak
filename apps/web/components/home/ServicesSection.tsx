@@ -2,6 +2,8 @@ import Link from "next/link";
 import { FileText, Calculator, TrendingUp, Shield, Users, Award, ArrowRight } from "lucide-react";
 import { Button } from "@karasu/ui";
 
+import { cn } from "@karasu/lib";
+
 interface ServicesSectionProps {
   basePath?: string;
 }
@@ -42,86 +44,93 @@ export function ServicesSection({ basePath = "" }: ServicesSectionProps) {
 
   const colorClasses = {
     blue: "bg-blue-50 text-blue-600 hover:bg-blue-100",
-    green: "bg-green-50 text-green-600 hover:bg-green-100",
+    green: "bg-emerald-50 text-emerald-600 hover:bg-emerald-100",
     orange: "bg-orange-50 text-orange-600 hover:bg-orange-100",
     purple: "bg-purple-50 text-purple-600 hover:bg-purple-100",
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-white">
-      <div className="container mx-auto px-4 lg:px-6">
+
+    <section className="py-24 lg:py-40 bg-white relative overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-blue-50/30 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6 text-gray-900 tracking-tight">
-              Karasu Emlak Ofisi ve Hizmetlerimiz
+          <div className="text-center mb-24 space-y-6">
+            <h2 className="text-4xl md:text-6xl font-black text-gray-900 tracking-[-0.04em] leading-tight max-w-4xl mx-auto">
+              Gayrimenkulde Uzman <span className="text-blue-600">Danışmanlık</span> Hizmetleri
             </h2>
-            <p className="text-[17px] md:text-[19px] text-gray-600 max-w-3xl mx-auto leading-[1.7]">
-              Karasu emlak ofisi olarak, bölgedeki gayrimenkul piyasasında 15+ yıllık deneyimimiz ile müşterilerimize kapsamlı hizmetler sunuyoruz. 
-              Karasu emlak danışmanlığı hizmetimiz, satılık ve kiralık gayrimenkul arayanlar için profesyonel rehberlik sağlamaktadır.
+            <p className="text-lg md:text-xl text-gray-500 font-medium max-w-3xl mx-auto leading-relaxed">
+              15 yılı aşkın tecrübemizle Karasu'da güvenilir, profesyonel ve sonuç odaklı gayrimenkul çözümleri sunuyoruz.
             </p>
           </div>
 
-          {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12">
+          {/* Services Grid - Premium Flow */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 mb-24">
             {services.map((service, index) => {
               const Icon = service.icon;
               return (
                 <div
                   key={index}
-                  className="bg-white rounded-xl border-2 border-gray-200 p-6 lg:p-8 hover:shadow-xl hover:border-[#006AFF]/40 transition-all duration-300 hover:-translate-y-2"
+                  className="group relative bg-white rounded-[40px] p-10 border border-gray-100 hover:shadow-[0_40px_100px_rgba(0,106,255,0.08)] transition-all duration-500 hover:-translate-y-2 overflow-hidden flex flex-col sm:flex-row gap-8 items-start"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className={`p-4 rounded-xl ${colorClasses[service.color as keyof typeof colorClasses]} transition-colors duration-300 flex-shrink-0`}>
-                      <Icon className="h-6 w-6 stroke-[1.5]" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 tracking-tight">
-                        {service.title}
-                      </h3>
-                      <p className="text-[15px] text-gray-600 leading-relaxed">
-                        {service.description}
-                      </p>
-                    </div>
+                  <div className={cn(
+                    "w-20 h-20 rounded-[28px] flex items-center justify-center flex-shrink-0 transition-transform duration-500 group-hover:scale-110",
+                    colorClasses[service.color as keyof typeof colorClasses].split(' ')[0], // bg class
+                    colorClasses[service.color as keyof typeof colorClasses].split(' ')[1]  // text class
+                  )}>
+                    <Icon className="h-10 w-10 stroke-[1.5]" />
+                  </div>
+
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-bold text-gray-900 tracking-tight group-hover:text-blue-600 transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-gray-500 font-medium leading-[1.7] text-[15px]">
+                      {service.description}
+                    </p>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          {/* Stats - Minimalist & Bold */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 py-16 border-y border-gray-100 mb-20">
             {stats.map((stat, index) => {
               const Icon = stat.icon;
               return (
-                <div
-                  key={index}
-                  className="bg-gradient-to-br from-gray-50 to-white rounded-xl border-2 border-gray-200 p-6 text-center hover:shadow-lg transition-all duration-300"
-                >
-                  <Icon className={`h-8 w-8 ${stat.color} mx-auto mb-3 stroke-[1.5]`} />
-                  <div className={`text-3xl font-bold ${stat.color} mb-2`}>
-                    {stat.value}
+                <div key={index} className="flex flex-col items-center text-center space-y-4 group">
+                  <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:bg-blue-600/10", stat.color.replace('text', 'bg').replace('600', '100'))}>
+                    <Icon className={cn("h-6 w-6 stroke-[1.5]", stat.color)} />
                   </div>
-                  <div className="text-sm font-semibold text-gray-600">
-                    {stat.label}
+                  <div className="space-y-1">
+                    <div className="text-5xl font-black text-gray-900 tracking-[-0.03em]">
+                      {stat.value}
+                    </div>
+                    <div className="text-xs font-black text-gray-400 uppercase tracking-[0.2em]">
+                      {stat.label}
+                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          {/* CTA */}
-          <div className="text-center">
-            <Button
-              size="lg"
-              className="bg-[#006AFF] hover:bg-[#0052CC] text-white px-8 py-6 text-[15px] font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-              asChild
+          {/* CTA - Premium Pill */}
+          <div className="flex justify-center">
+            <Link
+              href={`${basePath}/iletisim`}
+              className="group relative bg-gray-900 hover:bg-black text-white px-12 py-5 rounded-full text-sm font-bold tracking-tight shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden"
             >
-              <Link href={`${basePath}/iletisim`}>
-                Hizmetlerimiz Hakkında Daha Fazla Bilgi
-                <ArrowRight className="h-5 w-5 ml-2 stroke-[1.5]" />
-              </Link>
-            </Button>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <span className="relative z-10 flex items-center gap-3">
+                ÜCRETSİZ DANIŞMANLIK ALIN
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
           </div>
         </div>
       </div>

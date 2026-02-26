@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Home, Building2, TreePine, Key, ArrowRight } from "lucide-react";
 
+import { cn } from "@karasu/lib";
+
 interface QuickAccessSectionProps {
   basePath?: string;
 }
@@ -47,57 +49,70 @@ export function QuickAccessSection({ basePath = "" }: QuickAccessSectionProps) {
   ];
 
   return (
-    <section className="py-12 lg:py-16 bg-gradient-to-b from-white to-gray-50">
-      <div className="container mx-auto px-4 lg:px-6">
+
+    <section className="py-24 lg:py-36 bg-gray-50/50">
+      <div className="container mx-auto px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold mb-4 text-gray-900 tracking-tight">
-              Karasu'da Satılık ve Kiralık Gayrimenkul Türleri
+          <div className="text-center mb-20 space-y-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-[-0.03em] leading-tight">
+              Gayrimenkul Kategorileri
             </h2>
-            <p className="text-[16px] md:text-[18px] text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Karasu'da satılık daire, kiralık daire, satılık villa, kiralık villa, yazlık ve arsa gibi her türlü gayrimenkul seçeneğini bulabilirsiniz. Denize sıfır konumlar, modern yaşam alanları ve yatırım fırsatları.
+            <p className="text-lg md:text-xl text-gray-500 font-medium max-w-2xl mx-auto leading-relaxed">
+              Karasu'nun her bölgesinde, ihtiyacınıza uygun satılık ve kiralık seçeneklerle dolu en geniş portföyü keşfedin.
             </p>
           </div>
 
-          {/* Quick Access Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+          {/* Quick Access Grid - Bento Style */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {quickAccessItems.map((item, index) => {
               const Icon = item.icon;
               return (
                 <Link
                   key={index}
                   href={item.href}
-                  className="group block"
+                  className="group relative"
                 >
-                  <div className="bg-white rounded-xl border-2 border-gray-200 p-6 hover:shadow-xl hover:border-[#006AFF]/40 transition-all duration-300 hover:-translate-y-2 h-full">
-                    {/* Icon */}
-                    <div className="mb-4">
-                      <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl ${item.bgColor} mb-3 group-hover:scale-110 transition-transform duration-300`}>
-                        <Icon className={`h-7 w-7 ${item.textColor} stroke-[1.5]`} />
+                  <div className="relative h-full bg-white rounded-[40px] p-10 border border-gray-100 hover:shadow-[0_40px_100px_rgba(0,106,255,0.08)] transition-all duration-500 hover:-translate-y-2 overflow-hidden flex flex-col items-center text-center">
+                    {/* Abstract Background Glow */}
+                    <div className={cn(
+                      "absolute -top-10 -right-10 w-32 h-32 blur-[60px] opacity-0 group-hover:opacity-20 transition-opacity duration-500",
+                      item.color.includes('blue') ? 'bg-blue-600' :
+                        item.color.includes('green') ? 'bg-emerald-600' :
+                          item.color.includes('purple') ? 'bg-purple-600' : 'bg-orange-600'
+                    )}></div>
+
+                    {/* Icon Container */}
+                    <div className="relative mb-8">
+                      <div className={cn(
+                        "w-20 h-20 rounded-3xl flex items-center justify-center transition-all duration-500 group-hover:scale-110",
+                        item.bgColor
+                      )}>
+                        <Icon className={cn("h-10 w-10 stroke-[1.5]", item.textColor)} />
+                      </div>
+
+                      {/* Secondary Floating Icon */}
+                      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-white rounded-full shadow-lg border border-gray-50 flex items-center justify-center scale-0 group-hover:scale-100 transition-transform duration-500 delay-100">
+                        <ArrowRight className={cn("h-4 w-4", item.textColor)} />
                       </div>
                     </div>
 
                     {/* Content */}
-                    <h3 className="text-lg font-bold text-gray-900 mb-2 tracking-tight group-hover:text-[#006AFF] transition-colors duration-200">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-3 tracking-tight group-hover:text-blue-600 transition-colors duration-300">
                       {item.title}
                     </h3>
-                    <p className="text-[15px] text-gray-600 mb-4 leading-relaxed">
+                    <p className="text-gray-500 font-medium leading-relaxed mb-8">
                       {item.description}
                     </p>
 
-                    {/* CTA */}
-                    <div className="pt-4 border-t border-gray-200">
-                      <span className="inline-flex items-center gap-2 text-[15px] font-semibold text-[#006AFF] group-hover:gap-3 transition-all duration-200">
-                        Keşfet
-                        <ArrowRight className="h-4 w-4 stroke-[1.5]" />
-                      </span>
-                    </div>
+                    <span className="mt-auto px-6 py-2 rounded-full bg-gray-50 text-[11px] font-extrabold text-gray-400 uppercase tracking-widest group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                      İlanları Gör
+                    </span>
 
                     {/* Badge */}
                     {item.badge && (
-                      <div className="absolute top-4 right-4">
-                        <span className="px-2.5 py-1 bg-[#006AFF] text-white text-[11px] font-bold rounded-lg uppercase tracking-wider">
+                      <div className="absolute top-6 right-6">
+                        <span className="px-3 py-1 bg-blue-600 text-white text-[9px] font-black rounded-full uppercase tracking-[0.2em] shadow-lg shadow-blue-600/20">
                           {item.badge}
                         </span>
                       </div>

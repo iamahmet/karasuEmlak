@@ -4,6 +4,8 @@ import Link from "next/link";
 import { TrendingUp, TrendingDown, DollarSign, Home, Building2, TreePine, MapPin, ArrowRight, Calendar, FileText } from "lucide-react";
 import { Button } from "@karasu/ui";
 
+import { cn } from "@karasu/lib";
+
 interface CurrentPricesSectionProps {
   basePath?: string;
 }
@@ -65,100 +67,93 @@ export function CurrentPricesSection({ basePath = "" }: CurrentPricesSectionProp
   ];
 
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-b from-white to-gray-50">
-      <div className="container mx-auto px-4 lg:px-6">
+
+    <section className="py-24 lg:py-40 bg-white relative overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50/20 rounded-full blur-[140px] translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+
+      <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12">
-            <div className="inline-block mb-4">
-              <span className="text-[#006AFF] text-sm font-bold uppercase tracking-wider">Güncel Fiyatlar</span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-24">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-100/50 rounded-full">
+                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest text-center">PİYASA VERİLERİ</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-black text-gray-900 tracking-[-0.04em] leading-tight">
+                Karasu'da Güncel <span className="text-blue-600">Piyasa</span> Analizi
+              </h2>
+              <p className="text-lg md:text-xl text-gray-500 font-medium max-w-2xl leading-relaxed">
+                Gerçek zamanlı verilerle Karasu emlak piyasasını takip edin, doğru zamanda doğru kararlar alın.
+              </p>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6 text-gray-900 tracking-tight">
-              Karasu Emlak Fiyatları
-            </h2>
-            <p className="text-[17px] md:text-[19px] text-gray-600 max-w-3xl mx-auto leading-[1.7]">
-              Karasu'da güncel emlak fiyatları ve piyasa analizi. Denize sıfır konumlar, modern yaşam alanları ve yatırım fırsatları için en güncel fiyat bilgileri.
-            </p>
+
+            <div className="hidden lg:flex items-center gap-4 text-gray-400 font-bold text-xs uppercase tracking-widest">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                SON GÜNCELLEME: ŞUBAT 2026
+              </div>
+            </div>
           </div>
 
-          {/* Price Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          {/* Price Cards Grid - High Contrast Bento */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
             {priceData.map((item, index) => {
               const Icon = item.icon;
               return (
                 <Link
                   key={index}
                   href={item.href}
-                  className="group block"
+                  className="group relative"
                 >
-                  <div className="bg-white rounded-xl border-2 border-gray-200 p-6 hover:shadow-xl hover:border-[#006AFF]/40 transition-all duration-300 hover:-translate-y-2 h-full">
-                    {/* Icon & Type */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="p-3 bg-blue-50 rounded-xl group-hover:bg-blue-100 transition-colors">
-                          <Icon className="h-6 w-6 text-blue-600 stroke-[1.5]" />
-                        </div>
-                        <div>
-                          <h3 className="text-lg font-bold text-gray-900 group-hover:text-[#006AFF] transition-colors">{item.type}</h3>
-                        </div>
+                  <div className="relative h-full bg-white rounded-[40px] p-8 border border-gray-100 hover:shadow-[0_40px_100px_rgba(0,106,255,0.08)] transition-all duration-500 hover:-translate-y-2 flex flex-col">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-8">
+                      <div className="p-4 bg-gray-50 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
+                        <Icon className="h-7 w-7 stroke-[1.5]" />
+                      </div>
+                      <div className={cn(
+                        "flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black tracking-widest",
+                        item.changeType === "up" ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"
+                      )}>
+                        {item.changeType === "up" ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                        %{item.change}
                       </div>
                     </div>
 
-                    {/* Average Price */}
-                    <div className="mb-3">
-                      <div className="text-2xl font-bold text-[#006AFF] mb-1">
+                    <div className="space-y-1 mb-6">
+                      <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest">{item.type}</h3>
+                      <div className="text-4xl font-black text-gray-900 tracking-tight group-hover:text-blue-600 transition-colors">
                         {item.avgPrice}
                       </div>
-                      <div className="text-sm text-gray-600">
-                        m² başına {item.pricePerM2}
+                      <p className="text-xs font-bold text-gray-500 tracking-tight">Ortalama Fiyat</p>
+                    </div>
+
+                    <div className="flex flex-col gap-4 py-6 border-y border-gray-50">
+                      <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest text-gray-400">
+                        <span>METREKARE</span>
+                        <span className="text-gray-900">{item.pricePerM2}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest text-gray-400">
+                        <span>İLAN SAYISI</span>
+                        <span className="text-gray-900">{item.activeListings}</span>
                       </div>
                     </div>
 
-                    {/* Price Change */}
-                    <div className="flex items-center gap-2 mb-4">
-                      {item.changeType === "up" ? (
-                        <TrendingUp className="h-4 w-4 text-green-600" />
-                      ) : (
-                        <TrendingDown className="h-4 w-4 text-red-600" />
-                      )}
-                      <span className={`text-sm font-semibold ${
-                        item.changeType === "up" ? "text-green-600" : "text-red-600"
-                      }`}>
-                        % {item.change} {item.changeType === "up" ? "artış" : "azalış"}
-                      </span>
-                      <span className="text-xs text-gray-500">({item.period})</span>
+                    {/* Popüler Mahalleler Tags */}
+                    <div className="mt-8 flex flex-wrap gap-2">
+                      {item.popularNeighborhoods.map((n, i) => (
+                        <span key={i} className="px-2.5 py-1 rounded-full bg-gray-50 text-[10px] font-bold text-gray-500 uppercase tracking-tight">
+                          {n}
+                        </span>
+                      ))}
                     </div>
 
-                    {/* Stats */}
-                    <div className="mb-4 space-y-2">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Aktif İlan</span>
-                        <span className="font-semibold text-gray-900">{item.activeListings}</span>
+                    <div className="mt-auto pt-8 flex justify-end">
+                      <div className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-300 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                        <ArrowRight className="h-4 w-4" />
                       </div>
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Ort. Satış Süresi</span>
-                        <span className="font-semibold text-gray-900">{item.avgSaleDuration} gün</span>
-                      </div>
-                    </div>
-
-                    {/* Popular Neighborhoods */}
-                    <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                      <div className="text-xs text-gray-600 mb-2">Popüler Mahalleler</div>
-                      <div className="flex flex-wrap gap-1.5">
-                        {item.popularNeighborhoods.map((neighborhood, idx) => (
-                          <span key={idx} className="px-2 py-1 bg-white text-xs font-medium text-gray-700 rounded border border-gray-200">
-                            {neighborhood}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* CTA */}
-                    <div className="pt-4 border-t border-gray-200">
-                      <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#006AFF] group-hover:gap-3 transition-all duration-200">
-                        Detaylı Analiz
-                        <ArrowRight className="h-4 w-4 stroke-[1.5]" />
-                      </span>
                     </div>
                   </div>
                 </Link>
@@ -166,49 +161,49 @@ export function CurrentPricesSection({ basePath = "" }: CurrentPricesSectionProp
             })}
           </div>
 
-          {/* Quick Tools & Report */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          {/* Action Cards - Horizontal Pill Style */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Link
               href={`${basePath}/kredi-hesaplayici`}
-              className="group bg-white rounded-xl border-2 border-gray-200 p-6 hover:shadow-xl hover:border-[#006AFF]/40 transition-all duration-300 hover:-translate-y-1"
+              className="group p-1 bg-white rounded-full border border-gray-100 hover:shadow-xl transition-all duration-500 hover:-translate-y-1"
             >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-3 bg-blue-50 rounded-xl group-hover:bg-blue-100 transition-colors">
-                  <DollarSign className="h-6 w-6 text-blue-600 stroke-[1.5]" />
+              <div className="flex items-center gap-6 pr-8">
+                <div className="p-5 bg-blue-50 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
+                  <DollarSign className="h-6 w-6 stroke-[1.5]" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-gray-900 group-hover:text-[#006AFF] transition-colors">Kredi Hesaplayıcı</h4>
-                  <p className="text-sm text-gray-600">Aylık ödeme ve faiz hesapla</p>
+                  <h4 className="text-[15px] font-black text-gray-900 uppercase tracking-tight">Kredi Hesapla</h4>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Ödeme planı çıkar</p>
                 </div>
               </div>
             </Link>
 
             <Link
               href={`${basePath}/yatirim-hesaplayici`}
-              className="group bg-white rounded-xl border-2 border-gray-200 p-6 hover:shadow-xl hover:border-[#006AFF]/40 transition-all duration-300 hover:-translate-y-1"
+              className="group p-1 bg-white rounded-full border border-gray-100 hover:shadow-xl transition-all duration-500 hover:-translate-y-1"
             >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-3 bg-green-50 rounded-xl group-hover:bg-green-100 transition-colors">
-                  <TrendingUp className="h-6 w-6 text-green-600 stroke-[1.5]" />
+              <div className="flex items-center gap-6 pr-8">
+                <div className="p-5 bg-emerald-50 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition-all duration-500">
+                  <TrendingUp className="h-6 w-6 stroke-[1.5]" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-gray-900 group-hover:text-[#006AFF] transition-colors">Yatırım Hesaplayıcı</h4>
-                  <p className="text-sm text-gray-600">Getiri oranı ve karlılık analizi</p>
+                  <h4 className="text-[15px] font-black text-gray-900 uppercase tracking-tight">Karlılık Analizi</h4>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Yatırım verimliliği</p>
                 </div>
               </div>
             </Link>
 
             <Link
               href={`${basePath}/blog/karasu-emlak-piyasasi-2025`}
-              className="group bg-white rounded-xl border-2 border-gray-200 p-6 hover:shadow-xl hover:border-[#006AFF]/40 transition-all duration-300 hover:-translate-y-1"
+              className="group p-1 bg-white rounded-full border border-gray-100 hover:shadow-xl transition-all duration-500 hover:-translate-y-1"
             >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-3 bg-purple-50 rounded-xl group-hover:bg-purple-100 transition-colors">
-                  <FileText className="h-6 w-6 text-purple-600 stroke-[1.5]" />
+              <div className="flex items-center gap-6 pr-8">
+                <div className="p-5 bg-purple-50 rounded-full group-hover:bg-purple-600 group-hover:text-white transition-all duration-500">
+                  <FileText className="h-6 w-6 stroke-[1.5]" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-gray-900 group-hover:text-[#006AFF] transition-colors">2025 Piyasa Raporu</h4>
-                  <p className="text-sm text-gray-600">Detaylı piyasa analizi</p>
+                  <h4 className="text-[15px] font-black text-gray-900 uppercase tracking-tight">2026 Raporu</h4>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Derinlemesine analiz</p>
                 </div>
               </div>
             </Link>

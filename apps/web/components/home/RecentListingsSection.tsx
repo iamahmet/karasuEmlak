@@ -14,9 +14,9 @@ interface RecentListingsSectionProps {
   basePath?: string;
 }
 
-export function RecentListingsSection({ 
+export function RecentListingsSection({
   recentListings = [],
-  basePath = "" 
+  basePath = ""
 }: RecentListingsSectionProps) {
   const ListingCard = ({ listing }: { listing: Listing }) => {
     const mainImage = listing.images?.[0];
@@ -28,7 +28,7 @@ export function RecentListingsSection({
       600
     );
     const features = listing.features || {};
-    
+
     // Generate SEO-friendly alt text
     const imageAlt = mainImage?.alt || generatePropertyImageAlt({
       propertyType: listing.property_type as any,
@@ -48,26 +48,26 @@ export function RecentListingsSection({
     }, listing.title);
 
     return (
-      <Link 
+      <Link
         href={`${basePath}/ilan/${listing.slug}`}
-        className="group block"
+        className="group block h-full"
       >
-        <article className="relative bg-white rounded-xl border-2 border-gray-200 overflow-hidden hover:shadow-2xl hover:border-[#006AFF]/40 transition-all duration-300 hover:-translate-y-2">
-          {/* Image Container */}
-          <div className="relative h-64 md:h-72 bg-gray-100 overflow-hidden">
+        <article className="relative bg-white rounded-[32px] border border-gray-100 overflow-hidden hover:shadow-[0_32px_80px_rgba(0,106,255,0.08)] transition-all duration-500 h-full flex flex-col">
+          {/* Image Container with richer overlays */}
+          <div className="relative aspect-[4/3] bg-gray-50 overflow-hidden">
             {mainImage?.public_id || mainImage?.url ? (
               mainImage.url ? (
                 <img
                   src={mainImage.url}
                   alt={imageAlt}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   loading="lazy"
                 />
               ) : (
                 <ListingImage
                   publicId={mainImage.public_id!}
                   alt={imageAlt}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   fallback={fallbackImageUrl}
                 />
@@ -76,71 +76,76 @@ export function RecentListingsSection({
               <img
                 src={fallbackImageUrl}
                 alt={imageAlt}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 loading="lazy"
               />
             )}
-            
-            {/* Status Badge */}
-            <div className="absolute top-4 left-4 z-10">
-              <div className={`px-4 py-2 rounded-lg text-sm md:text-base font-bold text-white shadow-lg ${
-                listing.status === 'satilik' 
-                  ? 'bg-[#006AFF]' 
-                  : 'bg-[#00A862]'
-              }`}>
-                {listing.status === 'satilik' ? 'Satılık' : 'Kiralık'}
+
+            {/* Premium Badges */}
+            <div className="absolute top-5 left-5 z-10 flex flex-col gap-2">
+              <div className={`px-4 py-1.5 rounded-full text-[11px] font-extrabold text-white uppercase tracking-widest backdrop-blur-md border border-white/20 shadow-lg ${listing.status === 'satilik'
+                ? 'bg-blue-600/80'
+                : 'bg-emerald-600/80'
+                }`}>
+                {listing.status === 'satilik' ? 'SATILIK' : 'KİRALIK'}
               </div>
             </div>
-            
-            {/* Image Count */}
+
+            {/* Photo Counter Bubble */}
             {listing.images && listing.images.length > 1 && (
-              <div className="absolute bottom-4 right-4 bg-white/95 text-gray-700 px-3 py-1.5 rounded-lg text-sm font-semibold shadow-md">
-                {listing.images.length} Fotoğraf
+              <div className="absolute bottom-5 right-5 bg-black/40 backdrop-blur-md text-white px-3 py-1.5 rounded-full text-[10px] font-bold tracking-widest border border-white/10">
+                {listing.images.length} GÖRSEL
               </div>
             )}
           </div>
 
-          {/* Content */}
-          <div className="p-6">
-            <h3 className="text-xl md:text-2xl font-semibold mb-3 line-clamp-2 text-gray-900 leading-snug tracking-tight group-hover:text-[#006AFF] transition-colors">
-              {listing.title}
-            </h3>
-            
-            <p className="text-base md:text-lg text-gray-600 mb-4 flex items-center gap-2">
-              <MapPin className="h-5 w-5 flex-shrink-0 text-gray-400 stroke-[1.5]" />
-              <span>{formatLocation(listing.location_neighborhood, listing.location_district)}</span>
-            </p>
-            
-            {(features.sizeM2 || features.rooms || features.bathrooms) && (
-              <div className="flex items-center gap-5 text-sm md:text-base text-gray-600 mb-5 pb-4 border-b border-gray-100">
+          {/* Premium Content Body */}
+          <div className="p-8 flex flex-col flex-1">
+            <div className="flex-1 space-y-4">
+              <h3 className="text-xl font-bold text-gray-900 line-clamp-2 leading-tight tracking-tight group-hover:text-blue-600 transition-colors duration-300">
+                {listing.title}
+              </h3>
+
+              <div className="flex items-center gap-2 text-gray-400 font-medium text-[13px]">
+                <MapPin className="h-4 w-4 text-blue-500/60" />
+                <span>{formatLocation(listing.location_neighborhood, listing.location_district)}</span>
+              </div>
+
+              <div className="flex items-center gap-6 py-4 border-y border-gray-50 text-gray-700">
                 {features.sizeM2 && (
-                  <span className="flex items-center gap-2 font-medium">
-                    <Square className="h-4 w-4 text-gray-400 stroke-[1.5]" />
-                    {features.sizeM2} m²
-                  </span>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Alan</span>
+                    <span className="text-[15px] font-bold">{features.sizeM2} m²</span>
+                  </div>
                 )}
                 {features.rooms && (
-                  <span className="flex items-center gap-2 font-medium">
-                    <Home className="h-4 w-4 text-gray-400 stroke-[1.5]" />
-                    {features.rooms} Oda
-                  </span>
-                )}
-                {features.bathrooms && (
-                  <span className="font-medium">{features.bathrooms} Banyo</span>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Oda</span>
+                    <span className="text-[15px] font-bold">{features.rooms}</span>
+                  </div>
                 )}
               </div>
-            )}
-            
-            {listing.price_amount && (
-              <div className="flex items-baseline gap-1">
-                <span className="text-3xl md:text-4xl font-bold text-[#006AFF] tracking-tight">
-                  ₺{new Intl.NumberFormat('tr-TR').format(Number(listing.price_amount))}
-                </span>
-                {listing.status === 'kiralik' && (
-                  <span className="text-base md:text-lg text-gray-500 font-medium">/ay</span>
-                )}
+            </div>
+
+            <div className="mt-8 flex items-center justify-between">
+              {listing.price_amount && (
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Fiyat</span>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-gray-900 tracking-tight">
+                      ₺{new Intl.NumberFormat('tr-TR').format(Number(listing.price_amount))}
+                    </span>
+                    {listing.status === 'kiralik' && (
+                      <span className="text-xs font-medium text-gray-400 lowercase">/ay</span>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              <div className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300">
+                <ArrowRight className="h-4 w-4" />
               </div>
-            )}
+            </div>
           </div>
         </article>
       </Link>
@@ -152,42 +157,42 @@ export function RecentListingsSection({
   }
 
   return (
-    <section className="py-12 lg:py-16 bg-white">
-      <div className="container mx-auto px-4 lg:px-6">
+    <section className="py-20 lg:py-32 bg-white relative overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl -translate-y-1/2"></div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-50 rounded-full mb-4">
-              <span className="text-xs font-bold text-purple-600 uppercase tracking-wider">Yeni</span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100/50 rounded-full">
+                <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span>
+                <span className="text-[11px] font-extrabold text-blue-600 uppercase tracking-widest">YENİ FIRSATLAR</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-[-0.03em] leading-tight">
+                Son Eklenen İlanlar
+              </h2>
+              <p className="text-lg text-gray-500 font-medium max-w-2xl leading-relaxed">
+                Karasu'da piyasaya yeni çıkan, güncel ve kaçırılmaması gereken en taze portföylerimiz.
+              </p>
             </div>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-extrabold mb-3 text-gray-900 leading-tight">
-              Son Eklenen İlanlar
-            </h2>
-            <p className="text-base md:text-lg text-gray-600 max-w-3xl leading-relaxed">
-              Karasu'da en yeni eklenen gayrimenkul ilanları. Güncel fırsatları kaçırmayın.
-            </p>
+            <Link
+              href={`${basePath}/satilik`}
+              className="inline-flex items-center gap-2 group text-sm font-bold text-gray-900 hover:text-blue-600 transition-colors"
+            >
+              TÜMÜNÜ GÖRÜNTÜLE
+              <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </div>
+            </Link>
           </div>
 
-          {/* Listings Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-10">
-            {recentListings.slice(0, 4).map((listing) => (
+          {/* Listings Grid - Premium 3-column layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+            {recentListings.slice(0, 3).map((listing) => (
               <ListingCard key={listing.id} listing={listing} />
             ))}
-          </div>
-
-          {/* View All Button */}
-          <div className="text-center">
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white px-6 py-3 text-[15px] font-semibold tracking-[-0.011em] rounded-lg transition-all duration-200"
-              asChild
-            >
-              <Link href={`${basePath}/satilik`}>
-                Tüm İlanları Görüntüle
-                <ArrowRight className="h-5 w-5 ml-2 stroke-[1.5]" />
-              </Link>
-            </Button>
           </div>
         </div>
       </div>

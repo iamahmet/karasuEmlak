@@ -71,134 +71,113 @@ export function EnhancedWhyChooseUsSection() {
   ];
 
   return (
-    <section className="py-16 lg:py-24 bg-white relative">
-      <div className="container mx-auto px-4 lg:px-6">
+    <section className="py-24 lg:py-40 bg-white relative overflow-hidden">
+      {/* Abstract Background Elements */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50/30 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 -z-10"></div>
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-50/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 -z-10"></div>
+
+      <div className="container mx-auto px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <span className="text-[#006AFF] text-sm font-bold uppercase tracking-wider">Neden Bizi Seçmelisiniz?</span>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-32">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100/50 rounded-full">
+                <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>
+                <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">NEDEN BİZ?</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-black text-gray-900 tracking-[-0.04em] leading-tight max-w-2xl">
+                Karasu'nun En <span className="text-blue-600">Güvenilir</span> Emlak Partneri
+              </h2>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6 text-gray-900 tracking-tight">
-              Karasu'da Güvenilir Emlak Partneriniz
-            </h2>
-            <p className="text-[17px] md:text-[19px] text-gray-600 max-w-3xl mx-auto leading-[1.7]">
-              Karasu'da emlak alım-satım ve kiralama işlemlerinizde güvenilir partneriniz. Deneyimli ekibimiz ve geniş ilan portföyümüzle hayalinizdeki evi bulmanıza yardımcı oluyoruz.
+            <p className="text-xl text-gray-500 font-medium max-w-xl leading-relaxed">
+              15 yılı aşkın süredir Karasu'da emlak alım-satım ve kiralama işlemlerinizde şeffaf, hızlı ve profesyonel çözümler sunuyoruz.
             </p>
           </div>
 
-          {/* Main Features Grid - 3 Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16">
+          {/* Main Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 mb-32">
             {mainFeatures.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <div
                   key={index}
-                  className="group bg-white rounded-xl border border-gray-200 p-8 hover:shadow-xl hover:border-[#006AFF]/40 transition-all duration-300 hover:-translate-y-1"
+                  className="group relative flex flex-col"
                 >
-                  {/* Icon */}
-                  <div className="mb-6">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-blue-50 group-hover:bg-blue-100 transition-colors duration-300 mb-4">
-                      <Icon className="h-8 w-8 text-[#006AFF] stroke-[1.5] group-hover:scale-110 transition-transform duration-300" />
+                  <div className="mb-10 relative">
+                    <div className="w-20 h-20 rounded-3xl bg-white shadow-[0_20px_50px_rgba(0,106,255,0.08)] flex items-center justify-center text-blue-600 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
+                      <Icon className="h-10 w-10 stroke-[1.5]" />
                     </div>
+                    {/* Glowing background on hover */}
+                    <div className="absolute -inset-4 bg-blue-600/5 rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
                   </div>
 
-                  {/* Stat */}
-                  <div className="mb-5">
-                    <div className="text-4xl lg:text-5xl font-bold text-gray-900 mb-2 group-hover:text-[#006AFF] transition-colors duration-300">
+                  <div className="mb-6 flex items-baseline gap-2">
+                    <span className="text-5xl font-black text-gray-900 tracking-tighter group-hover:text-blue-600 transition-colors">
                       {feature.stat}
-                    </div>
-                    <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
-                      {feature.statLabel} {feature.statSubLabel && <span className="block mt-0.5">{feature.statSubLabel}</span>}
-                    </div>
+                    </span>
+                    <span className="text-xs font-black text-gray-400 uppercase tracking-widest">
+                      {feature.statLabel}
+                    </span>
                   </div>
 
-                  {/* Content */}
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 tracking-tight">
+                  <h3 className="text-2xl font-black text-gray-900 mb-4 tracking-tight">
                     {feature.title}
                   </h3>
-                  <p className="text-[15px] text-gray-600 leading-[1.7] mb-4">
+                  <p className="text-lg text-gray-500 font-medium leading-relaxed mb-8">
                     {feature.description}
                   </p>
 
-                  {/* Benefits List */}
-                  {feature.benefits && (
-                    <ul className="space-y-2 mt-4 pt-4 border-t border-gray-100">
-                      {feature.benefits.map((benefit, idx) => (
-                        <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
-                          <CheckCircle2 className="h-4 w-4 text-[#006AFF] flex-shrink-0" />
-                          <span>{benefit}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                  <ul className="space-y-4 pt-8 border-t border-gray-50 mt-auto">
+                    {feature.benefits.map((benefit, idx) => (
+                      <li key={idx} className="flex items-center gap-3 text-sm font-bold text-gray-700">
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-600"></div>
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               );
             })}
           </div>
 
-          {/* Trust Points Bar */}
-          <div className="bg-gray-50 rounded-xl p-6 lg:p-8 mb-16 border border-gray-200">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {trustPoints.map((point, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <CheckCircle2 className="h-5 w-5 text-[#006AFF] flex-shrink-0" />
-                  <span className="text-[15px] font-medium text-gray-700">{point}</span>
-                </div>
-              ))}
+          {/* Premium Stats Banner */}
+          <div className="relative rounded-[60px] bg-gray-900 overflow-hidden py-20 px-8 lg:px-20 text-white">
+            {/* Mesh Gradient Overlay */}
+            <div className="absolute inset-0 opacity-40 pointer-events-none">
+              <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/30 rounded-full blur-[120px]"></div>
+              <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[120px]"></div>
             </div>
-          </div>
 
-          {/* Stats Banner */}
-          <div className="bg-gradient-to-r from-[#006AFF] to-[#0052CC] rounded-2xl p-8 lg:p-12 text-white shadow-xl overflow-hidden relative">
-            {/* Decorative Elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-
-            <div className="max-w-5xl mx-auto relative z-10">
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 text-center">
-                Güvenilir ve Deneyimli Ekip
-              </h3>
-              <p className="text-[17px] text-white/90 text-center mb-10 max-w-2xl mx-auto leading-relaxed">
-                Karasu emlak piyasasında yıllardır hizmet veren deneyimli ekibimizle yanınızdayız
-              </p>
-
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8 mb-8">
+            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-16">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-24 flex-grow">
                 {stats.map((stat, index) => {
                   const Icon = stat.icon;
                   return (
-                    <div
-                      key={index}
-                      className="text-center group"
-                    >
-                      <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm mb-4 group-hover:bg-white/30 group-hover:scale-110 transition-all duration-300">
-                        <Icon className="h-7 w-7 text-white stroke-[1.5]" />
+                    <div key={index} className="text-center lg:text-left space-y-4 group">
+                      <div className="flex items-center justify-center lg:justify-start">
+                        <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                          <Icon className="h-6 w-6" />
+                        </div>
                       </div>
-                      <div className="text-3xl lg:text-4xl font-bold mb-2">
+                      <div className="text-5xl font-black tracking-tighter">
                         {stat.value}
                       </div>
-                      <div className="text-sm font-semibold text-white/90 mb-1">
+                      <div className="text-xs font-black text-gray-400 uppercase tracking-widest">
                         {stat.label}
-                      </div>
-                      <div className="text-xs text-white/70">
-                        {stat.description}
                       </div>
                     </div>
                   );
                 })}
               </div>
 
-              {/* CTA Button */}
-              <div className="text-center">
+              <div className="flex-shrink-0">
                 <Link href="/hakkimizda">
-                  <Button
-                    size="lg"
-                    className="bg-white text-[#006AFF] hover:bg-gray-50 text-[15px] font-semibold px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                  >
-                    Hakkımızda Daha Fazla Bilgi
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                  </Button>
+                  <button className="group relative px-12 py-6 bg-white text-gray-900 rounded-full font-black text-sm tracking-widest uppercase hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-[0_20px_50px_rgba(255,255,255,0.1)] hover:shadow-[0_20px_50px_rgba(0,106,255,0.3)]">
+                    <span className="relative z-10 flex items-center gap-3">
+                      BİZİ TANIYIN
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </span>
+                  </button>
                 </Link>
               </div>
             </div>

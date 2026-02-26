@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Home, Sparkles, ArrowRight, MapPin, Square, ChevronLeft, ChevronRight, Clock, Search as SearchIcon, SlidersHorizontal } from "lucide-react";
+import { Home, Sparkles, ArrowRight, MapPin, Square, ChevronLeft, ChevronRight, Clock, Search as SearchIcon, SlidersHorizontal, User, Heart, BookOpen } from "lucide-react";
 import { Button } from "@karasu/ui";
 import { Input } from "@karasu/ui";
 import { Card, CardContent } from "@karasu/ui";
@@ -43,7 +43,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
   const [reduceMotion, setReduceMotion] = useState(false);
   const [isTabVisible, setIsTabVisible] = useState(true);
   const [isInView, setIsInView] = useState(true);
-  
+
   // Fade-in animation on mount
   useEffect(() => {
     setIsLoaded(true);
@@ -56,14 +56,14 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
     const apply = () => setReduceMotion(!!mq.matches);
     apply();
     // Safari < 14 uses addListener/removeListener
-     
+
     if (typeof mq.addEventListener === 'function') mq.addEventListener('change', apply);
-     
+
     else mq.addListener(apply);
     return () => {
-       
+
       if (typeof mq.removeEventListener === 'function') mq.removeEventListener('change', apply);
-       
+
       else mq.removeListener(apply);
     };
   }, []);
@@ -101,14 +101,31 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
 
   const displayListings = recentListings.slice(0, 6);
 
-  // URL state sync
+  // 1. Initial URL to State Sync
   useEffect(() => {
     const slideParam = searchParams.get('slide');
     if (slideParam && !isNaN(Number(slideParam))) {
       const slideIndex = Math.min(Number(slideParam), displayListings.length - 1);
-      setCurrentSlide(slideIndex);
+      if (slideIndex !== currentSlide) {
+        setCurrentSlide(slideIndex * 1); // Ensure it's a number
+      }
     }
   }, [searchParams, displayListings.length]);
+
+  // 2. State to URL Sync (DEDICATED EFFECT - Fixes the reported error)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const url = new URL(window.location.href);
+    const existingParam = searchParams.get('slide');
+
+    // Only update if current state differs from URL param
+    if (currentSlide.toString() !== existingParam) {
+      url.searchParams.set('slide', currentSlide.toString());
+      // Use pushState or replaceState without triggering React Router updates internally if possible
+      // or at least ensure it's not during a render phase.
+      window.history.replaceState(window.history.state, '', url.toString());
+    }
+  }, [currentSlide, searchParams]);
 
   // Progress bar
   useEffect(() => {
@@ -134,15 +151,9 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
   // Auto-play slider
   useEffect(() => {
     if (reduceMotion || !isTabVisible || !isInView || displayListings.length <= 1 || isHovered) return;
-    
+
     autoPlayRef.current = setInterval(() => {
-      setCurrentSlide((prev) => {
-        const next = (prev + 1) % displayListings.length;
-        const url = new URL(window.location.href);
-        url.searchParams.set('slide', next.toString());
-        window.history.replaceState({}, '', url.toString());
-        return next;
-      });
+      setCurrentSlide((prev) => (prev + 1) % displayListings.length);
       setProgress(0);
     }, 5000);
 
@@ -163,12 +174,6 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
     return () => clearInterval(interval);
   }, []);
 
-  const updateURL = useCallback((index: number) => {
-    if (typeof window === 'undefined') return;
-    const url = new URL(window.location.href);
-    url.searchParams.set('slide', index.toString());
-    window.history.replaceState({}, '', url.toString());
-  }, []);
 
   const resetAutoPlay = useCallback(() => {
     if (autoPlayRef.current) clearInterval(autoPlayRef.current);
@@ -176,33 +181,27 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
     setProgress(0);
     if (!reduceMotion && isTabVisible && isInView && !isHovered && displayListings.length > 1) {
       autoPlayRef.current = setInterval(() => {
-        setCurrentSlide((prev) => {
-          const next = (prev + 1) % displayListings.length;
-          updateURL(next);
-          return next;
-        });
+        setCurrentSlide((prev) => (prev + 1) % displayListings.length);
         setProgress(0);
       }, 5000);
     }
-  }, [reduceMotion, isTabVisible, isInView, isHovered, displayListings.length, updateURL]);
+  }, [reduceMotion, isTabVisible, isInView, isHovered, displayListings.length]);
 
   const handlePrev = useCallback(() => {
     const prev = currentSlide === 0 ? displayListings.length - 1 : currentSlide - 1;
     setCurrentSlide(prev);
     setProgress(0);
     resetAutoPlay();
-    updateURL(prev);
     trackHomepageEvent.carouselInteraction('prev');
-  }, [currentSlide, displayListings.length, resetAutoPlay, updateURL]);
+  }, [currentSlide, displayListings.length, resetAutoPlay]);
 
   const handleNext = useCallback(() => {
     const next = (currentSlide + 1) % displayListings.length;
     setCurrentSlide(next);
     setProgress(0);
     resetAutoPlay();
-    updateURL(next);
     trackHomepageEvent.carouselInteraction('next');
-  }, [currentSlide, displayListings.length, resetAutoPlay, updateURL]);
+  }, [currentSlide, displayListings.length, resetAutoPlay]);
 
   // Touch swipe
   const minSwipeDistance = 50;
@@ -223,7 +222,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
   // Keyboard navigation
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (displayListings.length <= 1) return;
       const slider = sliderRef.current;
@@ -247,7 +246,6 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
     setCurrentSlide(index);
     setProgress(0);
     resetAutoPlay();
-    updateURL(index);
     trackHomepageEvent.carouselInteraction('indicator');
   };
 
@@ -262,460 +260,275 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
   };
 
   return (
-    <section 
-      className="relative bg-white overflow-hidden border-b border-gray-100"
+    <section
+      className="relative bg-white overflow-hidden"
       aria-label="Ana hero bölümü"
     >
-      {/* Subtle Premium Background */}
+      {/* Immersive Premium Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        {/* Faint radial gradient blob */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-50/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-50/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+        {/* Animated Mesh-style Gradients */}
+        <div className="absolute top-[-10%] right-[-10%] w-[80%] h-[80%] bg-[radial-gradient(circle_at_center,rgba(0,106,255,0.08)_0,transparent_70%)] rounded-full blur-[120px] animate-pulse duration-[10s]"></div>
+        <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-[radial-gradient(circle_at_center,rgba(0,168,98,0.05)_0,transparent_70%)] rounded-full blur-[100px] animate-pulse duration-[15s]"></div>
+
+        {/* Subtle Grid Pattern */}
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.02] mix-blend-overlay"></div>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Premium Spacing: 56-72px top, 40-56px bottom */}
-        <div className="py-14 sm:py-16 md:py-20">
-          {/* 12-Column Grid: Left 5 cols, Right 7 cols on desktop */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-            
-            {/* LEFT COLUMN: Hero Content + Search (5 cols) */}
-            <div className="lg:col-span-5 space-y-8">
-              
-              {/* Badge */}
-              <div className="inline-block">
+        <div className="py-12 sm:py-20 lg:py-28">
+          {/* Main Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+            {/* LEFT COLUMN: Hero Content (6 cols) */}
+            <div className="lg:col-span-6 space-y-10 lg:pr-4">
+
+              <div className="space-y-6">
+                {/* Modern Floating Badge */}
                 <div className={cn(
-                  "inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-blue-50/90 to-blue-50/70 border border-blue-100/80 rounded-full backdrop-blur-sm shadow-sm",
-                  "transition-all duration-700 ease-out",
-                  isLoaded ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+                  "inline-flex items-center gap-2.5 px-4 py-2 bg-white/40 dark:bg-white/5 border border-blue-100/30 rounded-2xl backdrop-blur-xl shadow-[0_8px_32px_rgba(0,106,255,0.05)] transition-all duration-1000 ease-out",
+                  isLoaded ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
                 )}>
-                  <Sparkles className="h-3.5 w-3.5 text-blue-600 animate-pulse" aria-hidden="true" />
-                  <span className="text-xs font-semibold text-blue-600 tracking-tight">
-                    Karasu'nun En Güvenilir Emlak Platformu
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="w-5 h-5 rounded-full border-2 border-white bg-blue-100 flex items-center justify-center">
+                        <User className="h-2.5 w-2.5 text-blue-600" />
+                      </div>
+                    ))}
+                  </div>
+                  <span className="text-[13px] font-bold text-blue-600/90 tracking-tight">
+                    <span className="text-blue-700">{activeViewers}+</span> Karasu'da Ev Arıyor
                   </span>
+                </div>
+
+                {/* Typography with variable weights and tracking */}
+                <div className={cn(
+                  "space-y-6 transition-all duration-1000 ease-out delay-100",
+                  isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                )}>
+                  <h1 className="text-5xl sm:text-6xl lg:text-[76px] font-bold text-gray-900 leading-[1.05] tracking-[-0.04em]">
+                    Karasu'da
+                    <br />
+                    <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
+                      Yaşamı Keşfet
+                    </span>
+                  </h1>
+
+                  <p className="text-lg sm:text-xl text-gray-500 font-medium leading-relaxed max-w-xl tracking-tight">
+                    Türkiye'nin parlayan yıldızı Karasu'da hayalinizdeki portföyü <span className="text-gray-900 border-b-2 border-blue-600/20">en güncel</span> ilanlarla hemen bulun.
+                  </p>
                 </div>
               </div>
 
-              {/* Premium H1 Typography */}
+              {/* Integrated Search Widget */}
               <div className={cn(
-                "space-y-4 transition-all duration-700 ease-out delay-100",
-                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                "max-w-2xl transition-all duration-1000 ease-out delay-300",
+                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}>
-                <h1 className="text-[34px] sm:text-[40px] md:text-[56px] lg:text-[64px] font-bold text-gray-900 leading-[1.1] tracking-[-0.02em]">
-                  Hayalinizdeki Evi
-                  <br />
-                  <span className="relative inline-block">
-                    <span className="text-blue-600 bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
-                      Karasu'da
-                    </span>
-                    <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue-600/30 via-blue-600/50 to-blue-600/30 -translate-y-1 rounded-full"></span>
-                  </span>
-                  {" "}Bulun
-                </h1>
+                <div className="bg-white/80 backdrop-blur-2xl border border-white rounded-[32px] md:rounded-full p-1.5 shadow-[0_32px_64px_-16px_rgba(0,106,255,0.12)]">
+                  <div className="flex flex-col md:flex-row items-stretch md:items-center">
 
-                {/* Subheadline: 16-18px, max 2 lines */}
-                <p className="text-base sm:text-[17px] md:text-[18px] text-gray-600 leading-relaxed max-w-lg">
-                  500+ aktif ilan arasından size en uygun seçeneği keşfedin
-                </p>
+                    {/* Status Toggle - Compact Pill */}
+                    <div className="flex p-1 bg-gray-100/50 rounded-[24px] md:rounded-full md:w-36 flex-shrink-0">
+                      {['satilik', 'kiralik'].map((status) => (
+                        <button
+                          key={status}
+                          onClick={() => setSearchStatus(status as any)}
+                          className={cn(
+                            "flex-1 px-3 py-2 rounded-[20px] md:rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300",
+                            searchStatus === status
+                              ? "bg-white text-blue-600 shadow-sm"
+                              : "text-gray-500 hover:text-gray-800"
+                          )}
+                        >
+                          {status === 'satilik' ? 'Satılık' : 'Kiralık'}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Vertical Divider - Desktop Only */}
+                    <div className="hidden md:block w-px h-8 bg-gray-100 mx-1"></div>
+
+                    {/* Location Input Group - Minimalist */}
+                    <div className="flex-1 px-4 relative">
+                      <NeighborhoodAutocomplete
+                        value={searchLocation}
+                        onChange={setSearchLocation}
+                        neighborhoods={neighborhoods}
+                        hideSuggestions={true}
+                        className="bg-transparent"
+                        inputClassName="border-none focus:ring-0 py-2 bg-transparent"
+                      />
+                    </div>
+
+                    {/* Search Button - Integrated */}
+                    <button
+                      onClick={handleSearch}
+                      className="group bg-blue-600 hover:bg-blue-700 text-white rounded-[24px] md:rounded-full px-6 py-3.5 md:py-3 md:min-w-[160px] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-lg hover:shadow-blue-600/30 active:scale-[0.98]"
+                    >
+                      <span className="font-bold text-sm tracking-tight">Fırsatları Gör</span>
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Advanced Links */}
+                <div className="flex items-center gap-6 mt-6 px-4">
+                  <button
+                    onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                    className="text-xs font-bold text-gray-400 hover:text-blue-600 flex items-center gap-2 transition-all"
+                  >
+                    <SlidersHorizontal className="h-3.5 w-3.5" />
+                    DETAYLI ARAMA
+                  </button>
+                  <Link href={`${basePath}/blog`} className="text-xs font-bold text-gray-400 hover:text-blue-600 flex items-center gap-2 transition-all">
+                    <BookOpen className="h-3.5 w-3.5" />
+                    YATIRIM REHBERİ
+                  </Link>
+                </div>
               </div>
 
-              {/* Trust Strip: Single Row (replaces 3 big cards) */}
+              {/* Statistics Strip */}
               <div className={cn(
-                "flex flex-wrap items-center gap-x-6 gap-y-3 text-sm transition-all duration-700 ease-out delay-200",
-                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                "flex items-center gap-8 py-4 transition-all duration-1000 ease-out delay-500",
+                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}>
-                {stats.map((stat, index) => (
-                  <div 
-                    key={index} 
-                    className="flex items-center gap-2 group cursor-default"
-                  >
-                    <div className="p-1.5 bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-lg shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-300">
-                      <stat.icon className="h-4 w-4 text-blue-600 group-hover:text-blue-700 transition-colors" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <span className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{stat.value}</span>
-                      <span className="text-gray-600 ml-1">{stat.label}</span>
-                    </div>
-                    {index < stats.length - 1 && (
-                      <span className="text-gray-300 mx-2 hidden sm:inline" aria-hidden="true">•</span>
-                    )}
+                {stats.slice(0, 2).map((stat, i) => (
+                  <div key={i} className="flex flex-col">
+                    <span className="text-2xl font-bold text-gray-900 tracking-tight">{stat.value}</span>
+                    <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">{stat.label}</span>
                   </div>
                 ))}
               </div>
+            </div>
 
-              {/* Premium Search Widget */}
-              <Card className={cn(
-                "border-gray-200/80 shadow-xl rounded-2xl overflow-hidden bg-white/95 backdrop-blur-sm",
-                "transition-all duration-700 ease-out delay-300",
-                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
-                "hover:shadow-2xl hover:border-blue-200/50"
-              )}>
-                <CardContent className="p-6 space-y-4">
-                  {/* Segmented Control: Satılık / Kiralık */}
-                  <div className="flex items-center gap-2 p-1 bg-gradient-to-r from-gray-50 to-gray-100/50 rounded-xl border border-gray-200/50">
-                    <button
-                      onClick={() => setSearchStatus('satilik')}
-                      className={cn(
-                        "flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 ease-out",
-                        searchStatus === 'satilik'
-                          ? "bg-white text-blue-600 shadow-md scale-[1.02]"
-                          : "text-gray-600 hover:text-gray-900 hover:bg-white/50"
-                      )}
-                      aria-label="Satılık ilanlar"
-                    >
-                      <Home className="h-4 w-4 inline-block mr-2" />
-                      Satılık
-                    </button>
-                    <button
-                      onClick={() => setSearchStatus('kiralik')}
-                      className={cn(
-                        "flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 ease-out",
-                        searchStatus === 'kiralik'
-                          ? "bg-white text-blue-600 shadow-md scale-[1.02]"
-                          : "text-gray-600 hover:text-gray-900 hover:bg-white/50"
-                      )}
-                      aria-label="Kiralık ilanlar"
-                    >
-                      <Home className="h-4 w-4 inline-block mr-2" />
-                      Kiralık
+            {/* RIGHT COLUMN: Interactive Showcase (6 cols) */}
+            <div className={cn(
+              "lg:col-span-6 relative transition-all duration-1000 ease-out delay-200",
+              isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
+            )}>
+              {/* Glass Card for Showcase */}
+              <div
+                className="relative group perspective-1000"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                {/* Background Shadow Glow */}
+                <div className="absolute inset-x-10 -bottom-10 h-20 bg-blue-600/10 blur-[100px] pointer-events-none"></div>
+
+                {/* Main Showcase Container */}
+                <div className="relative bg-white dark:bg-gray-900 rounded-[40px] border border-gray-100/10 shadow-[0_40px_100px_rgba(0,0,0,0.1)] overflow-hidden">
+                  {/* Current Active Listing Info Overlay */}
+                  <div className="absolute top-8 left-8 right-8 z-30 flex justify-between items-start pointer-events-none">
+                    <div className="flex flex-col gap-2">
+                      <div className="px-4 py-2 bg-white/90 backdrop-blur-xl rounded-full shadow-lg border border-white/20 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                        <span className="text-[11px] font-extrabold uppercase tracking-widest text-blue-700">Yeni İlan</span>
+                      </div>
+                    </div>
+
+                    <button className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-lg pointer-events-auto hover:bg-white transition-all hover:scale-110 active:scale-90">
+                      <Heart className="h-5 w-5 text-gray-400 group-hover:text-red-500 transition-colors" />
                     </button>
                   </div>
 
-                  {/* Location Input with Autocomplete */}
-                  <div>
-                    <NeighborhoodAutocomplete
-                      value={searchLocation}
-                      onChange={setSearchLocation}
-                      neighborhoods={neighborhoods}
-                    />
+                  {/* Carousel Content */}
+                  <div
+                    ref={sliderRef}
+                    className="flex transition-transform duration-1000 ease-[cubic-bezier(0.65,0,0.35,1)]"
+                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                  >
+                    {displayListings.map((listing, index) => (
+                      <div key={listing.id} className="w-full flex-shrink-0 relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[5/6]">
+                        {/* Image Layer */}
+                        <div className="absolute inset-0">
+                          <img
+                            src={listing.images?.[0]?.url || getOptimizedCloudinaryUrl(listing.images?.[0]?.public_id!, { width: 1000, height: 1200 }) || getPropertyPlaceholder(listing.property_type, listing.status)}
+                            alt={listing.title}
+                            className="w-full h-full object-cover transition-transform duration-[10s] group-hover:scale-110"
+                            loading={index === 0 ? "eager" : "lazy"}
+                          />
+                          {/* Rich Gradient Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/10 to-transparent"></div>
+                        </div>
+
+                        {/* Text Reveal Layer */}
+                        <div className="absolute inset-x-0 bottom-0 p-8 sm:p-10 pointer-events-none">
+                          <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-out">
+                            <span className="text-blue-400 text-xs font-bold uppercase tracking-[0.2em] mb-3 block">
+                              {formatLocation(listing.location_neighborhood, listing.location_district)}
+                            </span>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 line-clamp-2 leading-tight">
+                              {listing.title}
+                            </h2>
+                            <div className="flex items-center gap-6">
+                              <div className="flex items-baseline gap-1 text-white">
+                                <span className="text-xl sm:text-2xl font-bold">₺{new Intl.NumberFormat('tr-TR').format(Number(listing.price_amount))}</span>
+                                <span className="text-xs font-medium text-white/60">
+                                  {listing.status === 'kiralik' ? '/ay' : ''}
+                                </span>
+                              </div>
+                              <Link
+                                href={`${basePath}/ilan/${listing.slug}`}
+                                className="pointer-events-auto bg-white/10 hover:bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-full border border-white/10 transition-all hover:px-8"
+                              >
+                                İncele
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
 
-                  {/* Quick Price Filters (Compact) */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <Input
-                      type="number"
-                      placeholder="Min Fiyat"
-                      className="text-sm"
-                      onChange={(e) => {
-                        // Price filter logic can be added here
-                      }}
-                    />
-                    <Input
-                      type="number"
-                      placeholder="Max Fiyat"
-                      className="text-sm"
-                      onChange={(e) => {
-                        // Price filter logic can be added here
-                      }}
-                    />
+                  {/* Progressive Controls */}
+                  <div className="absolute bottom-10 left-10 flex items-center gap-4 z-40">
+                    <div className="flex gap-2">
+                      <button
+                        onClick={handlePrev}
+                        className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
+                      >
+                        <ChevronLeft className="h-5 w-5" />
+                      </button>
+                      <button
+                        onClick={handleNext}
+                        className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
+                      >
+                        <ChevronRight className="h-5 w-5" />
+                      </button>
+                    </div>
+                    {/* Index Indicator */}
+                    <div className="text-white/40 text-[10px] font-bold tracking-[0.3em] ml-2">
+                      <span className="text-white">{String(currentSlide + 1).padStart(2, '0')}</span> / {String(displayListings.length).padStart(2, '0')}
+                    </div>
                   </div>
-
-                  {/* Primary CTA Button */}
-                  <Button
-                    onClick={handleSearch}
-                    size="lg"
-                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-                  >
-                    <SearchIcon className="h-5 w-5 mr-2" />
-                    İlan Ara
-                  </Button>
-
-                  {/* Secondary Action: Advanced Filters */}
-                  <button
-                    onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-                    className="w-full text-sm text-gray-600 hover:text-blue-600 font-medium flex items-center justify-center gap-2 transition-colors"
-                    aria-label="Detaylı filtreler"
-                  >
-                    <SlidersHorizontal className="h-4 w-4" />
-                    Detaylı Filtre
-                  </button>
-                </CardContent>
-              </Card>
-
-              {/* Social Proof: Live Stats */}
-              <div className={cn(
-                "flex items-center gap-2 text-sm text-gray-600 bg-gradient-to-r from-blue-50/80 to-blue-50/50 px-4 py-2.5 rounded-lg border border-blue-100/80 shadow-sm",
-                "transition-all duration-700 ease-out delay-400",
-                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              )}>
-                <div className="relative">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" aria-hidden="true"></div>
-                  <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-75" aria-hidden="true"></div>
                 </div>
-                <span className="font-semibold text-gray-900">
-                  <span className="text-blue-600 font-bold">{activeViewers}</span> kişi şu anda arıyor
-                </span>
+
+                {/* Status Bar for Slider */}
+                {!reduceMotion && displayListings.length > 1 && (
+                  <div className="mt-8 flex justify-center gap-3">
+                    {displayListings.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => handleSlideClick(i)}
+                        className="relative h-1 bg-gray-100 rounded-full overflow-hidden transition-all duration-500"
+                        style={{ width: currentSlide === i ? '40px' : '12px' }}
+                      >
+                        {currentSlide === i && (
+                          <div
+                            className="absolute inset-0 bg-blue-600 transition-all duration-300"
+                            style={{
+                              width: `${progress}%`,
+                              transition: isHovered ? 'none' : 'width 0.1s linear'
+                            }}
+                          ></div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* RIGHT COLUMN: Latest Listings Showcase (7 cols) */}
-            {displayListings.length > 0 && (
-              <div className="lg:col-span-7">
-                <div
-                  className="relative"
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                  onTouchStart={onTouchStart}
-                  onTouchMove={onTouchMove}
-                  onTouchEnd={onTouchEnd}
-                  role="region"
-                  aria-label="Son eklenen ilanlar"
-                >
-                  {/* Header with View All Link */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <Clock className="h-5 w-5 text-blue-600" aria-hidden="true" />
-                      <h2 className="text-xl font-bold text-gray-900">
-                        Son Eklenen İlanlar
-                      </h2>
-                    </div>
-                    <Link
-                      href={`${basePath}/satilik`}
-                      className="text-sm font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 transition-colors"
-                      onClick={() => {
-                        trackInternalLink(`${basePath}/satilik`, 'Tümünü Gör', 'Navigation');
-                        trackHomepageEvent.heroSearchClick();
-                      }}
-                    >
-                      Tümünü Gör
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </div>
-
-                  {/* Premium Showcase Card */}
-                  <Card className={cn(
-                    "border-gray-200/80 shadow-xl rounded-2xl overflow-hidden bg-white/95 backdrop-blur-sm",
-                    "transition-all duration-700 ease-out delay-300",
-                    isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
-                    "hover:shadow-2xl hover:border-blue-200/50"
-                  )}>
-                    {/* Progress Bar */}
-                    {displayListings.length > 1 && !isHovered && (
-                      <div className="absolute top-0 left-0 right-0 h-1 bg-gray-100 z-20" aria-hidden="true">
-                        <div 
-                          className="h-full bg-blue-600 transition-all duration-50 ease-linear"
-                          style={{ width: `${progress}%` }}
-                        ></div>
-                      </div>
-                    )}
-
-                    <div className="relative">
-                      {/* Carousel Container */}
-                      <div
-                        ref={sliderRef}
-                        className="flex transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]"
-                        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                        role="group"
-                        aria-label={`İlan ${currentSlide + 1} / ${displayListings.length}`}
-                      >
-                        {displayListings.map((listing, index) => {
-                          const mainImage = listing.images?.[0];
-                          const imageAlt = mainImage?.alt || `${listing.title} - ${formatLocation(listing.location_neighborhood, listing.location_district)}`;
-                          const listingUrl = `${basePath}/ilan/${listing.slug}`;
-                          const formattedLocation = formatLocation(listing.location_neighborhood, listing.location_district);
-
-                          return (
-                            <div
-                              key={listing.id}
-                              className="w-full flex-shrink-0"
-                              style={{ minWidth: '100%' }}
-                              role="group"
-                              aria-label={`İlan ${index + 1}: ${listing.title}`}
-                            >
-                              <Link
-                                href={listingUrl}
-                                className="block group transition-transform duration-300 hover:scale-[1.01]"
-                                onClick={() => {
-                                  trackHomepageEvent.listingCardClick(listing.id, index);
-                                  trackInternalLink(listingUrl, listing.title || '', 'Listings', index);
-                                }}
-                                aria-label={`${listing.title} - ${formattedLocation}`}
-                              >
-                                {/* Image with Aspect Ratio */}
-                                <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
-                                  {(() => {
-                                    const placeholderUrl = getPropertyPlaceholder(listing.property_type, listing.status, listing.location_neighborhood, 800, 600);
-                                    
-                                    // Priority: url > public_id > placeholder
-                                    if (mainImage?.url) {
-                                      return (
-                                        <img
-                                          src={mainImage.url}
-                                          alt={imageAlt}
-                                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                          loading={index === 0 ? "eager" : "lazy"}
-                                          decoding="async"
-                                          onError={(e) => {
-                                            const target = e.target as HTMLImageElement;
-                                            target.src = placeholderUrl;
-                                          }}
-                                        />
-                                      );
-                                    }
-                                    
-                                    if (mainImage?.public_id) {
-                                      try {
-                                        // Generate optimized Cloudinary URL
-                                        const imageUrl = getOptimizedCloudinaryUrl(mainImage.public_id, {
-                                          width: 800,
-                                          height: 600,
-                                          quality: 'auto',
-                                          format: 'auto',
-                                        });
-                                        
-                                        if (!imageUrl || imageUrl.trim() === '') {
-                                          throw new Error('Invalid image URL');
-                                        }
-                                        
-                                        // Use standard img tag for reliability
-                                        return (
-                                          <img
-                                            src={imageUrl}
-                                            alt={imageAlt}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                            loading={index === 0 ? "eager" : "lazy"}
-                                            decoding="async"
-                                            onError={(e) => {
-                                              const target = e.target as HTMLImageElement;
-                                              target.src = placeholderUrl;
-                                            }}
-                                          />
-                                        );
-                                      } catch (error) {
-                                        // Fallback to placeholder if URL generation fails
-                                        return (
-                                          <img
-                                            src={placeholderUrl}
-                                            alt={imageAlt}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                            loading={index === 0 ? "eager" : "lazy"}
-                                            decoding="async"
-                                          />
-                                        );
-                                      }
-                                    }
-                                    
-                                    // Fallback placeholder
-                                    return (
-                                      <img
-                                        src={placeholderUrl}
-                                        alt={imageAlt}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                        loading={index === 0 ? "eager" : "lazy"}
-                                        decoding="async"
-                                      />
-                                    );
-                                  })()}
-                                  
-                                  {/* Badges */}
-                                  <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
-                                    <FavoriteButton listingId={listing.id} listingTitle={listing.title} variant="card" />
-                                    <ComparisonButton listingId={listing.id} variant="card" />
-                                  </div>
-                                  
-                                  {/* Status Badge */}
-                                  <div className="absolute top-4 left-4 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg text-xs font-semibold shadow-lg backdrop-blur-sm border border-white/20">
-                                    {listing.status === 'satilik' ? 'Satılık' : 'Kiralık'}
-                                  </div>
-                                </div>
-
-                                {/* Content */}
-                                <CardContent className="p-6 space-y-3 bg-gradient-to-b from-white to-gray-50/50">
-                                  <h3 className="font-bold text-lg text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300">
-                                    {listing.title}
-                                  </h3>
-                                  
-                                  <p className="text-sm text-gray-600 flex items-center gap-1.5">
-                                    <MapPin className="h-4 w-4 text-gray-400 flex-shrink-0" aria-hidden="true" />
-                                    <span className="line-clamp-1">{formattedLocation}</span>
-                                  </p>
-
-                                  {/* Features */}
-                                  {listing.features && (
-                                    <div className="flex items-center gap-4 text-sm text-gray-600">
-                                      {(listing.features as any).sizeM2 && (
-                                        <span className="flex items-center gap-1.5">
-                                          <Square className="h-4 w-4 text-gray-400" aria-hidden="true" />
-                                          <span>{(listing.features as any).sizeM2} m²</span>
-                                        </span>
-                                      )}
-                                      {(listing.features as any).rooms && (
-                                        <span className="flex items-center gap-1.5">
-                                          <Home className="h-4 w-4 text-gray-400" aria-hidden="true" />
-                                          <span>{(listing.features as any).rooms} Oda</span>
-                                        </span>
-                                      )}
-                                    </div>
-                                  )}
-
-                                  {/* Price */}
-                                  {listing.price_amount && (
-                                    <div className="flex items-baseline gap-2 pt-3 border-t border-gray-100">
-                                      <p className="text-2xl sm:text-3xl font-bold text-blue-600">
-                                        ₺{new Intl.NumberFormat('tr-TR').format(Number(listing.price_amount))}
-                                      </p>
-                                      {listing.status === 'kiralik' && (
-                                        <span className="text-sm text-gray-500 font-medium">/ay</span>
-                                      )}
-                                    </div>
-                                  )}
-                                </CardContent>
-                              </Link>
-                            </div>
-                          );
-                        })}
-                      </div>
-
-                      {/* Minimal Carousel Controls */}
-                      {displayListings.length > 1 && (
-                        <>
-                          <button
-                            onClick={handlePrev}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-white/95 backdrop-blur-md border border-gray-200/80 hover:border-blue-600 hover:bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 z-20 group"
-                            aria-label="Önceki ilan"
-                            type="button"
-                          >
-                            <ChevronLeft className="h-5 w-5 text-gray-700 group-hover:text-blue-600 transition-colors" />
-                          </button>
-                          <button
-                            onClick={handleNext}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-white/95 backdrop-blur-md border border-gray-200/80 hover:border-blue-600 hover:bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 z-20 group"
-                            aria-label="Sonraki ilan"
-                            type="button"
-                          >
-                            <ChevronRight className="h-5 w-5 text-gray-700 group-hover:text-blue-600 transition-colors" />
-                          </button>
-
-                          {/* Minimal Dots Indicator */}
-                          <div 
-                            className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20"
-                            role="tablist"
-                            aria-label="Slider sayfa göstergeleri"
-                          >
-                            {displayListings.map((_, index) => (
-                              <button
-                                key={index}
-                                onClick={() => handleSlideClick(index)}
-                                className={cn(
-                                  "h-1.5 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-                                  index === currentSlide
-                                    ? 'w-8 bg-gradient-to-r from-blue-600 to-blue-500 shadow-sm'
-                                    : 'w-1.5 bg-gray-300 hover:bg-gray-400 hover:w-2'
-                                )}
-                                aria-label={`Slide ${index + 1}`}
-                                aria-selected={index === currentSlide ? "true" : "false"}
-                                role="tab"
-                                type="button"
-                              />
-                            ))}
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </Card>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>

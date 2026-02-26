@@ -29,82 +29,65 @@ export function HowItWorksSection() {
   ];
 
   return (
-    <section className="py-16 lg:py-24 bg-white relative">
-      <div className="container mx-auto px-4 lg:px-6">
-        <div className="max-w-6xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <span className="text-[#006AFF] text-sm font-bold uppercase tracking-wider">Nasıl Çalışır?</span>
+    <section className="py-24 lg:py-40 bg-white relative overflow-hidden">
+      {/* Background patterns */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-50">
+        <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-blue-50/50 rounded-full blur-[120px]"></div>
+      </div>
+
+      <div className="container mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-32">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100/50 rounded-full">
+                <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>
+                <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">SÜREÇ</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-black text-gray-900 tracking-[-0.04em] leading-tight">
+                Hayalinizdeki Eve <span className="text-blue-600">4 Kolay</span> Adım
+              </h2>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6 text-gray-900 tracking-tight">
-              Hayalinizdeki Eve 4 Adımda Ulaşın
-            </h2>
-            <p className="text-[17px] md:text-[19px] text-gray-600 max-w-3xl mx-auto leading-[1.7]">
-              Basit ve şeffaf sürecimizle emlak alım-satım ve kiralama işlemlerinizi kolaylaştırıyoruz
+            <p className="text-xl text-gray-500 font-medium max-w-xl leading-relaxed">
+              Emlak alım-satım ve kiralama süreçlerini sizin için şeffaf, hızlı ve keyifli bir yolculuğa dönüştürüyoruz.
             </p>
           </div>
 
           {/* Steps Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-16">
-            {steps.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <div
-                  key={index}
-                  className="group relative bg-white rounded-xl border border-gray-200 p-8 hover:shadow-lg hover:border-[#006AFF]/40 transition-all duration-300 hover:-translate-y-1 text-center"
-                >
-                  {/* Step Number */}
-                  <div className="mb-6">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-blue-50 group-hover:bg-blue-100 transition-colors duration-300 mb-4">
-                      <span className="text-2xl font-bold text-[#006AFF]">{step.number}</span>
+          <div className="relative">
+            {/* Visual connector line (hidden on mobile) */}
+            <div className="hidden lg:block absolute top-[100px] left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-blue-100 to-transparent -z-10"></div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+              {steps.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <div
+                    key={index}
+                    className="group relative flex flex-col items-center lg:items-start text-center lg:text-left"
+                  >
+                    {/* Circle Indicator */}
+                    <div className="mb-12 relative flex items-center justify-center">
+                      <div className="w-24 h-24 rounded-full bg-white shadow-[0_20px_50px_rgba(0,106,255,0.08)] flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 relative z-10">
+                        <Icon className="h-10 w-10 stroke-[1.5]" />
+                      </div>
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-blue-50 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 -z-0"></div>
+
+                      {/* Step Number Badge */}
+                      <div className="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center text-xs font-black shadow-xl z-20">
+                        {step.number}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Icon */}
-                  <div className="mb-5">
-                    <div className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-gray-50 group-hover:bg-blue-50 transition-colors duration-300">
-                      <Icon className="h-7 w-7 text-[#006AFF] stroke-[1.5] group-hover:scale-110 transition-transform duration-300" />
-                    </div>
+                    <h3 className="text-2xl font-black text-gray-900 mb-4 tracking-tight">
+                      {step.title}
+                    </h3>
+                    <p className="text-lg text-gray-500 font-medium leading-relaxed">
+                      {step.description}
+                    </p>
                   </div>
-
-                  {/* Content */}
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 tracking-tight">
-                    {step.title}
-                  </h3>
-                  <p className="text-[15px] text-gray-600 leading-[1.7]">
-                    {step.description}
-                  </p>
-
-                  {/* Arrow (Desktop only, between steps) */}
-                  {index < steps.length - 1 && (
-                    <div className="hidden lg:block absolute top-1/2 -right-4 -translate-y-1/2 z-10">
-                      <ArrowRight className="h-6 w-6 text-gray-300 stroke-[1.5]" />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Bottom Stats */}
-          <div className="bg-gray-50 rounded-xl p-8 border border-gray-200">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { value: "1000+", label: "Mutlu Müşteri" },
-                { value: "%98", label: "Müşteri Memnuniyeti" },
-                { value: "15", label: "Yıllık Deneyim" },
-                { value: "7/24", label: "WhatsApp Destek" },
-              ].map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm font-semibold text-gray-600">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

@@ -25,6 +25,7 @@ import { EnhancedWhyChooseUsSection } from '@/components/home/EnhancedWhyChooseU
 import { HowItWorksSection } from '@/components/home/HowItWorksSection';
 import { Ramadan2026PromoBlock } from '@/components/seasonal/Ramadan2026PromoBlock';
 import { decodeHtmlEntities } from '@/lib/entities';
+import { cn } from "@karasu/lib";
 
 // Lazy load heavy components for better performance
 const Hero = dynamicImport(() => import('@/components/home/Hero').then(mod => ({ default: mod.Hero })), {
@@ -429,96 +430,93 @@ export default async function HomePage({
 
         {/* Guides Hub - Consolidated */}
         <SectionErrorBoundary sectionName="Emlak Rehberleri ve Yatırım Fırsatları">
-          <div className="py-16 lg:py-24 bg-gradient-to-b from-gray-50 to-white">
-            <div className="container mx-auto px-4 lg:px-6">
+          <div className="py-24 lg:py-40 bg-white relative overflow-hidden">
+            <div className="container mx-auto px-6 lg:px-8">
               <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6 text-gray-900 tracking-tight">
-                    Emlak Rehberleri ve Yatırım Fırsatları
-                  </h2>
-                  <p className="text-[17px] md:text-[19px] text-gray-600 max-w-3xl mx-auto leading-[1.7]">
-                    İlk kez emlak alanlar, yatırımcılar ve yazlık emlak arayanlar için kapsamlı rehberler ve fırsatlar
+                <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-32">
+                  <div className="space-y-6">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 border border-orange-100/50 rounded-full">
+                      <span className="w-1.5 h-1.5 bg-orange-600 rounded-full"></span>
+                      <span className="text-[10px] font-black text-orange-600 uppercase tracking-widest">BİLGİ MERKEZİ</span>
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-black text-gray-900 tracking-[-0.04em] leading-tight max-w-2xl">
+                      Emlak <span className="text-orange-600">Rehberleri</span> & Fırsatlar
+                    </h2>
+                  </div>
+                  <p className="text-xl text-gray-500 font-medium max-w-xl leading-relaxed">
+                    Karasu'da doğru yatırım yapmak ve bilinçli kararlar almak için uzman ekibimizin hazırladığı kapsamlı rehberleri keşfedin.
                   </p>
                 </div>
 
                 {/* Guide Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {/* First Time Buyer Guide */}
-                  <Link href={`${basePath}/rehberler/ev-nasil-alinir`} className="group">
-                    <div className="bg-white rounded-xl border-2 border-gray-200 p-6 hover:border-primary/30 hover:shadow-lg transition-all h-full">
-                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
-                        <Home className="h-6 w-6 text-blue-600" />
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">
-                        İlk Kez Emlak Alanlar
-                      </h3>
-                      <p className="text-gray-600 text-sm mb-4">
-                        Bütçe belirleme, konum seçimi, kredi imkanları ve yasal süreçler rehberi
-                      </p>
-                      <span className="text-primary text-sm font-semibold inline-flex items-center gap-1">
-                        Rehberi İncele
-                        <ArrowRight className="h-4 w-4" />
-                      </span>
-                    </div>
-                  </Link>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                  {[
+                    {
+                      href: `${basePath}/rehberler/ev-nasil-alinir`,
+                      icon: Home,
+                      title: "İlk Kez Emlak Alanlar",
+                      description: "Bütçe belirleme, konum seçimi ve yasal süreçler için tam rehber.",
+                      color: "blue",
+                    },
+                    {
+                      href: `${basePath}/karasu-yatirimlik-satilik-ev`,
+                      icon: TrendingUp,
+                      title: "Yatırım Fırsatları",
+                      description: "Yüksek ROI potansiyelli bölgeler ve güncel pazar analizi.",
+                      color: "emerald",
+                    },
+                    {
+                      href: `${basePath}/rehberler/yatirim-yapma`,
+                      icon: FileText,
+                      title: "Yatırımcılar İçin",
+                      description: "Kısa ve uzun vadeli yatırım stratejileri ve portföy yönetimi.",
+                      color: "orange",
+                    },
+                    {
+                      href: `${basePath}/karasu-denize-yakin-satilik-ev`,
+                      icon: Sun,
+                      title: "Yazlık Emlak Piyasası",
+                      description: "Denize sıfır villalar ve yüksek kira getirili yazlık evler.",
+                      color: "yellow",
+                    }
+                  ].map((guide, idx) => {
+                    const Icon = guide.icon;
+                    const colorClasses: Record<string, string> = {
+                      blue: "bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white",
+                      emerald: "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white",
+                      orange: "bg-orange-50 text-orange-600 group-hover:bg-orange-600 group-hover:text-white",
+                      yellow: "bg-yellow-50 text-yellow-600 group-hover:bg-yellow-600 group-hover:text-white",
+                    };
 
-                  {/* Investment Opportunities */}
-                  <Link href={`${basePath}/karasu-yatirimlik-satilik-ev`} className="group">
-                    <div className="bg-white rounded-xl border-2 border-gray-200 p-6 hover:border-primary/30 hover:shadow-lg transition-all h-full">
-                      <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-green-200 transition-colors">
-                        <TrendingUp className="h-6 w-6 text-green-600" />
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">
-                        Yatırım Fırsatları
-                      </h3>
-                      <p className="text-gray-600 text-sm mb-4">
-                        Denize sıfır, merkez konumlu ve arsa yatırım fırsatları ile ROI analizi
-                      </p>
-                      <span className="text-primary text-sm font-semibold inline-flex items-center gap-1">
-                        Fırsatları Keşfet
-                        <ArrowRight className="h-4 w-4" />
-                      </span>
-                    </div>
-                  </Link>
+                    return (
+                      <Link key={idx} href={guide.href} className="group">
+                        <div className="h-full bg-white rounded-[40px] border border-gray-100 p-10 hover:shadow-[0_40px_100px_rgba(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-2 flex flex-col">
+                          <div className={cn(
+                            "w-16 h-16 rounded-3xl flex items-center justify-center transition-all duration-500 mb-10",
+                            colorClasses[guide.color]
+                          )}>
+                            <Icon className="h-8 w-8 stroke-[1.5]" />
+                          </div>
 
-                  {/* Investors Guide */}
-                  <Link href={`${basePath}/rehberler/yatirim-yapma`} className="group">
-                    <div className="bg-white rounded-xl border-2 border-gray-200 p-6 hover:border-primary/30 hover:shadow-lg transition-all h-full">
-                      <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-orange-200 transition-colors">
-                        <FileText className="h-6 w-6 text-orange-600" />
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">
-                        Yatırımcılar İçin
-                      </h3>
-                      <p className="text-gray-600 text-sm mb-4">
-                        Kısa/uzun vadeli stratejiler, portföy çeşitlendirme ve ROI hesaplama
-                      </p>
-                      <span className="text-primary text-sm font-semibold inline-flex items-center gap-1">
-                        Stratejileri İncele
-                        <ArrowRight className="h-4 w-4" />
-                      </span>
-                    </div>
-                  </Link>
+                          <h3 className="text-2xl font-black text-gray-900 mb-4 tracking-tight leading-tight group-hover:text-gray-600 transition-colors">
+                            {guide.title}
+                          </h3>
 
-                  {/* Summer Property Market */}
-                  <Link href={`${basePath}/karasu-denize-yakin-satilik-ev`} className="group">
-                    <div className="bg-white rounded-xl border-2 border-gray-200 p-6 hover:border-primary/30 hover:shadow-lg transition-all h-full">
-                      <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-yellow-200 transition-colors">
-                        <Sun className="h-6 w-6 text-yellow-600" />
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">
-                        Yazlık Emlak Piyasası
-                      </h3>
-                      <p className="text-gray-600 text-sm mb-4">
-                        Yazlık evler, denize sıfır villalar ve yüksek kira geliri potansiyeli
-                      </p>
-                      <span className="text-primary text-sm font-semibold inline-flex items-center gap-1">
-                        Yazlık İlanları Gör
-                        <ArrowRight className="h-4 w-4" />
-                      </span>
-                    </div>
-                  </Link>
+                          <p className="text-lg text-gray-500 font-medium leading-relaxed mb-10">
+                            {guide.description}
+                          </p>
+
+                          <div className="mt-auto flex items-center gap-2 group/btn">
+                            <span className="text-sm font-black text-gray-900 tracking-widest uppercase">REHBERİ GÖR</span>
+                            <div className="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center group-hover:bg-gray-900 group-hover:text-white transition-all duration-300">
+                              <ArrowRight className="h-4 w-4" />
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -598,162 +596,6 @@ export default async function HomePage({
         </SectionErrorBoundary>
 
 
-        {/* News Section - Apple Quality */}
-        <SectionErrorBoundary sectionName="Haberler">
-          {(decodedFeaturedNews.length > 0 || enhancedGundemArticles.length > 0) && (
-            <section className="py-12 lg:py-16 bg-white">
-              <div className="container mx-auto px-4 lg:px-6">
-                <div className="flex items-center justify-between mb-10">
-                  <div>
-                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold mb-2 text-gray-900 leading-tight tracking-tight">
-                      Güncel Haberler
-                    </h2>
-                    <p className="text-[17px] text-gray-600 tracking-[-0.022em]">
-                      Karasu ve emlak sektöründen güncel haberler, piyasa analizleri ve gelişmeler
-                      {enhancedGundemArticles.length > 0 && (
-                        <span className="ml-2 text-[#006AFF]">
-                          {' '}·{' '}
-                          <a
-                            href="https://karasugundem.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:underline font-medium inline-flex items-center gap-1"
-                          >
-                            Karasu Gündem
-                            <ExternalLink className="h-3.5 w-3.5 stroke-[1.5]" />
-                          </a>
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                  <Link href="/haberler">
-                    <Button variant="outline" size="lg" className="hidden md:flex text-[15px] font-semibold tracking-[-0.011em] rounded-lg">
-                      Tümünü Gör
-                    </Button>
-                  </Link>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
-                  {/* Karasu Gündem Articles */}
-                  {enhancedGundemArticles.map((article) => {
-                    return (
-                      <a
-                        key={article.guid || article.link || article.slug}
-                        href={article.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg hover:border-[#006AFF]/30 transition-all duration-300 hover:-translate-y-1"
-                      >
-                        <article>
-                          <div className="h-48 bg-gray-100 relative overflow-hidden">
-                            {article.image ? (
-                              <ExternalImage
-                                src={article.image}
-                                alt={article.title}
-                                fill
-                                className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-gradient-to-br from-[#006AFF]/10 to-[#00A862]/10 flex items-center justify-center">
-                                <span className="text-gray-400 text-sm font-medium">Görsel yok</span>
-                              </div>
-                            )}
-                            <div className="absolute top-3 right-3 bg-[#006AFF]/90 text-white px-2.5 py-1 rounded-lg text-[11px] font-semibold tracking-[-0.01em] shadow-lg backdrop-blur-sm">
-                              Karasu Gündem
-                            </div>
-                          </div>
-                          <div className="p-5">
-                            <h3
-                              className="text-[17px] font-semibold mb-2 line-clamp-2 text-gray-900 leading-[1.47] tracking-[-0.022em] group-hover:text-[#006AFF] transition-colors"
-                              dangerouslySetInnerHTML={{ __html: article.title }}
-                            />
-                            <p
-                              className="text-[15px] text-gray-600 mb-4 line-clamp-3 leading-[1.47] tracking-[-0.011em]"
-                              dangerouslySetInnerHTML={{ __html: article.description || 'Devamını okumak için tıklayın...' }}
-                            />
-                            <div className="flex items-center justify-between text-[13px] text-gray-500 pt-3 border-t border-gray-100 font-medium tracking-[-0.01em]">
-                              <div className="flex items-center gap-1.5">
-                                <User className="h-3.5 w-3.5 stroke-[1.5]" />
-                                <span>{article.author || 'Karasu Gündem'}</span>
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <Calendar className="h-3.5 w-3.5 stroke-[1.5]" />
-                                <span>
-                                  {new Date(article.pubDate).toLocaleDateString('tr-TR')}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </article>
-                      </a>
-                    );
-                  })}
-
-                  {/* Our News Articles */}
-                  {decodedFeaturedNews.map((news) => {
-                    return (
-                      <Link key={news.id} href={`/haberler/${news.slug}`}>
-                        <article className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg hover:border-gray-300 transition-all duration-300 hover:-translate-y-1">
-                          <div className="h-48 bg-gray-100 relative overflow-hidden">
-                            {news.cover_image ? (
-                              <CardImage
-                                publicId={news.cover_image}
-                                alt={news.title}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                                <span className="text-gray-400 text-sm font-medium">Görsel yok</span>
-                              </div>
-                            )}
-                            {news.featured && (
-                              <div className="absolute top-3 left-3 bg-[#FF5A5F] text-white px-2.5 py-1 rounded-lg text-[13px] font-semibold tracking-[-0.01em] shadow-lg backdrop-blur-sm">
-                                Öne Çıkan
-                              </div>
-                            )}
-                          </div>
-                          <div className="p-5">
-                            <h3
-                              className="text-[17px] font-semibold mb-2 line-clamp-2 text-gray-900 leading-[1.47] tracking-[-0.022em] group-hover:text-[#006AFF] transition-colors"
-                              dangerouslySetInnerHTML={{ __html: news.title }}
-                            />
-                            <p
-                              className="text-[15px] text-gray-600 mb-4 line-clamp-3 leading-[1.47] tracking-[-0.011em]"
-                              dangerouslySetInnerHTML={{ __html: news.original_summary || news.seo_description || 'Devamını okumak için tıklayın...' }}
-                            />
-                            <div className="flex items-center justify-between text-[13px] text-gray-500 pt-3 border-t border-gray-100 font-medium tracking-[-0.01em]">
-                              <div className="flex items-center gap-1.5">
-                                <User className="h-3.5 w-3.5 stroke-[1.5]" />
-                                <span>Karasu Emlak</span>
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <Calendar className="h-3.5 w-3.5 stroke-[1.5]" />
-                                <span>
-                                  {news.published_at
-                                    ? new Date(news.published_at).toLocaleDateString('tr-TR')
-                                    : new Date(news.created_at).toLocaleDateString('tr-TR')
-                                  }
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </article>
-                      </Link>
-                    );
-                  })}
-                </div>
-                <div className="mt-8 text-center md:hidden">
-                  <Link href="/haberler">
-                    <Button variant="outline" size="lg" className="text-[15px] font-semibold tracking-[-0.011em] rounded-lg">
-                      Tümünü Gör
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </section>
-          )}
-        </SectionErrorBoundary>
 
         {/* How It Works */}
         <HowItWorksSection />
@@ -769,10 +611,6 @@ export default async function HomePage({
           <QuickToolsSection />
         </SectionErrorBoundary>
 
-        {/* Market Trends - Consolidated */}
-        <SectionErrorBoundary sectionName="Piyasa Trendleri">
-          <CompactMarketTrends />
-        </SectionErrorBoundary>
 
         {/* Testimonials & Success Stories - Combined */}
         <SectionErrorBoundary sectionName="Müşteri Yorumları ve Başarı Hikayeleri">

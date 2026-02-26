@@ -9,6 +9,8 @@ interface NeighborhoodAutocompleteProps {
   onChange: (value: string) => void;
   neighborhoods?: string[];
   className?: string;
+  inputClassName?: string;
+  hideSuggestions?: boolean;
 }
 
 export function NeighborhoodAutocomplete({
@@ -16,6 +18,8 @@ export function NeighborhoodAutocomplete({
   onChange,
   neighborhoods = [],
   className,
+  inputClassName,
+  hideSuggestions = false,
 }: NeighborhoodAutocompleteProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [filteredNeighborhoods, setFilteredNeighborhoods] = useState<string[]>([]);
@@ -64,7 +68,7 @@ export function NeighborhoodAutocomplete({
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        setHighlightedIndex((prev) => 
+        setHighlightedIndex((prev) =>
           prev < filteredNeighborhoods.length - 1 ? prev + 1 : prev
         );
         break;
@@ -108,7 +112,10 @@ export function NeighborhoodAutocomplete({
           onFocus={() => value.length >= 2 && filteredNeighborhoods.length > 0 && setIsOpen(true)}
           onKeyDown={handleKeyDown}
           placeholder="Mahalle ara..."
-          className="w-full pl-10 pr-10 py-3 border-2 border-gray-200 rounded-lg text-[15px] font-medium focus:border-blue-600 focus:outline-none transition-colors"
+          className={cn(
+            "w-full pl-10 pr-10 py-3 border-2 border-gray-200 rounded-lg text-[15px] font-medium focus:border-blue-600 focus:outline-none transition-colors",
+            inputClassName
+          )}
           aria-label="Mahalle ara"
           aria-autocomplete="list"
           aria-expanded={isOpen ? "true" : "false"}
@@ -157,7 +164,7 @@ export function NeighborhoodAutocomplete({
       )}
 
       {/* Popular Suggestions (when input is empty) */}
-      {!value && (
+      {!value && !hideSuggestions && (
         <div className="mt-2">
           <p className="text-xs text-gray-500 mb-1.5 font-medium">Popüler Mahalleler:</p>
           <div className="flex flex-wrap gap-1.5">
