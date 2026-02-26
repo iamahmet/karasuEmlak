@@ -17,10 +17,10 @@ import { isValidCloudinaryId } from '@/lib/images/free-image-fallback';
  */
 function isValidImageUrl(url: string): boolean {
   if (!url || typeof url !== 'string') return false;
-  
+
   const trimmed = url.trim();
   if (trimmed.length === 0) return false;
-  
+
   // Check if it's a valid URL
   try {
     const urlObj = new URL(trimmed);
@@ -36,19 +36,19 @@ function isValidImageUrl(url: string): boolean {
  */
 function isCloudinaryImage(url: string): boolean {
   if (!url || typeof url !== 'string') return false;
-  
+
   const trimmed = url.trim();
-  
+
   // Full Cloudinary URL
   if (trimmed.includes('res.cloudinary.com')) {
     return true;
   }
-  
+
   // Cloudinary public_id (no http/https, no slashes at start)
   if (isValidCloudinaryId(trimmed)) {
     return true;
   }
-  
+
   return false;
 }
 
@@ -57,9 +57,9 @@ function isCloudinaryImage(url: string): boolean {
  */
 function optimizeImageUrl(url: string, articleTitle: string): string {
   if (!url || typeof url !== 'string') return url;
-  
+
   const trimmed = url.trim();
-  
+
   // If it's a Cloudinary public_id, optimize it
   if (isValidCloudinaryId(trimmed)) {
     try {
@@ -75,12 +75,12 @@ function optimizeImageUrl(url: string, articleTitle: string): string {
       return trimmed;
     }
   }
-  
+
   // If it's already a full Cloudinary URL, return as-is
   if (trimmed.includes('res.cloudinary.com')) {
     return trimmed;
   }
-  
+
   // External URL - validate and return
   if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
     try {
@@ -90,7 +90,7 @@ function optimizeImageUrl(url: string, articleTitle: string): string {
       return trimmed;
     }
   }
-  
+
   return trimmed;
 }
 
@@ -101,14 +101,14 @@ function generateImageAlt(src: string, articleTitle: string, existingAlt?: strin
   if (existingAlt && existingAlt.trim().length > 0) {
     return existingAlt.trim();
   }
-  
+
   // Try to extract meaningful alt from filename
   try {
     const url = new URL(src);
     const pathname = url.pathname;
     const filename = pathname.split('/').pop() || '';
     const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
-    
+
     if (nameWithoutExt && nameWithoutExt.length > 0) {
       // Decode URL-encoded characters
       const decoded = decodeURIComponent(nameWithoutExt);
@@ -117,7 +117,7 @@ function generateImageAlt(src: string, articleTitle: string, existingAlt?: strin
         .replace(/[-_]/g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
-      
+
       if (cleaned.length > 0 && cleaned.length < 100) {
         return `${cleaned} - ${articleTitle}`;
       }
@@ -125,7 +125,7 @@ function generateImageAlt(src: string, articleTitle: string, existingAlt?: strin
   } catch {
     // Not a valid URL, continue with default
   }
-  
+
   // Default alt text
   return `${articleTitle} - Görsel`;
 }
@@ -140,7 +140,7 @@ export function processArticleContentImages(
   if (!html || typeof html !== 'string') {
     return html;
   }
-  
+
   // Process all img tags
   const processedHtml = html.replace(
     /<img([^>]*?)>/gi,
@@ -149,11 +149,11 @@ export function processArticleContentImages(
       const srcMatch = attributes.match(/src=["']([^"']*?)["']/i);
       if (!srcMatch || !srcMatch[1]) {
         // No src attribute, return as-is but add error handling
-        return `<img${attributes} loading="lazy" onerror="this.onerror=null; this.src='/images/placeholder-article.jpg'; this.alt='Görsel yüklenemedi';">`;
+        return `<img${attributes} loading="lazy" data-fallback-src="/images/placeholder-article.jpg">`;
       }
-      
+
       const originalSrc = srcMatch[1];
-      
+
       // Validate URL
       if (!isValidImageUrl(originalSrc)) {
         // Invalid URL, use placeholder
@@ -161,26 +161,26 @@ export function processArticleContentImages(
         const alt = generateImageAlt(originalSrc, articleTitle);
         return `<img src="${placeholderSrc}" alt="${alt}" loading="lazy" class="article-image" style="max-width: 100%; height: auto;">`;
       }
-      
+
       // Optimize URL
       const optimizedSrc = optimizeImageUrl(originalSrc, articleTitle);
-      
+
       // Extract existing alt attribute
       const altMatch = attributes.match(/alt=["']([^"']*?)["']/i);
       const existingAlt = altMatch ? altMatch[1] : undefined;
-      
+
       // Generate alt text
       const alt = generateImageAlt(optimizedSrc, articleTitle, existingAlt);
-      
+
       // Build new attributes
       let newAttributes = attributes;
-      
+
       // Replace src
       newAttributes = newAttributes.replace(
         /src=["'][^"']*?["']/i,
         `src="${optimizedSrc}"`
       );
-      
+
       // Replace or add alt
       if (altMatch) {
         newAttributes = newAttributes.replace(
@@ -190,18 +190,19 @@ export function processArticleContentImages(
       } else {
         newAttributes += ` alt="${alt.replace(/"/g, '&quot;')}"`;
       }
-      
+
       // Add loading="lazy" if not present
       if (!newAttributes.match(/loading=["']/i)) {
         newAttributes += ' loading="lazy"';
       }
-      
-      // Add error handler if not present
-      if (!newAttributes.match(/onerror=/i)) {
+
+      // Add data-fallback attribute for error handling (no inline onerror - CSP violation)
+      // Actual fallback handled by ArticleImageErrorHandler component
+      if (!newAttributes.match(/data-fallback-src=/i)) {
         const fallbackSrc = '/images/placeholder-article.jpg';
-        newAttributes += ` onerror="this.onerror=null; this.src='${fallbackSrc}'; this.alt='Görsel yüklenemedi';"`;
+        newAttributes += ` data-fallback-src="${fallbackSrc}"`;
       }
-      
+
       // Add class if not present
       if (!newAttributes.match(/class=["']/i)) {
         newAttributes += ' class="article-image"';
@@ -217,7 +218,7 @@ export function processArticleContentImages(
           }
         );
       }
-      
+
       // Add style for responsive images if not present
       if (!newAttributes.match(/style=["']/i)) {
         newAttributes += ' style="max-width: 100%; height: auto;"';
@@ -233,11 +234,11 @@ export function processArticleContentImages(
           }
         );
       }
-      
+
       return `<img${newAttributes}>`;
     }
   );
-  
+
   return processedHtml;
 }
 
@@ -252,14 +253,14 @@ export function processArticleContent(
   if (!html || typeof html !== 'string') {
     return html;
   }
-  
+
   // Process images
   const processed = processArticleContentImages(html, articleTitle);
-  
+
   // Additional processing can be added here:
   // - Link processing
   // - Video processing
   // - etc.
-  
+
   return processed;
 }

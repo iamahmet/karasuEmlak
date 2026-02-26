@@ -44,22 +44,48 @@ function getDOMPurify() {
  */
 export function sanitizeHTML(html: string): string {
   const purify = getDOMPurify();
-  
+
   if (!purify) {
     // Fallback: Return HTML as-is (don't escape, let DOMPurify handle it)
     // This ensures server and client produce the same output
     // The actual sanitization will happen in html-content-processor
     return html;
   }
-  
+
   return purify.sanitize(html, {
-    ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'a', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'img', 'blockquote', 'pre', 'code', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'hr'],
-    ALLOWED_ATTR: ['href', 'title', 'target', 'rel', 'src', 'alt', 'loading', 'class', 'id'],
+    ALLOWED_TAGS: [
+      'p', 'br', 'strong', 'em', 'u', 's', 'a', 'ul', 'ol', 'li',
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+      'img', 'figure', 'figcaption', 'picture', 'source',
+      'blockquote', 'pre', 'code', 'kbd', 'samp',
+      'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'caption', 'colgroup', 'col',
+      'hr', 'div', 'span', 'section', 'article', 'aside', 'header', 'footer', 'main', 'nav',
+      'details', 'summary',
+      'mark', 'small', 'sub', 'sup', 'del', 'ins', 'abbr', 'cite', 'dfn', 'q',
+    ],
+    ALLOWED_ATTR: [
+      // Links & images
+      'href', 'title', 'target', 'rel', 'src', 'srcset', 'sizes', 'alt',
+      // Image sizing
+      'width', 'height', 'loading', 'decoding', 'fetchpriority',
+      // Styling & layout
+      'class', 'id', 'style',
+      // Custom data attributes
+      'data-fallback-src', 'data-table-scroll', 'data-*',
+      // Accessibility
+      'aria-label', 'aria-hidden', 'aria-describedby', 'aria-expanded', 'aria-controls', 'role',
+      // Table
+      'colspan', 'rowspan', 'scope',
+      // Media
+      'type', 'media',
+    ],
     ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
     KEEP_CONTENT: true,
     RETURN_DOM: false,
     RETURN_DOM_FRAGMENT: false,
     RETURN_TRUSTED_TYPE: false,
+    // Allow data-* attributes by wildcard
+    ADD_DATA_URI_TAGS: ['img', 'source'],
   });
 }
 
@@ -68,7 +94,7 @@ export function sanitizeHTML(html: string): string {
  */
 export function sanitizeText(text: string): string {
   const purify = getDOMPurify();
-  
+
   if (!purify) {
     // Fallback: basic HTML entity encoding
     return text
@@ -78,7 +104,7 @@ export function sanitizeText(text: string): string {
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#x27;');
   }
-  
+
   return purify.sanitize(text, {
     ALLOWED_TAGS: [],
     ALLOWED_ATTR: [],
@@ -106,7 +132,7 @@ export function sanitizeURL(url: string): string {
  */
 export function sanitizeObject<T extends Record<string, any>>(obj: T): T {
   const sanitized = { ...obj };
-  
+
   for (const key in sanitized) {
     if (typeof sanitized[key] === 'string') {
       // Check if it's HTML content or plain text
@@ -118,13 +144,13 @@ export function sanitizeObject<T extends Record<string, any>>(obj: T): T {
     } else if (typeof sanitized[key] === 'object' && sanitized[key] !== null && !Array.isArray(sanitized[key])) {
       sanitized[key] = sanitizeObject(sanitized[key]) as any;
     } else if (Array.isArray(sanitized[key])) {
-      sanitized[key] = sanitized[key].map((item: any) => 
-        typeof item === 'string' ? sanitizeText(item) : 
-        typeof item === 'object' ? sanitizeObject(item) : 
-        item
+      sanitized[key] = sanitized[key].map((item: any) =>
+        typeof item === 'string' ? sanitizeText(item) :
+          typeof item === 'object' ? sanitizeObject(item) :
+            item
       ) as any;
     }
   }
-  
+
   return sanitized;
 }

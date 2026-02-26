@@ -173,6 +173,38 @@ export function markdownToHTML(content: string): string {
   return html;
 }
 
+/**
+ * Fix SVG path data with invalid spaces around decimal points.
+ * 
+ * Some DB-stored content has SVG paths like "M7 7h. 586l7 7" (space after dot).
+ * This causes browser SVG parse errors. We fix them by removing the spacing.
+ * 
+ * Examples:
+ *   "h. 586"    → "h.586"
+ *   "M13. 172"  → "M13.172"
+ *   "m5. 955"   → "m5.955"
+ *   "0H9m11 2"  stays if not a decimal issue
+ */
+function fixSvgPathSpaces(html: string): string {
+  if (!html.includes('<svg') && !html.includes(' d="')) {
+    return html;
+  }
+
+  // Fix space between digits and decimal point in SVG path data attributes:
+  // Pattern: a digit or command letter, then a period, then a space, then digit(s)
+  // e.g., "h. 586" -> "h.586"  |  "M13. 172" -> "M13.172"
+  return html.replace(/\bd="([^"]*)"/g, (_match, pathData: string) => {
+    const fixed = pathData
+      // Fix: letter/digit + ". " + digit → remove space after dot
+      .replace(/(\d)\.\s+(\d)/g, '$1.$2')
+      // Fix: SVG command letter + ". " + digit  e.g. "h. 586" → "h.586"
+      .replace(/([MmLlHhVvCcSsQqTtAaZz])\.\s+(\d)/g, '$1.$2')
+      // Fix: leading space before decimal number in path  e.g. "0 .707" stays but "h. 582" → "h.582"
+      .replace(/([a-zA-Z])\s+\.\s*(\d)/g, '$1.$2');
+    return `d="${fixed}"`;
+  });
+}
+
 function wrapTablesForResponsiveScroll(html: string): string {
   if (!html || !html.includes('<table')) {
     return html;
@@ -221,6 +253,9 @@ export function renderContent(
   // Remove redundant ** around <strong> (AI sometimes outputs **<strong>X</strong>**)
   processed = processed.replace(/\*\*<strong>(.*?)<\/strong>\*\*/g, '<strong>$1</strong>');
   processed = processed.replace(/__<strong>(.*?)<\/strong>__/g, '<strong>$1</strong>');
+
+  // Fix SVG path data with spaces after dots (e.g., "M7 7h. 586" → "M7 7h.586")
+  processed = fixSvgPathSpaces(processed);
 
   const format = options.format || detectContentFormat(processed);
 

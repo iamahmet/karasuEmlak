@@ -8,6 +8,7 @@ import { ArticleContent } from './ArticleContent';
 import type { ContextualLink } from './contextual-links';
 import { ContentRenderer } from '@/components/content/ContentRenderer';
 import { ArticleAudioReader } from './ArticleAudioReader';
+import { ArticleImageFallback } from './ArticleImageFallback';
 
 const TableOfContents = dynamic(
   () => import('./EnhancedTableOfContents').then((mod) => ({ default: mod.EnhancedTableOfContents })),
@@ -157,6 +158,8 @@ function ArticleBodyComponent({
 
   return (
     <div className="w-full">
+      {/* CSP-compliant image error fallback (no inline onerror) */}
+      <ArticleImageFallback />
       {/* Mobile Table of Contents - Collapsible */}
       <div className="lg:hidden mb-8">
         <Suspense fallback={null}>
