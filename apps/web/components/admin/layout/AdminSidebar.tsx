@@ -134,6 +134,22 @@ export function AdminSidebar() {
       label: "Ayarlar",
       icon: Settings,
     },
+    {
+      label: "Güvenlik",
+      icon: Shield,
+      children: [
+        {
+          href: "/admin/settings/mfa",
+          label: "2FA Ayarları",
+          icon: Key,
+        },
+        {
+          href: "/admin/security/audit-logs",
+          label: "Audit Logları",
+          icon: Activity,
+        },
+      ],
+    },
   ];
 
   // 🛠️ POI369 STUDIO (SECONDARY, ADVANCED TOOLS)
@@ -239,11 +255,11 @@ export function AdminSidebar() {
   const isActive = (href: string) => {
     const pathWithoutLocale = pathname?.replace(/^\/[^/]+/, "") || "";
     const hrefWithoutLocale = href.startsWith("/") ? href : `/${href}`;
-    
+
     if (href.includes("/admin/dashboard")) {
       return pathWithoutLocale === "/admin/dashboard" || pathWithoutLocale === "/admin";
     }
-    
+
     return pathWithoutLocale === hrefWithoutLocale || pathWithoutLocale.startsWith(hrefWithoutLocale + "/");
   };
 
@@ -397,7 +413,7 @@ export function AdminSidebar() {
                   <ChevronRight className="h-3 w-3 text-orange-500" />
                 )}
               </button>
-              
+
               {/* Warning microcopy */}
               <div className="px-2 mb-3">
                 <div className="flex items-start gap-2 p-2 rounded-lg bg-orange-50 dark:bg-orange-900/10 border border-orange-200 dark:border-orange-900/20">

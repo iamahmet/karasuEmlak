@@ -8,6 +8,7 @@ import type { CookieOptions } from '@supabase/ssr';
 export interface User {
   id: string;
   email?: string;
+  mfaVerified?: boolean;
 }
 
 /**
@@ -19,7 +20,7 @@ export interface User {
  */
 export async function requireStaff(): Promise<User> {
   const cookieStore = await cookies();
-  
+
   // Get environment variables
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -87,14 +88,30 @@ export async function requireStaff(): Promise<User> {
       return {
         id: user.id,
         email: user.email,
+        mfaVerified: true // Dev fallback
       };
     }
     throw new Error('Unauthorized: Staff or admin role required');
   }
 
+  // Check MFA level for staff/admin in production
+  let mfaVerified = false;
+  if (process.env.NODE_ENV !== 'development' || process.env.ENFORCE_MFA === 'true') {
+    const { data: mfa, error: mfaError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (!mfaError && mfa) {
+      if (mfa.nextLevel === 'aal2' && mfa.currentLevel !== 'aal2') {
+        throw new Error('MFA verification required');
+      }
+      mfaVerified = mfa.currentLevel === 'aal2';
+    }
+  } else {
+    mfaVerified = true;
+  }
+
   return {
     id: user.id,
     email: user.email,
+    mfaVerified,
   };
 }
 
@@ -105,7 +122,7 @@ export async function requireStaff(): Promise<User> {
  */
 export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
-  
+
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
