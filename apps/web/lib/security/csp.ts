@@ -15,7 +15,7 @@ export interface CSPOptions {
  */
 export function buildCSP(options: CSPOptions = {}): string {
   const { nonce = '', isDev = process.env.NODE_ENV === 'development' } = options;
-  
+
   const directives: string[] = [];
 
   // Default source
@@ -157,7 +157,7 @@ export function buildCSP(options: CSPOptions = {}): string {
   }
 
   const cspString = directives.join('; ');
-  
+
   return cspString;
 }
 
@@ -170,12 +170,13 @@ export function generateNonce(): string {
   if (typeof globalThis.crypto !== 'undefined' && 'getRandomValues' in globalThis.crypto) {
     const array = new Uint8Array(16);
     globalThis.crypto.getRandomValues(array);
-    return Buffer.from(array).toString('base64');
+    // Use btoa instead of Buffer for Edge compatibility
+    return btoa(String.fromCharCode(...array));
   }
 
   // Fallback: Math.random (not cryptographically secure, but works)
   const randomBytes = Array.from({ length: 16 }, () => Math.floor(Math.random() * 256));
-  return Buffer.from(randomBytes).toString('base64').slice(0, 16);
+  return btoa(String.fromCharCode(...randomBytes)).slice(0, 16);
 }
 
 /**
@@ -208,7 +209,7 @@ export function getAllowedConnectDomains(isDev = false): string[] {
     'https://vitals.vercel-insights.com',
     'https://*.vercel.app',
   ];
-  
+
   if (isDev) {
     domains.push(
       'http://localhost:*',
@@ -219,6 +220,6 @@ export function getAllowedConnectDomains(isDev = false): string[] {
       'ws://localhost:3001'
     );
   }
-  
+
   return domains;
 }
