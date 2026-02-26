@@ -35,7 +35,7 @@ export async function generateMetadata({
   
   return {
     title: 'Kocaali Mahalleleri | Mahalle Rehberi ve Satılık Ev İlanları | Karasu Emlak',
-    description: 'Kocaali mahalleleri hakkında detaylı bilgi. Her mahallenin özellikleri, fiyat aralıkları, satılık ev seçenekleri ve yatırım potansiyeli. Size en uygun mahalleyi keşfedin.',
+    description: 'Kocaali mahalleleri hakkında detaylı bilgi. Her mahallenin özellikleri, fiyat aralıkları, satılık ev seçenekleri ve yatırım potansiyeli. Size en...',
     keywords: [
       'kocaali mahalleleri',
       'kocaali mahalle rehberi',

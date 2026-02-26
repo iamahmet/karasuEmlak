@@ -56,11 +56,11 @@ function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: A
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
       const content = article.content;
-      const hasContent = content && 
-        typeof content === 'string' && 
+      const hasContent = content &&
+        typeof content === 'string' &&
         content.length > 0 &&
         content.replace(/<[^>]*>/g, '').trim().length > 0;
-      
+
       if (!hasContent) {
         console.warn(`[ArticleContent] Article "${article.title}" has no content.`, {
           type: typeof content,
@@ -97,7 +97,7 @@ function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: A
     <div className="w-full">
       {/* Share & Actions Bar - Modern */}
       <div className="mb-10 print:hidden">
-        <div className="flex flex-wrap items-center justify-between gap-4 p-5 bg-gradient-to-r from-gray-50 via-white to-gray-50 dark:from-gray-800/50 dark:via-gray-900 dark:to-gray-800/50 border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-4 p-5 bg-white/70 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl border border-gray-200/50 dark:border-gray-700/50 shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
           <div className="flex items-center gap-4">
             <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-xl">
               <Share2 className="h-5 w-5 text-primary" />
@@ -142,18 +142,18 @@ function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: A
       </div>
 
       {/* Article Content - Premium Editorial Typography */}
-      <article className="relative w-full prose prose-lg prose-gray dark:prose-invert max-w-none
-        prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white
-        prose-h2:text-3xl prose-h2:md:text-4xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:scroll-mt-24
+      <article className="relative w-full prose prose-lg prose-slate dark:prose-invert max-w-none
+        prose-headings:font-bold prose-headings:text-slate-900 dark:prose-headings:text-white prose-headings:tracking-tight
+        prose-h2:text-3xl prose-h2:md:text-4xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:scroll-mt-24 prose-h2:border-b-2 prose-h2:border-primary/10 prose-h2:pb-4
         prose-h3:text-2xl prose-h3:md:text-3xl prose-h3:mt-10 prose-h3:mb-4
         prose-h4:text-xl prose-h4:md:text-2xl prose-h4:mt-8 prose-h4:mb-3
-        prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-[1.75] prose-p:mb-6 prose-p:text-base md:prose-p:text-lg prose-p:antialiased hyphens-auto
-        prose-a:text-primary prose-a:font-semibold prose-a:no-underline hover:prose-a:underline prose-a:transition-all
-        prose-strong:text-gray-900 dark:prose-strong:text-white prose-strong:font-bold
+        prose-p:text-slate-700 dark:prose-p:text-slate-300 prose-p:leading-[1.8] prose-p:mb-8 prose-p:text-[1.125rem] md:prose-p:text-[1.1875rem] prose-p:antialiased hyphens-auto
+        prose-a:text-primary prose-a:font-semibold prose-a:no-underline hover:prose-a:text-primary-dark hover:prose-a:underline prose-a:transition-all
+        prose-strong:text-slate-900 dark:prose-strong:text-white prose-strong:font-bold
         prose-ul:my-6 prose-ol:my-6
-        prose-li:text-gray-700 dark:prose-li:text-gray-300 prose-li:mb-3 prose-li:leading-relaxed
-        prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-gradient-to-r prose-blockquote:from-primary/5 prose-blockquote:to-transparent dark:prose-blockquote:from-primary/10 dark:prose-blockquote:to-transparent prose-blockquote:py-6 prose-blockquote:px-8 prose-blockquote:rounded-r-2xl prose-blockquote:not-italic prose-blockquote:shadow-sm
-        prose-img:rounded-2xl prose-img:shadow-xl prose-img:my-8
+        prose-li:text-slate-700 dark:prose-li:text-slate-300 prose-li:mb-3 prose-li:leading-relaxed prose-li:marker:text-primary/70
+        prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-gradient-to-r prose-blockquote:from-primary/5 prose-blockquote:to-transparent dark:prose-blockquote:from-primary/10 dark:prose-blockquote:to-transparent prose-blockquote:py-6 prose-blockquote:px-8 prose-blockquote:rounded-r-3xl prose-blockquote:not-italic prose-blockquote:shadow-sm prose-blockquote:text-slate-800 dark:prose-blockquote:text-slate-200
+        prose-img:rounded-3xl prose-img:shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:prose-img:shadow-[0_20px_50px_rgba(0,0,0,0.4)] prose-img:my-10 prose-img:border prose-img:border-slate-200/50 dark:prose-img:border-slate-700/50
         prose-pre:bg-gray-900 dark:prose-pre:bg-gray-800 prose-pre:rounded-2xl prose-pre:shadow-xl prose-pre:border prose-pre:border-gray-700
         prose-code:text-primary prose-code:bg-primary/10 dark:prose-code:bg-primary/20 prose-code:px-2 prose-code:py-1 prose-code:rounded-lg prose-code:font-semibold prose-code:text-sm prose-code:before:content-none prose-code:after:content-none
         prose-table:w-full prose-table:my-8 prose-table:border-collapse
@@ -162,16 +162,16 @@ function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: A
         {(() => {
           // More robust content check - handle HTML content
           const content = article.content;
-          
+
           // Check if content exists and has actual text
-          const hasContent = content && 
-            typeof content === 'string' && 
+          const hasContent = content &&
+            typeof content === 'string' &&
             content.length > 0;
-          
+
           // Extract text from HTML to check if there's actual content
           const textContent = hasContent ? content.replace(/<[^>]*>/g, '').trim() : '';
           const hasTextContent = textContent.length > 0;
-          
+
           if (!hasContent || !hasTextContent) {
             return (
               <div className="p-8 text-center text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800/50">
@@ -181,10 +181,10 @@ function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: A
                   <p className="text-sm text-slate-400 dark:text-slate-500">Lütfen bekleyin</p>
                   {process.env.NODE_ENV === 'development' && (
                     <p className="text-xs text-slate-400 dark:text-slate-500 mt-2 font-mono">
-                      Debug: Content type={typeof content}, 
-                      length={content?.length || 0}, 
+                      Debug: Content type={typeof content},
+                      length={content?.length || 0},
                       textLength={textContent.length},
-                      isNull={content === null}, 
+                      isNull={content === null},
                       isUndefined={content === undefined}
                     </p>
                   )}
@@ -192,7 +192,7 @@ function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: A
               </div>
             );
           }
-          
+
           // Use ContentRenderer for consistent rendering
           // This handles: format detection, HTML entity decoding, sanitization, image processing
           return (
@@ -253,7 +253,7 @@ function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: A
               <Link
                 key={link.href}
                 href={link.href}
-                className="group flex items-start gap-4 p-5 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl hover:border-primary dark:hover:border-primary/50 hover:shadow-xl transition-all duration-300"
+                className="group flex items-start gap-4 p-5 bg-white/70 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/50 rounded-3xl hover:border-primary/50 dark:hover:border-primary/50 hover:shadow-[0_15px_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-lg text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-primary transition-colors line-clamp-1 mb-2">
@@ -314,7 +314,7 @@ function ArticleContentComponent({ article, faqs, basePath, contextualLinks }: A
       <div className="mt-12 md:mt-16 pt-10 border-t-2 border-gray-200 dark:border-gray-700 print:hidden">
         <a
           href="#yorumlar"
-          className="group flex items-center gap-5 p-6 bg-gradient-to-r from-primary/5 via-white to-primary/5 dark:from-primary/10 dark:via-gray-900 dark:to-primary/10 border-2 border-gray-200 dark:border-gray-700 rounded-2xl hover:border-primary dark:hover:border-primary/50 hover:shadow-xl transition-all duration-300"
+          className="group flex items-center gap-5 p-6 bg-white/70 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/50 rounded-3xl hover:border-primary/50 dark:hover:border-primary/50 hover:shadow-[0_15px_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_15px_40px_rgba(0,0,0,0.3)] transition-all duration-300"
         >
           <div className="p-3.5 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl group-hover:border-primary dark:group-hover:border-primary/50 transition-all shadow-sm">
             <MessageCircle className="h-6 w-6 text-gray-600 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-primary transition-colors" />

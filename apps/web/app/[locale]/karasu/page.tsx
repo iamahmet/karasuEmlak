@@ -23,7 +23,7 @@ const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollR
 });
 
 const MarketTrendsDashboard = dynamicImport(() => import('@/components/home/MarketTrendsDashboard').then(mod => ({ default: mod.MarketTrendsDashboard })), {
-  loading: () => <div className="h-96 bg-white animate-pulse" />,
+  loading: () => <div className="h-96 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-100 dark:border-gray-800 animate-pulse" />,
 });
 
 const TestimonialsWithSchema = dynamicImport(() => import('@/components/testimonials/TestimonialsWithSchema').then(mod => ({ default: mod.default })), {
@@ -31,15 +31,15 @@ const TestimonialsWithSchema = dynamicImport(() => import('@/components/testimon
 });
 
 const InteractiveMap = dynamicImport(() => import('@/components/map/InteractiveMap').then(mod => ({ default: mod.InteractiveMap })), {
-  loading: () => <div className="h-[600px] bg-gray-100 rounded-2xl animate-pulse" />,
+  loading: () => <div className="h-[600px] rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-100 dark:border-gray-800 animate-pulse" />,
 });
 
 const QuickToolsSection = dynamicImport(() => import('@/components/home/QuickToolsSection').then(mod => ({ default: mod.QuickToolsSection })), {
-  loading: () => <div className="h-96 bg-gray-50 animate-pulse" />,
+  loading: () => <div className="h-96 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-100 dark:border-gray-800 animate-pulse" />,
 });
 
 const WeatherWidget = dynamicImport(() => import('@/components/services/WeatherWidget').then(mod => ({ default: mod.WeatherWidget })), {
-  loading: () => <div className="h-48 bg-white rounded-lg animate-pulse" />,
+  loading: () => <div className="h-48 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-100 dark:border-gray-800 animate-pulse" />,
 });
 
 export async function generateStaticParams() {
@@ -48,6 +48,9 @@ export async function generateStaticParams() {
   }));
 }
 
+export const revalidate = 3600; // 1 hour
+export const dynamicParams = true;
+
 export async function generateMetadata({
   params,
 }: {
@@ -55,10 +58,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const canonicalPath = locale === routing.defaultLocale ? '/karasu' : `/${locale}/karasu`;
-  
+
   return {
-    title: 'Karasu Emlak | Satılık ve Kiralık Gayrimenkul | Karasu, Sakarya',
-    description: 'Karasu\'da satılık ve kiralık gayrimenkul ilanları. 20 km kumsal, Acarlar Longozu ve İstanbul\'a yakınlığı ile Karasu emlak fiyatları ve seçenekleri.',
+    title: 'Karasu Satılık ve Kiralık Gayrimenkul İlanları',
+    description: 'Karasu\'da satılık ve kiralık gayrimenkul ilanları. 20 km kumsal ve Acarlar Longozu ile Karasu emlak fırsatları.',
     keywords: [
       'karasu emlak',
       'karasu satılık ev',
@@ -121,7 +124,7 @@ export default async function KarasuPage({
 }) {
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
-  
+
   // Fetch real data with timeout (3s max) - graceful degradation
   const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
   const neighborhoodsImagesResult = await withTimeout(getNeighborhoodsWithImages(12), 3000, []);
@@ -159,7 +162,7 @@ export default async function KarasuPage({
     <>
       <StructuredData data={placeSchema} />
       {faqSchema && <StructuredData data={faqSchema} />}
-      
+
       <Breadcrumbs
         items={[
           { label: 'Ana Sayfa', href: `${basePath}/` },
@@ -173,9 +176,9 @@ export default async function KarasuPage({
           <ScrollReveal direction="up" delay={0}>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Kısa Cevap</h3>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-              <strong>Karasu</strong>, Sakarya'nın sahil ilçelerinden biri olarak denize sıfır konumları, 
-              yazlık evleri ve modern yaşam alanları ile dikkat çeker. İstanbul'a yakınlığı, gelişmiş 
-              altyapısı ve yüksek turizm potansiyeli ile hem sürekli oturum hem de yatırım amaçlı tercih 
+              <strong>Karasu</strong>, Sakarya'nın sahil ilçelerinden biri olarak denize sıfır konumları,
+              yazlık evleri ve modern yaşam alanları ile dikkat çeker. İstanbul'a yakınlığı, gelişmiş
+              altyapısı ve yüksek turizm potansiyeli ile hem sürekli oturum hem de yatırım amaçlı tercih
               edilmektedir. Ortalama emlak fiyatları konum ve özelliklere göre değişmektedir.
             </p>
           </ScrollReveal>
@@ -183,12 +186,12 @@ export default async function KarasuPage({
       </section>
 
       <main className="min-h-screen bg-white">
-      {/* Hero Section - Modern & Minimal */}
+        {/* Hero Section - Modern & Minimal */}
         <section className="relative bg-white dark:bg-gray-900 text-gray-900 dark:text-white py-20 md:py-32 overflow-hidden border-b border-gray-200 dark:border-gray-800">
           <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,currentColor_1px,transparent_0)] bg-[length:40px_40px]" />
           </div>
-          
+
           <div className="container mx-auto px-4 relative z-10 max-w-7xl">
             <ScrollReveal direction="up" delay={0}>
               <div className="max-w-4xl mx-auto text-center">
@@ -254,7 +257,7 @@ export default async function KarasuPage({
               </ScrollReveal>
             </div>
           </div>
-      </section>
+        </section>
 
         {/* About Karasu Section - History, Geography, Culture */}
         <section className="py-16 lg:py-20 bg-white dark:bg-gray-900">
@@ -282,15 +285,15 @@ export default async function KarasuPage({
                   </div>
                   <div className="prose prose-gray dark:prose-invert max-w-none">
                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                      Karasu, tarihi MÖ 2000'lere kadar uzanan eski bir yerleşim yeridir. Bölge, antik dönemlerde Bitinya Krallığı'nın bir parçasıydı. 
+                      Karasu, tarihi MÖ 2000'lere kadar uzanan eski bir yerleşim yeridir. Bölge, antik dönemlerde Bitinya Krallığı'nın bir parçasıydı.
                       Osmanlı döneminde önemli bir liman kenti olarak gelişen Karasu, Cumhuriyet döneminde Sakarya iline bağlı bir ilçe haline gelmiştir.
                     </p>
                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                      1920'li yıllarda Yunan işgali sırasında büyük zarar gören ilçe, Kurtuluş Savaşı sonrasında yeniden inşa edilmiştir. 
+                      1920'li yıllarda Yunan işgali sırasında büyük zarar gören ilçe, Kurtuluş Savaşı sonrasında yeniden inşa edilmiştir.
                       1950'lerden itibaren turizm potansiyeli keşfedilen Karasu, özellikle yazlık konut yatırımları ile hızla gelişmiştir.
                     </p>
                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                      Günümüzde Karasu, hem yerleşim hem de turizm açısından Sakarya'nın en önemli ilçelerinden biridir. 
+                      Günümüzde Karasu, hem yerleşim hem de turizm açısından Sakarya'nın en önemli ilçelerinden biridir.
                       Tarihi dokusunu koruyarak modern yaşam standartlarına kavuşmuştur.
                     </p>
                   </div>
@@ -381,7 +384,7 @@ export default async function KarasuPage({
                     </div>
                   </div>
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed mt-6">
-                    Karasu'nun kış nüfusu yaklaşık 30.000 civarındadır. Yaz aylarında ise yazlıkçılar ve turistlerle birlikte 
+                    Karasu'nun kış nüfusu yaklaşık 30.000 civarındadır. Yaz aylarında ise yazlıkçılar ve turistlerle birlikte
                     nüfus 150.000'e kadar çıkmaktadır. Bu durum, bölgenin turizm potansiyelini ve yazlık konut talebini göstermektedir.
                   </p>
                 </div>
@@ -405,7 +408,7 @@ export default async function KarasuPage({
                         Balıkçılık
                       </h4>
                       <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        Karasu, Karadeniz'in verimli balıkçılık alanlarına sahiptir. Özellikle hamsi, palamut ve lüfer avcılığı 
+                        Karasu, Karadeniz'in verimli balıkçılık alanlarına sahiptir. Özellikle hamsi, palamut ve lüfer avcılığı
                         önemli bir geçim kaynağıdır. Botağzı bölgesi balıkçı teknelerinin ana limanıdır.
                       </p>
                     </div>
@@ -415,7 +418,7 @@ export default async function KarasuPage({
                         Turizm
                       </h4>
                       <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        Turizm, Karasu ekonomisinin en önemli sektörlerinden biridir. Yaz aylarında binlerce turist ağırlanır. 
+                        Turizm, Karasu ekonomisinin en önemli sektörlerinden biridir. Yaz aylarında binlerce turist ağırlanır.
                         Oteller, pansiyonlar, restoranlar ve eğlence mekanları önemli istihdam alanları oluşturur.
                       </p>
                     </div>
@@ -425,7 +428,7 @@ export default async function KarasuPage({
                         Tarım ve Hayvancılık
                       </h4>
                       <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        İlçede fındık, mısır ve sebze üretimi yaygındır. Hayvancılık da önemli bir geçim kaynağıdır. 
+                        İlçede fındık, mısır ve sebze üretimi yaygındır. Hayvancılık da önemli bir geçim kaynağıdır.
                         Organik tarım projeleri son yıllarda gelişmektedir.
                       </p>
                     </div>
@@ -435,7 +438,7 @@ export default async function KarasuPage({
                         Emlak ve İnşaat
                       </h4>
                       <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        Emlak sektörü, yazlık konut talebi ve turizm yatırımları ile hızla büyümektedir. 
+                        Emlak sektörü, yazlık konut talebi ve turizm yatırımları ile hızla büyümektedir.
                         Yeni konut projeleri, oteller ve turizm tesisleri sürekli gelişmektedir.
                       </p>
                     </div>
@@ -456,7 +459,7 @@ export default async function KarasuPage({
                   </div>
                   <div className="prose prose-gray dark:prose-invert max-w-none">
                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                      Karasu, zengin bir kültürel mirasa sahiptir. Geleneksel Karadeniz kültürü ile modern yaşam tarzı 
+                      Karasu, zengin bir kültürel mirasa sahiptir. Geleneksel Karadeniz kültürü ile modern yaşam tarzı
                       bir arada bulunur. İlçede düzenlenen festivaller, konserler ve kültürel etkinlikler sosyal hayatı canlandırır.
                     </p>
                     <div className="grid md:grid-cols-2 gap-6 mt-6">
@@ -566,7 +569,7 @@ export default async function KarasuPage({
               </ScrollReveal>
             </div>
           </div>
-      </section>
+        </section>
 
         {/* Karasu Map Section - Like Live Site */}
         <section className="py-16 bg-white">
@@ -582,7 +585,7 @@ export default async function KarasuPage({
               </div>
             </ScrollReveal>
             <ScrollReveal direction="up" delay={100}>
-              <InteractiveMap 
+              <InteractiveMap
                 listings={featuredListings.map(l => ({
                   id: l.id,
                   title: l.title,
@@ -600,7 +603,7 @@ export default async function KarasuPage({
                     alt: img.alt,
                   })),
                   features: l.features,
-                }))} 
+                }))}
                 basePath={basePath}
                 height="600px"
               />
@@ -690,7 +693,7 @@ export default async function KarasuPage({
                 // Mock listing count for neighborhoods
                 const listingCount = Math.floor(Math.random() * 40) + 1;
                 const isPopular = index < 6;
-                
+
                 return (
                   <ScrollReveal key={neighborhood.id || neighborhood.name} direction="up" delay={index * 50}>
                     <Link href={`${basePath}/mahalle/${neighborhood.slug || generateSlug(neighborhood.name)}`}>
@@ -731,17 +734,17 @@ export default async function KarasuPage({
                 );
               })}
             </div>
-        {neighborhoods.length > 12 && (
+            {neighborhoods.length > 12 && (
               <div className="text-center mt-8">
                 <Button asChild variant="outline">
                   <Link href={`${basePath}/karasu/mahalle-karsilastirma`}>
                     Tüm Mahalleleri Karşılaştır
-            </Link>
+                  </Link>
                 </Button>
               </div>
             )}
           </div>
-      </section>
+        </section>
 
         {/* Quick Links Section - Modern & Minimal Design */}
         <section className="py-16 bg-white dark:bg-gray-900">

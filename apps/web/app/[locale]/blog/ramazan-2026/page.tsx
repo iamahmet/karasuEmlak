@@ -47,7 +47,7 @@ export async function generateMetadata({
   return {
     title: 'Ramazan 2026 Karasu Rehberleri | Blog',
     description:
-      'Ramazan 2026 ve Ramazan Bayramı 2026 için Karasu odağında pratik rehberler: kiralık ev arama ipuçları, taşınma checklist’i, sahil akşam planı ve bayram dönemi yazlık önerileri.',
+      'Ramazan 2026 ve Ramazan Bayramı 2026 için Karasu odağında pratik rehberler: kiralık ev arama ipuçları, taşınma checklist’i, sahil akşam planı ve...',
     keywords: [
       'ramazan 2026',
       'ramazan bayramı 2026',

@@ -36,6 +36,10 @@ export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+export const revalidate = 3600; // 1 hour
+export const dynamicParams = true;
+
+
 
 export async function generateMetadata({
   params,
@@ -72,7 +76,7 @@ export default async function MahalleKarsilastirmaPage({
 
   // Get neighborhoods from database
   const neighborhoods = await getNeighborhoods();
-  
+
   // Compare neighborhoods
   const comparisons = compareNeighborhoods(neighborhoods);
   const byPriceDaire = getNeighborhoodsByPrice('daire');
@@ -85,7 +89,7 @@ export default async function MahalleKarsilastirmaPage({
   return (
     <>
       {faqSchema && <StructuredData data={faqSchema} />}
-      
+
       <div className="container mx-auto px-4 py-8">
         <Breadcrumbs
           items={[
@@ -149,26 +153,24 @@ export default async function MahalleKarsilastirmaPage({
                               {comp.averagePrice.yazlik.toLocaleString('tr-TR')}
                             </TableCell>
                             <TableCell>
-                              <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                                comp.priceTrend === 'up'
+                              <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${comp.priceTrend === 'up'
                                   ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                                   : comp.priceTrend === 'down'
-                                  ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                                  : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
-                              }`}>
+                                    ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                                    : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                                }`}>
                                 {comp.priceTrend === 'up' && <><TrendingUp className="h-3 w-3" /> Artış</>}
                                 {comp.priceTrend === 'down' && <><TrendingDown className="h-3 w-3" /> Düşüş</>}
                                 {comp.priceTrend === 'stable' && <><Minus className="h-3 w-3" /> Stabil</>}
                               </span>
                             </TableCell>
                             <TableCell>
-                              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                                comp.investmentPotential === 'high'
+                              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${comp.investmentPotential === 'high'
                                   ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
                                   : comp.investmentPotential === 'medium'
-                                  ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                                  : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
-                              }`}>
+                                    ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                                    : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                                }`}>
                                 {comp.investmentPotential === 'high' && 'Yüksek'}
                                 {comp.investmentPotential === 'medium' && 'Orta'}
                                 {comp.investmentPotential === 'low' && 'Düşük'}
@@ -200,7 +202,7 @@ export default async function MahalleKarsilastirmaPage({
                       <h3 className="text-xl font-semibold mb-4">
                         {comp.mahalle} Mahallesi
                       </h3>
-                      
+
                       <div className="space-y-4">
                         <div>
                           <h4 className="text-sm font-semibold mb-2">Özellikler</h4>
@@ -209,11 +211,11 @@ export default async function MahalleKarsilastirmaPage({
                             <li>Merkeze uzaklık: {comp.features.centerDistance}</li>
                             <li>Ulaşım: {
                               comp.features.transportation === 'excellent' ? 'Mükemmel' :
-                              comp.features.transportation === 'good' ? 'İyi' : 'Orta'
+                                comp.features.transportation === 'good' ? 'İyi' : 'Orta'
                             }</li>
                             <li>Sosyal yaşam: {
                               comp.features.socialLife === 'excellent' ? 'Mükemmel' :
-                              comp.features.socialLife === 'good' ? 'İyi' : 'Orta'
+                                comp.features.socialLife === 'good' ? 'İyi' : 'Orta'
                             }</li>
                           </ul>
                         </div>
@@ -332,13 +334,12 @@ export default async function MahalleKarsilastirmaPage({
                 {byInvestment.map((item) => (
                   <div key={item.mahalle} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                     <span className="font-medium">{item.mahalle}</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      item.potential === 'high'
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${item.potential === 'high'
                         ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
                         : item.potential === 'medium'
-                        ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                        : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
-                    }`}>
+                          ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                          : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                      }`}>
                       {item.potential === 'high' && 'Yüksek'}
                       {item.potential === 'medium' && 'Orta'}
                       {item.potential === 'low' && 'Düşük'}

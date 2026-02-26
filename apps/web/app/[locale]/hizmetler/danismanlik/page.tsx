@@ -81,7 +81,7 @@ const services = [
   {
     icon: Home,
     title: 'Alım-Satım Danışmanlığı',
-    description: 'Emlak alım-satım sürecinde profesyonel rehberlik. Fiyat değerlendirmesi, piyasa analizi ve işlem süreçleri. Deneyimli ekibimiz ile güvenli ve hızlı işlem garantisi.',
+    description: 'Emlak alım-satım sürecinde profesyonel rehberlik. Fiyat değerlendirmesi, piyasa analizi ve işlem süreçleri. Deneyimli ekibimiz ile güvenli ve hızlı...',
     features: ['Fiyat değerlendirmesi', 'Piyasa analizi', 'İşlem süreçleri', 'Belge takibi', 'Müzakere desteği'],
   },
   {
@@ -93,7 +93,7 @@ const services = [
   {
     icon: TrendingUp,
     title: 'Yatırım Danışmanlığı',
-    description: 'Emlak yatırımı için stratejik danışmanlık. Yatırım fırsatları, risk analizi ve getiri değerlendirmesi. Uzun vadeli yatırım stratejileri ile değer kazandıran çözümler.',
+    description: 'Emlak yatırımı için stratejik danışmanlık. Yatırım fırsatları, risk analizi ve getiri değerlendirmesi. Uzun vadeli yatırım stratejileri ile değer...',
     features: ['Yatırım fırsatları', 'Risk analizi', 'Getiri değerlendirmesi', 'Portföy yönetimi', 'Piyasa tahminleri'],
   },
   {

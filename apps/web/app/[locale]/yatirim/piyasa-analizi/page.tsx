@@ -60,7 +60,7 @@ export async function generateMetadata({
 
   return {
     title: 'Yatırım Piyasa Analizi | Karasu Emlak | Emlak Yatırım Analizleri ve Fırsatları',
-    description: 'Karasu emlak yatırım piyasası detaylı analizleri. Yatırım fırsatları, getiri analizleri, risk değerlendirmeleri ve piyasa trendleri. Profesyonel yatırım danışmanlığı ile emlak yatırım kararlarınızı destekleyin.',
+    description: 'Karasu emlak yatırım piyasası detaylı analizleri. Yatırım fırsatları, getiri analizleri, risk değerlendirmeleri ve piyasa trendleri. Profesyonel...',
     keywords: [
       'karasu yatırım analizi',
       'karasu emlak yatırım',

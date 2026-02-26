@@ -50,17 +50,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const canonicalPath = locale === routing.defaultLocale ? '/kiralik-daire' : `/${locale}/kiralik-daire`;
-  
-  const baseDescription = 'Türkiye\'de kiralık daire ilanları. 1+1\'den 4+1\'e kadar seçenek. Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki daireyi bulun.';
+
+  const baseDescription = '1+1\'den 4+1\'e kadar güncel kiralık daire ilanları ve mahalle rehberi ile aradığınızı hemen bulun.';
   const optimizedDescription = optimizeMetaDescription(baseDescription, {
-    keywords: ['kiralık daire', 'kiralık daire ilanları', 'emlak'],
+    keywords: ['kiralık daire', 'daire ilanları'],
     includeCTA: true,
   });
 
   return {
-    title: 'Kiralık Daire | En Güncel İlanlar ve Fiyatlar 2025 | Karasu Emlak',
+    title: 'Kiralık Daire İlanları ve Fiyatları | Karasu Emlak',
     description: optimizedDescription,
-    keywords: ["kiralık daire","kiralık daireler","kiralık daire ilanları","kiralık daire fiyatları"],
+    keywords: ["kiralık daire", "kiralık daireler", "kiralık daire ilanları", "kiralık daire fiyatları"],
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
       languages: pruneHreflangLanguages({
@@ -109,7 +109,7 @@ export async function generateMetadata({
 // Fetch Q&As from database (with fallback to static FAQs)
 async function getKiralikDaireFAQs() {
   const allFAQs: Array<{ question: string; answer: string }> = [];
-  
+
   try {
     const dbFAQs = await getHighPriorityQAEntries('karasu');
     if (dbFAQs && dbFAQs.length > 0) {
@@ -121,7 +121,7 @@ async function getKiralikDaireFAQs() {
   } catch (error) {
     console.error('Error fetching FAQs from database:', error);
   }
-  
+
   // Fallback static FAQs
   if (allFAQs.length === 0) {
     allFAQs.push(
@@ -155,7 +155,7 @@ async function getKiralikDaireFAQs() {
       },
     );
   }
-  
+
   return allFAQs;
 }
 
@@ -166,7 +166,7 @@ export default async function KiralikDairePage({
 }) {
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
-  
+
   // Performance: Fetch data in parallel with timeout (faster than sequential)
   const [allListingsResult, neighborhoodsResult, statsResult] = await Promise.all([
     withTimeout(
@@ -177,11 +177,11 @@ export default async function KiralikDairePage({
     withTimeout(getNeighborhoods(), 3000, [] as string[]),
     withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} }),
   ]);
-  
+
   const { listings: allListings = [] } = allListingsResult || {};
   const neighborhoods = neighborhoodsResult || [];
   const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
-  
+
   // All daire listings (not filtered by location)
   const daireListings = allListings.filter(listing => listing.property_type === 'daire');
 
@@ -197,7 +197,7 @@ export default async function KiralikDairePage({
   const prices = daireListings
     .filter(l => l.price_amount && l.price_amount > 0)
     .map(l => l.price_amount!);
-  const avgPrice = prices.length > 0 
+  const avgPrice = prices.length > 0
     ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
     : null;
 
@@ -247,36 +247,36 @@ export default async function KiralikDairePage({
   // ItemList schema for listings
   const itemListSchema = daireListings.length > 0
     ? generateItemListSchema(daireListings.slice(0, 20), `${siteConfig.url}${basePath}`, {
-        name: 'Kiralık Daire İlanları',
-        description: `Türkiye'de ${daireListings.length} adet satılık daire ilanı. Geniş seçenek.`,
-      })
+      name: 'Kiralık Daire İlanları',
+      description: `Türkiye'de ${daireListings.length} adet satılık daire ilanı. Geniş seçenek.`,
+    })
     : null;
   // Generate page content for AI checker
   const pageContentInfo = generatePageContentInfo('Kiralık Daire', [
-    { 
-      id: 'genel-bakis', 
-      title: 'Kiralık Daire Arayanlar İçin Genel Bakış', 
-      content: 'Türkiye\'de kiralık daire ilanları ve seçenekleri hakkında kapsamlı bilgi. Farklı bölgelerde, farklı fiyat aralıklarında ve farklı özelliklerde daire seçenekleri bulunmaktadır. Hem sürekli oturum hem de yatırım amaçlı seçenekler mevcuttur. Özellikle büyük şehirler, sahil bölgeleri ve gelişen ilçeler, emlak yatırımcılarının ilgisini çeken bölgelerdir.' 
+    {
+      id: 'genel-bakis',
+      title: 'Kiralık Daire Arayanlar İçin Genel Bakış',
+      content: 'Türkiye\'de kiralık daire ilanları ve seçenekleri hakkında kapsamlı bilgi. Farklı bölgelerde, farklı fiyat aralıklarında ve farklı özelliklerde daire seçenekleri bulunmaktadır. Hem sürekli oturum hem de yatırım amaçlı seçenekler mevcuttur. Özellikle büyük şehirler, sahil bölgeleri ve gelişen ilçeler, emlak yatırımcılarının ilgisini çeken bölgelerdir.'
     },
-    { 
-      id: 'oda-sayisina-gore', 
-      title: 'Oda Sayısına Göre Kiralık Daire Seçenekleri', 
-      content: '1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur. Tek kişi veya çiftler için 1+1, küçük aileler için 2+1, orta büyüklükte aileler için 3+1, büyük aileler için 4+1 daire seçenekleri bulunmaktadır. Her oda sayısı için farklı fiyat aralıklarında seçenekler mevcuttur.' 
+    {
+      id: 'oda-sayisina-gore',
+      title: 'Oda Sayısına Göre Kiralık Daire Seçenekleri',
+      content: '1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur. Tek kişi veya çiftler için 1+1, küçük aileler için 2+1, orta büyüklükte aileler için 3+1, büyük aileler için 4+1 daire seçenekleri bulunmaktadır. Her oda sayısı için farklı fiyat aralıklarında seçenekler mevcuttur.'
     },
-    { 
-      id: 'fiyat-analizi', 
-      title: 'Kiralık Daire Fiyat Analizi', 
-      content: 'Kiralık daire fiyatları bölge, konum, metrekare, oda sayısı ve özelliklere göre değişmektedir. Ortalama aylık kira fiyatları 1+1 daireler için 2.500 TL - 7.000 TL, 2+1 daireler için 4.000 TL - 10.000 TL, 3+1 daireler için 6.000 TL - 12.000 TL, 4+1 daireler için 8.000 TL - 18.000 TL arasında değişmektedir. Büyük şehirlerde fiyatlar daha yüksekken, gelişen ilçeler ve sahil bölgelerinde daha uygun seçenekler bulunmaktadır.' 
+    {
+      id: 'fiyat-analizi',
+      title: 'Kiralık Daire Fiyat Analizi',
+      content: 'Kiralık daire fiyatları bölge, konum, metrekare, oda sayısı ve özelliklere göre değişmektedir. Ortalama aylık kira fiyatları 1+1 daireler için 2.500 TL - 7.000 TL, 2+1 daireler için 4.000 TL - 10.000 TL, 3+1 daireler için 6.000 TL - 12.000 TL, 4+1 daireler için 8.000 TL - 18.000 TL arasında değişmektedir. Büyük şehirlerde fiyatlar daha yüksekken, gelişen ilçeler ve sahil bölgelerinde daha uygun seçenekler bulunmaktadır.'
     },
-    { 
-      id: 'mahalle-rehberi', 
-      title: 'Mahalle Rehberi', 
-      content: 'Popüler mahalleler ve özellikleri. Merkez mahalleler, gelişen bölgeler, sahil bölgeleri ve uygun fiyatlı bölgeler hakkında detaylı bilgi. Her mahallenin ulaşım, sosyal alanlar, okullar, sağlık kuruluşları ve güvenlik açısından değerlendirmesi. Gelecek projeleri ve altyapı durumu.' 
+    {
+      id: 'mahalle-rehberi',
+      title: 'Mahalle Rehberi',
+      content: 'Popüler mahalleler ve özellikleri. Merkez mahalleler, gelişen bölgeler, sahil bölgeleri ve uygun fiyatlı bölgeler hakkında detaylı bilgi. Her mahallenin ulaşım, sosyal alanlar, okullar, sağlık kuruluşları ve güvenlik açısından değerlendirmesi. Gelecek projeleri ve altyapı durumu.'
     },
-    { 
-      id: 'yatirim-tavsiyeleri', 
-      title: 'Yatırım Tavsiyeleri', 
-      content: 'Kiralık daire yatırımı yapmayı düşünenler için kira getirisi, bölgenin gelişim potansiyeli, gelecek projeleri ve piyasa trendleri hakkında tavsiyeler. Yatırım amaçlı daire alımında dikkat edilmesi gerekenler, getiri analizi ve risk değerlendirmesi. Kira sözleşmeleri ve yasal süreçler hakkında bilgi.' 
+    {
+      id: 'yatirim-tavsiyeleri',
+      title: 'Yatırım Tavsiyeleri',
+      content: 'Kiralık daire yatırımı yapmayı düşünenler için kira getirisi, bölgenin gelişim potansiyeli, gelecek projeleri ve piyasa trendleri hakkında tavsiyeler. Yatırım amaçlı daire alımında dikkat edilmesi gerekenler, getiri analizi ve risk değerlendirmesi. Kira sözleşmeleri ve yasal süreçler hakkında bilgi.'
     },
   ]);
 
@@ -288,7 +288,7 @@ export default async function KiralikDairePage({
       <StructuredData data={breadcrumbSchema} />
       <StructuredData data={realEstateAgentSchema} />
       {itemListSchema && <StructuredData data={itemListSchema} />}
-      
+
       <Breadcrumbs
         items={[
           { label: 'Ana Sayfa', href: `${basePath}/` },
@@ -296,7 +296,7 @@ export default async function KiralikDairePage({
           { label: 'Kiralık Daire', href: `${basePath}/kiralik-daire` },
         ]}
       />
-      
+
       {/* AI Checker Badge - Admin Only (Hidden from public) */}
 
       <div className="container mx-auto px-4 pt-6">
@@ -309,7 +309,7 @@ export default async function KiralikDairePage({
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,white_1px,transparent_0)] bg-[length:40px_40px]" />
           </div>
-          
+
           <div className="container mx-auto px-4 relative z-10">
             <ScrollReveal direction="up" delay={0}>
               <div className="max-w-4xl mx-auto text-center">
@@ -322,7 +322,7 @@ export default async function KiralikDairePage({
                   Kiralık Daire
                 </h1>
                 <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-8">
-                  Türkiye'de satılık daire arayanlar için kapsamlı rehber. 1+1'den 4+1'e kadar geniş seçenek. 
+                  Türkiye'de satılık daire arayanlar için kapsamlı rehber. 1+1'den 4+1'e kadar geniş seçenek.
                   Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki arsayı bulun.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -383,10 +383,10 @@ export default async function KiralikDairePage({
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">Kısa Cevap</h3>
                     <p className="text-gray-700 leading-relaxed">
-                      <strong>Satılık daire</strong> arayanlar için geniş bir seçenek yelpazesi mevcuttur. 
-                      Fiyatlar konum, metrekare ve özelliklere göre değişmektedir. 
-                      Merkez mahalleler ve gelişen bölgeler daha yüksek fiyatlara sahiptir. Hem sürekli oturum hem de 
-                      yatırım amaçlı seçenekler bulunmaktadır. 1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur. 
+                      <strong>Satılık daire</strong> arayanlar için geniş bir seçenek yelpazesi mevcuttur.
+                      Fiyatlar konum, metrekare ve özelliklere göre değişmektedir.
+                      Merkez mahalleler ve gelişen bölgeler daha yüksek fiyatlara sahiptir. Hem sürekli oturum hem de
+                      yatırım amaçlı seçenekler bulunmaktadır. 1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur.
                       Türkiye'nin farklı bölgelerinde çeşitli fiyat aralıklarında seçenekler bulunmaktadır.
                     </p>
                   </div>
@@ -400,16 +400,16 @@ export default async function KiralikDairePage({
                     </h2>
                     <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
                       <p>
-                        Türkiye'de satılık daire piyasası zengin bir yelpazeye sahiptir. 
+                        Türkiye'de satılık daire piyasası zengin bir yelpazeye sahiptir.
                         Farklı bölgelerde, farklı fiyat aralıklarında ve farklı özelliklerde daire seçenekleri bulunmaktadır.
                       </p>
                       <p>
-                        Satılık daire arayanlar için hem sürekli oturum hem de yatırım amaçlı seçenekler mevcuttur. 
-                        Özellikle büyük şehirler, sahil bölgeleri ve gelişen ilçeler, emlak yatırımcılarının 
+                        Satılık daire arayanlar için hem sürekli oturum hem de yatırım amaçlı seçenekler mevcuttur.
+                        Özellikle büyük şehirler, sahil bölgeleri ve gelişen ilçeler, emlak yatırımcılarının
                         ilgisini çeken bölgelerdir.
                       </p>
                       <p>
-                        Bu rehber, satılık daire almayı düşünenler için fiyat analizi, oda sayısına göre seçenekler, 
+                        Bu rehber, satılık daire almayı düşünenler için fiyat analizi, oda sayısına göre seçenekler,
                         yatırım tavsiyeleri ve dikkat edilmesi gerekenler hakkında kapsamlı bilgi sunmaktadır.
                       </p>
                     </div>
@@ -546,11 +546,11 @@ export default async function KiralikDairePage({
                     </h2>
                     <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
                       <p>
-                        Satılık daire fiyatları bölge, konum, metrekare, oda sayısı ve özelliklere göre değişmektedir. 
+                        Satılık daire fiyatları bölge, konum, metrekare, oda sayısı ve özelliklere göre değişmektedir.
                         Büyük şehirlerde fiyatlar daha yüksekken, gelişen ilçeler ve sahil bölgelerinde daha uygun seçenekler bulunmaktadır.
                       </p>
                       <p>
-                        Ortalama fiyatlar 1+1 daireler için 400.000 TL - 1.200.000 TL, 2+1 daireler için 600.000 TL - 1.800.000 TL, 
+                        Ortalama fiyatlar 1+1 daireler için 400.000 TL - 1.200.000 TL, 2+1 daireler için 600.000 TL - 1.800.000 TL,
                         3+1 daireler için 900.000 TL - 2.500.000 TL, 4+1 daireler için 1.500.000 TL - 4.000.000 TL arasında değişmektedir.
                       </p>
                       <p>

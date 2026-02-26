@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 // This page reads request cookies via Supabase SSR helpers (see getQAEntries).
 // Mark as dynamic to avoid build-time static generation errors.
 import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour
+export const dynamicParams = true;
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { FAQContent } from './FAQContent';
@@ -27,7 +27,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   let locale = 'tr';
   let canonicalPath = '/sss';
-  
+
   try {
     const resolvedParams = await params;
     locale = resolvedParams.locale || 'tr';
@@ -35,7 +35,7 @@ export async function generateMetadata({
   } catch {
     // Use defaults
   }
-  
+
   // Get FAQ count for dynamic title
   let faqCount = 50;
   try {
@@ -46,11 +46,11 @@ export async function generateMetadata({
   }
 
   const siteUrl = siteConfig?.url || 'https://karasuemlak.com';
-  
+
   return {
     title: `Sıkça Sorulan Sorular (SSS) | Karasu Emlak | ${faqCount}+ Emlak Soruları ve Cevapları`,
     description:
-      'Karasu ve Kocaali bölgesinde emlak alım-satım, kiralama, yatırım, tapu işlemleri, kredi başvurusu, noter masrafları ve diğer tüm konularda merak ettikleriniz için kapsamlı SSS rehberi. Uzman cevaplar ve güncel bilgiler.',
+      'Karasu ve Kocaali bölgesinde emlak alım-satım, kiralama, yatırım, tapu işlemleri, kredi başvurusu, noter masrafları ve diğer tüm konularda merak...',
     keywords: [
       'karasu emlak sss',
       'emlak sık sorulan sorular',
@@ -79,7 +79,7 @@ export async function generateMetadata({
     },
     openGraph: {
       title: `Sıkça Sorulan Sorular (SSS) | Karasu Emlak | ${faqCount}+ Soru`,
-      description: 'Karasu ve Kocaali bölgesinde emlak alım-satım, kiralama, yatırım, tapu işlemleri, kredi başvurusu ve diğer tüm konularda sıkça sorulan sorular ve detaylı cevapları. Uzman emlak danışmanlığı.',
+      description: 'Karasu ve Kocaali bölgesinde emlak alım-satım, kiralama, yatırım, tapu işlemleri, kredi başvurusu ve diğer tüm konularda sıkça sorulan sorular ve...',
       url: `${siteUrl}${canonicalPath}`,
       type: 'website',
       siteName: 'Karasu Emlak',
@@ -156,11 +156,11 @@ export default async function FAQPage({
     // Use repository pattern with anon server client (respects RLS)
     // This uses cookies() from next/headers which reads from the request
     const qaEntries = await getQAEntries(undefined, undefined, 200);
-    
+
     if (qaEntries && Array.isArray(qaEntries) && qaEntries.length > 0) {
       faqs = qaEntries;
       console.log(`✅ [FAQ Page] Fetched ${qaEntries.length} FAQs from database`);
-      
+
       // Get top FAQs for schema (prioritize high priority, max 10)
       // Sort by priority (2=high, 1=medium, 0=low) then by creation date
       const sortedForSchema = [...qaEntries]
@@ -174,7 +174,7 @@ export default async function FAQPage({
           return aDate - bDate;
         })
         .slice(0, 10);
-      
+
       faqQuestionsForSchema = sortedForSchema.map((faq) => ({
         question: String(faq.question || ''),
         answer: String(faq.answer || '').substring(0, 500), // Limit answer length for schema
@@ -209,7 +209,7 @@ export default async function FAQPage({
       console.error('Error stack:', error.stack);
     }
     errorMessage = errorMsg;
-    
+
     // Try with service client as fallback
     try {
       const { getQAEntriesAdmin } = await import('@/lib/db/qa');
@@ -229,7 +229,7 @@ export default async function FAQPage({
     } catch (fallbackError) {
       console.error('❌ [FAQ Page] Fallback also failed:', fallbackError);
     }
-    
+
     // Fallback to empty array - page will still render with fallback content
   }
 
@@ -259,16 +259,16 @@ export default async function FAQPage({
   try {
     // Filter out invalid entries before generating schema
     const validFAQQuestions = faqQuestionsForSchema.filter(
-      qa => qa && qa.question && qa.answer && 
-            typeof qa.question === 'string' && 
-            typeof qa.answer === 'string' &&
-            qa.question.trim().length > 0 &&
-            qa.answer.trim().length > 0
+      qa => qa && qa.question && qa.answer &&
+        typeof qa.question === 'string' &&
+        typeof qa.answer === 'string' &&
+        qa.question.trim().length > 0 &&
+        qa.answer.trim().length > 0
     );
 
     if (validFAQQuestions.length > 0) {
       faqSchema = generateFAQSchema(validFAQQuestions);
-      
+
       aiOptimizedFAQSchema = generateAIOptimizedFAQSchema(
         validFAQQuestions.map(qa => ({
           question: String(qa.question).trim(),

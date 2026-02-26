@@ -57,6 +57,10 @@ export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+export const revalidate = 3600; // 1 hour
+export const dynamicParams = true;
+
+
 
 export async function generateMetadata({
   params,
@@ -103,12 +107,12 @@ function getRestaurantImage(name: string, type: string, index: number): string {
     'kafe': 'cafe,coffee,coastal',
     'kahvalti': 'breakfast,food,morning',
   };
-  
+
   const keywords = keywordMap[type] || 'restaurant,food';
   const primaryKeyword = keywords.split(',')[0].trim();
   const seedString = `${primaryKeyword}-${name.toLowerCase().replace(/\s+/g, '-')}-${type}-${index}`;
   const seed = seedString.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 1000;
-  
+
   return `https://picsum.photos/seed/${primaryKeyword}-${seed}/800/600`;
 }
 
@@ -179,13 +183,13 @@ export default async function RestoranlarPage({
   // Fetch related blog articles and news
   let relatedBlogs: any[] = [];
   let relatedNews: any[] = [];
-  
+
   try {
     const [blogResult, newsResult] = await Promise.all([
       getArticles(3, 0).catch(() => ({ articles: [], total: 0 })),
       getNewsArticles(3, 0).catch(() => ({ articles: [], total: 0 })),
     ]);
-    
+
     relatedBlogs = blogResult.articles || [];
     relatedNews = newsResult.articles || [];
   } catch (error) {
@@ -203,7 +207,7 @@ export default async function RestoranlarPage({
   return (
     <>
       {faqSchema && <StructuredData data={faqSchema} />}
-      
+
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <Breadcrumbs
           items={[
@@ -224,7 +228,7 @@ export default async function RestoranlarPage({
                 backgroundSize: '32px 32px',
               }}></div>
             </div>
-            
+
             <div className="relative z-10">
               {/* Location Badge */}
               <div className="flex items-center gap-2 mb-6">
@@ -243,7 +247,7 @@ export default async function RestoranlarPage({
               <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mb-10 leading-relaxed">
                 Taze balık ve deniz ürünleri ile ünlü sahil ilçesi. Botağzı Bölgesi'ndeki balık restoranları, sahil kafeleri ve geleneksel lezzetlerle dolu bir gastronomi deneyimi.
               </p>
-              
+
               {/* Stats Grid - Minimal Design */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-5 border border-gray-200 dark:border-gray-700/50">
@@ -322,7 +326,7 @@ export default async function RestoranlarPage({
                 const colors = getRestaurantColors(restoran.type);
                 const Icon = getRestaurantIcon(restoran.type);
                 const imageUrl = getRestaurantImage(restoran.name, restoran.type, index);
-                
+
                 return (
                   <Card key={restoran.name} className="group overflow-hidden hover:shadow-2xl transition-all duration-300 border-0 shadow-lg">
                     <div className="relative h-64 overflow-hidden">
@@ -413,7 +417,7 @@ export default async function RestoranlarPage({
                 const colors = getRestaurantColors(restoran.type);
                 const Icon = getRestaurantIcon(restoran.type);
                 const imageUrl = getRestaurantImage(restoran.name, restoran.type, index);
-                
+
                 return (
                   <Card key={restoran.name} className="group overflow-hidden hover:shadow-2xl transition-all duration-300 border-0 shadow-lg">
                     <div className="relative h-64 overflow-hidden">
@@ -503,7 +507,7 @@ export default async function RestoranlarPage({
                 const colors = getRestaurantColors(kafe.type);
                 const Icon = getRestaurantIcon(kafe.type);
                 const imageUrl = getRestaurantImage(kafe.name, kafe.type, index);
-                
+
                 return (
                   <Card key={kafe.name} className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-0 shadow-md">
                     <div className="relative h-48 overflow-hidden">
@@ -576,7 +580,7 @@ export default async function RestoranlarPage({
                 const colors = getRestaurantColors(mekan.type);
                 const Icon = getRestaurantIcon(mekan.type);
                 const imageUrl = getRestaurantImage(mekan.name, mekan.type, index);
-                
+
                 return (
                   <Card key={mekan.name} className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-0 shadow-md">
                     <div className="relative h-48 overflow-hidden">

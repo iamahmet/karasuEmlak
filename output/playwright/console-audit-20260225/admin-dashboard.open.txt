@@ -1,0 +1,15 @@
+### Browser `default` opened with pid 46924.
+- default:
+  - browser-type: chrome
+  - user-data-dir: <in-memory>
+  - headed: false
+---
+### Ran Playwright code
+```js
+await page.goto('https://admin.karasuemlak.net/dashboard');
+```
+### Page
+- Page URL: https://admin.karasuemlak.net/login?redirect=%2Fdashboard
+- Page Title: Giriş | Karasu Emlak Yönetim Paneli
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-02-25T13-59-38-468Z.yml)

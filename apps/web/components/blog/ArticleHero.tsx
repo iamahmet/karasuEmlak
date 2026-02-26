@@ -28,11 +28,11 @@ interface ArticleHeroProps {
 const formatDate = (value?: string | null) =>
   value
     ? new Date(value).toLocaleDateString('tr-TR', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-        timeZone: 'Europe/Istanbul',
-      })
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'Europe/Istanbul',
+    })
     : null;
 
 const formatRelativeDate = (value?: string | null) => {
@@ -66,6 +66,11 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
     !!article.published_at &&
     (new Date().getTime() - new Date(article.published_at).getTime()) < 7 * 24 * 60 * 60 * 1000;
 
+  // Clean up title (remove trailing " | Blog | Karasu Emlak" etc.)
+  const formattedTitle = article.title
+    .replace(/(?:\s*\|\s*(?:Blog|Karasu Emlak))+$/i, '')
+    .replace(/\s*-\s*Karasu Emlak/i, '');
+
   return (
     <header className="relative mb-12 md:mb-16">
       {/* Category Badge - Modern */}
@@ -73,7 +78,7 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
         <div className="mb-6">
           <Link
             href={`${basePath}/blog/kategori/${(article.category === 'Cornerstone' ? 'Rehber' : article.category).toLowerCase().replace(/\s+/g, '-')}`}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 text-primary text-sm font-bold rounded-xl hover:from-primary/15 hover:to-primary/10 dark:hover:from-primary/30 dark:hover:to-primary/20 transition-all border border-primary/20 dark:border-primary/30 shadow-sm"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/70 dark:bg-black/60 backdrop-blur-md text-primary dark:text-primary-light text-sm font-bold uppercase tracking-wide rounded-2xl hover:bg-white dark:hover:bg-black transition-all border border-gray-200/50 dark:border-gray-800/50 shadow-sm hover:shadow-md hover:-translate-y-0.5"
           >
             <TrendingUp className="h-4 w-4" />
             {article.category === 'Cornerstone' ? 'Rehber' : article.category}
@@ -82,13 +87,13 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
       )}
 
       {/* Title - Premium Editorial Typography */}
-      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.1] mb-6">
-        {article.title}
+      <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-gray-300 leading-[1.2] mb-6 drop-shadow-sm break-words">
+        {formattedTitle}
       </h1>
 
       {/* Excerpt - Clean Introduction */}
       {article.excerpt && (
-        <div className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed mb-8 max-w-4xl font-medium [&_p]:m-0 [&_p]:text-inherit [&_p]:leading-inherit [&_strong]:text-gray-800 dark:[&_strong]:text-gray-100">
+        <div className="text-lg md:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 leading-[1.7] mb-10 max-w-4xl font-medium [&_p]:m-0 [&_p]:text-inherit [&_p]:leading-inherit [&_strong]:text-gray-900 dark:[&_strong]:text-white [&_strong]:font-bold border-l-4 border-primary/40 pl-5 md:pl-6 ml-1">
           <ContentRenderer
             content={article.excerpt}
             format="auto"
@@ -101,11 +106,11 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
         </div>
       )}
 
-      {/* Meta Information Row - Enhanced */}
-      <div className="flex flex-wrap items-center gap-4 mb-8">
+      {/* Meta Information Row - Premium Glassmorphism */}
+      <div className="flex flex-wrap items-center gap-4 mb-10">
         {/* Author */}
         {article.author && (
-          <div className="flex items-center gap-2.5 px-4 py-2 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-3 px-5 py-3 bg-white/70 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center text-white text-sm font-bold">
               {article.author.charAt(0).toUpperCase()}
             </div>
@@ -115,10 +120,10 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
             </div>
           </div>
         )}
-        
+
         {/* Date */}
         {publishedDate && (
-          <div className="flex items-center gap-2.5 px-4 py-2 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-3 px-5 py-3 bg-white/70 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
             <div className="p-1.5 bg-primary/10 dark:bg-primary/20 rounded-lg">
               <Calendar className="h-4 w-4 text-primary" />
             </div>
@@ -126,15 +131,15 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
               <div className="text-xs text-gray-500 dark:text-gray-400">Yayın Tarihi</div>
               <time dateTime={article.published_at || undefined} className="text-sm font-semibold text-gray-900 dark:text-white">
                 <span suppressHydrationWarning>
-                {relativeDate || publishedDate}
+                  {relativeDate || publishedDate}
                 </span>
               </time>
             </div>
           </div>
         )}
-        
+
         {/* Reading Time */}
-        <div className="flex items-center gap-2.5 px-4 py-2 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-3 px-5 py-3 bg-white/70 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
           <div className="p-1.5 bg-primary/10 dark:bg-primary/20 rounded-lg">
             <Clock className="h-4 w-4 text-primary" />
           </div>
@@ -146,7 +151,7 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
 
         {/* Views */}
         {article.view_count && article.view_count > 0 && (
-          <div className="flex items-center gap-2.5 px-4 py-2 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-3 px-5 py-3 bg-white/70 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
             <div className="p-1.5 bg-primary/10 dark:bg-primary/20 rounded-lg">
               <Eye className="h-4 w-4 text-primary" />
             </div>
@@ -159,7 +164,7 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
 
         {/* Recent Badge */}
         {isRecent && (
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-lg border border-emerald-200 dark:border-emerald-800">
+          <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-xl border border-emerald-200 dark:border-emerald-800/50 shadow-sm">
             <Sparkles className="h-3.5 w-3.5" />
             <span className="text-xs font-bold">YENİ</span>
           </div>
@@ -167,15 +172,15 @@ function ArticleHeroComponent({ article, imageUrl, imageType, readingTime, baseP
 
         {/* Updated Badge */}
         {updatedDate && (
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-lg border border-amber-200 dark:border-amber-800">
+          <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-xl border border-amber-200 dark:border-amber-800/50 shadow-sm">
             <span className="text-xs font-semibold" suppressHydrationWarning>Güncellendi: {updatedDate}</span>
           </div>
         )}
       </div>
 
-      {/* Featured Image - Premium with Overlay */}
-      <figure className="relative mt-10 group">
-        <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 shadow-2xl border border-gray-200 dark:border-gray-700">
+      {/* Featured Image - Premium with Ultra Overlay */}
+      <figure className="relative mt-12 group perspective-1000">
+        <div className="relative aspect-[16/9] rounded-3xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-gray-200/50 dark:border-gray-700/50 transform-gpu transition-all duration-700 group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.2)] dark:group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
           {imageUrl && imageUrl.trim() !== '' ? (
             imageType === 'cloudinary' && article.featured_image ? (
               <HeroImage

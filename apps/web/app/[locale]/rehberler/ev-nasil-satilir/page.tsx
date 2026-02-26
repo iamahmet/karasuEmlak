@@ -24,7 +24,7 @@ export async function generateMetadata({
 
   return {
     title: 'Ev Nasıl Satılır? | Adım Adım Emlak Satış Rehberi | Karasu Emlak',
-    description: 'Evinizi satmak için bilmeniz gereken her şey. Fiyat belirleme, ilan hazırlama, görüntüleme, sözleşme ve tapu işlemleri. Uzman emlak danışmanlarından profesyonel rehber.',
+    description: 'Evinizi satmak için bilmeniz gereken her şey. Fiyat belirleme, ilan hazırlama, görüntüleme, sözleşme ve tapu işlemleri. Uzman emlak danışmanlarından...',
     keywords: [
       'ev nasıl satılır',
       'emlak satış rehberi',

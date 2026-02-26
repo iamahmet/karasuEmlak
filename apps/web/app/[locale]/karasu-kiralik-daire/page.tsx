@@ -43,10 +43,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const canonicalPath = locale === routing.defaultLocale ? '/karasu-kiralik-daire' : `/${locale}/karasu-kiralik-daire`;
-  
+
   return {
-    title: 'Karasu Kiralık Daire | En Güncel İlanlar ve Aylık Kira Fiyatları 2025 | Karasu Emlak',
-    description: 'Karasu\'da kiralık daire ilanları. Denize yakın konumlarda 1+1\'den 4+1\'e kadar geniş seçenek. Güncel aylık kira fiyatları, mahalle rehberi ve kiralama rehberi. Uzman emlak danışmanlığı ile hayalinizdeki daireyi bulun.',
+    title: 'Karasu Kiralık Daire İlanları ve Kira Fiyatları 2025',
+    description: 'Karasu\'da kiralık daire ilanları. 1+1\'den 4+1\'e geniş seçenek ve güncel aylık kira fiyatları.',
     keywords: [
       'karasu kiralık daire',
       'karasu kiralık daireler',
@@ -107,7 +107,7 @@ export async function generateMetadata({
 // Fetch Q&As from database (with fallback to static FAQs)
 async function getKarasuKiralikDaireFAQs() {
   const allFAQs: Array<{ question: string; answer: string }> = [];
-  
+
   // First, try ai_questions (managed Q&A system)
   try {
     const aiQuestions = await withTimeout(
@@ -124,7 +124,7 @@ async function getKarasuKiralikDaireFAQs() {
   } catch (error) {
     console.error('Error fetching AI questions:', error);
   }
-  
+
   // Then, try qa_entries (legacy system)
   try {
     const qaEntries = await withTimeout(getHighPriorityQAEntries('karasu'), 2000, []);
@@ -142,11 +142,11 @@ async function getKarasuKiralikDaireFAQs() {
   } catch (error) {
     console.error('Error fetching Q&A entries:', error);
   }
-  
+
   if (allFAQs.length > 0) {
     return allFAQs.slice(0, 10); // Limit to 10 total
   }
-  
+
   // Fallback to static FAQs
   return [
     {
@@ -191,7 +191,7 @@ export default async function KarasuKiralikDairePage({
 }) {
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
-  
+
   // Fetch data with timeout
   const allListingsResult = await withTimeout(
     getListings({ status: 'kiralik', property_type: ['daire'] }, { field: 'created_at', order: 'desc' }, 1000, 0),
@@ -200,7 +200,7 @@ export default async function KarasuKiralikDairePage({
   );
   const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
   const statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
-  
+
   const { listings: allListings = [] } = allListingsResult || {};
   const neighborhoods = neighborhoodsResult || [];
   const stats = statsResult || { total: 0, satilik: 0, kiralik: 0, byType: {} };
@@ -223,11 +223,11 @@ export default async function KarasuKiralikDairePage({
     tags: ['Karasu', 'Kiralık Daire', 'Emlak', 'Kira'],
     limit: 6,
   });
-  
+
   // Filter Karasu kiralik daire listings
-  const karasuKiralikDaireListings = allListings.filter(listing => 
+  const karasuKiralikDaireListings = allListings.filter(listing =>
     (listing.location_city?.toLowerCase().includes('karasu') ||
-    listing.location_neighborhood?.toLowerCase().includes('karasu')) &&
+      listing.location_neighborhood?.toLowerCase().includes('karasu')) &&
     listing.property_type === 'daire'
   );
 
@@ -243,7 +243,7 @@ export default async function KarasuKiralikDairePage({
   const rents = karasuKiralikDaireListings
     .filter(l => l.price_amount && l.price_amount > 0)
     .map(l => l.price_amount!);
-  const avgRent = rents.length > 0 
+  const avgRent = rents.length > 0
     ? Math.round(rents.reduce((a, b) => a + b, 0) / rents.length)
     : null;
 
@@ -292,9 +292,9 @@ export default async function KarasuKiralikDairePage({
   // ItemList schema for listings
   const itemListSchema = karasuKiralikDaireListings.length > 0
     ? generateItemListSchema(karasuKiralikDaireListings.slice(0, 20), `${siteConfig.url}${basePath}`, {
-        name: 'Karasu Kiralık Daire İlanları',
-        description: `Karasu'da ${karasuKiralikDaireListings.length} adet kiralık daire ilanı. Denize yakın konumlarda geniş seçenek.`,
-      })
+      name: 'Karasu Kiralık Daire İlanları',
+      description: `Karasu'da ${karasuKiralikDaireListings.length} adet kiralık daire ilanı. Denize yakın konumlarda geniş seçenek.`,
+    })
     : null;
   // Generate page content for AI checker
   const pageContentInfo = generatePageContentInfo('Karasu Kiralık Daire', [
@@ -313,7 +313,7 @@ export default async function KarasuKiralikDairePage({
       <StructuredData data={breadcrumbSchema} />
       <StructuredData data={realEstateAgentSchema} />
       {itemListSchema && <StructuredData data={itemListSchema} />}
-      
+
       <Breadcrumbs
         items={[
           { label: 'Ana Sayfa', href: `${basePath}/` },
@@ -321,7 +321,7 @@ export default async function KarasuKiralikDairePage({
           { label: 'Karasu Kiralık Daire', href: `${basePath}/karasu-kiralik-daire` },
         ]}
       />
-      
+
       {/* AI Checker Badge */}
       {/* AI Checker Badge - Admin Only (Hidden from public) */}
 
@@ -332,7 +332,7 @@ export default async function KarasuKiralikDairePage({
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,white_1px,transparent_0)] bg-[length:40px_40px]" />
           </div>
-          
+
           <div className="container mx-auto px-4 relative z-10">
             <ScrollReveal direction="up" delay={0}>
               <div className="max-w-4xl mx-auto text-center">
@@ -345,7 +345,7 @@ export default async function KarasuKiralikDairePage({
                   Karasu Kiralık Daire
                 </h1>
                 <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-8">
-                  Karasu'da kiralık daire arayanlar için kapsamlı rehber. Denize yakın konumlarda 1+1'den 4+1'e kadar geniş seçenek. 
+                  Karasu'da kiralık daire arayanlar için kapsamlı rehber. Denize yakın konumlarda 1+1'den 4+1'e kadar geniş seçenek.
                   Güncel aylık kira fiyatları, mahalle rehberi ve kiralama rehberi. Uzman emlak danışmanlığı ile hayalinizdeki daireyi bulun.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -409,10 +409,10 @@ export default async function KarasuKiralikDairePage({
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">Kısa Cevap</h3>
                     <p className="text-gray-700 leading-relaxed">
-                      <strong>Karasu'da kiralık daire</strong> arayanlar için geniş bir seçenek yelpazesi mevcuttur. 
-                      Aylık kira fiyatları konum, metrekare ve özelliklere göre 3.000 TL ile 12.000 TL arasında değişmektedir. 
-                      Denize yakın konumlar ve merkez mahalleler daha yüksek kira fiyatlarına sahiptir. Hem sürekli oturum hem de 
-                      yazlık kiralama amaçlı seçenekler bulunmaktadır. 1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur. İstanbul'a yakınlık, 
+                      <strong>Karasu'da kiralık daire</strong> arayanlar için geniş bir seçenek yelpazesi mevcuttur.
+                      Aylık kira fiyatları konum, metrekare ve özelliklere göre 3.000 TL ile 12.000 TL arasında değişmektedir.
+                      Denize yakın konumlar ve merkez mahalleler daha yüksek kira fiyatlarına sahiptir. Hem sürekli oturum hem de
+                      yazlık kiralama amaçlı seçenekler bulunmaktadır. 1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur. İstanbul'a yakınlık,
                       turizm potansiyeli ve gelişen altyapı, Karasu'yu kiralık daire arayanlar için cazip bir bölge haline getirmektedir.
                     </p>
                   </div>
@@ -426,16 +426,16 @@ export default async function KarasuKiralikDairePage({
                     </h2>
                     <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
                       <p>
-                        Karasu, Sakarya'nın en gözde sahil ilçelerinden biri olup, kiralık daire piyasasında çeşitli seçenekler sunmaktadır. 
+                        Karasu, Sakarya'nın en gözde sahil ilçelerinden biri olup, kiralık daire piyasasında çeşitli seçenekler sunmaktadır.
                         Denize yakın konumu, modern apartman projeleri, gelişen altyapısı ile Karasu kiralık daire piyasası zengin bir yelpazeye sahiptir.
                       </p>
                       <p>
-                        Karasu'da kiralık daire arayanlar için hem sürekli oturum hem de yazlık kiralama amaçlı seçenekler bulunmaktadır. 
-                        Özellikle İstanbul'a yakınlığı, doğal güzellikleri ve turizm potansiyeli ile Karasu, kiralık daire arayanların 
+                        Karasu'da kiralık daire arayanlar için hem sürekli oturum hem de yazlık kiralama amaçlı seçenekler bulunmaktadır.
+                        Özellikle İstanbul'a yakınlığı, doğal güzellikleri ve turizm potansiyeli ile Karasu, kiralık daire arayanların
                         ilgisini çeken bir bölgedir.
                       </p>
                       <p>
-                        Bu rehber, Karasu'da kiralık daire kiralamayı düşünenler için aylık kira fiyat analizi, mahalle rehberi, oda sayısına göre seçenekler, 
+                        Bu rehber, Karasu'da kiralık daire kiralamayı düşünenler için aylık kira fiyat analizi, mahalle rehberi, oda sayısına göre seçenekler,
                         kiralama tavsiyeleri ve dikkat edilmesi gerekenler hakkında kapsamlı bilgi sunmaktadır.
                       </p>
                     </div>
@@ -450,7 +450,7 @@ export default async function KarasuKiralikDairePage({
                     </h2>
                     <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
                       <p>
-                        Karasu'da satılık daire seçenekleri oda sayısına göre çeşitlilik göstermektedir. Her oda sayısının kendine özgü 
+                        Karasu'da satılık daire seçenekleri oda sayısına göre çeşitlilik göstermektedir. Her oda sayısının kendine özgü
                         avantajları ve kullanım alanları vardır.
                       </p>
 
@@ -539,10 +539,10 @@ export default async function KarasuKiralikDairePage({
                     </h2>
                     <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
                       <p>
-                        Karasu'da kiralık daire aylık kira fiyatları birçok faktöre bağlı olarak değişmektedir. Bu faktörleri anlamak, 
+                        Karasu'da kiralık daire aylık kira fiyatları birçok faktöre bağlı olarak değişmektedir. Bu faktörleri anlamak,
                         doğru karar vermenize yardımcı olacaktır.
                       </p>
-                      
+
                       <div className="grid md:grid-cols-2 gap-6 mt-6">
                         <div className="p-6 bg-gradient-to-br from-blue-50/50 to-cyan-50/30 rounded-2xl border border-blue-200/40">
                           <h3 className="text-xl font-semibold mb-4 text-gray-900 flex items-center gap-2">
@@ -568,7 +568,7 @@ export default async function KarasuKiralikDairePage({
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="p-6 bg-gradient-to-br from-emerald-50/50 to-green-50/30 rounded-2xl border border-emerald-200/40">
                           <h3 className="text-xl font-semibold mb-4 text-gray-900 flex items-center gap-2">
                             <Lightbulb className="h-6 w-6 text-[#00A862]" />
@@ -614,7 +614,7 @@ export default async function KarasuKiralikDairePage({
                     </h2>
                     <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
                       <p>
-                        Karasu'nun her mahallesi kendine özgü karakteristiklere sahiptir. Kiralık daire seçerken mahalle 
+                        Karasu'nun her mahallesi kendine özgü karakteristiklere sahiptir. Kiralık daire seçerken mahalle
                         özelliklerini değerlendirmek önemlidir.
                       </p>
 
@@ -624,7 +624,7 @@ export default async function KarasuKiralikDairePage({
                           const neighborhoodListings = karasuKiralikDaireListings.filter(
                             l => l.location_neighborhood && generateSlug(l.location_neighborhood) === generateSlug(neighborhood)
                           );
-                          
+
                           return (
                             <Link
                               key={neighborhood}
@@ -660,7 +660,7 @@ export default async function KarasuKiralikDairePage({
                     </h2>
                     <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
                       <p>
-                        Karasu'da kiralık daire kiralarken dikkat edilmesi gereken önemli noktalar vardır. Bu noktalar hem 
+                        Karasu'da kiralık daire kiralarken dikkat edilmesi gereken önemli noktalar vardır. Bu noktalar hem
                         sürekli oturum hem de yazlık kiralama amaçlı kiralamalar için geçerlidir.
                       </p>
 
@@ -671,7 +671,7 @@ export default async function KarasuKiralikDairePage({
                             Kira Sözleşmesi ve Depozito
                           </h3>
                           <p>
-                            Kira sözleşmesi mutlaka yazılı olmalı ve tüm koşullar net bir şekilde belirtilmelidir. Depozito tutarı, 
+                            Kira sözleşmesi mutlaka yazılı olmalı ve tüm koşullar net bir şekilde belirtilmelidir. Depozito tutarı,
                             kira ödeme tarihi, sözleşme süresi gibi konular önemlidir. Profesyonel emlak danışmanımız size yardımcı olacaktır.
                           </p>
                         </div>
@@ -682,7 +682,7 @@ export default async function KarasuKiralikDairePage({
                             Daire Durumu ve Bakım
                           </h3>
                           <p>
-                            Daire durumu, bakım durumu, eşyalı/eşyasız durumu önemlidir. Eşyalı daireler genellikle yazlık kiralama için idealdir. 
+                            Daire durumu, bakım durumu, eşyalı/eşyasız durumu önemlidir. Eşyalı daireler genellikle yazlık kiralama için idealdir.
                             Daireyi görüntülemeden kiralama yapmamalısınız.
                           </p>
                         </div>
@@ -693,7 +693,7 @@ export default async function KarasuKiralikDairePage({
                             Özellikler: Asansör, Otopark, Balkon, Eşyalı
                           </h3>
                           <p>
-                            Asansör, otopark, balkon, deniz manzarası, eşyalı durumu gibi özellikler hem yaşam kalitesini hem de kira fiyatını etkiler. 
+                            Asansör, otopark, balkon, deniz manzarası, eşyalı durumu gibi özellikler hem yaşam kalitesini hem de kira fiyatını etkiler.
                             Bu özelliklere sahip daireler genellikle daha yüksek kira fiyatlarına sahiptir.
                           </p>
                         </div>
@@ -704,7 +704,7 @@ export default async function KarasuKiralikDairePage({
                             Konum ve Ulaşım
                           </h3>
                           <p>
-                            Denize mesafe, merkeze yakınlık, ulaşım imkanları, okul, sağlık ve alışveriş merkezlerine yakınlık 
+                            Denize mesafe, merkeze yakınlık, ulaşım imkanları, okul, sağlık ve alışveriş merkezlerine yakınlık
                             değerlendirilmelidir. Özellikle sürekli oturum için bu faktörler yaşam kalitesini etkiler.
                           </p>
                         </div>
@@ -901,7 +901,7 @@ export default async function KarasuKiralikDairePage({
                 Karasu'da Hayalinizdeki Kiralık Daireyi Bulun
               </h2>
               <p className="text-base md:text-lg text-gray-200 mb-8 max-w-2xl mx-auto">
-                Uzman emlak danışmanlarımız, Karasu'da kiralık daire arayanlar için profesyonel danışmanlık hizmeti sunmaktadır. 
+                Uzman emlak danışmanlarımız, Karasu'da kiralık daire arayanlar için profesyonel danışmanlık hizmeti sunmaktadır.
                 Tüm süreçte yanınızdayız.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

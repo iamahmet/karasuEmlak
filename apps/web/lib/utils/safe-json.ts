@@ -36,32 +36,32 @@ export function safeParseJSON<T = any>(
     if (trimmed.length === 0) {
       return fallback;
     }
-    
+
     // Check if it looks like JSON
     if (!trimmed.startsWith('{') && !trimmed.startsWith('[')) {
       return fallback;
     }
-    
+
     // Try to find and fix common issues
     let cleaned = value;
-    
+
     // Remove BOM if present
     if (cleaned.charCodeAt(0) === 0xFEFF) {
       cleaned = cleaned.slice(1);
     }
-    
+
     // Remove trailing commas before closing braces/brackets
     cleaned = cleaned.replace(/,(\s*[}\]])/g, '$1');
-    
+
     // Remove control characters that might break parsing
     cleaned = cleaned.replace(/[\x00-\x1F\x7F-\x9F]/g, '');
-    
+
     // Try to find and remove trailing garbage (common issue: JSON + extra text)
     // Look for the last valid closing brace/bracket
     const lastBrace = cleaned.lastIndexOf('}');
     const lastBracket = cleaned.lastIndexOf(']');
     const lastValidClose = Math.max(lastBrace, lastBracket);
-    
+
     if (lastValidClose > 0 && lastValidClose < cleaned.length - 1) {
       // There's content after the last closing brace/bracket - might be garbage
       const potentialGarbage = cleaned.substring(lastValidClose + 1).trim();
@@ -79,14 +79,14 @@ export function safeParseJSON<T = any>(
         }
       }
     }
-    
+
     const parsed = JSON.parse(cleaned);
     return parsed as T;
   } catch (error: any) {
     const errorMsg = error instanceof Error ? error.message : 'Unknown error';
     const position = errorMsg.match(/position (\d+)/)?.[1];
     const pos = position ? parseInt(position, 10) : NaN;
-    
+
     // Log error immediately in development to catch the source
     if (process.env.NODE_ENV === 'development' && context) {
       console.error(`[SafeJSON] Parse error in ${context}:`, {
@@ -105,7 +105,7 @@ export function safeParseJSON<T = any>(
         let lastValidPos = -1;
         const searchStart = Math.min(pos, value.length - 1);
         const searchEnd = Math.max(0, pos - 1000); // Search up to 1000 chars back
-        
+
         for (let i = searchStart; i >= searchEnd; i--) {
           try {
             const testValue = value.substring(0, i + 1);
@@ -120,7 +120,7 @@ export function safeParseJSON<T = any>(
             continue;
           }
         }
-        
+
         // Strategy 2: If Strategy 1 failed, try binary search for valid JSON
         if (lastValidPos === -1 && pos > 100) {
           let left = Math.max(0, pos - 2000);
@@ -137,7 +137,7 @@ export function safeParseJSON<T = any>(
             }
           }
         }
-        
+
         if (lastValidPos > 0) {
           const truncated = value.substring(0, lastValidPos);
           const partial = JSON.parse(truncated);
@@ -185,7 +185,9 @@ export function safeStringifyJSON(
   try {
     // Clean circular references and functions
     const cleaned = cleanForJSON(value);
-    return JSON.stringify(cleaned);
+    return JSON.stringify(cleaned)
+      .replace(/</g, '\\u003c')
+      .replace(/>/g, '\\u003e');
   } catch (error: any) {
     const errorMsg = error instanceof Error ? error.message : 'Unknown error';
     console.warn(`[SafeJSON] Failed to stringify JSON${context ? ` (${context})` : ''}:`, errorMsg);
@@ -228,17 +230,17 @@ function cleanForJSON(obj: any, seen = new WeakSet()): any {
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       const value = obj[key];
-      
+
       // Skip functions
       if (typeof value === 'function') {
         continue;
       }
-      
+
       // Skip undefined
       if (value === undefined) {
         continue;
       }
-      
+
       try {
         cleaned[key] = cleanForJSON(value, seen);
       } catch {
@@ -247,7 +249,7 @@ function cleanForJSON(obj: any, seen = new WeakSet()): any {
       }
     }
   }
-  
+
   return cleaned;
 }
 
@@ -272,7 +274,7 @@ export function safeParseImages(images: any): Array<{
   if (!Array.isArray(parsed)) {
     return [];
   }
-  
+
   // If it's an array of strings, convert to objects
   if (parsed.length > 0 && typeof parsed[0] === 'string') {
     return parsed.map((url: string, index: number) => ({
@@ -282,7 +284,7 @@ export function safeParseImages(images: any): Array<{
       order: index,
     }));
   }
-  
+
   // If it's already an array of objects, ensure they have the right format
   return parsed.map((img: any, index: number) => {
     if (typeof img === 'string') {

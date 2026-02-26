@@ -20,6 +20,7 @@ import dynamicImport from 'next/dynamic';
 
 import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
 export const revalidate = 3600; // 1 hour
+export const dynamicParams = true;
 
 const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollReveal').then(mod => ({ default: mod.ScrollReveal })), {
   loading: () => null,
@@ -28,13 +29,13 @@ const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollR
 export async function generateStaticParams() {
   const neighborhoodsResult = await withTimeout(getNeighborhoods(), 2000, []);
   const neighborhoods = neighborhoodsResult || [];
-  
+
   // Filter Karasu neighborhoods
-  const karasuNeighborhoods = neighborhoods.filter(n => 
-    n.toLowerCase().includes('karasu') || 
+  const karasuNeighborhoods = neighborhoods.filter(n =>
+    n.toLowerCase().includes('karasu') ||
     !n.toLowerCase().includes('kocaali')
   );
-  
+
   const params: Array<{ locale: string; mahalle: string }> = [];
   for (const locale of routing.locales) {
     for (const neighborhood of karasuNeighborhoods) {
@@ -54,15 +55,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, mahalle } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
-  
+
   // Get neighborhood data
   const neighborhoodData = await withTimeout(getNeighborhoodWithImage(mahalle), 2000, null);
   const neighborhoodName = neighborhoodData?.name || mahalle.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-  
-  const canonicalPath = locale === routing.defaultLocale 
-    ? `/karasu/${mahalle}/satilik-daire` 
+
+  const canonicalPath = locale === routing.defaultLocale
+    ? `/karasu/${mahalle}/satilik-daire`
     : `/${locale}/karasu/${mahalle}/satilik-daire`;
-  
+
   return {
     title: `${neighborhoodName} Satılık Daire | Karasu ${neighborhoodName} Daire İlanları 2025 | Karasu Emlak`,
     description: `${neighborhoodName}'de satılık daire ilanları. Karasu ${neighborhoodName} mahallesinde güncel daire fiyatları, özellikler ve yatırım analizi. Denize yakın konumlarda 1+1'den 4+1'e kadar seçenek. Uzman emlak danışmanlığı ile ${neighborhoodName}'de hayalinizdeki daireyi bulun.`,
@@ -127,12 +128,12 @@ export default async function KarasuMahalleSatilikDairePage({
 }) {
   const { locale, mahalle } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
-  
+
   // Get neighborhood data
   const neighborhoodData = await withTimeout(getNeighborhoodWithImage(mahalle), 3000, null);
   const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, []);
   const neighborhoods = neighborhoodsResult || [];
-  
+
   // Find neighborhood name
   let neighborhoodName: string | null = null;
   if (neighborhoodData) {
@@ -140,26 +141,26 @@ export default async function KarasuMahalleSatilikDairePage({
   } else {
     neighborhoodName = neighborhoods.find(n => generateSlug(n) === mahalle) || null;
   }
-  
+
   if (!neighborhoodName) {
     notFound();
   }
-  
+
   // Fetch listings
   const allListingsResult = await withTimeout(
     getListings({ status: 'satilik', property_type: ['daire'] }, { field: 'created_at', order: 'desc' }, 1000, 0),
     3000,
     { listings: [], total: 0 }
   );
-  
+
   const { listings: allListings = [] } = allListingsResult || {};
-  
+
   // Filter by neighborhood
-  const neighborhoodListings = allListings.filter(listing => 
+  const neighborhoodListings = allListings.filter(listing =>
     (listing.location_neighborhood && generateSlug(listing.location_neighborhood) === mahalle) &&
     listing.property_type === 'daire'
   );
-  
+
   // Group by room count
   const byRooms = {
     '1+1': neighborhoodListings.filter(l => l.features?.rooms === 1),
@@ -167,22 +168,22 @@ export default async function KarasuMahalleSatilikDairePage({
     '3+1': neighborhoodListings.filter(l => l.features?.rooms === 3),
     '4+1': neighborhoodListings.filter(l => l.features?.rooms === 4),
   };
-  
+
   // Calculate average price
   const prices = neighborhoodListings
     .filter(l => l.price_amount && l.price_amount > 0)
     .map(l => l.price_amount!);
-  const avgPrice = prices.length > 0 
+  const avgPrice = prices.length > 0
     ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
     : null;
-  
+
   // Fetch FAQs
   const aiQuestions = await withTimeout(
     getAIQuestionsForPage(`karasu-${mahalle}-satilik-daire`, 'karasu', 'pillar'),
     2000,
     []
   );
-  
+
   const faqs = aiQuestions && aiQuestions.length > 0 ? aiQuestions.map(q => ({
     question: q.question,
     answer: q.answer,
@@ -196,7 +197,7 @@ export default async function KarasuMahalleSatilikDairePage({
       answer: `${neighborhoodName}'de ${neighborhoodListings.length > 0 ? '1+1, 2+1, 3+1 ve 4+1' : 'çeşitli oda sayılarında'} satılık daire seçenekleri bulunmaktadır. En popüler seçenekler genellikle 2+1 ve 3+1 dairelerdir.`,
     },
   ];
-  
+
   // Generate schemas
   const articleSchema = {
     ...generateArticleSchema({
@@ -216,9 +217,9 @@ export default async function KarasuMahalleSatilikDairePage({
       },
     },
   };
-  
+
   const faqSchema = generateFAQSchema(faqs);
-  
+
   const breadcrumbSchema = generateBreadcrumbSchema(
     [
       { name: 'Ana Sayfa', url: `${siteConfig.url}${basePath}/` },
@@ -228,20 +229,20 @@ export default async function KarasuMahalleSatilikDairePage({
     ],
     `${siteConfig.url}${basePath}/karasu/${mahalle}/satilik-daire`
   );
-  
+
   const realEstateAgentSchema = generateRealEstateAgentLocalSchema({
     includeRating: true,
     includeServices: true,
     includeAreaServed: true,
   });
-  
+
   const itemListSchema = neighborhoodListings.length > 0
     ? generateItemListSchema(neighborhoodListings.slice(0, 20), `${siteConfig.url}${basePath}`, {
-        name: `${neighborhoodName} Satılık Daire İlanları`,
-        description: `${neighborhoodName}'de ${neighborhoodListings.length} adet satılık daire ilanı.`,
-      })
+      name: `${neighborhoodName} Satılık Daire İlanları`,
+      description: `${neighborhoodName}'de ${neighborhoodListings.length} adet satılık daire ilanı.`,
+    })
     : null;
-  
+
   return (
     <>
       <StructuredData data={articleSchema} />
@@ -249,7 +250,7 @@ export default async function KarasuMahalleSatilikDairePage({
       <StructuredData data={breadcrumbSchema} />
       <StructuredData data={realEstateAgentSchema} />
       {itemListSchema && <StructuredData data={itemListSchema} />}
-      
+
       <Breadcrumbs
         items={[
           { label: 'Ana Sayfa', href: `${basePath}/` },
@@ -258,14 +259,14 @@ export default async function KarasuMahalleSatilikDairePage({
           { label: `${neighborhoodName} Satılık Daire`, href: `${basePath}/karasu/${mahalle}/satilik-daire` },
         ]}
       />
-      
+
       <main className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-20 md:py-28 overflow-hidden">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,white_1px,transparent_0)] bg-[length:40px_40px]" />
           </div>
-          
+
           <div className="container mx-auto px-4 relative z-10">
             <ScrollReveal direction="up" delay={0}>
               <div className="max-w-4xl mx-auto text-center">
@@ -278,7 +279,7 @@ export default async function KarasuMahalleSatilikDairePage({
                   {neighborhoodName} Satılık Daire
                 </h1>
                 <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-8">
-                  {neighborhoodName}'de satılık daire arayanlar için kapsamlı rehber. Güncel fiyatlar, özellikler ve yatırım analizi. 
+                  {neighborhoodName}'de satılık daire arayanlar için kapsamlı rehber. Güncel fiyatlar, özellikler ve yatırım analizi.
                   Uzman emlak danışmanlığı ile {neighborhoodName}'de hayalinizdeki daireyi bulun.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -339,8 +340,8 @@ export default async function KarasuMahalleSatilikDairePage({
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">Kısa Cevap</h3>
                     <p className="text-gray-700 leading-relaxed">
-                      <strong>{neighborhoodName}'de satılık daire</strong> arayanlar için {neighborhoodListings.length} adet aktif ilan mevcuttur. 
-                      Fiyatlar konum, metrekare ve özelliklere göre değişmektedir. 
+                      <strong>{neighborhoodName}'de satılık daire</strong> arayanlar için {neighborhoodListings.length} adet aktif ilan mevcuttur.
+                      Fiyatlar konum, metrekare ve özelliklere göre değişmektedir.
                       {avgPrice ? ` Ortalama fiyat ₺${new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(avgPrice / 1000)}K civarındadır.` : ' Fiyat aralığı geniştir.'}
                       Hem sürekli oturum hem de yatırım amaçlı seçenekler bulunmaktadır.
                     </p>
@@ -355,11 +356,11 @@ export default async function KarasuMahalleSatilikDairePage({
                     </h2>
                     <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
                       <p>
-                        {neighborhoodName}, Karasu'nun önemli mahallelerinden biri olup, satılık daire piyasasında çeşitli seçenekler sunmaktadır. 
+                        {neighborhoodName}, Karasu'nun önemli mahallelerinden biri olup, satılık daire piyasasında çeşitli seçenekler sunmaktadır.
                         {neighborhoodData?.seo_content?.intro || `${neighborhoodName} mahallesi, modern apartman projeleri ve gelişen altyapısı ile dikkat çekmektedir.`}
                       </p>
                       <p>
-                        {neighborhoodName}'de satılık daire arayanlar için hem sürekli oturum hem de yatırım amaçlı seçenekler bulunmaktadır. 
+                        {neighborhoodName}'de satılık daire arayanlar için hem sürekli oturum hem de yatırım amaçlı seçenekler bulunmaktadır.
                         Özellikle İstanbul'a yakınlığı, doğal güzellikleri ve turizm potansiyeli ile {neighborhoodName}, emlak yatırımcılarının ilgisini çeken bir bölgedir.
                       </p>
                     </div>
@@ -382,7 +383,7 @@ export default async function KarasuMahalleSatilikDairePage({
                           const avgPriceRoom = avgRoomPrice.length > 0
                             ? Math.round(avgRoomPrice.reduce((a, b) => a + b, 0) / avgRoomPrice.length)
                             : null;
-                          
+
                           return (
                             <div key={roomType} className="border rounded-lg p-6 bg-gray-50">
                               <h3 className="text-xl font-semibold text-gray-900 mb-3">{roomType} Daireler</h3>
@@ -560,7 +561,7 @@ export default async function KarasuMahalleSatilikDairePage({
                 {neighborhoodName}'de Hayalinizdeki Daireyi Bulun
               </h2>
               <p className="text-base md:text-lg text-gray-200 mb-8 max-w-2xl mx-auto">
-                Uzman emlak danışmanlarımız, {neighborhoodName}'de satılık daire arayanlar için profesyonel danışmanlık hizmeti sunmaktadır. 
+                Uzman emlak danışmanlarımız, {neighborhoodName}'de satılık daire arayanlar için profesyonel danışmanlık hizmeti sunmaktadır.
                 Tüm süreçte yanınızdayız.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

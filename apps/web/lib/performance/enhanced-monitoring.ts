@@ -173,7 +173,7 @@ export function trackCLS(): void {
 
   try {
     let clsValue = 0;
-    let clsEntries: any[] = [];
+    const clsEntries: any[] = [];
 
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {

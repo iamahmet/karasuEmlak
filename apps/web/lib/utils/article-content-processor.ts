@@ -254,7 +254,7 @@ export function processArticleContent(
   }
   
   // Process images
-  let processed = processArticleContentImages(html, articleTitle);
+  const processed = processArticleContentImages(html, articleTitle);
   
   // Additional processing can be added here:
   // - Link processing

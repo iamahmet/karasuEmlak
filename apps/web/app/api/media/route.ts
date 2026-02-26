@@ -27,7 +27,7 @@ async function handleGet(request: NextRequest) {
 
   // Fetch files from storage
   const bucket = "media";
-  let { data: storageFiles, error: storageError } = await supabase.storage
+  const { data: storageFiles, error: storageError } = await supabase.storage
     .from(bucket)
     .list("", {
       limit: 1000,

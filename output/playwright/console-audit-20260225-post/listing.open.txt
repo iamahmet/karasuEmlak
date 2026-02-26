@@ -1,0 +1,15 @@
+### Browser `default` opened with pid 51700.
+- default:
+  - browser-type: chrome
+  - user-data-dir: <in-memory>
+  - headed: false
+---
+### Ran Playwright code
+```js
+await page.goto('https://www.karasuemlak.net/ilan/inkoy-mustakil-ev');
+```
+### Page
+- Page URL: https://www.karasuemlak.net/ilan/inkoy-mustakil-ev
+- Page Title: Kiralık Arsa Merkez - ₺1.714/ay | Karasu Emlak | Karasu Emlak
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-02-25T14-07-45-030Z.yml)

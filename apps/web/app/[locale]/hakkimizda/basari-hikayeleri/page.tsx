@@ -39,7 +39,7 @@ export async function generateMetadata({
 
   return {
     title: 'Başarı Hikayeleri | Karasu Emlak | Müşteri Başarı Örnekleri',
-    description: 'Karasu Emlak ile çalışan müşterilerimizin başarı hikayeleri. Satılık ev alım-satım, kiralama ve yatırım danışmanlığı başarı örnekleri. 500+ mutlu müşteri, %98 memnuniyet oranı.',
+    description: 'Karasu Emlak ile çalışan müşterilerimizin başarı hikayeleri. Satılık ev alım-satım, kiralama ve yatırım danışmanlığı başarı örnekleri. 500+ mutlu...',
     keywords: [
       'karasu emlak başarı hikayeleri',
       'emlak başarı örnekleri',

@@ -1,0 +1,15 @@
+### Result
+- [Screenshot of viewport](.playwright-cli/page-2026-02-25T14-34-12-149Z.png)
+### Ran Playwright code
+```js
+// Screenshot viewport and save it as .playwright-cli/page-2026-02-25T14-34-12-149Z.png
+await page.screenshot({
+path: '.playwright-cli/page-2026-02-25T14-34-12-149Z.png',
+  scale: 'css',
+  type: 'png'
+});
+```
+### Page
+- Page URL: https://www.karasuemlak.net/?slide=1
+- Page Title: Karasu Emlak | Satılık ve Kiralık Daire, Villa, Yazlık | Karasu Gayrimenkul
+- Console: 9 errors, 0 warnings

@@ -50,7 +50,7 @@ export async function generateMetadata({
 
   return {
     title: 'Kocaali Hastaneler ve Sağlık Kuruluşları | Karasu Emlak',
-    description: 'Kocaali hastaneler, sağlık merkezleri ve sağlık kuruluşları. Kocaali İlçe Devlet Hastanesi, Aile Sağlığı Merkezi ve özel sağlık kuruluşları. Harita, telefon ve adres bilgileri.',
+    description: 'Kocaali hastaneler, sağlık merkezleri ve sağlık kuruluşları. Kocaali İlçe Devlet Hastanesi, Aile Sağlığı Merkezi ve özel sağlık kuruluşları. Harita,...',
     keywords: [
       'kocaali hastane',
       'kocaali devlet hastanesi',

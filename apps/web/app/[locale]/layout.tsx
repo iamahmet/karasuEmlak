@@ -22,6 +22,7 @@ import { OfflineIndicator } from "@/components/mobile/OfflineIndicator";
 import type { Metadata, Viewport } from "next";
 import { GOOGLE_SITE_VERIFICATION, GA_MEASUREMENT_ID } from "@/lib/seo/constants";
 import { BRAND_PRIMARY_COLOR, brandAssetUrl } from "@/lib/branding/assets";
+import { QueryProvider } from "@/providers/query-provider";
 import "../globals.css";
 
 import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
@@ -33,8 +34,8 @@ export async function generateMetadata({
   try {
     const { locale } = await params;
     // Geçerli locale kontrolü - geçersizse varsayılan locale kullan
-    const validLocale = routing.locales.includes(locale as any) 
-      ? locale 
+    const validLocale = routing.locales.includes(locale as any)
+      ? locale
       : routing.defaultLocale;
     const baseUrl = siteConfig?.url ?? '';
     const resolvedBaseUrl = baseUrl || 'https://karasuemlak.net';
@@ -180,7 +181,7 @@ export function generateResourceHints() {
 export function generateStaticParams() {
   // Only generate params for active locales (currently only "tr")
   return routing.locales.map((locale) => ({ locale }));
-  
+
   // Future: When all locales are enabled, uncomment below:
   // return ["tr", "en", "et", "ru", "ar"].map((locale) => ({ locale }));
 }
@@ -211,8 +212,8 @@ export default async function LocaleLayout({
     // Bu, middleware'in rewrite'ının bazen çalışmaması durumunda güvenlik ağı sağlar
     // ÖNEMLİ: Middleware rewrite yaptığında bile Next.js params hala orijinal URL'den geliyor olabilir
     // Bu yüzden geçersiz locale'leri otomatik olarak varsayılan locale'e çeviriyoruz
-    const validLocale = routing.locales.includes(locale as any) 
-      ? locale 
+    const validLocale = routing.locales.includes(locale as any)
+      ? locale
       : routing.defaultLocale;
 
     // Geçersiz locale durumunda uyarı ver ama notFound() çağırma
@@ -308,33 +309,35 @@ export default async function LocaleLayout({
         {StructuredDataComponent && googleBusinessSchema && (
           <StructuredDataComponent data={googleBusinessSchema} />
         )}
-        <IntlProvider locale={validLocale} messages={messages}>
-          <CriticalResourcesLoader />
-          <SkipToContent />
-          <SkipLinks />
-          <Announcer />
-          <ContrastChecker />
-          <PremiumNewsTicker basePath={validLocale === routing.defaultLocale ? "" : `/${validLocale}`} />
-          <PremiumHeader />
-          <main id="main-content" role="main" aria-label="Ana içerik">{children}</main>
-          <PremiumFooter />
-          {/* Client-only components (ssr: false) */}
-          <ClientOnlyComponents basePath={validLocale === routing.defaultLocale ? "" : `/${validLocale}`} />
-          {/* Analytics - Only loads if consent given */}
-          {!analyticsDisabled && (process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || GA_MEASUREMENT_ID) && GoogleAnalyticsComponent && (
-            <Suspense fallback={null}>
-              <GoogleAnalyticsComponent measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || GA_MEASUREMENT_ID} nonce={nonce || undefined} />
-            </Suspense>
-          )}
-          {/* Web Vitals - Always active (performance monitoring) */}
-          {!analyticsDisabled && WebVitalsComponent && <WebVitalsComponent />}
-          {/* Performance Monitor - Tracks page load and resource performance */}
-          {!analyticsDisabled && PerformanceMonitorComponent && <PerformanceMonitorComponent />}
-          {/* Toast Notifications */}
-          <Toaster />
-          {/* Offline Indicator */}
-          <OfflineIndicator />
-        </IntlProvider>
+        <QueryProvider>
+          <IntlProvider locale={validLocale} messages={messages}>
+            <CriticalResourcesLoader />
+            <SkipToContent />
+            <SkipLinks />
+            <Announcer />
+            <ContrastChecker />
+            <PremiumNewsTicker basePath={validLocale === routing.defaultLocale ? "" : `/${validLocale}`} />
+            <PremiumHeader />
+            <main id="main-content" role="main" aria-label="Ana içerik">{children}</main>
+            <PremiumFooter />
+            {/* Client-only components (ssr: false) */}
+            <ClientOnlyComponents basePath={validLocale === routing.defaultLocale ? "" : `/${validLocale}`} />
+            {/* Analytics - Only loads if consent given */}
+            {!analyticsDisabled && (process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || GA_MEASUREMENT_ID) && GoogleAnalyticsComponent && (
+              <Suspense fallback={null}>
+                <GoogleAnalyticsComponent measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || GA_MEASUREMENT_ID} nonce={nonce || undefined} />
+              </Suspense>
+            )}
+            {/* Web Vitals - Always active (performance monitoring) */}
+            {!analyticsDisabled && WebVitalsComponent && <WebVitalsComponent />}
+            {/* Performance Monitor - Tracks page load and resource performance */}
+            {!analyticsDisabled && PerformanceMonitorComponent && <PerformanceMonitorComponent />}
+            {/* Toast Notifications */}
+            <Toaster />
+            {/* Offline Indicator */}
+            <OfflineIndicator />
+          </IntlProvider>
+        </QueryProvider>
       </>
     );
   } catch (error: any) {
@@ -388,32 +391,34 @@ export default async function LocaleLayout({
         {FallbackStructuredData && fallbackRealEstateAgentSchema && (
           <FallbackStructuredData data={fallbackRealEstateAgentSchema} />
         )}
-        <IntlProvider locale="tr" messages={fallbackMessages}>
-          <CriticalResourcesLoader />
-          <SkipToContent />
-          <SkipLinks />
-          <Announcer />
-          <ContrastChecker />
-          <PremiumHeader />
-          <main id="main-content" role="main" aria-label="Ana içerik">{children}</main>
-          <PremiumFooter />
-          {/* Client-only components (ssr: false) */}
-          <ClientOnlyComponents basePath="" />
-          {/* Analytics - Only loads if consent given */}
-          {!analyticsDisabled && (process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || GA_MEASUREMENT_ID) && FallbackGoogleAnalytics && (
-            <Suspense fallback={null}>
-              <FallbackGoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || GA_MEASUREMENT_ID} nonce={nonce || undefined} />
-            </Suspense>
-          )}
-          {/* Web Vitals - Always active (performance monitoring) */}
-          {!analyticsDisabled && FallbackWebVitals && <FallbackWebVitals />}
-          {/* Performance Monitor - Tracks page load and resource performance */}
-          {!analyticsDisabled && FallbackPerformanceMonitor && <FallbackPerformanceMonitor />}
-          {/* Toast Notifications */}
-          <Toaster />
-          {/* Offline Indicator */}
-          <OfflineIndicator />
-        </IntlProvider>
+        <QueryProvider>
+          <IntlProvider locale="tr" messages={fallbackMessages}>
+            <CriticalResourcesLoader />
+            <SkipToContent />
+            <SkipLinks />
+            <Announcer />
+            <ContrastChecker />
+            <PremiumHeader />
+            <main id="main-content" role="main" aria-label="Ana içerik">{children}</main>
+            <PremiumFooter />
+            {/* Client-only components (ssr: false) */}
+            <ClientOnlyComponents basePath="" />
+            {/* Analytics - Only loads if consent given */}
+            {!analyticsDisabled && (process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || GA_MEASUREMENT_ID) && FallbackGoogleAnalytics && (
+              <Suspense fallback={null}>
+                <FallbackGoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || GA_MEASUREMENT_ID} nonce={nonce || undefined} />
+              </Suspense>
+            )}
+            {/* Web Vitals - Always active (performance monitoring) */}
+            {!analyticsDisabled && FallbackWebVitals && <FallbackWebVitals />}
+            {/* Performance Monitor - Tracks page load and resource performance */}
+            {!analyticsDisabled && FallbackPerformanceMonitor && <FallbackPerformanceMonitor />}
+            {/* Toast Notifications */}
+            <Toaster />
+            {/* Offline Indicator */}
+            <OfflineIndicator />
+          </IntlProvider>
+        </QueryProvider>
       </>
     );
   }

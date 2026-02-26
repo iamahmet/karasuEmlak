@@ -19,6 +19,10 @@ export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+export const revalidate = 3600; // 1 hour
+export const dynamicParams = true;
+
+
 
 export async function generateMetadata({
   params,
@@ -28,7 +32,7 @@ export async function generateMetadata({
 
   return {
     title: 'Karasu Nöbetçi Eczaneler | 7/24 Eczane Bilgileri | Sağlık Rehberi | Karasu Emlak',
-    description: 'Karasu nöbetçi eczaneler, eczane telefon numaraları ve adresleri. 7/24 açık eczane bilgileri, acil ilaç ihtiyacı için iletişim ve sağlık rehberi. İlaç kullanımı, ilaç saklama koşulları ve sağlık bilgileri.',
+    description: 'Karasu nöbetçi eczaneler, eczane telefon numaraları ve adresleri. 7/24 açık eczane bilgileri, acil ilaç ihtiyacı için iletişim ve sağlık rehberi....',
     keywords: [
       'karasu nöbetçi eczane',
       'karasu eczane telefon',
@@ -105,7 +109,7 @@ export default async function NobetciEczanelerPage({
   ];
 
   const faqSchema = generateFAQSchema(eczaneFAQs);
-  
+
   // Generate Article schemas for health articles (SEO boost)
   const healthArticleSchemas = [
     generateArticleSchema({
@@ -153,7 +157,7 @@ export default async function NobetciEczanelerPage({
                 <p className="text-base md:text-lg text-gray-700 max-w-3xl mb-6 leading-relaxed">
                   Karasu'da 7/24 hizmet veren nöbetçi eczaneler, telefon numaraları ve adresleri. Acil ilaç ihtiyacınız için güncel bilgiler. Sağlık rehberi, ilaç kullanımı ve eczane hizmetleri hakkında detaylı bilgiler.
                 </p>
-                
+
                 {/* Quick Stats */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-primary/10">
@@ -303,7 +307,7 @@ export default async function NobetciEczanelerPage({
                   Sağlık ve İlaç Kullanımı Hakkında Bilgiler
                 </h2>
               </div>
-              
+
               <div className="prose prose-lg max-w-none">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="bg-white rounded-xl p-6 border border-green-200">
@@ -425,7 +429,7 @@ export default async function NobetciEczanelerPage({
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
                   Karasu Nöbetçi Eczaneler Hakkında Detaylı Bilgiler
                 </h2>
-                
+
                 <div className="space-y-6 text-gray-700 leading-relaxed">
                   <div>
                     <h3 className="text-xl font-bold text-gray-900 mb-3">

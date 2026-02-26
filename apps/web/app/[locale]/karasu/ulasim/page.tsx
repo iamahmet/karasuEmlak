@@ -63,6 +63,10 @@ export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+export const revalidate = 3600; // 1 hour
+export const dynamicParams = true;
+
+
 
 export async function generateMetadata({
   params,
@@ -111,7 +115,7 @@ export default async function UlasimPage({
   return (
     <>
       {faqSchema && <StructuredData data={faqSchema} />}
-      
+
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <Breadcrumbs
           items={[
@@ -132,7 +136,7 @@ export default async function UlasimPage({
                 backgroundSize: '32px 32px',
               }}></div>
             </div>
-            
+
             <div className="relative z-10">
               {/* Location Badge */}
               <div className="flex items-center gap-2 mb-6">
@@ -151,7 +155,7 @@ export default async function UlasimPage({
               <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mb-10 leading-relaxed">
                 Karasu'ya nasıl gidilir? İstanbul, Sakarya ve Ankara'dan Karasu'ya ulaşım bilgileri. Özel araç, otobüs, taksi ve havalimanı bilgileri ile detaylı yol tarifleri.
               </p>
-              
+
               {/* Transport Types */}
               <div className="flex flex-wrap gap-4 mb-8">
                 <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">

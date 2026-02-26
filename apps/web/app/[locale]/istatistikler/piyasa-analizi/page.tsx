@@ -54,7 +54,7 @@ export async function generateMetadata({
 
   return {
     title: 'Piyasa Analizi | Karasu Emlak | Detaylı Emlak Piyasa Analizleri ve Trendler',
-    description: 'Karasu emlak piyasası detaylı analizleri. Fiyat trendleri, piyasa göstergeleri, yatırım fırsatları ve risk analizleri. Güncel veriler ve uzman yorumları ile emlak yatırım kararlarınızı destekleyin.',
+    description: 'Karasu emlak piyasası detaylı analizleri. Fiyat trendleri, piyasa göstergeleri, yatırım fırsatları ve risk analizleri. Güncel veriler ve uzman...',
     keywords: [
       'karasu piyasa analizi',
       'karasu emlak analizi',

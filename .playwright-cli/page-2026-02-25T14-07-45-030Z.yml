@@ -1,0 +1,1210 @@
+- generic [active] [ref=e1]:
+  - link "Ana içeriğe geç" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - status [ref=e3]
+  - complementary "Son dakika haberleri" [ref=e4]:
+    - generic [ref=e9]:
+      - generic [ref=e11]:
+        - img [ref=e12]
+        - generic [ref=e14]: SON DAKİKA
+      - generic [ref=e17]:
+        - link "Haber Karasu'da yeni konut projeleri start aldı" [ref=e18] [cursor=pointer]:
+          - /url: /haberler/karasu-yeni-konut-projeleri
+          - generic [ref=e19]:
+            - img [ref=e20]
+            - generic [ref=e23]: Haber
+          - generic [ref=e25]: Karasu'da yeni konut projeleri start aldı
+        - link "Satılık Denize sıfır satılık villalarda fırsatlar" [ref=e26] [cursor=pointer]:
+          - /url: /satilik?deniz_manzarasi=true
+          - generic [ref=e27]:
+            - img [ref=e28]
+            - generic [ref=e31]: Satılık
+          - generic [ref=e33]: Denize sıfır satılık villalarda fırsatlar
+        - link "Blog 2025 emlak piyasası değerlendirmesi" [ref=e34] [cursor=pointer]:
+          - /url: /blog/2025-emlak-piyasasi
+          - generic [ref=e35]:
+            - img [ref=e36]
+            - generic [ref=e39]: Blog
+          - generic [ref=e41]: 2025 emlak piyasası değerlendirmesi
+        - link "Haber Karasu'da yeni konut projeleri start aldı" [ref=e42] [cursor=pointer]:
+          - /url: /haberler/karasu-yeni-konut-projeleri
+          - generic [ref=e43]:
+            - img [ref=e44]
+            - generic [ref=e47]: Haber
+          - generic [ref=e49]: Karasu'da yeni konut projeleri start aldı
+        - link "Satılık Denize sıfır satılık villalarda fırsatlar" [ref=e50] [cursor=pointer]:
+          - /url: /satilik?deniz_manzarasi=true
+          - generic [ref=e51]:
+            - img [ref=e52]
+            - generic [ref=e55]: Satılık
+          - generic [ref=e57]: Denize sıfır satılık villalarda fırsatlar
+        - link "Blog 2025 emlak piyasası değerlendirmesi" [ref=e58] [cursor=pointer]:
+          - /url: /blog/2025-emlak-piyasasi
+          - generic [ref=e59]:
+            - img [ref=e60]
+            - generic [ref=e63]: Blog
+          - generic [ref=e65]: 2025 emlak piyasası değerlendirmesi
+      - button "Haberleri gizle" [ref=e66] [cursor=pointer]:
+        - img [ref=e67]
+  - banner [ref=e75]:
+    - generic [ref=e77]:
+      - link "Karasu Emlak Ana Sayfa" [ref=e79] [cursor=pointer]:
+        - /url: /
+        - img "Karasu Emlak Logo" [ref=e82]
+      - navigation "Ana menü" [ref=e83]
+      - generic [ref=e89]:
+        - button [ref=e91] [cursor=pointer]:
+          - img [ref=e92]
+        - link "İlan Ara" [ref=e98] [cursor=pointer]:
+          - /url: /arama
+          - img [ref=e99]
+        - link "İlan Ekle" [ref=e102] [cursor=pointer]:
+          - /url: /ilan-ekle
+          - img [ref=e103]
+          - generic [ref=e104]: İlan Ekle
+        - link "İletişim" [ref=e105] [cursor=pointer]:
+          - /url: /iletisim
+          - img [ref=e106]
+          - generic [ref=e108]: İletişim
+  - main "Ana içerik" [ref=e109]:
+    - generic [ref=e110]:
+      - generic [ref=e113]:
+        - navigation "Breadcrumb" [ref=e114]:
+          - link "Ana Sayfa" [ref=e115] [cursor=pointer]:
+            - /url: /
+            - img [ref=e116]
+            - generic [ref=e119]: Ana Sayfa
+          - generic [ref=e120]:
+            - img [ref=e121]
+            - link "Kiralık" [ref=e123] [cursor=pointer]:
+              - /url: /kiralik
+          - generic [ref=e124]:
+            - img [ref=e125]
+            - generic [ref=e127]: İnköy Müstakil Ev
+        - button "Yazdır" [ref=e129] [cursor=pointer]:
+          - img [ref=e130]
+          - text: Yazdır
+      - generic [ref=e135]:
+        - generic [ref=e136]:
+          - generic [ref=e137]:
+            - generic [ref=e138]:
+              - generic [ref=e139]:
+                - button "Görseli büyüt - Lightbox'ı aç" [ref=e140] [cursor=pointer]:
+                  - img "Kiralık arsa Merkez, Karasu, Karasu" [ref=e141]
+                  - generic:
+                    - generic:
+                      - img
+                      - generic: Tıklayarak büyüt (3 görsel)
+                - button "Önceki görsel" [ref=e142] [cursor=pointer]:
+                  - img [ref=e143]
+                - button "Sonraki görsel" [ref=e145] [cursor=pointer]:
+                  - img [ref=e146]
+                - generic [ref=e148]: 1 / 3
+                - generic:
+                  - generic [ref=e149]:
+                    - generic [ref=e150]:
+                      - generic [ref=e151]: Kiralık
+                      - generic [ref=e152]:
+                        - img [ref=e153]
+                        - generic [ref=e155]: Öne Çıkan
+                      - generic [ref=e156]:
+                        - img [ref=e157]
+                        - generic [ref=e160]: Doğrulanmış
+                    - generic [ref=e162]:
+                      - link "Facebook'ta paylaş" [ref=e163] [cursor=pointer]:
+                        - /url: https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.karasuemlak.net%0A%2Filan%2Finkoy-mustakil-ev
+                        - img [ref=e164]
+                      - link "X (Twitter)'da paylaş" [ref=e166] [cursor=pointer]:
+                        - /url: https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.karasuemlak.net%0A%2Filan%2Finkoy-mustakil-ev&text=%C4%B0nk%C3%B6y%20M%C3%BCstakil%20Ev%20-%20Merkez%20b%C3%B6lgesinde%20arsa%20tipinde%20kiral%C4%B1k%20emlak.
+                        - img [ref=e167]
+                      - link "WhatsApp'ta paylaş" [ref=e169] [cursor=pointer]:
+                        - /url: https://wa.me/?text=%C4%B0nk%C3%B6y%20M%C3%BCstakil%20Ev%0A%0AMerkez%20b%C3%B6lgesinde%20arsa%20tipinde%20kiral%C4%B1k%20emlak.%0A%0Ahttps%3A%2F%2Fwww.karasuemlak.net%0A%2Filan%2Finkoy-mustakil-ev
+                        - img [ref=e170]
+                      - button "Linki kopyala" [ref=e172] [cursor=pointer]:
+                        - img [ref=e173]
+                  - generic [ref=e176]:
+                    - heading "İnköy Müstakil Ev" [level=1] [ref=e177]
+                    - generic [ref=e178]:
+                      - img [ref=e179]
+                      - generic [ref=e182]: Merkez, Karasu
+                    - generic [ref=e183]:
+                      - generic [ref=e185]: ₺1.714/ay
+                      - generic [ref=e186]:
+                        - generic [ref=e187]:
+                          - img [ref=e188]
+                          - generic [ref=e190]: Tapu
+                        - generic [ref=e191]:
+                          - img [ref=e192]
+                          - generic [ref=e195]: İskan
+              - generic [ref=e197]:
+                - button "Görsel 1'e git" [ref=e198] [cursor=pointer]:
+                  - img "Kiralık arsa Merkez, Karasu, Karasu" [ref=e199]
+                  - generic [ref=e202]: "1"
+                - button "Görsel 2'e git" [ref=e203] [cursor=pointer]:
+                  - img "Kiralık arsa Merkez, Karasu, Karasu" [ref=e204]
+                  - generic [ref=e206]: "2"
+                - button "Görsel 3'e git" [ref=e207] [cursor=pointer]:
+                  - img "Kiralık arsa Merkez, Karasu, Karasu" [ref=e208]
+                  - generic [ref=e210]: "3"
+            - paragraph [ref=e212]:
+              - generic [ref=e213]: ℹ️
+              - generic [ref=e214]: Görseller temsili olabilir. Detaylı bilgi için bize ulaşabilirsiniz.
+          - generic [ref=e216]:
+            - link "Hemen Ara" [ref=e217] [cursor=pointer]:
+              - /url: tel:+905325933854
+              - img [ref=e218]
+              - text: Hemen Ara
+            - link "WhatsApp" [ref=e220] [cursor=pointer]:
+              - /url: https://wa.me/905325933854
+              - img [ref=e221]
+              - text: WhatsApp
+            - button "Favorilere Ekle" [ref=e223] [cursor=pointer]:
+              - img [ref=e224]
+              - text: Favorilere Ekle
+            - button "Kopyala" [ref=e228] [cursor=pointer]:
+              - img [ref=e229]
+              - text: Kopyala
+            - button "PDF İndir" [ref=e232] [cursor=pointer]:
+              - img [ref=e233]
+            - button "Randevu Al" [ref=e236] [cursor=pointer]:
+              - img [ref=e237]
+              - generic [ref=e239]: Randevu
+          - generic [ref=e241]:
+            - generic [ref=e242]:
+              - img [ref=e244]
+              - generic [ref=e246]:
+                - heading "Öne Çıkan Özellikler" [level=3] [ref=e247]
+                - paragraph [ref=e248]: Bu ilanı özel kılan avantajlar
+            - generic [ref=e249]:
+              - generic [ref=e250]:
+                - img [ref=e252]
+                - generic [ref=e255]: Otopark Mevcut
+              - generic [ref=e256]:
+                - img [ref=e258]
+                - generic [ref=e261]: Merkezi Konum
+              - generic [ref=e262]:
+                - img [ref=e264]
+                - generic [ref=e267]: Ulaşım Kolaylığı
+              - generic [ref=e268]:
+                - img [ref=e270]
+                - generic [ref=e273]: Güvenli Lokasyon
+              - generic [ref=e274]:
+                - img [ref=e276]
+                - generic [ref=e279]: Yatırıma Uygun
+              - generic [ref=e280]:
+                - img [ref=e282]
+                - generic [ref=e285]: Anında Görülebilir
+              - generic [ref=e286]:
+                - img [ref=e288]
+                - generic [ref=e291]: Net Fiyat
+              - generic [ref=e292]:
+                - img [ref=e294]
+                - generic [ref=e297]: Profesyonel Danışmanlık
+          - generic [ref=e298]:
+            - heading "Açıklama" [level=2] [ref=e299]
+            - generic [ref=e300]:
+              - paragraph [ref=e301]: Bir müstakil ev hayal ediyorsunuz ama nereden başlayacağınızı bilmiyor musunuz? İnköy'deki bu müstakil ev, tüm beklentilerinizi karşılayabilir. Merkezde yer alan bu emlak, kiralık olarak sunuluyor ve size şehrin olanaklarına yakın olmanın yanı sıra huzurlu bir yaşam alanı sunuyor. Daha önce kiralık ev arayan birçok kişi gibi, siz de bu evin sunduğu avantajlardan faydalanabilirsiniz.
+              - paragraph [ref=e302]: Merkezde yer alan bir evin avantajları saymakla bitmez. Özellikle İnköy gibi bir bölgede, her şey elinizin altında olacak. Alışveriş merkezleri, okullar, hastaneler ve daha fazlası sadece birkaç dakika uzaklıkta. Bu, günlük hayatınızı kolaylaştıracak ve zamandan tasarruf etmenizi sağlayacak.
+              - paragraph [ref=e303]: İnköy'ün merkezi konumu, sizi şehrin kalbinde yaşama fırsatı sunar. İş yerinize ulaşım, çocuklarınızın okula gitmesi veya acil bir durumda hastaneye ulaşmak çok daha kolay olacaktır. Bu tür kolaylıklar, yaşam kalitenizi artıracaktır.
+              - paragraph [ref=e304]: Toplu taşıma olanakları da oldukça gelişmiştir. Otobüs durakları ve metro istasyonları evinize yakın olup, her yere kolayca ulaşmanızı sağlar. Araç kullanmadan da şehrin farklı bölgelerine gitmek oldukça pratik hale gelir.
+              - paragraph [ref=e305]: Bir evi çekici kılan unsurlardan biri de tasarımıdır. İnköy'deki bu müstakil ev, modern ve işlevsel bir tasarıma sahiptir. Bu da hem estetik hem de günlük kullanım açısından büyük bir avantaj sağlar.
+              - paragraph [ref=e306]: Evin iç mekanı, geniş ve ferah bir şekilde tasarlanmıştır. Açık planlı mutfak ve oturma odası, ailecek vakit geçirmeyi daha eğlenceli hale getirir. Ayrıca, geniş pencereler sayesinde doğal ışık gün boyu evinizi aydınlatır.
+              - paragraph [ref=e307]: Evin en büyük avantajlarından biri de geniş bir bahçesinin olması. Doğayla iç içe bir yaşam arıyorsanız, bu bahçe size özel alan sunar. Bahçede barbekü yapabilir, çocuklarınızla oyun oynayabilir veya sadece dinlenebilirsiniz.
+              - paragraph [ref=e308]: "Kiralama süreci bazen karmaşık olabilir, ancak İnköy'deki bu müstakil evi kiralamak oldukça basit ve hızlı bir süreçtir. İşte bu sürecin bazı adımları:"
+              - paragraph [ref=e309]: Bu belgeler, kiralama sürecini hızlandırmak için genellikle gerekli belgeler arasında yer alır.
+              - paragraph [ref=e310]: Ev sahibi ile yapılacak bir görüşme sonrasında, anlaşmanın detayları belirlenir ve kira sözleşmesi hazırlanır. Bu aşamada dikkatlice okumanız ve anlamadığınız yerleri sormanız önemlidir.
+          - generic [ref=e311]:
+            - heading "Özellikler" [level=2] [ref=e312]
+            - generic [ref=e314]:
+              - generic [ref=e315]: Otopark
+              - generic [ref=e316]: Var
+          - generic [ref=e317]:
+            - heading "Konum" [level=2] [ref=e318]
+            - generic [ref=e321]:
+              - img [ref=e323]
+              - paragraph [ref=e326]: Harita yükleniyor...
+          - generic [ref=e328]:
+            - generic [ref=e329]:
+              - img [ref=e331]
+              - generic [ref=e334]:
+                - heading "Belgeler" [level=3] [ref=e335]
+                - paragraph [ref=e336]: Mülk belgeleri
+            - generic [ref=e337]:
+              - generic [ref=e338]:
+                - generic [ref=e339]:
+                  - img [ref=e340]
+                  - generic [ref=e342]:
+                    - generic [ref=e343]: Tapu Belgesi
+                    - generic [ref=e345]:
+                      - img [ref=e346]
+                      - text: Doğrulandı
+                - generic [ref=e349]: Talep üzerine
+              - generic [ref=e350]:
+                - generic [ref=e351]:
+                  - img [ref=e352]
+                  - generic [ref=e355]:
+                    - generic [ref=e356]: İskan Belgesi
+                    - generic [ref=e358]: Görüşme sırasında paylaşılacak
+                - generic [ref=e359]: Talep üzerine
+              - generic [ref=e360]:
+                - generic [ref=e361]:
+                  - img [ref=e362]
+                  - generic [ref=e365]:
+                    - generic [ref=e366]: Kat Planı
+                    - generic [ref=e368]:
+                      - img [ref=e369]
+                      - text: Doğrulandı
+                - generic [ref=e372]: Talep üzerine
+            - paragraph [ref=e374]: 🔒 Tüm belgeler doğrulanmış ve güvenli bir şekilde saklanmaktadır.
+          - generic [ref=e376]:
+            - generic [ref=e377]:
+              - img [ref=e379]
+              - generic [ref=e382]:
+                - heading "Konum Avantajları" [level=3] [ref=e383]
+                - paragraph [ref=e384]: Merkez Mahallesi'nin artıları
+            - generic [ref=e385]:
+              - generic [ref=e387]:
+                - img [ref=e389]
+                - generic [ref=e392]:
+                  - heading "Merkezi Konum" [level=4] [ref=e393]
+                  - paragraph [ref=e394]: Her yere kolay ulaşım, tüm kamu hizmetleri yakınınızda.
+              - generic [ref=e396]:
+                - img [ref=e398]
+                - generic [ref=e401]:
+                  - heading "Yerleşim İçin İdeal" [level=4] [ref=e402]
+                  - paragraph [ref=e403]: Okul, hastane, alışveriş merkezleri gibi tüm imkanlar çok yakın.
+              - generic [ref=e405]:
+                - img [ref=e407]
+                - generic [ref=e410]:
+                  - heading "Stabil Değer" [level=4] [ref=e411]
+                  - paragraph [ref=e412]: Merkez bölge her zaman değerli, fiyat artışı istikrarlı.
+              - generic [ref=e414]:
+                - img [ref=e416]
+                - generic [ref=e418]:
+                  - heading "Sosyal Yaşam" [level=4] [ref=e419]
+                  - paragraph [ref=e420]: Çarşı, kafe, restoran gibi sosyal alanlar bol.
+            - generic [ref=e421]:
+              - paragraph [ref=e422]: 💡 Yatırım Tavsiyes
+              - paragraph [ref=e423]: Merkez bölgesinde gayrimenkul almak, hem yaşam kalitesi hem de yatırım değeri açısından akıllıca bir tercih. Karasu emlak piyasasında istikrarlı değer artışı gösteriyor.
+          - generic [ref=e425]:
+            - generic [ref=e426]:
+              - img [ref=e428]
+              - generic [ref=e431]:
+                - heading "Yakın Çevre" [level=3] [ref=e432]
+                - paragraph [ref=e433]: Önemli noktalara uzaklıklar
+            - generic [ref=e434]:
+              - generic [ref=e435]:
+                - img [ref=e437]
+                - generic [ref=e440]:
+                  - generic [ref=e441]: Karasu Devlet Hastanesi
+                  - generic [ref=e442]: 800 m
+              - generic [ref=e443]:
+                - img [ref=e445]
+                - generic [ref=e450]:
+                  - generic [ref=e451]: Merkez İlköğretim
+                  - generic [ref=e452]: 600 m
+              - generic [ref=e453]:
+                - img [ref=e455]
+                - generic [ref=e459]:
+                  - generic [ref=e460]: Otogar
+                  - generic [ref=e461]: 500 m
+              - generic [ref=e462]:
+                - img [ref=e464]
+                - generic [ref=e468]:
+                  - generic [ref=e469]: Çarşı Merkezi
+                  - generic [ref=e470]: 400 m
+              - generic [ref=e471]:
+                - img [ref=e473]
+                - generic [ref=e475]:
+                  - generic [ref=e476]: Kahve Dükkanları
+                  - generic [ref=e477]: 200 m
+              - generic [ref=e478]:
+                - img [ref=e480]
+                - generic [ref=e482]:
+                  - generic [ref=e483]: Şehir Parkı
+                  - generic [ref=e484]: 1 km
+            - paragraph [ref=e486]: 📍 Merkez Mahallesi merkezi konumda, tüm ihtiyaçlarınıza yakın
+          - generic [ref=e488]:
+            - heading "Sık Sorulan Sorular" [level=2] [ref=e489]
+            - generic [ref=e490]:
+              - heading "Merkez Karasu Kiralık Arsa Hakkında Bilgi" [level=3] [ref=e492]:
+                - button "Merkez Karasu Kiralık Arsa Hakkında Bilgi" [ref=e493] [cursor=pointer]:
+                  - generic [ref=e494]: Merkez Karasu Kiralık Arsa Hakkında Bilgi
+                  - img [ref=e495]
+              - heading "Merkez Kiralık Arsa Kira Fiyatı Ne Kadar?" [level=3] [ref=e498]:
+                - button "Merkez Kiralık Arsa Kira Fiyatı Ne Kadar?" [ref=e499] [cursor=pointer]:
+                  - generic [ref=e500]: Merkez Kiralık Arsa Kira Fiyatı Ne Kadar?
+                  - img [ref=e501]
+              - heading "Merkez Kiralık Arsa Özellikleri Nelerdir?" [level=3] [ref=e504]:
+                - button "Merkez Kiralık Arsa Özellikleri Nelerdir?" [ref=e505] [cursor=pointer]:
+                  - generic [ref=e506]: Merkez Kiralık Arsa Özellikleri Nelerdir?
+                  - img [ref=e507]
+              - heading "Merkez Karasu Bölgesi Ulaşım ve Konum Avantajları Nelerdir?" [level=3] [ref=e510]:
+                - button "Merkez Karasu Bölgesi Ulaşım ve Konum Avantajları Nelerdir?" [ref=e511] [cursor=pointer]:
+                  - generic [ref=e512]: Merkez Karasu Bölgesi Ulaşım ve Konum Avantajları Nelerdir?
+                  - img [ref=e513]
+              - heading "Merkez Kiralık Arsa Görüntülemek İçin Nasıl İletişime Geçebilirim?" [level=3] [ref=e516]:
+                - button "Merkez Kiralık Arsa Görüntülemek İçin Nasıl İletişime Geçebilirim?" [ref=e517] [cursor=pointer]:
+                  - generic [ref=e518]: Merkez Kiralık Arsa Görüntülemek İçin Nasıl İletişime Geçebilirim?
+                  - img [ref=e519]
+          - generic [ref=e521]:
+            - heading "Benzer İlanlar" [level=2] [ref=e522]
+            - generic [ref=e523]:
+              - link "Satılık arsa Merkez, Karasu, Karasu , 500 m² Sat Merkez Satılık Arsa Merkez 500 m² ₺480.000" [ref=e524] [cursor=pointer]:
+                - /url: /ilan/merkez-satilik-arsa
+                - generic [ref=e525]:
+                  - generic [ref=e526]:
+                    - img "Satılık arsa Merkez, Karasu, Karasu , 500 m²" [ref=e527]
+                    - generic [ref=e528]: Sat
+                  - generic [ref=e529]:
+                    - heading "Merkez Satılık Arsa" [level=3] [ref=e530]
+                    - paragraph [ref=e531]:
+                      - img [ref=e532]
+                      - text: Merkez
+                    - paragraph [ref=e535]: 500 m²
+                    - paragraph [ref=e536]: ₺480.000
+              - link "Kiralık villa Merkez, Karasu, Karasu , 4 oda, 300 m² Kir Merkez Kiralık Villa Merkez 300 m² • 4 Oda ₺21.000/ay" [ref=e537] [cursor=pointer]:
+                - /url: /ilan/merkez-kiralik-villa
+                - generic [ref=e538]:
+                  - generic [ref=e539]:
+                    - img "Kiralık villa Merkez, Karasu, Karasu , 4 oda, 300 m²" [ref=e540]
+                    - generic [ref=e541]: Kir
+                  - generic [ref=e542]:
+                    - heading "Merkez Kiralık Villa" [level=3] [ref=e543]
+                    - paragraph [ref=e544]:
+                      - img [ref=e545]
+                      - text: Merkez
+                    - paragraph [ref=e548]: 300 m² • 4 Oda
+                    - paragraph [ref=e549]: ₺21.000/ay
+              - link "Kiralık daire Merkez, Karasu, Karasu , 2 oda, 80 m² Kir Merkez Kiralık Daire Merkez 80 m² • 2 Oda ₺4.000/ay" [ref=e550] [cursor=pointer]:
+                - /url: /ilan/merkez-kiralik-daire
+                - generic [ref=e551]:
+                  - generic [ref=e552]:
+                    - img "Kiralık daire Merkez, Karasu, Karasu , 2 oda, 80 m²" [ref=e553]
+                    - generic [ref=e554]: Kir
+                  - generic [ref=e555]:
+                    - heading "Merkez Kiralık Daire" [level=3] [ref=e556]
+                    - paragraph [ref=e557]:
+                      - img [ref=e558]
+                      - text: Merkez
+                    - paragraph [ref=e561]: 80 m² • 2 Oda
+                    - paragraph [ref=e562]: ₺4.000/ay
+        - complementary [ref=e563]:
+          - generic [ref=e564]:
+            - generic [ref=e566]:
+              - generic [ref=e567]: Fiyat
+              - generic [ref=e568]: ₺1.714/ay
+            - generic [ref=e569]:
+              - heading "İletişim" [level=3] [ref=e570]
+              - paragraph [ref=e572]: Karasu Emlak
+              - generic [ref=e573]:
+                - link "+90 264 123 45 67" [ref=e574] [cursor=pointer]:
+                  - /url: tel:+90 264 123 45 67
+                  - img [ref=e575]
+                  - generic [ref=e577]: +90 264 123 45 67
+                - link "WhatsApp" [ref=e578] [cursor=pointer]:
+                  - /url: https://wa.me/905321234567
+                  - img [ref=e579]
+                  - generic [ref=e581]: WhatsApp
+                - link "info@karasuemlak.net" [ref=e582] [cursor=pointer]:
+                  - /url: mailto:info@karasuemlak.net
+                  - img [ref=e583]
+                  - generic [ref=e586]: info@karasuemlak.net
+              - generic [ref=e587]:
+                - link "İletişime Geçin" [ref=e588] [cursor=pointer]:
+                  - /url: tel:+905325933854
+                  - img [ref=e589]
+                  - text: İletişime Geçin
+                - link "+90 264 123 45 67" [ref=e591] [cursor=pointer]:
+                  - /url: tel:+90 264 123 45 67
+                  - img [ref=e592]
+                  - generic [ref=e594]: +90 264 123 45 67
+                - link "WhatsApp ile Yaz" [ref=e595] [cursor=pointer]:
+                  - /url: https://wa.me/905321234567
+                  - img [ref=e596]
+                  - text: WhatsApp ile Yaz
+            - generic [ref=e598]:
+              - heading "İlan Bilgileri" [level=3] [ref=e599]
+              - generic [ref=e600]:
+                - generic [ref=e601]:
+                  - generic [ref=e602]: "İlan No:"
+                  - generic [ref=e603]: 530f04c3
+                - generic [ref=e604]:
+                  - generic [ref=e605]: "İlan Tarihi:"
+                  - generic [ref=e606]: 06.01.2026
+                - generic [ref=e607]:
+                  - generic [ref=e608]: "Güncelleme:"
+                  - generic [ref=e609]: 15.01.2026
+                - generic [ref=e610]:
+                  - generic [ref=e611]: "Durum:"
+                  - generic [ref=e612]: Müsait
+              - generic [ref=e613]:
+                - generic [ref=e615]:
+                  - generic [ref=e616]:
+                    - button "Facebook'ta paylaş" [ref=e617] [cursor=pointer]:
+                      - img [ref=e618]
+                    - button "X (Twitter)'da paylaş" [ref=e620] [cursor=pointer]:
+                      - img [ref=e621]
+                    - button "WhatsApp'ta paylaş" [ref=e623] [cursor=pointer]:
+                      - img [ref=e624]
+                    - button "LinkedIn'de paylaş" [ref=e626] [cursor=pointer]:
+                      - img [ref=e627]
+                    - button "E-posta ile paylaş" [ref=e631] [cursor=pointer]:
+                      - img [ref=e632]
+                    - button "Linki kopyala" [ref=e635] [cursor=pointer]:
+                      - img [ref=e636]
+                    - button "QR kod göster" [ref=e639] [cursor=pointer]:
+                      - img [ref=e640]
+                  - button "Daha Fazla Platform" [ref=e646] [cursor=pointer]
+                  - generic [ref=e647]: Bu ilanı paylaşarak daha fazla kişiye ulaşmasına yardımcı olun
+                - button "Karşılaştırmaya Ekle" [ref=e648] [cursor=pointer]:
+                  - img [ref=e649]
+                  - text: Karşılaştırmaya Ekle
+            - generic [ref=e653]:
+              - heading "QR Kod Oluşturucu" [level=3] [ref=e655]:
+                - img [ref=e656]
+                - text: QR Kod Oluşturucu
+              - button "QR Kod Oluştur" [ref=e663] [cursor=pointer]
+            - generic [ref=e683]:
+              - generic [ref=e684]:
+                - img [ref=e685]
+                - text: Doğrulanmış İlan
+              - generic [ref=e687]:
+                - img [ref=e688]
+                - text: Öne Çıkan
+              - generic [ref=e690]:
+                - img [ref=e691]
+                - text: Doğrulanmış Emlakçı
+            - generic [ref=e695]:
+              - generic [ref=e696]:
+                - heading "Görüntüleme Randevusu Oluştur" [level=3] [ref=e697]
+                - paragraph [ref=e698]: İnköy Müstakil Ev için görüntüleme randevusu oluşturun
+              - generic [ref=e699]:
+                - generic [ref=e700]:
+                  - generic [ref=e701]: Ad Soyad *
+                  - textbox "Ad Soyad *" [ref=e702]:
+                    - /placeholder: Adınız ve soyadınız
+                - generic [ref=e703]:
+                  - generic [ref=e704]: E-posta *
+                  - textbox "E-posta *" [ref=e705]:
+                    - /placeholder: ornek@email.com
+                - generic [ref=e706]:
+                  - generic [ref=e707]: Telefon *
+                  - textbox "Telefon *" [ref=e708]:
+                    - /placeholder: 0532 593 38 54
+                - generic [ref=e709]:
+                  - generic [ref=e710]:
+                    - generic [ref=e711]:
+                      - img [ref=e712]
+                      - text: Tercih Edilen Tarih *
+                    - textbox "Tercih Edilen Tarih *" [ref=e714]
+                  - generic [ref=e715]:
+                    - generic [ref=e716]:
+                      - img [ref=e717]
+                      - text: Tercih Edilen Saat *
+                    - combobox "Tercih Edilen Saat *" [ref=e720] [cursor=pointer]:
+                      - generic: Saat seçiniz
+                      - img [ref=e721]
+                    - combobox [ref=e723]
+                - generic [ref=e724]:
+                  - generic [ref=e725]: Mesajınız (Opsiyonel)
+                  - textbox "Mesajınız (Opsiyonel)" [ref=e726]:
+                    - /placeholder: Eklemek istediğiniz bilgiler...
+                - paragraph [ref=e728]:
+                  - strong [ref=e729]: "Not:"
+                  - text: Randevu talebiniz onaylandıktan sonra size e-posta ve SMS ile bildirim gönderilecektir. Randevu saatinden önce telefon ile teyit alınacaktır.
+                - button "Randevu Oluştur" [ref=e730] [cursor=pointer]
+            - generic [ref=e731]:
+              - generic [ref=e732]:
+                - img [ref=e734]
+                - generic [ref=e736]:
+                  - heading "Fiyat Geçmişi" [level=3] [ref=e737]
+                  - paragraph [ref=e738]: Son 3 aylık değişim
+              - generic [ref=e739]:
+                - generic [ref=e740]:
+                  - generic [ref=e741]:
+                    - img [ref=e743]
+                    - generic [ref=e746]:
+                      - generic [ref=e747]: 3 ay önce
+                      - generic [ref=e748]: ↓ %5 düşüş
+                  - generic [ref=e749]:
+                    - generic [ref=e750]: ₺1.800
+                    - generic [ref=e751]: /ay
+                - generic [ref=e752]:
+                  - generic [ref=e753]:
+                    - img [ref=e755]
+                    - generic [ref=e758]:
+                      - generic [ref=e759]: 2 ay önce
+                      - generic [ref=e760]: ↓ %2 düşüş
+                  - generic [ref=e761]:
+                    - generic [ref=e762]: ₺1.765
+                    - generic [ref=e763]: /ay
+                - generic [ref=e764]:
+                  - generic [ref=e765]:
+                    - img [ref=e767]
+                    - generic [ref=e770]:
+                      - generic [ref=e771]: 1 ay önce
+                      - generic [ref=e772]: ↓ %1 düşüş
+                  - generic [ref=e773]:
+                    - generic [ref=e774]: ₺1.731
+                    - generic [ref=e775]: /ay
+                - generic [ref=e776]:
+                  - generic [ref=e777]:
+                    - img [ref=e779]
+                    - generic [ref=e781]: Şu an
+                  - generic [ref=e782]:
+                    - generic [ref=e783]: ₺1.714
+                    - generic [ref=e784]: /ay
+              - paragraph [ref=e786]: 💰 Fiyat düşüşü! Son 3 ayda %5 daha uygun
+            - generic [ref=e787]:
+              - generic [ref=e788]:
+                - heading "Merkez Mahallesi İstatistikleri" [level=3] [ref=e789]
+                - paragraph [ref=e790]: Merkezi konum avantajı. Tüm ihtiyaçlara yakın, ulaşım kolay.
+              - generic [ref=e791]:
+                - generic [ref=e792]:
+                  - generic [ref=e793]:
+                    - img [ref=e794]
+                    - generic [ref=e797]: Aktif İlan
+                  - generic [ref=e798]: "38"
+                - generic [ref=e799]:
+                  - generic [ref=e800]:
+                    - img [ref=e801]
+                    - generic [ref=e804]: Değer Artışı
+                  - generic [ref=e805]: "%7.2"
+                  - generic [ref=e806]: Yıllık
+                - generic [ref=e807]:
+                  - generic [ref=e808]:
+                    - img [ref=e809]
+                    - generic [ref=e811]: Ort. Fiyat
+                  - generic [ref=e812]: ₺2.4M
+                - generic [ref=e813]:
+                  - generic [ref=e814]:
+                    - img [ref=e815]
+                    - generic [ref=e820]: Ort. Satış
+                  - generic [ref=e821]: "35"
+                  - generic [ref=e822]: Gün
+              - link "Merkez Mahallesi Tüm İlanlar" [ref=e823] [cursor=pointer]:
+                - /url: /mahalle/merkez
+                - button "Merkez Mahallesi Tüm İlanlar" [ref=e824]
+            - generic [ref=e825]:
+              - generic [ref=e826]:
+                - heading "Bilgi Talep Edin" [level=3] [ref=e827]
+                - paragraph [ref=e828]: Size en kısa sürede dönüş yapalım
+              - generic [ref=e829]:
+                - generic [ref=e830]:
+                  - generic [ref=e831]: Adınız Soyadınız*
+                  - textbox "Adınız SoyadınızZorunlu alan" [ref=e832]:
+                    - /placeholder: Adınız Soyadınız
+                - generic [ref=e833]:
+                  - generic [ref=e834]: E-posta Adresiniz*
+                  - textbox "E-posta AdresinizZorunlu alan Zorunlu alan" [ref=e835]:
+                    - /placeholder: ornek@email.com
+                - generic [ref=e836]:
+                  - generic [ref=e837]: Telefon Numaranız*
+                  - textbox "Telefon NumaranızZorunlu alan" [ref=e838]:
+                    - /placeholder: 05XX XXX XX XX
+                - generic [ref=e839]:
+                  - generic [ref=e840]: Mesajınız
+                  - textbox "Mesajınız" [ref=e841]:
+                    - /placeholder: İlan hakkında merak ettikleriniz...
+                    - text: Merhaba, "İnköy Müstakil Ev" ilanı hakkında bilgi almak istiyorum.
+                  - paragraph [ref=e842]: İsteğe bağlı
+                - generic [ref=e843]:
+                  - generic [ref=e844]: Tercih Ettiğiniz İletişim Yöntemi
+                  - generic [ref=e845]:
+                    - button "📞 Telefon" [ref=e846] [cursor=pointer]
+                    - button "💬 WhatsApp" [ref=e847] [cursor=pointer]
+                    - button "✉️ E-posta" [ref=e848] [cursor=pointer]
+                - button "Bilgi Talep Et" [disabled]:
+                  - img
+                  - text: Bilgi Talep Et
+                - paragraph [ref=e849]:
+                  - text: Formun gönderilerek
+                  - link "gizlilik politikasını" [ref=e850] [cursor=pointer]:
+                    - /url: /gizlilik-politikasi
+                  - text: kabul etmiş olursunuz.
+            - generic [ref=e851]:
+              - generic [ref=e852]:
+                - heading "Benzer İlanlar" [level=3] [ref=e853]
+                - paragraph [ref=e854]: Size uygun diğer seçenekler
+              - generic [ref=e855]:
+                - link "Merkez Satılık Arsa Sat Merkez Satılık Arsa Merkez 500 m² ₺480.000" [ref=e856] [cursor=pointer]:
+                  - /url: /ilan/merkez-satilik-arsa
+                  - generic [ref=e857]:
+                    - img "Merkez Satılık Arsa" [ref=e859]
+                    - generic [ref=e861]: Sat
+                  - generic [ref=e862]:
+                    - heading "Merkez Satılık Arsa" [level=4] [ref=e863]
+                    - generic [ref=e864]:
+                      - img [ref=e865]
+                      - generic [ref=e868]: Merkez
+                    - generic [ref=e870]:
+                      - img [ref=e871]
+                      - text: 500 m²
+                    - generic [ref=e873]: ₺480.000
+                  - img [ref=e875]
+                - link "Merkez Kiralık Villa Kir Merkez Kiralık Villa Merkez 300 m² 4 Oda ₺21.000/ay" [ref=e877] [cursor=pointer]:
+                  - /url: /ilan/merkez-kiralik-villa
+                  - generic [ref=e878]:
+                    - img "Merkez Kiralık Villa" [ref=e880]
+                    - generic [ref=e882]: Kir
+                  - generic [ref=e883]:
+                    - heading "Merkez Kiralık Villa" [level=4] [ref=e884]
+                    - generic [ref=e885]:
+                      - img [ref=e886]
+                      - generic [ref=e889]: Merkez
+                    - generic [ref=e890]:
+                      - generic [ref=e891]:
+                        - img [ref=e892]
+                        - text: 300 m²
+                      - generic [ref=e894]:
+                        - img [ref=e895]
+                        - text: 4 Oda
+                    - generic [ref=e897]: ₺21.000/ay
+                  - img [ref=e899]
+                - link "Merkez Kiralık Daire Kir Merkez Kiralık Daire Merkez 80 m² 2 Oda ₺4.000/ay" [ref=e901] [cursor=pointer]:
+                  - /url: /ilan/merkez-kiralik-daire
+                  - generic [ref=e902]:
+                    - img "Merkez Kiralık Daire" [ref=e904]
+                    - generic [ref=e906]: Kir
+                  - generic [ref=e907]:
+                    - heading "Merkez Kiralık Daire" [level=4] [ref=e908]
+                    - generic [ref=e909]:
+                      - img [ref=e910]
+                      - generic [ref=e913]: Merkez
+                    - generic [ref=e914]:
+                      - generic [ref=e915]:
+                        - img [ref=e916]
+                        - text: 80 m²
+                      - generic [ref=e918]:
+                        - img [ref=e919]
+                        - text: 2 Oda
+                    - generic [ref=e921]: ₺4.000/ay
+                  - img [ref=e923]
+              - link "Tümünü Gör" [ref=e926] [cursor=pointer]:
+                - /url: /satilik
+                - text: Tümünü Gör
+                - img [ref=e927]
+      - img [ref=e934]
+      - generic [ref=e957]:
+        - generic [ref=e958]:
+          - generic [ref=e959]:
+            - generic [ref=e960]:
+              - heading "Benzer İlanlar" [level=2] [ref=e961]
+              - paragraph [ref=e962]: 3 ilan bulundu • Size uygun seçenekler
+            - generic [ref=e963]:
+              - generic [ref=e964]:
+                - generic [ref=e965]: Ortalama Fiyat
+                - generic [ref=e966]: ₺168.333
+              - generic [ref=e968]:
+                - generic [ref=e969]: Fiyat Farkı
+                - generic [ref=e970]:
+                  - img [ref=e971]
+                  - text: 99.0%
+          - generic [ref=e974]:
+            - generic [ref=e975]:
+              - img [ref=e976]
+              - generic [ref=e978]: "Filtrele:"
+            - button "Tümü" [ref=e979] [cursor=pointer]
+            - button "Aynı Mahalle" [ref=e980] [cursor=pointer]
+            - button "Benzer Fiyat" [ref=e981] [cursor=pointer]
+            - button "Benzer Özellikler" [ref=e982] [cursor=pointer]
+            - generic [ref=e983]:
+              - img [ref=e984]
+              - combobox "Sıralama seçeneği" [ref=e987] [cursor=pointer]:
+                - option "En Benzer" [selected]
+                - 'option "Fiyat: Düşükten Yükseğe"'
+                - 'option "Fiyat: Yüksekten Düşüğe"'
+                - 'option "Alan: Büyükten Küçüğe"'
+                - 'option "Alan: Küçükten Büyüğe"'
+                - option "En Yeni"
+        - generic [ref=e988]:
+          - link "Merkez Satılık Arsa Satılık 27905% 3 görsel Merkez Satılık Arsa Merkez, Karasu 500 m² ₺480.000 ₺960/m²" [ref=e989] [cursor=pointer]:
+            - /url: /ilan/merkez-satilik-arsa
+            - generic [ref=e990]:
+              - img "Merkez Satılık Arsa" [ref=e992]
+              - generic [ref=e994]:
+                - generic [ref=e996]: Satılık
+                - generic [ref=e997]:
+                  - img [ref=e998]
+                  - text: 27905%
+              - generic [ref=e1001]: 3 görsel
+            - generic [ref=e1002]:
+              - heading "Merkez Satılık Arsa" [level=3] [ref=e1003]
+              - generic [ref=e1004]:
+                - img [ref=e1005]
+                - generic [ref=e1008]: Merkez, Karasu
+              - generic [ref=e1010]:
+                - img [ref=e1011]
+                - generic [ref=e1013]: 500 m²
+              - generic [ref=e1015]:
+                - generic [ref=e1016]: ₺480.000
+                - generic [ref=e1017]: ₺960/m²
+          - link "Merkez Kiralık Villa Kiralık 1125% 3 görsel Merkez Kiralık Villa Merkez, Karasu 300 m² 4+1 3 4. Kat ₺21.000/ay ₺70/m²" [ref=e1018] [cursor=pointer]:
+            - /url: /ilan/merkez-kiralik-villa
+            - generic [ref=e1019]:
+              - img "Merkez Kiralık Villa" [ref=e1021]
+              - generic [ref=e1023]:
+                - generic [ref=e1025]: Kiralık
+                - generic [ref=e1026]:
+                  - img [ref=e1027]
+                  - text: 1125%
+              - generic [ref=e1030]: 3 görsel
+            - generic [ref=e1031]:
+              - heading "Merkez Kiralık Villa" [level=3] [ref=e1032]
+              - generic [ref=e1033]:
+                - img [ref=e1034]
+                - generic [ref=e1037]: Merkez, Karasu
+              - generic [ref=e1038]:
+                - generic [ref=e1039]:
+                  - img [ref=e1040]
+                  - generic [ref=e1042]: 300 m²
+                - generic [ref=e1043]:
+                  - img [ref=e1044]
+                  - generic [ref=e1046]: 4+1
+                - generic [ref=e1047]:
+                  - img [ref=e1048]
+                  - generic [ref=e1051]: "3"
+                - generic [ref=e1052]:
+                  - img [ref=e1053]
+                  - generic [ref=e1057]: 4. Kat
+              - generic [ref=e1059]:
+                - generic [ref=e1060]: ₺21.000/ay
+                - generic [ref=e1061]: ₺70/m²
+          - link "Merkez Kiralık Daire Kiralık 133% 3 görsel Merkez Kiralık Daire Merkez, Karasu 80 m² 2+1 2 2. Kat Otopark ₺4.000/ay ₺50/m²" [ref=e1062] [cursor=pointer]:
+            - /url: /ilan/merkez-kiralik-daire
+            - generic [ref=e1063]:
+              - img "Merkez Kiralık Daire" [ref=e1065]
+              - generic [ref=e1067]:
+                - generic [ref=e1069]: Kiralık
+                - generic [ref=e1070]:
+                  - img [ref=e1071]
+                  - text: 133%
+              - generic [ref=e1074]: 3 görsel
+            - generic [ref=e1075]:
+              - heading "Merkez Kiralık Daire" [level=3] [ref=e1076]
+              - generic [ref=e1077]:
+                - img [ref=e1078]
+                - generic [ref=e1081]: Merkez, Karasu
+              - generic [ref=e1082]:
+                - generic [ref=e1083]:
+                  - img [ref=e1084]
+                  - generic [ref=e1086]: 80 m²
+                - generic [ref=e1087]:
+                  - img [ref=e1088]
+                  - generic [ref=e1090]: 2+1
+                - generic [ref=e1091]:
+                  - img [ref=e1092]
+                  - generic [ref=e1095]: "2"
+                - generic [ref=e1096]:
+                  - img [ref=e1097]
+                  - generic [ref=e1101]: 2. Kat
+              - generic [ref=e1103]: Otopark
+              - generic [ref=e1105]:
+                - generic [ref=e1106]: ₺4.000/ay
+                - generic [ref=e1107]: ₺50/m²
+      - generic [ref=e1111]:
+        - generic [ref=e1112]:
+          - heading "Yorumlar" [level=2] [ref=e1113]:
+            - img [ref=e1114]
+            - text: Yorumlar
+          - paragraph [ref=e1116]: 0 yorum
+        - button "Yorum Yap" [ref=e1117] [cursor=pointer]:
+          - img [ref=e1118]
+          - text: Yorum Yap
+      - generic [ref=e1138]:
+        - generic [ref=e1139]:
+          - img [ref=e1141]
+          - generic [ref=e1143]:
+            - heading "İlgili Yazılar" [level=3] [ref=e1144]
+            - paragraph [ref=e1145]: Faydalı içerikler
+        - generic [ref=e1146]:
+          - link "Yatırım 25.02.2026 Merkez Mahallesi Emlak Yatırım Rehberi Merkez bölgesinde gayrimenkul yatırımı yapmadan önce bilmeniz gereken her şey." [ref=e1147] [cursor=pointer]:
+            - /url: /blog/merkez-emlak-yatirim-rehberi
+            - generic [ref=e1149]:
+              - generic [ref=e1150]:
+                - generic [ref=e1151]:
+                  - generic [ref=e1152]: Yatırım
+                  - generic [ref=e1153]:
+                    - img [ref=e1154]
+                    - text: 25.02.2026
+                - heading "Merkez Mahallesi Emlak Yatırım Rehberi" [level=4] [ref=e1156]
+                - paragraph [ref=e1157]: Merkez bölgesinde gayrimenkul yatırımı yapmadan önce bilmeniz gereken her şey.
+              - img [ref=e1158]
+          - link "Rehber 18.02.2026 Karasu'da Ev Alırken Dikkat Edilmesi Gerekenler Karasu'da emlak alımı öncesi kontrol etmeniz gereken kritik noktalar." [ref=e1160] [cursor=pointer]:
+            - /url: /blog/karasu-ev-alirken-dikkat-edilmesi-gerekenler
+            - generic [ref=e1162]:
+              - generic [ref=e1163]:
+                - generic [ref=e1164]:
+                  - generic [ref=e1165]: Rehber
+                  - generic [ref=e1166]:
+                    - img [ref=e1167]
+                    - text: 18.02.2026
+                - heading "Karasu'da Ev Alırken Dikkat Edilmesi Gerekenler" [level=4] [ref=e1169]
+                - paragraph [ref=e1170]: Karasu'da emlak alımı öncesi kontrol etmeniz gereken kritik noktalar.
+              - img [ref=e1171]
+          - link "Piyasa 11.02.2026 Sakarya Karasu Emlak Piyasası 2025 2025 yılında Karasu emlak piyasasının gidişatı ve beklentiler." [ref=e1173] [cursor=pointer]:
+            - /url: /blog/sakarya-karasu-emlak-piyasasi-2025
+            - generic [ref=e1175]:
+              - generic [ref=e1176]:
+                - generic [ref=e1177]:
+                  - generic [ref=e1178]: Piyasa
+                  - generic [ref=e1179]:
+                    - img [ref=e1180]
+                    - text: 11.02.2026
+                - heading "Sakarya Karasu Emlak Piyasası 2025" [level=4] [ref=e1182]
+                - paragraph [ref=e1183]: 2025 yılında Karasu emlak piyasasının gidişatı ve beklentiler.
+              - img [ref=e1184]
+        - link "Tüm Yazıları Gör" [ref=e1187] [cursor=pointer]:
+          - /url: /blog
+          - text: Tüm Yazıları Gör
+          - img [ref=e1188]
+      - generic [ref=e1192]:
+        - generic [ref=e1193]:
+          - img [ref=e1194]
+          - heading "İlgili Sayfalar" [level=3] [ref=e1197]
+        - generic [ref=e1198]:
+          - link "Karasu Emlak" [ref=e1199] [cursor=pointer]:
+            - /url: /
+            - img [ref=e1200]
+            - text: Karasu Emlak
+          - link "Kiralık İlanlar" [ref=e1203] [cursor=pointer]:
+            - /url: /kiralik
+            - img [ref=e1204]
+            - text: Kiralık İlanlar
+          - link "Kiralık Arsa" [ref=e1208] [cursor=pointer]:
+            - /url: /kiralik/arsa
+            - img [ref=e1209]
+            - text: Kiralık Arsa
+          - link "Merkez Mahallesi" [ref=e1213] [cursor=pointer]:
+            - /url: /mahalle/merkez
+            - img [ref=e1214]
+            - text: Merkez Mahallesi
+          - link "Emlak Rehberi" [ref=e1216] [cursor=pointer]:
+            - /url: /blog
+            - img [ref=e1217]
+            - text: Emlak Rehberi
+          - link "İletişim" [ref=e1220] [cursor=pointer]:
+            - /url: /iletisim
+            - img [ref=e1221]
+            - text: İletişim
+  - contentinfo "Site footer" [ref=e1223]:
+    - generic [ref=e1225]:
+      - generic [ref=e1226]:
+        - generic [ref=e1227]:
+          - heading "İstatistikler" [level=4] [ref=e1228]:
+            - img [ref=e1229]
+            - text: İstatistikler
+          - list [ref=e1232]:
+            - listitem [ref=e1233]:
+              - generic [ref=e1234]: Toplam İlan
+              - generic [ref=e1235]: 103+
+            - listitem [ref=e1236]:
+              - generic [ref=e1237]: Satılık
+              - generic [ref=e1238]: 75+
+            - listitem [ref=e1239]:
+              - generic [ref=e1240]: Kiralık
+              - generic [ref=e1241]: 28+
+            - listitem [ref=e1242]:
+              - generic [ref=e1243]: Mutlu Müşteri
+              - generic [ref=e1244]: 500+
+        - generic [ref=e1245]:
+          - heading "Güvenilirlik" [level=4] [ref=e1246]:
+            - img [ref=e1247]
+            - text: Güvenilirlik
+          - list [ref=e1249]:
+            - listitem [ref=e1250]:
+              - img [ref=e1251]
+              - generic [ref=e1254]: Güvenilir Emlak
+            - listitem [ref=e1255]:
+              - img [ref=e1256]
+              - generic [ref=e1259]: Güvenli İşlem
+            - listitem [ref=e1260]:
+              - img [ref=e1261]
+              - generic [ref=e1263]: SSL Güvenli
+            - listitem [ref=e1264]:
+              - img [ref=e1265]
+              - generic [ref=e1268]: 15+ Yıl Deneyim
+        - generic [ref=e1269]:
+          - heading "Hızlı İşlemler" [level=4] [ref=e1270]:
+            - img [ref=e1271]
+            - text: Hızlı İşlemler
+          - list [ref=e1274]:
+            - listitem [ref=e1275]:
+              - link "Satılık İlan Ara" [ref=e1276] [cursor=pointer]:
+                - /url: /satilik
+                - img [ref=e1277]
+                - text: Satılık İlan Ara
+            - listitem [ref=e1280]:
+              - link "Kiralık İlan Ara" [ref=e1281] [cursor=pointer]:
+                - /url: /kiralik
+                - img [ref=e1282]
+                - text: Kiralık İlan Ara
+            - listitem [ref=e1285]:
+              - link "Kredi Hesaplayıcı" [ref=e1286] [cursor=pointer]:
+                - /url: /kredi-hesaplayici
+                - img [ref=e1287]
+                - text: Kredi Hesaplayıcı
+            - listitem [ref=e1289]:
+              - link "İlan Karşılaştır" [ref=e1290] [cursor=pointer]:
+                - /url: /karsilastir
+                - img [ref=e1291]
+                - text: İlan Karşılaştır
+            - listitem [ref=e1294]:
+              - link "Sık Sorulan Sorular" [ref=e1295] [cursor=pointer]:
+                - /url: /sss
+                - img [ref=e1296]
+                - text: Sık Sorulan Sorular
+        - generic [ref=e1299]:
+          - heading "E-Bülten" [level=4] [ref=e1300]:
+            - img [ref=e1301]
+            - text: E-Bülten
+          - generic [ref=e1304]:
+            - generic [ref=e1305]:
+              - generic [ref=e1306]:
+                - generic [ref=e1308]:
+                  - generic [ref=e1309]: "*"
+                  - textbox "E-posta adresiniz" [ref=e1310]
+                - button "Newsletter'e abone ol" [disabled]: Abone Ol
+              - paragraph [ref=e1311]: Yeni ilanlar ve güncellemelerden haberdar olmak için e-posta adresinizi girin.
+            - generic [ref=e1312]:
+              - img [ref=e1313]
+              - generic [ref=e1316]: Bildirimler Aktif
+            - generic [ref=e1317]:
+              - link "Facebook" [ref=e1318] [cursor=pointer]:
+                - /url: https://facebook.com/karasuemlak
+                - img [ref=e1319]
+              - link "Instagram" [ref=e1321] [cursor=pointer]:
+                - /url: https://instagram.com/karasuemlak
+                - img [ref=e1322]
+              - link "Twitter" [ref=e1325] [cursor=pointer]:
+                - /url: https://twitter.com/karasuemlak
+                - img [ref=e1326]
+      - generic [ref=e1328]:
+        - generic [ref=e1329]:
+          - generic [ref=e1330]:
+            - generic [ref=e1331]:
+              - img [ref=e1335]
+              - generic [ref=e1338]:
+                - heading "Karasu Emlak" [level=3] [ref=e1339]
+                - paragraph [ref=e1340]: Gayrimenkul Danışmanlığı
+            - paragraph [ref=e1341]: Karasu ve çevresinde 15 yıldır güvenilir emlak danışmanlığı hizmeti sunuyoruz. Hayalinizdeki evi bulmak için buradayız.
+            - generic [ref=e1342]:
+              - img [ref=e1343]
+              - generic [ref=e1346]: Merkez Mahallesi, Atatürk Caddesi No:123, 54500 Karasu / Sakarya
+          - generic [ref=e1347]:
+            - heading "Sosyal Medya" [level=4] [ref=e1348]
+            - generic [ref=e1349]:
+              - link "Facebook" [ref=e1350] [cursor=pointer]:
+                - /url: https://facebook.com/karasuemlak
+                - img [ref=e1351]
+              - link "Instagram" [ref=e1353] [cursor=pointer]:
+                - /url: https://instagram.com/karasuemlak
+                - img [ref=e1354]
+              - link "Twitter" [ref=e1357] [cursor=pointer]:
+                - /url: https://twitter.com/karasuemlak
+                - img [ref=e1358]
+        - generic [ref=e1360]:
+          - heading "İlanlar" [level=4] [ref=e1361]:
+            - img [ref=e1362]
+            - text: İlanlar
+          - list [ref=e1365]:
+            - listitem [ref=e1366]:
+              - link "Satılık İlanlar" [ref=e1367] [cursor=pointer]:
+                - /url: /satilik
+                - img [ref=e1368]
+                - text: Satılık İlanlar
+            - listitem [ref=e1371]:
+              - link "Kiralık İlanlar" [ref=e1372] [cursor=pointer]:
+                - /url: /kiralik
+                - img [ref=e1373]
+                - text: Kiralık İlanlar
+            - listitem [ref=e1377]:
+              - link "Satılık Daire" [ref=e1378] [cursor=pointer]:
+                - /url: /satilik-daire
+                - img [ref=e1379]
+                - text: Satılık Daire
+            - listitem [ref=e1382]:
+              - link "Kiralık Daire" [ref=e1383] [cursor=pointer]:
+                - /url: /kiralik-daire
+                - img [ref=e1384]
+                - text: Kiralık Daire
+            - listitem [ref=e1388]:
+              - link "Karasu Satılık Daire" [ref=e1389] [cursor=pointer]:
+                - /url: /karasu-satilik-daire
+                - img [ref=e1390]
+                - text: Karasu Satılık Daire
+            - listitem [ref=e1393]:
+              - link "Karasu Kiralık Daire" [ref=e1394] [cursor=pointer]:
+                - /url: /karasu-kiralik-daire
+                - img [ref=e1395]
+                - text: Karasu Kiralık Daire
+            - listitem [ref=e1398]:
+              - link "İlan Ekle" [ref=e1399] [cursor=pointer]:
+                - /url: /ilan-ekle
+                - img [ref=e1400]
+                - text: İlan Ekle
+          - generic [ref=e1403]:
+            - heading "Satılık Kategoriler" [level=5] [ref=e1404]
+            - list [ref=e1405]:
+              - listitem [ref=e1406]:
+                - link "Satılık Daire" [ref=e1407] [cursor=pointer]:
+                  - /url: /satilik?tip=daire
+              - listitem [ref=e1408]:
+                - link "Satılık Villa" [ref=e1409] [cursor=pointer]:
+                  - /url: /satilik?tip=villa
+              - listitem [ref=e1410]:
+                - link "Satılık Yazlık" [ref=e1411] [cursor=pointer]:
+                  - /url: /satilik?tip=yazlik
+              - listitem [ref=e1412]:
+                - link "Satılık Arsa" [ref=e1413] [cursor=pointer]:
+                  - /url: /satilik?tip=arsa
+        - generic [ref=e1414]:
+          - heading "Bölgeler & İçerik" [level=4] [ref=e1415]:
+            - img [ref=e1416]
+            - text: Bölgeler & İçerik
+          - list [ref=e1419]:
+            - listitem [ref=e1420]:
+              - link "Karasu" [ref=e1421] [cursor=pointer]:
+                - /url: /karasu
+            - listitem [ref=e1422]:
+              - link "Kocaali" [ref=e1423] [cursor=pointer]:
+                - /url: /kocaali
+            - listitem [ref=e1424]:
+              - link "Sapanca" [ref=e1425] [cursor=pointer]:
+                - /url: /sapanca
+            - listitem [ref=e1426]:
+              - link "Gezilecek Yerler" [ref=e1427] [cursor=pointer]:
+                - /url: /karasu/gezilecek-yerler
+            - listitem [ref=e1428]:
+              - link "Hastaneler" [ref=e1429] [cursor=pointer]:
+                - /url: /karasu/hastaneler
+          - generic [ref=e1430]:
+            - heading "Blog & Makaleler" [level=5] [ref=e1431]
+            - list [ref=e1432]:
+              - listitem [ref=e1433]:
+                - link "Blog" [ref=e1434] [cursor=pointer]:
+                  - /url: /blog
+                  - img [ref=e1435]
+                  - text: Blog
+              - listitem [ref=e1438]:
+                - link "Haberler" [ref=e1439] [cursor=pointer]:
+                  - /url: /haberler
+                  - img [ref=e1440]
+                  - text: Haberler
+              - listitem [ref=e1443]:
+                - link "Rehber" [ref=e1444] [cursor=pointer]:
+                  - /url: /rehber
+                  - img [ref=e1445]
+                  - text: Rehber
+              - listitem [ref=e1447]:
+                - link "Yorumlar" [ref=e1448] [cursor=pointer]:
+                  - /url: /yorumlar
+              - listitem [ref=e1449]:
+                - link "SSS" [ref=e1450] [cursor=pointer]:
+                  - /url: /sss
+        - generic [ref=e1451]:
+          - heading "Araçlar & Yasal" [level=4] [ref=e1452]:
+            - img [ref=e1453]
+            - text: Araçlar & Yasal
+          - list [ref=e1455]:
+            - listitem [ref=e1456]:
+              - link "Kredi Hesaplayıcı" [ref=e1457] [cursor=pointer]:
+                - /url: /kredi-hesaplayici
+                - img [ref=e1458]
+                - text: Kredi Hesaplayıcı
+            - listitem [ref=e1460]:
+              - link "Yatırım Hesaplayıcı" [ref=e1461] [cursor=pointer]:
+                - /url: /yatirim-hesaplayici
+                - img [ref=e1462]
+                - text: Yatırım Hesaplayıcı
+            - listitem [ref=e1465]:
+              - link "İlan Karşılaştır" [ref=e1466] [cursor=pointer]:
+                - /url: /karsilastir
+            - listitem [ref=e1467]:
+              - link "Favorilerim" [ref=e1468] [cursor=pointer]:
+                - /url: /favorilerim
+                - img [ref=e1469]
+                - text: Favorilerim
+            - listitem [ref=e1471]: Yasal
+            - listitem [ref=e1472]:
+              - link "Gizlilik Politikası" [ref=e1473] [cursor=pointer]:
+                - /url: /gizlilik-politikasi
+            - listitem [ref=e1474]:
+              - link "Çerez Politikası" [ref=e1475] [cursor=pointer]:
+                - /url: /cerez-politikasi
+            - listitem [ref=e1476]:
+              - link "Kullanım Koşulları" [ref=e1477] [cursor=pointer]:
+                - /url: /kullanim-kosullari
+            - listitem [ref=e1478]:
+              - link "Hakkımızda" [ref=e1479] [cursor=pointer]:
+                - /url: /hakkimizda
+            - listitem [ref=e1480]:
+              - link "İletişim" [ref=e1481] [cursor=pointer]:
+                - /url: /iletisim
+      - generic [ref=e1482]:
+        - link "İletişim +90 532 593 38 54 Hafta içi 09:00 - 18:00" [ref=e1483] [cursor=pointer]:
+          - /url: tel:+905325933854
+          - img [ref=e1485]
+          - generic [ref=e1487]:
+            - generic [ref=e1488]: İletişim
+            - generic [ref=e1489]: +90 532 593 38 54
+            - generic [ref=e1490]:
+              - img [ref=e1491]
+              - generic [ref=e1494]: Hafta içi 09:00 - 18:00
+        - link "WhatsApp Mesaj Gönder 7/24 hızlı yanıt" [ref=e1495] [cursor=pointer]:
+          - /url: https://wa.me/905325933854
+          - img [ref=e1497]
+          - generic [ref=e1499]:
+            - generic [ref=e1500]: WhatsApp
+            - generic [ref=e1501]: Mesaj Gönder
+            - generic [ref=e1502]: 7/24 hızlı yanıt
+        - link "E-posta info@karasuemlak.net Detaylı bilgi için" [ref=e1503] [cursor=pointer]:
+          - /url: mailto:info@karasuemlak.net
+          - img [ref=e1505]
+          - generic [ref=e1508]:
+            - generic [ref=e1509]: E-posta
+            - generic [ref=e1510]: info@karasuemlak.net
+            - generic [ref=e1511]: Detaylı bilgi için
+      - generic [ref=e1512]:
+        - generic [ref=e1513]:
+          - paragraph [ref=e1514]: © 2026 Karasu Emlak.•Tüm hakları saklıdır.
+          - generic [ref=e1515]:
+            - link "Gizlilik Politikası" [ref=e1516] [cursor=pointer]:
+              - /url: /gizlilik-politikasi
+            - generic [ref=e1517]: •
+            - link "Çerez Politikası" [ref=e1518] [cursor=pointer]:
+              - /url: /cerez-politikasi
+            - generic [ref=e1519]: •
+            - link "Kullanım Koşulları" [ref=e1520] [cursor=pointer]:
+              - /url: /kullanim-kosullari
+            - generic [ref=e1521]: •
+            - link "KVKK Başvuru" [ref=e1522] [cursor=pointer]:
+              - /url: /kvkk-basvuru
+            - generic [ref=e1523]: •
+            - link "Sitemap" [ref=e1524] [cursor=pointer]:
+              - /url: /sitemap.xml
+              - text: Sitemap
+              - img [ref=e1525]
+        - generic [ref=e1530]:
+          - generic [ref=e1531]:
+            - img [ref=e1532]
+            - generic [ref=e1534]: SSL Güvenli
+          - generic [ref=e1535]:
+            - img [ref=e1536]
+            - generic [ref=e1539]: Güvenli Ödeme
+          - generic [ref=e1540]:
+            - img [ref=e1541]
+            - generic [ref=e1544]: 15+ Yıl Deneyim
+          - generic [ref=e1545]:
+            - img [ref=e1546]
+            - generic [ref=e1548]: 500+ Mutlu Müşteri
+        - generic [ref=e1550]:
+          - generic [ref=e1552]: Sakarya Karasu'nun Güvenilir Emlak Platformu
+          - generic [ref=e1553]:
+            - link "poi369" [ref=e1554] [cursor=pointer]:
+              - /url: https://poi369.com
+              - generic [ref=e1555]: poi369
+              - img [ref=e1556]
+            - generic [ref=e1560]: tarafından geliştirildi
+  - region "Notifications alt+T"

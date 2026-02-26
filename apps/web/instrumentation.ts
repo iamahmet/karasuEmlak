@@ -22,7 +22,7 @@ export async function register() {
             console.error('[debug] JSON.parse failed', {
               message: (err as any)?.message,
               length: s.length,
-              preview: s.slice(0, 300),
+              preview: s.slice(0, 1000),
               tail: s.length > 150 ? s.slice(-150) : '',
               stack: new Error().stack,
             });

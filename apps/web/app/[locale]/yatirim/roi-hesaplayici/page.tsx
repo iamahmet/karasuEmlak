@@ -29,7 +29,7 @@ export async function generateMetadata({
 
   return {
     title: 'ROI Hesaplayıcı | Yatırım Getirisi Hesaplama | Karasu Emlak',
-    description: 'Gayrimenkul yatırımınızın ROI (Return on Investment) değerini, kira getirisini ve geri dönüş süresini hesaplayın. Detaylı yatırım analizi ve getiri hesaplama aracı.',
+    description: 'Gayrimenkul yatırımınızın ROI (Return on Investment) değerini, kira getirisini ve geri dönüş süresini hesaplayın. Detaylı yatırım analizi ve getiri...',
     keywords: [
       'roi hesaplayıcı',
       'yatırım getirisi',

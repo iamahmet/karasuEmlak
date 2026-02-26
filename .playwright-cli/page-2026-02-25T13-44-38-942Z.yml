@@ -1,0 +1,843 @@
+- generic [active] [ref=e1]:
+  - link "Ana içeriğe geç" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - status [ref=e3]
+  - complementary "Son dakika haberleri" [ref=e4]:
+    - generic [ref=e9]:
+      - generic [ref=e11]:
+        - img [ref=e12]
+        - generic [ref=e15]: YENİ İLAN
+      - generic [ref=e18]:
+        - link "Kiralık Sahil Kiralık 2+1 Daire - Kiralık 6 Oca 21:49" [ref=e19] [cursor=pointer]:
+          - /url: /ilan/sahil-kiralik-2-1-daire
+          - generic [ref=e20]:
+            - img [ref=e21]
+            - generic [ref=e24]: Kiralık
+          - generic [ref=e26]: Sahil Kiralık 2+1 Daire - Kiralık
+          - generic [ref=e27]:
+            - img [ref=e28]
+            - generic [ref=e31]: 6 Oca 21:49
+        - link "Haber Karasu Emlak Piyasasında Yeni Trendler 6 Oca 21:49" [ref=e32] [cursor=pointer]:
+          - /url: /haberler/karasu-emlak-piyasasinda-yeni-trendler
+          - generic [ref=e33]:
+            - img [ref=e34]
+            - generic [ref=e37]: Haber
+          - generic [ref=e39]: Karasu Emlak Piyasasında Yeni Trendler
+          - generic [ref=e40]:
+            - img [ref=e41]
+            - generic [ref=e44]: 6 Oca 21:49
+        - link "Kiralık İnköy Müstakil Ev - Kiralık 6 Oca 21:49" [ref=e45] [cursor=pointer]:
+          - /url: /ilan/inkoy-mustakil-ev
+          - generic [ref=e46]:
+            - img [ref=e47]
+            - generic [ref=e50]: Kiralık
+          - generic [ref=e52]: İnköy Müstakil Ev - Kiralık
+          - generic [ref=e53]:
+            - img [ref=e54]
+            - generic [ref=e57]: 6 Oca 21:49
+        - link "Satılık Aziziye Müstakil Ev - Satılık 6 Oca 21:49" [ref=e58] [cursor=pointer]:
+          - /url: /ilan/aziziye-mustakil-ev-d6ef4e79
+          - generic [ref=e59]:
+            - img [ref=e60]
+            - generic [ref=e63]: Satılık
+          - generic [ref=e65]: Aziziye Müstakil Ev - Satılık
+          - generic [ref=e66]:
+            - img [ref=e67]
+            - generic [ref=e70]: 6 Oca 21:49
+        - link "Kiralık Sahil Kiralık 2+1 Daire - Kiralık 6 Oca 21:49" [ref=e71] [cursor=pointer]:
+          - /url: /ilan/sahil-kiralik-2-1-daire
+          - generic [ref=e72]:
+            - img [ref=e73]
+            - generic [ref=e76]: Kiralık
+          - generic [ref=e78]: Sahil Kiralık 2+1 Daire - Kiralık
+          - generic [ref=e79]:
+            - img [ref=e80]
+            - generic [ref=e83]: 6 Oca 21:49
+        - link "Haber Karasu Emlak Piyasasında Yeni Trendler 6 Oca 21:49" [ref=e84] [cursor=pointer]:
+          - /url: /haberler/karasu-emlak-piyasasinda-yeni-trendler
+          - generic [ref=e85]:
+            - img [ref=e86]
+            - generic [ref=e89]: Haber
+          - generic [ref=e91]: Karasu Emlak Piyasasında Yeni Trendler
+          - generic [ref=e92]:
+            - img [ref=e93]
+            - generic [ref=e96]: 6 Oca 21:49
+        - link "Kiralık İnköy Müstakil Ev - Kiralık 6 Oca 21:49" [ref=e97] [cursor=pointer]:
+          - /url: /ilan/inkoy-mustakil-ev
+          - generic [ref=e98]:
+            - img [ref=e99]
+            - generic [ref=e102]: Kiralık
+          - generic [ref=e104]: İnköy Müstakil Ev - Kiralık
+          - generic [ref=e105]:
+            - img [ref=e106]
+            - generic [ref=e109]: 6 Oca 21:49
+        - link "Satılık Aziziye Müstakil Ev - Satılık 6 Oca 21:49" [ref=e110] [cursor=pointer]:
+          - /url: /ilan/aziziye-mustakil-ev-d6ef4e79
+          - generic [ref=e111]:
+            - img [ref=e112]
+            - generic [ref=e115]: Satılık
+          - generic [ref=e117]: Aziziye Müstakil Ev - Satılık
+          - generic [ref=e118]:
+            - img [ref=e119]
+            - generic [ref=e122]: 6 Oca 21:49
+      - button "Haberleri gizle" [ref=e123] [cursor=pointer]:
+        - img [ref=e124]
+  - banner [ref=e127]:
+    - generic [ref=e129]:
+      - link "Karasu Emlak Ana Sayfa" [ref=e131] [cursor=pointer]:
+        - /url: /
+        - img "Karasu Emlak Logo" [ref=e134]
+      - navigation "Ana menü" [ref=e135]:
+        - link "Satılık konut, villa, arsa ve işyerleri" [ref=e136] [cursor=pointer]:
+          - /url: /satilik
+          - img [ref=e137]
+          - generic [ref=e140]: Satılık
+        - link "Kiralık daire, ev ve yazlık seçenekleri" [ref=e141] [cursor=pointer]:
+          - /url: /kiralik
+          - img [ref=e142]
+          - generic [ref=e146]: Kiralık
+        - button "Emlak Türleri menüsü" [ref=e147] [cursor=pointer]:
+          - img [ref=e148]
+          - generic [ref=e151]: Emlak Türleri
+          - img [ref=e152]
+        - button "Bölgeler menüsü" [ref=e154] [cursor=pointer]:
+          - img [ref=e155]
+          - generic [ref=e158]: Bölgeler
+          - img [ref=e159]
+        - button "Hizmetler & Yatırım menüsü" [ref=e161] [cursor=pointer]:
+          - img [ref=e162]
+          - generic [ref=e165]: Hizmetler & Yatırım
+          - img [ref=e166]
+      - generic [ref=e168]:
+        - button "Tema değiştir" [ref=e170] [cursor=pointer]:
+          - img [ref=e171]
+          - generic [ref=e177]: Tema değiştir
+        - link "İlan Ara" [ref=e178] [cursor=pointer]:
+          - /url: /arama
+          - img [ref=e179]
+        - link "İlan Ekle" [ref=e182] [cursor=pointer]:
+          - /url: /ilan-ekle
+          - img [ref=e183]
+          - generic [ref=e184]: İlan Ekle
+        - link "İletişim" [ref=e185] [cursor=pointer]:
+          - /url: /iletisim
+          - img [ref=e186]
+          - generic [ref=e188]: İletişim
+  - main "Ana içerik" [ref=e189]:
+    - generic [ref=e193]:
+      - generic [ref=e194]:
+        - main [ref=e195]:
+          - generic [ref=e196]:
+            - link "Rehber" [ref=e198] [cursor=pointer]:
+              - /url: /blog/kategori/rehber
+              - img [ref=e199]
+              - text: Rehber
+            - 'heading "Sapanca Bungalov Rehberi: Satın Alma, Kiralama, Yatırım" [level=1] [ref=e202]'
+            - paragraph [ref=e205]:
+              - text: Sapanca, bungalov yatırımları için popüler bir bölgedir. Bu rehberde, Sapanca'da bungalov satın alma, kiralama ve yatırım yapmanın detaylarını bulabilirsiniz. Bungalov fiyatları
+              - strong [ref=e206]: 1.000.000 TL ile 3.000.000 TL
+              - text: arasında değişebilir. Kısa vadeli kullanım için kiralama, uzun vadeli yatırım için satın alma daha uygundur. Sapanca Gölü çevresi, göl manzaralı bungalov seçenekleri açısından zengindir.
+            - generic [ref=e207]:
+              - generic [ref=e208]:
+                - generic [ref=e209]: K
+                - generic [ref=e210]:
+                  - generic [ref=e211]: Yazar
+                  - generic [ref=e212]: Karasu Emlak
+              - generic [ref=e213]:
+                - img [ref=e215]
+                - generic [ref=e217]:
+                  - generic [ref=e218]: Yayın Tarihi
+                  - time [ref=e219]: Dün
+              - generic [ref=e220]:
+                - img [ref=e222]
+                - generic [ref=e225]:
+                  - generic [ref=e226]: Okuma Süresi
+                  - generic [ref=e227]: 2 dakika
+              - generic [ref=e228]:
+                - img [ref=e229]
+                - generic [ref=e231]: YENİ
+              - generic [ref=e233]: "Güncellendi: 24 Şubat 2026"
+            - figure [ref=e234]:
+              - generic [ref=e237]:
+                - img [ref=e238]
+                - generic [ref=e240]: Görsel yüklenemedi
+          - generic [ref=e242]:
+            - generic [ref=e243]:
+              - generic [ref=e244]:
+                - img [ref=e246]
+                - heading "Özet" [level=3] [ref=e248]
+              - paragraph [ref=e251]:
+                - text: Sapanca, bungalov yatırımları için popüler bir bölgedir. Bu rehberde, Sapanca'da bungalov satın alma, kiralama ve yatırım yapmanın detaylarını bulabilirsiniz. Bungalov fiyatları
+                - strong [ref=e252]: 1.000.000 TL ile 3.000.000 TL
+                - text: arasında değişebilir. Kısa vadeli kullanım için kiralama, uzun vadeli yatırım için satın alma daha uygundur. Sapanca Gölü çevresi, göl manzaralı bungalov seçenekleri açısından zengindir.
+            - generic [ref=e253]:
+              - generic [ref=e255]:
+                - generic [ref=e256]:
+                  - img [ref=e258]
+                  - generic [ref=e265]: Paylaş
+                - generic [ref=e266]:
+                  - button "Kopyala" [ref=e267] [cursor=pointer]:
+                    - img [ref=e268]
+                    - generic [ref=e271]: Kopyala
+                  - button "Yazdır" [ref=e272] [cursor=pointer]:
+                    - img [ref=e273]
+                    - generic [ref=e277]: Yazdır
+              - article [ref=e278]:
+                - generic [ref=e279]:
+                  - 'heading "Sapanca Bungalov Rehberi: Satın Alma, Kiralama ve Yatırım" [level=1] [ref=e280]'
+                  - paragraph [ref=e281]: Sapanca, doğal güzellikleri ve huzur dolu atmosferi ile son yıllarda bungalov yatırımları için popüler bir bölge haline gelmiştir. Bu rehberde, Sapanca'da bungalov satın alma, kiralama ve yatırım yapmanın detaylarını bulacaksınız.
+                  - heading "Sapanca Bungalov Fiyatları Ne Kadar." [level=2] [ref=e282]
+                  - paragraph [ref=e283]:
+                    - text: Sapanca bungalov fiyatları, bungalovun konumu, büyüklüğü ve sunduğu olanaklara göre değişiklik göstermektedir. Genel olarak, Sapanca bungalov fiyatları
+                    - strong [ref=e284]: 1. 000 TL ile 3. 000 TL
+                    - text: arasında değişebilir. Ancak, piyasa koşullarına göre değişiklik gösterebilir. Daha fazla bilgi için
+                    - link "Sapanca bungalov fiyatları" [ref=e285] [cursor=pointer]:
+                      - /url: /blog/sapanca-bungalov-fiyatlari-2026-kiralik-satilik
+                    - text: sayfamızı ziyaret edebilirsiniz.
+                  - heading "Sapanca Bungalov Kiralık mı Satılık mı Almalı." [level=2] [ref=e286]
+                  - paragraph [ref=e287]: Sapanca bungalovlarının kiralık mı yoksa satılık mı alınması gerektiği, yatırım amacınıza bağlı olarak değişebilir. Eğer kısa vadeli bir konaklama veya tatil için düşünüyorsanız, kiralama seçeneği daha uygundur. Ancak, uzun vadeli bir yatırım düşünüyor ve tatil dönemlerinde kiraya vermeyi planlıyorsanız, satın almak daha avantajlı olabilir.
+                  - heading "Sapanca Gölü Çevresinde Bungalov Seçenekleri" [level=2] [ref=e288]
+                  - paragraph [ref=e289]:
+                    - text: Sapanca Gölü çevresi, göl manzaralı bungalov seçenekleri açısından oldukça zengindir. Bölge, harika doğa manzaraları sunan ve huzurlu bir ortam sağlayan çeşitli bungalov tipi konaklamalar ile doludur. Daha fazla bilgi için
+                    - link "göl manzaralı bungalov seçenekleri" [ref=e290] [cursor=pointer]:
+                      - /url: /blog/sapanca-golu-bungalov-gol-manzarali-konaklama
+                    - text: sayfamızı inceleyebilirsiniz.
+                  - heading "Bungalov Yatırımı Karlı mı." [level=2] [ref=e291]
+                  - paragraph [ref=e292]: Bungalov yatırımı, doğru lokasyon ve strateji ile oldukça karlı olabilir. Sapanca, turistik önemi ve doğal güzellikleri ile yatırımcılar için cazip bir bölge haline gelmiştir. Bungalov yatırımı, hem tatil amaçlı kullanım hem de kiralama yoluyla gelir elde etmek için ideal bir seçenektir.
+                  - heading "Sapanca Bungalov vs Yazlık Karşılaştırması" [level=3] [ref=e293]
+                  - table [ref=e295]:
+                    - rowgroup [ref=e296]:
+                      - row "Özellik Bungalov Yazlık" [ref=e297]:
+                        - columnheader "Özellik" [ref=e298]
+                        - columnheader "Bungalov" [ref=e299]
+                        - columnheader "Yazlık" [ref=e300]
+                      - row "Fiyat 1. 000 TL 2. 000 TL" [ref=e301]:
+                        - cell "Fiyat" [ref=e302]
+                        - cell "1. 000 TL" [ref=e303]
+                        - cell "2. 000 TL" [ref=e304]
+                      - row "Konum Doğa içinde, göl manzaralı Sahile yakın, deniz manzaralı" [ref=e305]:
+                        - cell "Konum" [ref=e306]
+                        - cell "Doğa içinde, göl manzaralı" [ref=e307]
+                        - cell "Sahile yakın, deniz manzaralı" [ref=e308]
+                      - row "Yatırım Geri Dönüş Orta - Yüksek Orta - Yüksek" [ref=e309]:
+                        - cell "Yatırım Geri Dönüş" [ref=e310]
+                        - cell "Orta - Yüksek" [ref=e311]
+                        - cell "Orta - Yüksek" [ref=e312]
+                  - heading "Göl Çevresi Mahalleler ve Erişim Bilgisi" [level=2] [ref=e313]
+                  - paragraph [ref=e314]: Sapanca Gölü çevresindeki mahalleler, kolay erişim imkanları sunar. Özellikle Mahmudiye, Kırkpınar ve Yanık gibi bölgelerde birçok bungalov seçeneği bulunmaktadır. Bu mahalleler, ulaşım açısından da avantajlı konumdadır.
+                  - heading "Sık Sorulan Sorular" [level=2] [ref=e315]
+                  - list [ref=e316]:
+                    - listitem [ref=e317]:
+                      - strong [ref=e318]: Sapanca'da bungalov fiyatları ne kadar.
+                      - paragraph [ref=e319]:
+                        - text: Fiyatlar, bungalovun özelliklerine göre
+                        - strong [ref=e320]: "1."
+                      - strong
+                    - strong [ref=e321]:
+                      - listitem [ref=e322]:
+                        - strong [ref=e323]: Sapanca bungalov kiralık mı satılık mı almalı.
+                        - paragraph [ref=e324]: Kısa vadeli kullanım için kiralama, uzun vadeli yatırım için satın alma daha uygundur.
+                      - listitem [ref=e325]:
+                        - strong [ref=e326]: Sapanca Gölü çevresinde bungalov seçenekleri neler.
+                        - paragraph [ref=e327]: Göl manzaralı ve doğa içinde çeşitli bungalov seçenekleri mevcuttur.
+                      - listitem [ref=e328]:
+                        - strong [ref=e329]: Bungalov yatırımı karlı mı.
+                        - paragraph [ref=e330]: Doğru lokasyon ve strateji ile karlı olabilir.
+                  - strong
+              - generic [ref=e331]:
+                - generic [ref=e332]:
+                  - img [ref=e334]
+                  - generic [ref=e336]:
+                    - heading "İlgili Rehberler" [level=3] [ref=e337]
+                    - paragraph [ref=e338]: Bu konuyla bağlantılı kaynaklar
+                - generic [ref=e339]:
+                  - link "Denize Yakın Satılık Evler Sahil hattındaki yeni projeler ve ikincil pazar ilanları." [ref=e340] [cursor=pointer]:
+                    - /url: /karasu-denize-yakin-satilik-ev
+                    - generic [ref=e341]:
+                      - paragraph [ref=e342]: Denize Yakın Satılık Evler
+                      - paragraph [ref=e343]: Sahil hattındaki yeni projeler ve ikincil pazar ilanları.
+                    - img [ref=e344]
+                  - link "Yatırım Amaçlı Gayrimenkuller Kira getirisi yüksek projeleri karşılaştırın." [ref=e347] [cursor=pointer]:
+                    - /url: /karasu-yatirimlik-satilik-ev
+                    - generic [ref=e348]:
+                      - paragraph [ref=e349]: Yatırım Amaçlı Gayrimenkuller
+                      - paragraph [ref=e350]: Kira getirisi yüksek projeleri karşılaştırın.
+                    - img [ref=e351]
+                  - link "Ev Nasıl Alınır? | Adım Adım Rehber Tapu, kredi ve teslim süreçlerinde dikkat edilmesi gerekenler." [ref=e354] [cursor=pointer]:
+                    - /url: /rehberler/ev-nasil-alinir
+                    - generic [ref=e355]:
+                      - paragraph [ref=e356]: Ev Nasıl Alınır? | Adım Adım Rehber
+                      - paragraph [ref=e357]: Tapu, kredi ve teslim süreçlerinde dikkat edilmesi gerekenler.
+                    - img [ref=e358]
+                  - link "Ev Nasıl Satılır? | Satıcı Rehberi Doğru fiyatlama ve satış sözleşmesi ipuçları." [ref=e361] [cursor=pointer]:
+                    - /url: /rehberler/ev-nasil-satilir
+                    - generic [ref=e362]:
+                      - paragraph [ref=e363]: Ev Nasıl Satılır? | Satıcı Rehberi
+                      - paragraph [ref=e364]: Doğru fiyatlama ve satış sözleşmesi ipuçları.
+                    - img [ref=e365]
+              - link "Yorumlar Bu yazı hakkındaki düşüncelerinizi paylaşın" [ref=e369] [cursor=pointer]:
+                - /url: "#yorumlar"
+                - img [ref=e371]
+                - generic [ref=e373]:
+                  - paragraph [ref=e374]: Yorumlar
+                  - paragraph [ref=e375]: Bu yazı hakkındaki düşüncelerinizi paylaşın
+                - img [ref=e376]
+            - generic [ref=e380]:
+              - generic [ref=e382]: K
+              - generic [ref=e383]:
+                - generic [ref=e384]:
+                  - heading "Karasu Emlak" [level=3] [ref=e385]
+                  - generic [ref=e386]:
+                    - img [ref=e387]
+                    - text: Doğrulanmış
+                - paragraph [ref=e389]: Karasu ve Kocaali bölgesinde 15 yılı aşkın deneyime sahip emlak uzmanı. Gayrimenkul yatırımı, bölge analizi ve emlak değerleme konularında uzman içerikler sunuyoruz.
+                - generic [ref=e390]:
+                  - link "Tüm yazıları" [ref=e391] [cursor=pointer]:
+                    - /url: /blog/yazar/karasu-emlak
+                    - img [ref=e392]
+                    - text: Tüm yazıları
+                    - img [ref=e395]
+                  - link "Hakkımızda" [ref=e397] [cursor=pointer]:
+                    - /url: /karasu-emlak-ofisi
+                    - img [ref=e398]
+                    - text: Hakkımızda
+            - generic [ref=e402]:
+              - generic [ref=e403]:
+                - img [ref=e405]
+                - generic [ref=e409]:
+                  - heading "İlgili İlanlar" [level=3] [ref=e410]
+                  - paragraph [ref=e411]: Bu konuyla ilişkili fırsatlar
+              - generic [ref=e412]:
+                - link "Denize Yakın Satılık Evler Sahil hattındaki yeni projeler ve ikincil pazar ilanları." [ref=e413] [cursor=pointer]:
+                  - /url: /karasu-denize-yakin-satilik-ev
+                  - generic [ref=e414]:
+                    - paragraph [ref=e415]: Denize Yakın Satılık Evler
+                    - paragraph [ref=e416]: Sahil hattındaki yeni projeler ve ikincil pazar ilanları.
+                  - img [ref=e417]
+                - link "Yatırım Amaçlı Gayrimenkuller Kira getirisi yüksek projeleri karşılaştırın." [ref=e419] [cursor=pointer]:
+                  - /url: /karasu-yatirimlik-satilik-ev
+                  - generic [ref=e420]:
+                    - paragraph [ref=e421]: Yatırım Amaçlı Gayrimenkuller
+                    - paragraph [ref=e422]: Kira getirisi yüksek projeleri karşılaştırın.
+                  - img [ref=e423]
+            - generic [ref=e426]:
+              - img [ref=e428]
+              - generic [ref=e430]:
+                - heading "Yorumlar" [level=2] [ref=e431]
+                - paragraph [ref=e432]: Düşüncelerinizi paylaşın
+          - navigation "Makale navigasyonu" [ref=e437]:
+            - heading "Devamını Oku" [level=3] [ref=e439]
+            - generic [ref=e440]:
+              - 'link "Önceki Karasu Emlak Piyasası: Daire ve Villa Talepleri Artıyor" [ref=e441] [cursor=pointer]':
+                - /url: /blog/karasu-emlak-piyasasi-daire-ve-villa-talepleri-artiyor
+                - img [ref=e443]
+                - generic [ref=e445]:
+                  - generic [ref=e446]: Önceki
+                  - 'heading "Karasu Emlak Piyasası: Daire ve Villa Talepleri Artıyor" [level=4] [ref=e447]'
+              - 'link "Sonraki Karasu Kiralık Daire Rehberi: 2026 Fiyatları ve İpuçları" [ref=e448] [cursor=pointer]':
+                - /url: /blog/karasu-kiralik-daire-rehberi-2026-fiyatlari-ve-i-puclari
+                - img [ref=e450]
+                - generic [ref=e452]:
+                  - generic [ref=e453]: Sonraki
+                  - 'heading "Karasu Kiralık Daire Rehberi: 2026 Fiyatları ve İpuçları" [level=4] [ref=e454]'
+        - complementary "Makale yan menüsü" [ref=e455]:
+          - complementary [ref=e456]:
+            - generic [ref=e457]:
+              - generic [ref=e458]:
+                - heading "Makale Bilgileri" [level=3] [ref=e459]:
+                  - img [ref=e461]
+                  - text: Makale Bilgileri
+                - generic [ref=e464]:
+                  - generic [ref=e465]:
+                    - generic [ref=e466]:
+                      - img [ref=e468]
+                      - generic [ref=e471]: Okuma Süresi
+                    - generic [ref=e472]: 2 dk
+                  - generic [ref=e473]:
+                    - generic [ref=e474]:
+                      - img [ref=e476]
+                      - generic [ref=e478]: Kelime Sayısı
+                    - generic [ref=e479]: "335"
+                  - generic [ref=e480]:
+                    - generic [ref=e481]:
+                      - img [ref=e483]
+                      - generic [ref=e485]: Yayın Tarihi
+                    - generic [ref=e486]: 24 Şub
+                  - generic [ref=e488]:
+                    - img [ref=e489]
+                    - generic [ref=e491]: Öne Çıkan Makale
+              - generic [ref=e492]:
+                - heading "Güvenilirlik" [level=3] [ref=e493]:
+                  - img [ref=e495]
+                  - text: Güvenilirlik
+                - generic [ref=e497]:
+                  - generic [ref=e498]:
+                    - img [ref=e499]
+                    - generic [ref=e502]: Doğrulanmış İçerik
+                  - generic [ref=e503]:
+                    - img [ref=e504]
+                    - generic [ref=e507]: Güvenli Platform
+                  - generic [ref=e508]:
+                    - img [ref=e509]
+                    - generic [ref=e511]: 15+ Yıl Deneyim
+              - generic [ref=e512]:
+                - generic [ref=e513]:
+                  - heading "İlgili Yazılar" [level=3] [ref=e514]:
+                    - img [ref=e516]
+                    - text: İlgili Yazılar
+                  - link "Tümü" [ref=e518] [cursor=pointer]:
+                    - /url: /blog
+                    - text: Tümü
+                    - img [ref=e519]
+                - generic [ref=e521]:
+                  - link "1 Aziziye Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler Rehber" [ref=e522] [cursor=pointer]:
+                    - /url: /blog/aziziye-mahallesinde-ev-alirken-dikkat-edilmesi-gerekenler
+                    - generic [ref=e523]:
+                      - generic [ref=e524]: "1"
+                      - generic [ref=e525]:
+                        - paragraph [ref=e526]: Aziziye Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler
+                        - generic [ref=e527]: Rehber
+                  - link "2 Deniz Mahallesi Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler Rehber" [ref=e528] [cursor=pointer]:
+                    - /url: /blog/deniz-mahallesi-mahallesinde-ev-alirken-dikkat-edilmesi-gerekenler
+                    - generic [ref=e529]:
+                      - generic [ref=e530]: "2"
+                      - generic [ref=e531]:
+                        - paragraph [ref=e532]: Deniz Mahallesi Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler
+                        - generic [ref=e533]: Rehber
+                  - link "3 Kızılot Mahallesi Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler Rehber" [ref=e534] [cursor=pointer]:
+                    - /url: /blog/kizilot-mahallesi-mahallesinde-ev-alirken-dikkat-edilmesi-gerekenler
+                    - generic [ref=e535]:
+                      - generic [ref=e536]: "3"
+                      - generic [ref=e537]:
+                        - paragraph [ref=e538]: Kızılot Mahallesi Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler
+                        - generic [ref=e539]: Rehber
+                  - link "4 Kestane Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler Rehber" [ref=e540] [cursor=pointer]:
+                    - /url: /blog/kestane-mahallesinde-ev-alirken-dikkat-edilmesi-gerekenler
+                    - generic [ref=e541]:
+                      - generic [ref=e542]: "4"
+                      - generic [ref=e543]:
+                        - paragraph [ref=e544]: Kestane Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler
+                        - generic [ref=e545]: Rehber
+              - generic [ref=e546]:
+                - heading "Bölgedeki İlanlar" [level=3] [ref=e547]:
+                  - img [ref=e549]
+                  - text: Bölgedeki İlanlar
+                - generic [ref=e552]:
+                  - link "Denize Yakın Satılık Evler Sahil hattındaki yeni projeler ve ikincil pazar ilanları." [ref=e553] [cursor=pointer]:
+                    - /url: /karasu-denize-yakin-satilik-ev
+                    - generic [ref=e554]:
+                      - paragraph [ref=e555]: Denize Yakın Satılık Evler
+                      - paragraph [ref=e556]: Sahil hattındaki yeni projeler ve ikincil pazar ilanları.
+                    - img [ref=e557]
+                  - link "Yatırım Amaçlı Gayrimenkuller Kira getirisi yüksek projeleri karşılaştırın." [ref=e559] [cursor=pointer]:
+                    - /url: /karasu-yatirimlik-satilik-ev
+                    - generic [ref=e560]:
+                      - paragraph [ref=e561]: Yatırım Amaçlı Gayrimenkuller
+                      - paragraph [ref=e562]: Kira getirisi yüksek projeleri karşılaştırın.
+                    - img [ref=e563]
+      - generic [ref=e567]:
+        - generic [ref=e568]:
+          - generic [ref=e569]:
+            - img [ref=e571]
+            - generic [ref=e573]:
+              - heading "İlgili Yazılar" [level=2] [ref=e574]
+              - paragraph [ref=e575]: Size özel öneriler
+          - link "Tümü" [ref=e576] [cursor=pointer]:
+            - /url: /blog
+            - text: Tümü
+            - img [ref=e577]
+        - generic [ref=e579]:
+          - link [ref=e580] [cursor=pointer]:
+            - /url: /blog/aziziye-mahallesinde-ev-alirken-dikkat-edilmesi-gerekenler
+            - article [ref=e581]:
+              - generic [ref=e582]:
+                - generic [ref=e584]: Rehber
+                - heading "Aziziye Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler" [level=3] [ref=e585]
+                - paragraph [ref=e586]: Aziziye Mahallesi'nde ev alırken dikkat edilmesi gerekenler hakkında kapsamlı bilgiler. Yasal süreçler, finansman seçenekleri ve yatırım potansiyeli gibi konulara değinilmiştir.
+                - generic [ref=e587]:
+                  - generic [ref=e589]:
+                    - img [ref=e590]
+                    - generic [ref=e593]: 3 dk
+                  - img [ref=e594]
+          - link [ref=e596] [cursor=pointer]:
+            - /url: /blog/deniz-mahallesi-mahallesinde-ev-alirken-dikkat-edilmesi-gerekenler
+            - article [ref=e597]:
+              - generic [ref=e598]:
+                - generic [ref=e600]: Rehber
+                - heading "Deniz Mahallesi Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler" [level=3] [ref=e601]
+                - paragraph [ref=e602]: Deniz Mahallesi'nde ev alırken dikkat edilmesi gereken unsurları keşfedin. Konum, altyapı, yasal süreçler ve daha fazlası hakkında bilgi edinin.
+                - generic [ref=e603]:
+                  - generic [ref=e605]:
+                    - img [ref=e606]
+                    - generic [ref=e609]: 3 dk
+                  - img [ref=e610]
+          - link [ref=e612] [cursor=pointer]:
+            - /url: /blog/kizilot-mahallesi-mahallesinde-ev-alirken-dikkat-edilmesi-gerekenler
+            - article [ref=e613]:
+              - generic [ref=e614]:
+                - generic [ref=e616]: Rehber
+                - heading "Kızılot Mahallesi Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler" [level=3] [ref=e617]
+                - paragraph [ref=e618]: Kızılot Mahallesi'nde ev alırken dikkat edilmesi gerekenler hakkında bilgilendirici bir rehber. Yasal süreçler, altyapı, teknik kontroller ve yatırım potansiyeli üzerine kapsamlı bilgiler.
+                - generic [ref=e619]:
+                  - generic [ref=e621]:
+                    - img [ref=e622]
+                    - generic [ref=e625]: 3 dk
+                  - img [ref=e626]
+          - link [ref=e628] [cursor=pointer]:
+            - /url: /blog/kestane-mahallesinde-ev-alirken-dikkat-edilmesi-gerekenler
+            - article [ref=e629]:
+              - generic [ref=e630]:
+                - generic [ref=e632]: Rehber
+                - heading "Kestane Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler" [level=3] [ref=e633]
+                - paragraph [ref=e634]: Kestane Mahallesi'nde ev alırken dikkat edilmesi gerekenler hakkında kapsamlı bilgiler sunuyoruz. Konum, yasal süreçler, finansman seçenekleri ve daha fazlasını keşfedin.
+                - generic [ref=e635]:
+                  - generic [ref=e637]:
+                    - img [ref=e638]
+                    - generic [ref=e641]: 3 dk
+                  - img [ref=e642]
+          - link [ref=e644] [cursor=pointer]:
+            - /url: /blog/kestanelik-mahallesinde-ev-alirken-dikkat-edilmesi-gerekenler
+            - article [ref=e645]:
+              - generic [ref=e646]:
+                - generic [ref=e648]: Rehber
+                - heading "Kestanelik Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler" [level=3] [ref=e649]
+                - paragraph [ref=e650]: Kestanelik Mahallesi, Karasu'nun önemli yerleşim bölgelerindendir. Ev alırken dikkat edilmesi gerekenler hakkında kapsamlı bilgi ve pratik öneriler sunuyoruz.
+                - generic [ref=e651]:
+                  - generic [ref=e653]:
+                    - img [ref=e654]
+                    - generic [ref=e657]: 4 dk
+                  - img [ref=e658]
+          - link [ref=e660] [cursor=pointer]:
+            - /url: /blog/kilic-mahallesinde-ev-alirken-dikkat-edilmesi-gerekenler
+            - article [ref=e661]:
+              - generic [ref=e662]:
+                - generic [ref=e664]: Rehber
+                - heading "Kılıç Mahallesinde Ev Alırken Dikkat Edilmesi Gerekenler" [level=3] [ref=e665]
+                - paragraph [ref=e666]: Kılıç Mahallesi, Sakarya'nın Karasu ilçesinde ev almayı düşünenler için dikkat edilmesi gereken noktaları kapsamlı bir şekilde ele alıyoruz. Yasal süreçlerden teknik kontroller ve finansman seçeneklerine kadar her ayrıntıyı keşfedin.
+                - generic [ref=e667]:
+                  - generic [ref=e669]:
+                    - img [ref=e670]
+                    - generic [ref=e673]: 3 dk
+                  - img [ref=e674]
+  - contentinfo "Site footer" [ref=e676]:
+    - generic [ref=e678]:
+      - generic [ref=e679]:
+        - generic [ref=e680]:
+          - heading "İstatistikler" [level=4] [ref=e681]:
+            - img [ref=e682]
+            - text: İstatistikler
+          - list [ref=e685]:
+            - listitem [ref=e686]:
+              - generic [ref=e687]: Toplam İlan
+              - generic [ref=e688]: ...
+            - listitem [ref=e689]:
+              - generic [ref=e690]: Satılık
+              - generic [ref=e691]: ...
+            - listitem [ref=e692]:
+              - generic [ref=e693]: Kiralık
+              - generic [ref=e694]: ...
+            - listitem [ref=e695]:
+              - generic [ref=e696]: Mutlu Müşteri
+              - generic [ref=e697]: 500+
+        - generic [ref=e698]:
+          - heading "Güvenilirlik" [level=4] [ref=e699]:
+            - img [ref=e700]
+            - text: Güvenilirlik
+          - list [ref=e702]:
+            - listitem [ref=e703]:
+              - img [ref=e704]
+              - generic [ref=e707]: Güvenilir Emlak
+            - listitem [ref=e708]:
+              - img [ref=e709]
+              - generic [ref=e712]: Güvenli İşlem
+            - listitem [ref=e713]:
+              - img [ref=e714]
+              - generic [ref=e716]: SSL Güvenli
+            - listitem [ref=e717]:
+              - img [ref=e718]
+              - generic [ref=e721]: 15+ Yıl Deneyim
+        - generic [ref=e722]:
+          - heading "Hızlı İşlemler" [level=4] [ref=e723]:
+            - img [ref=e724]
+            - text: Hızlı İşlemler
+          - list [ref=e727]:
+            - listitem [ref=e728]:
+              - link "Satılık İlan Ara" [ref=e729] [cursor=pointer]:
+                - /url: /satilik
+                - img [ref=e730]
+                - text: Satılık İlan Ara
+            - listitem [ref=e733]:
+              - link "Kiralık İlan Ara" [ref=e734] [cursor=pointer]:
+                - /url: /kiralik
+                - img [ref=e735]
+                - text: Kiralık İlan Ara
+            - listitem [ref=e738]:
+              - link "Kredi Hesaplayıcı" [ref=e739] [cursor=pointer]:
+                - /url: /kredi-hesaplayici
+                - img [ref=e740]
+                - text: Kredi Hesaplayıcı
+            - listitem [ref=e742]:
+              - link "İlan Karşılaştır" [ref=e743] [cursor=pointer]:
+                - /url: /karsilastir
+                - img [ref=e744]
+                - text: İlan Karşılaştır
+            - listitem [ref=e747]:
+              - link "Sık Sorulan Sorular" [ref=e748] [cursor=pointer]:
+                - /url: /sss
+                - img [ref=e749]
+                - text: Sık Sorulan Sorular
+        - generic [ref=e752]:
+          - heading "E-Bülten" [level=4] [ref=e753]:
+            - img [ref=e754]
+            - text: E-Bülten
+          - generic [ref=e757]:
+            - generic [ref=e758]:
+              - generic [ref=e759]:
+                - generic [ref=e761]:
+                  - generic [ref=e762]: "*"
+                  - textbox "Zorunlu alan" [ref=e763]:
+                    - /placeholder: E-posta adresiniz
+                - button "Newsletter'e abone ol" [ref=e764] [cursor=pointer]: Abone Ol
+              - paragraph [ref=e765]: Yeni ilanlar ve güncellemelerden haberdar olmak için e-posta adresinizi girin.
+            - generic [ref=e766]:
+              - img [ref=e767]
+              - generic [ref=e770]: Bildirimler Aktif
+            - generic [ref=e771]:
+              - link "Facebook" [ref=e772] [cursor=pointer]:
+                - /url: https://facebook.com/karasuemlak
+                - img [ref=e773]
+              - link "Instagram" [ref=e775] [cursor=pointer]:
+                - /url: https://instagram.com/karasuemlak
+                - img [ref=e776]
+              - link "Twitter" [ref=e779] [cursor=pointer]:
+                - /url: https://twitter.com/karasuemlak
+                - img [ref=e780]
+      - generic [ref=e782]:
+        - generic [ref=e783]:
+          - generic [ref=e784]:
+            - generic [ref=e785]:
+              - img [ref=e789]
+              - generic [ref=e792]:
+                - heading "Karasu Emlak" [level=3] [ref=e793]
+                - paragraph [ref=e794]: Gayrimenkul Danışmanlığı
+            - paragraph [ref=e795]: Karasu ve çevresinde 15 yıldır güvenilir emlak danışmanlığı hizmeti sunuyoruz. Hayalinizdeki evi bulmak için buradayız.
+            - generic [ref=e796]:
+              - img [ref=e797]
+              - generic [ref=e800]: Merkez Mahallesi, Atatürk Caddesi No:123, 54500 Karasu / Sakarya
+          - generic [ref=e801]:
+            - heading "Sosyal Medya" [level=4] [ref=e802]
+            - generic [ref=e803]:
+              - link "Facebook" [ref=e804] [cursor=pointer]:
+                - /url: https://facebook.com/karasuemlak
+                - img [ref=e805]
+              - link "Instagram" [ref=e807] [cursor=pointer]:
+                - /url: https://instagram.com/karasuemlak
+                - img [ref=e808]
+              - link "Twitter" [ref=e811] [cursor=pointer]:
+                - /url: https://twitter.com/karasuemlak
+                - img [ref=e812]
+        - generic [ref=e814]:
+          - heading "İlanlar" [level=4] [ref=e815]:
+            - img [ref=e816]
+            - text: İlanlar
+          - list [ref=e819]:
+            - listitem [ref=e820]:
+              - link "Satılık İlanlar" [ref=e821] [cursor=pointer]:
+                - /url: /satilik
+                - img [ref=e822]
+                - text: Satılık İlanlar
+            - listitem [ref=e825]:
+              - link "Kiralık İlanlar" [ref=e826] [cursor=pointer]:
+                - /url: /kiralik
+                - img [ref=e827]
+                - text: Kiralık İlanlar
+            - listitem [ref=e831]:
+              - link "Satılık Daire" [ref=e832] [cursor=pointer]:
+                - /url: /satilik-daire
+                - img [ref=e833]
+                - text: Satılık Daire
+            - listitem [ref=e836]:
+              - link "Kiralık Daire" [ref=e837] [cursor=pointer]:
+                - /url: /kiralik-daire
+                - img [ref=e838]
+                - text: Kiralık Daire
+            - listitem [ref=e842]:
+              - link "Karasu Satılık Daire" [ref=e843] [cursor=pointer]:
+                - /url: /karasu-satilik-daire
+                - img [ref=e844]
+                - text: Karasu Satılık Daire
+            - listitem [ref=e847]:
+              - link "Karasu Kiralık Daire" [ref=e848] [cursor=pointer]:
+                - /url: /karasu-kiralik-daire
+                - img [ref=e849]
+                - text: Karasu Kiralık Daire
+            - listitem [ref=e852]:
+              - link "İlan Ekle" [ref=e853] [cursor=pointer]:
+                - /url: /ilan-ekle
+                - img [ref=e854]
+                - text: İlan Ekle
+          - generic [ref=e857]:
+            - heading "Satılık Kategoriler" [level=5] [ref=e858]
+            - list [ref=e859]:
+              - listitem [ref=e860]:
+                - link "Satılık Daire" [ref=e861] [cursor=pointer]:
+                  - /url: /satilik?tip=daire
+              - listitem [ref=e862]:
+                - link "Satılık Villa" [ref=e863] [cursor=pointer]:
+                  - /url: /satilik?tip=villa
+              - listitem [ref=e864]:
+                - link "Satılık Yazlık" [ref=e865] [cursor=pointer]:
+                  - /url: /satilik?tip=yazlik
+              - listitem [ref=e866]:
+                - link "Satılık Arsa" [ref=e867] [cursor=pointer]:
+                  - /url: /satilik?tip=arsa
+        - generic [ref=e868]:
+          - heading "Bölgeler & İçerik" [level=4] [ref=e869]:
+            - img [ref=e870]
+            - text: Bölgeler & İçerik
+          - list [ref=e873]:
+            - listitem [ref=e874]:
+              - link "Karasu" [ref=e875] [cursor=pointer]:
+                - /url: /karasu
+            - listitem [ref=e876]:
+              - link "Kocaali" [ref=e877] [cursor=pointer]:
+                - /url: /kocaali
+            - listitem [ref=e878]:
+              - link "Sapanca" [ref=e879] [cursor=pointer]:
+                - /url: /sapanca
+            - listitem [ref=e880]:
+              - link "Gezilecek Yerler" [ref=e881] [cursor=pointer]:
+                - /url: /karasu/gezilecek-yerler
+            - listitem [ref=e882]:
+              - link "Hastaneler" [ref=e883] [cursor=pointer]:
+                - /url: /karasu/hastaneler
+          - generic [ref=e884]:
+            - heading "Blog & Makaleler" [level=5] [ref=e885]
+            - list [ref=e886]:
+              - listitem [ref=e887]:
+                - link "Blog" [ref=e888] [cursor=pointer]:
+                  - /url: /blog
+                  - img [ref=e889]
+                  - text: Blog
+              - listitem [ref=e892]:
+                - link "Haberler" [ref=e893] [cursor=pointer]:
+                  - /url: /haberler
+                  - img [ref=e894]
+                  - text: Haberler
+              - listitem [ref=e897]:
+                - link "Rehber" [ref=e898] [cursor=pointer]:
+                  - /url: /rehber
+                  - img [ref=e899]
+                  - text: Rehber
+              - listitem [ref=e901]:
+                - link "Yorumlar" [ref=e902] [cursor=pointer]:
+                  - /url: /yorumlar
+              - listitem [ref=e903]:
+                - link "SSS" [ref=e904] [cursor=pointer]:
+                  - /url: /sss
+        - generic [ref=e905]:
+          - heading "Araçlar & Yasal" [level=4] [ref=e906]:
+            - img [ref=e907]
+            - text: Araçlar & Yasal
+          - list [ref=e909]:
+            - listitem [ref=e910]:
+              - link "Kredi Hesaplayıcı" [ref=e911] [cursor=pointer]:
+                - /url: /kredi-hesaplayici
+                - img [ref=e912]
+                - text: Kredi Hesaplayıcı
+            - listitem [ref=e914]:
+              - link "Yatırım Hesaplayıcı" [ref=e915] [cursor=pointer]:
+                - /url: /yatirim-hesaplayici
+                - img [ref=e916]
+                - text: Yatırım Hesaplayıcı
+            - listitem [ref=e919]:
+              - link "İlan Karşılaştır" [ref=e920] [cursor=pointer]:
+                - /url: /karsilastir
+            - listitem [ref=e921]:
+              - link "Favorilerim" [ref=e922] [cursor=pointer]:
+                - /url: /favorilerim
+                - img [ref=e923]
+                - text: Favorilerim
+            - listitem [ref=e925]: Yasal
+            - listitem [ref=e926]:
+              - link "Gizlilik Politikası" [ref=e927] [cursor=pointer]:
+                - /url: /gizlilik-politikasi
+            - listitem [ref=e928]:
+              - link "Çerez Politikası" [ref=e929] [cursor=pointer]:
+                - /url: /cerez-politikasi
+            - listitem [ref=e930]:
+              - link "Kullanım Koşulları" [ref=e931] [cursor=pointer]:
+                - /url: /kullanim-kosullari
+            - listitem [ref=e932]:
+              - link "Hakkımızda" [ref=e933] [cursor=pointer]:
+                - /url: /hakkimizda
+            - listitem [ref=e934]:
+              - link "İletişim" [ref=e935] [cursor=pointer]:
+                - /url: /iletisim
+      - generic [ref=e936]:
+        - link "İletişim +90 532 593 38 54 Hafta içi 09:00 - 18:00" [ref=e937] [cursor=pointer]:
+          - /url: tel:+905325933854
+          - img [ref=e939]
+          - generic [ref=e941]:
+            - generic [ref=e942]: İletişim
+            - generic [ref=e943]: +90 532 593 38 54
+            - generic [ref=e944]:
+              - img [ref=e945]
+              - generic [ref=e948]: Hafta içi 09:00 - 18:00
+        - link "WhatsApp Mesaj Gönder 7/24 hızlı yanıt" [ref=e949] [cursor=pointer]:
+          - /url: https://wa.me/905325933854
+          - img [ref=e951]
+          - generic [ref=e953]:
+            - generic [ref=e954]: WhatsApp
+            - generic [ref=e955]: Mesaj Gönder
+            - generic [ref=e956]: 7/24 hızlı yanıt
+        - link "E-posta info@karasuemlak.net Detaylı bilgi için" [ref=e957] [cursor=pointer]:
+          - /url: mailto:info@karasuemlak.net
+          - img [ref=e959]
+          - generic [ref=e962]:
+            - generic [ref=e963]: E-posta
+            - generic [ref=e964]: info@karasuemlak.net
+            - generic [ref=e965]: Detaylı bilgi için
+      - generic [ref=e966]:
+        - generic [ref=e967]:
+          - paragraph [ref=e968]: © 2026 Karasu Emlak.•Tüm hakları saklıdır.
+          - generic [ref=e969]:
+            - link "Gizlilik Politikası" [ref=e970] [cursor=pointer]:
+              - /url: /gizlilik-politikasi
+            - generic [ref=e971]: •
+            - link "Çerez Politikası" [ref=e972] [cursor=pointer]:
+              - /url: /cerez-politikasi
+            - generic [ref=e973]: •
+            - link "Kullanım Koşulları" [ref=e974] [cursor=pointer]:
+              - /url: /kullanim-kosullari
+            - generic [ref=e975]: •
+            - link "KVKK Başvuru" [ref=e976] [cursor=pointer]:
+              - /url: /kvkk-basvuru
+            - generic [ref=e977]: •
+            - link "Sitemap" [ref=e978] [cursor=pointer]:
+              - /url: /sitemap.xml
+              - text: Sitemap
+              - img [ref=e979]
+        - generic [ref=e984]:
+          - generic [ref=e985]:
+            - img [ref=e986]
+            - generic [ref=e988]: SSL Güvenli
+          - generic [ref=e989]:
+            - img [ref=e990]
+            - generic [ref=e993]: Güvenli Ödeme
+          - generic [ref=e994]:
+            - img [ref=e995]
+            - generic [ref=e998]: 15+ Yıl Deneyim
+          - generic [ref=e999]:
+            - img [ref=e1000]
+            - generic [ref=e1002]: 500+ Mutlu Müşteri
+        - generic [ref=e1004]:
+          - generic [ref=e1006]: Sakarya Karasu'nun Güvenilir Emlak Platformu
+          - generic [ref=e1007]:
+            - link "poi369" [ref=e1008] [cursor=pointer]:
+              - /url: https://poi369.com
+              - generic [ref=e1009]: poi369
+              - img [ref=e1010]
+            - generic [ref=e1014]: tarafından geliştirildi
+  - region "Notifications alt+T"
+  - alert [ref=e1015]

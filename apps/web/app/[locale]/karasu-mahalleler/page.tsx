@@ -27,7 +27,7 @@ export async function generateMetadata({
 
   return {
     title: 'Karasu Mahalleler | Tüm Mahalleler ve Özellikleri | Karasu Emlak',
-    description: 'Karasu mahalleleri hakkında detaylı bilgiler. Merkez, Sahil, Yalı, Aziziye, Cumhuriyet, Atatürk ve diğer mahallelerin özellikleri, fiyatları ve yatırım potansiyeli.',
+    description: 'Karasu mahalleleri hakkında detaylı bilgiler. Merkez, Sahil, Yalı, Aziziye, Cumhuriyet, Atatürk ve diğer mahallelerin özellikleri, fiyatları ve...',
     keywords: [
       'karasu mahalleler',
       'karasu mahalleleri',

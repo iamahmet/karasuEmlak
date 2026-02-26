@@ -56,14 +56,14 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
     const apply = () => setReduceMotion(!!mq.matches);
     apply();
     // Safari < 14 uses addListener/removeListener
-    // eslint-disable-next-line deprecation/deprecation
+     
     if (typeof mq.addEventListener === 'function') mq.addEventListener('change', apply);
-    // eslint-disable-next-line deprecation/deprecation
+     
     else mq.addListener(apply);
     return () => {
-      // eslint-disable-next-line deprecation/deprecation
+       
       if (typeof mq.removeEventListener === 'function') mq.removeEventListener('change', apply);
-      // eslint-disable-next-line deprecation/deprecation
+       
       else mq.removeListener(apply);
     };
   }, []);

@@ -1,0 +1,15 @@
+### Browser `default` opened with pid 51557.
+- default:
+  - browser-type: chrome
+  - user-data-dir: <in-memory>
+  - headed: false
+---
+### Ran Playwright code
+```js
+await page.goto('https://www.karasuemlak.net/');
+```
+### Page
+- Page URL: https://www.karasuemlak.net/
+- Page Title: Karasu Emlak | Satılık ve Kiralık Daire, Villa, Yazlık | Karasu Gayrimenkul
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-02-25T14-07-30-727Z.yml)

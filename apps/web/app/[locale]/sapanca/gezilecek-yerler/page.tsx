@@ -26,7 +26,7 @@ export async function generateMetadata({
 
   return {
     title: 'Sapanca Gezilecek Yerler | Sapanca Gölü, Doğa ve Turistik Noktalar 2025',
-    description: 'Sapanca gezilecek yerler rehberi. Sapanca Gölü, Masukiye, Kartepe ve çevresindeki doğa harikaları, restoranlar ve aktiviteler. Tatil planı için kapsamlı rehber.',
+    description: 'Sapanca gezilecek yerler rehberi. Sapanca Gölü, Masukiye, Kartepe ve çevresindeki doğa harikaları, restoranlar ve aktiviteler. Tatil planı için...',
     keywords: [
       'sapanca gezilecek yerler',
       'sapanca gölü',

@@ -147,7 +147,7 @@ export default function ContrastChecker() {
 
 function getBackgroundColor(element: HTMLElement): string {
   const styles = window.getComputedStyle(element);
-  let bgColor = styles.backgroundColor;
+  const bgColor = styles.backgroundColor;
   
   // If background is transparent, check parent
   if (bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') {

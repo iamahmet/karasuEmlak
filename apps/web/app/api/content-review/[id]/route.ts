@@ -21,7 +21,7 @@ export async function POST(
 
     // Determine table based on ID pattern or try both
     // For simplicity, try articles first, then news_articles
-    let updateError = null;
+    const updateError = null;
 
     // Try articles table
     const { error: articleError } = await supabase

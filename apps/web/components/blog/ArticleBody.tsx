@@ -7,6 +7,7 @@ import { ArrowRight, User, Building2, MessageCircle } from 'lucide-react';
 import { ArticleContent } from './ArticleContent';
 import type { ContextualLink } from './contextual-links';
 import { ContentRenderer } from '@/components/content/ContentRenderer';
+import { ArticleAudioReader } from './ArticleAudioReader';
 
 const TableOfContents = dynamic(
   () => import('./EnhancedTableOfContents').then((mod) => ({ default: mod.EnhancedTableOfContents })),
@@ -78,12 +79,12 @@ function getPrimaryCtas(links: ContextualLink[], basePath: string) {
 // Author Bio Component - Enhanced (using new AuthorBox)
 import { AuthorBox } from './AuthorBox';
 
-function AuthorBioSection({ 
-  author, 
-  authorData, 
-  basePath 
-}: { 
-  author: string; 
+function AuthorBioSection({
+  author,
+  authorData,
+  basePath
+}: {
+  author: string;
   authorData?: any;
   basePath: string;
 }) {
@@ -97,7 +98,7 @@ function AuthorBioSection({
 
   return (
     <section className="mt-12 pt-10 border-t-2 border-gray-200 dark:border-gray-700">
-      <div className="flex flex-col sm:flex-row sm:items-start gap-6 p-6 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-800/50 dark:via-gray-900 dark:to-gray-800/50 rounded-2xl border-2 border-gray-200 dark:border-gray-700 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-start gap-6 p-6 md:p-8 bg-white/70 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl border border-gray-200/50 dark:border-gray-700/50 shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
         {/* Author Avatar */}
         <div className="flex-shrink-0">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center text-white text-2xl font-bold shadow-xl shadow-primary/30 border-2 border-white dark:border-gray-800">
@@ -168,20 +169,26 @@ function ArticleBodyComponent({
         </Suspense>
       </div>
 
+      {/* Article Audio Reader */}
+      <ArticleAudioReader title={article.title} content={article.content} />
+
       {/* TL;DR / Özet Kutusu - Premium excerpt summary */}
       {(article.excerpt || article.meta_description) && (
-        <div className="mb-8 p-6 md:p-8 bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 dark:from-slate-800/60 dark:via-blue-900/20 dark:to-slate-800/60 rounded-2xl border-2 border-gray-200 dark:border-gray-700 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-xl">
+        <div className="mb-10 p-6 md:p-8 bg-gradient-to-br from-primary/5 via-white/80 to-blue-50/50 dark:from-primary/10 dark:via-gray-800/80 dark:to-blue-900/10 backdrop-blur-md rounded-3xl border border-primary/20 dark:border-primary/30 shadow-[0_15px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.3)] relative overflow-hidden">
+          {/* Decorative glow */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 dark:bg-primary/20 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+
+          <div className="relative z-10 flex items-center gap-3 mb-5">
+            <div className="p-2.5 bg-primary/10 dark:bg-primary/20 rounded-xl shadow-inner border border-primary/20 dark:border-primary/30">
               <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-primary dark:text-primary-light">
-              Özet
+            <h3 className="text-sm font-bold uppercase tracking-widest text-primary dark:text-primary-light">
+              ÖZET & ÖNEMLİ NOKTALAR
             </h3>
           </div>
-          <div className="text-base md:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+          <div className="relative z-10 text-base md:text-lg text-slate-700 dark:text-slate-300 leading-[1.8] font-medium border-l-4 border-primary/40 pl-5 ml-2">
             <ContentRenderer
               content={article.excerpt || article.meta_description}
               format="auto"
@@ -190,7 +197,7 @@ function ArticleBodyComponent({
               allowTables={false}
               allowCode={false}
               prose={false}
-              className="[&_p]:m-0 [&_p]:text-inherit [&_p]:leading-inherit [&_strong]:font-semibold"
+              className="[&_p]:m-0 [&_p]:text-inherit [&_p]:leading-inherit [&_strong]:font-bold [&_strong]:text-gray-900 dark:[&_strong]:text-white"
             />
           </div>
         </div>
@@ -224,7 +231,7 @@ function ArticleBodyComponent({
               <Link
                 key={cta.href}
                 href={cta.href}
-                className="group flex items-center justify-between gap-4 p-5 md:p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl hover:border-emerald-400 dark:hover:border-emerald-500/50 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+                className="group flex items-center justify-between gap-4 p-5 md:p-6 bg-white/70 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl border border-gray-200/50 dark:border-gray-700/50 hover:border-primary/50 dark:hover:border-primary/50 hover:shadow-[0_15px_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-lg text-gray-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors mb-2">

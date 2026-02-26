@@ -45,10 +45,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const canonicalPath = locale === routing.defaultLocale ? '/karasu-satilik-daire' : `/${locale}/karasu-satilik-daire`;
-  
+
   return {
-    title: 'Karasu Satılık Daire | En Güncel İlanlar ve Fiyatlar 2025 | Karasu Emlak',
-    description: 'Karasu\'da satılık daire ilanları. Denize sıfır konumlarda 1+1\'den 4+1\'e kadar geniş seçenek. Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki daireyi bulun.',
+    title: 'Karasu Satılık Daire İlanları ve Fiyatları 2025',
+    description: 'Karasu\'da satılık daire ilanları. 1+1\'den 4+1\'e geniş seçenek ve güncel emlak fiyatları.',
     keywords: [
       'karasu satılık daire',
       'karasu satılık daireler',
@@ -109,7 +109,7 @@ export async function generateMetadata({
 // Fetch Q&As from database (with fallback to static FAQs)
 async function getKarasuDaireFAQs() {
   const allFAQs: Array<{ question: string; answer: string }> = [];
-  
+
   // First, try ai_questions (managed Q&A system)
   try {
     const aiQuestions = await withTimeout(
@@ -126,7 +126,7 @@ async function getKarasuDaireFAQs() {
   } catch (error) {
     console.error('Error fetching AI questions:', error);
   }
-  
+
   // Then, try qa_entries (legacy system)
   try {
     const qaEntries = await withTimeout(getHighPriorityQAEntries('karasu'), 2000, []);
@@ -144,11 +144,11 @@ async function getKarasuDaireFAQs() {
   } catch (error) {
     console.error('Error fetching Q&A entries:', error);
   }
-  
+
   if (allFAQs.length > 0) {
     return allFAQs.slice(0, 10); // Limit to 10 total
   }
-  
+
   // Fallback to static FAQs
   return [
     {
@@ -194,976 +194,976 @@ export default async function KarasuSatilikDairePage({
   try {
     const { locale } = await params;
     const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
-    
+
     // Fetch data with timeout - wrapped in try-catch to prevent crashes
-  let allListings: any[] = [];
-  let neighborhoods: string[] = [];
-  let stats = { total: 0, satilik: 0, kiralik: 0, byType: {} };
-  
-  try {
-    const allListingsResult = await withTimeout(
-      getListings({ status: 'satilik', property_type: ['daire'] }, { field: 'created_at', order: 'desc' }, 1000, 0),
-      3000,
-      { listings: [], total: 0 }
+    let allListings: any[] = [];
+    let neighborhoods: string[] = [];
+    let stats = { total: 0, satilik: 0, kiralik: 0, byType: {} };
+
+    try {
+      const allListingsResult = await withTimeout(
+        getListings({ status: 'satilik', property_type: ['daire'] }, { field: 'created_at', order: 'desc' }, 1000, 0),
+        3000,
+        { listings: [], total: 0 }
+      );
+      allListings = allListingsResult?.listings || [];
+    } catch (error) {
+      console.error('[KarasuSatilikDairePage] Error fetching listings:', error);
+      allListings = [];
+    }
+
+    try {
+      neighborhoods = await withTimeout(getNeighborhoods(), 3000, [] as string[]) || [];
+    } catch (error) {
+      console.error('[KarasuSatilikDairePage] Error fetching neighborhoods:', error);
+      neighborhoods = [];
+    }
+
+    try {
+      stats = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} }) || { total: 0, satilik: 0, kiralik: 0, byType: {} };
+    } catch (error) {
+      console.error('[KarasuSatilikDairePage] Error fetching stats:', error);
+      stats = { total: 0, satilik: 0, kiralik: 0, byType: {} };
+    }
+
+    // Fetch related articles for SEO and engagement
+    // Temporarily disabled to fix JSON parse error
+    const relatedArticles: any[] = [];
+    // try {
+    //   relatedArticles = await getRelatedContent({
+    //     keywords: [
+    //       'karasu',
+    //       'daire',
+    //       'satılık daire',
+    //       'denize sıfır',
+    //       'merkez',
+    //       'yatırım',
+    //       'karasu emlak',
+    //       'daire fiyatları',
+    //       'mahalle',
+    //     ],
+    //     location: 'Karasu',
+    //     category: 'Rehber',
+    //     tags: ['Karasu', 'Daire', 'Yatırım', 'Emlak'],
+    //     limit: 6,
+    //   });
+    // } catch (error) {
+    //   console.error('[KarasuSatilikDairePage] Error fetching related articles:', error);
+    //   relatedArticles = [];
+    // }
+
+    // Filter Karasu daire listings
+    const karasuDaireListings = allListings.filter(listing =>
+      (listing.location_city?.toLowerCase().includes('karasu') ||
+        listing.location_neighborhood?.toLowerCase().includes('karasu')) &&
+      listing.property_type === 'daire'
     );
-    allListings = allListingsResult?.listings || [];
-  } catch (error) {
-    console.error('[KarasuSatilikDairePage] Error fetching listings:', error);
-    allListings = [];
-  }
-  
-  try {
-    neighborhoods = await withTimeout(getNeighborhoods(), 3000, [] as string[]) || [];
-  } catch (error) {
-    console.error('[KarasuSatilikDairePage] Error fetching neighborhoods:', error);
-    neighborhoods = [];
-  }
-  
-  try {
-    stats = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} }) || { total: 0, satilik: 0, kiralik: 0, byType: {} };
-  } catch (error) {
-    console.error('[KarasuSatilikDairePage] Error fetching stats:', error);
-    stats = { total: 0, satilik: 0, kiralik: 0, byType: {} };
-  }
 
-  // Fetch related articles for SEO and engagement
-  // Temporarily disabled to fix JSON parse error
-  const relatedArticles: any[] = [];
-  // try {
-  //   relatedArticles = await getRelatedContent({
-  //     keywords: [
-  //       'karasu',
-  //       'daire',
-  //       'satılık daire',
-  //       'denize sıfır',
-  //       'merkez',
-  //       'yatırım',
-  //       'karasu emlak',
-  //       'daire fiyatları',
-  //       'mahalle',
-  //     ],
-  //     location: 'Karasu',
-  //     category: 'Rehber',
-  //     tags: ['Karasu', 'Daire', 'Yatırım', 'Emlak'],
-  //     limit: 6,
-  //   });
-  // } catch (error) {
-  //   console.error('[KarasuSatilikDairePage] Error fetching related articles:', error);
-  //   relatedArticles = [];
-  // }
-  
-  // Filter Karasu daire listings
-  const karasuDaireListings = allListings.filter(listing => 
-    (listing.location_city?.toLowerCase().includes('karasu') ||
-    listing.location_neighborhood?.toLowerCase().includes('karasu')) &&
-    listing.property_type === 'daire'
-  );
+    // Group by room count
+    const byRooms = {
+      '1+1': karasuDaireListings.filter(l => l.features?.rooms === 1),
+      '2+1': karasuDaireListings.filter(l => l.features?.rooms === 2),
+      '3+1': karasuDaireListings.filter(l => l.features?.rooms === 3),
+      '4+1': karasuDaireListings.filter(l => l.features?.rooms === 4),
+    };
 
-  // Group by room count
-  const byRooms = {
-    '1+1': karasuDaireListings.filter(l => l.features?.rooms === 1),
-    '2+1': karasuDaireListings.filter(l => l.features?.rooms === 2),
-    '3+1': karasuDaireListings.filter(l => l.features?.rooms === 3),
-    '4+1': karasuDaireListings.filter(l => l.features?.rooms === 4),
-  };
+    // Calculate average price
+    const prices = karasuDaireListings
+      .filter(l => l.price_amount && l.price_amount > 0)
+      .map(l => l.price_amount!);
+    const avgPrice = prices.length > 0
+      ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
+      : null;
 
-  // Calculate average price
-  const prices = karasuDaireListings
-    .filter(l => l.price_amount && l.price_amount > 0)
-    .map(l => l.price_amount!);
-  const avgPrice = prices.length > 0 
-    ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
-    : null;
+    // Fetch Q&As from database
+    let faqs: Array<{ question: string; answer: string }> = [];
+    try {
+      faqs = await getKarasuDaireFAQs();
+    } catch (error) {
+      console.error('[KarasuSatilikDairePage] Error fetching FAQs:', error);
+      // Use fallback FAQs
+      faqs = [
+        {
+          question: 'Karasu\'da satılık daire fiyatları nasıl?',
+          answer: 'Karasu\'da satılık daire fiyatları konum, metrekare, oda sayısı, bina yaşı ve özelliklere göre değişmektedir. Ortalama fiyat aralığı 800.000 TL ile 2.500.000 TL arasında değişmektedir.',
+        },
+      ];
+    }
 
-  // Fetch Q&As from database
-  let faqs: Array<{ question: string; answer: string }> = [];
-  try {
-    faqs = await getKarasuDaireFAQs();
-  } catch (error) {
-    console.error('[KarasuSatilikDairePage] Error fetching FAQs:', error);
-    // Use fallback FAQs
-    faqs = [
-      {
-        question: 'Karasu\'da satılık daire fiyatları nasıl?',
-        answer: 'Karasu\'da satılık daire fiyatları konum, metrekare, oda sayısı, bina yaşı ve özelliklere göre değişmektedir. Ortalama fiyat aralığı 800.000 TL ile 2.500.000 TL arasında değişmektedir.',
+    // Generate schemas
+    const articleSchema = {
+      ...generateArticleSchema({
+        headline: 'Karasu Satılık Daire | En Güncel İlanlar ve Fiyatlar 2025',
+        description: 'Karasu\'da satılık daire ilanları. Denize sıfır konumlarda 1+1\'den 4+1\'e kadar geniş seçenek. Güncel fiyatlar, mahalle rehberi ve yatırım analizi.',
+        image: [`${siteConfig.url}/og-image.jpg`],
+        datePublished: new Date().toISOString(),
+        dateModified: new Date().toISOString(),
+        author: 'Karasu Emlak',
+      }),
+      // AI Overviews optimization
+      mainEntity: {
+        '@type': 'Question',
+        name: 'Karasu\'da satılık daire nasıl bulunur?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Karasu\'da satılık daire arayanlar için geniş bir seçenek yelpazesi mevcuttur. Fiyatlar konum, metrekare ve özelliklere göre 800.000 TL ile 2.500.000 TL arasında değişmektedir. Denize yakın konumlar ve merkez mahalleler daha yüksek fiyatlara sahiptir. Hem sürekli oturum hem de yatırım amaçlı seçenekler bulunmaktadır. 1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur.',
+        },
       },
-    ];
-  }
+    };
 
-  // Generate schemas
-  const articleSchema = {
-    ...generateArticleSchema({
-      headline: 'Karasu Satılık Daire | En Güncel İlanlar ve Fiyatlar 2025',
-      description: 'Karasu\'da satılık daire ilanları. Denize sıfır konumlarda 1+1\'den 4+1\'e kadar geniş seçenek. Güncel fiyatlar, mahalle rehberi ve yatırım analizi.',
-      image: [`${siteConfig.url}/og-image.jpg`],
-      datePublished: new Date().toISOString(),
-      dateModified: new Date().toISOString(),
-      author: 'Karasu Emlak',
-    }),
-    // AI Overviews optimization
-    mainEntity: {
-      '@type': 'Question',
-      name: 'Karasu\'da satılık daire nasıl bulunur?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Karasu\'da satılık daire arayanlar için geniş bir seçenek yelpazesi mevcuttur. Fiyatlar konum, metrekare ve özelliklere göre 800.000 TL ile 2.500.000 TL arasında değişmektedir. Denize yakın konumlar ve merkez mahalleler daha yüksek fiyatlara sahiptir. Hem sürekli oturum hem de yatırım amaçlı seçenekler bulunmaktadır. 1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur.',
-      },
-    },
-  };
+    const faqSchema = generateFAQSchema(faqs);
 
-  const faqSchema = generateFAQSchema(faqs);
+    const breadcrumbSchema = generateBreadcrumbSchema(
+      [
+        { name: 'Ana Sayfa', url: `${siteConfig.url}${basePath}/` },
+        { name: 'Satılık İlanlar', url: `${siteConfig.url}${basePath}/satilik` },
+        { name: 'Karasu Satılık Daire', url: `${siteConfig.url}${basePath}/karasu-satilik-daire` },
+      ],
+      `${siteConfig.url}${basePath}/karasu-satilik-daire`
+    );
 
-  const breadcrumbSchema = generateBreadcrumbSchema(
-    [
-      { name: 'Ana Sayfa', url: `${siteConfig.url}${basePath}/` },
-      { name: 'Satılık İlanlar', url: `${siteConfig.url}${basePath}/satilik` },
-      { name: 'Karasu Satılık Daire', url: `${siteConfig.url}${basePath}/karasu-satilik-daire` },
-    ],
-    `${siteConfig.url}${basePath}/karasu-satilik-daire`
-  );
+    // RealEstateAgent schema
+    const realEstateAgentSchema = generateRealEstateAgentLocalSchema({
+      includeRating: true,
+      includeServices: true,
+      includeAreaServed: true,
+    });
 
-  // RealEstateAgent schema
-  const realEstateAgentSchema = generateRealEstateAgentLocalSchema({
-    includeRating: true,
-    includeServices: true,
-    includeAreaServed: true,
-  });
-
-  // ItemList schema for listings
-  const itemListSchema = karasuDaireListings.length > 0
-    ? generateItemListSchema(karasuDaireListings.slice(0, 20), `${siteConfig.url}${basePath}`, {
+    // ItemList schema for listings
+    const itemListSchema = karasuDaireListings.length > 0
+      ? generateItemListSchema(karasuDaireListings.slice(0, 20), `${siteConfig.url}${basePath}`, {
         name: 'Karasu Satılık Daire İlanları',
         description: `Karasu'da ${karasuDaireListings.length} adet satılık daire ilanı. Denize sıfır konumlarda geniş seçenek.`,
       })
-    : null;
+      : null;
 
-  // HowTo schema for "Karasu'da Satılık Daire Nasıl Alınır?"
-  const howToSchema = generateHowToSchema({
-    name: "Karasu'da Satılık Daire Nasıl Alınır?",
-    description: "Karasu'da satılık daire alım sürecinde izlenmesi gereken adımlar ve dikkat edilmesi gerekenler.",
-    totalTime: 'PT30M',
-    url: `${siteConfig.url}${basePath}/karasu-satilik-daire`,
-    image: `${siteConfig.url}/og-image.jpg`,
-    steps: [
-      {
-        name: 'Bütçe Belirleme',
-        text: 'Karasu\'da satılık daire almak için öncelikle bütçenizi belirleyin. Ortalama fiyatlar 800.000 TL ile 2.500.000 TL arasında değişmektedir. Kredi kullanacaksanız, banka ön onayı alın.',
-      },
-      {
-        name: 'Mahalle Seçimi',
-        text: 'Karasu\'nun farklı mahallelerini araştırın. Merkez mahalleler sürekli oturum için idealken, denize yakın mahalleler yatırım ve yazlık amaçlı tercih edilir.',
-      },
-      {
-        name: 'İlan İnceleme',
-        text: 'İlanları detaylı inceleyin. Fiyat, metrekare, oda sayısı, bina yaşı, özellikler (asansör, otopark, balkon) gibi kriterleri değerlendirin.',
-      },
-      {
-        name: 'Görüntüleme ve Değerlendirme',
-        text: 'Seçtiğiniz daireleri yerinde görüntüleyin. Konum, ulaşım, çevre faktörlerini değerlendirin. Gerekirse ekspertiz yaptırın.',
-      },
-      {
-        name: 'Fiyat Pazarlığı ve Sözleşme',
-        text: 'Fiyat pazarlığı yapın ve anlaşma sağlandığında sözleşme imzalayın. Kapora ödemesi yapın ve tapu işlemlerini başlatın.',
-      },
-      {
-        name: 'Tapu İşlemleri ve Teslim',
-        text: 'Tapu müdürlüğünde gerekli işlemleri tamamlayın. Kalan ödemeyi yapın ve daireyi teslim alın.',
-      },
-    ],
-  });
+    // HowTo schema for "Karasu'da Satılık Daire Nasıl Alınır?"
+    const howToSchema = generateHowToSchema({
+      name: "Karasu'da Satılık Daire Nasıl Alınır?",
+      description: "Karasu'da satılık daire alım sürecinde izlenmesi gereken adımlar ve dikkat edilmesi gerekenler.",
+      totalTime: 'PT30M',
+      url: `${siteConfig.url}${basePath}/karasu-satilik-daire`,
+      image: `${siteConfig.url}/og-image.jpg`,
+      steps: [
+        {
+          name: 'Bütçe Belirleme',
+          text: 'Karasu\'da satılık daire almak için öncelikle bütçenizi belirleyin. Ortalama fiyatlar 800.000 TL ile 2.500.000 TL arasında değişmektedir. Kredi kullanacaksanız, banka ön onayı alın.',
+        },
+        {
+          name: 'Mahalle Seçimi',
+          text: 'Karasu\'nun farklı mahallelerini araştırın. Merkez mahalleler sürekli oturum için idealken, denize yakın mahalleler yatırım ve yazlık amaçlı tercih edilir.',
+        },
+        {
+          name: 'İlan İnceleme',
+          text: 'İlanları detaylı inceleyin. Fiyat, metrekare, oda sayısı, bina yaşı, özellikler (asansör, otopark, balkon) gibi kriterleri değerlendirin.',
+        },
+        {
+          name: 'Görüntüleme ve Değerlendirme',
+          text: 'Seçtiğiniz daireleri yerinde görüntüleyin. Konum, ulaşım, çevre faktörlerini değerlendirin. Gerekirse ekspertiz yaptırın.',
+        },
+        {
+          name: 'Fiyat Pazarlığı ve Sözleşme',
+          text: 'Fiyat pazarlığı yapın ve anlaşma sağlandığında sözleşme imzalayın. Kapora ödemesi yapın ve tapu işlemlerini başlatın.',
+        },
+        {
+          name: 'Tapu İşlemleri ve Teslim',
+          text: 'Tapu müdürlüğünde gerekli işlemleri tamamlayın. Kalan ödemeyi yapın ve daireyi teslim alın.',
+        },
+      ],
+    });
 
-  // VideoObject schema for "Karasu'da Daire Alırken Dikkat Edilmesi Gerekenler" (placeholder - can be replaced with actual video)
-  const videoSchema = generateVideoObjectSchema({
-    name: "Karasu'da Satılık Daire Alırken Dikkat Edilmesi Gerekenler",
-    description: "Karasu'da satılık daire alırken dikkat edilmesi gereken önemli noktalar, fiyat analizi ve yatırım tavsiyeleri.",
-    thumbnailUrl: `${siteConfig.url}/og-image.jpg`,
-    uploadDate: new Date().toISOString(),
-    duration: 'PT5M',
-    contentUrl: `${siteConfig.url}${basePath}/karasu-satilik-daire#video-guide`,
-    embedUrl: `${siteConfig.url}${basePath}/karasu-satilik-daire#video-guide`,
-  });
-  // Generate page content for AI checker
-  const pageContentInfo = generatePageContentInfo('Karasu Satılık Daire', [
-    { id: 'genel-bakis', title: 'Karasu\'da Satılık Daire Arayanlar İçin Genel Bakış', content: 'Karasu\'da satılık daire ilanları ve seçenekleri hakkında kapsamlı bilgi. Denize yakın konumlarda, merkez mahallelerde ve gelişen bölgelerde satılık daire seçenekleri bulunmaktadır. Hem sürekli oturum hem de yatırım amaçlı seçenekler mevcuttur. İstanbul\'a yakınlık, turizm potansiyeli ve gelişen altyapı, Karasu\'yu satılık daire arayanlar için cazip bir bölge haline getirmektedir.' },
-    { id: 'oda-sayisina-gore', title: 'Oda Sayısına Göre Karasu Satılık Daire Seçenekleri', content: '1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur. Tek kişi veya çiftler için 1+1, küçük aileler için 2+1, orta büyüklükte aileler için 3+1, büyük aileler için 4+1 daire seçenekleri bulunmaktadır. Her oda sayısı için farklı fiyat aralıklarında seçenekler mevcuttur.' },
-    { id: 'fiyat-analizi', title: 'Karasu Satılık Daire Fiyat Analizi', content: 'Karasu\'da satılık daire fiyatları konum, metrekare, oda sayısı, denize yakınlık ve özelliklere göre değişmektedir. Ortalama fiyatlar 1+1 daireler için 500.000 TL - 1.200.000 TL, 2+1 daireler için 700.000 TL - 1.800.000 TL, 3+1 daireler için 1.000.000 TL - 2.500.000 TL, 4+1 daireler için 1.500.000 TL - 3.500.000 TL arasında değişmektedir. Denize yakın konumlar ve merkez mahalleler daha yüksek fiyatlara sahiptir.' },
-    { id: 'mahalleler', title: 'Mahallelere Göre Karasu Satılık Daire Seçenekleri', content: 'Karasu\'nun farklı mahallelerinde satılık daire seçenekleri mevcuttur. Merkez mahalleler, denize yakın mahalleler, gelişen bölgeler ve uygun fiyatlı bölgeler hakkında detaylı bilgi. Her mahallenin ulaşım, sosyal alanlar, okullar, sağlık kuruluşları ve güvenlik açısından değerlendirmesi. Gelecek projeleri ve altyapı durumu.' },
-    { id: 'dikkat-edilmesi-gerekenler', title: 'Dikkat Edilmesi Gerekenler', content: 'Karasu\'da satılık daire alırken dikkat edilmesi gerekenler: Tapu durumu, yapı ruhsatı, iskan belgesi, bina yaşı, kat sayısı, asansör, otopark, balkon, aidat ve giderler. Ayrıca konum, ulaşım, sosyal alanlar, okullar ve sağlık kuruluşları gibi çevre faktörleri de değerlendirilmelidir.' },
-  ]);
-
-
-  return (
-    <>
-      <StructuredData data={articleSchema} />
-      {faqSchema && <StructuredData data={faqSchema} />}
-      <StructuredData data={breadcrumbSchema} />
-      <StructuredData data={realEstateAgentSchema} />
-      {itemListSchema && <StructuredData data={itemListSchema} />}
-      <StructuredData data={howToSchema} />
-      <StructuredData data={videoSchema} />
-      
-      <Breadcrumbs
-        items={[
-          { label: 'Ana Sayfa', href: `${basePath}/` },
-          { label: 'Satılık İlanlar', href: `${basePath}/satilik` },
-          { label: 'Karasu Satılık Daire', href: `${basePath}/karasu-satilik-daire` },
-        ]}
-      />
-      
-      {/* AI Checker Badge */}
-      {/* AI Checker Badge - Admin Only (Hidden from public) */}
+    // VideoObject schema for "Karasu'da Daire Alırken Dikkat Edilmesi Gerekenler" (placeholder - can be replaced with actual video)
+    const videoSchema = generateVideoObjectSchema({
+      name: "Karasu'da Satılık Daire Alırken Dikkat Edilmesi Gerekenler",
+      description: "Karasu'da satılık daire alırken dikkat edilmesi gereken önemli noktalar, fiyat analizi ve yatırım tavsiyeleri.",
+      thumbnailUrl: `${siteConfig.url}/og-image.jpg`,
+      uploadDate: new Date().toISOString(),
+      duration: 'PT5M',
+      contentUrl: `${siteConfig.url}${basePath}/karasu-satilik-daire#video-guide`,
+      embedUrl: `${siteConfig.url}${basePath}/karasu-satilik-daire#video-guide`,
+    });
+    // Generate page content for AI checker
+    const pageContentInfo = generatePageContentInfo('Karasu Satılık Daire', [
+      { id: 'genel-bakis', title: 'Karasu\'da Satılık Daire Arayanlar İçin Genel Bakış', content: 'Karasu\'da satılık daire ilanları ve seçenekleri hakkında kapsamlı bilgi. Denize yakın konumlarda, merkez mahallelerde ve gelişen bölgelerde satılık daire seçenekleri bulunmaktadır. Hem sürekli oturum hem de yatırım amaçlı seçenekler mevcuttur. İstanbul\'a yakınlık, turizm potansiyeli ve gelişen altyapı, Karasu\'yu satılık daire arayanlar için cazip bir bölge haline getirmektedir.' },
+      { id: 'oda-sayisina-gore', title: 'Oda Sayısına Göre Karasu Satılık Daire Seçenekleri', content: '1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur. Tek kişi veya çiftler için 1+1, küçük aileler için 2+1, orta büyüklükte aileler için 3+1, büyük aileler için 4+1 daire seçenekleri bulunmaktadır. Her oda sayısı için farklı fiyat aralıklarında seçenekler mevcuttur.' },
+      { id: 'fiyat-analizi', title: 'Karasu Satılık Daire Fiyat Analizi', content: 'Karasu\'da satılık daire fiyatları konum, metrekare, oda sayısı, denize yakınlık ve özelliklere göre değişmektedir. Ortalama fiyatlar 1+1 daireler için 500.000 TL - 1.200.000 TL, 2+1 daireler için 700.000 TL - 1.800.000 TL, 3+1 daireler için 1.000.000 TL - 2.500.000 TL, 4+1 daireler için 1.500.000 TL - 3.500.000 TL arasında değişmektedir. Denize yakın konumlar ve merkez mahalleler daha yüksek fiyatlara sahiptir.' },
+      { id: 'mahalleler', title: 'Mahallelere Göre Karasu Satılık Daire Seçenekleri', content: 'Karasu\'nun farklı mahallelerinde satılık daire seçenekleri mevcuttur. Merkez mahalleler, denize yakın mahalleler, gelişen bölgeler ve uygun fiyatlı bölgeler hakkında detaylı bilgi. Her mahallenin ulaşım, sosyal alanlar, okullar, sağlık kuruluşları ve güvenlik açısından değerlendirmesi. Gelecek projeleri ve altyapı durumu.' },
+      { id: 'dikkat-edilmesi-gerekenler', title: 'Dikkat Edilmesi Gerekenler', content: 'Karasu\'da satılık daire alırken dikkat edilmesi gerekenler: Tapu durumu, yapı ruhsatı, iskan belgesi, bina yaşı, kat sayısı, asansör, otopark, balkon, aidat ve giderler. Ayrıca konum, ulaşım, sosyal alanlar, okullar ve sağlık kuruluşları gibi çevre faktörleri de değerlendirilmelidir.' },
+    ]);
 
 
-      <main className="min-h-screen bg-white">
-        {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-20 md:py-28 overflow-hidden">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,white_1px,transparent_0)] bg-[length:40px_40px]" />
-          </div>
-          
-          <div className="container mx-auto px-4 relative z-10">
-            <ScrollReveal direction="up" delay={0}>
-              <div className="max-w-4xl mx-auto text-center">
-                <div className="inline-block mb-4">
-                  <span className="px-4 py-2 rounded-lg text-xs font-semibold bg-white/10 backdrop-blur-sm border border-white/20 text-white">
-                    {karasuDaireListings.length}+ Aktif Daire İlanı
-                  </span>
+    return (
+      <>
+        <StructuredData data={articleSchema} />
+        {faqSchema && <StructuredData data={faqSchema} />}
+        <StructuredData data={breadcrumbSchema} />
+        <StructuredData data={realEstateAgentSchema} />
+        {itemListSchema && <StructuredData data={itemListSchema} />}
+        <StructuredData data={howToSchema} />
+        <StructuredData data={videoSchema} />
+
+        <Breadcrumbs
+          items={[
+            { label: 'Ana Sayfa', href: `${basePath}/` },
+            { label: 'Satılık İlanlar', href: `${basePath}/satilik` },
+            { label: 'Karasu Satılık Daire', href: `${basePath}/karasu-satilik-daire` },
+          ]}
+        />
+
+        {/* AI Checker Badge */}
+        {/* AI Checker Badge - Admin Only (Hidden from public) */}
+
+
+        <main className="min-h-screen bg-white">
+          {/* Hero Section */}
+          <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-20 md:py-28 overflow-hidden">
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,white_1px,transparent_0)] bg-[length:40px_40px]" />
+            </div>
+
+            <div className="container mx-auto px-4 relative z-10">
+              <ScrollReveal direction="up" delay={0}>
+                <div className="max-w-4xl mx-auto text-center">
+                  <div className="inline-block mb-4">
+                    <span className="px-4 py-2 rounded-lg text-xs font-semibold bg-white/10 backdrop-blur-sm border border-white/20 text-white">
+                      {karasuDaireListings.length}+ Aktif Daire İlanı
+                    </span>
+                  </div>
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+                    Karasu Satılık Daire
+                  </h1>
+                  <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-8">
+                    Karasu'da satılık daire arayanlar için kapsamlı rehber. Denize sıfır konumlarda 1+1'den 4+1'e kadar geniş seçenek.
+                    Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki daireyi bulun.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button asChild size="lg" className="bg-white text-gray-900 hover:bg-gray-100">
+                      <Link href={`${basePath}/satilik?propertyType=daire`}>
+                        <Home className="w-5 h-5 mr-2" />
+                        Tüm Daire İlanlarını Görüntüle
+                      </Link>
+                    </Button>
+                    <Button asChild size="lg" variant="outline" className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20">
+                      <Link href={`${basePath}/iletisim`}>
+                        <Phone className="w-5 h-5 mr-2" />
+                        İletişime Geçin
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                  Karasu Satılık Daire
-                </h1>
-                <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-8">
-                  Karasu'da satılık daire arayanlar için kapsamlı rehber. Denize sıfır konumlarda 1+1'den 4+1'e kadar geniş seçenek. 
-                  Güncel fiyatlar, mahalle rehberi ve yatırım analizi. Uzman emlak danışmanlığı ile hayalinizdeki daireyi bulun.
+              </ScrollReveal>
+            </div>
+          </section>
+
+          {/* Quick Stats */}
+          <section className="py-8 bg-white border-b border-gray-200 -mt-4 relative z-20">
+            <div className="container mx-auto px-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary">{karasuDaireListings.length}</div>
+                  <div className="text-sm text-gray-600">Aktif Daire İlanı</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary">{neighborhoods.length}</div>
+                  <div className="text-sm text-gray-600">Mahalle</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary">
+                    {avgPrice ? `₺${new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(avgPrice / 1000)}K` : 'Değişken'}
+                  </div>
+                  <div className="text-sm text-gray-600">Ortalama Fiyat</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary">24/7</div>
+                  <div className="text-sm text-gray-600">Danışmanlık</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Main Content */}
+          <section className="py-16 bg-white">
+            <div className="container mx-auto px-4 max-w-6xl">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Main Content */}
+                <div className="lg:col-span-2 space-y-12">
+                  {/* AI Checker */}
+                  <div id="ai-checker">
+                    {/* AI Checker - Admin Only (Hidden from public) */}
+                  </div>
+
+                  {/* AI Overviews Optimized: Quick Answer */}
+                  <ScrollReveal direction="up" delay={0}>
+                    <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">
+                      <h3 className="text-xl font-semibold text-gray-900 mb-3">Kısa Cevap</h3>
+                      <p className="text-gray-700 leading-relaxed">
+                        <strong>Karasu'da satılık daire</strong> arayanlar için geniş bir seçenek yelpazesi mevcuttur.
+                        Fiyatlar konum, metrekare ve özelliklere göre 800.000 TL ile 2.500.000 TL arasında değişmektedir.
+                        Denize yakın konumlar ve merkez mahalleler daha yüksek fiyatlara sahiptir. Hem sürekli oturum hem de
+                        yatırım amaçlı seçenekler bulunmaktadır. 1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur. İstanbul'a yakınlık,
+                        turizm potansiyeli ve gelişen altyapı, Karasu'yu cazip bir emlak bölgesi haline getirmektedir.
+                      </p>
+                    </div>
+                  </ScrollReveal>
+
+                  {/* Introduction */}
+                  <ScrollReveal direction="up" delay={100}>
+                    <article>
+                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        Karasu'da Satılık Daire Arayanlar İçin Genel Bakış
+                      </h2>
+                      <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
+                        <p>
+                          Karasu, Sakarya'nın en gözde sahil ilçelerinden biri olup, satılık daire piyasasında çeşitli seçenekler sunmaktadır.
+                          Denize yakın konumu, modern apartman projeleri, gelişen altyapısı ile Karasu daire piyasası zengin bir yelpazeye sahiptir.
+                        </p>
+                        <p>
+                          Karasu'da satılık daire arayanlar için hem sürekli oturum hem de yatırım amaçlı seçenekler bulunmaktadır.
+                          Özellikle İstanbul'a yakınlığı, doğal güzellikleri ve turizm potansiyeli ile Karasu, emlak yatırımcılarının
+                          ilgisini çeken bir bölgedir.
+                        </p>
+                        <p>
+                          Bu rehber, Karasu'da satılık daire almayı düşünenler için fiyat analizi, mahalle rehberi, oda sayısına göre seçenekler,
+                          yatırım tavsiyeleri ve dikkat edilmesi gerekenler hakkında kapsamlı bilgi sunmaktadır.
+                        </p>
+                      </div>
+                    </article>
+                  </ScrollReveal>
+
+                  {/* Room Count Options */}
+                  <ScrollReveal direction="up" delay={200}>
+                    <article>
+                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        Oda Sayısına Göre Karasu Satılık Daire Seçenekleri
+                      </h2>
+                      <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
+                        <p>
+                          Karasu'da satılık daire seçenekleri oda sayısına göre çeşitlilik göstermektedir. Her oda sayısının kendine özgü
+                          avantajları ve kullanım alanları vardır.
+                        </p>
+
+                        <div className="grid md:grid-cols-2 gap-6 mt-6">
+                          <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">1+1 Daireler</h3>
+                            <p className="text-gray-700 mb-3">
+                              Yatırım amaçlı ve tek kişilik yaşam için ideal. Genellikle 50-70 m² arası metrekareye sahiptir.
+                            </p>
+                            <div className="text-sm text-gray-600 mb-3">
+                              <strong>Fiyat Aralığı:</strong> 800.000 TL - 1.200.000 TL
+                            </div>
+                            <div className="text-sm text-gray-600 mb-3">
+                              <strong>Popüler Mahalleler:</strong> Merkez, Sahil
+                            </div>
+                            <div className="text-sm text-gray-600 mb-3">
+                              <strong>Mevcut İlan:</strong> {byRooms['1+1'].length} adet
+                            </div>
+                            <div className="flex gap-2">
+                              <Link href={`${basePath}/karasu-1-1-satilik-daire`} className="flex-1">
+                                <Button variant="outline" size="sm" className="w-full">
+                                  1+1 Daire Rehberi
+                                </Button>
+                              </Link>
+                              <Link href={`${basePath}/satilik?propertyType=daire&rooms=1`} className="flex-1">
+                                <Button variant="outline" size="sm" className="w-full">
+                                  1+1 Daire Ara
+                                </Button>
+                              </Link>
+                            </div>
+                          </div>
+
+                          <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">2+1 Daireler</h3>
+                            <p className="text-gray-700 mb-3">
+                              Çiftler ve küçük aileler için ideal. Genellikle 70-100 m² arası metrekareye sahiptir.
+                            </p>
+                            <div className="text-sm text-gray-600 mb-3">
+                              <strong>Fiyat Aralığı:</strong> 1.000.000 TL - 1.800.000 TL
+                            </div>
+                            <div className="text-sm text-gray-600 mb-3">
+                              <strong>Popüler Mahalleler:</strong> Merkez, Sahil, Yalı Mahallesi
+                            </div>
+                            <div className="text-sm text-gray-600 mb-3">
+                              <strong>Mevcut İlan:</strong> {byRooms['2+1'].length} adet
+                            </div>
+                            <div className="flex gap-2">
+                              <Link href={`${basePath}/karasu-2-1-satilik-daire`} className="flex-1">
+                                <Button variant="outline" size="sm" className="w-full">
+                                  2+1 Daire Rehberi
+                                </Button>
+                              </Link>
+                              <Link href={`${basePath}/satilik?propertyType=daire&rooms=2`} className="flex-1">
+                                <Button variant="outline" size="sm" className="w-full">
+                                  2+1 Daire Ara
+                                </Button>
+                              </Link>
+                            </div>
+                          </div>
+
+                          <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">3+1 Daireler</h3>
+                            <p className="text-gray-700 mb-3">
+                              Aileler için en popüler seçenek. Genellikle 100-130 m² arası metrekareye sahiptir.
+                            </p>
+                            <div className="text-sm text-gray-600 mb-3">
+                              <strong>Fiyat Aralığı:</strong> 1.500.000 TL - 2.500.000 TL
+                            </div>
+                            <div className="text-sm text-gray-600 mb-3">
+                              <strong>Popüler Mahalleler:</strong> Merkez, Sahil, Liman, Aziziye
+                            </div>
+                            <div className="text-sm text-gray-600 mb-3">
+                              <strong>Mevcut İlan:</strong> {byRooms['3+1'].length} adet
+                            </div>
+                            <div className="flex gap-2">
+                              <Link href={`${basePath}/karasu-3-1-satilik-daire`} className="flex-1">
+                                <Button variant="outline" size="sm" className="w-full">
+                                  3+1 Daire Rehberi
+                                </Button>
+                              </Link>
+                              <Link href={`${basePath}/satilik?propertyType=daire&rooms=3`} className="flex-1">
+                                <Button variant="outline" size="sm" className="w-full">
+                                  3+1 Daire Ara
+                                </Button>
+                              </Link>
+                            </div>
+                          </div>
+
+                          <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">4+1 Daireler</h3>
+                            <p className="text-gray-700 mb-3">
+                              Geniş aileler için ideal. Genellikle 130-180 m² arası metrekareye sahiptir.
+                            </p>
+                            <div className="text-sm text-gray-600 mb-3">
+                              <strong>Fiyat Aralığı:</strong> 2.000.000 TL - 3.500.000 TL
+                            </div>
+                            <div className="text-sm text-gray-600 mb-3">
+                              <strong>Popüler Mahalleler:</strong> Merkez, Sahil, Yalı Mahallesi
+                            </div>
+                            <div className="text-sm text-gray-600 mb-3">
+                              <strong>Mevcut İlan:</strong> {byRooms['4+1'].length} adet
+                            </div>
+                            <div className="flex gap-2">
+                              <Link href={`${basePath}/karasu-4-1-satilik-daire`} className="flex-1">
+                                <Button variant="outline" size="sm" className="w-full">
+                                  4+1 Daire Rehberi
+                                </Button>
+                              </Link>
+                              <Link href={`${basePath}/satilik?propertyType=daire&rooms=4`} className="flex-1">
+                                <Button variant="outline" size="sm" className="w-full">
+                                  4+1 Daire Ara
+                                </Button>
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </ScrollReveal>
+
+                  {/* Price Analysis */}
+                  <ScrollReveal direction="up" delay={400}>
+                    <article>
+                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        Karasu Satılık Daire Fiyat Analizi ve Piyasa Trendleri
+                      </h2>
+                      <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
+                        <p>
+                          Karasu'da satılık daire fiyatları birçok faktöre bağlı olarak değişmektedir. Bu faktörleri anlamak,
+                          doğru karar vermenize yardımcı olacaktır.
+                        </p>
+
+                        {/* Detailed Price Breakdown */}
+                        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200 mt-6">
+                          <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <DollarSign className="h-6 w-6 text-[#006AFF]" />
+                            Detaylı Fiyat Analizi (2025)
+                          </h3>
+                          <div className="grid md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <div className="flex justify-between items-center p-3 bg-white/60 rounded-lg">
+                                <span className="text-gray-700 font-medium">1+1 Daireler</span>
+                                <span className="font-bold text-gray-900">800K - 1.2M TL</span>
+                              </div>
+                              <div className="flex justify-between items-center p-3 bg-white/60 rounded-lg">
+                                <span className="text-gray-700 font-medium">2+1 Daireler</span>
+                                <span className="font-bold text-gray-900">1M - 1.8M TL</span>
+                              </div>
+                            </div>
+                            <div className="space-y-2">
+                              <div className="flex justify-between items-center p-3 bg-white/60 rounded-lg">
+                                <span className="text-gray-700 font-medium">3+1 Daireler</span>
+                                <span className="font-bold text-gray-900">1.5M - 2.5M TL</span>
+                              </div>
+                              <div className="flex justify-between items-center p-3 bg-white/60 rounded-lg">
+                                <span className="text-gray-700 font-medium">4+1 Daireler</span>
+                                <span className="font-bold text-gray-900">2M - 3.5M TL</span>
+                              </div>
+                            </div>
+                          </div>
+                          {avgPrice && (
+                            <div className="mt-4 p-4 bg-white/80 rounded-lg">
+                              <p className="text-sm text-gray-600 mb-1">Karasu Genel Ortalama Fiyat</p>
+                              <p className="text-2xl font-bold text-[#006AFF]">
+                                ₺{new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(avgPrice / 1000)}K
+                              </p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                {karasuDaireListings.length} aktif ilan üzerinden hesaplanmıştır
+                              </p>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6 mt-6">
+                          <div className="p-6 bg-gradient-to-br from-blue-50/50 to-cyan-50/30 rounded-2xl border border-blue-200/40">
+                            <h3 className="text-xl font-semibold mb-4 text-gray-900 flex items-center gap-2">
+                              <BarChart3 className="h-6 w-6 text-[#006AFF]" />
+                              Fiyat Trendleri
+                            </h3>
+                            <div className="space-y-3">
+                              <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg">
+                                <span className="text-gray-700 font-medium">Merkez Bölge (2+1)</span>
+                                <span className="font-bold text-gray-900">1M - 1.8M TL</span>
+                              </div>
+                              <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg">
+                                <span className="text-gray-700 font-medium">Denize Yakın (3+1)</span>
+                                <span className="font-bold text-gray-900">1.5M - 2.5M TL</span>
+                              </div>
+                              <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg">
+                                <span className="text-gray-700 font-medium">Sahil Şeridi (2+1)</span>
+                                <span className="font-bold text-gray-900">1.2M - 2M TL</span>
+                              </div>
+                              <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg">
+                                <span className="text-gray-700 font-medium">Lüks Projeler (3+1)</span>
+                                <span className="font-bold text-gray-900">2M - 3.5M TL</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="p-6 bg-gradient-to-br from-emerald-50/50 to-green-50/30 rounded-2xl border border-emerald-200/40">
+                            <h3 className="text-xl font-semibold mb-4 text-gray-900 flex items-center gap-2">
+                              <Lightbulb className="h-6 w-6 text-[#00A862]" />
+                              Yatırım İpuçları ve Fiyat Faktörleri
+                            </h3>
+                            <ul className="space-y-3">
+                              <li className="flex items-start gap-3">
+                                <CheckCircle2 className="h-5 w-5 text-[#00A862] flex-shrink-0 mt-0.5" />
+                                <div>
+                                  <strong className="text-gray-900 font-semibold">Denize yakın konumlar</strong> yatırım değeri yüksek (+%15-25 fiyat farkı)
+                                </div>
+                              </li>
+                              <li className="flex items-start gap-3">
+                                <CheckCircle2 className="h-5 w-5 text-[#00A862] flex-shrink-0 mt-0.5" />
+                                <div>
+                                  <strong className="text-gray-900 font-semibold">Gelişen mahalleler</strong> gelecek potansiyeli sunar (yıllık +%8-12 değer artışı)
+                                </div>
+                              </li>
+                              <li className="flex items-start gap-3">
+                                <CheckCircle2 className="h-5 w-5 text-[#00A862] flex-shrink-0 mt-0.5" />
+                                <div>
+                                  <strong className="text-gray-900 font-semibold">Asansör ve otopark</strong> değer artışı sağlar (+%10-15 fiyat farkı)
+                                </div>
+                              </li>
+                              <li className="flex items-start gap-3">
+                                <CheckCircle2 className="h-5 w-5 text-[#00A862] flex-shrink-0 mt-0.5" />
+                                <div>
+                                  <strong className="text-gray-900 font-semibold">Kiralama geliri</strong> yatırım getirisi yüksek (yıllık %4-6 kira getirisi)
+                                </div>
+                              </li>
+                              <li className="flex items-start gap-3">
+                                <CheckCircle2 className="h-5 w-5 text-[#00A862] flex-shrink-0 mt-0.5" />
+                                <div>
+                                  <strong className="text-gray-900 font-semibold">Bina yaşı</strong> önemli faktör (yeni yapılar +%20-30 daha pahalı)
+                                </div>
+                              </li>
+                              <li className="flex items-start gap-3">
+                                <CheckCircle2 className="h-5 w-5 text-[#00A862] flex-shrink-0 mt-0.5" />
+                                <div>
+                                  <strong className="text-gray-900 font-semibold">Metrekare</strong> fiyatı doğrudan etkiler (m² başına 15K-25K TL)
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </ScrollReveal>
+
+                  {/* Neighborhoods */}
+                  <ScrollReveal direction="up" delay={600}>
+                    <article>
+                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        Mahallelere Göre Karasu Satılık Daire Seçenekleri
+                      </h2>
+                      <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
+                        <p>
+                          Karasu'nun her mahallesi kendine özgü karakteristiklere sahiptir. Satılık daire seçerken mahalle
+                          özelliklerini değerlendirmek önemlidir.
+                        </p>
+
+                        <div className="grid md:grid-cols-2 gap-4 mt-6">
+                          {neighborhoods.slice(0, 8).map((neighborhood) => {
+                            const neighborhoodSlug = generateSlug(neighborhood);
+                            const neighborhoodListings = karasuDaireListings.filter(
+                              l => l.location_neighborhood && generateSlug(l.location_neighborhood) === generateSlug(neighborhood)
+                            );
+
+                            return (
+                              <Link
+                                key={neighborhood}
+                                href={`${basePath}/karasu/${neighborhoodSlug}/satilik-daire`}
+                                className="block border rounded-lg p-4 hover:border-primary hover:shadow-md transition-all"
+                              >
+                                <h3 className="text-lg font-semibold text-gray-900 mb-2">{neighborhood} Satılık Daire</h3>
+                                <p className="text-sm text-gray-600 mb-2">
+                                  {neighborhoodListings.length} satılık daire ilanı
+                                </p>
+                                <span className="text-sm text-primary font-medium">{neighborhood} satılık daire detayları →</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+
+                        <div className="mt-6">
+                          <Link href={`${basePath}/karasu/mahalleler`}>
+                            <Button variant="outline">
+                              Tüm Mahalleleri Keşfet
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    </article>
+                  </ScrollReveal>
+
+                  {/* Important Considerations */}
+                  <ScrollReveal direction="up" delay={800}>
+                    <article>
+                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        Karasu'da Satılık Daire Alırken Dikkat Edilmesi Gerekenler
+                      </h2>
+                      <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
+                        <p>
+                          Karasu'da satılık daire alırken dikkat edilmesi gereken önemli noktalar vardır. Bu noktalar hem
+                          yatırım hem de oturum amaçlı alımlar için geçerlidir.
+                        </p>
+
+                        <div className="space-y-4 mt-6">
+                          <div className="border rounded-lg p-6">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                              <Shield className="h-5 w-5 text-primary" />
+                              Tapu Durumu ve Yasal İşlemler
+                            </h3>
+                            <p>
+                              Tapu durumu mutlaka kontrol edilmelidir. Kat irtifaklı, kat mülkiyetli olması durumunda farklı işlemler gerekebilir.
+                              Tapu müdürlüğünden güncel bilgi alınmalıdır.
+                            </p>
+                          </div>
+
+                          <div className="border rounded-lg p-6">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                              <Building2 className="h-5 w-5 text-primary" />
+                              Bina Yaşı ve Yapı Durumu
+                            </h3>
+                            <p>
+                              Bina yaşı, yapı kalitesi ve bakım durumu önemlidir. Yeni yapılar genellikle daha yüksek fiyatlara sahiptir ancak
+                              bakım maliyeti düşüktür. Eski yapılar daha uygun fiyatlı olabilir ancak bakım gerektirebilir.
+                            </p>
+                          </div>
+
+                          <div className="border rounded-lg p-6">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                              <CheckCircle2 className="h-5 w-5 text-primary" />
+                              Özellikler: Asansör, Otopark, Balkon
+                            </h3>
+                            <p>
+                              Asansör, otopark, balkon, deniz manzarası gibi özellikler hem yaşam kalitesini hem de daire değerini etkiler.
+                              Bu özelliklere sahip daireler genellikle daha yüksek fiyatlara sahiptir.
+                            </p>
+                          </div>
+
+                          <div className="border rounded-lg p-6">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                              <MapPin className="h-5 w-5 text-primary" />
+                              Konum ve Ulaşım
+                            </h3>
+                            <p>
+                              Denize mesafe, merkeze yakınlık, ulaşım imkanları, okul, sağlık ve alışveriş merkezlerine yakınlık
+                              değerlendirilmelidir. Özellikle sürekli oturum için bu faktörler yaşam kalitesini etkiler.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </ScrollReveal>
+                </div>
+
+                {/* Sidebar */}
+                <aside className="lg:col-span-1">
+                  <div className="sticky top-20 space-y-6">
+                    <ScrollReveal direction="left" delay={100}>
+                      <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                        <h3 className="text-lg font-bold text-gray-900 mb-4">
+                          Hızlı İstatistikler
+                        </h3>
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-600">Toplam Daire</span>
+                            <span className="text-lg font-bold text-gray-900">{karasuDaireListings.length}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-600">1+1 Daire</span>
+                            <span className="text-lg font-bold text-gray-900">{byRooms['1+1'].length}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-600">2+1 Daire</span>
+                            <span className="text-lg font-bold text-gray-900">{byRooms['2+1'].length}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-600">3+1 Daire</span>
+                            <span className="text-lg font-bold text-gray-900">{byRooms['3+1'].length}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-600">4+1 Daire</span>
+                            <span className="text-lg font-bold text-gray-900">{byRooms['4+1'].length}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </ScrollReveal>
+
+                    <ScrollReveal direction="left" delay={200}>
+                      <div className="bg-primary/10 rounded-xl p-6 border border-primary/20">
+                        <h3 className="text-lg font-bold text-gray-900 mb-3">
+                          Emlak Danışmanlığı
+                        </h3>
+                        <p className="text-sm text-gray-700 mb-4">
+                          Karasu'da satılık daire arayanlar için uzman emlak danışmanlarımız size yardımcı olmaktan memnuniyet duyar.
+                        </p>
+                        <Button asChild className="w-full">
+                          <Link href={`${basePath}/iletisim`}>
+                            <Phone className="w-4 h-4 mr-2" />
+                            İletişime Geçin
+                          </Link>
+                        </Button>
+                      </div>
+                    </ScrollReveal>
+
+                    <ScrollReveal direction="left" delay={300}>
+                      <div className="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 className="text-lg font-bold text-gray-900 mb-4">
+                          İlgili Sayfalar
+                        </h3>
+                        <div className="space-y-2">
+                          <Link href={`${basePath}/satilik?propertyType=daire`} className="block text-sm text-primary hover:underline">
+                            Tüm Satılık Daireler
+                          </Link>
+                          <Link href={`${basePath}/karasu-satilik-ev`} className="block text-sm text-primary hover:underline">
+                            Karasu Satılık Ev
+                          </Link>
+                          <Link href={`${basePath}/karasu-satilik-ev-fiyatlari`} className="block text-sm text-primary hover:underline">
+                            Karasu Satılık Ev Fiyatları
+                          </Link>
+                          <Link href={`${basePath}/karasu-merkez-satilik-ev`} className="block text-sm text-primary hover:underline">
+                            Karasu Merkez Satılık Ev
+                          </Link>
+                          <Link href={`${basePath}/karasu-denize-yakin-satilik-ev`} className="block text-sm text-primary hover:underline">
+                            Denize Yakın Satılık Ev
+                          </Link>
+                          <Link href={`${basePath}/karasu-mahalleler`} className="block text-sm text-primary hover:underline">
+                            Karasu Mahalleler
+                          </Link>
+                          {/* Long-tail keyword pages: Oda sayısı bazlı */}
+                          <div className="pt-2 mt-2 border-t border-gray-200">
+                            <div className="text-xs font-semibold text-gray-500 mb-2">Oda Sayısına Göre:</div>
+                            <Link href={`${basePath}/karasu-1-1-satilik-daire`} className="block text-sm text-primary hover:underline">
+                              Karasu 1+1 Satılık Daire ({byRooms['1+1'].length})
+                            </Link>
+                            <Link href={`${basePath}/karasu-2-1-satilik-daire`} className="block text-sm text-primary hover:underline">
+                              Karasu 2+1 Satılık Daire ({byRooms['2+1'].length})
+                            </Link>
+                            <Link href={`${basePath}/karasu-3-1-satilik-daire`} className="block text-sm text-primary hover:underline">
+                              Karasu 3+1 Satılık Daire ({byRooms['3+1'].length})
+                            </Link>
+                            <Link href={`${basePath}/karasu-4-1-satilik-daire`} className="block text-sm text-primary hover:underline">
+                              Karasu 4+1 Satılık Daire ({byRooms['4+1'].length})
+                            </Link>
+                          </div>
+                          {/* Programmatic SEO: Mahalle bazlı satılık daire sayfaları */}
+                          <div className="pt-2 mt-2 border-t border-gray-200">
+                            <div className="text-xs font-semibold text-gray-500 mb-2">Mahallelere Göre:</div>
+                            {neighborhoods.slice(0, 5).map((neighborhood) => {
+                              const neighborhoodSlug = generateSlug(neighborhood);
+                              const neighborhoodListings = karasuDaireListings.filter(
+                                l => l.location_neighborhood && generateSlug(l.location_neighborhood) === generateSlug(neighborhood)
+                              );
+                              if (neighborhoodListings.length === 0) return null;
+                              return (
+                                <Link
+                                  key={neighborhood}
+                                  href={`${basePath}/karasu/${neighborhoodSlug}/satilik-daire`}
+                                  className="block text-sm text-primary hover:underline"
+                                >
+                                  {neighborhood} Satılık Daire ({neighborhoodListings.length})
+                                </Link>
+                              );
+                            })}
+                          </div>
+                          {/* Özellik bazlı sayfalar */}
+                          <div className="pt-2 mt-2 border-t border-gray-200">
+                            <div className="text-xs font-semibold text-gray-500 mb-2">Özellik Bazlı:</div>
+                            <Link href={`${basePath}/karasu-denize-sifir-satilik-daire`} className="block text-sm text-primary hover:underline">
+                              Denize Sıfır Satılık Daire
+                            </Link>
+                            <Link href={`${basePath}/karasu-asansorlu-satilik-daire`} className="block text-sm text-primary hover:underline">
+                              Asansörlü Satılık Daire
+                            </Link>
+                          </div>
+                          {/* Fiyat aralığı bazlı sayfalar */}
+                          <div className="pt-2 mt-2 border-t border-gray-200">
+                            <div className="text-xs font-semibold text-gray-500 mb-2">Fiyat Aralığı:</div>
+                            <Link href={`${basePath}/karasu-ucuz-satilik-daire`} className="block text-sm text-primary hover:underline">
+                              Ucuz Satılık Daire (1M Altı)
+                            </Link>
+                          </div>
+                          <div className="pt-2 mt-2 border-t border-gray-200">
+                            <Link href={`${basePath}/kredi-hesaplayici`} className="block text-sm text-primary hover:underline font-medium">
+                              Kredi Hesaplayıcı →
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </ScrollReveal>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </section>
+
+          {/* Featured Listings */}
+          {karasuDaireListings.length > 0 && (
+            <section className="py-16 bg-gray-50">
+              <div className="container mx-auto px-4">
+                <ScrollReveal direction="up" delay={0}>
+                  <div className="mb-8">
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                      Öne Çıkan Karasu Satılık Daire İlanları
+                    </h2>
+                    <p className="text-base text-gray-600">
+                      {karasuDaireListings.length} adet satılık daire ilanı
+                    </p>
+                  </div>
+                </ScrollReveal>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {karasuDaireListings.slice(0, 6).map((listing, index) => (
+                    <ScrollReveal key={listing.id} direction="up" delay={index * 50}>
+                      <ListingCard listing={listing} basePath={basePath} />
+                    </ScrollReveal>
+                  ))}
+                </div>
+                {karasuDaireListings.length > 6 && (
+                  <div className="text-center mt-8">
+                    <Button asChild size="lg">
+                      <Link href={`${basePath}/satilik?propertyType=daire`}>
+                        Tüm Satılık Daire İlanlarını Görüntüle ({karasuDaireListings.length})
+                      </Link>
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
+          {/* FAQ Section */}
+          <section className="py-16 bg-white">
+            <div className="container mx-auto px-4 max-w-4xl">
+              <ScrollReveal direction="up" delay={0}>
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Sık Sorulan Sorular
+                  </h2>
+                  <p className="text-base text-gray-600">
+                    Karasu satılık daireler hakkında merak edilenler
+                  </p>
+                </div>
+              </ScrollReveal>
+
+              <div className="space-y-4">
+                {faqs.map((faq, index) => (
+                  <ScrollReveal key={index} direction="up" delay={index * 50}>
+                    <details className="group bg-white rounded-xl p-6 border-2 border-gray-200 hover:border-primary transition-all duration-200 hover:shadow-md">
+                      <summary className="cursor-pointer flex items-center justify-between">
+                        <h3 className="text-base md:text-lg font-semibold text-gray-900 pr-4 group-hover:text-primary transition-colors">
+                          {faq.question}
+                        </h3>
+                        <svg
+                          className="w-5 h-5 text-gray-500 flex-shrink-0 transition-transform group-open:rotate-180"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </summary>
+                      <div className="mt-4 pt-4 border-t border-gray-200">
+                        <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </details>
+                  </ScrollReveal>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Related Articles Section - SEO & Engagement */}
+          {relatedArticles.length > 0 && (
+            <section className="py-16 bg-gray-50 dark:bg-gray-900">
+              <div className="container mx-auto px-4">
+                <EnhancedRelatedArticles
+                  articles={relatedArticles}
+                  basePath={basePath}
+                  title="Karasu Daire ve Emlak Hakkında Makaleler"
+                  limit={6}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* CTA Section */}
+          <section className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+            <div className="container mx-auto px-4 text-center">
+              <ScrollReveal direction="up" delay={0}>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+                  Karasu'da Hayalinizdeki Daireyi Bulun
+                </h2>
+                <p className="text-base md:text-lg text-gray-200 mb-8 max-w-2xl mx-auto">
+                  Uzman emlak danışmanlarımız, Karasu'da satılık daire arayanlar için profesyonel danışmanlık hizmeti sunmaktadır.
+                  Tüm süreçte yanınızdayız.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button asChild size="lg" className="bg-white text-gray-900 hover:bg-gray-100">
-                    <Link href={`${basePath}/satilik?propertyType=daire`}>
-                      <Home className="w-5 h-5 mr-2" />
-                      Tüm Daire İlanlarını Görüntüle
-                    </Link>
-                  </Button>
-                  <Button asChild size="lg" variant="outline" className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20">
                     <Link href={`${basePath}/iletisim`}>
                       <Phone className="w-5 h-5 mr-2" />
                       İletişime Geçin
                     </Link>
                   </Button>
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </section>
-
-        {/* Quick Stats */}
-        <section className="py-8 bg-white border-b border-gray-200 -mt-4 relative z-20">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-primary">{karasuDaireListings.length}</div>
-                <div className="text-sm text-gray-600">Aktif Daire İlanı</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-primary">{neighborhoods.length}</div>
-                <div className="text-sm text-gray-600">Mahalle</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-primary">
-                  {avgPrice ? `₺${new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(avgPrice / 1000)}K` : 'Değişken'}
-                </div>
-                <div className="text-sm text-gray-600">Ortalama Fiyat</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-primary">24/7</div>
-                <div className="text-sm text-gray-600">Danışmanlık</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Main Content */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Main Content */}
-              <div className="lg:col-span-2 space-y-12">
-                {/* AI Checker */}
-                <div id="ai-checker">
-                  {/* AI Checker - Admin Only (Hidden from public) */}
-                </div>
-
-                {/* AI Overviews Optimized: Quick Answer */}
-                <ScrollReveal direction="up" delay={0}>
-                  <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-8">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">Kısa Cevap</h3>
-                    <p className="text-gray-700 leading-relaxed">
-                      <strong>Karasu'da satılık daire</strong> arayanlar için geniş bir seçenek yelpazesi mevcuttur. 
-                      Fiyatlar konum, metrekare ve özelliklere göre 800.000 TL ile 2.500.000 TL arasında değişmektedir. 
-                      Denize yakın konumlar ve merkez mahalleler daha yüksek fiyatlara sahiptir. Hem sürekli oturum hem de 
-                      yatırım amaçlı seçenekler bulunmaktadır. 1+1, 2+1, 3+1 ve 4+1 oda seçenekleri mevcuttur. İstanbul'a yakınlık, 
-                      turizm potansiyeli ve gelişen altyapı, Karasu'yu cazip bir emlak bölgesi haline getirmektedir.
-                    </p>
-                  </div>
-                </ScrollReveal>
-
-                {/* Introduction */}
-                <ScrollReveal direction="up" delay={100}>
-                  <article>
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                      Karasu'da Satılık Daire Arayanlar İçin Genel Bakış
-                    </h2>
-                    <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
-                      <p>
-                        Karasu, Sakarya'nın en gözde sahil ilçelerinden biri olup, satılık daire piyasasında çeşitli seçenekler sunmaktadır. 
-                        Denize yakın konumu, modern apartman projeleri, gelişen altyapısı ile Karasu daire piyasası zengin bir yelpazeye sahiptir.
-                      </p>
-                      <p>
-                        Karasu'da satılık daire arayanlar için hem sürekli oturum hem de yatırım amaçlı seçenekler bulunmaktadır. 
-                        Özellikle İstanbul'a yakınlığı, doğal güzellikleri ve turizm potansiyeli ile Karasu, emlak yatırımcılarının 
-                        ilgisini çeken bir bölgedir.
-                      </p>
-                      <p>
-                        Bu rehber, Karasu'da satılık daire almayı düşünenler için fiyat analizi, mahalle rehberi, oda sayısına göre seçenekler, 
-                        yatırım tavsiyeleri ve dikkat edilmesi gerekenler hakkında kapsamlı bilgi sunmaktadır.
-                      </p>
-                    </div>
-                  </article>
-                </ScrollReveal>
-
-                {/* Room Count Options */}
-                <ScrollReveal direction="up" delay={200}>
-                  <article>
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                      Oda Sayısına Göre Karasu Satılık Daire Seçenekleri
-                    </h2>
-                    <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
-                      <p>
-                        Karasu'da satılık daire seçenekleri oda sayısına göre çeşitlilik göstermektedir. Her oda sayısının kendine özgü 
-                        avantajları ve kullanım alanları vardır.
-                      </p>
-
-                      <div className="grid md:grid-cols-2 gap-6 mt-6">
-                        <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-3">1+1 Daireler</h3>
-                          <p className="text-gray-700 mb-3">
-                            Yatırım amaçlı ve tek kişilik yaşam için ideal. Genellikle 50-70 m² arası metrekareye sahiptir.
-                          </p>
-                          <div className="text-sm text-gray-600 mb-3">
-                            <strong>Fiyat Aralığı:</strong> 800.000 TL - 1.200.000 TL
-                          </div>
-                          <div className="text-sm text-gray-600 mb-3">
-                            <strong>Popüler Mahalleler:</strong> Merkez, Sahil
-                          </div>
-                          <div className="text-sm text-gray-600 mb-3">
-                            <strong>Mevcut İlan:</strong> {byRooms['1+1'].length} adet
-                          </div>
-                          <div className="flex gap-2">
-                            <Link href={`${basePath}/karasu-1-1-satilik-daire`} className="flex-1">
-                              <Button variant="outline" size="sm" className="w-full">
-                                1+1 Daire Rehberi
-                              </Button>
-                            </Link>
-                            <Link href={`${basePath}/satilik?propertyType=daire&rooms=1`} className="flex-1">
-                              <Button variant="outline" size="sm" className="w-full">
-                                1+1 Daire Ara
-                              </Button>
-                            </Link>
-                          </div>
-                        </div>
-
-                        <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-3">2+1 Daireler</h3>
-                          <p className="text-gray-700 mb-3">
-                            Çiftler ve küçük aileler için ideal. Genellikle 70-100 m² arası metrekareye sahiptir.
-                          </p>
-                          <div className="text-sm text-gray-600 mb-3">
-                            <strong>Fiyat Aralığı:</strong> 1.000.000 TL - 1.800.000 TL
-                          </div>
-                          <div className="text-sm text-gray-600 mb-3">
-                            <strong>Popüler Mahalleler:</strong> Merkez, Sahil, Yalı Mahallesi
-                          </div>
-                          <div className="text-sm text-gray-600 mb-3">
-                            <strong>Mevcut İlan:</strong> {byRooms['2+1'].length} adet
-                          </div>
-                          <div className="flex gap-2">
-                            <Link href={`${basePath}/karasu-2-1-satilik-daire`} className="flex-1">
-                              <Button variant="outline" size="sm" className="w-full">
-                                2+1 Daire Rehberi
-                              </Button>
-                            </Link>
-                            <Link href={`${basePath}/satilik?propertyType=daire&rooms=2`} className="flex-1">
-                              <Button variant="outline" size="sm" className="w-full">
-                                2+1 Daire Ara
-                              </Button>
-                            </Link>
-                          </div>
-                        </div>
-
-                        <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-3">3+1 Daireler</h3>
-                          <p className="text-gray-700 mb-3">
-                            Aileler için en popüler seçenek. Genellikle 100-130 m² arası metrekareye sahiptir.
-                          </p>
-                          <div className="text-sm text-gray-600 mb-3">
-                            <strong>Fiyat Aralığı:</strong> 1.500.000 TL - 2.500.000 TL
-                          </div>
-                          <div className="text-sm text-gray-600 mb-3">
-                            <strong>Popüler Mahalleler:</strong> Merkez, Sahil, Liman, Aziziye
-                          </div>
-                          <div className="text-sm text-gray-600 mb-3">
-                            <strong>Mevcut İlan:</strong> {byRooms['3+1'].length} adet
-                          </div>
-                          <div className="flex gap-2">
-                            <Link href={`${basePath}/karasu-3-1-satilik-daire`} className="flex-1">
-                              <Button variant="outline" size="sm" className="w-full">
-                                3+1 Daire Rehberi
-                              </Button>
-                            </Link>
-                            <Link href={`${basePath}/satilik?propertyType=daire&rooms=3`} className="flex-1">
-                              <Button variant="outline" size="sm" className="w-full">
-                                3+1 Daire Ara
-                              </Button>
-                            </Link>
-                          </div>
-                        </div>
-
-                        <div className="border rounded-lg p-6 bg-gray-50 hover:shadow-md transition-shadow">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-3">4+1 Daireler</h3>
-                          <p className="text-gray-700 mb-3">
-                            Geniş aileler için ideal. Genellikle 130-180 m² arası metrekareye sahiptir.
-                          </p>
-                          <div className="text-sm text-gray-600 mb-3">
-                            <strong>Fiyat Aralığı:</strong> 2.000.000 TL - 3.500.000 TL
-                          </div>
-                          <div className="text-sm text-gray-600 mb-3">
-                            <strong>Popüler Mahalleler:</strong> Merkez, Sahil, Yalı Mahallesi
-                          </div>
-                          <div className="text-sm text-gray-600 mb-3">
-                            <strong>Mevcut İlan:</strong> {byRooms['4+1'].length} adet
-                          </div>
-                          <div className="flex gap-2">
-                            <Link href={`${basePath}/karasu-4-1-satilik-daire`} className="flex-1">
-                              <Button variant="outline" size="sm" className="w-full">
-                                4+1 Daire Rehberi
-                              </Button>
-                            </Link>
-                            <Link href={`${basePath}/satilik?propertyType=daire&rooms=4`} className="flex-1">
-                              <Button variant="outline" size="sm" className="w-full">
-                                4+1 Daire Ara
-                              </Button>
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </ScrollReveal>
-
-                {/* Price Analysis */}
-                <ScrollReveal direction="up" delay={400}>
-                  <article>
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                      Karasu Satılık Daire Fiyat Analizi ve Piyasa Trendleri
-                    </h2>
-                    <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
-                      <p>
-                        Karasu'da satılık daire fiyatları birçok faktöre bağlı olarak değişmektedir. Bu faktörleri anlamak, 
-                        doğru karar vermenize yardımcı olacaktır.
-                      </p>
-                      
-                      {/* Detailed Price Breakdown */}
-                      <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200 mt-6">
-                        <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                          <DollarSign className="h-6 w-6 text-[#006AFF]" />
-                          Detaylı Fiyat Analizi (2025)
-                        </h3>
-                        <div className="grid md:grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <div className="flex justify-between items-center p-3 bg-white/60 rounded-lg">
-                              <span className="text-gray-700 font-medium">1+1 Daireler</span>
-                              <span className="font-bold text-gray-900">800K - 1.2M TL</span>
-                            </div>
-                            <div className="flex justify-between items-center p-3 bg-white/60 rounded-lg">
-                              <span className="text-gray-700 font-medium">2+1 Daireler</span>
-                              <span className="font-bold text-gray-900">1M - 1.8M TL</span>
-                            </div>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex justify-between items-center p-3 bg-white/60 rounded-lg">
-                              <span className="text-gray-700 font-medium">3+1 Daireler</span>
-                              <span className="font-bold text-gray-900">1.5M - 2.5M TL</span>
-                            </div>
-                            <div className="flex justify-between items-center p-3 bg-white/60 rounded-lg">
-                              <span className="text-gray-700 font-medium">4+1 Daireler</span>
-                              <span className="font-bold text-gray-900">2M - 3.5M TL</span>
-                            </div>
-                          </div>
-                        </div>
-                        {avgPrice && (
-                          <div className="mt-4 p-4 bg-white/80 rounded-lg">
-                            <p className="text-sm text-gray-600 mb-1">Karasu Genel Ortalama Fiyat</p>
-                            <p className="text-2xl font-bold text-[#006AFF]">
-                              ₺{new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(avgPrice / 1000)}K
-                            </p>
-                            <p className="text-xs text-gray-500 mt-1">
-                              {karasuDaireListings.length} aktif ilan üzerinden hesaplanmıştır
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                      
-                      <div className="grid md:grid-cols-2 gap-6 mt-6">
-                        <div className="p-6 bg-gradient-to-br from-blue-50/50 to-cyan-50/30 rounded-2xl border border-blue-200/40">
-                          <h3 className="text-xl font-semibold mb-4 text-gray-900 flex items-center gap-2">
-                            <BarChart3 className="h-6 w-6 text-[#006AFF]" />
-                            Fiyat Trendleri
-                          </h3>
-                          <div className="space-y-3">
-                            <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg">
-                              <span className="text-gray-700 font-medium">Merkez Bölge (2+1)</span>
-                              <span className="font-bold text-gray-900">1M - 1.8M TL</span>
-                            </div>
-                            <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg">
-                              <span className="text-gray-700 font-medium">Denize Yakın (3+1)</span>
-                              <span className="font-bold text-gray-900">1.5M - 2.5M TL</span>
-                            </div>
-                            <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg">
-                              <span className="text-gray-700 font-medium">Sahil Şeridi (2+1)</span>
-                              <span className="font-bold text-gray-900">1.2M - 2M TL</span>
-                            </div>
-                            <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg">
-                              <span className="text-gray-700 font-medium">Lüks Projeler (3+1)</span>
-                              <span className="font-bold text-gray-900">2M - 3.5M TL</span>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="p-6 bg-gradient-to-br from-emerald-50/50 to-green-50/30 rounded-2xl border border-emerald-200/40">
-                          <h3 className="text-xl font-semibold mb-4 text-gray-900 flex items-center gap-2">
-                            <Lightbulb className="h-6 w-6 text-[#00A862]" />
-                            Yatırım İpuçları ve Fiyat Faktörleri
-                          </h3>
-                          <ul className="space-y-3">
-                            <li className="flex items-start gap-3">
-                              <CheckCircle2 className="h-5 w-5 text-[#00A862] flex-shrink-0 mt-0.5" />
-                              <div>
-                                <strong className="text-gray-900 font-semibold">Denize yakın konumlar</strong> yatırım değeri yüksek (+%15-25 fiyat farkı)
-                              </div>
-                            </li>
-                            <li className="flex items-start gap-3">
-                              <CheckCircle2 className="h-5 w-5 text-[#00A862] flex-shrink-0 mt-0.5" />
-                              <div>
-                                <strong className="text-gray-900 font-semibold">Gelişen mahalleler</strong> gelecek potansiyeli sunar (yıllık +%8-12 değer artışı)
-                              </div>
-                            </li>
-                            <li className="flex items-start gap-3">
-                              <CheckCircle2 className="h-5 w-5 text-[#00A862] flex-shrink-0 mt-0.5" />
-                              <div>
-                                <strong className="text-gray-900 font-semibold">Asansör ve otopark</strong> değer artışı sağlar (+%10-15 fiyat farkı)
-                              </div>
-                            </li>
-                            <li className="flex items-start gap-3">
-                              <CheckCircle2 className="h-5 w-5 text-[#00A862] flex-shrink-0 mt-0.5" />
-                              <div>
-                                <strong className="text-gray-900 font-semibold">Kiralama geliri</strong> yatırım getirisi yüksek (yıllık %4-6 kira getirisi)
-                              </div>
-                            </li>
-                            <li className="flex items-start gap-3">
-                              <CheckCircle2 className="h-5 w-5 text-[#00A862] flex-shrink-0 mt-0.5" />
-                              <div>
-                                <strong className="text-gray-900 font-semibold">Bina yaşı</strong> önemli faktör (yeni yapılar +%20-30 daha pahalı)
-                              </div>
-                            </li>
-                            <li className="flex items-start gap-3">
-                              <CheckCircle2 className="h-5 w-5 text-[#00A862] flex-shrink-0 mt-0.5" />
-                              <div>
-                                <strong className="text-gray-900 font-semibold">Metrekare</strong> fiyatı doğrudan etkiler (m² başına 15K-25K TL)
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </ScrollReveal>
-
-                {/* Neighborhoods */}
-                <ScrollReveal direction="up" delay={600}>
-                  <article>
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                      Mahallelere Göre Karasu Satılık Daire Seçenekleri
-                    </h2>
-                    <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
-                      <p>
-                        Karasu'nun her mahallesi kendine özgü karakteristiklere sahiptir. Satılık daire seçerken mahalle 
-                        özelliklerini değerlendirmek önemlidir.
-                      </p>
-
-                      <div className="grid md:grid-cols-2 gap-4 mt-6">
-                        {neighborhoods.slice(0, 8).map((neighborhood) => {
-                          const neighborhoodSlug = generateSlug(neighborhood);
-                          const neighborhoodListings = karasuDaireListings.filter(
-                            l => l.location_neighborhood && generateSlug(l.location_neighborhood) === generateSlug(neighborhood)
-                          );
-                          
-                          return (
-                            <Link
-                              key={neighborhood}
-                              href={`${basePath}/karasu/${neighborhoodSlug}/satilik-daire`}
-                              className="block border rounded-lg p-4 hover:border-primary hover:shadow-md transition-all"
-                            >
-                              <h3 className="text-lg font-semibold text-gray-900 mb-2">{neighborhood} Satılık Daire</h3>
-                              <p className="text-sm text-gray-600 mb-2">
-                                {neighborhoodListings.length} satılık daire ilanı
-                              </p>
-                              <span className="text-sm text-primary font-medium">{neighborhood} satılık daire detayları →</span>
-                            </Link>
-                          );
-                        })}
-                      </div>
-
-                      <div className="mt-6">
-                        <Link href={`${basePath}/karasu/mahalleler`}>
-                          <Button variant="outline">
-                            Tüm Mahalleleri Keşfet
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
-                  </article>
-                </ScrollReveal>
-
-                {/* Important Considerations */}
-                <ScrollReveal direction="up" delay={800}>
-                  <article>
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                      Karasu'da Satılık Daire Alırken Dikkat Edilmesi Gerekenler
-                    </h2>
-                    <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
-                      <p>
-                        Karasu'da satılık daire alırken dikkat edilmesi gereken önemli noktalar vardır. Bu noktalar hem 
-                        yatırım hem de oturum amaçlı alımlar için geçerlidir.
-                      </p>
-
-                      <div className="space-y-4 mt-6">
-                        <div className="border rounded-lg p-6">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                            <Shield className="h-5 w-5 text-primary" />
-                            Tapu Durumu ve Yasal İşlemler
-                          </h3>
-                          <p>
-                            Tapu durumu mutlaka kontrol edilmelidir. Kat irtifaklı, kat mülkiyetli olması durumunda farklı işlemler gerekebilir. 
-                            Tapu müdürlüğünden güncel bilgi alınmalıdır.
-                          </p>
-                        </div>
-
-                        <div className="border rounded-lg p-6">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                            <Building2 className="h-5 w-5 text-primary" />
-                            Bina Yaşı ve Yapı Durumu
-                          </h3>
-                          <p>
-                            Bina yaşı, yapı kalitesi ve bakım durumu önemlidir. Yeni yapılar genellikle daha yüksek fiyatlara sahiptir ancak 
-                            bakım maliyeti düşüktür. Eski yapılar daha uygun fiyatlı olabilir ancak bakım gerektirebilir.
-                          </p>
-                        </div>
-
-                        <div className="border rounded-lg p-6">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                            <CheckCircle2 className="h-5 w-5 text-primary" />
-                            Özellikler: Asansör, Otopark, Balkon
-                          </h3>
-                          <p>
-                            Asansör, otopark, balkon, deniz manzarası gibi özellikler hem yaşam kalitesini hem de daire değerini etkiler. 
-                            Bu özelliklere sahip daireler genellikle daha yüksek fiyatlara sahiptir.
-                          </p>
-                        </div>
-
-                        <div className="border rounded-lg p-6">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                            <MapPin className="h-5 w-5 text-primary" />
-                            Konum ve Ulaşım
-                          </h3>
-                          <p>
-                            Denize mesafe, merkeze yakınlık, ulaşım imkanları, okul, sağlık ve alışveriş merkezlerine yakınlık 
-                            değerlendirilmelidir. Özellikle sürekli oturum için bu faktörler yaşam kalitesini etkiler.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </ScrollReveal>
-              </div>
-
-              {/* Sidebar */}
-              <aside className="lg:col-span-1">
-                <div className="sticky top-20 space-y-6">
-                  <ScrollReveal direction="left" delay={100}>
-                    <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                      <h3 className="text-lg font-bold text-gray-900 mb-4">
-                        Hızlı İstatistikler
-                      </h3>
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-600">Toplam Daire</span>
-                          <span className="text-lg font-bold text-gray-900">{karasuDaireListings.length}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-600">1+1 Daire</span>
-                          <span className="text-lg font-bold text-gray-900">{byRooms['1+1'].length}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-600">2+1 Daire</span>
-                          <span className="text-lg font-bold text-gray-900">{byRooms['2+1'].length}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-600">3+1 Daire</span>
-                          <span className="text-lg font-bold text-gray-900">{byRooms['3+1'].length}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-600">4+1 Daire</span>
-                          <span className="text-lg font-bold text-gray-900">{byRooms['4+1'].length}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </ScrollReveal>
-
-                  <ScrollReveal direction="left" delay={200}>
-                    <div className="bg-primary/10 rounded-xl p-6 border border-primary/20">
-                      <h3 className="text-lg font-bold text-gray-900 mb-3">
-                        Emlak Danışmanlığı
-                      </h3>
-                      <p className="text-sm text-gray-700 mb-4">
-                        Karasu'da satılık daire arayanlar için uzman emlak danışmanlarımız size yardımcı olmaktan memnuniyet duyar.
-                      </p>
-                      <Button asChild className="w-full">
-                        <Link href={`${basePath}/iletisim`}>
-                          <Phone className="w-4 h-4 mr-2" />
-                          İletişime Geçin
-                        </Link>
-                      </Button>
-                    </div>
-                  </ScrollReveal>
-
-                  <ScrollReveal direction="left" delay={300}>
-                    <div className="bg-white rounded-xl p-6 border border-gray-200">
-                      <h3 className="text-lg font-bold text-gray-900 mb-4">
-                        İlgili Sayfalar
-                      </h3>
-                      <div className="space-y-2">
-                        <Link href={`${basePath}/satilik?propertyType=daire`} className="block text-sm text-primary hover:underline">
-                          Tüm Satılık Daireler
-                        </Link>
-                        <Link href={`${basePath}/karasu-satilik-ev`} className="block text-sm text-primary hover:underline">
-                          Karasu Satılık Ev
-                        </Link>
-                        <Link href={`${basePath}/karasu-satilik-ev-fiyatlari`} className="block text-sm text-primary hover:underline">
-                          Karasu Satılık Ev Fiyatları
-                        </Link>
-                        <Link href={`${basePath}/karasu-merkez-satilik-ev`} className="block text-sm text-primary hover:underline">
-                          Karasu Merkez Satılık Ev
-                        </Link>
-                        <Link href={`${basePath}/karasu-denize-yakin-satilik-ev`} className="block text-sm text-primary hover:underline">
-                          Denize Yakın Satılık Ev
-                        </Link>
-                        <Link href={`${basePath}/karasu-mahalleler`} className="block text-sm text-primary hover:underline">
-                          Karasu Mahalleler
-                        </Link>
-                        {/* Long-tail keyword pages: Oda sayısı bazlı */}
-                        <div className="pt-2 mt-2 border-t border-gray-200">
-                          <div className="text-xs font-semibold text-gray-500 mb-2">Oda Sayısına Göre:</div>
-                          <Link href={`${basePath}/karasu-1-1-satilik-daire`} className="block text-sm text-primary hover:underline">
-                            Karasu 1+1 Satılık Daire ({byRooms['1+1'].length})
-                          </Link>
-                          <Link href={`${basePath}/karasu-2-1-satilik-daire`} className="block text-sm text-primary hover:underline">
-                            Karasu 2+1 Satılık Daire ({byRooms['2+1'].length})
-                          </Link>
-                          <Link href={`${basePath}/karasu-3-1-satilik-daire`} className="block text-sm text-primary hover:underline">
-                            Karasu 3+1 Satılık Daire ({byRooms['3+1'].length})
-                          </Link>
-                          <Link href={`${basePath}/karasu-4-1-satilik-daire`} className="block text-sm text-primary hover:underline">
-                            Karasu 4+1 Satılık Daire ({byRooms['4+1'].length})
-                          </Link>
-                        </div>
-                        {/* Programmatic SEO: Mahalle bazlı satılık daire sayfaları */}
-                        <div className="pt-2 mt-2 border-t border-gray-200">
-                          <div className="text-xs font-semibold text-gray-500 mb-2">Mahallelere Göre:</div>
-                          {neighborhoods.slice(0, 5).map((neighborhood) => {
-                            const neighborhoodSlug = generateSlug(neighborhood);
-                            const neighborhoodListings = karasuDaireListings.filter(
-                              l => l.location_neighborhood && generateSlug(l.location_neighborhood) === generateSlug(neighborhood)
-                            );
-                            if (neighborhoodListings.length === 0) return null;
-                            return (
-                              <Link
-                                key={neighborhood}
-                                href={`${basePath}/karasu/${neighborhoodSlug}/satilik-daire`}
-                                className="block text-sm text-primary hover:underline"
-                              >
-                                {neighborhood} Satılık Daire ({neighborhoodListings.length})
-                              </Link>
-                            );
-                          })}
-                        </div>
-                        {/* Özellik bazlı sayfalar */}
-                        <div className="pt-2 mt-2 border-t border-gray-200">
-                          <div className="text-xs font-semibold text-gray-500 mb-2">Özellik Bazlı:</div>
-                          <Link href={`${basePath}/karasu-denize-sifir-satilik-daire`} className="block text-sm text-primary hover:underline">
-                            Denize Sıfır Satılık Daire
-                          </Link>
-                          <Link href={`${basePath}/karasu-asansorlu-satilik-daire`} className="block text-sm text-primary hover:underline">
-                            Asansörlü Satılık Daire
-                          </Link>
-                        </div>
-                        {/* Fiyat aralığı bazlı sayfalar */}
-                        <div className="pt-2 mt-2 border-t border-gray-200">
-                          <div className="text-xs font-semibold text-gray-500 mb-2">Fiyat Aralığı:</div>
-                          <Link href={`${basePath}/karasu-ucuz-satilik-daire`} className="block text-sm text-primary hover:underline">
-                            Ucuz Satılık Daire (1M Altı)
-                          </Link>
-                        </div>
-                        <div className="pt-2 mt-2 border-t border-gray-200">
-                          <Link href={`${basePath}/kredi-hesaplayici`} className="block text-sm text-primary hover:underline font-medium">
-                            Kredi Hesaplayıcı →
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </ScrollReveal>
-                </div>
-              </aside>
-            </div>
-          </div>
-        </section>
-
-        {/* Featured Listings */}
-        {karasuDaireListings.length > 0 && (
-          <section className="py-16 bg-gray-50">
-            <div className="container mx-auto px-4">
-              <ScrollReveal direction="up" delay={0}>
-                <div className="mb-8">
-                  <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-                    Öne Çıkan Karasu Satılık Daire İlanları
-                  </h2>
-                  <p className="text-base text-gray-600">
-                    {karasuDaireListings.length} adet satılık daire ilanı
-                  </p>
-                </div>
-              </ScrollReveal>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {karasuDaireListings.slice(0, 6).map((listing, index) => (
-                  <ScrollReveal key={listing.id} direction="up" delay={index * 50}>
-                    <ListingCard listing={listing} basePath={basePath} />
-                  </ScrollReveal>
-                ))}
-              </div>
-              {karasuDaireListings.length > 6 && (
-                <div className="text-center mt-8">
-                  <Button asChild size="lg">
+                  <Button asChild size="lg" variant="outline" className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20">
                     <Link href={`${basePath}/satilik?propertyType=daire`}>
-                      Tüm Satılık Daire İlanlarını Görüntüle ({karasuDaireListings.length})
+                      <Home className="w-5 h-5 mr-2" />
+                      Tüm Daire İlanlarını İncele
                     </Link>
                   </Button>
                 </div>
-              )}
+              </ScrollReveal>
             </div>
           </section>
-        )}
-
-        {/* FAQ Section */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 max-w-4xl">
-            <ScrollReveal direction="up" delay={0}>
-              <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                  Sık Sorulan Sorular
-                </h2>
-                <p className="text-base text-gray-600">
-                  Karasu satılık daireler hakkında merak edilenler
-                </p>
-              </div>
-            </ScrollReveal>
-
-            <div className="space-y-4">
-              {faqs.map((faq, index) => (
-                <ScrollReveal key={index} direction="up" delay={index * 50}>
-                  <details className="group bg-white rounded-xl p-6 border-2 border-gray-200 hover:border-primary transition-all duration-200 hover:shadow-md">
-                    <summary className="cursor-pointer flex items-center justify-between">
-                      <h3 className="text-base md:text-lg font-semibold text-gray-900 pr-4 group-hover:text-primary transition-colors">
-                        {faq.question}
-                      </h3>
-                      <svg
-                        className="w-5 h-5 text-gray-500 flex-shrink-0 transition-transform group-open:rotate-180"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </summary>
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      <p className="text-sm md:text-base text-gray-700 leading-relaxed">
-                        {faq.answer}
-                      </p>
-                    </div>
-                  </details>
-                </ScrollReveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Related Articles Section - SEO & Engagement */}
-        {relatedArticles.length > 0 && (
-          <section className="py-16 bg-gray-50 dark:bg-gray-900">
-            <div className="container mx-auto px-4">
-              <EnhancedRelatedArticles
-                articles={relatedArticles}
-                basePath={basePath}
-                title="Karasu Daire ve Emlak Hakkında Makaleler"
-                limit={6}
-              />
-            </div>
-          </section>
-        )}
-
-        {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-          <div className="container mx-auto px-4 text-center">
-            <ScrollReveal direction="up" delay={0}>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-                Karasu'da Hayalinizdeki Daireyi Bulun
-              </h2>
-              <p className="text-base md:text-lg text-gray-200 mb-8 max-w-2xl mx-auto">
-                Uzman emlak danışmanlarımız, Karasu'da satılık daire arayanlar için profesyonel danışmanlık hizmeti sunmaktadır. 
-                Tüm süreçte yanınızdayız.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild size="lg" className="bg-white text-gray-900 hover:bg-gray-100">
-                  <Link href={`${basePath}/iletisim`}>
-                    <Phone className="w-5 h-5 mr-2" />
-                    İletişime Geçin
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20">
-                  <Link href={`${basePath}/satilik?propertyType=daire`}>
-                    <Home className="w-5 h-5 mr-2" />
-                    Tüm Daire İlanlarını İncele
-                  </Link>
-                </Button>
-              </div>
-            </ScrollReveal>
-          </div>
-        </section>
-      </main>
-    </>
-  );
+        </main>
+      </>
+    );
   } catch (error: any) {
     console.error('[KarasuSatilikDairePage] Fatal error:', error);
     // Return minimal fallback page
     const { locale } = await params;
     const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
-    
+
     return (
       <>
         <Breadcrumbs
@@ -1175,7 +1175,7 @@ export default async function KarasuSatilikDairePage({
         />
         <main className="min-h-screen bg-white py-20">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Karasu Satılık Daire</h1>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Karasu Satılık Daire</h2>
             <p className="text-lg text-gray-600 mb-8">
               Sayfa yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.
             </p>

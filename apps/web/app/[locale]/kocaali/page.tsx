@@ -23,23 +23,23 @@ const ScrollReveal = dynamicImport(() => import('@/components/animations/ScrollR
 });
 
 const MarketTrendsDashboard = dynamicImport(() => import('@/components/home/MarketTrendsDashboard').then(mod => ({ default: mod.MarketTrendsDashboard })), {
-  loading: () => null,
+  loading: () => <div className="h-96 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-100 dark:border-gray-800 animate-pulse" />,
 });
 
 const TestimonialsWithSchema = dynamicImport(() => import('@/components/testimonials/TestimonialsWithSchema').then(mod => ({ default: mod.default })), {
-  loading: () => null,
+  loading: () => <div className="h-96 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-100 dark:border-gray-800 animate-pulse" />,
 });
 
 const InteractiveMap = dynamicImport(() => import('@/components/map/InteractiveMap').then(mod => ({ default: mod.InteractiveMap })), {
-  loading: () => null,
+  loading: () => <div className="h-[600px] rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-100 dark:border-gray-800 animate-pulse" />,
 });
 
 const QuickToolsSection = dynamicImport(() => import('@/components/home/QuickToolsSection').then(mod => ({ default: mod.QuickToolsSection })), {
-  loading: () => null,
+  loading: () => <div className="h-96 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-100 dark:border-gray-800 animate-pulse" />,
 });
 
 const WeatherWidget = dynamicImport(() => import('@/components/services/WeatherWidget').then(mod => ({ default: mod.WeatherWidget })), {
-  loading: () => null,
+  loading: () => <div className="h-48 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border border-gray-100 dark:border-gray-800 animate-pulse" />,
 });
 
 export async function generateStaticParams() {
@@ -55,10 +55,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const canonicalPath = locale === routing.defaultLocale ? '/kocaali' : `/${locale}/kocaali`;
-  
+
   return {
-    title: 'Kocaali Emlak | Satılık ve Kiralık Gayrimenkul | Kocaali, Sakarya',
-    description: 'Kocaali\'de satılık ve kiralık gayrimenkul ilanları. 12 km kumsal, sakin atmosfer ve İstanbul\'a yakınlığı ile Kocaali emlak fiyatları ve seçenekleri.',
+    title: 'Kocaali Satılık ve Kiralık Gayrimenkul İlanları',
+    description: 'Kocaali\'de satılık ve kiralık gayrimenkul ilanları. 12 km kumsal ve sakin atmosferi ile Kocaali emlak fırsatları.',
     keywords: [
       'kocaali emlak',
       'kocaali satılık ev',
@@ -120,7 +120,7 @@ export default async function KocaaliPage({
 }) {
   const { locale } = await params;
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
-  
+
   // Fetch real data with timeout (3s max) - graceful degradation
   const neighborhoodsResult = await withTimeout(getNeighborhoods(), 3000, [] as string[]);
   const statsResult = await withTimeout(getListingStats(), 3000, { total: 0, satilik: 0, kiralik: 0, byType: {} });
@@ -159,7 +159,7 @@ export default async function KocaaliPage({
     <>
       <StructuredData data={placeSchema} />
       {faqSchema && <StructuredData data={faqSchema} />}
-      
+
       <Breadcrumbs
         items={[
           { label: 'Ana Sayfa', href: `${basePath}/` },
@@ -173,9 +173,9 @@ export default async function KocaaliPage({
           <ScrollReveal direction="up" delay={0}>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Kısa Cevap</h3>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-              <strong>Kocaali</strong>, Sakarya'nın sahil ilçelerinden biri olarak denize sıfır konumları, 
-              yazlık evleri ve sakin yaşam alanları ile dikkat çeker. İstanbul'a yakınlığı, gelişmiş 
-              altyapısı ve yüksek turizm potansiyeli ile hem sürekli oturum hem de yatırım amaçlı tercih 
+              <strong>Kocaali</strong>, Sakarya'nın sahil ilçelerinden biri olarak denize sıfır konumları,
+              yazlık evleri ve sakin yaşam alanları ile dikkat çeker. İstanbul'a yakınlığı, gelişmiş
+              altyapısı ve yüksek turizm potansiyeli ile hem sürekli oturum hem de yatırım amaçlı tercih
               edilmektedir. Ortalama emlak fiyatları konum ve özelliklere göre değişmektedir.
             </p>
           </ScrollReveal>
@@ -183,7 +183,7 @@ export default async function KocaaliPage({
       </section>
 
       <main className="min-h-screen bg-white dark:bg-gray-900">
-      {/* Hero Section - Modern Design */}
+        {/* Hero Section - Modern Design */}
         <section className="relative bg-white dark:bg-gray-900 py-16 lg:py-24 border-b border-gray-200 dark:border-gray-800 overflow-hidden">
           <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]">
             <div className="absolute inset-0" style={{
@@ -191,7 +191,7 @@ export default async function KocaaliPage({
               backgroundSize: '32px 32px',
             }}></div>
           </div>
-          
+
           <div className="container mx-auto px-4 lg:px-6 max-w-7xl relative z-10">
             <ScrollReveal direction="up" delay={0}>
               <div className="max-w-4xl mx-auto text-center">
@@ -257,7 +257,7 @@ export default async function KocaaliPage({
               </ScrollReveal>
             </div>
           </div>
-      </section>
+        </section>
 
         {/* About Kocaali Section - History, Geography, Culture */}
         <section className="py-16 lg:py-20 bg-white dark:bg-gray-900">
@@ -285,15 +285,15 @@ export default async function KocaaliPage({
                   </div>
                   <div className="prose prose-gray dark:prose-invert max-w-none">
                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                      Kocaali, tarihi MÖ 2000'lere kadar uzanan eski bir yerleşim yeridir. Bölge, antik dönemlerde Bitinya Krallığı'nın bir parçasıydı. 
+                      Kocaali, tarihi MÖ 2000'lere kadar uzanan eski bir yerleşim yeridir. Bölge, antik dönemlerde Bitinya Krallığı'nın bir parçasıydı.
                       Osmanlı döneminde önemli bir sahil kasabası olarak gelişen Kocaali, Cumhuriyet döneminde Sakarya iline bağlı bir ilçe haline gelmiştir.
                     </p>
                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                      1920'li yıllarda Yunan işgali sırasında büyük zarar gören ilçe, Kurtuluş Savaşı sonrasında yeniden inşa edilmiştir. 
+                      1920'li yıllarda Yunan işgali sırasında büyük zarar gören ilçe, Kurtuluş Savaşı sonrasında yeniden inşa edilmiştir.
                       1950'lerden itibaren turizm potansiyeli keşfedilen Kocaali, özellikle yazlık konut yatırımları ile hızla gelişmiştir.
                     </p>
                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                      Günümüzde Kocaali, hem yerleşim hem de turizm açısından Sakarya'nın en önemli ilçelerinden biridir. 
+                      Günümüzde Kocaali, hem yerleşim hem de turizm açısından Sakarya'nın en önemli ilçelerinden biridir.
                       Tarihi dokusunu koruyarak modern yaşam standartlarına kavuşmuştur.
                     </p>
                   </div>
@@ -384,7 +384,7 @@ export default async function KocaaliPage({
                     </div>
                   </div>
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed mt-6">
-                    Kocaali'nin kış nüfusu yaklaşık 20.000 civarındadır. Yaz aylarında ise yazlıkçılar ve turistlerle birlikte 
+                    Kocaali'nin kış nüfusu yaklaşık 20.000 civarındadır. Yaz aylarında ise yazlıkçılar ve turistlerle birlikte
                     nüfus 100.000'e kadar çıkmaktadır. Bu durum, bölgenin turizm potansiyelini ve yazlık konut talebini göstermektedir.
                   </p>
                 </div>
@@ -408,7 +408,7 @@ export default async function KocaaliPage({
                         Balıkçılık
                       </h4>
                       <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        Kocaali, Karadeniz'in verimli balıkçılık alanlarına sahiptir. Özellikle hamsi, palamut ve lüfer avcılığı 
+                        Kocaali, Karadeniz'in verimli balıkçılık alanlarına sahiptir. Özellikle hamsi, palamut ve lüfer avcılığı
                         önemli bir geçim kaynağıdır. Sahil bölgesi balıkçı teknelerinin ana limanıdır.
                       </p>
                     </div>
@@ -418,7 +418,7 @@ export default async function KocaaliPage({
                         Turizm
                       </h4>
                       <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        Turizm, Kocaali ekonomisinin en önemli sektörlerinden biridir. Yaz aylarında binlerce turist ağırlanır. 
+                        Turizm, Kocaali ekonomisinin en önemli sektörlerinden biridir. Yaz aylarında binlerce turist ağırlanır.
                         Oteller, pansiyonlar, restoranlar ve eğlence mekanları önemli istihdam alanları oluşturur.
                       </p>
                     </div>
@@ -428,7 +428,7 @@ export default async function KocaaliPage({
                         Tarım ve Hayvancılık
                       </h4>
                       <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        İlçede fındık, mısır ve sebze üretimi yaygındır. Hayvancılık da önemli bir geçim kaynağıdır. 
+                        İlçede fındık, mısır ve sebze üretimi yaygındır. Hayvancılık da önemli bir geçim kaynağıdır.
                         Organik tarım projeleri son yıllarda gelişmektedir.
                       </p>
                     </div>
@@ -438,7 +438,7 @@ export default async function KocaaliPage({
                         Emlak ve İnşaat
                       </h4>
                       <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        Emlak sektörü, yazlık konut talebi ve turizm yatırımları ile hızla büyümektedir. 
+                        Emlak sektörü, yazlık konut talebi ve turizm yatırımları ile hızla büyümektedir.
                         Yeni konut projeleri, oteller ve turizm tesisleri sürekli gelişmektedir.
                       </p>
                     </div>
@@ -459,7 +459,7 @@ export default async function KocaaliPage({
                   </div>
                   <div className="prose prose-gray dark:prose-invert max-w-none">
                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                      Kocaali, zengin bir kültürel mirasa sahiptir. Geleneksel Karadeniz kültürü ile modern yaşam tarzı 
+                      Kocaali, zengin bir kültürel mirasa sahiptir. Geleneksel Karadeniz kültürü ile modern yaşam tarzı
                       bir arada bulunur. İlçede düzenlenen festivaller, konserler ve kültürel etkinlikler sosyal hayatı canlandırır.
                     </p>
                     <div className="grid md:grid-cols-2 gap-6 mt-6">
@@ -560,16 +560,16 @@ export default async function KocaaliPage({
                 <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow">
                   <div className="w-12 h-12 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center mb-4">
                     <TrendingUp className="w-6 h-6 text-primary" />
-        </div>
+                  </div>
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Yatırım Potansiyeli</h3>
                   <p className="text-gray-600 dark:text-gray-400 text-sm">
                     Gelişen altyapı ve turizm potansiyeli ile değer kazanan bölge.
                   </p>
-        </div>
+                </div>
               </ScrollReveal>
-        </div>
-        </div>
-      </section>
+            </div>
+          </div>
+        </section>
 
         {/* Kocaali Map Section - Like Live Site */}
         <section className="py-16 bg-white dark:bg-gray-900">
@@ -584,8 +584,8 @@ export default async function KocaaliPage({
                 </p>
               </div>
             </ScrollReveal>
-              <ScrollReveal direction="up" delay={100}>
-                <InteractiveMap 
+            <ScrollReveal direction="up" delay={100}>
+              <InteractiveMap
                 listings={kocaaliListings.length > 0 ? kocaaliListings.map(l => ({
                   id: l.id,
                   title: l.title,
@@ -620,11 +620,11 @@ export default async function KocaaliPage({
                     alt: img.alt,
                   })) || [],
                   features: l.features,
-                }))} 
-                  basePath={basePath}
-                  height="600px"
-                />
-              </ScrollReveal>
+                }))}
+                basePath={basePath}
+                height="600px"
+              />
+            </ScrollReveal>
           </div>
         </section>
 
@@ -723,12 +723,12 @@ export default async function KocaaliPage({
                       Keşfet
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
-            </div>
-          </Link>
+                  </div>
+                </Link>
               </ScrollReveal>
 
               <ScrollReveal direction="up" delay={50}>
-          <Link href={`${basePath}/kocaali/restoranlar`}>
+                <Link href={`${basePath}/kocaali/restoranlar`}>
                   <div className="group bg-white dark:bg-gray-800 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary/50 hover:shadow-lg transition-all duration-300">
                     <div className="flex items-center gap-4 mb-3">
                       <div className="w-12 h-12 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center border border-primary/20 dark:border-primary/30">
@@ -739,18 +739,18 @@ export default async function KocaaliPage({
                       </h3>
                     </div>
                     <p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
-                En iyi restoranlar ve kafeler
-              </p>
+                      En iyi restoranlar ve kafeler
+                    </p>
                     <div className="flex items-center gap-2 text-primary font-medium text-sm">
                       Keşfet
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
-            </div>
-          </Link>
+                  </div>
+                </Link>
               </ScrollReveal>
 
               <ScrollReveal direction="up" delay={100}>
-          <Link href={`${basePath}/kocaali/hastaneler`}>
+                <Link href={`${basePath}/kocaali/hastaneler`}>
                   <div className="group bg-white dark:bg-gray-800 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary/50 hover:shadow-lg transition-all duration-300">
                     <div className="flex items-center gap-4 mb-3">
                       <div className="w-12 h-12 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center border border-primary/20 dark:border-primary/30">
@@ -761,18 +761,18 @@ export default async function KocaaliPage({
                       </h3>
                     </div>
                     <p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
-                Hastaneler ve sağlık kuruluşları
-              </p>
+                      Hastaneler ve sağlık kuruluşları
+                    </p>
                     <div className="flex items-center gap-2 text-primary font-medium text-sm">
                       Keşfet
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
-            </div>
-          </Link>
+                  </div>
+                </Link>
               </ScrollReveal>
 
               <ScrollReveal direction="up" delay={150}>
-          <Link href={`${basePath}/kocaali/ulasim`}>
+                <Link href={`${basePath}/kocaali/ulasim`}>
                   <div className="group bg-white dark:bg-gray-800 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary/50 hover:shadow-lg transition-all duration-300">
                     <div className="flex items-center gap-4 mb-3">
                       <div className="w-12 h-12 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center border border-primary/20 dark:border-primary/30">
@@ -783,14 +783,14 @@ export default async function KocaaliPage({
                       </h3>
                     </div>
                     <p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
-                Ulaşım bilgileri ve haritalar
-              </p>
+                      Ulaşım bilgileri ve haritalar
+                    </p>
                     <div className="flex items-center gap-2 text-primary font-medium text-sm">
                       Keşfet
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
-            </div>
-          </Link>
+                  </div>
+                </Link>
               </ScrollReveal>
 
               <ScrollReveal direction="up" delay={200}>
@@ -799,7 +799,7 @@ export default async function KocaaliPage({
                     <div className="flex items-center gap-4 mb-3">
                       <div className="w-12 h-12 rounded-lg bg-red-600/10 dark:bg-red-500/20 flex items-center justify-center border border-red-600/20 dark:border-red-500/30">
                         <Phone className="w-6 h-6 text-red-600 dark:text-red-500" />
-        </div>
+                      </div>
                       <h3 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-500 transition-colors">
                         Önemli Telefonlar
                       </h3>
@@ -1019,10 +1019,10 @@ export default async function KocaaliPage({
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 dark:border-white dark:text-white dark:hover:bg-white/10">
-            <Link href={`${basePath}/satilik?q=Kocaali`}>
+                  <Link href={`${basePath}/satilik?q=Kocaali`}>
                     <Home className="w-5 h-5 mr-2" />
                     Tüm İlanları İncele
-            </Link>
+                  </Link>
                 </Button>
               </div>
             </ScrollReveal>

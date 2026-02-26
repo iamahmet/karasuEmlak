@@ -12,13 +12,13 @@ import { getArticles } from '@/lib/supabase/queries/articles';
 import { getNewsArticles } from '@/lib/supabase/queries/news';
 import { PlaceImage } from '@/components/images/PlaceImage';
 import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
-import { 
-  MapPin, 
-  Camera, 
-  Waves, 
-  TreePine, 
-  Mountain, 
-  UtensilsCrossed, 
+import {
+  MapPin,
+  Camera,
+  Waves,
+  TreePine,
+  Mountain,
+  UtensilsCrossed,
   Coffee,
   Clock,
   Star,
@@ -67,14 +67,14 @@ function getPlaceImage(placeName: string, type: string, index: number): string {
     'dogal-alan': 'nature,landscape,outdoor',
     'turistik-yer': 'tourism,landmark,attraction',
   };
-  
+
   const keywords = keywordMap[type] || 'real-estate,property';
   const primaryKeyword = keywords.split(',')[0].trim();
-  
+
   // Generate consistent seed from place name and type
   const seedString = `${primaryKeyword}-${placeName.toLowerCase().replace(/\s+/g, '-')}-${type}-${index}`;
   const seed = seedString.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 1000;
-  
+
   // Use Picsum Photos with keyword-based seed
   return `https://picsum.photos/seed/${primaryKeyword}-${seed}/800/600`;
 }
@@ -134,6 +134,10 @@ function getTypeColors(type: string) {
 export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
+
+export const revalidate = 3600; // 1 hour
+export const dynamicParams = true;
+
 
 
 export async function generateMetadata({
@@ -208,13 +212,13 @@ export default async function GezilecekYerlerPage({
   // Fetch related blog articles and news
   let relatedBlogs: any[] = [];
   let relatedNews: any[] = [];
-  
+
   try {
     const [blogResult, newsResult] = await Promise.all([
       getArticles(3, 0).catch(() => ({ articles: [], total: 0 })),
       getNewsArticles(3, 0).catch(() => ({ articles: [], total: 0 })),
     ]);
-    
+
     relatedBlogs = blogResult.articles || [];
     relatedNews = newsResult.articles || [];
   } catch (error) {
@@ -224,7 +228,7 @@ export default async function GezilecekYerlerPage({
   return (
     <>
       {faqSchema && <StructuredData data={faqSchema} />}
-      
+
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <Breadcrumbs
           items={[
@@ -250,7 +254,7 @@ export default async function GezilecekYerlerPage({
               <p className="text-xl md:text-2xl text-cyan-50 max-w-3xl mb-8 leading-relaxed">
                 Doğal güzellikleri, uzun plajları ve eşsiz turistik yerleri ile ziyaretçilerini büyüleyen bir sahil ilçesi. 20 km uzunluğundaki plajı, dünyanın tek parça halindeki en büyük longozu ve Sakarya Nehri'nin denize döküldüğü eşsiz nokta ile doğa severler için ideal bir destinasyon.
               </p>
-              
+
               {/* Stats Grid */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
@@ -326,7 +330,7 @@ export default async function GezilecekYerlerPage({
                 const colors = getTypeColors(yer.type);
                 const Icon = getTypeIcon(yer.type);
                 const imageUrl = getPlaceImage(yer.name, yer.type, index);
-                
+
                 return (
                   <Card key={yer.name} className="group overflow-hidden hover:shadow-2xl transition-all duration-300 border-0 shadow-lg">
                     <div className="relative h-64 overflow-hidden">
@@ -415,7 +419,7 @@ export default async function GezilecekYerlerPage({
                 const colors = getTypeColors(yer.type);
                 const Icon = getTypeIcon(yer.type);
                 const imageUrl = getPlaceImage(yer.name, yer.type, index);
-                
+
                 return (
                   <Card key={yer.name} className="group overflow-hidden hover:shadow-2xl transition-all duration-300 border-0 shadow-lg">
                     <div className="relative h-64 overflow-hidden">
@@ -504,7 +508,7 @@ export default async function GezilecekYerlerPage({
                 const colors = getTypeColors(yer.type);
                 const Icon = getTypeIcon(yer.type);
                 const imageUrl = getPlaceImage(yer.name, yer.type, index);
-                
+
                 return (
                   <Card key={yer.name} className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-0 shadow-md">
                     <div className="relative h-48 overflow-hidden">

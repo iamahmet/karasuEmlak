@@ -1,0 +1,32 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e8]:
+        - img "Karasu Emlak Logo" [ref=e10]
+        - generic [ref=e11]:
+          - generic [ref=e12]: Karasu Emlak
+          - generic [ref=e13]: Gayrimenkul Danışmanlığı
+      - heading "Admin Panel" [level=1] [ref=e14]
+      - paragraph [ref=e15]: Yönetim Sistemi
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - heading "Giriş Yap" [level=3] [ref=e18]
+        - paragraph [ref=e19]: Hesabınıza giriş yapın
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - button "Magic Link" [ref=e22]
+          - button "Şifre ile" [ref=e23]
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - text: E-posta
+            - generic [ref=e26]:
+              - img
+              - textbox "E-posta" [ref=e27]:
+                - /placeholder: ornek@email.com
+          - button "Magic Link Gönder" [ref=e28]:
+            - text: Magic Link Gönder
+            - img [ref=e29]
+        - paragraph [ref=e32]: Magic link e-posta adresinize gönderilecektir. Link'e tıklayarak otomatik giriş yapabilirsiniz.
+    - paragraph [ref=e33]: © 2025 Karasu Emlak. Tüm hakları saklıdır.
+  - region "Notifications alt+T"
+  - alert [ref=e34]

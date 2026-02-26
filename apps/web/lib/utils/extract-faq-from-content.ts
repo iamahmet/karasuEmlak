@@ -60,8 +60,8 @@ export function extractFaqsFromContent(content: string | null | undefined): Extr
     let match;
     const regex = new RegExp(pattern.source, pattern.flags);
     while ((match = regex.exec(faqSection)) !== null) {
-      let question = stripHtml(match[1].trim());
-      let answer = stripHtml((match[2] || '').trim());
+      const question = stripHtml(match[1].trim());
+      const answer = stripHtml((match[2] || '').trim());
       if (
         question.length > 8 &&
         question.length < 200 &&

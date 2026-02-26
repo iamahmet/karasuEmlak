@@ -1,0 +1,428 @@
+- generic [active] [ref=e1]:
+  - link "Ana içeriğe geç" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - status [ref=e3]
+  - complementary "Son dakika haberleri" [ref=e4]:
+    - generic [ref=e9]:
+      - generic [ref=e11]:
+        - img [ref=e12]
+        - generic [ref=e15]: YENİ İLAN
+      - generic [ref=e18]:
+        - link "Kiralık Sahil Kiralık 2+1 Daire - Kiralık 6 Oca 21:49" [ref=e19] [cursor=pointer]:
+          - /url: /ilan/sahil-kiralik-2-1-daire
+          - generic [ref=e20]:
+            - img [ref=e21]
+            - generic [ref=e24]: Kiralık
+          - generic [ref=e26]: Sahil Kiralık 2+1 Daire - Kiralık
+          - generic [ref=e27]:
+            - img [ref=e28]
+            - generic [ref=e31]: 6 Oca 21:49
+        - link "Haber Karasu Emlak Piyasasında Yeni Trendler 6 Oca 21:49" [ref=e32] [cursor=pointer]:
+          - /url: /haberler/karasu-emlak-piyasasinda-yeni-trendler
+          - generic [ref=e33]:
+            - img [ref=e34]
+            - generic [ref=e37]: Haber
+          - generic [ref=e39]: Karasu Emlak Piyasasında Yeni Trendler
+          - generic [ref=e40]:
+            - img [ref=e41]
+            - generic [ref=e44]: 6 Oca 21:49
+        - link "Kiralık İnköy Müstakil Ev - Kiralık 6 Oca 21:49" [ref=e45] [cursor=pointer]:
+          - /url: /ilan/inkoy-mustakil-ev
+          - generic [ref=e46]:
+            - img [ref=e47]
+            - generic [ref=e50]: Kiralık
+          - generic [ref=e52]: İnköy Müstakil Ev - Kiralık
+          - generic [ref=e53]:
+            - img [ref=e54]
+            - generic [ref=e57]: 6 Oca 21:49
+        - link "Satılık Aziziye Müstakil Ev - Satılık 6 Oca 21:49" [ref=e58] [cursor=pointer]:
+          - /url: /ilan/aziziye-mustakil-ev-d6ef4e79
+          - generic [ref=e59]:
+            - img [ref=e60]
+            - generic [ref=e63]: Satılık
+          - generic [ref=e65]: Aziziye Müstakil Ev - Satılık
+          - generic [ref=e66]:
+            - img [ref=e67]
+            - generic [ref=e70]: 6 Oca 21:49
+        - link "Kiralık Sahil Kiralık 2+1 Daire - Kiralık 6 Oca 21:49" [ref=e71] [cursor=pointer]:
+          - /url: /ilan/sahil-kiralik-2-1-daire
+          - generic [ref=e72]:
+            - img [ref=e73]
+            - generic [ref=e76]: Kiralık
+          - generic [ref=e78]: Sahil Kiralık 2+1 Daire - Kiralık
+          - generic [ref=e79]:
+            - img [ref=e80]
+            - generic [ref=e83]: 6 Oca 21:49
+        - link "Haber Karasu Emlak Piyasasında Yeni Trendler 6 Oca 21:49" [ref=e84] [cursor=pointer]:
+          - /url: /haberler/karasu-emlak-piyasasinda-yeni-trendler
+          - generic [ref=e85]:
+            - img [ref=e86]
+            - generic [ref=e89]: Haber
+          - generic [ref=e91]: Karasu Emlak Piyasasında Yeni Trendler
+          - generic [ref=e92]:
+            - img [ref=e93]
+            - generic [ref=e96]: 6 Oca 21:49
+        - link "Kiralık İnköy Müstakil Ev - Kiralık 6 Oca 21:49" [ref=e97] [cursor=pointer]:
+          - /url: /ilan/inkoy-mustakil-ev
+          - generic [ref=e98]:
+            - img [ref=e99]
+            - generic [ref=e102]: Kiralık
+          - generic [ref=e104]: İnköy Müstakil Ev - Kiralık
+          - generic [ref=e105]:
+            - img [ref=e106]
+            - generic [ref=e109]: 6 Oca 21:49
+        - link "Satılık Aziziye Müstakil Ev - Satılık 6 Oca 21:49" [ref=e110] [cursor=pointer]:
+          - /url: /ilan/aziziye-mustakil-ev-d6ef4e79
+          - generic [ref=e111]:
+            - img [ref=e112]
+            - generic [ref=e115]: Satılık
+          - generic [ref=e117]: Aziziye Müstakil Ev - Satılık
+          - generic [ref=e118]:
+            - img [ref=e119]
+            - generic [ref=e122]: 6 Oca 21:49
+      - button "Haberleri gizle" [ref=e123] [cursor=pointer]:
+        - img [ref=e124]
+  - banner [ref=e127]:
+    - generic [ref=e129]:
+      - link "Karasu Emlak Ana Sayfa" [ref=e131] [cursor=pointer]:
+        - /url: /
+        - img "Karasu Emlak Logo" [ref=e134]
+      - navigation "Ana menü" [ref=e135]
+      - generic [ref=e141]:
+        - button "Tema değiştir" [ref=e143] [cursor=pointer]:
+          - img [ref=e144]
+          - generic [ref=e150]: Tema değiştir
+        - link "İlan Ara" [ref=e151] [cursor=pointer]:
+          - /url: /arama
+          - img [ref=e152]
+        - link "İlan Ekle" [ref=e155] [cursor=pointer]:
+          - /url: /ilan-ekle
+          - img [ref=e156]
+          - generic [ref=e157]: İlan Ekle
+        - link "İletişim" [ref=e158] [cursor=pointer]:
+          - /url: /iletisim
+          - img [ref=e159]
+          - generic [ref=e161]: İletişim
+  - main "Ana içerik" [ref=e162]
+  - contentinfo "Site footer" [ref=e259]:
+    - generic [ref=e261]:
+      - generic [ref=e262]:
+        - generic [ref=e263]:
+          - heading "İstatistikler" [level=4] [ref=e264]:
+            - img [ref=e265]
+            - text: İstatistikler
+          - list [ref=e268]:
+            - listitem [ref=e269]:
+              - generic [ref=e270]: Toplam İlan
+              - generic [ref=e271]: 103+
+            - listitem [ref=e272]:
+              - generic [ref=e273]: Satılık
+              - generic [ref=e274]: 75+
+            - listitem [ref=e275]:
+              - generic [ref=e276]: Kiralık
+              - generic [ref=e277]: 28+
+            - listitem [ref=e278]:
+              - generic [ref=e279]: Mutlu Müşteri
+              - generic [ref=e280]: 500+
+        - generic [ref=e281]:
+          - heading "Güvenilirlik" [level=4] [ref=e282]:
+            - img [ref=e283]
+            - text: Güvenilirlik
+          - list [ref=e285]:
+            - listitem [ref=e286]:
+              - img [ref=e287]
+              - generic [ref=e290]: Güvenilir Emlak
+            - listitem [ref=e291]:
+              - img [ref=e292]
+              - generic [ref=e295]: Güvenli İşlem
+            - listitem [ref=e296]:
+              - img [ref=e297]
+              - generic [ref=e299]: SSL Güvenli
+            - listitem [ref=e300]:
+              - img [ref=e301]
+              - generic [ref=e304]: 15+ Yıl Deneyim
+        - generic [ref=e305]:
+          - heading "Hızlı İşlemler" [level=4] [ref=e306]:
+            - img [ref=e307]
+            - text: Hızlı İşlemler
+          - list [ref=e310]:
+            - listitem [ref=e311]:
+              - link "Satılık İlan Ara" [ref=e312] [cursor=pointer]:
+                - /url: /satilik
+                - img [ref=e313]
+                - text: Satılık İlan Ara
+            - listitem [ref=e316]:
+              - link "Kiralık İlan Ara" [ref=e317] [cursor=pointer]:
+                - /url: /kiralik
+                - img [ref=e318]
+                - text: Kiralık İlan Ara
+            - listitem [ref=e321]:
+              - link "Kredi Hesaplayıcı" [ref=e322] [cursor=pointer]:
+                - /url: /kredi-hesaplayici
+                - img [ref=e323]
+                - text: Kredi Hesaplayıcı
+            - listitem [ref=e325]:
+              - link "İlan Karşılaştır" [ref=e326] [cursor=pointer]:
+                - /url: /karsilastir
+                - img [ref=e327]
+                - text: İlan Karşılaştır
+            - listitem [ref=e330]:
+              - link "Sık Sorulan Sorular" [ref=e331] [cursor=pointer]:
+                - /url: /sss
+                - img [ref=e332]
+                - text: Sık Sorulan Sorular
+        - generic [ref=e335]:
+          - heading "E-Bülten" [level=4] [ref=e336]:
+            - img [ref=e337]
+            - text: E-Bülten
+          - generic [ref=e340]:
+            - generic [ref=e341]:
+              - generic [ref=e342]:
+                - generic [ref=e344]:
+                  - generic [ref=e345]: "*"
+                  - textbox "Zorunlu alan E-posta AdresinizZorunlu alan" [ref=e346]:
+                    - /placeholder: E-posta adresiniz
+                - button "Newsletter'e abone ol" [ref=e347] [cursor=pointer]: Abone Ol
+              - paragraph [ref=e348]: Yeni ilanlar ve güncellemelerden haberdar olmak için e-posta adresinizi girin.
+            - generic [ref=e349]:
+              - img [ref=e350]
+              - generic [ref=e353]: Bildirimler Aktif
+            - generic [ref=e354]:
+              - link "Facebook" [ref=e355] [cursor=pointer]:
+                - /url: https://facebook.com/karasuemlak
+                - img [ref=e356]
+              - link "Instagram" [ref=e358] [cursor=pointer]:
+                - /url: https://instagram.com/karasuemlak
+                - img [ref=e359]
+              - link "Twitter" [ref=e362] [cursor=pointer]:
+                - /url: https://twitter.com/karasuemlak
+                - img [ref=e363]
+      - generic [ref=e365]:
+        - generic [ref=e366]:
+          - generic [ref=e367]:
+            - generic [ref=e368]:
+              - img [ref=e372]
+              - generic [ref=e375]:
+                - heading "Karasu Emlak" [level=3] [ref=e376]
+                - paragraph [ref=e377]: Gayrimenkul Danışmanlığı
+            - paragraph [ref=e378]: Karasu ve çevresinde 15 yıldır güvenilir emlak danışmanlığı hizmeti sunuyoruz. Hayalinizdeki evi bulmak için buradayız.
+            - generic [ref=e379]:
+              - img [ref=e380]
+              - generic [ref=e383]: Merkez Mahallesi, Atatürk Caddesi No:123, 54500 Karasu / Sakarya
+          - generic [ref=e384]:
+            - heading "Sosyal Medya" [level=4] [ref=e385]
+            - generic [ref=e386]:
+              - link "Facebook" [ref=e387] [cursor=pointer]:
+                - /url: https://facebook.com/karasuemlak
+                - img [ref=e388]
+              - link "Instagram" [ref=e390] [cursor=pointer]:
+                - /url: https://instagram.com/karasuemlak
+                - img [ref=e391]
+              - link "Twitter" [ref=e394] [cursor=pointer]:
+                - /url: https://twitter.com/karasuemlak
+                - img [ref=e395]
+        - generic [ref=e397]:
+          - heading "İlanlar" [level=4] [ref=e398]:
+            - img [ref=e399]
+            - text: İlanlar
+          - list [ref=e402]:
+            - listitem [ref=e403]:
+              - link "Satılık İlanlar" [ref=e404] [cursor=pointer]:
+                - /url: /satilik
+                - img [ref=e405]
+                - text: Satılık İlanlar
+            - listitem [ref=e408]:
+              - link "Kiralık İlanlar" [ref=e409] [cursor=pointer]:
+                - /url: /kiralik
+                - img [ref=e410]
+                - text: Kiralık İlanlar
+            - listitem [ref=e414]:
+              - link "Satılık Daire" [ref=e415] [cursor=pointer]:
+                - /url: /satilik-daire
+                - img [ref=e416]
+                - text: Satılık Daire
+            - listitem [ref=e419]:
+              - link "Kiralık Daire" [ref=e420] [cursor=pointer]:
+                - /url: /kiralik-daire
+                - img [ref=e421]
+                - text: Kiralık Daire
+            - listitem [ref=e425]:
+              - link "Karasu Satılık Daire" [ref=e426] [cursor=pointer]:
+                - /url: /karasu-satilik-daire
+                - img [ref=e427]
+                - text: Karasu Satılık Daire
+            - listitem [ref=e430]:
+              - link "Karasu Kiralık Daire" [ref=e431] [cursor=pointer]:
+                - /url: /karasu-kiralik-daire
+                - img [ref=e432]
+                - text: Karasu Kiralık Daire
+            - listitem [ref=e435]:
+              - link "İlan Ekle" [ref=e436] [cursor=pointer]:
+                - /url: /ilan-ekle
+                - img [ref=e437]
+                - text: İlan Ekle
+          - generic [ref=e440]:
+            - heading "Satılık Kategoriler" [level=5] [ref=e441]
+            - list [ref=e442]:
+              - listitem [ref=e443]:
+                - link "Satılık Daire" [ref=e444] [cursor=pointer]:
+                  - /url: /satilik?tip=daire
+              - listitem [ref=e445]:
+                - link "Satılık Villa" [ref=e446] [cursor=pointer]:
+                  - /url: /satilik?tip=villa
+              - listitem [ref=e447]:
+                - link "Satılık Yazlık" [ref=e448] [cursor=pointer]:
+                  - /url: /satilik?tip=yazlik
+              - listitem [ref=e449]:
+                - link "Satılık Arsa" [ref=e450] [cursor=pointer]:
+                  - /url: /satilik?tip=arsa
+        - generic [ref=e451]:
+          - heading "Bölgeler & İçerik" [level=4] [ref=e452]:
+            - img [ref=e453]
+            - text: Bölgeler & İçerik
+          - list [ref=e456]:
+            - listitem [ref=e457]:
+              - link "Karasu" [ref=e458] [cursor=pointer]:
+                - /url: /karasu
+            - listitem [ref=e459]:
+              - link "Kocaali" [ref=e460] [cursor=pointer]:
+                - /url: /kocaali
+            - listitem [ref=e461]:
+              - link "Sapanca" [ref=e462] [cursor=pointer]:
+                - /url: /sapanca
+            - listitem [ref=e463]:
+              - link "Gezilecek Yerler" [ref=e464] [cursor=pointer]:
+                - /url: /karasu/gezilecek-yerler
+            - listitem [ref=e465]:
+              - link "Hastaneler" [ref=e466] [cursor=pointer]:
+                - /url: /karasu/hastaneler
+          - generic [ref=e467]:
+            - heading "Blog & Makaleler" [level=5] [ref=e468]
+            - list [ref=e469]:
+              - listitem [ref=e470]:
+                - link "Blog" [ref=e471] [cursor=pointer]:
+                  - /url: /blog
+                  - img [ref=e472]
+                  - text: Blog
+              - listitem [ref=e475]:
+                - link "Haberler" [ref=e476] [cursor=pointer]:
+                  - /url: /haberler
+                  - img [ref=e477]
+                  - text: Haberler
+              - listitem [ref=e480]:
+                - link "Rehber" [ref=e481] [cursor=pointer]:
+                  - /url: /rehber
+                  - img [ref=e482]
+                  - text: Rehber
+              - listitem [ref=e484]:
+                - link "Yorumlar" [ref=e485] [cursor=pointer]:
+                  - /url: /yorumlar
+              - listitem [ref=e486]:
+                - link "SSS" [ref=e487] [cursor=pointer]:
+                  - /url: /sss
+        - generic [ref=e488]:
+          - heading "Araçlar & Yasal" [level=4] [ref=e489]:
+            - img [ref=e490]
+            - text: Araçlar & Yasal
+          - list [ref=e492]:
+            - listitem [ref=e493]:
+              - link "Kredi Hesaplayıcı" [ref=e494] [cursor=pointer]:
+                - /url: /kredi-hesaplayici
+                - img [ref=e495]
+                - text: Kredi Hesaplayıcı
+            - listitem [ref=e497]:
+              - link "Yatırım Hesaplayıcı" [ref=e498] [cursor=pointer]:
+                - /url: /yatirim-hesaplayici
+                - img [ref=e499]
+                - text: Yatırım Hesaplayıcı
+            - listitem [ref=e502]:
+              - link "İlan Karşılaştır" [ref=e503] [cursor=pointer]:
+                - /url: /karsilastir
+            - listitem [ref=e504]:
+              - link "Favorilerim" [ref=e505] [cursor=pointer]:
+                - /url: /favorilerim
+                - img [ref=e506]
+                - text: Favorilerim
+            - listitem [ref=e508]: Yasal
+            - listitem [ref=e509]:
+              - link "Gizlilik Politikası" [ref=e510] [cursor=pointer]:
+                - /url: /gizlilik-politikasi
+            - listitem [ref=e511]:
+              - link "Çerez Politikası" [ref=e512] [cursor=pointer]:
+                - /url: /cerez-politikasi
+            - listitem [ref=e513]:
+              - link "Kullanım Koşulları" [ref=e514] [cursor=pointer]:
+                - /url: /kullanim-kosullari
+            - listitem [ref=e515]:
+              - link "Hakkımızda" [ref=e516] [cursor=pointer]:
+                - /url: /hakkimizda
+            - listitem [ref=e517]:
+              - link "İletişim" [ref=e518] [cursor=pointer]:
+                - /url: /iletisim
+      - generic [ref=e519]:
+        - link "İletişim +90 532 593 38 54 Hafta içi 09:00 - 18:00" [ref=e520] [cursor=pointer]:
+          - /url: tel:+905325933854
+          - img [ref=e522]
+          - generic [ref=e524]:
+            - generic [ref=e525]: İletişim
+            - generic [ref=e526]: +90 532 593 38 54
+            - generic [ref=e527]:
+              - img [ref=e528]
+              - generic [ref=e531]: Hafta içi 09:00 - 18:00
+        - link "WhatsApp Mesaj Gönder 7/24 hızlı yanıt" [ref=e532] [cursor=pointer]:
+          - /url: https://wa.me/905325933854
+          - img [ref=e534]
+          - generic [ref=e536]:
+            - generic [ref=e537]: WhatsApp
+            - generic [ref=e538]: Mesaj Gönder
+            - generic [ref=e539]: 7/24 hızlı yanıt
+        - link "E-posta info@karasuemlak.net Detaylı bilgi için" [ref=e540] [cursor=pointer]:
+          - /url: mailto:info@karasuemlak.net
+          - img [ref=e542]
+          - generic [ref=e545]:
+            - generic [ref=e546]: E-posta
+            - generic [ref=e547]: info@karasuemlak.net
+            - generic [ref=e548]: Detaylı bilgi için
+      - generic [ref=e549]:
+        - generic [ref=e550]:
+          - paragraph [ref=e551]: © 2026 Karasu Emlak.•Tüm hakları saklıdır.
+          - generic [ref=e552]:
+            - link "Gizlilik Politikası" [ref=e553] [cursor=pointer]:
+              - /url: /gizlilik-politikasi
+            - generic [ref=e554]: •
+            - link "Çerez Politikası" [ref=e555] [cursor=pointer]:
+              - /url: /cerez-politikasi
+            - generic [ref=e556]: •
+            - link "Kullanım Koşulları" [ref=e557] [cursor=pointer]:
+              - /url: /kullanim-kosullari
+            - generic [ref=e558]: •
+            - link "KVKK Başvuru" [ref=e559] [cursor=pointer]:
+              - /url: /kvkk-basvuru
+            - generic [ref=e560]: •
+            - link "Sitemap" [ref=e561] [cursor=pointer]:
+              - /url: /sitemap.xml
+              - text: Sitemap
+              - img [ref=e562]
+        - generic [ref=e567]:
+          - generic [ref=e568]:
+            - img [ref=e569]
+            - generic [ref=e571]: SSL Güvenli
+          - generic [ref=e572]:
+            - img [ref=e573]
+            - generic [ref=e576]: Güvenli Ödeme
+          - generic [ref=e577]:
+            - img [ref=e578]
+            - generic [ref=e581]: 15+ Yıl Deneyim
+          - generic [ref=e582]:
+            - img [ref=e583]
+            - generic [ref=e585]: 500+ Mutlu Müşteri
+        - generic [ref=e587]:
+          - generic [ref=e589]: Sakarya Karasu'nun Güvenilir Emlak Platformu
+          - generic [ref=e590]:
+            - link "poi369" [ref=e591] [cursor=pointer]:
+              - /url: https://poi369.com
+              - generic [ref=e592]: poi369
+              - img [ref=e593]
+            - generic [ref=e597]: tarafından geliştirildi
+  - region "Notifications alt+T"
+  - alert [ref=e598]

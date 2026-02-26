@@ -29,7 +29,7 @@ export async function generateMetadata({
   return {
     title: 'Ekibimiz | Karasu Emlak - Profesyonel Emlak Danışmanları',
     description:
-      'Karasu Emlak ekibi: Karasu, Kocaali ve Sakarya çevresinde satılık-kiralık danışmanlığı, değerleme ve işlem takibi. Evinizi ararken net, ölçülü ve planlı ilerleyen bir ekip.',
+      'Karasu Emlak ekibi: Karasu, Kocaali ve Sakarya çevresinde satılık-kiralık danışmanlığı, değerleme ve işlem takibi. Evinizi ararken net, ölçülü ve...',
     alternates: {
       canonical: `${siteConfig.url}${canonicalPath}`,
       languages: pruneHreflangLanguages({

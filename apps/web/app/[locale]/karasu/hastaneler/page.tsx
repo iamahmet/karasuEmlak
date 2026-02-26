@@ -41,6 +41,10 @@ export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+export const revalidate = 3600; // 1 hour
+export const dynamicParams = true;
+
+
 
 export async function generateMetadata({
   params,
@@ -50,7 +54,7 @@ export async function generateMetadata({
 
   return {
     title: 'Karasu Hastaneler ve Sağlık Kuruluşları | Karasu Emlak',
-    description: 'Karasu hastaneler, sağlık merkezleri ve sağlık kuruluşları. Karasu Devlet Hastanesi, Aile Sağlığı Merkezi ve özel sağlık kuruluşları. Harita, telefon ve adres bilgileri.',
+    description: 'Karasu hastaneler, sağlık merkezleri ve sağlık kuruluşları. Karasu Devlet Hastanesi, Aile Sağlığı Merkezi ve özel sağlık kuruluşları. Harita, telefon...',
     keywords: [
       'karasu hastane',
       'karasu devlet hastanesi',
@@ -154,7 +158,7 @@ export default async function HastanelerPage({
       {localBusinessSchemas.map((schema, idx) => (
         <StructuredData key={idx} data={schema} />
       ))}
-      
+
       <div className="container mx-auto px-4 py-8">
         <Breadcrumbs
           items={[
@@ -230,8 +234,8 @@ export default async function HastanelerPage({
                 Haritada Konumlar
               </h2>
             </div>
-            <HospitalsMap 
-              hospitals={allHospitalsForMap} 
+            <HospitalsMap
+              hospitals={allHospitalsForMap}
               center={{ lat: 41.0969, lng: 30.6906 }}
               height="500px"
               className="w-full"
@@ -289,29 +293,29 @@ export default async function HastanelerPage({
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">İlgili Sayfalar</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Link 
-              href={`${basePath}/karasu/nobetci-eczaneler`} 
+            <Link
+              href={`${basePath}/karasu/nobetci-eczaneler`}
               className="group border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary hover:shadow-lg transition-all bg-white dark:bg-gray-800"
             >
               <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-primary transition-colors">Nöbetçi Eczaneler</h3>
               <p className="text-xs text-gray-600 dark:text-gray-400">24 saat açık eczaneler</p>
             </Link>
-            <Link 
-              href={`${basePath}/karasu/onemli-telefonlar`} 
+            <Link
+              href={`${basePath}/karasu/onemli-telefonlar`}
               className="group border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary hover:shadow-lg transition-all bg-white dark:bg-gray-800"
             >
               <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-primary transition-colors">Önemli Telefonlar</h3>
               <p className="text-xs text-gray-600 dark:text-gray-400">Acil durum telefonları</p>
             </Link>
-            <Link 
-              href={`${basePath}/karasu`} 
+            <Link
+              href={`${basePath}/karasu`}
               className="group border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary hover:shadow-lg transition-all bg-white dark:bg-gray-800"
             >
               <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-primary transition-colors">Karasu Rehberi</h3>
               <p className="text-xs text-gray-600 dark:text-gray-400">Tüm Karasu bilgileri</p>
             </Link>
-            <Link 
-              href={`${basePath}/karasu/ulasim`} 
+            <Link
+              href={`${basePath}/karasu/ulasim`}
               className="group border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary hover:shadow-lg transition-all bg-white dark:bg-gray-800"
             >
               <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-primary transition-colors">Ulaşım Bilgileri</h3>

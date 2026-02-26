@@ -10,7 +10,7 @@ interface BlogPageHeroProps {
   basePath?: string;
 }
 
-export function BlogPageHero({ 
+export function BlogPageHero({
   title = "Blog & Rehberler",
   description = "Karasu emlak, yatırım ve bölge hakkında güncel haberler, rehberler ve uzman görüşleri.",
   basePath = ""
@@ -24,7 +24,7 @@ export function BlogPageHero({
           backgroundSize: '32px 32px',
         }}></div>
       </div>
-      
+
       {/* Decorative Elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
@@ -40,7 +40,7 @@ export function BlogPageHero({
           </div>
 
           {/* Title */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6 text-gray-900 dark:text-white leading-tight tracking-tight">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold pb-2 mb-6 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-gray-300 drop-shadow-sm leading-[1.15]">
             {title}
           </h1>
 

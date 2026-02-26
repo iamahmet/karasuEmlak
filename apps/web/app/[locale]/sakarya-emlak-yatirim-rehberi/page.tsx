@@ -38,7 +38,7 @@ export async function generateMetadata({
   
   return {
     title: 'Sakarya Emlak Yatırım Rehberi | Yatırım Fırsatları ve Stratejileri | Karasu Emlak',
-    description: 'Sakarya emlak yatırım rehberi: Karasu ve Kocaali bölgelerinde yatırım fırsatları, fiyat trendleri, kiralama geliri analizi ve uzman yatırım tavsiyeleri. 2025 güncel rehber.',
+    description: 'Sakarya emlak yatırım rehberi: Karasu ve Kocaali bölgelerinde yatırım fırsatları, fiyat trendleri, kiralama geliri analizi ve uzman yatırım...',
     keywords: [
       'sakarya emlak yatırım',
       'sakarya yatırım rehberi',

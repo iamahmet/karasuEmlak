@@ -25,7 +25,7 @@ export async function generateMetadata({
 
   return {
     title: 'Ev Nasıl Alınır? | Adım Adım Emlak Alım Rehberi | Karasu Emlak',
-    description: 'Ev almak için bilmeniz gereken her şey. Bütçe belirleme, ev arama, görüntüleme, değerlendirme, sözleşme ve tapu işlemleri. Uzman emlak danışmanlarından profesyonel rehber.',
+    description: 'Ev almak için bilmeniz gereken her şey. Bütçe belirleme, ev arama, görüntüleme, değerlendirme, sözleşme ve tapu işlemleri. Uzman emlak...',
     keywords: [
       'ev nasıl alınır',
       'emlak alım rehberi',

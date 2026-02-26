@@ -53,7 +53,7 @@ export async function generateMetadata({
 
   return {
     title: 'Gizlilik Politikası (KVKK) | Karasu Emlak | Kişisel Verilerin Korunması',
-    description: 'Karasu Emlak gizlilik politikası ve KVKK uyumluluk bilgisi. Kişisel verilerin toplanması, işlenmesi, saklanması ve korunması hakkında detaylı bilgi. GDPR uyumlu gizlilik politikası.',
+    description: 'Karasu Emlak gizlilik politikası ve KVKK uyumluluk bilgisi. Kişisel verilerin toplanması, işlenmesi, saklanması ve korunması hakkında detaylı bilgi....',
     keywords: [
       'gizlilik politikası',
       'kvkk',

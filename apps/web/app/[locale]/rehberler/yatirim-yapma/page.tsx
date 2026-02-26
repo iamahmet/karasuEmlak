@@ -24,7 +24,7 @@ export async function generateMetadata({
 
   return {
     title: 'Emlak Yatırımı Nasıl Yapılır? | Yatırım Stratejileri Rehberi | Karasu Emlak',
-    description: 'Emlak yatırımı yapmak için bilmeniz gereken her şey. Yatırım stratejileri, risk analizi, karlı yatırım fırsatları ve uzun vadeli planlama. Uzman emlak danışmanlarından profesyonel rehber.',
+    description: 'Emlak yatırımı yapmak için bilmeniz gereken her şey. Yatırım stratejileri, risk analizi, karlı yatırım fırsatları ve uzun vadeli planlama. Uzman...',
     keywords: [
       'emlak yatırımı nasıl yapılır',
       'emlak yatırım stratejileri',

@@ -40,7 +40,7 @@ export function getPlaceholderImageUrl(options: PlaceholderImageOptions = {}): s
   };
 
   // Select keyword based on property type
-  let selectedKeyword = keywords || keywordMap[propertyType] || 'real-estate,property,building';
+  const selectedKeyword = keywords || keywordMap[propertyType] || 'real-estate,property,building';
   
   // Use first keyword for seed generation
   const primaryKeyword = selectedKeyword.split(',')[0].trim();

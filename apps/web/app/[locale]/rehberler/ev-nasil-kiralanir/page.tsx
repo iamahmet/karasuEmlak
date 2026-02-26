@@ -24,7 +24,7 @@ export async function generateMetadata({
 
   return {
     title: 'Ev Nasıl Kiralanır? | Adım Adım Kiralama Rehberi | Karasu Emlak',
-    description: 'Ev kiralamak için bilmeniz gereken her şey. Bütçe belirleme, ev arama, görüntüleme, kira sözleşmesi ve taşınma süreçleri. Uzman emlak danışmanlarından profesyonel rehber.',
+    description: 'Ev kiralamak için bilmeniz gereken her şey. Bütçe belirleme, ev arama, görüntüleme, kira sözleşmesi ve taşınma süreçleri. Uzman emlak...',
     keywords: [
       'ev nasıl kiralanır',
       'ev kiralama rehberi',

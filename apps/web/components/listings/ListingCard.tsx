@@ -22,7 +22,7 @@ interface ListingCardProps {
 
 function ListingCardComponent({ listing, viewMode = 'grid', basePath, priority = false }: ListingCardProps) {
   const mainImage = listing.images?.[0];
-  
+
   // Generate SEO-friendly alt text
   const imageAlt = mainImage?.alt || generatePropertyImageAlt({
     propertyType: listing.property_type as any,
@@ -51,13 +51,13 @@ function ListingCardComponent({ listing, viewMode = 'grid', basePath, priority =
 
   if (viewMode === 'list') {
     return (
-      <Link 
+      <Link
         href={listingUrl}
         aria-label={ariaLabel}
         onClick={handleLinkClick}
         prefetch={true}
       >
-        <article className="group bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row" role="article">
+        <article className="group bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row micro-interaction" role="article">
           <div className="w-full md:w-64 h-48 md:h-auto bg-muted relative flex-shrink-0 overflow-hidden">
             {mainImage?.public_id || mainImage?.url ? (
               mainImage.url ? (
@@ -154,13 +154,13 @@ function ListingCardComponent({ listing, viewMode = 'grid', basePath, priority =
 
   // Grid view
   return (
-    <Link 
+    <Link
       href={listingUrl}
       aria-label={ariaLabel}
       onClick={handleLinkClick}
       prefetch={true}
     >
-      <article className="group border rounded-lg overflow-hidden hover:shadow-lg transition-shadow bg-white dark:bg-gray-900" role="article">
+      <article className="group border rounded-lg overflow-hidden hover:shadow-lg transition-shadow bg-white dark:bg-gray-900 micro-interaction" role="article">
         <div className="h-48 bg-muted relative">
           {mainImage ? (
             <CardImage
@@ -183,7 +183,7 @@ function ListingCardComponent({ listing, viewMode = 'grid', basePath, priority =
             </div>
           </div>
           {listing.featured && (
-            <div 
+            <div
               className="absolute top-2 left-2 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white px-2.5 py-1 rounded-md text-xs font-semibold shadow-md z-10"
               aria-label="Öne çıkan ilan"
             >
@@ -191,7 +191,7 @@ function ListingCardComponent({ listing, viewMode = 'grid', basePath, priority =
             </div>
           )}
           {listing.images && listing.images.length > 1 && (
-            <div 
+            <div
               className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded-md text-xs font-medium backdrop-blur-sm"
               aria-label={`${listing.images.length} fotoğraf`}
             >

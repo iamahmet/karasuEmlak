@@ -41,6 +41,9 @@ export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+export const revalidate = 3600; // 1 hour
+export const dynamicParams = true;
+
 
 export async function generateMetadata({
   params,
@@ -51,8 +54,8 @@ export async function generateMetadata({
   const canonicalPath = locale === routing.defaultLocale ? '/hakkimizda' : `/${locale}/hakkimizda`;
 
   return {
-    title: 'Hakkımızda | Karasu Emlak - 15+ Yıllık Deneyim, Güvenilir Emlak Danışmanlığı',
-    description: 'Karasu Emlak olarak 2010\'dan beri Karasu ve çevresinde emlak hizmetleri sunuyoruz. 15+ yıllık deneyim, 500+ mutlu müşteri, %98 memnuniyet oranı. Satılık ve kiralık emlak, danışmanlık, değerleme hizmetleri. Güvenilir, profesyonel ve müşteri odaklı hizmet anlayışımızla yanınızdayız.',
+    title: 'Hakkımızda | Karasu Emlak',
+    description: 'Karasu\'da 15+ yıllık deneyimle satılık, kiralık ev ve emlak danışmanlık hizmetleri. %98 müşteri memnuniyetiyle yanınızdayız.',
     alternates: {
       canonical: canonicalPath,
       languages: pruneHreflangLanguages({
@@ -64,8 +67,8 @@ export async function generateMetadata({
       }),
     },
     openGraph: {
-      title: 'Hakkımızda | Karasu Emlak - 15+ Yıllık Deneyim, Güvenilir Emlak Danışmanlığı',
-      description: 'Karasu Emlak - 2010\'dan beri Karasu\'da emlak hizmetleri. 15+ yıl deneyim, 500+ mutlu müşteri, %98 memnuniyet. Satılık, kiralık emlak ve profesyonel danışmanlık.',
+      title: 'Hakkımızda | Karasu Emlak',
+      description: 'Karasu\'da 15+ yıllık deneyimle emlak hizmetleri. Satılık, kiralık emlak ve profesyonel danışmanlık.',
       url: `${siteConfig.url}${canonicalPath}`,
       type: 'website',
     },
@@ -615,17 +618,17 @@ export default async function AboutPage({
                   {
                     step: '1',
                     title: 'İhtiyaç Analizi',
-                    description: 'Müşterimizin ihtiyaçlarını, bütçesini ve beklentilerini detaylı olarak anlıyoruz. Satılık mı, kiralık mı? Hangi bölge? Ne tür bir gayrimenkul? Tüm detayları birlikte belirliyoruz.'
+                    description: 'Müşterimizin ihtiyaçlarını, bütçesini ve beklentilerini detaylı olarak anlıyoruz. Satılık mı, kiralık mı? Hangi bölge? Ne tür bir gayrimenkul? Tüm...'
                   },
                   {
                     step: '2',
                     title: 'Portföy Sunumu',
-                    description: 'İhtiyaçlarınıza uygun seçenekleri sunuyoruz. Her ilanı yerinde inceliyor, fotoğraflıyor ve detaylı bilgileri hazırlıyoruz. Size en uygun seçenekleri öncelikli olarak gösteriyoruz.'
+                    description: 'İhtiyaçlarınıza uygun seçenekleri sunuyoruz. Her ilanı yerinde inceliyor, fotoğraflıyor ve detaylı bilgileri hazırlıyoruz. Size en uygun seçenekleri...'
                   },
                   {
                     step: '3',
                     title: 'Yerinde İnceleme',
-                    description: 'Beğendiğiniz gayrimenkulleri birlikte geziyoruz. Tüm sorularınızı yanıtlıyor, mahalle, çevre ve altyapı hakkında bilgi veriyoruz. Karar vermenizde size rehberlik ediyoruz.'
+                    description: 'Beğendiğiniz gayrimenkulleri birlikte geziyoruz. Tüm sorularınızı yanıtlıyor, mahalle, çevre ve altyapı hakkında bilgi veriyoruz. Karar vermenizde...'
                   },
                   {
                     step: '4',

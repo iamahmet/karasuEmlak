@@ -81,12 +81,12 @@ function ArticleSidebarComponent({
             content={article.content}
             articleId={article.id}
             articleTitle={article.title}
-            className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg"
+            className="bg-white/70 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/50 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
           />
         </Suspense>
 
         {/* Article Information Card */}
-        <div className="p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm">
+        <div className="p-6 bg-white/70 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/50 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
           <h3 className="text-base font-bold text-gray-900 dark:text-white mb-5 flex items-center gap-2.5">
             <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-lg">
               <FileText className="h-4 w-4 text-primary" />
@@ -142,7 +142,7 @@ function ArticleSidebarComponent({
         </div>
 
         {/* Reliability Card */}
-        <div className="p-6 bg-gradient-to-br from-emerald-50/50 via-white to-emerald-50/30 dark:from-emerald-900/10 dark:via-gray-800 dark:to-emerald-900/10 border-2 border-emerald-200/50 dark:border-emerald-800/50 rounded-2xl shadow-sm">
+        <div className="p-6 bg-gradient-to-br from-emerald-50/70 via-white/80 to-emerald-50/50 dark:from-emerald-900/20 dark:via-gray-800/80 dark:to-emerald-900/20 backdrop-blur-md border border-emerald-200/50 dark:border-emerald-800/50 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
           <h3 className="text-base font-bold text-gray-900 dark:text-white mb-5 flex items-center gap-2.5">
             <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg border border-emerald-200 dark:border-emerald-800">
               <Shield className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
@@ -167,7 +167,7 @@ function ArticleSidebarComponent({
 
         {/* Related Articles - Enhanced Cards */}
         {relatedArticles.length > 0 && (
-          <div className="p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm">
+          <div className="p-6 bg-white/70 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/50 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
             <div className="flex items-center justify-between mb-5">
               <h3 className="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2.5">
                 <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-lg">
@@ -213,7 +213,7 @@ function ArticleSidebarComponent({
 
         {/* Regional Links - CTA */}
         {regionalLinks.length > 0 && (
-          <div className="p-6 bg-gradient-to-br from-primary/10 via-primary/5 to-white dark:from-primary/20 dark:via-primary/10 dark:to-gray-900 border-2 border-primary/20 dark:border-primary/30 rounded-2xl shadow-sm">
+          <div className="p-6 bg-gradient-to-br from-primary/10 via-white/80 to-primary/5 dark:from-primary/20 dark:via-gray-800/80 dark:to-primary/10 backdrop-blur-md border border-primary/20 dark:border-primary/30 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
             <h3 className="text-base font-bold text-gray-900 dark:text-white mb-5 flex items-center gap-2.5">
               <div className="p-2 bg-primary/20 dark:bg-primary/30 rounded-lg border border-primary/30 dark:border-primary/40">
                 <MapPin className="h-4 w-4 text-primary" />

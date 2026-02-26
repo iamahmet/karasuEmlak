@@ -1,0 +1,921 @@
+- generic [active] [ref=e1]:
+  - link "Ana içeriğe geç" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Ana içeriğe geç" [ref=e3] [cursor=pointer]:
+    - /url: "#main-content"
+  - status [ref=e4]
+  - complementary "Son dakika haberleri" [ref=e5]:
+    - generic [ref=e10]:
+      - generic [ref=e12]:
+        - img [ref=e13]
+        - generic [ref=e16]: YENİ İLAN
+      - generic [ref=e19]:
+        - link "Kiralık Sahil Kiralık 2+1 Daire - Kiralık 6 Oca 21:49" [ref=e20] [cursor=pointer]:
+          - /url: /ilan/sahil-kiralik-2-1-daire
+          - generic [ref=e21]:
+            - img [ref=e22]
+            - generic [ref=e25]: Kiralık
+          - generic [ref=e27]: Sahil Kiralık 2+1 Daire - Kiralık
+          - generic [ref=e28]:
+            - img [ref=e29]
+            - generic [ref=e32]: 6 Oca 21:49
+        - link "Haber Karasu Emlak Piyasasında Yeni Trendler 6 Oca 21:49" [ref=e33] [cursor=pointer]:
+          - /url: /haberler/karasu-emlak-piyasasinda-yeni-trendler
+          - generic [ref=e34]:
+            - img [ref=e35]
+            - generic [ref=e38]: Haber
+          - generic [ref=e40]: Karasu Emlak Piyasasında Yeni Trendler
+          - generic [ref=e41]:
+            - img [ref=e42]
+            - generic [ref=e45]: 6 Oca 21:49
+        - link "Kiralık İnköy Müstakil Ev - Kiralık 6 Oca 21:49" [ref=e46] [cursor=pointer]:
+          - /url: /ilan/inkoy-mustakil-ev
+          - generic [ref=e47]:
+            - img [ref=e48]
+            - generic [ref=e51]: Kiralık
+          - generic [ref=e53]: İnköy Müstakil Ev - Kiralık
+          - generic [ref=e54]:
+            - img [ref=e55]
+            - generic [ref=e58]: 6 Oca 21:49
+        - link "Satılık Aziziye Müstakil Ev - Satılık 6 Oca 21:49" [ref=e59] [cursor=pointer]:
+          - /url: /ilan/aziziye-mustakil-ev-d6ef4e79
+          - generic [ref=e60]:
+            - img [ref=e61]
+            - generic [ref=e64]: Satılık
+          - generic [ref=e66]: Aziziye Müstakil Ev - Satılık
+          - generic [ref=e67]:
+            - img [ref=e68]
+            - generic [ref=e71]: 6 Oca 21:49
+        - link "Kiralık Sahil Kiralık 2+1 Daire - Kiralık 6 Oca 21:49" [ref=e72] [cursor=pointer]:
+          - /url: /ilan/sahil-kiralik-2-1-daire
+          - generic [ref=e73]:
+            - img [ref=e74]
+            - generic [ref=e77]: Kiralık
+          - generic [ref=e79]: Sahil Kiralık 2+1 Daire - Kiralık
+          - generic [ref=e80]:
+            - img [ref=e81]
+            - generic [ref=e84]: 6 Oca 21:49
+        - link "Haber Karasu Emlak Piyasasında Yeni Trendler 6 Oca 21:49" [ref=e85] [cursor=pointer]:
+          - /url: /haberler/karasu-emlak-piyasasinda-yeni-trendler
+          - generic [ref=e86]:
+            - img [ref=e87]
+            - generic [ref=e90]: Haber
+          - generic [ref=e92]: Karasu Emlak Piyasasında Yeni Trendler
+          - generic [ref=e93]:
+            - img [ref=e94]
+            - generic [ref=e97]: 6 Oca 21:49
+        - link "Kiralık İnköy Müstakil Ev - Kiralık 6 Oca 21:49" [ref=e98] [cursor=pointer]:
+          - /url: /ilan/inkoy-mustakil-ev
+          - generic [ref=e99]:
+            - img [ref=e100]
+            - generic [ref=e103]: Kiralık
+          - generic [ref=e105]: İnköy Müstakil Ev - Kiralık
+          - generic [ref=e106]:
+            - img [ref=e107]
+            - generic [ref=e110]: 6 Oca 21:49
+        - link "Satılık Aziziye Müstakil Ev - Satılık 6 Oca 21:49" [ref=e111] [cursor=pointer]:
+          - /url: /ilan/aziziye-mustakil-ev-d6ef4e79
+          - generic [ref=e112]:
+            - img [ref=e113]
+            - generic [ref=e116]: Satılık
+          - generic [ref=e118]: Aziziye Müstakil Ev - Satılık
+          - generic [ref=e119]:
+            - img [ref=e120]
+            - generic [ref=e123]: 6 Oca 21:49
+      - button "Haberleri gizle" [ref=e124] [cursor=pointer]:
+        - img [ref=e125]
+  - banner [ref=e128]:
+    - generic [ref=e130]:
+      - link "Karasu Emlak Ana Sayfa" [ref=e132] [cursor=pointer]:
+        - /url: /
+        - img "Karasu Emlak Logo" [ref=e135]
+      - navigation "Ana menü" [ref=e136]
+      - generic [ref=e142]:
+        - button "Tema değiştir" [ref=e144] [cursor=pointer]:
+          - img [ref=e145]
+          - generic [ref=e151]: Tema değiştir
+        - link "İlan Ara" [ref=e152] [cursor=pointer]:
+          - /url: /arama
+          - img [ref=e153]
+        - link "İlan Ekle" [ref=e156] [cursor=pointer]:
+          - /url: /ilan-ekle
+          - img [ref=e157]
+          - generic [ref=e158]: İlan Ekle
+        - link "İletişim" [ref=e159] [cursor=pointer]:
+          - /url: /iletisim
+          - img [ref=e160]
+          - generic [ref=e162]: İletişim
+  - main "Ana içerik" [ref=e163]:
+    - generic [ref=e164]:
+      - navigation "Breadcrumb" [ref=e165]:
+        - link "Ana Sayfa" [ref=e166] [cursor=pointer]:
+          - /url: /
+          - img [ref=e167]
+          - generic [ref=e170]: Ana Sayfa
+        - generic [ref=e171]:
+          - img [ref=e172]
+          - link "Ana Sayfa" [ref=e174] [cursor=pointer]:
+            - /url: /
+        - generic [ref=e175]:
+          - img [ref=e176]
+          - generic [ref=e178]: Arama
+      - generic [ref=e180]:
+        - heading "Arama" [level=1] [ref=e181]
+        - paragraph [ref=e182]: Karasu emlak ilanlarında arama yapın. Satılık ve kiralık gayrimenkul seçeneklerini filtreleyerek bulun.
+      - generic [ref=e184]:
+        - generic [ref=e185]:
+          - link "Telefon ile ara" [ref=e186] [cursor=pointer]:
+            - /url: tel:+905325933854
+            - img [ref=e188]
+            - generic [ref=e190]:
+              - generic [ref=e191]: Telefon
+              - generic [ref=e192]: +90 532 593 38 54
+          - link "WhatsApp ile mesaj gönder" [ref=e193] [cursor=pointer]:
+            - /url: https://wa.me/905325933854
+            - img [ref=e195]
+            - generic [ref=e197]:
+              - generic [ref=e198]: WhatsApp
+              - generic [ref=e199]: Hemen Mesaj Gönder
+          - link "E-posta gönder" [ref=e200] [cursor=pointer]:
+            - /url: mailto:info@karasuemlak.net
+            - img [ref=e202]
+            - generic [ref=e205]:
+              - generic [ref=e206]: E-posta
+              - generic [ref=e207]: info@karasuemlak.net
+          - generic [ref=e208]:
+            - img [ref=e210]
+            - generic [ref=e213]:
+              - generic [ref=e214]: Adres
+              - generic [ref=e215]: Karasu, Sakarya
+        - generic [ref=e216]:
+          - generic [ref=e217]:
+            - img [ref=e218]
+            - generic [ref=e220]: Lisanslı Emlak Ofisi
+          - generic [ref=e221]:
+            - img [ref=e222]
+            - generic [ref=e225]: 15+ Yıl Deneyim
+          - generic [ref=e226]:
+            - img [ref=e227]
+            - generic [ref=e230]: 7/24 Destek
+      - generic [ref=e231]:
+        - generic [ref=e234]:
+          - generic [ref=e235]:
+            - generic [ref=e236]:
+              - generic [ref=e237]: Arama
+              - generic [ref=e238]:
+                - img [ref=e239]
+                - textbox "Lokasyon, mahalle veya ilan no ara..." [ref=e242]
+            - generic [ref=e243]:
+              - generic [ref=e244]: İlan Tipi
+              - combobox "İlan tipi seçin" [ref=e245]:
+                - option "Tümü" [selected]
+                - option "Satılık"
+                - option "Kiralık"
+            - generic [ref=e246]:
+              - generic [ref=e247]: Gayrimenkul Tipi
+              - combobox "Gayrimenkul tipi seçin" [ref=e248]:
+                - option "Tümü" [selected]
+                - option "Daire"
+                - option "Villa"
+                - option "Yazlık"
+                - option "Arsa"
+                - option "İşyeri"
+            - generic [ref=e249]:
+              - generic [ref=e250]: Mahalle
+              - textbox "Mahalle adı..." [ref=e251]
+          - button "Ara" [ref=e253] [cursor=pointer]:
+            - img [ref=e254]
+            - text: Ara
+        - generic [ref=e257]:
+          - paragraph [ref=e259]: 50 sonuç bulundu
+          - generic [ref=e260]:
+            - combobox [ref=e262] [cursor=pointer]:
+              - generic: Yeni Eklenenler
+              - img [ref=e263]
+            - generic [ref=e265]:
+              - button [ref=e266] [cursor=pointer]:
+                - img [ref=e267]
+              - button [ref=e269] [cursor=pointer]:
+                - img [ref=e270]
+        - generic [ref=e271]:
+          - link "Aziziye Mahallesi 2+1 Daire Satılık 2.750.000 TL - Aziziye, Karasu - ₺2.750.000" [ref=e272] [cursor=pointer]:
+            - /url: /ilan/aziziye-mahallesi-2-1-daire-satilik-2-750-000-tl
+            - article [ref=e273]:
+              - generic [ref=e274]:
+                - img "Satılık daire aziziye, Karasu, Karasu" [ref=e276]
+                - generic [ref=e278]:
+                  - button "Favorilere ekle" [ref=e279]:
+                    - img [ref=e280]
+                  - button "Karşılaştırmaya ekle" [ref=e282]:
+                    - img [ref=e283]
+                  - generic [ref=e287]: Satılık
+                - generic "15 fotoğraf" [ref=e288]: 15 Fotoğraf
+              - generic [ref=e289]:
+                - heading "Aziziye Mahallesi 2+1 Daire Satılık 2.750.000 TL" [level=3] [ref=e290]
+                - paragraph [ref=e291]:
+                  - img [ref=e292]
+                  - generic [ref=e295]: Aziziye, Karasu
+                - paragraph [ref=e297]: ₺2.750.000
+          - link "Aziziye Mahallesi 2+1 Daire Satılık 3.000.000 TL - Aziziye, Karasu - ₺3.000.000" [ref=e298] [cursor=pointer]:
+            - /url: /ilan/aziziye-mahallesi-2-1-daire-satilik-3-000-000-tl
+            - article [ref=e299]:
+              - generic [ref=e300]:
+                - img "Satılık daire aziziye, Karasu, Karasu" [ref=e302]
+                - generic [ref=e304]:
+                  - button "Favorilere ekle" [ref=e305]:
+                    - img [ref=e306]
+                  - button "Karşılaştırmaya ekle" [ref=e308]:
+                    - img [ref=e309]
+                  - generic [ref=e313]: Satılık
+                - generic "14 fotoğraf" [ref=e314]: 14 Fotoğraf
+              - generic [ref=e315]:
+                - heading "Aziziye Mahallesi 2+1 Daire Satılık 3.000.000 TL" [level=3] [ref=e316]
+                - paragraph [ref=e317]:
+                  - img [ref=e318]
+                  - generic [ref=e321]: Aziziye, Karasu
+                - paragraph [ref=e323]: ₺3.000.000
+          - link "Aziziye 2+1 Amerikan Mutfak Kombili Daire 3.900.000 TL - Aziziye, Karasu - ₺3.900.000" [ref=e324] [cursor=pointer]:
+            - /url: /ilan/aziziye-2-1-amerikan-mutfak-kombili-daire-3-900-000-tl
+            - article [ref=e325]:
+              - generic [ref=e326]:
+                - img "Satılık daire aziziye, Karasu, Karasu" [ref=e328]
+                - generic [ref=e330]:
+                  - button "Favorilere ekle" [ref=e331]:
+                    - img [ref=e332]
+                  - button "Karşılaştırmaya ekle" [ref=e334]:
+                    - img [ref=e335]
+                  - generic [ref=e339]: Satılık
+                - generic "13 fotoğraf" [ref=e340]: 13 Fotoğraf
+              - generic [ref=e341]:
+                - heading "Aziziye 2+1 Amerikan Mutfak Kombili Daire 3.900.000 TL" [level=3] [ref=e342]
+                - paragraph [ref=e343]:
+                  - img [ref=e344]
+                  - generic [ref=e347]: Aziziye, Karasu
+                - paragraph [ref=e349]: ₺3.900.000
+          - link "Yalı Mahallesi 2+1 Satılık Daire 2.700.000 TL - Yali, Karasu - ₺2.700.000" [ref=e350] [cursor=pointer]:
+            - /url: /ilan/yali-mahallesi-2-1-satilik-daire-2-700-000-tl
+            - article [ref=e351]:
+              - generic [ref=e352]:
+                - img "Satılık daire yali, Karasu, Karasu" [ref=e354]
+                - generic [ref=e356]:
+                  - button "Favorilere ekle" [ref=e357]:
+                    - img [ref=e358]
+                  - button "Karşılaştırmaya ekle" [ref=e360]:
+                    - img [ref=e361]
+                  - generic [ref=e365]: Satılık
+                - generic "14 fotoğraf" [ref=e366]: 14 Fotoğraf
+              - generic [ref=e367]:
+                - heading "Yalı Mahallesi 2+1 Satılık Daire 2.700.000 TL" [level=3] [ref=e368]
+                - paragraph [ref=e369]:
+                  - img [ref=e370]
+                  - generic [ref=e373]: Yali, Karasu
+                - paragraph [ref=e375]: ₺2.700.000
+          - link "Aziziye 2+1 Daire Satılık 2.750.000 TL - Aziziye, Karasu - ₺2.750.000" [ref=e376] [cursor=pointer]:
+            - /url: /ilan/aziziye-2-1-daire-satilik-2-750-000-tl-1768437801590
+            - article [ref=e377]:
+              - generic [ref=e378]:
+                - img "Satılık daire aziziye, Karasu, Karasu" [ref=e380]
+                - generic [ref=e382]:
+                  - button "Favorilere ekle" [ref=e383]:
+                    - img [ref=e384]
+                  - button "Karşılaştırmaya ekle" [ref=e386]:
+                    - img [ref=e387]
+                  - generic [ref=e391]: Satılık
+                - generic "15 fotoğraf" [ref=e392]: 15 Fotoğraf
+              - generic [ref=e393]:
+                - heading "Aziziye 2+1 Daire Satılık 2.750.000 TL" [level=3] [ref=e394]
+                - paragraph [ref=e395]:
+                  - img [ref=e396]
+                  - generic [ref=e399]: Aziziye, Karasu
+                - paragraph [ref=e401]: ₺2.750.000
+          - link "Aziziye 2+1 Daire Satılık 3.000.000 TL - Aziziye, Karasu - ₺3.000.000" [ref=e402] [cursor=pointer]:
+            - /url: /ilan/aziziye-2-1-daire-satilik-3-000-000-tl-1768437789529
+            - article [ref=e403]:
+              - generic [ref=e404]:
+                - img "Satılık daire aziziye, Karasu, Karasu" [ref=e406]
+                - generic [ref=e408]:
+                  - button "Favorilere ekle" [ref=e409]:
+                    - img [ref=e410]
+                  - button "Karşılaştırmaya ekle" [ref=e412]:
+                    - img [ref=e413]
+                  - generic [ref=e417]: Satılık
+                - generic "14 fotoğraf" [ref=e418]: 14 Fotoğraf
+              - generic [ref=e419]:
+                - heading "Aziziye 2+1 Daire Satılık 3.000.000 TL" [level=3] [ref=e420]
+                - paragraph [ref=e421]:
+                  - img [ref=e422]
+                  - generic [ref=e425]: Aziziye, Karasu
+                - paragraph [ref=e427]: ₺3.000.000
+          - link "Aziziye 2+1 Amerikan Mutfak Daire 3.900.000 TL - Aziziye, Karasu - ₺3.900.000" [ref=e428] [cursor=pointer]:
+            - /url: /ilan/aziziye-2-1-amerikan-mutfak-daire-3-900-000-tl-1768437778745
+            - article [ref=e429]:
+              - generic [ref=e430]:
+                - img "Satılık daire aziziye, Karasu, Karasu" [ref=e432]
+                - generic [ref=e434]:
+                  - button "Favorilere ekle" [ref=e435]:
+                    - img [ref=e436]
+                  - button "Karşılaştırmaya ekle" [ref=e438]:
+                    - img [ref=e439]
+                  - generic [ref=e443]: Satılık
+                - generic "13 fotoğraf" [ref=e444]: 13 Fotoğraf
+              - generic [ref=e445]:
+                - heading "Aziziye 2+1 Amerikan Mutfak Daire 3.900.000 TL" [level=3] [ref=e446]
+                - paragraph [ref=e447]:
+                  - img [ref=e448]
+                  - generic [ref=e451]: Aziziye, Karasu
+                - paragraph [ref=e453]: ₺3.900.000
+          - link "Yalı Mahallesi Satılık 2+1 Daire 2.700.000 TL - Liman Karşısı - Yali, Karasu - ₺2.700.000" [ref=e454] [cursor=pointer]:
+            - /url: /ilan/yali-mahallesi-satilik-2-1-daire-2-700-000-tl-liman-karsisi
+            - article [ref=e455]:
+              - generic [ref=e456]:
+                - img "Satılık daire yali, Karasu, Karasu" [ref=e458]
+                - generic [ref=e460]:
+                  - button "Favorilere ekle" [ref=e461]:
+                    - img [ref=e462]
+                  - button "Karşılaştırmaya ekle" [ref=e464]:
+                    - img [ref=e465]
+                  - generic [ref=e469]: Satılık
+                - generic "14 fotoğraf" [ref=e470]: 14 Fotoğraf
+              - generic [ref=e471]:
+                - heading "Yalı Mahallesi Satılık 2+1 Daire 2.700.000 TL - Liman Karşısı" [level=3] [ref=e472]
+                - paragraph [ref=e473]:
+                  - img [ref=e474]
+                  - generic [ref=e477]: Yali, Karasu
+                - paragraph [ref=e479]: ₺2.700.000
+          - link "Aziziye 2+1 Daire Satılık 2.750.000 TL - Aziziye, Karasu - ₺2.750.000" [ref=e480] [cursor=pointer]:
+            - /url: /ilan/aziziye-2-1-daire-satilik-2-750-000-tl
+            - article [ref=e481]:
+              - generic [ref=e482]:
+                - img "Satılık daire aziziye, Karasu, Karasu" [ref=e484]
+                - generic [ref=e486]:
+                  - button "Favorilere ekle" [ref=e487]:
+                    - img [ref=e488]
+                  - button "Karşılaştırmaya ekle" [ref=e490]:
+                    - img [ref=e491]
+                  - generic [ref=e495]: Satılık
+                - generic "15 fotoğraf" [ref=e496]: 15 Fotoğraf
+              - generic [ref=e497]:
+                - heading "Aziziye 2+1 Daire Satılık 2.750.000 TL" [level=3] [ref=e498]
+                - paragraph [ref=e499]:
+                  - img [ref=e500]
+                  - generic [ref=e503]: Aziziye, Karasu
+                - paragraph [ref=e505]: ₺2.750.000
+          - link "Aziziye 2+1 Daire Satılık 3.000.000 TL - Aziziye, Karasu - ₺3.000.000" [ref=e506] [cursor=pointer]:
+            - /url: /ilan/aziziye-2-1-daire-satilik-3-000-000-tl
+            - article [ref=e507]:
+              - generic [ref=e508]:
+                - img "Satılık daire aziziye, Karasu, Karasu" [ref=e510]
+                - generic [ref=e512]:
+                  - button "Favorilere ekle" [ref=e513]:
+                    - img [ref=e514]
+                  - button "Karşılaştırmaya ekle" [ref=e516]:
+                    - img [ref=e517]
+                  - generic [ref=e521]: Satılık
+                - generic "14 fotoğraf" [ref=e522]: 14 Fotoğraf
+              - generic [ref=e523]:
+                - heading "Aziziye 2+1 Daire Satılık 3.000.000 TL" [level=3] [ref=e524]
+                - paragraph [ref=e525]:
+                  - img [ref=e526]
+                  - generic [ref=e529]: Aziziye, Karasu
+                - paragraph [ref=e531]: ₺3.000.000
+          - link "Aziziye 2+1 Amerikan Mutfak Daire 3.900.000 TL - Aziziye, Karasu - ₺3.900.000" [ref=e532] [cursor=pointer]:
+            - /url: /ilan/aziziye-2-1-amerikan-mutfak-daire-3-900-000-tl
+            - article [ref=e533]:
+              - generic [ref=e534]:
+                - img "Satılık daire aziziye, Karasu, Karasu" [ref=e536]
+                - generic [ref=e538]:
+                  - button "Favorilere ekle" [ref=e539]:
+                    - img [ref=e540]
+                  - button "Karşılaştırmaya ekle" [ref=e542]:
+                    - img [ref=e543]
+                  - generic [ref=e547]: Satılık
+                - generic "13 fotoğraf" [ref=e548]: 13 Fotoğraf
+              - generic [ref=e549]:
+                - heading "Aziziye 2+1 Amerikan Mutfak Daire 3.900.000 TL" [level=3] [ref=e550]
+                - paragraph [ref=e551]:
+                  - img [ref=e552]
+                  - generic [ref=e555]: Aziziye, Karasu
+                - paragraph [ref=e557]: ₺3.900.000
+          - link "Yalı Mahallesi Liman Karşısı 2+1 Satılık Daire 2.700.000 TL - Yali, Karasu - ₺2.700.000" [ref=e558] [cursor=pointer]:
+            - /url: /ilan/yali-mahallesi-liman-karsisi-2-1-satilik-daire-2-700-000-tl
+            - article [ref=e559]:
+              - generic [ref=e560]:
+                - img "Satılık daire yali, Karasu, Karasu" [ref=e562]
+                - generic [ref=e564]:
+                  - button "Favorilere ekle" [ref=e565]:
+                    - img [ref=e566]
+                  - button "Karşılaştırmaya ekle" [ref=e568]:
+                    - img [ref=e569]
+                  - generic [ref=e573]: Satılık
+                - generic "14 fotoğraf" [ref=e574]: 14 Fotoğraf
+              - generic [ref=e575]:
+                - heading "Yalı Mahallesi Liman Karşısı 2+1 Satılık Daire 2.700.000 TL" [level=3] [ref=e576]
+                - paragraph [ref=e577]:
+                  - img [ref=e578]
+                  - generic [ref=e581]: Yali, Karasu
+                - paragraph [ref=e583]: ₺2.700.000
+          - link "Aziziye Mahallesi'nde Satılık 2+1 Daire - 2.750.000 TL - Aziziye, Karasu - ₺2.750.000" [ref=e584] [cursor=pointer]:
+            - /url: /ilan/aziziye-mahallesi-nde-satilik-2-1-daire-2-750-000-tl
+            - article [ref=e585]:
+              - generic [ref=e586]:
+                - img "Satılık daire Aziziye, Karasu, Karasu" [ref=e588]
+                - generic [ref=e590]:
+                  - button "Favorilere ekle" [ref=e591]:
+                    - img [ref=e592]
+                  - button "Karşılaştırmaya ekle" [ref=e594]:
+                    - img [ref=e595]
+                  - generic [ref=e599]: Satılık
+                - generic "15 fotoğraf" [ref=e600]: 15 Fotoğraf
+              - generic [ref=e601]:
+                - heading "Aziziye Mahallesi'nde Satılık 2+1 Daire - 2.750.000 TL" [level=3] [ref=e602]
+                - paragraph [ref=e603]:
+                  - img [ref=e604]
+                  - generic [ref=e607]: Aziziye, Karasu
+                - paragraph [ref=e609]: ₺2.750.000
+          - link "Aziziye Mahallesi'nde Amerikan Mutfaklı 3 Milyon TL'lik Daire - Aziziye, Karasu - ₺3.000.000" [ref=e610] [cursor=pointer]:
+            - /url: /ilan/aziziye-mahallesi-nde-amerikan-mutfakli-3-milyon-tl-lik-daire
+            - article [ref=e611]:
+              - generic [ref=e612]:
+                - img "Satılık daire Aziziye, Karasu, Karasu" [ref=e614]
+                - generic [ref=e616]:
+                  - button "Favorilere ekle" [ref=e617]:
+                    - img [ref=e618]
+                  - button "Karşılaştırmaya ekle" [ref=e620]:
+                    - img [ref=e621]
+                  - generic [ref=e625]: Satılık
+                - generic "14 fotoğraf" [ref=e626]: 14 Fotoğraf
+              - generic [ref=e627]:
+                - heading "Aziziye Mahallesi'nde Amerikan Mutfaklı 3 Milyon TL'lik Daire" [level=3] [ref=e628]
+                - paragraph [ref=e629]:
+                  - img [ref=e630]
+                  - generic [ref=e633]: Aziziye, Karasu
+                - paragraph [ref=e635]: ₺3.000.000
+          - link "Aziziye Mahallesi'nde Cam Balkonlu 2+1 Amerikan Mutfak Daire - Aziziye, Karasu - ₺3.900.000" [ref=e636] [cursor=pointer]:
+            - /url: /ilan/aziziye-mahallesi-nde-cam-balkonlu-2-1-amerikan-mutfak-daire
+            - article [ref=e637]:
+              - generic [ref=e638]:
+                - img "Satılık daire Aziziye, Karasu, Karasu" [ref=e640]
+                - generic [ref=e642]:
+                  - button "Favorilere ekle" [ref=e643]:
+                    - img [ref=e644]
+                  - button "Karşılaştırmaya ekle" [ref=e646]:
+                    - img [ref=e647]
+                  - generic [ref=e651]: Satılık
+                - generic "13 fotoğraf" [ref=e652]: 13 Fotoğraf
+              - generic [ref=e653]:
+                - heading "Aziziye Mahallesi'nde Cam Balkonlu 2+1 Amerikan Mutfak Daire" [level=3] [ref=e654]
+                - paragraph [ref=e655]:
+                  - img [ref=e656]
+                  - generic [ref=e659]: Aziziye, Karasu
+                - paragraph [ref=e661]: ₺3.900.000
+          - link "Yalı Mahallesi Liman Karşısında Satılık Sıfır Ara Kat Daire - Yalı, Karasu - ₺2.700.000" [ref=e662] [cursor=pointer]:
+            - /url: /ilan/yali-mahallesi-liman-karsisinda-satilik-sifir-ara-kat-daire
+            - article [ref=e663]:
+              - generic [ref=e664]:
+                - img "Satılık daire Yalı, Karasu, Karasu" [ref=e666]
+                - generic [ref=e668]:
+                  - button "Favorilere ekle" [ref=e669]:
+                    - img [ref=e670]
+                  - button "Karşılaştırmaya ekle" [ref=e672]:
+                    - img [ref=e673]
+                  - generic [ref=e677]: Satılık
+                - generic "14 fotoğraf" [ref=e678]: 14 Fotoğraf
+              - generic [ref=e679]:
+                - heading "Yalı Mahallesi Liman Karşısında Satılık Sıfır Ara Kat Daire" [level=3] [ref=e680]
+                - paragraph [ref=e681]:
+                  - img [ref=e682]
+                  - generic [ref=e685]: Yalı, Karasu
+                - paragraph [ref=e687]: ₺2.700.000
+          - link "Aziziye Mahallesi'nde Satılık Modern Daire - 2.750.000 TL - Aziziye, Karasu - ₺2.750.000" [ref=e688] [cursor=pointer]:
+            - /url: /ilan/aziziye-mahallesi-nde-satilik-modern-daire-2-750-000-tl
+            - article [ref=e689]:
+              - generic [ref=e690]:
+                - img "Satılık daire Aziziye, Karasu, Karasu" [ref=e692]
+                - generic [ref=e694]:
+                  - button "Favorilere ekle" [ref=e695]:
+                    - img [ref=e696]
+                  - button "Karşılaştırmaya ekle" [ref=e698]:
+                    - img [ref=e699]
+                  - generic [ref=e703]: Satılık
+                - generic "15 fotoğraf" [ref=e704]: 15 Fotoğraf
+              - generic [ref=e705]:
+                - heading "Aziziye Mahallesi'nde Satılık Modern Daire - 2.750.000 TL" [level=3] [ref=e706]
+                - paragraph [ref=e707]:
+                  - img [ref=e708]
+                  - generic [ref=e711]: Aziziye, Karasu
+                - paragraph [ref=e713]: ₺2.750.000
+          - link "Aziziye Mahallesi'nde Amerikan Mutfaklı Modern Daire - 3.000.000 TL - Aziziye, Karasu - ₺3.000.000" [ref=e714] [cursor=pointer]:
+            - /url: /ilan/aziziye-mahallesi-nde-amerikan-mutfakli-modern-daire-3-000-000-tl
+            - article [ref=e715]:
+              - generic [ref=e716]:
+                - img "Satılık daire Aziziye, Karasu, Karasu" [ref=e718]
+                - generic [ref=e720]:
+                  - button "Favorilere ekle" [ref=e721]:
+                    - img [ref=e722]
+                  - button "Karşılaştırmaya ekle" [ref=e724]:
+                    - img [ref=e725]
+                  - generic [ref=e729]: Satılık
+                - generic "14 fotoğraf" [ref=e730]: 14 Fotoğraf
+              - generic [ref=e731]:
+                - heading "Aziziye Mahallesi'nde Amerikan Mutfaklı Modern Daire - 3.000.000 TL" [level=3] [ref=e732]
+                - paragraph [ref=e733]:
+                  - img [ref=e734]
+                  - generic [ref=e737]: Aziziye, Karasu
+                - paragraph [ref=e739]: ₺3.000.000
+        - generic [ref=e740]:
+          - button [disabled]:
+            - img
+          - button "1" [ref=e741] [cursor=pointer]
+          - button "2" [ref=e742] [cursor=pointer]
+          - button "3" [ref=e743] [cursor=pointer]
+          - button [ref=e744] [cursor=pointer]:
+            - img [ref=e745]
+      - generic [ref=e747]:
+        - heading "Arama Hakkında Sık Sorulan Sorular" [level=2] [ref=e748]
+        - generic [ref=e749]:
+          - heading "Karasu emlak ilanlarında nasıl arama yapabilirim?" [level=3] [ref=e751]:
+            - button "Karasu emlak ilanlarında nasıl arama yapabilirim?" [ref=e752] [cursor=pointer]:
+              - generic [ref=e753]: Karasu emlak ilanlarında nasıl arama yapabilirim?
+              - img [ref=e754]
+          - heading "Arama sonuçlarını nasıl filtreleyebilirim?" [level=3] [ref=e757]:
+            - button "Arama sonuçlarını nasıl filtreleyebilirim?" [ref=e758] [cursor=pointer]:
+              - generic [ref=e759]: Arama sonuçlarını nasıl filtreleyebilirim?
+              - img [ref=e760]
+          - heading "Beğendiğim ilanları nasıl kaydedebilirim?" [level=3] [ref=e763]:
+            - button "Beğendiğim ilanları nasıl kaydedebilirim?" [ref=e764] [cursor=pointer]:
+              - generic [ref=e765]: Beğendiğim ilanları nasıl kaydedebilirim?
+              - img [ref=e766]
+          - heading "Karasu'da en çok hangi bölgelerde ilan var?" [level=3] [ref=e769]:
+            - button "Karasu'da en çok hangi bölgelerde ilan var?" [ref=e770] [cursor=pointer]:
+              - generic [ref=e771]: Karasu'da en çok hangi bölgelerde ilan var?
+              - img [ref=e772]
+      - generic [ref=e774]:
+        - heading "İlgili Sayfalar" [level=2] [ref=e775]
+        - generic [ref=e776]:
+          - link "Satılık İlanlar Tüm satılık emlak ilanları" [ref=e777] [cursor=pointer]:
+            - /url: /satilik
+            - img [ref=e778]
+            - generic [ref=e781]:
+              - text: Satılık İlanlar
+              - paragraph [ref=e782]: Tüm satılık emlak ilanları
+            - img [ref=e783]
+          - link "Kiralık İlanlar Tüm kiralık emlak ilanları" [ref=e785] [cursor=pointer]:
+            - /url: /kiralik
+            - img [ref=e786]
+            - generic [ref=e789]:
+              - text: Kiralık İlanlar
+              - paragraph [ref=e790]: Tüm kiralık emlak ilanları
+            - img [ref=e791]
+          - link "Karasu Rehberi Bölge ve mahalle bilgileri" [ref=e793] [cursor=pointer]:
+            - /url: /karasu
+            - img [ref=e794]
+            - generic [ref=e797]:
+              - text: Karasu Rehberi
+              - paragraph [ref=e798]: Bölge ve mahalle bilgileri
+            - img [ref=e799]
+          - link "Mahalleler Karasu mahalle profilleri" [ref=e801] [cursor=pointer]:
+            - /url: /karasu-mahalleler
+            - img [ref=e802]
+            - generic [ref=e805]:
+              - text: Mahalleler
+              - paragraph [ref=e806]: Karasu mahalle profilleri
+            - img [ref=e807]
+  - contentinfo "Site footer" [ref=e809]:
+    - generic [ref=e811]:
+      - generic [ref=e812]:
+        - generic [ref=e813]:
+          - heading "İstatistikler" [level=4] [ref=e814]:
+            - img [ref=e815]
+            - text: İstatistikler
+          - list [ref=e818]:
+            - listitem [ref=e819]:
+              - generic [ref=e820]: Toplam İlan
+              - generic [ref=e821]: 103+
+            - listitem [ref=e822]:
+              - generic [ref=e823]: Satılık
+              - generic [ref=e824]: 75+
+            - listitem [ref=e825]:
+              - generic [ref=e826]: Kiralık
+              - generic [ref=e827]: 28+
+            - listitem [ref=e828]:
+              - generic [ref=e829]: Mutlu Müşteri
+              - generic [ref=e830]: 500+
+        - generic [ref=e831]:
+          - heading "Güvenilirlik" [level=4] [ref=e832]:
+            - img [ref=e833]
+            - text: Güvenilirlik
+          - list [ref=e835]:
+            - listitem [ref=e836]:
+              - img [ref=e837]
+              - generic [ref=e840]: Güvenilir Emlak
+            - listitem [ref=e841]:
+              - img [ref=e842]
+              - generic [ref=e845]: Güvenli İşlem
+            - listitem [ref=e846]:
+              - img [ref=e847]
+              - generic [ref=e849]: SSL Güvenli
+            - listitem [ref=e850]:
+              - img [ref=e851]
+              - generic [ref=e854]: 15+ Yıl Deneyim
+        - generic [ref=e855]:
+          - heading "Hızlı İşlemler" [level=4] [ref=e856]:
+            - img [ref=e857]
+            - text: Hızlı İşlemler
+          - list [ref=e860]:
+            - listitem [ref=e861]:
+              - link "Satılık İlan Ara" [ref=e862] [cursor=pointer]:
+                - /url: /satilik
+                - img [ref=e863]
+                - text: Satılık İlan Ara
+            - listitem [ref=e866]:
+              - link "Kiralık İlan Ara" [ref=e867] [cursor=pointer]:
+                - /url: /kiralik
+                - img [ref=e868]
+                - text: Kiralık İlan Ara
+            - listitem [ref=e871]:
+              - link "Kredi Hesaplayıcı" [ref=e872] [cursor=pointer]:
+                - /url: /kredi-hesaplayici
+                - img [ref=e873]
+                - text: Kredi Hesaplayıcı
+            - listitem [ref=e875]:
+              - link "İlan Karşılaştır" [ref=e876] [cursor=pointer]:
+                - /url: /karsilastir
+                - img [ref=e877]
+                - text: İlan Karşılaştır
+            - listitem [ref=e880]:
+              - link "Sık Sorulan Sorular" [ref=e881] [cursor=pointer]:
+                - /url: /sss
+                - img [ref=e882]
+                - text: Sık Sorulan Sorular
+        - generic [ref=e885]:
+          - heading "E-Bülten" [level=4] [ref=e886]:
+            - img [ref=e887]
+            - text: E-Bülten
+          - generic [ref=e890]:
+            - generic [ref=e891]:
+              - generic [ref=e892]:
+                - generic [ref=e894]:
+                  - generic [ref=e895]: "*"
+                  - textbox "Zorunlu alan" [ref=e896]:
+                    - /placeholder: E-posta adresiniz
+                - button "Newsletter'e abone ol" [ref=e897] [cursor=pointer]: Abone Ol
+              - paragraph [ref=e898]: Yeni ilanlar ve güncellemelerden haberdar olmak için e-posta adresinizi girin.
+            - generic [ref=e899]:
+              - img [ref=e900]
+              - generic [ref=e903]: Bildirimler Aktif
+            - generic [ref=e904]:
+              - link "Facebook" [ref=e905] [cursor=pointer]:
+                - /url: https://facebook.com/karasuemlak
+                - img [ref=e906]
+              - link "Instagram" [ref=e908] [cursor=pointer]:
+                - /url: https://instagram.com/karasuemlak
+                - img [ref=e909]
+              - link "Twitter" [ref=e912] [cursor=pointer]:
+                - /url: https://twitter.com/karasuemlak
+                - img [ref=e913]
+      - generic [ref=e915]:
+        - generic [ref=e916]:
+          - generic [ref=e917]:
+            - generic [ref=e918]:
+              - img [ref=e922]
+              - generic [ref=e925]:
+                - heading "Karasu Emlak" [level=3] [ref=e926]
+                - paragraph [ref=e927]: Gayrimenkul Danışmanlığı
+            - paragraph [ref=e928]: Karasu ve çevresinde 15 yıldır güvenilir emlak danışmanlığı hizmeti sunuyoruz. Hayalinizdeki evi bulmak için buradayız.
+            - generic [ref=e929]:
+              - img [ref=e930]
+              - generic [ref=e933]: Merkez Mahallesi, Atatürk Caddesi No:123, 54500 Karasu / Sakarya
+          - generic [ref=e934]:
+            - heading "Sosyal Medya" [level=4] [ref=e935]
+            - generic [ref=e936]:
+              - link "Facebook" [ref=e937] [cursor=pointer]:
+                - /url: https://facebook.com/karasuemlak
+                - img [ref=e938]
+              - link "Instagram" [ref=e940] [cursor=pointer]:
+                - /url: https://instagram.com/karasuemlak
+                - img [ref=e941]
+              - link "Twitter" [ref=e944] [cursor=pointer]:
+                - /url: https://twitter.com/karasuemlak
+                - img [ref=e945]
+        - generic [ref=e947]:
+          - heading "İlanlar" [level=4] [ref=e948]:
+            - img [ref=e949]
+            - text: İlanlar
+          - list [ref=e952]:
+            - listitem [ref=e953]:
+              - link "Satılık İlanlar" [ref=e954] [cursor=pointer]:
+                - /url: /satilik
+                - img [ref=e955]
+                - text: Satılık İlanlar
+            - listitem [ref=e958]:
+              - link "Kiralık İlanlar" [ref=e959] [cursor=pointer]:
+                - /url: /kiralik
+                - img [ref=e960]
+                - text: Kiralık İlanlar
+            - listitem [ref=e964]:
+              - link "Satılık Daire" [ref=e965] [cursor=pointer]:
+                - /url: /satilik-daire
+                - img [ref=e966]
+                - text: Satılık Daire
+            - listitem [ref=e969]:
+              - link "Kiralık Daire" [ref=e970] [cursor=pointer]:
+                - /url: /kiralik-daire
+                - img [ref=e971]
+                - text: Kiralık Daire
+            - listitem [ref=e975]:
+              - link "Karasu Satılık Daire" [ref=e976] [cursor=pointer]:
+                - /url: /karasu-satilik-daire
+                - img [ref=e977]
+                - text: Karasu Satılık Daire
+            - listitem [ref=e980]:
+              - link "Karasu Kiralık Daire" [ref=e981] [cursor=pointer]:
+                - /url: /karasu-kiralik-daire
+                - img [ref=e982]
+                - text: Karasu Kiralık Daire
+            - listitem [ref=e985]:
+              - link "İlan Ekle" [ref=e986] [cursor=pointer]:
+                - /url: /ilan-ekle
+                - img [ref=e987]
+                - text: İlan Ekle
+          - generic [ref=e990]:
+            - heading "Satılık Kategoriler" [level=5] [ref=e991]
+            - list [ref=e992]:
+              - listitem [ref=e993]:
+                - link "Satılık Daire" [ref=e994] [cursor=pointer]:
+                  - /url: /satilik?tip=daire
+              - listitem [ref=e995]:
+                - link "Satılık Villa" [ref=e996] [cursor=pointer]:
+                  - /url: /satilik?tip=villa
+              - listitem [ref=e997]:
+                - link "Satılık Yazlık" [ref=e998] [cursor=pointer]:
+                  - /url: /satilik?tip=yazlik
+              - listitem [ref=e999]:
+                - link "Satılık Arsa" [ref=e1000] [cursor=pointer]:
+                  - /url: /satilik?tip=arsa
+        - generic [ref=e1001]:
+          - heading "Bölgeler & İçerik" [level=4] [ref=e1002]:
+            - img [ref=e1003]
+            - text: Bölgeler & İçerik
+          - list [ref=e1006]:
+            - listitem [ref=e1007]:
+              - link "Karasu" [ref=e1008] [cursor=pointer]:
+                - /url: /karasu
+            - listitem [ref=e1009]:
+              - link "Kocaali" [ref=e1010] [cursor=pointer]:
+                - /url: /kocaali
+            - listitem [ref=e1011]:
+              - link "Sapanca" [ref=e1012] [cursor=pointer]:
+                - /url: /sapanca
+            - listitem [ref=e1013]:
+              - link "Gezilecek Yerler" [ref=e1014] [cursor=pointer]:
+                - /url: /karasu/gezilecek-yerler
+            - listitem [ref=e1015]:
+              - link "Hastaneler" [ref=e1016] [cursor=pointer]:
+                - /url: /karasu/hastaneler
+          - generic [ref=e1017]:
+            - heading "Blog & Makaleler" [level=5] [ref=e1018]
+            - list [ref=e1019]:
+              - listitem [ref=e1020]:
+                - link "Blog" [ref=e1021] [cursor=pointer]:
+                  - /url: /blog
+                  - img [ref=e1022]
+                  - text: Blog
+              - listitem [ref=e1025]:
+                - link "Haberler" [ref=e1026] [cursor=pointer]:
+                  - /url: /haberler
+                  - img [ref=e1027]
+                  - text: Haberler
+              - listitem [ref=e1030]:
+                - link "Rehber" [ref=e1031] [cursor=pointer]:
+                  - /url: /rehber
+                  - img [ref=e1032]
+                  - text: Rehber
+              - listitem [ref=e1034]:
+                - link "Yorumlar" [ref=e1035] [cursor=pointer]:
+                  - /url: /yorumlar
+              - listitem [ref=e1036]:
+                - link "SSS" [ref=e1037] [cursor=pointer]:
+                  - /url: /sss
+        - generic [ref=e1038]:
+          - heading "Araçlar & Yasal" [level=4] [ref=e1039]:
+            - img [ref=e1040]
+            - text: Araçlar & Yasal
+          - list [ref=e1042]:
+            - listitem [ref=e1043]:
+              - link "Kredi Hesaplayıcı" [ref=e1044] [cursor=pointer]:
+                - /url: /kredi-hesaplayici
+                - img [ref=e1045]
+                - text: Kredi Hesaplayıcı
+            - listitem [ref=e1047]:
+              - link "Yatırım Hesaplayıcı" [ref=e1048] [cursor=pointer]:
+                - /url: /yatirim-hesaplayici
+                - img [ref=e1049]
+                - text: Yatırım Hesaplayıcı
+            - listitem [ref=e1052]:
+              - link "İlan Karşılaştır" [ref=e1053] [cursor=pointer]:
+                - /url: /karsilastir
+            - listitem [ref=e1054]:
+              - link "Favorilerim" [ref=e1055] [cursor=pointer]:
+                - /url: /favorilerim
+                - img [ref=e1056]
+                - text: Favorilerim
+            - listitem [ref=e1058]: Yasal
+            - listitem [ref=e1059]:
+              - link "Gizlilik Politikası" [ref=e1060] [cursor=pointer]:
+                - /url: /gizlilik-politikasi
+            - listitem [ref=e1061]:
+              - link "Çerez Politikası" [ref=e1062] [cursor=pointer]:
+                - /url: /cerez-politikasi
+            - listitem [ref=e1063]:
+              - link "Kullanım Koşulları" [ref=e1064] [cursor=pointer]:
+                - /url: /kullanim-kosullari
+            - listitem [ref=e1065]:
+              - link "Hakkımızda" [ref=e1066] [cursor=pointer]:
+                - /url: /hakkimizda
+            - listitem [ref=e1067]:
+              - link "İletişim" [ref=e1068] [cursor=pointer]:
+                - /url: /iletisim
+      - generic [ref=e1069]:
+        - link "İletişim +90 532 593 38 54 Hafta içi 09:00 - 18:00" [ref=e1070] [cursor=pointer]:
+          - /url: tel:+905325933854
+          - img [ref=e1072]
+          - generic [ref=e1074]:
+            - generic [ref=e1075]: İletişim
+            - generic [ref=e1076]: +90 532 593 38 54
+            - generic [ref=e1077]:
+              - img [ref=e1078]
+              - generic [ref=e1081]: Hafta içi 09:00 - 18:00
+        - link "WhatsApp Mesaj Gönder 7/24 hızlı yanıt" [ref=e1082] [cursor=pointer]:
+          - /url: https://wa.me/905325933854
+          - img [ref=e1084]
+          - generic [ref=e1086]:
+            - generic [ref=e1087]: WhatsApp
+            - generic [ref=e1088]: Mesaj Gönder
+            - generic [ref=e1089]: 7/24 hızlı yanıt
+        - link "E-posta info@karasuemlak.net Detaylı bilgi için" [ref=e1090] [cursor=pointer]:
+          - /url: mailto:info@karasuemlak.net
+          - img [ref=e1092]
+          - generic [ref=e1095]:
+            - generic [ref=e1096]: E-posta
+            - generic [ref=e1097]: info@karasuemlak.net
+            - generic [ref=e1098]: Detaylı bilgi için
+      - generic [ref=e1099]:
+        - generic [ref=e1100]:
+          - paragraph [ref=e1101]: © 2026 Karasu Emlak.•Tüm hakları saklıdır.
+          - generic [ref=e1102]:
+            - link "Gizlilik Politikası" [ref=e1103] [cursor=pointer]:
+              - /url: /gizlilik-politikasi
+            - generic [ref=e1104]: •
+            - link "Çerez Politikası" [ref=e1105] [cursor=pointer]:
+              - /url: /cerez-politikasi
+            - generic [ref=e1106]: •
+            - link "Kullanım Koşulları" [ref=e1107] [cursor=pointer]:
+              - /url: /kullanim-kosullari
+            - generic [ref=e1108]: •
+            - link "KVKK Başvuru" [ref=e1109] [cursor=pointer]:
+              - /url: /kvkk-basvuru
+            - generic [ref=e1110]: •
+            - link "Sitemap" [ref=e1111] [cursor=pointer]:
+              - /url: /sitemap.xml
+              - text: Sitemap
+              - img [ref=e1112]
+        - generic [ref=e1117]:
+          - generic [ref=e1118]:
+            - img [ref=e1119]
+            - generic [ref=e1121]: SSL Güvenli
+          - generic [ref=e1122]:
+            - img [ref=e1123]
+            - generic [ref=e1126]: Güvenli Ödeme
+          - generic [ref=e1127]:
+            - img [ref=e1128]
+            - generic [ref=e1131]: 15+ Yıl Deneyim
+          - generic [ref=e1132]:
+            - img [ref=e1133]
+            - generic [ref=e1135]: 500+ Mutlu Müşteri
+        - generic [ref=e1137]:
+          - generic [ref=e1139]: Sakarya Karasu'nun Güvenilir Emlak Platformu
+          - generic [ref=e1140]:
+            - link "poi369" [ref=e1141] [cursor=pointer]:
+              - /url: https://poi369.com
+              - generic [ref=e1142]: poi369
+              - img [ref=e1143]
+            - generic [ref=e1147]: tarafından geliştirildi
+  - generic [ref=e1150]:
+    - generic [ref=e1151]:
+      - generic [ref=e1152]:
+        - img [ref=e1153]
+        - heading "Çerez Kullanımı" [level=3] [ref=e1155]
+      - paragraph [ref=e1156]: Bu web sitesi, size en iyi deneyimi sunmak için çerezler kullanmaktadır. KVKK ve GDPR uyumlu olarak çerez tercihlerinizi yönetebilirsiniz.
+      - link "Çerez Politikası" [ref=e1157] [cursor=pointer]:
+        - /url: /cerez-politikasi
+      - text: ve
+      - link "Gizlilik Politikası" [ref=e1158] [cursor=pointer]:
+        - /url: /gizlilik-politikasi
+    - generic [ref=e1159]:
+      - button "Ayarlar" [ref=e1160] [cursor=pointer]:
+        - img [ref=e1161]
+        - text: Ayarlar
+      - button "Reddet" [ref=e1164] [cursor=pointer]
+      - button "Kabul Et" [ref=e1165] [cursor=pointer]
+  - region "Notifications alt+T"
+  - alert [ref=e1166]

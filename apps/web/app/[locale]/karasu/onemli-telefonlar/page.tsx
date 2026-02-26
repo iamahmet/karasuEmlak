@@ -16,6 +16,10 @@ export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+export const revalidate = 3600; // 1 hour
+export const dynamicParams = true;
+
+
 
 export async function generateMetadata({
   params,
@@ -219,7 +223,7 @@ export default async function OnemliTelefonlarPage({
               ];
               const colorClass = colorClasses[index % colorClasses.length];
               const [bgFrom, bgTo, borderColor, hoverBorder, iconBg] = colorClass.split(' ');
-              
+
               return (
                 <ScrollReveal key={kategori.id} direction="up" delay={100 + index * 50}>
                   <div className={`bg-gradient-to-br ${bgFrom} ${bgTo} rounded-2xl border-2 ${borderColor} ${hoverBorder} p-6 hover:shadow-xl transition-all duration-300 group`}>

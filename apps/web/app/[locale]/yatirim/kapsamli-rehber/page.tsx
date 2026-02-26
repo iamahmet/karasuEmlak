@@ -47,7 +47,7 @@ export async function generateMetadata({
 
   return {
     title: 'Kapsamlı Yatırım Rehberi | Karasu Emlak | Emlak Yatırım Stratejileri',
-    description: 'Emlak yatırımı için kapsamlı rehber. Yatırım stratejileri, risk analizi, getiri hesaplama, portföy yönetimi ve karlı yatırım fırsatları. Uzman tavsiyeleri ve pratik ipuçları.',
+    description: 'Emlak yatırımı için kapsamlı rehber. Yatırım stratejileri, risk analizi, getiri hesaplama, portföy yönetimi ve karlı yatırım fırsatları. Uzman...',
     keywords: [
       'emlak yatırım rehberi',
       'gayrimenkul yatırım stratejileri',

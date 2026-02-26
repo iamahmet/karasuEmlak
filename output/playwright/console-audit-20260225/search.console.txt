@@ -1,0 +1,8 @@
+### Result
+- [Console](.playwright-cli/console-2026-02-25T13-59-13-495Z.log)
+### Page
+- Page URL: https://www.karasuemlak.net/arama
+- Page Title: Arama | Karasu Emlak | Karasu Emlak
+- Console: 6 errors, 0 warnings
+### Events
+- New console entries: .playwright-cli/console-2026-02-25T13-59-07-135Z.log#L15-L18
