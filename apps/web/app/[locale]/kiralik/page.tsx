@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 
 import { pruneHreflangLanguages } from '@/lib/seo/hreflang';
-export const revalidate = 3600;
-export const dynamicParams = true;
+export const dynamic = 'force-dynamic';
 import { siteConfig } from '@karasu-emlak/config';
 import { routing } from '@/i18n/routing';
 import { getListings, getNeighborhoods, getListingStats, type Listing } from '@/lib/supabase/queries';
@@ -26,10 +25,6 @@ import { Home, FileText, MapPin, ArrowRight, Search, DollarSign, Building2, Phon
 import dynamicImport from 'next/dynamic';
 import { Suspense } from 'react';
 import { ListingGridSkeleton } from '@/components/listings/ListingCardSkeleton';
-
-export async function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
-}
 
 export async function generateMetadata({
   params,
