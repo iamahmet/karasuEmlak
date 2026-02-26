@@ -25,15 +25,18 @@ export async function generateMetadata({
   const basePath = locale === routing.defaultLocale ? '' : `/${locale}`;
 
   return {
-    title: 'Kredi Hesaplayıcı | Konut Kredisi Hesaplama | Karasu Emlak',
-    description: 'Konut kredisi ödeme planınızı hesaplayın. Aylık ödeme, toplam faiz ve amortizasyon tablosu ile kredi detaylarınızı görüntüleyin.',
+    title: 'Konut, Ev ve Emlak Kredisi Hesaplama | Karasu Emlak',
+    description: 'Güncel konut kredisi, ev kredisi ve emlak kredisi oranlarıyla ödeme planınızı hesaplayın. Karasu emlak piyasasına özel kredi faiz analiz tablosu.',
     keywords: [
+      'konut kredisi',
+      'ev kredisi',
+      'emlak kredisi',
       'kredi hesaplayıcı',
       'konut kredisi hesaplama',
       'mortgage hesaplayıcı',
-      'ev kredisi',
-      'konut kredisi ödeme planı',
       'kredi faiz hesaplama',
+      'karasu konut kredisi',
+      'kredi faiz oranları',
     ],
     alternates: {
       canonical: `${siteConfig.url}${basePath}/kredi-hesaplayici`,
@@ -46,8 +49,8 @@ export async function generateMetadata({
       }),
     },
     openGraph: {
-      title: 'Kredi Hesaplayıcı | Konut Kredisi Hesaplama',
-      description: 'Konut kredisi ödeme planınızı hesaplayın. Aylık ödeme, toplam faiz ve amortizasyon tablosu.',
+      title: 'Konut, Ev ve Emlak Kredisi Hesaplama Aracımız',
+      description: 'Konut kredisi ve ev kredisi ödeme planınızı kolayca hesaplayın. Aylık faiz ve amortizasyon tablosu.',
       type: 'website',
     },
   };
@@ -109,7 +112,7 @@ export default async function MortgageCalculatorPage({
       answer: 'Kredi başvurusu reddedilirse, red nedeni hakkında bankadan bilgi alın. Kredi notunuzu yükseltmek, gelir belgelerinizi güçlendirmek veya peşinat oranını artırmak gibi önlemler alabilirsiniz. Farklı bankalara başvurmayı da değerlendirebilirsiniz.',
     },
   ];
-  
+
   const faqSchema = generateFAQSchema(faqs);
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -129,7 +132,7 @@ export default async function MortgageCalculatorPage({
       {faqSchema && <StructuredData data={faqSchema} />}
       <div className="min-h-screen bg-white dark:bg-gray-900">
         <Breadcrumbs items={breadcrumbs} />
-        
+
         {/* Hero Section - Modern & Minimal */}
         <section className="relative overflow-hidden bg-white dark:bg-gray-900 py-16 lg:py-24 border-b border-gray-200 dark:border-gray-800">
           <div className="container mx-auto px-4 lg:px-6 max-w-7xl relative z-10">
@@ -140,16 +143,16 @@ export default async function MortgageCalculatorPage({
                 </div>
                 <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Profesyonel Araç</span>
               </div>
-              
+
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900 dark:text-white tracking-tight">
-                Kredi Hesaplayıcı
+                Konut, Ev ve Emlak Kredisi Hesaplama
               </h1>
-              
+
               <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed">
-                Konut kredisi ödeme planınızı hesaplayın ve aylık ödemelerinizi görüntüleyin. 
-                Amortizasyon tablosu ile detaylı analiz yapın ve bilinçli kredi kararları verin.
+                2026 yılı güncel konut kredisi oranları ile gayrimenkul ödeme planınızı hesaplayın.
+                Ev kredisi veya emlak yatırımı yaparken krediye uygun taksitleri kolayca inceleyin.
               </p>
-              
+
               <div className="flex flex-wrap justify-center gap-4 mb-8">
                 <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">
                   <TrendingUp className="h-5 w-5 text-[#006AFF]" />
@@ -164,7 +167,7 @@ export default async function MortgageCalculatorPage({
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Ücretsiz Kullanım</span>
                 </div>
               </div>
-              
+
               {/* Accent Line */}
               <div className="h-1 w-20 bg-red-600 dark:bg-red-500 rounded-full mx-auto"></div>
             </div>
@@ -205,10 +208,10 @@ export default async function MortgageCalculatorPage({
                 </div>
                 <div>
                   <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-                    Kredi Hesaplayıcı
+                    Konut ve Ev Kredisi Hesaplama İşlemi
                   </h2>
                   <p className="text-gray-600 dark:text-gray-400 mt-1">
-                    Konut kredisi ödeme planınızı hesaplayın
+                    Emlak yatırımınız veya yeni eviniz için kredi taksitlerinizi tek tıkla bulun.
                   </p>
                 </div>
               </div>
@@ -235,7 +238,7 @@ export default async function MortgageCalculatorPage({
                 </div>
               </div>
             </div>
-            
+
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 {
@@ -289,7 +292,7 @@ export default async function MortgageCalculatorPage({
                 </div>
               </div>
             </div>
-            
+
             <div className="grid md:grid-cols-2 gap-6">
               <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-[#006AFF] dark:hover:border-[#006AFF]/50 hover:shadow-lg transition-all">
                 <div className="flex items-center gap-3 mb-4">
@@ -308,7 +311,7 @@ export default async function MortgageCalculatorPage({
                   <span>İdeal oran: %20-30</span>
                 </div>
               </div>
-              
+
               <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-[#006AFF] dark:hover:border-[#006AFF]/50 hover:shadow-lg transition-all">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center border border-purple-200 dark:border-purple-800">
@@ -326,7 +329,7 @@ export default async function MortgageCalculatorPage({
                   <span>Vade: 5-30 yıl</span>
                 </div>
               </div>
-              
+
               <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-[#006AFF] dark:hover:border-[#006AFF]/50 hover:shadow-lg transition-all">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-12 rounded-lg bg-orange-100 dark:bg-orange-900/20 flex items-center justify-center border border-orange-200 dark:border-orange-800">
@@ -344,7 +347,7 @@ export default async function MortgageCalculatorPage({
                   <span>Değişken ve sabit seçenekler</span>
                 </div>
               </div>
-              
+
               <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-[#006AFF] dark:hover:border-[#006AFF]/50 hover:shadow-lg transition-all">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/20 flex items-center justify-center border border-green-200 dark:border-green-800">
@@ -386,7 +389,7 @@ export default async function MortgageCalculatorPage({
                 </div>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Link href={`${basePath}/rehberler/kredi-nasil-alinir`} className="group bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-[#006AFF] dark:hover:border-[#006AFF]/50 hover:shadow-lg transition-all">
                 <div className="flex items-center gap-2 mb-3">
@@ -415,14 +418,14 @@ export default async function MortgageCalculatorPage({
                   <Info className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-                  Sık Sorulan Sorular
+                  Konut ve Ev Kredisi S.S.S.
                 </h2>
               </div>
               <p className="text-gray-600 dark:text-gray-400">
-                Kredi hesaplayıcı hakkında merak ettikleriniz
+                Emlak kredisi süreci ve ödeme planları hakkında en çok merak edilenler
               </p>
             </div>
-            
+
             <div className="space-y-4">
               {faqs.map((faq, index) => (
                 <details key={index} className="group bg-white dark:bg-gray-900 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-800 hover:border-[#006AFF] dark:hover:border-[#006AFF]/50 transition-all duration-200 hover:shadow-md">
@@ -463,7 +466,7 @@ export default async function MortgageCalculatorPage({
                   +90 546 639 54 61
                 </a>
               </div>
-              
+
               <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-200 dark:border-gray-700 text-center">
                 <div className="w-12 h-12 rounded-lg bg-[#006AFF]/10 dark:bg-[#006AFF]/20 flex items-center justify-center mx-auto mb-4 border border-[#006AFF]/20 dark:border-[#006AFF]/30">
                   <Mail className="w-6 h-6 text-[#006AFF]" />
@@ -473,7 +476,7 @@ export default async function MortgageCalculatorPage({
                   info@karasuemlak.net
                 </a>
               </div>
-              
+
               <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-200 dark:border-gray-700 text-center">
                 <div className="w-12 h-12 rounded-lg bg-[#006AFF]/10 dark:bg-[#006AFF]/20 flex items-center justify-center mx-auto mb-4 border border-[#006AFF]/20 dark:border-[#006AFF]/30">
                   <Clock className="w-6 h-6 text-[#006AFF]" />
@@ -493,7 +496,7 @@ export default async function MortgageCalculatorPage({
                 Emlak Danışmanlığına İhtiyacınız mı Var?
               </h2>
               <p className="text-xl mb-8 text-white/90 dark:text-white/80">
-                Uzman ekibimiz size özel emlak danışmanlık hizmeti sunuyor. 
+                Uzman ekibimiz size özel emlak danışmanlık hizmeti sunuyor.
                 Karasu emlak piyasasında en iyi fırsatları birlikte bulalım.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
