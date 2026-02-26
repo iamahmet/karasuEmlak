@@ -101,31 +101,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
 
   const displayListings = recentListings.slice(0, 6);
 
-  // 1. Initial URL to State Sync
-  useEffect(() => {
-    const slideParam = searchParams.get('slide');
-    if (slideParam && !isNaN(Number(slideParam))) {
-      const slideIndex = Math.min(Number(slideParam), displayListings.length - 1);
-      if (slideIndex !== currentSlide) {
-        setCurrentSlide(slideIndex * 1); // Ensure it's a number
-      }
-    }
-  }, [searchParams, displayListings.length]);
-
-  // 2. State to URL Sync (DEDICATED EFFECT - Fixes the reported error)
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const url = new URL(window.location.href);
-    const existingParam = searchParams.get('slide');
-
-    // Only update if current state differs from URL param
-    if (currentSlide.toString() !== existingParam) {
-      url.searchParams.set('slide', currentSlide.toString());
-      // Use pushState or replaceState without triggering React Router updates internally if possible
-      // or at least ensure it's not during a render phase.
-      window.history.replaceState(window.history.state, '', url.toString());
-    }
-  }, [currentSlide, searchParams]);
+  // Removed URL sync for currentSlide to prevent infinite update loops in Next.js App Router
 
   // Progress bar
   useEffect(() => {
