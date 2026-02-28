@@ -64,7 +64,7 @@ export function CTASection({ basePath = "" }: CTASectionProps) {
   return (
     <>
       {/* Contact CTA */}
-      <section className="py-16 lg:py-24 bg-gradient-to-r from-[#006AFF] to-[#0052CC] relative overflow-hidden">
+      <section className="py-10 lg:py-14 bg-gradient-to-r from-[#006AFF] to-[#0052CC] relative overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
@@ -115,7 +115,7 @@ export function CTASection({ basePath = "" }: CTASectionProps) {
       </section>
 
       {/* Quick Actions */}
-      <section className="py-16 lg:py-20 bg-gray-50">
+      <section className="py-10 lg:py-12 bg-gray-50">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">

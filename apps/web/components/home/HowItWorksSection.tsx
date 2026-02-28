@@ -29,7 +29,7 @@ export function HowItWorksSection() {
   ];
 
   return (
-    <section className="py-24 lg:py-40 bg-white relative overflow-hidden">
+    <section className="py-12 lg:py-16 bg-white relative overflow-hidden">
       {/* Background patterns */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-50">
         <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-blue-50/50 rounded-full blur-[120px]"></div>
@@ -38,7 +38,7 @@ export function HowItWorksSection() {
       <div className="container mx-auto px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-32">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100/50 rounded-full">
                 <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>

@@ -213,7 +213,7 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
 
   if (!mounted) {
     return (
-      <section className="py-16 lg:py-24 bg-white">
+      <section className="py-10 lg:py-14 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="w-full bg-gray-100 rounded-2xl flex items-center justify-center" style={{ height }}>
             <div className="text-center">
@@ -227,7 +227,7 @@ export function InteractiveMap({ listings, basePath = "", height = "600px" }: In
   }
 
   return (
-    <section className="py-16 lg:py-24 bg-white relative">
+    <section className="py-10 lg:py-14 bg-white relative">
       <div className="container mx-auto px-4 lg:px-6">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}

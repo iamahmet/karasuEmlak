@@ -165,14 +165,14 @@ export function BlogNewsSection({ articles, news, basePath = "" }: BlogNewsSecti
   };
 
   return (
-    <section className="py-24 lg:py-40 bg-white">
+    <section className="py-12 lg:py-16 bg-white">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Blog Section */}
           {articles.length > 0 && (
-            <div className="mb-32">
+            <div className="mb-16">
               {/* Header */}
-              <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-20">
+              <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
                 <div className="space-y-6">
                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-50 border border-purple-100/50 rounded-full">
                     <span className="w-1.5 h-1.5 bg-purple-600 rounded-full"></span>
@@ -216,7 +216,7 @@ export function BlogNewsSection({ articles, news, basePath = "" }: BlogNewsSecti
               </div>
 
               {/* Articles Grid - Higher Spacing */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {filteredArticles.slice(0, 3).map((article) => (
                   <Link
                     key={article.id}
@@ -299,8 +299,8 @@ export function BlogNewsSection({ articles, news, basePath = "" }: BlogNewsSecti
 
           {/* News Section - Compact Pill Cards */}
           {news.length > 0 && (
-            <div className="pt-24 border-t border-gray-100">
-              <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-20">
+            <div className="pt-12 border-t border-gray-100">
+              <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
                 <div className="space-y-4">
                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-100/50 rounded-full">
                     <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
@@ -320,7 +320,7 @@ export function BlogNewsSection({ articles, news, basePath = "" }: BlogNewsSecti
                 </Link>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {news.slice(0, 3).map((newsItem) => (
                   <Link
                     key={newsItem.id}

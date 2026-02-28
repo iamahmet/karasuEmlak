@@ -35,7 +35,7 @@ export function CompactStatsSection({ total }: { total?: number }) {
   ];
 
   return (
-    <section className="py-12 lg:py-16 bg-gradient-to-b from-white via-blue-50/30 to-white border-b border-gray-200 relative overflow-hidden">
+    <section className="py-8 lg:py-10 bg-gradient-to-b from-white via-blue-50/30 to-white border-b border-gray-200 relative overflow-hidden">
       {/* Background Decoration */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#006AFF] rounded-full blur-3xl"></div>
@@ -45,7 +45,7 @@ export function CompactStatsSection({ total }: { total?: number }) {
       <div className="container mx-auto px-4 lg:px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-10">
+          <div className="text-center mb-6">
             <h2 className="text-2xl md:text-3xl font-display font-bold mb-3 text-gray-900 tracking-tight">
               Karasu Emlak İstatistikleri
             </h2>

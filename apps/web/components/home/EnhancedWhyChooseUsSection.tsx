@@ -71,7 +71,7 @@ export function EnhancedWhyChooseUsSection() {
   ];
 
   return (
-    <section className="py-24 lg:py-40 bg-white relative overflow-hidden">
+    <section className="py-12 lg:py-16 bg-white relative overflow-hidden">
       {/* Abstract Background Elements */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50/30 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 -z-10"></div>
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-50/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 -z-10"></div>

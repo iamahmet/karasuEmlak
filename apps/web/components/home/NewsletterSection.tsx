@@ -28,7 +28,7 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-r from-[#006AFF] to-[#0052CC] relative overflow-hidden">
+    <section className="py-12 lg:py-16 bg-gradient-to-r from-[#006AFF] to-[#0052CC] relative overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>

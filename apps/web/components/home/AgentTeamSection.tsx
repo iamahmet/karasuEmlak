@@ -20,11 +20,11 @@ export function AgentTeamSection() {
   ];
 
   return (
-    <section className="py-16 lg:py-24 bg-white relative">
+    <section className="py-10 lg:py-14 bg-white relative">
       <div className="container mx-auto px-4 lg:px-6">
         <div className="max-w-5xl mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <div className="inline-block mb-4">
               <span className="text-[#006AFF] text-sm font-bold uppercase tracking-wider">Uzman Ekibimiz</span>
             </div>

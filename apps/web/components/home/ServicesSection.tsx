@@ -51,14 +51,14 @@ export function ServicesSection({ basePath = "" }: ServicesSectionProps) {
 
   return (
 
-    <section className="py-24 lg:py-40 bg-white relative overflow-hidden">
+    <section className="py-12 lg:py-16 bg-white relative overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-blue-50/30 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-24 space-y-6">
+          <div className="text-center mb-12 space-y-4">
             <h2 className="text-4xl md:text-6xl font-black text-gray-900 tracking-[-0.04em] leading-tight max-w-4xl mx-auto">
               Gayrimenkulde Uzman <span className="text-blue-600">Danışmanlık</span> Hizmetleri
             </h2>
@@ -68,7 +68,7 @@ export function ServicesSection({ basePath = "" }: ServicesSectionProps) {
           </div>
 
           {/* Services Grid - Premium Flow */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 mb-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12">
             {services.map((service, index) => {
               const Icon = service.icon;
               return (
@@ -98,7 +98,7 @@ export function ServicesSection({ basePath = "" }: ServicesSectionProps) {
           </div>
 
           {/* Stats - Minimalist & Bold */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 py-16 border-y border-gray-100 mb-20">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 py-10 border-y border-gray-100 mb-12">
             {stats.map((stat, index) => {
               const Icon = stat.icon;
               return (

@@ -251,7 +251,7 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="py-12 sm:py-20 lg:py-28">
+        <div className="py-10 sm:py-14 lg:py-20">
           {/* Main Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
@@ -414,50 +414,52 @@ export function Hero({ basePath = "", recentListings = [], neighborhoods = [] }:
                     style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                   >
                     {displayListings.map((listing, index) => (
-                      <div key={listing.id} className="w-full flex-shrink-0 relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[5/6]">
+                      <Link
+                        key={listing.id}
+                        href={`${basePath}/ilan/${listing.slug}`}
+                        className="block w-full flex-shrink-0 relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[5/6] cursor-pointer group/card"
+                        aria-label={`${listing.title} - ${formatLocation(listing.location_neighborhood, listing.location_district)} - ₺${new Intl.NumberFormat('tr-TR').format(Number(listing.price_amount))}`}
+                      >
                         {/* Image Layer */}
                         <div className="absolute inset-0">
                           <img
                             src={listing.images?.[0]?.url || getOptimizedCloudinaryUrl(listing.images?.[0]?.public_id!, { width: 1000, height: 1200 }) || getPropertyPlaceholder(listing.property_type, listing.status)}
                             alt={listing.title}
-                            className="w-full h-full object-cover transition-transform duration-[10s] group-hover:scale-110"
+                            className="w-full h-full object-cover transition-transform duration-[10s] group-hover/card:scale-110"
                             loading={index === 0 ? "eager" : "lazy"}
                           />
-                          {/* Rich Gradient Overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/10 to-transparent"></div>
+                          {/* Rich Gradient Overlay - stronger at bottom for text readability */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/40 to-transparent"></div>
                         </div>
 
-                        {/* Text Reveal Layer */}
-                        <div className="absolute inset-x-0 bottom-0 p-8 sm:p-10 pointer-events-none">
-                          <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-out">
-                            <span className="text-blue-400 text-xs font-bold uppercase tracking-[0.2em] mb-3 block">
+                        {/* Text Reveal Layer - structured layout to prevent overlap */}
+                        <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:p-10">
+                          <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-out flex flex-col gap-3">
+                            <span className="text-blue-400 text-xs font-bold uppercase tracking-[0.2em] block">
                               {formatLocation(listing.location_neighborhood, listing.location_district)}
                             </span>
-                            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 line-clamp-2 leading-tight">
+                            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white line-clamp-2 leading-snug min-h-[2.5em]">
                               {listing.title}
                             </h2>
-                            <div className="flex items-center gap-6">
+                            <div className="flex flex-wrap items-center gap-4 pt-1">
                               <div className="flex items-baseline gap-1 text-white">
-                                <span className="text-xl sm:text-2xl font-bold">₺{new Intl.NumberFormat('tr-TR').format(Number(listing.price_amount))}</span>
+                                <span className="text-lg sm:text-xl font-bold">₺{new Intl.NumberFormat('tr-TR').format(Number(listing.price_amount))}</span>
                                 <span className="text-xs font-medium text-white/60">
                                   {listing.status === 'kiralik' ? '/ay' : ''}
                                 </span>
                               </div>
-                              <Link
-                                href={`${basePath}/ilan/${listing.slug}`}
-                                className="pointer-events-auto bg-white/10 hover:bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-full border border-white/10 transition-all hover:px-8"
-                              >
+                              <span className="bg-white/10 group-hover/card:bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-widest px-5 py-2.5 rounded-full border border-white/10 transition-all">
                                 İncele
-                              </Link>
+                              </span>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     ))}
                   </div>
 
                   {/* Progressive Controls */}
-                  <div className="absolute bottom-10 left-10 flex items-center gap-4 z-40">
+                  <div className="absolute bottom-10 right-10 flex items-center gap-4 z-40">
                     <div className="flex gap-2">
                       <button
                         onClick={handlePrev}

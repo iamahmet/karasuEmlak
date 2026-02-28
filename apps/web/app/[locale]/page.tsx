@@ -271,7 +271,16 @@ export default async function HomePage({
             return defaultArr;
           }
         })(),
-        withTimeout(getLatestGundemArticles(3), 3000, defaultArr),
+        (async () => {
+          try {
+            return await withTimeout(getLatestGundemArticles(3), 3000, defaultArr);
+          } catch (e) {
+            if (process.env.NODE_ENV === 'development') {
+              console.warn('[HomePage] Gundem fetch failed, using empty:', (e as any)?.message);
+            }
+            return defaultArr;
+          }
+        })(),
       ]);
 
       const unwrap = <T,>(r: PromiseSettledResult<T>, fallback: T, label: string): T => {
@@ -290,6 +299,15 @@ export default async function HomePage({
       const neighborhoodStatsResult = unwrap(results[7] as PromiseSettledResult<any>, defaultArr, 'neighborhood stats');
       const gundemResult = unwrap(results[8] as PromiseSettledResult<any>, defaultArr, 'gundem RSS');
 
+      // Sanitize gundem data for RSC serialization (prevents JSON.parse errors from weird payloads)
+      let safeGundem = defaultArr;
+      try {
+        const arr = Array.isArray(gundemResult) ? gundemResult : defaultArr;
+        safeGundem = JSON.parse(JSON.stringify(arr));
+      } catch {
+        safeGundem = defaultArr;
+      }
+
       const safeListings = Array.isArray(listingsResult) ? listingsResult : defaultArr;
       satilikListings = safeListings.filter((l) => l?.status === 'satilik');
       kiralikListings = safeListings.filter((l) => l?.status === 'kiralik');
@@ -302,7 +320,7 @@ export default async function HomePage({
       featuredArticles = Array.isArray(articlesResult) ? articlesResult : defaultArr;
       featuredNews = Array.isArray(newsResult) ? newsResult : defaultArr;
       neighborhoodStats = Array.isArray(neighborhoodStatsResult) ? neighborhoodStatsResult : defaultArr;
-      gundemArticles = Array.isArray(gundemResult) ? gundemResult : defaultArr;
+      gundemArticles = safeGundem;
     } catch (error) {
       console.error('Error fetching homepage data:', error);
       // Continue with empty data - page will still render
@@ -401,7 +419,7 @@ export default async function HomePage({
 
         {/* Seasonal: Ramazan 2026 cluster booster (high intent queries) */}
         <SectionErrorBoundary sectionName="Ramazan 2026">
-          <section className="py-10 lg:py-12 bg-white">
+          <section className="py-6 lg:py-8 bg-white">
             <div className="container mx-auto px-4 lg:px-6">
               <div className="max-w-7xl mx-auto">
                 <Ramadan2026PromoBlock basePath={basePath} />
@@ -430,11 +448,11 @@ export default async function HomePage({
 
         {/* Guides Hub - Consolidated */}
         <SectionErrorBoundary sectionName="Emlak Rehberleri ve Yatırım Fırsatları">
-          <div className="py-24 lg:py-40 bg-white relative overflow-hidden">
+          <div className="py-12 lg:py-16 bg-white relative overflow-hidden">
             <div className="container mx-auto px-6 lg:px-8">
               <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-32">
+                <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
                   <div className="space-y-6">
                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 border border-orange-100/50 rounded-full">
                       <span className="w-1.5 h-1.5 bg-orange-600 rounded-full"></span>
@@ -450,7 +468,7 @@ export default async function HomePage({
                 </div>
 
                 {/* Guide Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {[
                     {
                       href: `${basePath}/rehberler/ev-nasil-alinir`,
@@ -491,9 +509,9 @@ export default async function HomePage({
 
                     return (
                       <Link key={idx} href={guide.href} className="group">
-                        <div className="h-full bg-white rounded-[40px] border border-gray-100 p-10 hover:shadow-[0_40px_100px_rgba(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-2 flex flex-col">
+                        <div className="h-full bg-white rounded-[40px] border border-gray-100 p-6 hover:shadow-[0_40px_100px_rgba(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-2 flex flex-col">
                           <div className={cn(
-                            "w-16 h-16 rounded-3xl flex items-center justify-center transition-all duration-500 mb-10",
+                            "w-16 h-16 rounded-3xl flex items-center justify-center transition-all duration-500 mb-6",
                             colorClasses[guide.color]
                           )}>
                             <Icon className="h-8 w-8 stroke-[1.5]" />
@@ -503,7 +521,7 @@ export default async function HomePage({
                             {guide.title}
                           </h3>
 
-                          <p className="text-lg text-gray-500 font-medium leading-relaxed mb-10">
+                          <p className="text-lg text-gray-500 font-medium leading-relaxed mb-6">
                             {guide.description}
                           </p>
 
@@ -614,7 +632,7 @@ export default async function HomePage({
 
         {/* Testimonials & Success Stories - Combined */}
         <SectionErrorBoundary sectionName="Müşteri Yorumları ve Başarı Hikayeleri">
-          <section className="py-16 lg:py-20 bg-white">
+          <section className="py-10 lg:py-12 bg-white">
             <div className="container mx-auto px-4 lg:px-6">
               <TestimonialsWithSchema basePath={basePath} />
             </div>

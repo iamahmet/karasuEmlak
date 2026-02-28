@@ -6,13 +6,9 @@ import { createServerClient } from "@supabase/ssr";
 
 const intlMiddleware = createMiddleware(routing);
 
-// Next.js v16+ uses the `proxy.ts` convention (node runtime). Keep name as `proxy`.
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hostname = request.headers.get('host') || '';
-  const requestedPath =
-    pathname === "/tr" ? "/" : pathname.startsWith("/tr/") ? pathname.slice(3) : pathname;
-  const requestedFullPath = `${requestedPath}${request.nextUrl.search}`;
 
   // Check if request is coming from admin subdomain
   const isAdminSubdomain =
@@ -45,20 +41,9 @@ export async function proxy(request: NextRequest) {
   // Always check auth, even in development (but allow access if no user_roles table)
   if (!skipAuth) {
     try {
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-      if (!supabaseUrl || !supabaseAnonKey) {
-        console.error("Admin proxy: Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY");
-        const loginUrl = new URL(`/tr/login`, request.url);
-        loginUrl.searchParams.set("redirect", requestedFullPath);
-        loginUrl.searchParams.set("error", "config");
-        return NextResponse.redirect(loginUrl);
-      }
-
       const supabase = createServerClient(
-        supabaseUrl,
-        supabaseAnonKey,
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
         {
           cookies: {
             getAll() {
@@ -77,14 +62,14 @@ export async function proxy(request: NextRequest) {
       // Refresh session - this updates cookies
       if (!supabase || !supabase.auth) {
         const loginUrl = new URL(`/tr/login`, request.url);
-        loginUrl.searchParams.set("redirect", requestedFullPath);
+        loginUrl.searchParams.set("redirect", pathname);
         return NextResponse.redirect(loginUrl);
       }
       const { data: { user }, error: authError } = await supabase.auth.getUser();
 
       if (!user || authError) {
         const loginUrl = new URL(`/tr/login`, request.url);
-        loginUrl.searchParams.set("redirect", requestedFullPath);
+        loginUrl.searchParams.set("redirect", pathname);
         return NextResponse.redirect(loginUrl);
       }
 

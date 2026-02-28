@@ -157,14 +157,14 @@ export function RecentListingsSection({
   }
 
   return (
-    <section className="py-20 lg:py-32 bg-white relative overflow-hidden">
+    <section className="py-10 lg:py-14 bg-white relative overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl -translate-y-1/2"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100/50 rounded-full">
                 <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span>
@@ -189,7 +189,7 @@ export function RecentListingsSection({
           </div>
 
           {/* Listings Grid - Premium 3-column layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {recentListings.slice(0, 3).map((listing) => (
               <ListingCard key={listing.id} listing={listing} />
             ))}

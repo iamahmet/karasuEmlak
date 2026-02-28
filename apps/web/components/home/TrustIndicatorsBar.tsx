@@ -38,7 +38,7 @@ export function TrustIndicatorsBar() {
 
   return (
 
-    <section className="py-12 bg-white relative overflow-hidden">
+    <section className="py-8 bg-white relative overflow-hidden">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Main Indicators Row */}

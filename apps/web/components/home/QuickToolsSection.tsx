@@ -35,11 +35,11 @@ export function QuickToolsSection() {
   ];
 
   return (
-    <section className="py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+    <section className="py-10 lg:py-12 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
       <div className="container mx-auto px-4 lg:px-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 rounded-full mb-4">
               <Calculator className="h-4 w-4 text-purple-600 stroke-[1.5]" />
               <span className="text-xs font-bold text-purple-600 uppercase tracking-wider">Hesaplayıcılar</span>

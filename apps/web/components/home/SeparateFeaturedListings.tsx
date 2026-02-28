@@ -163,13 +163,13 @@ export function SeparateFeaturedListings({
 
   return (
     <>
-      <div className="space-y-32 py-24 lg:py-40">
+      <div className="space-y-16 py-12 lg:py-16">
         {/* Öne Çıkan Satılık İlanlar */}
         {satilikListings.length > 0 && (
           <section className="bg-white relative overflow-hidden">
             <div className="container mx-auto px-6 lg:px-8">
               <div className="max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-24">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
                   <div className="space-y-6">
                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100/50 rounded-full">
                       <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>
@@ -192,7 +192,7 @@ export function SeparateFeaturedListings({
                   </Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                   {satilikListings.slice(0, 3).map((listing) => (
                     <ListingCard key={listing.id} listing={listing} />
                   ))}
@@ -204,14 +204,14 @@ export function SeparateFeaturedListings({
 
         {/* Öne Çıkan Kiralık İlanlar */}
         {kiralikListings.length > 0 && (
-          <section className="bg-gray-50/50 relative overflow-hidden py-32 -mx-6 lg:-mx-8 lg:px-8 px-6">
+          <section className="bg-gray-50/50 relative overflow-hidden py-16 -mx-6 lg:-mx-8 lg:px-8 px-6">
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-50">
               <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-emerald-100/20 rounded-full blur-[140px]"></div>
             </div>
 
             <div className="container mx-auto">
               <div className="max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-24">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
                   <div className="space-y-6">
                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-100/50 rounded-full">
                       <span className="w-1.5 h-1.5 bg-emerald-600 rounded-full"></span>
@@ -234,7 +234,7 @@ export function SeparateFeaturedListings({
                   </Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                   {kiralikListings.slice(0, 3).map((listing) => (
                     <ListingCard key={listing.id} listing={listing} />
                   ))}

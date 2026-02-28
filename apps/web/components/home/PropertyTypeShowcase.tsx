@@ -53,11 +53,11 @@ export function PropertyTypeShowcase({ basePath = "" }: PropertyTypeShowcaseProp
   ];
 
   return (
-    <section className="py-16 lg:py-24 bg-white relative">
+    <section className="py-12 lg:py-16 bg-white relative">
       <div className="container mx-auto px-4 lg:px-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <div className="inline-block mb-4">
               <span className="text-[#006AFF] text-sm font-bold uppercase tracking-wider">Gayrimenkul Türleri</span>
             </div>
@@ -70,7 +70,7 @@ export function PropertyTypeShowcase({ basePath = "" }: PropertyTypeShowcaseProp
           </div>
 
           {/* Property Types Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 mb-8">
             {propertyTypes.map((type, index) => {
               const Icon = type.icon;
               const colorClasses = {

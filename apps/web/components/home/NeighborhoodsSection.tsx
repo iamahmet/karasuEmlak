@@ -36,14 +36,14 @@ export function NeighborhoodsSection({ neighborhoods, basePath = "" }: Neighborh
   const fallbackImageUrl = "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=800&q=80";
 
   return (
-    <section className="py-24 lg:py-40 bg-gray-50/50 relative overflow-hidden">
+    <section className="py-12 lg:py-16 bg-gray-50/50 relative overflow-hidden">
       {/* Background Decor */}
       <div className="absolute -bottom-48 -left-48 w-96 h-96 bg-blue-100/20 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-24">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100/50 rounded-full">
                 <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>
@@ -67,7 +67,7 @@ export function NeighborhoodsSection({ neighborhoods, basePath = "" }: Neighborh
           </div>
 
           {/* Neighborhoods Grid - Visual Heavy */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
             {neighborhoods.map((neighborhood, index) => (
               <Link
                 key={neighborhood.id}

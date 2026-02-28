@@ -50,11 +50,11 @@ export function QuickAccessSection({ basePath = "" }: QuickAccessSectionProps) {
 
   return (
 
-    <section className="py-24 lg:py-36 bg-gray-50/50">
+    <section className="py-12 lg:py-16 bg-gray-50/50">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-20 space-y-6">
+          <div className="text-center mb-10 space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-[-0.03em] leading-tight">
               Gayrimenkul Kategorileri
             </h2>
@@ -64,7 +64,7 @@ export function QuickAccessSection({ basePath = "" }: QuickAccessSectionProps) {
           </div>
 
           {/* Quick Access Grid - Bento Style */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
             {quickAccessItems.map((item, index) => {
               const Icon = item.icon;
               return (
@@ -73,7 +73,7 @@ export function QuickAccessSection({ basePath = "" }: QuickAccessSectionProps) {
                   href={item.href}
                   className="group relative"
                 >
-                  <div className="relative h-full bg-white rounded-[40px] p-10 border border-gray-100 hover:shadow-[0_40px_100px_rgba(0,106,255,0.08)] transition-all duration-500 hover:-translate-y-2 overflow-hidden flex flex-col items-center text-center">
+                  <div className="relative h-full bg-white rounded-[40px] p-6 border border-gray-100 hover:shadow-[0_40px_100px_rgba(0,106,255,0.08)] transition-all duration-500 hover:-translate-y-2 overflow-hidden flex flex-col items-center text-center">
                     {/* Abstract Background Glow */}
                     <div className={cn(
                       "absolute -top-10 -right-10 w-32 h-32 blur-[60px] opacity-0 group-hover:opacity-20 transition-opacity duration-500",

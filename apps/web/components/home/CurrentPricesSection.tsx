@@ -68,14 +68,14 @@ export function CurrentPricesSection({ basePath = "" }: CurrentPricesSectionProp
 
   return (
 
-    <section className="py-24 lg:py-40 bg-white relative overflow-hidden">
+    <section className="py-12 lg:py-16 bg-white relative overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50/20 rounded-full blur-[140px] translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-24">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-100/50 rounded-full">
                 <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
